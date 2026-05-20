@@ -1,0 +1,993 @@
+
+<style>
+  :root { --gap: 12px; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  .top-bar {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 0 10px;
+    border-bottom: 0.5px solid var(--color-border-tertiary);
+    flex-wrap: wrap;
+  }
+  .top-bar h2 { font-size: 15px; font-weight: 500; color: var(--color-text-primary); flex: 1; min-width: 180px; }
+
+  .filters { display: flex; gap: 8px; flex-wrap: wrap; }
+  .pill {
+    font-size: 11px; font-weight: 500; padding: 4px 10px;
+    border-radius: 20px; cursor: pointer; border: 0.5px solid var(--color-border-secondary);
+    background: var(--color-background-primary); color: var(--color-text-secondary);
+    transition: all .15s;
+  }
+  .pill.active { background: var(--color-background-tertiary); color: var(--color-text-primary); border-color: var(--color-border-primary); }
+  .pill:hover { border-color: var(--color-border-primary); }
+
+  .search-wrap { position: relative; }
+  .search-wrap input { padding: 6px 10px 6px 30px; font-size: 13px; width: 220px; border-radius: var(--border-radius-md); }
+  .search-icon { position: absolute; left: 9px; top: 50%; transform: translateY(-50%); font-size: 14px; color: var(--color-text-tertiary); pointer-events: none; }
+
+  .stats-row { display: flex; gap: 10px; margin: 12px 0 8px; flex-wrap: wrap; }
+  .stat-chip {
+    font-size: 11px; padding: 4px 10px; border-radius: var(--border-radius-md);
+    background: var(--color-background-secondary); color: var(--color-text-secondary);
+    border: 0.5px solid var(--color-border-tertiary);
+  }
+  .stat-chip b { color: var(--color-text-primary); font-weight: 500; }
+
+  .tc-list { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
+
+  .tc-card {
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-lg);
+    background: var(--color-background-primary);
+    overflow: hidden; cursor: pointer;
+    transition: border-color .15s;
+  }
+  .tc-card:hover { border-color: var(--color-border-secondary); }
+  .tc-card.open { border-color: var(--color-border-primary); }
+
+  .tc-header {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 14px; user-select: none;
+  }
+  .tc-name { font-size: 13px; font-weight: 500; color: var(--color-text-primary); flex: 1; font-family: var(--font-mono); }
+  .tc-title { font-size: 12px; color: var(--color-text-secondary); flex: 2; }
+
+  .badge {
+    font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 20px;
+    white-space: nowrap; flex-shrink: 0;
+  }
+  .b-reg  { background: #E6F1FB; color: #0C447C; }
+  .b-tx   { background: #EAF3DE; color: #27500A; }
+  .b-rx   { background: #FAEEDA; color: #633806; }
+  .b-miim { background: #EEEDFE; color: #3C3489; }
+  .b-addr { background: #FAECE7; color: #712B13; }
+  .b-fc   { background: #E1F5EE; color: #085041; }
+  .b-hd   { background: #FBEAF0; color: #72243E; }
+  .b-int  { background: #F1EFE8; color: #444441; }
+  .b-rst  { background: #FCEBEB; color: #791F1F; }
+  .b-str  { background: #FAC775; color: #412402; }
+
+  .dark-badge { font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 20px; white-space: nowrap; }
+  @media (prefers-color-scheme: dark) {
+    .b-reg  { background: #0C447C; color: #B5D4F4; }
+    .b-tx   { background: #27500A; color: #C0DD97; }
+    .b-rx   { background: #633806; color: #FAC775; }
+    .b-miim { background: #3C3489; color: #CECBF6; }
+    .b-addr { background: #712B13; color: #F5C4B3; }
+    .b-fc   { background: #085041; color: #9FE1CB; }
+    .b-hd   { background: #72243E; color: #F4C0D1; }
+    .b-int  { background: #444441; color: #D3D1C7; }
+    .b-rst  { background: #791F1F; color: #F7C1C1; }
+    .b-str  { background: #633806; color: #FAC775; }
+  }
+
+  .chevron { font-size: 12px; color: var(--color-text-tertiary); transition: transform .2s; flex-shrink: 0; }
+  .tc-card.open .chevron { transform: rotate(180deg); }
+
+  .tc-body { display: none; padding: 0 14px 14px; border-top: 0.5px solid var(--color-border-tertiary); margin-top: 0; }
+  .tc-card.open .tc-body { display: block; }
+
+  .section-label {
+    font-size: 10px; font-weight: 500; letter-spacing: .06em;
+    color: var(--color-text-tertiary); text-transform: uppercase;
+    margin: 12px 0 6px;
+  }
+  .desc { font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; margin-bottom: 4px; }
+
+  .comp-grid { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 4px; }
+  .comp-tag {
+    font-size: 11px; padding: 3px 9px; border-radius: var(--border-radius-md);
+    border: 0.5px solid var(--color-border-tertiary);
+    background: var(--color-background-secondary);
+    color: var(--color-text-secondary); font-family: var(--font-mono);
+  }
+  .comp-tag.agent { border-color: #B5D4F4; color: #185FA5; background: #E6F1FB; }
+  .comp-tag.seq   { border-color: #9FE1CB; color: #0F6E56; background: #E1F5EE; }
+  .comp-tag.scb   { border-color: #CECBF6; color: #534AB7; background: #EEEDFE; }
+  .comp-tag.ral   { border-color: #F5C4B3; color: #993C1D; background: #FAECE7; }
+  .comp-tag.mem   { border-color: #F4C0D1; color: #993556; background: #FBEAF0; }
+  .comp-tag.cov   { border-color: #FAC775; color: #854F0B; background: #FAEEDA; }
+  @media (prefers-color-scheme: dark) {
+    .comp-tag.agent { border-color: #185FA5; color: #85B7EB; background: #042C53; }
+    .comp-tag.seq   { border-color: #0F6E56; color: #5DCAA5; background: #04342C; }
+    .comp-tag.scb   { border-color: #534AB7; color: #AFA9EC; background: #26215C; }
+    .comp-tag.ral   { border-color: #993C1D; color: #F0997B; background: #4A1B0C; }
+    .comp-tag.mem   { border-color: #993556; color: #ED93B1; background: #4B1528; }
+    .comp-tag.cov   { border-color: #854F0B; color: #EF9F27; background: #412402; }
+  }
+
+  .flow-steps { display: flex; flex-direction: column; gap: 0; margin-bottom: 4px; }
+  .flow-step {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 6px 0;
+    border-bottom: 0.5px solid var(--color-border-tertiary);
+    font-size: 12px; color: var(--color-text-secondary); line-height: 1.5;
+  }
+  .flow-step:last-child { border-bottom: none; }
+  .step-num {
+    width: 20px; height: 20px; border-radius: 50%;
+    background: var(--color-background-tertiary);
+    color: var(--color-text-secondary); font-size: 10px; font-weight: 500;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 1px;
+  }
+  .step-actor {
+    font-family: var(--font-mono); font-size: 11px; color: var(--color-text-tertiary);
+    min-width: 110px; flex-shrink: 0; padding-top: 2px;
+  }
+  .step-action { flex: 1; }
+  .step-action code { font-family: var(--font-mono); font-size: 11px; background: var(--color-background-tertiary); padding: 1px 4px; border-radius: 3px; color: var(--color-text-primary); }
+
+  .check-grid { display: flex; flex-direction: column; gap: 4px; }
+  .check-item { display: flex; align-items: flex-start; gap: 8px; font-size: 12px; color: var(--color-text-secondary); line-height: 1.5; }
+  .check-item i { color: var(--color-text-success); margin-top: 2px; flex-shrink: 0; font-size: 13px; }
+
+  .no-results { padding: 32px; text-align: center; color: var(--color-text-tertiary); font-size: 13px; }
+</style>
+
+<h2 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden">Ethernet MAC UVM Testcase Reference — detailed flow for each test case including components, sequence of steps, and pass criteria</h2>
+
+<div class="top-bar">
+  <h2>Ethernet MAC — UVM testcase reference</h2>
+  <div class="search-wrap">
+    <i class="ti ti-search search-icon" aria-hidden="true"></i>
+    <input type="text" id="search" placeholder="Search tests..." oninput="renderList()">
+  </div>
+</div>
+
+<div class="filters" id="filters" style="margin-top:10px"></div>
+
+<div class="stats-row" id="stats-row"></div>
+
+<div class="tc-list" id="tc-list"></div>
+
+<script>
+const GROUPS = {
+  reg:  { label: 'Registers & BD', cls: 'b-reg' },
+  miim: { label: 'MIIM',           cls: 'b-miim' },
+  tx:   { label: 'TX',             cls: 'b-tx' },
+  rx:   { label: 'RX',             cls: 'b-rx' },
+  addr: { label: 'Address recog',  cls: 'b-addr' },
+  fc:   { label: 'Flow control',   cls: 'b-fc' },
+  hd:   { label: 'Half-duplex',    cls: 'b-hd' },
+  int:  { label: 'Interrupts',     cls: 'b-int' },
+  rst:  { label: 'Reset & clock',  cls: 'b-rst' },
+  str:  { label: 'Stress',         cls: 'b-str' },
+};
+
+const TC = [
+  {
+    id: 'tc_reg_reset_values', group: 'reg',
+    title: 'Verify all register reset values',
+    desc: 'After asserting RST_I, every one of the 21 configuration registers must read back its documented reset value as per the specification. Uses the UVM RAL built-in reset sequence so no manual register reads are needed.',
+    components: [
+      {name:'wb_slave_agent',type:'agent'},{name:'eth_reg_block (RAL)',type:'ral'},
+      {name:'uvm_reg_hw_reset_seq',type:'seq'},{name:'eth_coverage',type:'cov'},
+    ],
+    steps: [
+      {actor:'Test',           action:'Assert <code>RST_I=1</code> for 5 clock cycles via <code>wb_slave_agent</code>'},
+      {actor:'Test',           action:'Deassert <code>RST_I=0</code>, wait 2 clock cycles'},
+      {actor:'uvm_reg_hw_reset_seq', action:'Iterates every register in <code>eth_reg_block</code>; calls <code>reg.read()</code> via frontdoor WISHBONE'},
+      {actor:'wb_slave_driver',action:'Drives <code>ADDR_I, WE_I=0, STB_I, CYC_I</code>; waits for <code>ACK_O</code>'},
+      {actor:'RAL predictor', action:'Compares read value against <code>reg.get_reset()</code> for every field'},
+      {actor:'eth_coverage',  action:'Samples <code>reg_reset_cg</code> covergroup — all register names'},
+    ],
+    checks: [
+      'MODER reset = 0x0000_A000 (NOPRE, NOBCKOF, FULLD bits check)',
+      'IPGT reset = 0x12, IPGR1 = 0x0C, IPGR2 = 0x12',
+      'PACKETLEN reset = 0x0040_0600',
+      'COLLCONF reset = 0x000F_003F',
+      'TX_BD_NUM reset = 0x40',
+      'MIIMODER reset = 0x64',
+      'All status/interrupt regs (INT_SOURCE, MIISTATUS) reset = 0x0',
+      'uvm_reg_hw_reset_seq reports zero mismatches',
+    ],
+  },
+  {
+    id: 'tc_reg_walking_one', group: 'reg',
+    title: 'Walking-1 across all RW register bits',
+    desc: 'Shifts a single 1-bit through every RW-accessible bit position in every register. For each bit position: write 1 to that bit only, read back, verify; then restore to reset value. Uses uvm_reg_bit_bash_seq.',
+    components: [
+      {name:'wb_slave_agent',type:'agent'},{name:'eth_reg_block (RAL)',type:'ral'},
+      {name:'uvm_reg_bit_bash_seq',type:'seq'},
+    ],
+    steps: [
+      {actor:'uvm_reg_bit_bash_seq', action:'For each RW register: writes all zeros (frontdoor), reads back, checks'},
+      {actor:'uvm_reg_bit_bash_seq', action:'For each RW bit position N: writes <code>1 << N</code>, reads back'},
+      {actor:'wb_slave_driver',      action:'Each write: drives ADDR_I=reg_offset, DATA_I=value, WE_I=1, STB_I, CYC_I; waits ACK_O'},
+      {actor:'RAL predictor',        action:'Verifies read data matches written value; flags W1C or read-only bits that differ'},
+      {actor:'uvm_reg_bit_bash_seq', action:'Writes all ones, reads back; checks RO bits unchanged, RW bits set'},
+    ],
+    checks: [
+      'Every RW bit in all 21 registers accepts 0→1 and 1→0 transitions',
+      'Read-only bits (MIIRX_DATA[15:0], MIISTATUS[2:0]) never change on write',
+      'No ERR_O asserted for valid register addresses with SEL_I=4\'hF',
+      'ERR_O asserted when SEL_I ≠ 4\'hF on any register access',
+    ],
+  },
+  {
+    id: 'tc_bd_walking_one', group: 'reg',
+    title: 'Walking-1 across BD RAM (0x400–0x7FF)',
+    desc: 'Exercises all 1024 bytes of the internal BD RAM using uvm_mem_walk_seq. Verifies that the RAM correctly stores and returns data at every address without corruption. BD RAM is only accessible when the MAC is not in reset.',
+    components: [
+      {name:'wb_slave_agent',type:'agent'},{name:'eth_bd_mem (uvm_mem)',type:'mem'},
+      {name:'uvm_mem_walk_seq',type:'seq'},
+    ],
+    steps: [
+      {actor:'Test',            action:'Ensure MAC is not in reset (RST bit in MODER cleared)'},
+      {actor:'uvm_mem_walk_seq',action:'Writes walking-1 pattern to every 32-bit word from offset 0x400 to 0x7FC'},
+      {actor:'wb_slave_driver', action:'Each write: ADDR_I = 0x400+offset, DATA_I = pattern, WE_I=1, SEL_I=0xF'},
+      {actor:'uvm_mem_walk_seq',action:'Reads back every location and compares'},
+      {actor:'Test',            action:'Assert RST_I, then read BD RAM — verify values preserved (design spec section 3.4.1)'},
+    ],
+    checks: [
+      'All 256 32-bit words (0x400–0x7FC) store and return correct values',
+      'No ACK timeout for any BD address within 0x400–0x7FF range',
+      'Addresses outside 0x400–0x7FF do not alias into BD RAM',
+      'RAM values preserved across soft reset (RST_I) as per spec',
+      'READY bit (RD/E) prevents host access once set — verify ERR_O or no effect when written',
+    ],
+  },
+  {
+    id: 'tc_bd_tx_num_split', group: 'reg',
+    title: 'TX_BD_NUM splits BD space correctly',
+    desc: 'Writes 0x32 (50) to TX_BD_NUM register and verifies that exactly 50 TX BDs are accessible at 0x400–0x58C and 78 RX BDs are accessible at 0x590–0x7FC. Tests the boundary address for each region.',
+    components: [
+      {name:'wb_slave_agent',type:'agent'},{name:'eth_reg_block (RAL)',type:'ral'},
+      {name:'eth_bd_mem (uvm_mem)',type:'mem'},{name:'eth_tx_bd_num_seq',type:'seq'},
+    ],
+    steps: [
+      {actor:'eth_tx_bd_num_seq', action:'Write TX_BD_NUM = 0x32 via RAL frontdoor'},
+      {actor:'eth_tx_bd_num_seq', action:'Write all 50 TX BDs: address range 0x400 to 0x58C (8 bytes each × 50 = 0x190)'},
+      {actor:'eth_tx_bd_num_seq', action:'Write all 78 RX BDs: address range 0x590 to 0x7FC'},
+      {actor:'eth_tx_bd_num_seq', action:'Read back all 128 BDs and verify no overlap or corruption'},
+      {actor:'Test',              action:'Write TX_BD_NUM = 0x80 (all TX): verify RXEN auto-disabled in MODER'},
+      {actor:'Test',              action:'Write TX_BD_NUM = 0x00 (all RX): verify TXEN auto-disabled in MODER'},
+    ],
+    checks: [
+      'TX BD at 0x400 (first) and 0x58C (last) correctly stored and read',
+      'RX BD at 0x590 (first) and 0x7FC (last) correctly stored and read',
+      'RXEN auto-disables when TX_BD_NUM = 0x80',
+      'TXEN auto-disables when TX_BD_NUM = 0x00',
+      'Values > 0x80 are ignored (register retains previous value)',
+    ],
+  },
+
+  {
+    id: 'tc_miim_write_phy_reg', group: 'miim',
+    title: 'Write to PHY register via MIIM',
+    desc: 'Programs a PHY configuration register by setting up MIIADDRESS, MIITX_DATA, then asserting WCTRLDATA in MIICOMMAND. Verifies the full 64-bit MIIM frame appears on the MDC/MDIO interface with correct preamble, address, and data fields.',
+    components: [
+      {name:'wb_slave_agent',type:'agent'},{name:'mdio_agent',type:'agent'},
+      {name:'eth_reg_block (RAL)',type:'ral'},{name:'eth_miim_write_seq',type:'seq'},
+      {name:'mdio_monitor',type:'agent'},{name:'eth_scoreboard',type:'scb'},
+    ],
+    steps: [
+      {actor:'eth_miim_write_seq', action:'RAL write: MIIMODER.CLKDIV = 0x28 (MDC = CLK/40)'},
+      {actor:'eth_miim_write_seq', action:'RAL write: MIIADDRESS.FIAD = 0x01 (PHY addr), RGAD = 0x00 (control reg)'},
+      {actor:'eth_miim_write_seq', action:'RAL write: MIITX_DATA.CTRLDATA = 0x2100 (reset + loopback)'},
+      {actor:'eth_miim_write_seq', action:'RAL write: MIICOMMAND.WCTRLDATA = 1'},
+      {actor:'wb_slave_driver',    action:'Issues all four WISHBONE write cycles with ACK_O handshake'},
+      {actor:'mdio_monitor',       action:'Captures MDC edges and samples MDIO bit stream'},
+      {actor:'mdio_monitor',       action:'Decodes: 32-bit preamble(1s), ST=01, OP=01(write), FIAD, RGAD, TA=10, DATA'},
+      {actor:'eth_miim_write_seq', action:'Poll MIISTATUS.BUSY via RAL read until cleared'},
+      {actor:'mdio_agent',         action:'Simulates PHY acknowledging write (drives MDIO during TA)'},
+      {actor:'eth_scoreboard',     action:'Verifies decoded frame fields match programmed values'},
+    ],
+    checks: [
+      'MDIO preamble = 32 ones (unless MIINOPRE set)',
+      'ST field = 2\'b01',
+      'OP field = 2\'b01 for write',
+      'FIAD[4:0] matches MIIADDRESS.FIAD written',
+      'RGAD[4:0] matches MIIADDRESS.RGAD written',
+      'TA = 2\'b10 for write',
+      'DATA[15:0] matches MIITX_DATA.CTRLDATA',
+      'MIISTATUS.BUSY deasserts at end of operation',
+    ],
+  },
+  {
+    id: 'tc_miim_clkdiv_all', group: 'miim',
+    title: 'Test all 255 CLKDIV values',
+    desc: 'Iterates through all valid CLKDIV values (1–255) and for each value triggers a MIIM read operation, measures the MDC frequency, and verifies it equals CLK/(2×CLKDIV).',
+    components: [
+      {name:'wb_slave_agent',type:'agent'},{name:'mdio_agent',type:'agent'},
+      {name:'eth_reg_block (RAL)',type:'ral'},{name:'eth_miim_clkdiv_seq',type:'seq'},
+    ],
+    steps: [
+      {actor:'eth_miim_clkdiv_seq', action:'For CLKDIV = 1 to 255: RAL write to MIIMODER.CLKDIV'},
+      {actor:'eth_miim_clkdiv_seq', action:'Trigger MIICOMMAND.RSTAT = 1 to start a read operation'},
+      {actor:'mdio_monitor',        action:'Measures MDC period: records rising edge timestamps, computes frequency'},
+      {actor:'mdio_monitor',        action:'Verifies MDC_freq = SYS_CLK_freq / (2 × CLKDIV) ± 1 cycle tolerance'},
+      {actor:'eth_miim_clkdiv_seq', action:'Wait for BUSY = 0 before next iteration'},
+    ],
+    checks: [
+      'MDC frequency matches formula for all 255 values',
+      'No MDC glitches (spurious edges) between operations',
+      'BUSY correctly asserted for full duration of each read',
+      'CLKDIV=0 treated as 1 or ignored (per implementation)',
+    ],
+  },
+  {
+    id: 'tc_miim_scan_linkfail', group: 'miim',
+    title: 'Scan status — LINKFAIL detection',
+    desc: 'Asserts SCANSTAT in MIICOMMAND to start continuous PHY status polling. The mdio_agent (PHY model) first returns link-OK, then drives LINKFAIL=1 in the status register. Verifies MIISTATUS.LINKFAIL reflects the PHY state and NVALID clears after first scan completes.',
+    components: [
+      {name:'wb_slave_agent',type:'agent'},{name:'mdio_agent',type:'agent'},
+      {name:'eth_reg_block (RAL)',type:'ral'},{name:'eth_miim_scan_seq',type:'seq'},
+    ],
+    steps: [
+      {actor:'eth_miim_scan_seq', action:'Write MIICOMMAND.SCANSTAT = 1; MIIADDRESS.FIAD = PHY_ADDR'},
+      {actor:'mdio_agent',        action:'First scan response: bit[2]=1 (link OK) in PHY status register'},
+      {actor:'eth_miim_scan_seq', action:'RAL read MIISTATUS: verify NVALID=1 (invalid until first scan done)'},
+      {actor:'mdio_monitor',      action:'Detects end of first scan frame; NVALID should clear'},
+      {actor:'eth_miim_scan_seq', action:'RAL read MIISTATUS: verify NVALID=0, LINKFAIL=0'},
+      {actor:'mdio_agent',        action:'Second scan response: bit[2]=0 (link fail) in PHY status register'},
+      {actor:'eth_miim_scan_seq', action:'RAL read MIISTATUS: verify LINKFAIL=1'},
+      {actor:'eth_miim_scan_seq', action:'Write MIICOMMAND = 0x00 to stop scan; verify BUSY deasserts'},
+    ],
+    checks: [
+      'NVALID=1 until first complete scan frame received',
+      'NVALID=0 after first scan completes',
+      'LINKFAIL tracks PHY bit[2] of status register',
+      'BUSY stays asserted during entire scan operation',
+      'BUSY deasserts only after scan explicitly stopped',
+    ],
+  },
+
+  {
+    id: 'tc_tx_basic_frame', group: 'tx',
+    title: 'Transmit single minimum-length frame',
+    desc: 'Transmits a single 64-byte Ethernet frame. The wb_master_agent holds the frame bytes in its SRAM. A TX BD is programmed pointing to that SRAM address. After TXEN=1, the DUT reads the frame via WISHBONE master and transmits nibbles on MTxD. The mii_agent captures and reassembles the full frame.',
+    components: [
+      {name:'wb_slave_agent',type:'agent'},{name:'wb_master_agent',type:'agent'},
+      {name:'mii_agent',type:'agent'},{name:'eth_reg_block (RAL)',type:'ral'},
+      {name:'eth_bd_mem (uvm_mem)',type:'mem'},{name:'eth_tx_frame_seq',type:'seq'},
+      {name:'eth_scoreboard',type:'scb'},{name:'eth_coverage',type:'cov'},
+    ],
+    steps: [
+      {actor:'eth_tx_frame_seq', action:'Write 64 bytes of frame data into wb_master_agent SRAM at address 0x0000_1000 (backdoor write to SRAM model)'},
+      {actor:'eth_tx_frame_seq', action:'RAL write MODER: TXEN=0, CRCEN=1, PAD=1, FULLD=0 (configure before enable)'},
+      {actor:'eth_tx_frame_seq', action:'Program TX BD at 0x400: LEN=64, CRC=1, PAD=1, IRQ=1, WR=1, RD=0'},
+      {actor:'eth_tx_frame_seq', action:'Write TXPNT at 0x404 = 0x0000_1000'},
+      {actor:'eth_tx_frame_seq', action:'Set TX BD RD=1 (ready bit) — this arms the transmitter'},
+      {actor:'eth_tx_frame_seq', action:'RAL write MODER.TXEN = 1'},
+      {actor:'DUT',              action:'Sees RD=1, issues WISHBONE master reads: M_ADDR_O=0x1000, M_WE_O=0'},
+      {actor:'wb_master_agent',  action:'Responds to each read burst with frame bytes from SRAM, asserts M_ACK_I'},
+      {actor:'DUT',              action:'Fills TX FIFO (16 words), begins transmitting: MTxEn=1, MTxD = preamble nibbles'},
+      {actor:'mii_monitor',      action:'Captures MTxD stream: 14 nibbles preamble (0x5), 2 nibbles SFD (0xD), then data nibbles'},
+      {actor:'DUT',              action:'Transmits data nibbles (LSB first), then 4-byte CRC nibbles; deasserts MTxEn'},
+      {actor:'DUT',              action:'Writes TX BD: RD=0, RTRY=0, DF=0, CS=0; asserts INTA_O (IRQ=1)'},
+      {actor:'eth_scoreboard',   action:'Reconstructs frame from captured MII nibbles; compares against original SRAM bytes'},
+      {actor:'eth_scoreboard',   action:'Recalculates expected CRC-32; verifies appended CRC matches'},
+    ],
+    checks: [
+      'Preamble = 7 bytes of 0x55, SFD = 0xD5',
+      'Frame payload matches exactly what was written to SRAM',
+      'CRC-32 appended and mathematically correct',
+      'MTxEn deasserts on same cycle as last CRC nibble',
+      'TX BD RD bit cleared to 0 after transmission',
+      'INTA_O asserts and INT_SOURCE.TXB=1',
+      'M_WE_O=0 for all DMA reads (read-only on TX path)',
+    ],
+  },
+  {
+    id: 'tc_tx_short_frame_pad', group: 'tx',
+    title: 'Short frame — PAD enable vs disable',
+    desc: 'Transmits a 20-byte payload (below 64-byte MINFL). Runs twice: once with PAD=1 (should pad to 64 bytes then append CRC), once with PAD=0 (transmits as-is with or without CRC based on CRCEN).',
+    components: [
+      {name:'wb_slave_agent',type:'agent'},{name:'wb_master_agent',type:'agent'},
+      {name:'mii_agent',type:'agent'},{name:'eth_reg_block (RAL)',type:'ral'},
+      {name:'eth_tx_frame_seq',type:'seq'},{name:'eth_scoreboard',type:'scb'},
+    ],
+    steps: [
+      {actor:'eth_tx_frame_seq', action:'Write 20-byte payload to SRAM at 0x0000_2000'},
+      {actor:'eth_tx_frame_seq', action:'Run A: MODER.PAD=1, CRCEN=1; program TX BD LEN=20, RD=1'},
+      {actor:'DUT',              action:'Transmits 20 data bytes, then zero-pads to 60 bytes (MINFL=64 minus 4-byte CRC), then appends 4-byte CRC'},
+      {actor:'mii_monitor',      action:'Captures total frame length = 64 bytes (preamble/SFD excluded)'},
+      {actor:'eth_tx_frame_seq', action:'Run B: MODER.PAD=0, CRCEN=1; same TX BD'},
+      {actor:'DUT',              action:'Transmits 20 data bytes, then 4-byte CRC (no padding) — total payload 24 bytes'},
+      {actor:'eth_scoreboard',   action:'Verifies frame lengths match expected for each run'},
+    ],
+    checks: [
+      'Run A: transmitted frame = 64 bytes total (20 data + 40 zeros pad + 4 CRC)',
+      'Run A: CRC computed over padded frame (64 bytes)',
+      'Run B: transmitted frame = 24 bytes (20 data + 4 CRC, no pad)',
+      'TX BD status bits correct (no error flags) in both runs',
+    ],
+  },
+  {
+    id: 'tc_tx_underrun', group: 'tx',
+    title: 'TX underrun — WISHBONE starvation',
+    desc: 'Forces the wb_master_agent to insert random WAIT states (withhold M_ACK_I) so the TX FIFO drains empty while transmission is in progress. Verifies the DUT aborts transmission and sets the UR bit in the TX BD.',
+    components: [
+      {name:'wb_slave_agent',type:'agent'},{name:'wb_master_agent',type:'agent'},
+      {name:'mii_agent',type:'agent'},{name:'eth_reg_block (RAL)',type:'ral'},
+      {name:'eth_tx_underrun_seq',type:'seq'},{name:'eth_scoreboard',type:'scb'},
+    ],
+    steps: [
+      {actor:'eth_tx_underrun_seq', action:'Program 512-byte frame in SRAM; set TX BD RD=1, IRQ=1'},
+      {actor:'eth_tx_underrun_seq', action:'Configure wb_master_agent to hold M_ACK_I low for 500+ cycles after 4th read'},
+      {actor:'DUT',                 action:'Starts TX, reads first ~16 words into FIFO, begins transmitting'},
+      {actor:'DUT',                 action:'FIFO empties while waiting for M_ACK_I; TxAbort asserted internally'},
+      {actor:'mii_monitor',         action:'Records MTxEn deasserting mid-frame (incomplete transmission)'},
+      {actor:'DUT',                 action:'Writes TX BD: RD=0, UR=1; asserts INTA_O'},
+      {actor:'eth_tx_underrun_seq', action:'RAL read INT_SOURCE: verify TXE=1'},
+      {actor:'eth_tx_underrun_seq', action:'RAL read TX BD status word: verify UR bit=1'},
+    ],
+    checks: [
+      'TX BD UR bit set to 1',
+      'INT_SOURCE.TXE = 1 (transmit error interrupt)',
+      'MTxEn deasserts cleanly (no partial nibble)',
+      'TX BD RD cleared to 0',
+      'No subsequent frame corruption — next TX BD works correctly after recovery',
+    ],
+  },
+  {
+    id: 'tc_tx_collision_retry', group: 'tx',
+    title: 'Collision — jam, backoff, retry (half-duplex)',
+    desc: 'With MODER.FULLD=0, the mii_agent asserts MColl asynchronously during frame transmission. Verifies the DUT sends a jam pattern, performs binary exponential backoff, and retries. Repeats up to MAXRET times.',
+    components: [
+      {name:'wb_slave_agent',type:'agent'},{name:'wb_master_agent',type:'agent'},
+      {name:'mii_agent',type:'agent'},{name:'eth_reg_block (RAL)',type:'ral'},
+      {name:'eth_collision_seq',type:'seq'},{name:'eth_scoreboard',type:'scb'},
+    ],
+    steps: [
+      {actor:'eth_collision_seq', action:'MODER.FULLD=0, COLLCONF.MAXRET=15, COLLCONF.COLLVALID=0x3F'},
+      {actor:'eth_collision_seq', action:'Program TX BD with 128-byte frame, RD=1'},
+      {actor:'eth_collision_seq', action:'Enable TXEN, wait until MTxEn=1 and 10 nibbles transmitted'},
+      {actor:'mii_agent',         action:'Assert MColl asynchronously (simulates collision on wire)'},
+      {actor:'mii_monitor',       action:'Captures jam pattern: 4 bytes 0x99999999 on MTxD'},
+      {actor:'DUT',               action:'Stops TX, waits random backoff (eth_random.v: binary exponential)'},
+      {actor:'mii_monitor',       action:'Measures backoff time = random × slot_time'},
+      {actor:'DUT',               action:'Retransmits from beginning of frame (preamble again)'},
+      {actor:'eth_collision_seq', action:'Let retry succeed (no MColl); verify TxDone and RTRY count in TX BD'},
+    ],
+    checks: [
+      'Jam pattern = 0x99999999 (4 bytes) immediately after collision',
+      'Backoff time is random within [0, 2^N - 1] slot times for Nth collision',
+      'RTRY field in TX BD = number of collisions before success',
+      'TX BD RL=1 and abort if MAXRET+1 collisions injected',
+      'WillTransmit signal deasserts during backoff (RX can proceed)',
+    ],
+  },
+
+  {
+    id: 'tc_rx_basic_frame', group: 'rx',
+    title: 'Receive single frame — end-to-end',
+    desc: 'The mii_agent injects a full Ethernet frame as MRxD nibbles. The DUT assembles nibbles, strips preamble/SFD, DMA-writes payload to external memory via WISHBONE master. Scoreboard verifies payload and status.',
+    components: [
+      {name:'wb_slave_agent',type:'agent'},{name:'wb_master_agent',type:'agent'},
+      {name:'mii_agent',type:'agent'},{name:'eth_reg_block (RAL)',type:'ral'},
+      {name:'eth_bd_mem (uvm_mem)',type:'mem'},{name:'eth_rx_frame_seq',type:'seq'},
+      {name:'eth_scoreboard',type:'scb'},{name:'eth_coverage',type:'cov'},
+    ],
+    steps: [
+      {actor:'eth_rx_frame_seq', action:'RAL: configure MAC_ADDR0=0xAABBCCDD, MAC_ADDR1=0xEEFF, MODER.RXEN=0'},
+      {actor:'eth_rx_frame_seq', action:'Program RX BD at first RX BD address: E=1, IRQ=1, WR=1; RXPNT=0x0000_3000'},
+      {actor:'eth_rx_frame_seq', action:'RAL: MODER.RXEN=1'},
+      {actor:'mii_agent',        action:'Drives MRxClk at 25MHz; MRxDV=1; sends 7-byte preamble(0x55) + SFD(0xD5) + 64-byte payload + CRC on MRxD'},
+      {actor:'DUT',              action:'State machine: Idle→Preamble→SFD→Data0→Data1... assembles nibble pairs into bytes'},
+      {actor:'DUT',              action:'Checks destination address vs MAC_ADDR — match found, continues reception'},
+      {actor:'DUT',              action:'Fills RX FIFO; issues WISHBONE master writes: M_ADDR_O=0x3000, M_WE_O=1, M_DATA_O=assembled bytes'},
+      {actor:'wb_master_agent',  action:'Accepts write data, asserts M_ACK_I, stores bytes in SRAM at 0x3000'},
+      {actor:'DUT',              action:'MRxDV deasserts; validates CRC; writes LEN + status to RX BD; clears E=0; asserts INTA_O'},
+      {actor:'eth_scoreboard',   action:'Reads SRAM at 0x3000, compares byte-for-byte against what mii_agent injected'},
+      {actor:'eth_scoreboard',   action:'Reads RX BD status: verifies CRC=0, SF=0, TL=0, OR=0, E=0'},
+    ],
+    checks: [
+      'Preamble and SFD stripped — not present in memory',
+      'Frame payload in memory matches injected frame byte-for-byte',
+      'LEN field in RX BD = correct received byte count',
+      'CRC bit = 0 (no error for valid frame)',
+      'All other status bits (SF, TL, OR, IS, DN, LC) = 0',
+      'E bit cleared by DUT after reception',
+      'INTA_O asserts; INT_SOURCE.RXB = 1',
+    ],
+  },
+  {
+    id: 'tc_rx_crc_error', group: 'rx',
+    title: 'RX CRC error detection',
+    desc: 'mii_agent sends a frame with the last byte of the CRC deliberately corrupted. Verifies the DUT still receives the frame into memory but sets the CRC bit in the RX BD, and does not update a PAUSE timer if the frame happens to be a control frame.',
+    components: [
+      {name:'mii_agent',type:'agent'},{name:'wb_master_agent',type:'agent'},
+      {name:'eth_reg_block (RAL)',type:'ral'},{name:'eth_rx_crc_seq',type:'seq'},
+      {name:'eth_scoreboard',type:'scb'},
+    ],
+    steps: [
+      {actor:'eth_rx_crc_seq', action:'Build valid 100-byte frame; flip bit 3 of the 4th CRC byte'},
+      {actor:'mii_agent',      action:'Inject corrupted frame on MRxD (MRxDV toggled correctly, only CRC data corrupt)'},
+      {actor:'DUT',            action:'Receives frame, assembles bytes, writes to SRAM via WISHBONE master'},
+      {actor:'DUT',            action:'eth_crc.v computes CRC over received data+CRC; result ≠ 0xC704DD7B → CrcError=1'},
+      {actor:'DUT',            action:'Writes RX BD: E=0, CRC=1, LEN=correct length; asserts INTA_O if IRQ=1'},
+      {actor:'eth_scoreboard', action:'Reads RX BD; verifies CRC bit=1, frame still stored in SRAM'},
+    ],
+    checks: [
+      'Frame written to memory despite CRC error (not dropped)',
+      'RX BD CRC bit = 1',
+      'RX BD LEN reflects correct received length',
+      'If frame is control frame type (8808) with CRC error: PAUSE timer not updated',
+      'INT_SOURCE.RXE = 1 when IRQ=1 in RX BD',
+    ],
+  },
+  {
+    id: 'tc_rx_overrun', group: 'rx',
+    title: 'RX overrun — FIFO starvation',
+    desc: 'Throttles the wb_master_agent (withholds M_ACK_I) while the mii_agent continues injecting frame nibbles, causing the 16-word RX FIFO to overflow. Verifies OR bit set in RX BD and data loss acknowledged.',
+    components: [
+      {name:'mii_agent',type:'agent'},{name:'wb_master_agent',type:'agent'},
+      {name:'eth_reg_block (RAL)',type:'ral'},{name:'eth_rx_overrun_seq',type:'seq'},
+      {name:'eth_scoreboard',type:'scb'},
+    ],
+    steps: [
+      {actor:'eth_rx_overrun_seq', action:'Program RX BD: E=1, IRQ=1, RXPNT=0x4000'},
+      {actor:'eth_rx_overrun_seq', action:'Configure wb_master_agent: hold M_ACK_I low for 300+ cycles on first write'},
+      {actor:'mii_agent',          action:'Inject 256-byte frame continuously at full wire rate (25MHz clock)'},
+      {actor:'DUT',                action:'RX FIFO fills (16 words); cannot drain because M_ACK_I withheld'},
+      {actor:'DUT',                action:'FIFO overflow occurs; DUT sets OverRun flag internally'},
+      {actor:'DUT',                action:'Writes RX BD: OR=1; asserts INTA_O'},
+      {actor:'eth_rx_overrun_seq', action:'RAL read INT_SOURCE; check RXE=1'},
+      {actor:'eth_rx_overrun_seq', action:'RAL read RX BD status; verify OR=1'},
+    ],
+    checks: [
+      'RX BD OR bit = 1',
+      'INT_SOURCE.RXE = 1',
+      'INTA_O asserted',
+      'DUT does not deadlock — recovers and accepts next frame when M_ACK_I restored',
+    ],
+  },
+  {
+    id: 'tc_rx_address_filter', group: 'rx',
+    title: 'RX address filtering — unicast mismatch drop',
+    desc: 'Sends a frame with destination MAC that does not match MAC_ADDR0/MAC_ADDR1 and PRO=0. Verifies the DUT aborts reception (RxAbort=1) before writing to memory, and no data appears at RXPNT.',
+    components: [
+      {name:'mii_agent',type:'agent'},{name:'wb_master_agent',type:'agent'},
+      {name:'eth_reg_block (RAL)',type:'ral'},{name:'eth_rx_addr_seq',type:'seq'},
+      {name:'eth_scoreboard',type:'scb'},
+    ],
+    steps: [
+      {actor:'eth_rx_addr_seq', action:'RAL: MAC_ADDR0=0xAABBCCDD, MAC_ADDR1=0xEEFF; MODER.PRO=0, BRO=0'},
+      {actor:'eth_rx_addr_seq', action:'Program RX BD: E=1, RXPNT=0x5000; fill SRAM at 0x5000 with known pattern 0xDEAD'},
+      {actor:'mii_agent',       action:'Inject frame with DEST_MAC=0x001122334455 (different from programmed MAC)'},
+      {actor:'DUT',             action:'eth_rxaddrcheck.v receives destination address; no match; asserts RxAbort=1'},
+      {actor:'DUT',             action:'Flushes RX buffer; does NOT write to WISHBONE master; MRxDV still driven by mii_agent'},
+      {actor:'eth_rx_addr_seq', action:'After MRxDV deasserts: read SRAM at 0x5000 — must still contain 0xDEAD'},
+      {actor:'eth_rx_addr_seq', action:'Read RX BD: E must still = 1 (BD not consumed since frame was dropped)'},
+    ],
+    checks: [
+      'No WISHBONE master writes issued (M_STB_O never asserted)',
+      'SRAM at RXPNT unchanged',
+      'RX BD E bit remains 1 (buffer still available)',
+      'No interrupt generated (frame dropped silently)',
+      'Subsequent valid frame (correct MAC) is received correctly',
+    ],
+  },
+
+  {
+    id: 'tc_addr_promiscuous', group: 'addr',
+    title: 'Promiscuous mode — accept all + M bit',
+    desc: 'Sets PRO=1 in MODER. Sends three frames: one to this MAC, one to a foreign unicast MAC, one to broadcast. All three should be received. Foreign-unicast frame should have M=1 (miss) in RX BD.',
+    components: [
+      {name:'mii_agent',type:'agent'},{name:'wb_master_agent',type:'agent'},
+      {name:'eth_reg_block (RAL)',type:'ral'},{name:'eth_addr_seq',type:'seq'},
+      {name:'eth_scoreboard',type:'scb'},
+    ],
+    steps: [
+      {actor:'eth_addr_seq', action:'RAL: MODER.PRO=1; MAC_ADDR0/1 = known value; 3 RX BDs programmed at 0x6000, 0x6800, 0x7000'},
+      {actor:'mii_agent',   action:'Frame 1: DEST=own MAC → injected'},
+      {actor:'mii_agent',   action:'Frame 2: DEST=0x001122334455 (foreign) → injected'},
+      {actor:'mii_agent',   action:'Frame 3: DEST=FF:FF:FF:FF:FF:FF (broadcast) → injected'},
+      {actor:'DUT',         action:'Receives all 3 frames; writes each to corresponding RXPNT; sets M bit for frame 2'},
+      {actor:'eth_scoreboard', action:'Reads all 3 RX BDs; checks M bit and frame contents'},
+    ],
+    checks: [
+      'All 3 frames received and stored in memory',
+      'RX BD 1: M=0 (address match)',
+      'RX BD 2: M=1 (promiscuous — no address match but accepted)',
+      'RX BD 3: M=0 (broadcast match)',
+      'BRO=1 test: frame 3 dropped even with PRO=0 (broadcast rejection)',
+    ],
+  },
+  {
+    id: 'tc_addr_hash_multicast', group: 'addr',
+    title: 'Multicast hash table filtering',
+    desc: 'Sets IAM=1 and programs HASH0/HASH1 with a specific 64-bit hash. Sends two multicast frames: one whose 48-bit address maps to a set hash bit (should be accepted), one that maps to a cleared bit (should be dropped).',
+    components: [
+      {name:'mii_agent',type:'agent'},{name:'eth_reg_block (RAL)',type:'ral'},
+      {name:'eth_addr_seq',type:'seq'},{name:'eth_scoreboard',type:'scb'},
+    ],
+    steps: [
+      {actor:'eth_addr_seq', action:'Calculate CRC of target multicast MAC; take bits [7:2] as 6-bit hash index'},
+      {actor:'eth_addr_seq', action:'RAL write: HASH0 or HASH1 with bit[hash_index] = 1'},
+      {actor:'eth_addr_seq', action:'MODER: IAM=1, PRO=0'},
+      {actor:'mii_agent',   action:'Inject frame with multicast MAC that hashes to the set bit'},
+      {actor:'DUT',         action:'eth_rxaddrcheck.v: IAM=1; computes CrcHash; checks HASH0/HASH1[bit] = 1 → accept'},
+      {actor:'mii_agent',   action:'Inject frame with multicast MAC that hashes to a cleared bit'},
+      {actor:'DUT',         action:'CrcHash maps to cleared bit → RxAbort; frame dropped'},
+      {actor:'eth_scoreboard', action:'Verifies first frame in memory, second frame absent'},
+    ],
+    checks: [
+      'Frame whose hash bit is set: received correctly in memory',
+      'Frame whose hash bit is cleared: dropped, no SRAM write, BD E bit unchanged',
+      'CRC hash computation in DUT matches specification algorithm',
+    ],
+  },
+
+  {
+    id: 'tc_fc_rx_pause_rxflow1', group: 'fc',
+    title: 'RX PAUSE frame — TX halted for timer value',
+    desc: 'Programs RXFLOW=1 in CTRLMODER. mii_agent injects a valid PAUSE control frame (type=0x8808, op=0x0001) with a 500-slot timer value. Verifies the TX MAC is blocked for exactly 500 slot times then resumes.',
+    components: [
+      {name:'mii_agent',type:'agent'},{name:'wb_slave_agent',type:'agent'},
+      {name:'wb_master_agent',type:'agent'},{name:'eth_reg_block (RAL)',type:'ral'},
+      {name:'eth_fc_seq',type:'seq'},{name:'eth_scoreboard',type:'scb'},
+    ],
+    steps: [
+      {actor:'eth_fc_seq', action:'MODER.FULLD=1; CTRLMODER.RXFLOW=1, PASSALL=0'},
+      {actor:'eth_fc_seq', action:'Queue a TX frame in TX BD (RD=1) so transmitter is ready to go'},
+      {actor:'mii_agent',  action:'Inject PAUSE frame: DEST=01:80:C2:00:00:01, type=0x8808, opcode=0x0001, timer_value=500'},
+      {actor:'DUT',        action:'eth_receivecontrol.v detects control frame; loads PAUSE timer with 500'},
+      {actor:'DUT',        action:'Slot timer starts counting; TxStartFrm from host blocked — TX frame stalls'},
+      {actor:'eth_fc_seq', action:'Monitor MTxEn: must remain deasserted for 500 slot times'},
+      {actor:'eth_fc_seq', action:'RAL read INT_SOURCE: RXC=1 (control frame received interrupt)'},
+      {actor:'DUT',        action:'After 500 slot times, PAUSE timer reaches 0; TxStartFrm unblocked; TX resumes'},
+      {actor:'mii_monitor',action:'Records timestamp when MTxEn=1 again; scoreboard computes pause duration'},
+    ],
+    checks: [
+      'MTxEn deasserted for at least 500 slot times (one slot = 64-byte transmission time)',
+      'INT_SOURCE.RXC = 1',
+      'PAUSE frame not stored to SRAM (PASSALL=0)',
+      'TX frame successfully transmitted after PAUSE expires',
+      'CTRLMODER.PASSALL=1 test: PAUSE frame IS stored + CF=1 in RX BD + RXC + RXB both set',
+    ],
+  },
+  {
+    id: 'tc_fc_tx_pause_request', group: 'fc',
+    title: 'TX PAUSE frame generation',
+    desc: 'Host writes TXPAUSETV=0x00C8 (200) and TXPAUSERQ=1 to TXCTRL register. Verifies DUT waits for current TX to finish, then autonomously constructs and transmits a complete PAUSE control frame with correct structure.',
+    components: [
+      {name:'wb_slave_agent',type:'agent'},{name:'mii_agent',type:'agent'},
+      {name:'eth_reg_block (RAL)',type:'ral'},{name:'eth_fc_seq',type:'seq'},
+      {name:'eth_scoreboard',type:'scb'},
+    ],
+    steps: [
+      {actor:'eth_fc_seq',   action:'MODER.FULLD=1; CTRLMODER.TXFLOW=1'},
+      {actor:'eth_fc_seq',   action:'RAL write TXCTRL: TXPAUSETV=0x00C8, TXPAUSERQ=1'},
+      {actor:'DUT',          action:'eth_transmitcontrol.v latches request; waits for current TX frame to finish'},
+      {actor:'DUT',          action:'Asserts TxStartFrm internally with control data; eth_maccontrol.v multiplexer switches to control path'},
+      {actor:'mii_monitor',  action:'Captures PAUSE frame nibbles; reconstructs full frame'},
+      {actor:'eth_scoreboard',action:'Verifies DEST=01:80:C2:00:00:01, SRC=programmed MAC_ADDR, type=0x8808, op=0x0001, timer=0x00C8'},
+      {actor:'eth_scoreboard',action:'Verifies 42-byte reserved field = all zeros; valid CRC appended'},
+      {actor:'eth_fc_seq',   action:'RAL read INT_SOURCE: TXC=1'},
+      {actor:'eth_fc_seq',   action:'RAL read TXCTRL: TXPAUSERQ automatically cleared to 0'},
+    ],
+    checks: [
+      'PAUSE frame total = 64 bytes (6+6+2+2+2+42+4)',
+      'DEST = 01:80:C2:00:00:01 (reserved multicast)',
+      'SRC = programmed MAC address',
+      'Length/Type field = 0x8808',
+      'Opcode = 0x0001',
+      'Timer value = 0x00C8 (200)',
+      'CRC valid; PAD and CRC automatically enabled by control module',
+      'INT_SOURCE.TXC = 1',
+      'TXPAUSERQ cleared after transmission (prevents duplicate)',
+    ],
+  },
+
+  {
+    id: 'tc_hd_nobckof', group: 'hd',
+    title: 'No-backoff mode — immediate retry',
+    desc: 'Sets MODER.NOBCKOF=1. Injects a collision, then releases MColl. Verifies the DUT retransmits immediately without any backoff delay (slot time measurement must show zero wait).',
+    components: [
+      {name:'wb_slave_agent',type:'agent'},{name:'mii_agent',type:'agent'},
+      {name:'eth_reg_block (RAL)',type:'ral'},{name:'eth_collision_seq',type:'seq'},
+      {name:'mii_monitor',type:'agent'},
+    ],
+    steps: [
+      {actor:'eth_collision_seq', action:'MODER: FULLD=0, NOBCKOF=1; program TX BD, TXEN=1'},
+      {actor:'mii_agent',         action:'Assert MColl when MTxEn=1 and 8 nibbles sent'},
+      {actor:'DUT',               action:'Sends jam pattern (0x99999999)'},
+      {actor:'mii_monitor',       action:'Records timestamp T1 = end of jam'},
+      {actor:'DUT',               action:'With NOBCKOF=1: skips random backoff calculation; immediately reasserts MTxEn'},
+      {actor:'mii_monitor',       action:'Records timestamp T2 = start of retransmit preamble'},
+      {actor:'eth_collision_seq', action:'Measures T2-T1; must be ≤ IPG (no extra backoff slots)'},
+    ],
+    checks: [
+      'Retransmission starts within IPG time (no backoff delay)',
+      'Jam pattern (4 bytes 0x99999999) correctly sent before retry',
+      'DF=1 in TX BD after eventual success (was deferred)',
+      'Normal backoff test (NOBCKOF=0): retry delayed by random slot-time multiple',
+    ],
+  },
+  {
+    id: 'tc_hd_late_collision', group: 'hd',
+    title: 'Late collision — abort and LC bit',
+    desc: 'Injects MColl after COLLVALID (0x3F = 63+1 = 64 bytes) from the preamble start. This is a late collision. Verifies transmission aborted and LC=1 in TX BD.',
+    components: [
+      {name:'wb_slave_agent',type:'agent'},{name:'mii_agent',type:'agent'},
+      {name:'eth_reg_block (RAL)',type:'ral'},{name:'eth_collision_seq',type:'seq'},
+      {name:'eth_scoreboard',type:'scb'},
+    ],
+    steps: [
+      {actor:'eth_collision_seq', action:'COLLCONF.COLLVALID=0x3F; MODER.FULLD=0; TX BD with 256-byte frame'},
+      {actor:'eth_collision_seq', action:'Start TX; count nibbles from start of preamble'},
+      {actor:'mii_agent',         action:'Assert MColl at nibble count = (0x3F+1)*16 + 1 (after collision window)'},
+      {actor:'DUT',               action:'ColWindow=0 (past valid window); treats as late collision; TxAbort=1'},
+      {actor:'DUT',               action:'Does NOT send jam pattern (late collision = abort, not retry)'},
+      {actor:'DUT',               action:'Writes TX BD: RD=0, LC=1; asserts INTA_O'},
+      {actor:'eth_scoreboard',    action:'Verifies LC=1 in TX BD; TXE interrupt set'},
+    ],
+    checks: [
+      'TX BD LC bit = 1',
+      'TX BD RL bit = 0 (not a retry limit — was a late collision)',
+      'No jam pattern transmitted',
+      'INT_SOURCE.TXE = 1',
+      'MTxEn deasserts immediately after late collision detected',
+    ],
+  },
+
+  {
+    id: 'tc_int_mask_all', group: 'int',
+    title: 'All interrupts masked — INTA_O silent',
+    desc: 'Writes INT_MASK = 0x00 to mask every interrupt source. Then triggers all 7 event types (TXB, TXE, RXB, RXE, BUSY, TXC, RXC). Verifies INTA_O never asserts even though INT_SOURCE bits are set.',
+    components: [
+      {name:'wb_slave_agent',type:'agent'},{name:'mii_agent',type:'agent'},
+      {name:'wb_master_agent',type:'agent'},{name:'eth_reg_block (RAL)',type:'ral'},
+      {name:'eth_int_seq',type:'seq'},
+    ],
+    steps: [
+      {actor:'eth_int_seq', action:'RAL write INT_MASK = 0x00 (all events masked)'},
+      {actor:'eth_int_seq', action:'Trigger TXB: transmit a frame successfully; monitor INTA_O'},
+      {actor:'eth_int_seq', action:'Trigger RXB: receive a valid frame; monitor INTA_O'},
+      {actor:'eth_int_seq', action:'Trigger TXE: cause underrun; monitor INTA_O'},
+      {actor:'eth_int_seq', action:'Trigger BUSY: fill all RX BDs; inject new frame'},
+      {actor:'eth_int_seq', action:'After each event: RAL read INT_SOURCE — bits should be SET in source reg'},
+      {actor:'eth_int_seq', action:'After each event: verify INTA_O line = 0'},
+      {actor:'eth_int_seq', action:'Set INT_MASK.TXB_M=1; trigger TXB again; verify INTA_O asserts'},
+    ],
+    checks: [
+      'INTA_O = 0 for all events when INT_MASK = 0x00',
+      'INT_SOURCE bits correctly set by events regardless of mask',
+      'Writing 1 to INT_SOURCE bit clears it (W1C behavior)',
+      'INTA_O asserts immediately when unmasked event occurs',
+      'INTA_O deasserts when all set+unmasked bits are cleared',
+    ],
+  },
+  {
+    id: 'tc_int_w1c', group: 'int',
+    title: 'W1C interrupt clearing behavior',
+    desc: 'Verifies the Write-1-to-Clear behavior of INT_SOURCE. Sets all bits by triggering events, then clears them individually by writing 1 to each bit and verifying only that bit clears.',
+    components: [
+      {name:'wb_slave_agent',type:'agent'},{name:'eth_reg_block (RAL)',type:'ral'},
+      {name:'eth_int_seq',type:'seq'},
+    ],
+    steps: [
+      {actor:'eth_int_seq', action:'Trigger events to set multiple INT_SOURCE bits simultaneously'},
+      {actor:'eth_int_seq', action:'RAL frontdoor write to INT_SOURCE with only bit[0]=1 (TXB clear)'},
+      {actor:'eth_int_seq', action:'RAL read INT_SOURCE: bit[0] must be 0; all other set bits unchanged'},
+      {actor:'eth_int_seq', action:'Repeat for each bit position individually'},
+      {actor:'eth_int_seq', action:'Write all-ones to INT_SOURCE: all bits clear simultaneously'},
+    ],
+    checks: [
+      'Writing 1 to bit N clears only bit N',
+      'Writing 0 to bit N has no effect (does not clear)',
+      'Writing all-ones clears all set bits simultaneously',
+      'INTA_O deasserts when last unmasked INT_SOURCE bit is cleared',
+    ],
+  },
+
+  {
+    id: 'tc_rst_mid_tx', group: 'rst',
+    title: 'Hard reset during active TX transmission',
+    desc: 'Asserts RST_I while the DUT is mid-frame transmission. Verifies the DUT halts immediately, MTxEn deasserts, all registers return to reset values, and a new transmission can be started cleanly after reset.',
+    components: [
+      {name:'wb_slave_agent',type:'agent'},{name:'wb_master_agent',type:'agent'},
+      {name:'mii_agent',type:'agent'},{name:'eth_reg_block (RAL)',type:'ral'},
+      {name:'eth_rst_seq',type:'seq'},{name:'mii_monitor',type:'agent'},
+    ],
+    steps: [
+      {actor:'eth_rst_seq',  action:'Start transmitting a 256-byte frame normally; wait for MTxEn=1 and 20+ nibbles sent'},
+      {actor:'eth_rst_seq',  action:'Assert RST_I=1 (hard reset) via wb_slave_agent'},
+      {actor:'mii_monitor',  action:'Records that MTxEn deasserts within 1-2 clock cycles of RST_I'},
+      {actor:'eth_rst_seq',  action:'Hold RST_I=1 for 10 cycles, then deassert'},
+      {actor:'eth_rst_seq',  action:'RAL: run uvm_reg_hw_reset_seq — all registers must be at reset values'},
+      {actor:'eth_rst_seq',  action:'Reprogram registers, TX BD, SRAM; start new transmission'},
+      {actor:'mii_monitor',  action:'Verifies new frame completes without error'},
+    ],
+    checks: [
+      'MTxEn deasserts within 2 clocks of RST_I assertion',
+      'All 21 registers at reset values after RST_I',
+      'TX FIFO cleared (no stale data in next transmission)',
+      'BD RAM values preserved after RST_I (per design spec)',
+      'New transmission after reset completes successfully',
+    ],
+  },
+  {
+    id: 'tc_clk_10mbps', group: 'rst',
+    title: '10 Mbps operation (2.5 MHz MII clocks)',
+    desc: 'Programs the PHY model (mii_agent) to drive MTxClk and MRxClk at 2.5 MHz (10 Mbps mode). Performs a full TX+RX test at this clock rate and verifies correct frame timing.',
+    components: [
+      {name:'wb_slave_agent',type:'agent'},{name:'wb_master_agent',type:'agent'},
+      {name:'mii_agent',type:'agent'},{name:'eth_reg_block (RAL)',type:'ral'},
+      {name:'eth_rst_seq',type:'seq'},{name:'eth_scoreboard',type:'scb'},
+    ],
+    steps: [
+      {actor:'mii_agent',     action:'Configure internal clock generator: MTxClk=2.5MHz, MRxClk=2.5MHz'},
+      {actor:'eth_rst_seq',   action:'PHY clock control reg bit[13]=0 (sets 10Mbps in PHY model) via MIIM write'},
+      {actor:'eth_rst_seq',   action:'Transmit 64-byte frame; verify completes in 10× longer time vs 100Mbps'},
+      {actor:'eth_rst_seq',   action:'Receive 64-byte frame from mii_agent at 2.5MHz; verify correct assembly'},
+      {actor:'eth_scoreboard',action:'Compares frame contents and timing'},
+    ],
+    checks: [
+      'Frame transmission time ~10× longer than 100Mbps (512 bit times at 10Mbps = 51.2µs)',
+      'IPG timing scales correctly (9.6µs instead of 0.96µs)',
+      'No framing errors or premature timeouts',
+      'CRC valid at 10Mbps bit rate',
+    ],
+  },
+
+  {
+    id: 'tc_stress_random_frames', group: 'str',
+    title: 'Random frame size stress — 1000 frames TX+RX',
+    desc: 'Generates 1000 frames with randomized sizes (5–1600 bytes), random source/destination MACs, random payloads. Alternates TX and RX using all available BDs in a circular WR-wrapped chain. Verifies zero frame errors and complete scoreboard match.',
+    components: [
+      {name:'wb_slave_agent',type:'agent'},{name:'wb_master_agent',type:'agent'},
+      {name:'mii_agent',type:'agent'},{name:'eth_reg_block (RAL)',type:'ral'},
+      {name:'eth_bd_mem (uvm_mem)',type:'mem'},{name:'eth_stress_vseq',type:'seq'},
+      {name:'eth_scoreboard',type:'scb'},{name:'eth_coverage',type:'cov'},
+    ],
+    steps: [
+      {actor:'eth_stress_vseq', action:'Virtual sequencer: configure 40 TX BDs and 88 RX BDs (TX_BD_NUM=0x28)'},
+      {actor:'eth_stress_vseq', action:'Generate 1000 random frame descriptors: size=$urandom_range(5,1600), payload=$urandom'},
+      {actor:'eth_stress_vseq', action:'Fork: tx_process fills TX BDs in a loop; rx_process programs RX BDs; both run in parallel'},
+      {actor:'wb_master_agent', action:'Responds to all DMA reads (TX) and accepts all DMA writes (RX)'},
+      {actor:'mii_agent',       action:'Receives nibbles from DUT (TX) and injects frames back (RX loopback model)'},
+      {actor:'eth_scoreboard',  action:'Accumulates sent vs received frame queue; checks each received frame matches a sent frame'},
+      {actor:'eth_coverage',    action:'Samples frame_size_cg, moder_tx_cg for all combinations hit during stress'},
+    ],
+    checks: [
+      'All 1000 frames TX/RX complete without timeout',
+      'Zero scoreboard mismatches (payload, CRC, length)',
+      'No unexpected interrupt errors (TXE, RXE)',
+      'No BD ring corruption (WR wrap works correctly)',
+      'Frame size coverage: min (5B), 63B, 64B, 1518B, 1519B+ bins all hit',
+    ],
+  },
+  {
+    id: 'tc_stress_wb_wait_states', group: 'str',
+    title: 'Random WISHBONE wait states — no deadlock',
+    desc: 'Inserts random 0–15 cycle wait states on both WISHBONE interfaces (slave ACK_O delay and master M_ACK_I delay) simultaneously during a sustained TX+RX burst. Verifies no deadlock and correct frame delivery.',
+    components: [
+      {name:'wb_slave_agent',type:'agent'},{name:'wb_master_agent',type:'agent'},
+      {name:'mii_agent',type:'agent'},{name:'eth_stress_vseq',type:'seq'},
+      {name:'eth_scoreboard',type:'scb'},
+    ],
+    steps: [
+      {actor:'eth_stress_vseq',  action:'Configure wb_slave_agent: random ACK_O delay 0–15 cycles per transaction'},
+      {actor:'eth_stress_vseq',  action:'Configure wb_master_agent: random M_ACK_I delay 0–15 cycles per transaction'},
+      {actor:'eth_stress_vseq',  action:'Start 100-frame TX burst and simultaneous 100-frame RX burst'},
+      {actor:'eth_scoreboard',   action:'Verifies all frames complete; no timeout after 10000 cycles per frame'},
+      {actor:'eth_stress_vseq',  action:'Also test wbm_init_waits and wbm_subseq_waits combinations (all 4 combinations: 0/0, 0/max, max/0, max/max)'},
+    ],
+    checks: [
+      'No simulation timeout (deadlock) under any wait-state combination',
+      'All frames delivered correctly with correct payload',
+      'WISHBONE protocol compliance: no overlapping STB/CYC cycles',
+      'Bus monitor reports zero protocol errors on both WB buses',
+    ],
+  },
+];
+
+let activeGroup = 'all';
+
+function renderFilters() {
+  const f = document.getElementById('filters');
+  const total = TC.length;
+  let html = `<span class="pill ${activeGroup==='all'?'active':''}" onclick="setGroup('all')">All (${total})</span>`;
+  for (const [k,v] of Object.entries(GROUPS)) {
+    const cnt = TC.filter(t=>t.group===k).length;
+    html += `<span class="pill ${activeGroup===k?'active':''}" onclick="setGroup('${k}')">${v.label} (${cnt})</span>`;
+  }
+  f.innerHTML = html;
+}
+
+function setGroup(g) {
+  activeGroup = g;
+  renderFilters();
+  renderList();
+}
+
+function renderStats(visible) {
+  const s = document.getElementById('stats-row');
+  const byGroup = {};
+  visible.forEach(t => { byGroup[t.group] = (byGroup[t.group]||0)+1; });
+  let html = `<span class="stat-chip">Showing <b>${visible.length}</b> of <b>${TC.length}</b> tests</span>`;
+  if (activeGroup !== 'all') {
+    html += `<span class="stat-chip"><b>${visible.length}</b> ${GROUPS[activeGroup]?.label} tests</span>`;
+  }
+  s.innerHTML = html;
+}
+
+function renderList() {
+  const q = document.getElementById('search').value.toLowerCase();
+  const visible = TC.filter(t => {
+    const matchGroup = activeGroup === 'all' || t.group === activeGroup;
+    const matchSearch = !q || t.id.includes(q) || t.title.toLowerCase().includes(q) || t.desc.toLowerCase().includes(q);
+    return matchGroup && matchSearch;
+  });
+  renderStats(visible);
+
+  const list = document.getElementById('tc-list');
+  if (!visible.length) {
+    list.innerHTML = '<div class="no-results">No tests match your search.</div>';
+    return;
+  }
+
+  list.innerHTML = visible.map(tc => {
+    const g = GROUPS[tc.group];
+    return `
+<div class="tc-card" id="card-${tc.id}" onclick="toggle('${tc.id}')">
+  <div class="tc-header">
+    <span class="tc-name">${tc.id}</span>
+    <span class="tc-title">${tc.title}</span>
+    <span class="badge ${g.cls}">${g.label}</span>
+    <i class="ti ti-chevron-down chevron" aria-hidden="true"></i>
+  </div>
+  <div class="tc-body">
+    <p class="desc" style="margin-top:12px">${tc.desc}</p>
+
+    <p class="section-label">Components used</p>
+    <div class="comp-grid">
+      ${tc.components.map(c=>`<span class="comp-tag ${c.type}">${c.name}</span>`).join('')}
+    </div>
+
+    <p class="section-label">Test flow</p>
+    <div class="flow-steps">
+      ${tc.steps.map((s,i)=>`
+        <div class="flow-step">
+          <span class="step-num">${i+1}</span>
+          <span class="step-actor">${s.actor}</span>
+          <span class="step-action">${s.action}</span>
+        </div>`).join('')}
+    </div>
+
+    <p class="section-label">Pass criteria</p>
+    <div class="check-grid">
+      ${tc.checks.map(c=>`
+        <div class="check-item">
+          <i class="ti ti-circle-check" aria-hidden="true"></i>
+          <span>${c}</span>
+        </div>`).join('')}
+    </div>
+  </div>
+</div>`;
+  }).join('');
+}
+
+function toggle(id) {
+  const card = document.getElementById('card-'+id);
+  card.classList.toggle('open');
+}
+
+renderFilters();
+renderList();
+</script>
