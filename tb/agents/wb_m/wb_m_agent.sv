@@ -14,9 +14,9 @@ class wb_m_agent extends uvm_agent;
     //--------------------------------------------------------------------------
     // Sub-component handles
     //--------------------------------------------------------------------------
-    wb_m_sqr     m_sequencer;
-    wb_m_driver  m_driver;
-    wb_m_monitor m_monitor;
+    wb_m_sequencer_base     m_sequencer;
+    wb_m_driver_base  m_driver;
+    wb_m_monitor_base m_monitor;
 
     //--------------------------------------------------------------------------
     // Configuration object
@@ -42,11 +42,11 @@ class wb_m_agent extends uvm_agent;
         uvm_config_db #(wb_m_config)::set(this, "m_monitor", "config", m_config);
 
         if (get_is_active() == UVM_ACTIVE) begin
-            m_sequencer = wb_m_sqr   ::type_id::create("m_sequencer", this);
-            m_driver    = wb_m_driver::type_id::create("m_driver",    this);
+            m_sequencer = wb_m_sequencer_base   ::type_id::create("m_sequencer", this);
+            m_driver    = wb_m_driver_base::type_id::create("m_driver",    this);
         end
 
-        m_monitor = wb_m_monitor::type_id::create("m_monitor", this);
+        m_monitor = wb_m_monitor_base::type_id::create("m_monitor", this);
         ap        = new("ap", this);
     endfunction
 

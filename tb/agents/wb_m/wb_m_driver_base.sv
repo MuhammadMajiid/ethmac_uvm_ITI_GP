@@ -1,10 +1,10 @@
 
-`ifndef WB_M_DRIVER_SV
-`define WB_M_DRIVER_SV
+`ifndef WB_M_DRIVER_BASE_SV
+`define WB_M_DRIVER_BASE_SV
 
-class wb_m_driver extends uvm_driver #(wb_master_tx);
+class wb_m_driver_base extends uvm_driver #(wb_master_tx);
 
-    `uvm_component_utils(wb_m_driver)
+    `uvm_component_utils(wb_m_driver_base)
 
     //--------------------------------------------------------------------------
     // Virtual interface and config
@@ -92,6 +92,6 @@ class wb_m_driver extends uvm_driver #(wb_master_tx);
                   UVM_HIGH)
     endtask
 
-endclass : wb_m_driver
+endclass : wb_m_driver_base
 
-`endif // WB_M_DRIVER_SV
+`endif // WB_M_DRIVER_BASE_SV

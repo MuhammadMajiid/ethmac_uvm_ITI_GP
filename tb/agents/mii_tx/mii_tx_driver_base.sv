@@ -1,9 +1,9 @@
 
-`ifndef MII_TX_DRIVER_SV
-`define MII_TX_DRIVER_SV
+`ifndef MII_TX_DRIVER_BASE_SV
+`define MII_TX_DRIVER_BASE_SV
 
-class mii_tx_driver extends uvm_driver #(mii_tx_tx);
-  `uvm_component_utils(mii_tx_driver)
+class mii_tx_driver_base extends uvm_driver #(mii_tx_tx);
+  `uvm_component_utils(mii_tx_driver_base)
 
   virtual mii_tx_if vif;
 
@@ -31,4 +31,4 @@ class mii_tx_driver extends uvm_driver #(mii_tx_tx);
 
 endclass
 
-`endif // MII_TX_DRIVER_SV
+`endif // MII_TX_DRIVER_BASE_SV

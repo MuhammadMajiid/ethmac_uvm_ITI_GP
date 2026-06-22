@@ -1,9 +1,9 @@
 
-`ifndef WB_S_DRIVER_SV
-`define WB_S_DRIVER_SV
+`ifndef WB_S_DRIVER_BASE_SV
+`define WB_S_DRIVER_BASE_SV
 
-class wb_s_driver extends uvm_driver #(wb_tx);
-  `uvm_component_utils(wb_s_driver)
+class wb_s_driver_base extends uvm_driver #(wb_tx);
+  `uvm_component_utils(wb_s_driver_base)
 
   virtual dut_if m_vif;
 
@@ -16,7 +16,7 @@ class wb_s_driver extends uvm_driver #(wb_tx);
     forever
     begin
       seq_item_port.try_next_item(req);
-      
+
       if (req != null)
       begin
         // Drive wishbone slave interface
@@ -33,4 +33,4 @@ class wb_s_driver extends uvm_driver #(wb_tx);
 
 endclass
 
-`endif // WB_S_DRIVER_SV
+`endif // WB_S_DRIVER_BASE_SV

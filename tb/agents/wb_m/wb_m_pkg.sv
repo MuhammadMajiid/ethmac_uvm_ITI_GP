@@ -8,9 +8,9 @@ package wb_m_pkg;
 
     `include "wb_m_tx.sv"
     `include "wb_m_config.sv"
-    `include "wb_m_sqr.sv"
-    `include "wb_m_driver.sv"
-    `include "wb_m_monitor.sv"
+    `include "wb_m_sequencer_base.sv"
+    `include "wb_m_driver_base.sv"
+    `include "wb_m_monitor_base.sv"
     `include "wb_m_agent.sv"
 
 endpackage : wb_m_pkg

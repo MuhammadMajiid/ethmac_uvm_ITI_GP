@@ -1,10 +1,10 @@
 
-`ifndef WB_M_MONITOR_SV
-`define WB_M_MONITOR_SV
+`ifndef WB_M_MONITOR_BASE_SV
+`define WB_M_MONITOR_BASE_SV
 
-class wb_m_monitor extends uvm_monitor;
+class wb_m_monitor_base extends uvm_monitor;
 
-    `uvm_component_utils(wb_m_monitor)
+    `uvm_component_utils(wb_m_monitor_base)
 
     //--------------------------------------------------------------------------
     // TLM analysis port — broadcasts observed transactions to subscribers
@@ -67,6 +67,6 @@ class wb_m_monitor extends uvm_monitor;
         end
     endtask
 
-endclass : wb_m_monitor
+endclass : wb_m_monitor_base
 
-`endif // WB_M_MONITOR_SV
+`endif // WB_M_MONITOR_BASE_SV

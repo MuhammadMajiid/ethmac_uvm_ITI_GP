@@ -1,9 +1,9 @@
 
-`ifndef MII_RX_MONITOR_SV
-`define MII_RX_MONITOR_SV
+`ifndef MII_RX_MONITOR_BASE_SV
+`define MII_RX_MONITOR_BASE_SV
 
-class mii_rx_monitor extends uvm_monitor;
-  `uvm_component_utils(mii_rx_monitor)
+class mii_rx_monitor_base extends uvm_monitor;
+  `uvm_component_utils(mii_rx_monitor_base)
 
   uvm_analysis_port #(mii_rx_tx) a_port;
 
@@ -34,4 +34,4 @@ class mii_rx_monitor extends uvm_monitor;
 
 endclass
 
-`endif // MII_RX_MONITOR_SV
+`endif // MII_RX_MONITOR_BASE_SV
