@@ -1,9 +1,9 @@
 
-`ifndef MII_RX_DRIVER_SV
-`define MII_RX_DRIVER_SV
+`ifndef MII_RX_DRIVER_BASE_SV
+`define MII_RX_DRIVER_BASE_SV
 
-class mii_rx_driver extends uvm_driver #(mii_rx_tx);
-  `uvm_component_utils(mii_rx_driver)
+class mii_rx_driver_base extends uvm_driver #(mii_rx_tx);
+  `uvm_component_utils(mii_rx_driver_base)
 
   virtual mii_rx_if vif;
 
@@ -40,4 +40,4 @@ class mii_rx_driver extends uvm_driver #(mii_rx_tx);
 
 endclass
 
-`endif // MII_RX_DRIVER_SV
+`endif // MII_RX_DRIVER_BASE_SV

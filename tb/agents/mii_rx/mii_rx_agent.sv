@@ -1,3 +1,4 @@
+// mii_rx_agent.sv
 
 `ifndef MII_RX_AGENT_SV
 `define MII_RX_AGENT_SV
@@ -7,9 +8,9 @@ class mii_rx_agent extends uvm_agent;
 
   uvm_analysis_port #(mii_rx_tx) a_port;
 
-  mii_rx_sequencer m_sequencer;
-  mii_rx_driver    m_driver;
-  mii_rx_monitor   m_monitor;
+  mii_rx_sequencer_base m_sequencer;
+  mii_rx_driver_base    m_driver;
+  mii_rx_monitor_base   m_monitor;
 
   virtual mii_rx_if vif;
 
@@ -20,11 +21,11 @@ class mii_rx_agent extends uvm_agent;
   function void build_phase(uvm_phase phase);
     if (get_is_active() == UVM_ACTIVE)
     begin
-      m_sequencer = mii_rx_sequencer::type_id::create("m_sequencer", this);
-      m_driver    = mii_rx_driver   ::type_id::create("m_driver",    this);
+      m_sequencer = mii_rx_sequencer_base::type_id::create("m_sequencer", this);
+      m_driver    = mii_rx_driver_base   ::type_id::create("m_driver",    this);
     end
 
-    m_monitor = mii_rx_monitor::type_id::create("m_monitor", this);
+    m_monitor = mii_rx_monitor_base::type_id::create("m_monitor", this);
     a_port    = new("a_port", this);
   endfunction
 

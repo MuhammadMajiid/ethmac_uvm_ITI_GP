@@ -7,9 +7,9 @@ class mdio_agent extends uvm_agent;
 
   uvm_analysis_port #(mdio_tx) a_port;
 
-  mdio_sequencer m_sequencer;
-  mdio_driver    m_driver;
-  mdio_monitor   m_monitor;
+  mdio_sequencer_base m_sequencer;
+  mdio_driver_base    m_driver;
+  mdio_monitor_base   m_monitor;
 
   virtual mdio_if vif;
 
@@ -20,11 +20,11 @@ class mdio_agent extends uvm_agent;
   function void build_phase(uvm_phase phase);
     if (get_is_active() == UVM_ACTIVE)
     begin
-      m_sequencer = mdio_sequencer::type_id::create("m_sequencer", this);
-      m_driver    = mdio_driver   ::type_id::create("m_driver",    this);
+      m_sequencer = mdio_sequencer_base::type_id::create("m_sequencer", this);
+      m_driver    = mdio_driver_base   ::type_id::create("m_driver",    this);
     end
 
-    m_monitor = mdio_monitor::type_id::create("m_monitor", this);
+    m_monitor = mdio_monitor_base::type_id::create("m_monitor", this);
     a_port    = new("a_port", this);
   endfunction
 

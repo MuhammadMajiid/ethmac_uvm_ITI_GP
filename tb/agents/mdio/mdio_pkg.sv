@@ -7,9 +7,9 @@ package mdio_pkg;
   import uvm_pkg::*;
 
   `include "mdio_tx.sv"
-  `include "mdio_sequencer.sv"
-  `include "mdio_driver.sv"
-  `include "mdio_monitor.sv"
+  `include "mdio_sequencer_base.sv"
+  `include "mdio_driver_base.sv"
+  `include "mdio_monitor_base.sv"
   `include "mdio_agent.sv"
 endpackage
 

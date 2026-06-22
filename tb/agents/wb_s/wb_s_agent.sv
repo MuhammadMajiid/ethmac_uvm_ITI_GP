@@ -7,9 +7,9 @@ class wb_s_agent extends uvm_agent;
 
   uvm_analysis_port #(wb_tx) a_port;
 
-  wb_s_sequencer m_sequencer;
-  wb_s_driver m_driver;
-  wb_s_monitor m_monitor;
+  wb_s_sequencer_base m_sequencer;
+  wb_s_driver_base m_driver;
+  wb_s_monitor_base m_monitor;
 
   function new(string name, uvm_component parent);
     super.new(name, parent);
@@ -18,10 +18,10 @@ class wb_s_agent extends uvm_agent;
   function void build_phase(uvm_phase phase);
     if (get_is_active() == UVM_ACTIVE)
     begin
-      m_sequencer = wb_s_sequencer::type_id::create("m_sequencer", this);
-      m_driver = wb_s_driver::type_id::create("m_driver", this);
+      m_sequencer = wb_s_sequencer_base::type_id::create("m_sequencer", this);
+      m_driver = wb_s_driver_base::type_id::create("m_driver", this);
     end
-    m_monitor = wb_s_monitor::type_id::create("m_monitor", this);
+    m_monitor = wb_s_monitor_base::type_id::create("m_monitor", this);
     a_port = new("a_port", this);
   endfunction
 
