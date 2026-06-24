@@ -66,7 +66,6 @@ endtask
 
 
 // Task : drive_items
-
 task mdio_driver_base::drive_items();
 endtask
 
