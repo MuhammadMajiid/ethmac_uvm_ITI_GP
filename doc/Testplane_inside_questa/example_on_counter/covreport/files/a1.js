@@ -1,0 +1,2 @@
+var g_data = {"11":{"pr":"/top/TEST","ty":2,"dui":5,"dun":"work.counter_tb","asserts":[{"n":["#ublk#95084642#13/immed__14"],"h":[0,1]}],"ad":0},"13":{"pr":"/top/DUT/sva_inst","ty":2,"dui":7,"dun":"work.counter_sva","asserts":[{"n":["assert_reset"],"h":[0,1]},{"n":["assert_max_count"],"h":[0,1]},{"n":["assert_zero"],"h":[0,1]},{"n":["p_active_load"],"h":[0,1]},{"n":["p_not_change"],"h":[0,1]},{"n":["p_count_up"],"h":[0,1]},{"n":["p_count_down"],"h":[0,1]}],"ad":0}}
+processAssertionsData(g_data);

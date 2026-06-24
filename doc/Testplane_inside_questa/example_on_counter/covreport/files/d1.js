@@ -1,0 +1,2 @@
+var g_data = {"13":{"pr":"/top/DUT/sva_inst","ty":2,"dui":7,"dun":"work.counter_sva","direct":[{"n":["cover_reset"],"h":105},{"n":["cover_max_count"],"h":79},{"n":["cover_zero"],"h":139},{"n":["c_active_load"],"h":231},{"n":["c_not_change"],"h":154},{"n":["c_count_up"],"h":189},{"n":["c_count_down"],"h":207}]}};
+processDirectivesData(g_data);

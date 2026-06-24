@@ -1,0 +1,2 @@
+var g_data = {"data":[{"n":"work.count_pkt","id":3,"zf":1,"tc":100.00,"g":100.00},{"n":"work.counter_sva","id":7,"zf":1,"tc":100.00,"d":100.00,"a":100.00},{"n":"work.counter_tb","id":5,"zf":1,"tc":100.00,"a":100.00}]};
+processDuData(g_data);

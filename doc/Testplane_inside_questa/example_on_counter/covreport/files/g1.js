@@ -1,0 +1,2 @@
+var g_data = {"15":{"pr":"/count_pkt","ty":2,"dui":3,"dun":"work.count_pkt","cvgs":[{"h":["\\/count_pkt::count_class::check_notes ",2,1,22,16],"cov":[50,50,100.00],"opts":{"goal":"100"}},{"h":["/count_pkt/count_class/check_notes",1,1,16],"cov":[50,50,100.00],"opts":{"goal":"100"}}]}};
+processCovergroupsData(g_data);
