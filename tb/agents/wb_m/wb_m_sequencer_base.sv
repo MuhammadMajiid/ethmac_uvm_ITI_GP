@@ -37,7 +37,7 @@ class wb_m_sequencer_base extends uvm_sequencer #(wb_m_seq_item_base);
     //--------------------------------------------------------------------------
     // Connect Phase 
     //--------------------------------------------------------------------------
-    function void connect_phase(...);
+    function void connect_phase(uvm_phase phase);
         super.connect_phase(phase);
         request_export.connect(request_fifo.analysis_export);
     endfunction

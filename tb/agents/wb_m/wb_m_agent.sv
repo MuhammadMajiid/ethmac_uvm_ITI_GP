@@ -38,48 +38,42 @@ class wb_m_agent extends uvm_agent;
     // Build phase
     //--------------------------------------------------------------------------
     function void build_phase(uvm_phase phase);
-        super.build_phase(phase)
+        super.build_phase(phase);
+        
+        // Get config object from database
         if (!uvm_config_db #(wb_m_config_obj)::get(this, "", "config", m_config))
             `uvm_fatal(get_type_name(), "wb_m_config_obj not found in config_db")
 
-        // Propagate same config object to children
-        uvm_config_db #(wb_m_config_obj)::set(this, "m_driver",  "config", m_config);
-        uvm_config_db #(wb_m_config_obj)::set(this, "m_monitor", "config", m_config);
-
-        if (get_is_active() == UVM_ACTIVE) begin
-            m_sequencer = wb_m_sequencer_base   ::type_id::create("m_sequencer", this);
+        // Instantiate driver & monitor if the agent is active
+        if (m_config.is_active == UVM_ACTIVE) begin
+            m_sequencer = wb_m_sequencer_base::type_id::create("m_sequencer", this);
             m_driver    = wb_m_driver_base::type_id::create("m_driver",    this);
         end
 
-        m_monitor      = wb_m_monitor_base::type_id::create("m_monitor", this);
-        a_port         = new("a_port", this);
+        // Instantiate monitor
+        m_monitor      = wb_m_monitor_base::type_id::create("m_monitor", this);     
+        // Instantiate analysis port of agent
+        a_port         = new("a_port", this);                                       
     endfunction
 
     //--------------------------------------------------------------------------
     // Connect Phase 
     //--------------------------------------------------------------------------
     function void connect_phase(uvm_phase phase);
-        if (get_is_active() == UVM_ACTIVE) begin
-            m_driver.seq_item_port.connect(m_sequencer.seq_item_export);
-            m_monitor.request_a_port.connect(m_sequencer.request_export);
+        if (m_config.is_active== UVM_ACTIVE) begin
+            // Connect driver port to sequencer Export
+            m_driver.seq_item_port.connect(m_sequencer.seq_item_export);            
+            // Connect request analysis port in monitor to analysis export in sequencer
+            m_monitor.request_a_port.connect(m_sequencer.request_export);           
+            // Assign driver vif handle to that in config object
+           m_driver.vif= m_config.vif;
         end
-            m_monitor.transaction_a_port.connect(a_port);
+        // Connect transaction analysis port of monitor to analysis port of agent
+        m_monitor.transaction_a_port.connect(a_port);
+        // Assign monitor vif handle to that in config object
+        m_monitor.vif= m_config.vif;
     endfunction
 
-    // -------------------------------------------------------------------------
-    //  function : get_is_active
-    // -------------------------------------------------------------------------
-    // Description:
-    //   Get the configured state of the agent if it's active or passive.
-    //
-    // Arguments: None
-    //
-    // Returns :
-    // uvm_active_passive_enum: Enum holds 2 values UVM_ACTIVE or UVM_PASSIVE
-    // -------------------------------------------------------------------------
-    virtual function uvm_active_passive_enum get_is_active();
-        return uvm_active_passive_enum'(m_config.is_active);
-    endfunction
 
 endclass : wb_m_agent
 

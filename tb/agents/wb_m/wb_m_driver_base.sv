@@ -1,97 +1,119 @@
-
+//==============================================================================
+// Project  : ethmac_uvm_ITI_GP
+// File     : wb_m_driver_base.sv
+// Author   : Wael
+// Date     : 2026-06-24
+//------------------------------------------------------------------------------
+// Description:
+//   Base driver for wishbone master interface. Drives wishbone slave pins based
+//   on wb_m_seq_item sequences via virtual interface.
+//==============================================================================
 `ifndef WB_M_DRIVER_BASE_SV
 `define WB_M_DRIVER_BASE_SV
 
-class wb_m_driver_base extends uvm_driver #(wb_master_tx);
+class wb_m_driver_base extends uvm_driver #(wb_m_seq_item_base);
 
     `uvm_component_utils(wb_m_driver_base)
 
-    //--------------------------------------------------------------------------
-    // Virtual interface and config
-    //--------------------------------------------------------------------------
-    virtual wb_master_if vif;
-    wb_master_config     m_config;
+
+    virtual wb_m_if          vif;           
+    wb_m_seq_item_base       m_item;    
+    int                      m_item_cnt;    // for counting no. of driven transactions
 
     //--------------------------------------------------------------------------
     // Constructor
     //--------------------------------------------------------------------------
-    function new (string name, uvm_component parent);
-        super.new(name, parent);
-    endfunction
+    extern function new (string name, uvm_component parent);
 
-    //--------------------------------------------------------------------------
-    // build_phase — retrieve config object
-    //--------------------------------------------------------------------------
-    function void build_phase(uvm_phase phase);
-        if (!uvm_config_db #(wb_master_config)::get(this, "", "config", m_config))
-            `uvm_fatal(get_type_name(), "wb_master_config not found in config_db")
-        if (m_config.vif == null)
-            `uvm_fatal(get_type_name(), "wb_master_if virtual interface not set")
-        vif = m_config.vif;
-    endfunction
 
-    //--------------------------------------------------------------------------
-    // run_phase — drive transactions using try_next_item (non-blocking pull)
-    //--------------------------------------------------------------------------
-    task run_phase(uvm_phase phase);
-        // Drive bus to idle defaults
-        vif.master_cb.cyc  <= 1'b0;
-        vif.master_cb.stb  <= 1'b0;
-        vif.master_cb.we   <= 1'b0;
-        vif.master_cb.adr  <= '0;
-        vif.master_cb.dat_o <= '0;
-        vif.master_cb.sel  <= '0;
 
-        forever begin
-            wb_master_tx req;
+    // -------------------------------------------------------------------------
+    //  Run Phase
+    // -------------------------------------------------------------------------
+    extern task run_phase(uvm_phase phase);
 
-            // Non-blocking pull — insert idle cycles when no item available
-            seq_item_port.try_next_item(req);
+    // -------------------------------------------------------------------------
+    //  task : reset_items
+    // -------------------------------------------------------------------------
+    // Description:
+    //   At 0 runtime drive all pin level inputs eith 0 to prevent x/z
+    //   propagation.
+    //
+    // Arguments: None
+    //
+    // -------------------------------------------------------------------------
+    extern task reset_items();
 
-            if (req != null) begin
-                drive_transaction(req);
-                seq_item_port.item_done();
-            end else begin
-                // Idle cycle
-                @(vif.master_cb);
-                vif.master_cb.cyc <= 1'b0;
-                vif.master_cb.stb <= 1'b0;
-            end
-        end
-    endtask
+    // -------------------------------------------------------------------------
+    //  task : drive_items
+    // -------------------------------------------------------------------------
+    // Description:
+    //   Get transactions from sequencer and drive pin level inputs with fields
+    //   in transactions. Has to be virtual because the driver may be replaced
+    //   with factory override with child has new implementation.
+    //
+    // Arguments: None
+    //
+    // -------------------------------------------------------------------------
+    extern virtual task drive_items();
 
-    //--------------------------------------------------------------------------
-    // drive_transaction — perform a single Wishbone transfer
-    //--------------------------------------------------------------------------
-    task drive_transaction(wb_master_tx req);
-        // Assert CYC and STB
-        @(vif.master_cb);
-        vif.master_cb.cyc   <= 1'b1;
-        vif.master_cb.stb   <= 1'b1;
-        vif.master_cb.we    <= (req.m_dir == wb_master_tx::WB_WRITE) ? 1'b1 : 1'b0;
-        vif.master_cb.adr   <= req.m_addr;
-        vif.master_cb.dat_o <= (req.m_dir == wb_master_tx::WB_WRITE) ? req.m_data : '0;
-        vif.master_cb.sel   <= req.m_sel;
-
-        // Wait for ACK
-        @(vif.master_cb);
-        while (!vif.master_cb.ack) @(vif.master_cb);
-
-        // Capture read data
-        if (req.m_dir == wb_master_tx::WB_READ)
-            req.m_rdata = vif.master_cb.dat_i;
-
-        // Deassert
-        vif.master_cb.cyc <= 1'b0;
-        vif.master_cb.stb <= 1'b0;
-        vif.master_cb.we  <= 1'b0;
-
-        `uvm_info(get_type_name(),
-                  $sformatf("WB Master: %s addr=0x%08h data=0x%08h rdata=0x%08h",
-                             req.m_dir.name(), req.m_addr, req.m_data, req.m_rdata),
-                  UVM_HIGH)
-    endtask
+    // -------------------------------------------------------------------------
+    //  Report Phase
+    // -------------------------------------------------------------------------
+    extern function void report_phase(uvm_phase phase);
 
 endclass : wb_m_driver_base
+
+
+// =============================================================================
+//  IMPLEMENTATION
+// =============================================================================
+
+// Function : new (Constructor)
+function wb_m_driver_base::new (string name, uvm_component parent);
+    super.new(name, parent);
+endfunction
+
+// Task: run_phase
+task wb_m_driver_base::run_phase(uvm_phase phase);
+    super.run_phase(phase);
+    reset_items();
+    forever begin
+        drive_items();
+    end    
+
+endtask
+
+// Task: reset_items
+task wb_m_driver_base::reset_items();
+    vif.cb.m_ack_i<=0;
+    vif.cb.m_err_i<=0;
+    vif.cb.m_data_i<=0;
+    @(posedge vif.clk_i);
+endtask
+
+// Task: drive_items
+task wb_m_driver_base::drive_items();
+    // Get the next item from the sequencer
+    seq_item_port.get_next_item(m_item);
+    `uvm_info(get_type_name(), $sformatf("time: %0t , Got a request item",$time), UVM_DEBUG)
+    @(posedge vif.clk_i);
+
+    // Drive pin level DUT signals
+    vif.cb.m_ack_i<=m_item.m_ack_i;
+    vif.cb.m_err_i<=m_item.m_err_i;
+    vif.cb.m_data_i<=m_item.m_data_i;
+
+    `uvm_info(get_type_name(), $sformatf("time %0t, Item no. %0d driven successfully",$time,m_item_cnt), UVM_DEBUG)
+    // Increment number of driven transactions
+    m_item_cnt++;    
+    seq_item_port.item_done();
+endtask
+
+// Function: report_phase
+function void wb_m_driver_base::report_phase(uvm_phase phase);
+  super.report_phase(phase);
+  `uvm_info(get_type_name(), $sformatf("Drived %0d active transactions", m_item_cnt), UVM_LOW)
+endfunction : report_phase
 
 `endif // WB_M_DRIVER_BASE_SV
