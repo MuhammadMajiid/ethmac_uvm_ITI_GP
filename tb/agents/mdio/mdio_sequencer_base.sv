@@ -1,3 +1,12 @@
+//==============================================================================
+// Project  : ethmac_uvm_ITI_GP
+// File     : mdio_sequencer_base.sv
+// Author   : Muhammad Majid
+// Date     : 2026-06-26
+//------------------------------------------------------------------------------
+// Description:
+//   Base MDIO sequencer for Ethernet MAC management interface. Generates mdio_tx sequences.
+//==============================================================================
 
 `ifndef MDIO_SEQUENCER_BASE_SV
 `define MDIO_SEQUENCER_BASE_SV
