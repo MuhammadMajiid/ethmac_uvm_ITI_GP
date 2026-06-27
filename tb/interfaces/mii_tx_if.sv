@@ -20,14 +20,14 @@
 `ifndef MII_TX_IF_SV
 `define MII_TX_IF_SV
 
-interface mii_tx_if (
+interface mii_tx_if #(parameter PHY_NIBBLE_WIDTH = 4)(
     input logic MTxCLK,
     input logic rst_n
     );
 
     // MII TX Signals
 
-    logic [3:0] MTxD;
+    logic [PHY_NIBBLE_WIDTH-1:0] MTxD;
     logic MTxEN;
     logic MTxERR;
     logic MColl;
