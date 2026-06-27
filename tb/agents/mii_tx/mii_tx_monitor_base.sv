@@ -1,34 +1,74 @@
+//==============================================================================
+// Project  : ethmac_uvm_ITI_GP
+// File     : mii_tx_monitor_base.sv
+// Author   : Mounir
+// Date     : 2026-06-24
+//------------------------------------------------------------------------------
+// Description:
+// Base UVM monitor for the MII Transmit Agent.
+// Passively observes all signals on mii_tx_if and converts
+// them into mii_tx_seq_item transactions broadcast to the
+// scoreboard and coverage collector via an analysis port.
+//==============================================================================
 
 `ifndef MII_TX_MONITOR_BASE_SV
 `define MII_TX_MONITOR_BASE_SV
 
 class mii_tx_monitor_base extends uvm_monitor;
-  `uvm_component_utils(mii_tx_monitor_base)
 
-  uvm_analysis_port #(mii_tx_tx) a_port;
+    `uvm_component_utils(mii_tx_monitor_base)
 
-  virtual mii_tx_if vif;
+    uvm_analysis_port #(mii_tx_seq_item_base) monitor_tr_a_port;
 
-  function new(string name, uvm_component parent);
-    super.new(name, parent);
-  endfunction
+    virtual mii_tx_if vif;
 
-  function void build_phase(uvm_phase phase);
-    a_port = new("a_port", this);
-  endfunction
+    mii_tx_seq_item_base m_seq_item;
+    
+    function new(string name = "mii_tx_monitor_base", uvm_component parent = null);
+        super.new(name, parent);
+    endfunction
 
-  task run_phase(uvm_phase phase);
-    forever
-    begin
-      mii_tx_tx tx;
-      tx = mii_tx_tx::type_id::create("tx");
+    function void build_phase(uvm_phase phase);
+        super.build_phase(phase);
+        monitor_tr_a_port = new("monitor_tr_a_port", this);
+    endfunction
 
-      // TODO: Observe DUT interface and populate tx
+    task run_phase(uvm_phase phase);
+        super.run_phase(phase);
+        mon_reset();
+        forever begin
+            m_seq_item = mii_tx_seq_item_base::type_id::create("m_seq_item");
+            mon_items(m_seq_item);    
+        end
+    endtask
 
-      a_port.write(tx);
-    end
-  endtask
+    // Task: mon_reset
+    task mon_reset();
+        // Reset deassertion 
+        @(negedge vif.rst_n);
+        `uvm_info(get_type_name(),"Begin monitoring after reset deassertion", UVM_LOW)
+    endtask 
 
-endclass
+    // Task: mon_items
+    task mon_items(mii_tx_seq_item_base m_seq_item);
+        // Wait until clocking block triggers at positive edge
+        @(vif.cb_mii_tx);
 
-`endif // MII_TX_MONITOR_BASE_SV
+        // DUT input signals -> output from testbench
+        m_seq_item.MColl  = vif.cb_mii_tx.MColl;
+        m_seq_item.MCrS   = vif.cb_mii_tx.MCrS;
+
+        // DUT output signals -> input to testbench
+        m_seq_item.MTxD   = vif.cb_mii_tx.MTxD;
+        m_seq_item.MTxEN  = vif.cb_mii_tx.MTxEN;
+        m_seq_item.MTxERR = vif.cb_mii_tx.MTxERR;
+
+        // Send transaction to agent analysis port
+        monitor_tr_a_port.write(m_seq_item);
+
+        `uvm_info("run phase", m_seq_item.convert2string(), UVM_MEDIUM);
+    endtask
+
+endclass : mii_tx_monitor_base
+
+`endif
