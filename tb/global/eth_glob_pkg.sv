@@ -22,6 +22,7 @@ package eth_glob_pkg;
     parameter WB_S_ADDR_WIDTH     = 10;
     parameter WB_M_ADDR_WIDTH     = 32; 
     parameter WB_SEL_WIDTH        = 4;
+    parameter PHY_NIBBLE_WIDTH    = 4;
 
 endpackage : eth_glob_pkg
 
