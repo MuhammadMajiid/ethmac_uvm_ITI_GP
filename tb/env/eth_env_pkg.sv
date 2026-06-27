@@ -6,11 +6,8 @@ package eth_env_pkg;
   `include "uvm_macros.svh"
   import uvm_pkg::*;
 
-  import mii_rx_pkg::*;
-  import mii_tx_pkg::*;
-  import mdio_pkg::*;
-
-  `include "eth_config.sv"
+  import eth_glob_pkg::*;
+  import wb_m_agent_pkg::*;
   `include "eth_env.sv"
 endpackage
 

@@ -5,10 +5,11 @@
 package eth_test_pkg;
   `include "uvm_macros.svh"
   import uvm_pkg::*;
-
-  import mii_rx_pkg::*;
-  import mii_tx_pkg::*;
-  import mdio_pkg::*;
+  
+  import eth_glob_pkg::*;
+  import wb_m_config_obj_pkg::*;
+  import wb_m_sequence_pkg::*;
+  import wb_m_agent_pkg::*;
   import eth_env_pkg::*;
 
   `include "eth_test.sv"

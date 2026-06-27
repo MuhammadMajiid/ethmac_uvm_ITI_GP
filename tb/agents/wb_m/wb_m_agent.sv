@@ -27,16 +27,11 @@ class wb_m_agent extends uvm_agent;
 
     wb_m_config_obj         m_config;               // Configuration object
 
-    //--------------------------------------------------------------------------
-    // Constructor
-    //--------------------------------------------------------------------------
     function new (string name, uvm_component parent);
         super.new(name, parent);
     endfunction
 
-    //--------------------------------------------------------------------------
-    // Build phase
-    //--------------------------------------------------------------------------
+
     function void build_phase(uvm_phase phase);
         super.build_phase(phase);
         
@@ -56,9 +51,7 @@ class wb_m_agent extends uvm_agent;
         a_port         = new("a_port", this);                                       
     endfunction
 
-    //--------------------------------------------------------------------------
-    // Connect Phase 
-    //--------------------------------------------------------------------------
+
     function void connect_phase(uvm_phase phase);
         if (m_config.is_active== UVM_ACTIVE) begin
             // Connect driver port to sequencer Export
@@ -66,7 +59,7 @@ class wb_m_agent extends uvm_agent;
             // Connect request analysis port in monitor to analysis export in sequencer
             m_monitor.request_a_port.connect(m_sequencer.request_export);           
             // Assign driver vif handle to that in config object
-           m_driver.vif= m_config.vif;
+            m_driver.vif= m_config.vif;
         end
         // Connect transaction analysis port of monitor to analysis port of agent
         m_monitor.transaction_a_port.connect(a_port);
