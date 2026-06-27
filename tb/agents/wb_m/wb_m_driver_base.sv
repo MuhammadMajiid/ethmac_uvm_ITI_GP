@@ -20,18 +20,9 @@ class wb_m_driver_base extends uvm_driver #(wb_m_seq_item_base);
     wb_m_seq_item_base       m_item;    
     int                      m_item_cnt;    // for counting no. of driven transactions
 
-    //--------------------------------------------------------------------------
-    // Constructor
-    //--------------------------------------------------------------------------
+
     extern function new (string name, uvm_component parent);
-
-
-
-    // -------------------------------------------------------------------------
-    //  Run Phase
-    // -------------------------------------------------------------------------
     extern task run_phase(uvm_phase phase);
-
     // -------------------------------------------------------------------------
     //  task : reset_items
     // -------------------------------------------------------------------------
@@ -43,7 +34,6 @@ class wb_m_driver_base extends uvm_driver #(wb_m_seq_item_base);
     //
     // -------------------------------------------------------------------------
     extern task reset_items();
-
     // -------------------------------------------------------------------------
     //  task : drive_items
     // -------------------------------------------------------------------------
@@ -56,7 +46,6 @@ class wb_m_driver_base extends uvm_driver #(wb_m_seq_item_base);
     //
     // -------------------------------------------------------------------------
     extern virtual task drive_items();
-
     // -------------------------------------------------------------------------
     //  Report Phase
     // -------------------------------------------------------------------------
@@ -79,7 +68,16 @@ task wb_m_driver_base::run_phase(uvm_phase phase);
     super.run_phase(phase);
     reset_items();
     forever begin
+        // Get the next item from the sequencer
+        seq_item_port.get_next_item(m_item);
+        `uvm_info(get_type_name(), $sformatf("time: %0t , Got a request item",$time), UVM_DEBUG)
+
         drive_items();
+
+        `uvm_info(get_type_name(), $sformatf("time %0t, Item no. %0d driven successfully",$time,m_item_cnt), UVM_DEBUG)
+        // Increment number of driven transactions
+        m_item_cnt++;    
+        seq_item_port.item_done();
     end    
 
 endtask
@@ -94,9 +92,8 @@ endtask
 
 // Task: drive_items
 task wb_m_driver_base::drive_items();
-    // Get the next item from the sequencer
-    seq_item_port.get_next_item(m_item);
-    `uvm_info(get_type_name(), $sformatf("time: %0t , Got a request item",$time), UVM_DEBUG)
+
+
     @(posedge vif.clk_i);
 
     // Drive pin level DUT signals
@@ -104,10 +101,8 @@ task wb_m_driver_base::drive_items();
     vif.cb.m_err_i<=m_item.m_err_i;
     vif.cb.m_data_i<=m_item.m_data_i;
 
-    `uvm_info(get_type_name(), $sformatf("time %0t, Item no. %0d driven successfully",$time,m_item_cnt), UVM_DEBUG)
-    // Increment number of driven transactions
-    m_item_cnt++;    
-    seq_item_port.item_done();
+    `uvm_info(get_type_name(),m_item.convert2string(), UVM_DEBUG)
+
 endtask
 
 // Function: report_phase

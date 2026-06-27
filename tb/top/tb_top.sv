@@ -3,12 +3,7 @@
 `define TB_TOP_SV
 
 `include "uvm_macros.svh"
-
 import uvm_pkg::*;
-import mii_rx_pkg::*;
-import mii_tx_pkg::*;
-import mdio_pkg::*;
-import eth_env_pkg::*;
 import eth_test_pkg::*;
 
 module tb_top;
@@ -16,66 +11,48 @@ module tb_top;
   // -------------------------------------------------------------------------
   // Clock and reset generation (always in the module, never in UVM classes)
   // -------------------------------------------------------------------------
-  logic clk;
-  logic rst_n;
+  logic clk_i;
+  logic rst_i;
 
-  initial clk = 0;
-  always #5 clk = ~clk; // 100 MHz
+  initial clk_i = 0;
+  always #5 clk_i = ~clk_i; // 100 MHz
 
   initial
   begin
-    rst_n = 0;
-    repeat (10) @(posedge clk);
-    rst_n = 1;
+    rst_i = 1;
+    repeat (10) @(negedge clk_i);
+    rst_i = 0;
   end
 
   // -------------------------------------------------------------------------
   // Interface instances
   // -------------------------------------------------------------------------
-  mii_rx_if mii_rx_if_inst (.clk(clk), .rst_n(rst_n));
-  mii_tx_if mii_tx_if_inst (.clk(clk), .rst_n(rst_n));
-  mdio_if   mdio_if_inst   (.clk(clk), .rst_n(rst_n));
-
-  // Wishbone interfaces (used by Wishbone Master/Slave agents - not implemented here)
-  // wb_slave_if  wb_slave_if_inst  (...);
-  // wb_master_if wb_master_if_inst (...);
+  wb_m_if m_wb_m_if(.clk_i(clk_i), .rst_i(rst_i));
+  initial begin
+    m_wb_m_if.m_addr_o=$random;
+    m_wb_m_if.m_data_o=$random;
+    m_wb_m_if.m_sel_o=1;
+    m_wb_m_if.m_we_o=0;
+    m_wb_m_if.m_stb_o=1;
+    m_wb_m_if.m_cyc_o=1;
+  end
 
   // -------------------------------------------------------------------------
   // DUT instantiation
   // -------------------------------------------------------------------------
-  // eth_top dut (
-  //   .clk      (clk),
-  //   .rst_n    (rst_n),
-  //   .mii_rxd  (mii_rx_if_inst.rxd),
-  //   .mii_rx_dv(mii_rx_if_inst.rx_dv),
-  //   .mii_txd  (mii_tx_if_inst.txd),
-  //   .mii_tx_en(mii_tx_if_inst.tx_en),
-  //   .mdio     (mdio_if_inst.mdio),
-  //   .mdc      (mdio_if_inst.mdc)
-  // );
+
 
   // -------------------------------------------------------------------------
   // UVM configuration and test launch
   // -------------------------------------------------------------------------
   initial
   begin
-    automatic eth_config cfg = new("cfg");
 
-    // Bind virtual interfaces into the config object
-    cfg.mii_rx_vif = mii_rx_if_inst;
-    cfg.mii_tx_vif = mii_tx_if_inst;
-    cfg.mdio_vif   = mdio_if_inst;
-
-    // All agents active by default; override here if passive monitoring needed
-    cfg.mii_rx_is_active = UVM_ACTIVE;
-    cfg.mii_tx_is_active = UVM_ACTIVE;
-    cfg.mdio_is_active   = UVM_ACTIVE;
-
-    // Place config in database for the test to retrieve
-    uvm_config_db #(eth_config)::set(null, "uvm_test_top", "config", cfg);
+    // Place interface in database for the test to retrieve
+    uvm_config_db #(virtual wb_m_if)::set(null, "uvm_test_top", "wb_m_vif", m_wb_m_if);
 
     // Select test via +UVM_TESTNAME command-line argument
-    run_test();
+    run_test("eth_test");
   end
 
 endmodule

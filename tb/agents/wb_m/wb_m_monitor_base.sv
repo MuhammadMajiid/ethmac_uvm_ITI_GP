@@ -23,23 +23,11 @@ class wb_m_monitor_base extends uvm_monitor;
     int m_item_cnt;                                                 // for counting no. of monitored transactions
 
     virtual wb_m_if     vif;
-
     
-    //--------------------------------------------------------------------------
-    // Constructor
-    //--------------------------------------------------------------------------
+
     extern function new(string name, uvm_component parent);    
-
-    // -------------------------------------------------------------------------
-    //  Build Phase
-    // -------------------------------------------------------------------------
     extern function void build_phase(uvm_phase phase);
-
-    // -------------------------------------------------------------------------
-    //  Run Phase
-    // -------------------------------------------------------------------------
     extern task run_phase(uvm_phase phase);
-
     // -------------------------------------------------------------------------
     //  task : mon_reset
     // -------------------------------------------------------------------------
@@ -50,7 +38,6 @@ class wb_m_monitor_base extends uvm_monitor;
     //
     // -------------------------------------------------------------------------
     extern task mon_reset();
-
     // -------------------------------------------------------------------------
     //  task : mon_items
     // -------------------------------------------------------------------------
@@ -62,14 +49,9 @@ class wb_m_monitor_base extends uvm_monitor;
     //
     // -------------------------------------------------------------------------
     extern task mon_items(wb_m_seq_item_base m_item);
-
-    // -------------------------------------------------------------------------
-    //  Report Phase
-    // -------------------------------------------------------------------------
     extern function void report_phase(uvm_phase phase);
 
 endclass : wb_m_monitor_base
-
 
 // =============================================================================
 //  IMPLEMENTATION
@@ -95,6 +77,16 @@ task wb_m_monitor_base::run_phase(uvm_phase phase);
         wb_m_seq_item_base m_item;
         m_item = wb_m_seq_item_base::type_id::create("m_item");
         mon_items(m_item);
+
+        // Send transaction to sequencer
+        request_a_port.write(m_item);
+        
+        // Send transaction to agent analysis port
+        transaction_a_port.write(m_item);
+
+        `uvm_info(get_type_name(), $sformatf("time %0t, Item no. %0d monitored successfully",$time,m_item_cnt), UVM_DEBUG)
+        // Increment number of monitored transactions
+        m_item_cnt++;
     end    
 endtask
 
@@ -122,17 +114,10 @@ task wb_m_monitor_base::mon_items(wb_m_seq_item_base m_item);
     m_item.m_sel_o=vif.cb.m_sel_o;
     m_item.m_stb_o=vif.cb.m_stb_o;
     m_item.m_data_o=vif.cb.m_data_o;
-    m_item.m_dir=vif.cb.m_we_o;
+    m_item.m_dir=wb_dir_t'(vif.cb.m_we_o);
 
-    // Send transaction to sequencer
-    request_a_port.write(m_item);
-    
-    // Send transaction to agent analysis port
-    transaction_a_port.write(m_item);
+    `uvm_info(get_type_name(),m_item.convert2string(), UVM_DEBUG)
 
-    `uvm_info(get_type_name(), $sformatf("time %0t, Item no. %0d monitored successfully",$time,m_item_cnt), UVM_DEBUG)
-    // Increment number of monitored transactions
-    m_item_cnt++;
 endtask
 
 // report_phase

@@ -18,27 +18,20 @@ class wb_m_sequencer_base extends uvm_sequencer #(wb_m_seq_item_base);
     uvm_analysis_export     #(wb_m_seq_item_base) request_export;   // Export connected to monitor request port
     uvm_tlm_analysis_fifo   #(wb_m_seq_item_base) request_fifo;     // FIFO storing upcoming requests from monitor
 
-    //--------------------------------------------------------------------------
-    // Constructor
-    //--------------------------------------------------------------------------
+
     function new (string name, uvm_component parent);
         super.new(name, parent);
     endfunction
 
-    //--------------------------------------------------------------------------
-    // Build phase
-    //--------------------------------------------------------------------------
     function void build_phase(uvm_phase phase);
-        super.build(phase);
+        super.build_phase(phase);
         request_fifo   = new("request_fifo", this);
         request_export = new("request_export", this);
     endfunction    
 
-    //--------------------------------------------------------------------------
-    // Connect Phase 
-    //--------------------------------------------------------------------------
     function void connect_phase(uvm_phase phase);
         super.connect_phase(phase);
+        // connect yhe export of the sequencer to the built in export in the tlm fifo
         request_export.connect(request_fifo.analysis_export);
     endfunction
 
