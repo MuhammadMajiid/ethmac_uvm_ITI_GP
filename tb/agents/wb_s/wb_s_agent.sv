@@ -19,16 +19,17 @@ class wb_s_agent extends uvm_agent;
 
   uvm_analysis_port #(wb_s_seq_item_base) a_port;
 
-  wb_s_config_obj             m_config;
+  wb_s_config_obj       m_config;
   wb_s_sequencer_base   m_sequencer;
-  wb_s_driver_base       m_driver;
-  wb_s_monitor_base      m_monitor;
+  wb_s_driver_base      m_driver;
+  wb_s_monitor_base     m_monitor;
 
   function new(string name, uvm_component parent);
     super.new(name, parent);
   endfunction
 
   function void build_phase(uvm_phase phase);
+    super.build_phase(phase);
     if (!uvm_config_db #(wb_s_config_obj    )::get(this, "", "config", m_config))
       `uvm_fatal(get_type_name(), "wb_s_config_obj     not found in config_db")
 

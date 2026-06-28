@@ -54,18 +54,17 @@ class wb_s_driver_base extends uvm_driver #(wb_s_seq_item_base);
   //--------------------------------------------------------------------------
   task run_phase(uvm_phase phase);
 
-    wb_s_seq_item_base req;
-
-    wait(!vif.rst);
+    super.run_phase(phase);
+     reset_item();
 
     forever begin
-
+      
       seq_item_port.get_next_item(req);
+     
 
      `uvm_info(get_type_name(),
           $sformatf("Driving transaction:%s",
-                    req.convert2string()),
-          UVM_MEDIUM)
+                    req.convert2string()),UVM_MEDIUM)
 
       drive_transfer(req);
 
@@ -75,69 +74,84 @@ class wb_s_driver_base extends uvm_driver #(wb_s_seq_item_base);
 
   endtask
 
+ task reset_item();
+  vif.cb.addr  <=0 ;
+  vif.cb.wdata <=0;
+  vif.cb.we    <=0;
+  vif.cb.sel   <=0;
+  vif.cb.cyc   <=0;
+  vif.cb.stb   <=0;
+ @(posedge vif.clk);
+ endtask
+
   //--------------------------------------------------------------------------
   // Drive One Wishbone Transfer
   //--------------------------------------------------------------------------
-  task drive_transfer(wb_s_seq_item_base req);
-
+ task drive_transfer(wb_s_seq_item_base req);
     int timeout;
+ @(posedge vif.clk);
 
-  
+  //--------------------------------------------------------------------------
+  // Drive request
+  //--------------------------------------------------------------------------
+  vif.cb.addr  <= req.m_addr;
+  vif.cb.wdata <= req.m_wdata;
+  vif.cb.we    <= req.m_we;
+  vif.cb.sel   <= req.m_sel;
 
-    // Drive request
-    vif.addr  <= req.m_addr;
-    vif.wdata <= req.m_wdata;
-    vif.we    <= req.m_we;
-    vif.sel   <= req.m_sel;
+  vif.cb.cyc   <= 1'b1;
+  vif.cb.stb   <= 1'b1;
 
-    vif.cyc   <= 1'b1;
-    vif.stb   <= 1'b1;
-
-
-    @(posedge vif.clk);
-     // Return interface to idle
-    vif.cyc <= 1'b0;
-    vif.stb <= 1'b0;
-    vif.we  <= 1'b0;
-   // Wait for ACK or ERR
-    timeout = 1000;
-
-    while (!(vif.ack || vif.err) && (timeout > 0))
-    begin
-      @(posedge vif.clk);
-      timeout--;
-    end
-
-    if (timeout == 0)
-    begin
-      `uvm_error(get_type_name(),
-                 "Wishbone transaction timeout")
-
-      req.m_ack   = 1'b0;
-      req.m_err   = 1'b1;
-      req.m_inta  = 1'b0;
-      req.m_rdata = '0;
-    end
-    else
-    begin
-      req.m_ack  = vif.ack;
-      req.m_err  = vif.err;
-      req.m_inta = vif.inta;
-
-
-      if (!req.m_we)
-        req.m_rdata = vif.rdata;
-    end
-`uvm_info(get_type_name(),
-$sformatf("ACK=%0b DATA=%08h ADDR=%08h",
-vif.ack,
-vif.rdata,
-req.m_addr),
-UVM_LOW)
-
+  // Keep request asserted for one cycle
   @(posedge vif.clk);
 
-  endtask
+  //--------------------------------------------------------------------------
+  // Return bus to idle
+  //--------------------------------------------------------------------------
+  vif.cb.cyc <= 1'b0;
+  vif.cb.stb <= 1'b0;
+  vif.cb.we  <=1'b0; 
+
+  //--------------------------------------------------------------------------
+  // Wait for ACK/ERR
+  //--------------------------------------------------------------------------
+
+   timeout = 1000;
+ @(posedge vif.clk);
+  while (!(vif.cb.ack || vif.cb.err) && (timeout > 0)) begin
+    @(posedge vif.cb);
+    timeout--;
+  end
+
+  if (timeout == 0) begin
+    `uvm_error(get_type_name(), "Wishbone transaction timeout")
+
+    req.m_ack   = 0;
+    req.m_err   = 1;
+    req.m_inta  = 0;
+    req.m_rdata = '0;
+  end
+  else begin
+    req.m_ack  = vif.cb.ack;
+    req.m_err  = vif.cb.err;
+    req.m_inta = vif.cb.inta;
+
+    if (!req.m_we)
+    begin
+      req.m_rdata = vif.cb.rdata;
+      
+  `uvm_info(get_type_name(),
+            $sformatf("ACK=%0b DATA=%08h ADDR=%08h",
+                      vif.cb.ack,
+                      vif.cb.rdata,
+                      req.m_addr),
+            UVM_LOW)
+    end
+  end
+
+ @(posedge vif.clk);
+
+endtask
 
 endclass
 
