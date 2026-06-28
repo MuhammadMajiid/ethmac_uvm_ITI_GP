@@ -12,7 +12,7 @@
 //==============================================================================
 `ifndef WB_S_SEQ_BASE_SV
 `define WB_S_SEQ_BASE_SV
-class wb_s_seq_base extends uvm_sequence #(wb_s_seq_item_base); 
+class wb_s_seq_base extends uvm_sequence #(wb_s_seq_item_base#(WB_S_ADDR_WIDTH, WB_DATA_WIDTH,WB_SEL_WIDTH)); 
                                               
   `uvm_object_utils(wb_s_seq_base)
 
@@ -30,11 +30,16 @@ class wb_s_seq_base extends uvm_sequence #(wb_s_seq_item_base);
     input bit [31:0] addr,
     input bit [31:0] data
   );
-    req = wb_s_seq_item_base::type_id::create("req");
+    req = wb_s_seq_item_base#(
+        WB_S_ADDR_WIDTH,
+        WB_DATA_WIDTH,
+        WB_SEL_WIDTH
+      )::type_id::create("req");
+
     start_item(req);
     req.m_addr  = addr;
     req.m_wdata = data;
-    req.m_we    = 1'b1;
+    req.m_dir    = WB_WRITE;
     req.m_sel   = 4'hF;
     finish_item(req);
     if (!req.m_ack)
@@ -49,11 +54,16 @@ class wb_s_seq_base extends uvm_sequence #(wb_s_seq_item_base);
     input  bit [31:0] addr,
     output bit [31:0] data
   );
-    req = wb_s_seq_item_base::type_id::create("req");
+   req = wb_s_seq_item_base#(
+        WB_S_ADDR_WIDTH,
+        WB_DATA_WIDTH,
+        WB_SEL_WIDTH
+      )::type_id::create("req");
+
     start_item(req);
     req.m_addr  = addr;
     req.m_wdata = '0;
-    req.m_we    = 1'b0;
+    req.m_dir   = WB_READ;
     req.m_sel   = 4'hF;
     finish_item(req);
     if (!req.m_ack)

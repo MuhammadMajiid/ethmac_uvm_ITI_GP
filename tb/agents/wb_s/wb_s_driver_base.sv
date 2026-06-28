@@ -16,7 +16,7 @@
 `ifndef WB_S_DRIVER_BASE_SV
 `define WB_S_DRIVER_BASE_SV
 
-class wb_s_driver_base extends uvm_driver #(wb_s_seq_item_base);
+class wb_s_driver_base extends uvm_driver #(wb_s_seq_item_base#(WB_S_ADDR_WIDTH, WB_DATA_WIDTH,WB_SEL_WIDTH));
 
   `uvm_component_utils(wb_s_driver_base)
 
@@ -75,84 +75,74 @@ class wb_s_driver_base extends uvm_driver #(wb_s_seq_item_base);
   endtask
 
  task reset_item();
-  vif.cb.addr  <=0 ;
-  vif.cb.wdata <=0;
-  vif.cb.we    <=0;
-  vif.cb.sel   <=0;
-  vif.cb.cyc   <=0;
-  vif.cb.stb   <=0;
- @(posedge vif.clk);
+  vif.cb.addr_i  <= '0;
+  vif.cb.wdata_i <= '0;
+  vif.cb.we_i    <= 1'b0;
+  vif.cb.sel_i   <= '0;
+  vif.cb.cyc_i   <= 1'b0;
+  vif.cb.stb_i   <= 1'b0;
+  @(vif.cb);
  endtask
 
   //--------------------------------------------------------------------------
   // Drive One Wishbone Transfer
   //--------------------------------------------------------------------------
  task drive_transfer(wb_s_seq_item_base req);
-    int timeout;
- @(posedge vif.clk);
 
-  //--------------------------------------------------------------------------
+  //----------------------------------------------------------------------
   // Drive request
-  //--------------------------------------------------------------------------
-  vif.cb.addr  <= req.m_addr;
-  vif.cb.wdata <= req.m_wdata;
-  vif.cb.we    <= req.m_we;
-  vif.cb.sel   <= req.m_sel;
+  //----------------------------------------------------------------------
+  @(vif.cb);
 
-  vif.cb.cyc   <= 1'b1;
-  vif.cb.stb   <= 1'b1;
+  vif.cb.addr_i  <= req.m_addr;
+  vif.cb.wdata_i <= req.m_wdata;
+  vif.cb.we_i    <= req.m_dir;
+  vif.cb.sel_i   <= req.m_sel;
 
+  vif.cb.cyc_i   <= 1'b1;
+  vif.cb.stb_i   <= 1'b1;
+
+  //----------------------------------------------------------------------
   // Keep request asserted for one cycle
-  @(posedge vif.clk);
+  //----------------------------------------------------------------------
+  @(vif.cb);
 
-  //--------------------------------------------------------------------------
+  //----------------------------------------------------------------------
   // Return bus to idle
-  //--------------------------------------------------------------------------
-  vif.cb.cyc <= 1'b0;
-  vif.cb.stb <= 1'b0;
-  vif.cb.we  <=1'b0; 
+  //----------------------------------------------------------------------
+  vif.cb.cyc_i <= 1'b0;
+  vif.cb.stb_i <= 1'b0;
+  vif.cb.we_i  <= 1'b0;
 
-  //--------------------------------------------------------------------------
+  //----------------------------------------------------------------------
   // Wait for ACK/ERR
-  //--------------------------------------------------------------------------
+  //----------------------------------------------------------------------
+  @(vif.cb);
 
-   timeout = 1000;
- @(posedge vif.clk);
-  while (!(vif.cb.ack || vif.cb.err) && (timeout > 0)) begin
-    @(posedge vif.cb);
-    timeout--;
+  while (!(vif.cb.ack_o || vif.cb.err_o))
+    @(vif.cb);
+
+  //----------------------------------------------------------------------
+  // Capture response
+  //----------------------------------------------------------------------
+  req.m_ack  = vif.cb.ack_o;
+  req.m_err  = vif.cb.err_o;
+  req.m_inta = vif.cb.inta_o;
+
+  if (req.m_dir==WB_READ) begin
+    req.m_rdata = vif.cb.rdata_o;
+
+    `uvm_info(get_type_name(),
+      $sformatf("ACK=%0b DATA=%08h ADDR=%08h",
+                vif.cb.ack_o,
+                vif.cb.rdata_o,
+                req.m_addr),
+      UVM_LOW)
   end
 
-  if (timeout == 0) begin
-    `uvm_error(get_type_name(), "Wishbone transaction timeout")
+  @(vif.cb);
 
-    req.m_ack   = 0;
-    req.m_err   = 1;
-    req.m_inta  = 0;
-    req.m_rdata = '0;
-  end
-  else begin
-    req.m_ack  = vif.cb.ack;
-    req.m_err  = vif.cb.err;
-    req.m_inta = vif.cb.inta;
-
-    if (!req.m_we)
-    begin
-      req.m_rdata = vif.cb.rdata;
-      
-  `uvm_info(get_type_name(),
-            $sformatf("ACK=%0b DATA=%08h ADDR=%08h",
-                      vif.cb.ack,
-                      vif.cb.rdata,
-                      req.m_addr),
-            UVM_LOW)
-    end
-  end
-
- @(posedge vif.clk);
-
-endtask
-
+ endtask
 endclass
 
 `endif // WB_S_DRIVER_BASE_SV

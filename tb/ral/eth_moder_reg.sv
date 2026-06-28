@@ -47,7 +47,6 @@ class eth_moder_reg extends uvm_reg;
     rand uvm_reg_field HUGEN;
     rand uvm_reg_field CRCEN;
     rand uvm_reg_field DLYCRCEN;
-    rand uvm_reg_field RSVD11;
     rand uvm_reg_field FULLD;
     rand uvm_reg_field EXDFREN;
     rand uvm_reg_field NOBCKOF;
@@ -92,7 +91,6 @@ class eth_moder_reg extends uvm_reg;
         NOPRE    = uvm_reg_field::type_id::create("NOPRE");
         TXEN     = uvm_reg_field::type_id::create("TXEN");
         RXEN     = uvm_reg_field::type_id::create("RXEN");
-        RSVD11   = uvm_reg_field::type_id::create("RSVD11");
 
         //              parent  sz  lsb  access   vol  reset  has_rst rand  indv
         RECSMALL.configure(this, 1, 16, "RW",     0,  1'b0,   1,      1,    0);
@@ -100,7 +98,7 @@ class eth_moder_reg extends uvm_reg;
         HUGEN   .configure(this, 1, 14, "RW",     0,  1'b0,   1,      1,    0);
         CRCEN   .configure(this, 1, 13, "RW",     0,  1'b1,   1,      1,    0); // reset=1
         DLYCRCEN.configure(this, 1, 12, "RW",     0,  1'b0,   1,      1,    0);
-        RSVD11  .configure(this, 1, 11, "RW",     0,  1'b0,   1,      0,    0);
+        // bit 11 reserved 
         FULLD   .configure(this, 1, 10, "RW",     0,  1'b0,   1,      1,    0);
         EXDFREN .configure(this, 1,  9, "RW",     0,  1'b0,   1,      1,    0);
         NOBCKOF .configure(this, 1,  8, "RW",     0,  1'b0,   1,      1,    0); 

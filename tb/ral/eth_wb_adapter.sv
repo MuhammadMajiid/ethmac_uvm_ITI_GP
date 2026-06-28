@@ -44,11 +44,15 @@ class eth_wb_adapter extends uvm_reg_adapter;
   //----------------------------------------------------------------------
   virtual function uvm_sequence_item reg2bus(const ref uvm_reg_bus_op rw);
     wb_s_seq_item_base tr;
-    tr = wb_s_seq_item_base::type_id::create("tr");
+    tr = wb_s_seq_item_base#(
+        WB_S_ADDR_WIDTH,
+        WB_DATA_WIDTH,
+        WB_SEL_WIDTH
+      )::type_id::create("tr");
 
     tr.m_addr  = rw.addr;
     tr.m_wdata = rw.data;
-    tr.m_we    = (rw.kind == UVM_WRITE) ? 1'b1 : 1'b0;
+    tr.m_dir   = (rw.kind == UVM_WRITE) ? WB_WRITE : WB_READ;
     tr.m_sel   = 4'hF;
 
     return tr;
