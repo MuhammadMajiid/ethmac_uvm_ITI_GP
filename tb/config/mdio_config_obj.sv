@@ -1,6 +1,6 @@
 //==============================================================================
 // Project  : ethmac_uvm_ITI_GP
-// File     : mdio_agent_config.sv
+// File     : mdio_config_obj.sv
 // Author   : Muhammad Majid
 // Date     : 2026-06-26
 //------------------------------------------------------------------------------
@@ -8,19 +8,19 @@
 //   Configuration object for the MDIO agent. Holds active status and interface.
 //==============================================================================
 
-`ifndef MDIO_AGENT_CONFIG_SV
-`define MDIO_AGENT_CONFIG_SV
+`ifndef MDIO_CONFIG_OBJ_SV
+`define MDIO_CONFIG_OBJ_SV
 
-class mdio_agent_config extends uvm_object;
-  `uvm_object_utils(mdio_agent_config)
+class mdio_config_obj extends uvm_object;
+  `uvm_object_utils(mdio_config_obj)
 
   uvm_active_passive_enum is_active = UVM_ACTIVE;
   virtual mdio_if vif;
 
-  function new(string name = "mdio_agent_config");
+  function new(string name = "mdio_config_obj");
     super.new(name);
   endfunction
 
 endclass
 
-`endif // MDIO_AGENT_CONFIG_SV
+`endif // MDIO_CONFIG_OBJ_SV

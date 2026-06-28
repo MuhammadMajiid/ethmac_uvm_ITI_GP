@@ -6,21 +6,27 @@
 //------------------------------------------------------------------------------
 // Description:
 //   Base MDIO driver for Ethernet MAC management interface. Drives MDIO/MDC
-//   pins based on mdio_tx sequences via virtual interface.
+//   pins based on mdio_seq_item_base sequences via virtual interface.
 //==============================================================================
 
 `ifndef MDIO_DRIVER_BASE_SV
 `define MDIO_DRIVER_BASE_SV
 
-class mdio_driver_base extends uvm_driver #(mdio_tx);
+class mdio_driver_base extends uvm_driver #(mdio_seq_item_base);
   `uvm_component_utils(mdio_driver_base)
 
   virtual mdio_if vif;
+  mdio_config_obj   m_config;
 
   // -------------------------------------------------------------------------
   //  Constructor
   // -------------------------------------------------------------------------
   extern function new(string name, uvm_component parent);
+
+  // -------------------------------------------------------------------------
+  //  Build Phase
+  // -------------------------------------------------------------------------
+  extern function void build_phase(uvm_phase phase);
 
   // -------------------------------------------------------------------------
   //  Run Phase
@@ -31,7 +37,7 @@ class mdio_driver_base extends uvm_driver #(mdio_tx);
   //  Task : drive_items
   // -------------------------------------------------------------------------
   // Description:
-  //   Drive pin level interface with stimulus from mdio_tx.
+  //   Drive pin level interface with stimulus from mdio_seq_item_base.
   //
   // Arguments: None
   //
@@ -48,6 +54,20 @@ endclass
 // Function : new (Constructor)
 function mdio_driver_base::new(string name, uvm_component parent);
   super.new(name, parent);
+endfunction
+
+// Build Phase
+function void mdio_driver_base::build_phase(uvm_phase phase);
+  super.build_phase(phase);
+
+  if (!uvm_config_db #(mdio_config_obj)::get(this, "", "config", m_config))
+    `uvm_fatal(get_type_name(), "mdio_config_obj not found in config_db")
+
+  vif = m_config.vif;
+
+  if (vif == null)
+    `uvm_fatal(get_type_name(),
+                "mdio driver virtual interface not set")
 endfunction
 
 

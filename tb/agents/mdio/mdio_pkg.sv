@@ -16,7 +16,7 @@ package mdio_pkg;
   import uvm_pkg::*;
 
   // The transaction item must be compiled first because everything else uses it.
-  `include "../../seq_items/mdio/mdio_tx.sv"
+  `include "../../seq_items/mdio/mdio_seq_item_base.sv"
 
   // The components that use the transaction item
   `include "mdio_sequencer_base.sv"

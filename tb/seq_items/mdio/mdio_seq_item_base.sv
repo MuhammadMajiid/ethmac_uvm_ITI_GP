@@ -8,15 +8,15 @@
 //   Transaction contains mdio interface ports.
 //==============================================================================
 
-`ifndef MDIO_TX
-`define MDIO_TX
+`ifndef MDIO_SEQ_ITEM_BASE
+`define MDIO_SEQ_ITEM_BASE
 
     `include "uvm_macros.svh"
     import uvm_pkg::*;
 
-class mdio_tx extends uvm_sequence_item;
+class mdio_seq_item_base extends uvm_sequence_item;
 
-    `uvm_object_utils(mdio_tx)
+    `uvm_object_utils(mdio_seq_item_base)
     typedef enum bit [1:0] {WRITE = 2'b01, READ = 2'b10, SCAN = 2'b11} op_code_e;
 
     // Randomizable transaction fields
@@ -26,10 +26,10 @@ class mdio_tx extends uvm_sequence_item;
     rand bit [15:0] data;
 
 
-    function new(string name = "mdio_tx");
+    function new(string name = "mdio_seq_item_base");
     super.new(name);
     endfunction
 
 endclass
 
-`endif // MDIO_TX
+`endif // MDIO_SEQ_ITEM_BASE

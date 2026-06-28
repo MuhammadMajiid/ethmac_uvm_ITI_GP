@@ -15,8 +15,7 @@
 class mdio_monitor_base extends uvm_monitor;
   `uvm_component_utils(mdio_monitor_base)
 
-  // Standardized to mdio_tx
-  uvm_analysis_port #(mdio_tx) a_port;
+  uvm_analysis_port #(mdio_seq_item_base) a_port;
   virtual mdio_if vif;
 
   function new(string name, uvm_component parent);
@@ -25,16 +24,21 @@ class mdio_monitor_base extends uvm_monitor;
 
   function void build_phase(uvm_phase phase);
     super.build_phase(phase); // Always call super
+    if (!uvm_config_db #(mdio_config_obj)::get(this, "", "config", m_config))
+      `uvm_fatal(get_type_name(), "mdio_config not found in config_db")
+    vif = m_config.vif;
+    if (vif == null)
+      `uvm_fatal(get_type_name(), "mdio_monitor virtual interface not set")
     a_port = new("a_port", this);
   endfunction
 
   task run_phase(uvm_phase phase);
-    mdio_tx tx;
+    mdio_seq_item_base tx;
     bit [1:0] shift_reg;
     bit [1:0] op_bits;
 
     forever begin
-      tx = mdio_tx::type_id::create("tx");
+      tx = mdio_seq_item_base::type_id::create("tx");
       shift_reg = 2'b11;
 
       // 1. Wait for Start of Frame (01)
