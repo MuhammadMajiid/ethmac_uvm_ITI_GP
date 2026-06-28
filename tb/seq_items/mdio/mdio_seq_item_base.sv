@@ -17,7 +17,7 @@
 class mdio_seq_item_base extends uvm_sequence_item;
 
     `uvm_object_utils(mdio_seq_item_base)
-    typedef enum bit [1:0] {WRITE = 2'b01, READ = 2'b10, SCAN = 2'b11} op_code_e;
+    typedef enum bit [1:0] {WRITE = 2'b01, READ = 2'b10} op_code_e;
 
     // Randomizable transaction fields
     rand op_code_e op;
