@@ -29,7 +29,7 @@ class mdio_agent extends uvm_agent;
   endfunction
 
   function void build_phase(uvm_phase phase);
-    super.build_phase(phase); // Crucial: Always call super in build_phase
+    super.build_phase(phase);
 
 
     if (!uvm_config_db #(mdio_config_obj)::get(this, "", "config", m_config))
@@ -54,7 +54,7 @@ class mdio_agent extends uvm_agent;
   endfunction
 
   function void connect_phase(uvm_phase phase);
-    super.connect_phase(phase); // Crucial: Always call super in connect_phase
+    super.connect_phase(phase);
 
     if (vif == null)
       `uvm_fatal(get_type_name(), "mdio virtual interface not set")

@@ -21,13 +21,13 @@ interface mdio_if;
 
   assign mdio = mdio_en ? mdio_out : 1'bz;
 
-  // Modport for the MAC (Design Under Test)
+  // Modport for the MAC
   modport mac (
     output mdc,
     inout  mdio
   );
 
-  // Modport for the PHY (Your UVM Agent)
+  // Modport for the PHY
   modport phy (
     input mdc,
     inout mdio
