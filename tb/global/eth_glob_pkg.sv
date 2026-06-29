@@ -24,6 +24,9 @@ package eth_glob_pkg;
     parameter WB_SEL_WIDTH        = 4;
     parameter PHY_NIBBLE_WIDTH    = 4;
 
+
+    `include "dma_mem.sv"
+
 endpackage : eth_glob_pkg
 
 `endif // ETH_GLOB_PKG_SV
