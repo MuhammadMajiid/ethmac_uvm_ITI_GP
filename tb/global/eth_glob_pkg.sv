@@ -23,6 +23,9 @@ package eth_glob_pkg;
     parameter WB_M_ADDR_WIDTH     = 32; 
     parameter WB_SEL_WIDTH        = 4;
 
+
+    `include "dma_mem.sv"
+
 endpackage : eth_glob_pkg
 
 `endif // ETH_GLOB_PKG_SV

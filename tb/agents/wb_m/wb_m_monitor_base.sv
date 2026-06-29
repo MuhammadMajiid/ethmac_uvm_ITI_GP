@@ -73,8 +73,9 @@ endfunction
 // Task : run_phase
 task wb_m_monitor_base::run_phase(uvm_phase phase);
     mon_reset();
+    wb_m_seq_item_base m_item;
     forever begin
-        wb_m_seq_item_base m_item;
+
         m_item = wb_m_seq_item_base::type_id::create("m_item");
         mon_items(m_item);
 
