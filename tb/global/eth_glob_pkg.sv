@@ -24,6 +24,7 @@ package eth_glob_pkg;
     parameter WB_SEL_WIDTH        = 4;
     parameter PHY_NIBBLE_WIDTH    = 4;
 
+    parameter PHY_TX_CLK_FREQ_MHZ = 100;
 
     `include "dma_mem.sv"
 
