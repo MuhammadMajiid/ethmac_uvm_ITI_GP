@@ -68,6 +68,7 @@ class eth_tx_scoreboard extends uvm_scoreboard;
     extern function pred_insert_pream();
     extern function pred_check_len_4();
     extern function pred_check_huge();
+    exterm task comp_pkts();
     extern function logic [31:0] pred_calc_crc32(byte data[], int len);
     extern function void comp_check_crc(eth_tx_pending_record rec, int payload_len);
 endclass : eth_tx_scoreboard
