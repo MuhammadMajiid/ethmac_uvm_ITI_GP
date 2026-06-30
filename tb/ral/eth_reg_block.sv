@@ -1,3 +1,4 @@
+
 //==============================================================================
 // Project  : ethmac_uvm_ITI_GP
 // File     : eth_reg_block.sv
@@ -176,34 +177,34 @@ class eth_reg_block extends uvm_reg_block;
     // -----------------------------------------------------
     // Add registers to map
     // -----------------------------------------------------
-reg_map.add_reg(MODER,      8'h00, "RW");
-reg_map.add_reg(INT_SOURCE, 8'h01, "RW");
-reg_map.add_reg(INT_MASK,   8'h02, "RW");
+reg_map.add_reg(MODER,      'h000, "RW");
+reg_map.add_reg(INT_SOURCE, 'h001, "RW");
+reg_map.add_reg(INT_MASK,   'h002, "RW");
 
-reg_map.add_reg(IPGT,       8'h03, "RW");
-reg_map.add_reg(IPGR1,      8'h04, "RW");
-reg_map.add_reg(IPGR2,      8'h05, "RW");
+reg_map.add_reg(IPGT,       'h003, "RW");
+reg_map.add_reg(IPGR1,      'h004, "RW");
+reg_map.add_reg(IPGR2,      'h005, "RW");
 
-reg_map.add_reg(PACKETLEN,  8'h06, "RW");
-reg_map.add_reg(COLLCONF,   8'h07, "RW");
+reg_map.add_reg(PACKETLEN,  'h006, "RW");
+reg_map.add_reg(COLLCONF,   'h007, "RW");
 
-reg_map.add_reg(TX_BD_NUM,  8'h08, "RW");
-reg_map.add_reg(CTRLMODER,  8'h09, "RW");
+reg_map.add_reg(TX_BD_NUM,  'h008, "RW");
+reg_map.add_reg(CTRLMODER,  'h009, "RW");
 
-reg_map.add_reg(MIIMODER,   8'h0A, "RW");
-reg_map.add_reg(MIICOMMAND, 8'h0B, "RW");
-reg_map.add_reg(MIIADDRESS, 8'h0C, "RW");
+reg_map.add_reg(MIIMODER,   'h00A, "RW");
+reg_map.add_reg(MIICOMMAND, 'h00B, "RW");
+reg_map.add_reg(MIIADDRESS, 'h00C, "RW");
 
-reg_map.add_reg(MIITX_DATA, 8'h0D, "RW");
-reg_map.add_reg(MIIRX_DATA, 8'h0E, "RO");
-reg_map.add_reg(MIISTATUS,  8'h0F, "RO");
+reg_map.add_reg(MIITX_DATA, 'h00D, "RW");
+reg_map.add_reg(MIIRX_DATA, 'h00E, "RO");
+reg_map.add_reg(MIISTATUS,  'h00F, "RO");
 
-reg_map.add_reg(MAC_ADDR0,  8'h10, "RW");
-reg_map.add_reg(MAC_ADDR1,  8'h11, "RW");
-reg_map.add_reg(HASH0,      8'h12, "RW");
-reg_map.add_reg(HASH1,      8'h13, "RW");
+reg_map.add_reg(MAC_ADDR0,  'h010, "RW");
+reg_map.add_reg(MAC_ADDR1,  'h011, "RW");
+reg_map.add_reg(HASH0,      'h012, "RW");
+reg_map.add_reg(HASH1,      'h013, "RW");
 
-reg_map.add_reg(TXCTRL,     8'h14, "RW");
+reg_map.add_reg(TXCTRL,     'h014, "RW");
  // -----------------------------------------------------
  // BD RAM  
 // offset = 0x400 ? BD RAM starts here in WISHBONE address space
@@ -211,15 +212,38 @@ reg_map.add_reg(TXCTRL,     8'h14, "RW");
 // Location 1 ? WISHBONE addr 0x404 (first TX BD pointer word)
 // Location 255 ? WISHBONE addr 0x7FC (last BD pointer word)
 // ---------------------------------------------------------------------
-    eth_bd_mem = new(
-      "eth_bd_mem",
-      256,              // number of words
-      32,               // word size
-      "RW",
-      UVM_NO_COVERAGE  );
-    eth_bd_mem.configure(this);
-    reg_map.add_mem(eth_bd_mem, 32'h400, "RW");
-   
+
+eth_bd_mem = new(
+    "eth_bd_mem",
+    256,
+    32,
+    "RW",
+    UVM_NO_COVERAGE
+);
+
+eth_bd_mem.configure(this);
+
+reg_map.add_mem(eth_bd_mem, 'h100, "RW");
+
+
+  //------------------------------------------------------
+  // HDL Backdoor
+  //------------------------------------------------------
+add_hdl_path("eth_tb.dut");
+
+eth_bd_mem.add_hdl_path_slice(
+    "wishbone.bd_ram.mem0",0,8);
+
+eth_bd_mem.add_hdl_path_slice(
+    "wishbone.bd_ram.mem1",8,8);
+
+eth_bd_mem.add_hdl_path_slice(
+    "wishbone.bd_ram.mem2",16,8);
+
+eth_bd_mem.add_hdl_path_slice(
+    "wishbone.bd_ram.mem3",24,8);
+
+
   endfunction
 
 
