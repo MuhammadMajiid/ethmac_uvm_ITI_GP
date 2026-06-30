@@ -231,6 +231,70 @@ reg_map.add_mem(eth_bd_mem, 'h100, "RW");
   //------------------------------------------------------
 add_hdl_path("eth_tb.dut");
 
+MODER.add_hdl_path_slice("ethreg1.MODER_0.DataOut", 0, 8);
+MODER.add_hdl_path_slice("ethreg1.MODER_1.DataOut", 8, 8);
+MODER.add_hdl_path_slice("ethreg1.MODER_2.DataOut",16, 8);
+
+
+INT_MASK.add_hdl_path_slice("ethreg1.INT_MASK_0.DataOut",0,8);
+
+IPGT.add_hdl_path_slice("ethreg1.IPGT_0.DataOut",0,8);
+
+IPGR1.add_hdl_path_slice("ethreg1.IPGR1_0.DataOut",0,8);
+
+IPGR2.add_hdl_path_slice("ethreg1.IPGR2_0.DataOut",0,8);
+
+PACKETLEN.add_hdl_path_slice("ethreg1.PACKETLEN_0.DataOut", 0, 8);
+PACKETLEN.add_hdl_path_slice("ethreg1.PACKETLEN_1.DataOut", 8, 8);
+PACKETLEN.add_hdl_path_slice("ethreg1.PACKETLEN_2.DataOut",16, 8);
+PACKETLEN.add_hdl_path_slice("ethreg1.PACKETLEN_3.DataOut",24, 8);
+
+COLLCONF.add_hdl_path_slice("ethreg1.COLLCONF_0.DataOut",0,8);
+COLLCONF.add_hdl_path_slice("ethreg1.COLLCONF_2.DataOut",16,8);
+
+TX_BD_NUM.add_hdl_path_slice("ethreg1.TX_BD_NUM_0.DataOut",0,8);
+
+CTRLMODER.add_hdl_path_slice("ethreg1.CTRLMODER_0.DataOut",0,8);
+
+MIIMODER.add_hdl_path_slice("ethreg1.MIIMODER_0.DataOut",0,8);
+MIIMODER.add_hdl_path_slice("ethreg1.MIIMODER_1.DataOut",8,8);
+
+MIICOMMAND.add_hdl_path_slice("ethreg1.MIICOMMAND0.DataOut",0,1);
+MIICOMMAND.add_hdl_path_slice("ethreg1.MIICOMMAND1.DataOut",1,1);
+MIICOMMAND.add_hdl_path_slice("ethreg1.MIICOMMAND2.DataOut",2,1);
+
+MIIADDRESS.add_hdl_path_slice("ethreg1.MIIADDRESS_0.DataOut",0,8);
+MIIADDRESS.add_hdl_path_slice("ethreg1.MIIADDRESS_1.DataOut",8,8);
+
+MIITX_DATA.add_hdl_path_slice("ethreg1.MIITX_DATA_0.DataOut",0,8);
+MIITX_DATA.add_hdl_path_slice("ethreg1.MIITX_DATA_1.DataOut",8,8);
+
+MIIRX_DATA.add_hdl_path_slice("ethreg1.MIIRX_DATA.DataOut",0,16);
+
+MAC_ADDR0.add_hdl_path_slice("ethreg1.MAC_ADDR0_0.DataOut", 0,8);
+MAC_ADDR0.add_hdl_path_slice("ethreg1.MAC_ADDR0_1.DataOut", 8,8);
+MAC_ADDR0.add_hdl_path_slice("ethreg1.MAC_ADDR0_2.DataOut",16,8);
+MAC_ADDR0.add_hdl_path_slice("ethreg1.MAC_ADDR0_3.DataOut",24,8);
+
+MAC_ADDR1.add_hdl_path_slice("ethreg1.MAC_ADDR1_0.DataOut",0,8);
+MAC_ADDR1.add_hdl_path_slice("ethreg1.MAC_ADDR1_1.DataOut",8,8);
+
+HASH0.add_hdl_path_slice("ethreg1.RXHASH0_0.DataOut", 0,8);
+HASH0.add_hdl_path_slice("ethreg1.RXHASH0_1.DataOut", 8,8);
+HASH0.add_hdl_path_slice("ethreg1.RXHASH0_2.DataOut",16,8);
+HASH0.add_hdl_path_slice("ethreg1.RXHASH0_3.DataOut",24,8);
+
+HASH1.add_hdl_path_slice("ethreg1.RXHASH1_0.DataOut", 0,8);
+HASH1.add_hdl_path_slice("ethreg1.RXHASH1_1.DataOut", 8,8);
+HASH1.add_hdl_path_slice("ethreg1.RXHASH1_2.DataOut",16,8);
+HASH1.add_hdl_path_slice("ethreg1.RXHASH1_3.DataOut",24,8);
+
+TXCTRL.add_hdl_path_slice("ethreg1.TXCTRL_0.DataOut", 0,8);
+TXCTRL.add_hdl_path_slice("ethreg1.TXCTRL_1.DataOut", 8,8);
+TXCTRL.add_hdl_path_slice("ethreg1.TXCTRL_2.DataOut",16,8);
+
+
+
 eth_bd_mem.add_hdl_path_slice(
     "wishbone.bd_ram.mem0",0,8);
 
