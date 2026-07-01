@@ -33,7 +33,9 @@ package eth_glob_pkg;
     parameter ETH_PREAMBLE           = 8'h55;
     parameter ETH_SFD                = 8'h5D;
     
-    parameter PHY_TX_CLK_FREQ_MHZ    = 100;
+    parameter PHY_TX_CLK_FREQ_MHZ    = 25;
+    parameter PHY_RX_CLK_FREQ_MHZ    = 25;
+    parameter WB_CLK_FREQ_MHZ        = 200;
 
     `include "dma_mem.sv"
 
