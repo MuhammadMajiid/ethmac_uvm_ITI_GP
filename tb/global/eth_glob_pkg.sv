@@ -26,7 +26,7 @@ package eth_glob_pkg;
     parameter WB_M_ADDR_WIDTH        = 32; 
     parameter WB_SEL_WIDTH           = 4;
     parameter PHY_NIBBLE_WIDTH       = 4;
-    parameter ETH_PAUSE_FRAME_ADDR   = 48'h0180C2000001;                       // source address of PAUSE frame is hardcoded
+    parameter ETH_PAUSE_FRAME_ADDR   = 48'h0180C2000001;                    
     parameter ETH_PAUSE_LEN_TYPE     = 16'h8808;
     parameter ETH_PAUSE_OPCODE       = 16'h0001;    
     parameter ETH_PAUSE_PAD          = 8'h00;
