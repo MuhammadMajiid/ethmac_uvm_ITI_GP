@@ -29,6 +29,8 @@ class eth_tx_scoreboard extends uvm_scoreboard;
     wb_m_seq_item_base                              m_wb_m_seq_item;
     // mii_tx transaction for storing last item pulled from mii_tx fifo
     mii_tx_seq_item_base                            m_mii_tx_seq_item;
+    // Register block
+    eth_reg_block                                   m_regmodel;
     // =========================================================================
     // Semaphores
     // =========================================================================
@@ -39,6 +41,7 @@ class eth_tx_scoreboard extends uvm_scoreboard;
     // =========================================================================    
     event m_ev_end_scoreboard;  // triggered when all tasks in scoreboard finish
     event m_ev_end_seqs;        // triggerd when all sequences finish
+
 
     // =========================================================================
     // Constructor, Build Phase, Connect phase and Run phase
@@ -63,30 +66,47 @@ class eth_tx_scoreboard extends uvm_scoreboard;
     // -------------------------------------------------------------------------
     // Description:
     //   Compare the expected packet sent from predictor with actual sent from
-    //   DUT. Reports error if they don't match.
-    //   huge packet.   
+    //   DUT. Reports error if they don't match.   
     // Arguments: None
     //
     // -------------------------------------------------------------------------    
     extern task comparator();
-
+    // -------------------------------------------------------------------------
+    //  task : get_mii_tx_seq_item
+    // -------------------------------------------------------------------------
+    // Description:
+    //   pull the next transaction from mii_tx fifo.it only gets it when it
+    //   gets all the semaphore keys to ensure that the new transaction doesn't
+    //   override the old when another process needs it.   
+    // Arguments: None
+    //
+    // -------------------------------------------------------------------------  
     extern task get_mii_tx_seq_item();
+    // -------------------------------------------------------------------------
+    //  task : get_wb_m_seq_item
+    // -------------------------------------------------------------------------
+    // Description:
+    //   pull the next transaction from wb_master fifo.it only gets it when it
+    //   gets all the semaphore keys to ensure that the new transaction doesn't
+    //   override the old when another process needs it.   
+    // Arguments: None
+    //
+    // ------------------------------------------------------------------------- 
     extern task get_wb_m_seq_item();
-    
+
     extern task pred_track_txen();
     extern task pred_track_rd();
     extern task pred_track_underrun();
     extern task pred_read_mem();
     extern function pred_read_cfg();
     extern function pred_construct_data_pkt();
-    extern function pred_construct_ctrl_pkt();
+    extern function bit pred_construct_ctrl_pkt();
     extern function pred_add_pad();
     extern function pred_insert_pream();
     extern function pred_check_len_4();
     extern function pred_check_huge();
     extern task comp_compare_pkts();
     extern task comp_pack_pkts();
-    extern function logic [31:0] pred_calc_crc32(byte data[], int len);
     extern function void comp_check_crc(eth_tx_pending_record rec, int payload_len);
 endclass : eth_tx_scoreboard
 
@@ -130,26 +150,43 @@ endfunction
 // task: run_phase
 task eth_tx_scoreboard::run_phase(uvm_phase phase);
     super.run_phase(phase);
-    forever begin
-        phase.raise_objection(this);
-        `uvm_info(get_type_name(),"Tx scoreboard raised objection", UVM_LOW)
-        fork: fork_run_phase 
-            get_mii_tx_seq_item();
-            #0 predictor();
-            #0 comparartor();
-            begin
-            wait(m_ev_end_seqs.triggered);
-            wait(m_ev_end_scoreboard.triggered)
-            disable fork_run_phase;
-            end    
-        join    
-        phase.drop_objection(this);
-        `uvm_info(get_type_name(),"Tx scoreboard dropped objection", UVM_LOW)
-   end
+    phase.raise_objection(this);
+    `uvm_info(get_type_name(),"Tx scoreboard raised objection", UVM_LOW)
+    fork: fork_run_phase 
+        get_mii_tx_seq_item();
+        #0 predictor();
+        #0 comparartor();
+        begin
+        wait(m_ev_end_seqs.triggered);
+        wait(m_ev_end_scoreboard.triggered)
+        disable fork_run_phase;
+        end    
+    join    
+    phase.drop_objection(this);
+    `uvm_info(get_type_name(),"Tx scoreboard dropped objection", UVM_LOW)
 endtask
 
 // task: predictor
 task predictor();
+
+    fork: fork_pred
+        pred_track_txen();
+        pred_track_rd();
+        pred_track_underrun();
+        begin 
+            forever
+                wait(txen.triggered) 
+                    pred_read_pause_cfg();
+                    if(!pred_construct_ctrl_pkt()) begin
+                        pred_read_cfg();
+                        if(pred_check_len_4)
+                        pred_construct_data_pkt();
+                
+            end
+            end
+        end        
+    join
+
 endtask    
 
 // task: get_mii_tx_seq_item
@@ -162,7 +199,7 @@ task eth_tx_scoreboard::get_mii_tx_seq_item();
     m_sem_tx_seq_item.put(SEM_TX_SEQ_ITEM_NO_KEYS);
 endtask    
 
-// task: 
+// task: get_wb_m_seq_item
 task eth_tx_scoreboard::get_wb_m_seq_item();
     // Get all keys from semaphore
     m_sem_wb_m_seq_item.get(SEM_WB_M_SEQ_ITEM_NO_KEYS);
@@ -171,5 +208,60 @@ task eth_tx_scoreboard::get_wb_m_seq_item();
     // Put all Keys in semaphore
     m_sem_wb_m_seq_item.put(SEM_WB_M_SEQ_ITEM_NO_KEYS);
 endtask    
+
+// function: pred_construct_ctrl_pkt();
+function bit eth_tx_scoreboard::pred_construct_ctrl_pkt();
+    // Check if pause request is asserted
+    if(m_tx_bd_cfg_s.tx_pause_req && m_tx_bd_cfg_s.tx_flow) begin
+
+        // push destination addr (6 bytes)
+        for(int i = 5; i>=0; i--)
+            m_tx_bd_cfg_s.m_exp_pkt.push_back(ETH_PAUSE_FRAME_ADDR[8*i+:8]);
+        
+        // push source addr (6 bytes)
+        for(int i = 5; i>=0; i--)
+            m_tx_bd_cfg_s.m_exp_pkt.push_back(m_tx_bd_cfg_s.mac_addr[8*i+:8]);
+        
+        // push lenth_type (2 bytes)
+        m_tx_bd_cfg_s.m_exp_pkt.push_back(ETH_PAUSE_LEN_TYPE[15:8]);                // push most significant byte
+        m_tx_bd_cfg_s.m_exp_pkt.push_back(ETH_PAUSE_LEN_TYPE[7:0]);                 // push least significant byte
+
+        // push opcode (2 bytes)
+        m_tx_bd_cfg_s.m_exp_pkt.push_back(ETH_PAUSE_OPCODE[15:8]);                  // push most significant byte
+        m_tx_bd_cfg_s.m_exp_pkt.push_back(ETH_PAUSE_OPCODE[7:0]);                   // push least significant byte        
+
+        // push timer value (2 bytes)
+        m_tx_bd_cfg_s.m_exp_pkt.push_back(m_tx_bd_cfg_s.tx_pause_tv[15:8]);          // push most significant byte
+        m_tx_bd_cfg_s.m_exp_pkt.push_back(m_tx_bd_cfg_s.tx_pause_tv[7:0]);           // push least significant byte 
+
+        // Push padding bytes (42 byte)
+        for(int i = 0; i<42; i++)
+            m_tx_bd_cfg_s.m_exp_pkt.push_back(ETH_PAUSE_PAD);        
+            
+        // Calculate crc
+            bit [31:0] crc;
+            crc=pred_calc_crc32(m_tx_bd_cfg_s.m_exp_pkt);
+
+        // push crc (4 bytes)
+        for(int i = 3; i>=0; i--)
+            m_tx_bd_cfg_s.m_exp_pkt.push_back(crc[8*i+:8]);
+
+        // push Start of frame delimiter (1 byte)
+        m_tx_bd_cfg_s.m_exp_pkt.push_front(ETH_SFD)
+
+        // check if preamble is enabled
+        if(!m_tx_bd_cfg_s.no_pre) begin
+            // push preamble (7 bytes)
+            for(int i = 0; i<7; i++)
+                m_tx_bd_cfg_s.m_exp_pkt.push_front(ETH_PREAMBLE);
+        end
+
+        return 1;    
+    end    
+    else begin
+        return 0;
+    end
+endfunction  
+
 
 `endif // ETH_TX_SCOREBOARD_SV
