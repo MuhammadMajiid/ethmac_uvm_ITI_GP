@@ -26,19 +26,21 @@ package eth_glob_pkg;
     parameter WB_M_ADDR_WIDTH        = 32; 
     parameter WB_SEL_WIDTH           = 4;
     parameter PHY_NIBBLE_WIDTH       = 4;
-    parameter ETH_PAUSE_FRAME_ADDR   = 48'h0180C2000001;                       // source address of PAUSE frame is hardcoded
+    parameter ETH_PAUSE_FRAME_ADDR   = 48'h0180C2000001;                    
     parameter ETH_PAUSE_LEN_TYPE     = 16'h8808;
     parameter ETH_PAUSE_OPCODE       = 16'h0001;    
     parameter ETH_PAUSE_PAD          = 8'h00;
     parameter ETH_PREAMBLE           = 8'h55;
     parameter ETH_SFD                = 8'h5D;
-    
+    parameter ETH_CRC_POLY           = 32'hc704dd7b;    
+
     parameter PHY_TX_CLK_FREQ_MHZ    = 25;
     parameter PHY_RX_CLK_FREQ_MHZ    = 25;
     parameter WB_CLK_FREQ_MHZ        = 200;
 
     `include "dma_mem.sv"
-
+    `include "crc_func.sv"
+ 
 endpackage : eth_glob_pkg
 
 `endif // ETH_GLOB_PKG_SV
