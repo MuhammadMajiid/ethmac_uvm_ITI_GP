@@ -12,6 +12,9 @@
 `define ETH_TX_SCOREBOARD_SV
 class eth_tx_scoreboard extends uvm_scoreboard;
     `uvm_component_utils(eth_tx_scoreboard)
+    // =========================================================================
+    // Parameters for semaphore keys
+    // =========================================================================
     parameter SEM_TX_SEQ_ITEM_NO_KEYS = 2;
     parameter SEM_WB_M_SEQ_ITEM_NO_KEYS = 1;
 
@@ -104,15 +107,90 @@ class eth_tx_scoreboard extends uvm_scoreboard;
     extern task get_wb_m_seq_item();
 
     // Completed
+    // -------------------------------------------------------------------------
+    //  function : pred_construct_data_pkt
+    // -------------------------------------------------------------------------
+    // Description:
+    //   responsible calling functions that will read data from dma_memory,pad
+    //   bytes,discard bytes from huge frame,add crc,add preamble   
+    // Arguments: None
+    //
+    // ------------------------------------------------------------------------- 
     extern function void pred_construct_data_pkt();
+    // -------------------------------------------------------------------------
+    //  function : pred_construct_ctrl_pkt
+    // -------------------------------------------------------------------------
+    // Description:
+    //   construct control packet (pause frame). it adds fields of control 
+    //   packet (destination & source address,type,opcode,pause timer value crc)
+    //   and call functions to add pramble & sfd.  
+    // Arguments: None
+    //
+    // ------------------------------------------------------------------------- 
     extern function void pred_construct_ctrl_pkt();
+    // -------------------------------------------------------------------------
+    //  function : pred_add_pad
+    // -------------------------------------------------------------------------
+    // Description:
+    //   add padding to packet based on minimum packet length in MINFL field.  
+    // Arguments: None
+    //
+    // ------------------------------------------------------------------------- 
     extern function void pred_add_pad();
-    extern function void pred_insert_pream_sfd();
-    extern function pred_check_len_4();
+    // -------------------------------------------------------------------------
+    //  function : pred_add_preamble_sfd
+    // -------------------------------------------------------------------------
+    // Description:
+    //   add 7 bytes preamble based on NOPRE configuration & 1 byte start frame 
+    //   delimiter (SFD) to the beginning of packet.  
+    // Arguments: None
+    //
+    // ------------------------------------------------------------------------- 
+    extern function void pred_add_pream_sfd();
+    // -------------------------------------------------------------------------
+    //  function : pred_check_len_4
+    // -------------------------------------------------------------------------
+    // Description:
+    //   Check if the frame length configured in buffer descriptor greater than 
+    //   4 bytes.  
+    // Arguments: None
+    // Return: bit
+    // 1: frame length is more than 4 bytes
+    // 0: frame length is less than 4 bytes
+    //
+    // ------------------------------------------------------------------------- 
+    extern function bit  pred_check_len_4();
+    // -------------------------------------------------------------------------
+    //  function : pred_check_huge
+    // -------------------------------------------------------------------------
+    // Description:
+    //   In case HUGEN bit is 0, checks if packet length is less than maximum  
+    //   frame length and if not it discards additional bytes (SFD).  
+    // Arguments: None
+    //
+    // ------------------------------------------------------------------------- 
     extern function void pred_check_huge();
-    extern task pred_track_txen();    
+    // -------------------------------------------------------------------------
+    //  function : pred_read_mem
+    // -------------------------------------------------------------------------
+    // Description:
+    //   Read dma memory model data and put it in expected packet queue.
+    // Arguments: None
+    //
+    // -------------------------------------------------------------------------     
     extern function void pred_read_mem();
-    // Not
+    // -------------------------------------------------------------------------
+    //  function : pred_track_txen
+    // -------------------------------------------------------------------------
+    // Description:
+    //   always check txen bit in register model and when it rises to high, 
+    //   trigger event m_ev_txen. 
+    // Arguments: None
+    //
+    // -------------------------------------------------------------------------     
+    extern task pred_track_txen();    
+    
+    // Not Completed
     extern task pred_track_rd();
     extern task pred_track_underrun();
     extern task pred_read_cfg_reg();
@@ -219,8 +297,8 @@ function void eth_tx_scoreboard::pred_construct_data_pkt();
     // check if the packet is greater than maximum size, discard additional bytes
     pred_check_huge();
     
-    // push pramble and sfd to the beginning of packet
-    pred_insert_pream_sfd();
+    // add preamble and sfd to the beginning of packet
+    pred_add_pream_sfd();
 endfunction
 
 // task: get_mii_tx_seq_item
@@ -267,7 +345,7 @@ function void eth_tx_scoreboard::pred_construct_ctrl_pkt();
         m_eth_tx_expected_s.exp_pkt.push_back(m_tx_bd_cfg_s.tx_pause_tv[7:0]);           // push least significant byte 
 
         // Push padding bytes (42 byte)
-        for(int i = 0; i<42; i++)
+        repeat(42)
             m_eth_tx_expected_s.exp_pkt.push_back(ETH_PAD);        
             
         // Calculate crc
@@ -278,8 +356,8 @@ function void eth_tx_scoreboard::pred_construct_ctrl_pkt();
         for(int i = 3; i>=0; i--)
             m_eth_tx_expected_s.exp_pkt.push_back(crc[8*i+:8]);
 
-        // Insert preamble (7 bytes) & SFD (1 byte)     
-        pred_insert_pream_sfd();
+        // add preamble (7 bytes) & SFD (1 byte)     
+        pred_add_pream_sfd();
 
 endfunction  
 
@@ -311,7 +389,7 @@ function void eth_tx_scoreboard::pred_read_mem();
 endfunction
 
 // function: insert_pream_sfd
-function void eth_tx_scoreboard::pred_insert_pream_sfd();
+function void eth_tx_scoreboard::pred_add_pream_sfd();
 
     // push Start of frame delimiter (1 byte)
     m_eth_tx_expected_s.exp_pkt.push_front(ETH_SFD)
