@@ -29,7 +29,7 @@ package eth_glob_pkg;
     parameter ETH_PAUSE_FRAME_ADDR   = 48'h0180C2000001;                    
     parameter ETH_PAUSE_LEN_TYPE     = 16'h8808;
     parameter ETH_PAUSE_OPCODE       = 16'h0001;    
-    parameter ETH_PAUSE_PAD          = 8'h00;
+    parameter ETH_PAD                = 8'h00;
     parameter ETH_PREAMBLE           = 8'h55;
     parameter ETH_SFD                = 8'h5D;
     parameter ETH_CRC_POLY           = 32'hc704dd7b;    
