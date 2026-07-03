@@ -25,7 +25,11 @@ package eth_glob_pkg;
     parameter WB_S_ADDR_WIDTH        = 10;
     parameter WB_M_ADDR_WIDTH        = 32; 
     parameter WB_SEL_WIDTH           = 4;
-    parameter PHY_NIBBLE_WIDTH       = 4;
+    parameter WB_TX_BD_RD_POS        = 15;
+    parameter WB_TX_BD_WR_POS        = 13;
+    parameter WB_TX_BD_UR_POS        = 8;
+    parameter WB_BD_MEM_DEPTH        = 256;
+    parameter ETH_NIBBLE_WIDTH       = 4;
     parameter ETH_PAUSE_FRAME_ADDR   = 48'h0180C2000001;                    
     parameter ETH_PAUSE_LEN_TYPE     = 16'h8808;
     parameter ETH_PAUSE_OPCODE       = 16'h0001;    
@@ -33,9 +37,10 @@ package eth_glob_pkg;
     parameter ETH_PREAMBLE           = 8'h55;
     parameter ETH_SFD                = 8'h5D;
     parameter ETH_CRC_POLY           = 32'hc704dd7b;    
-
-    parameter PHY_TX_CLK_FREQ_MHZ    = 25;
-    parameter PHY_RX_CLK_FREQ_MHZ    = 25;
+    
+    // Clocks
+    parameter ETH_PHY_TX_CLK_FREQ_MHZ    = 25;
+    parameter ETH_PHY_RX_CLK_FREQ_MHZ    = 25;
     parameter WB_CLK_FREQ_MHZ        = 200;
 
     `include "dma_mem.sv"

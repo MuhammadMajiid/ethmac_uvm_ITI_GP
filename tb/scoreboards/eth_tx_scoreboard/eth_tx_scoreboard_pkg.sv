@@ -19,6 +19,9 @@ package eth_tx_scoreboard_pkg;
     // Global package
     import eth_glob_pkg::*;
 
+    // RAL package
+    import eth_ral_pkg::*;
+    
     `include "eth_tx_scoreboard.sv"
     `include "eth_tx_scoreboard_struct.sv"
  
