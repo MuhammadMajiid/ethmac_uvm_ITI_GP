@@ -680,49 +680,31 @@ task eth_tx_scoreboard::comp_pack_pkt();
     //--------------------------------------------------------
     // Wait for start of frame
     //--------------------------------------------------------
-    while(1) begin
-    m_sem_tx_seq_item.get(1);
-    if(m_mii_tx_seq_item.MTxEN)
-    break;
-    m_sem_tx_seq_item.put(1); 
-    #1ns;
-    end
+    do begin
+        get_mii_tx_seq_item();
+    end while (!m_mii_tx_seq_item.MTxEN);
+
     //--------------------------------------------------------
     // Capture complete bytes
     //--------------------------------------------------------
-    do begin
-        //--------------------------------------------
-        // Put key in semaphore then wait until it's
-        // available
-        //--------------------------------------------
-        m_sem_tx_seq_item.put(1); 
-        #1ns;
-        m_sem_tx_seq_item.get(1);
+    while (m_mii_tx_seq_item.MTxEN) begin
+
         //--------------------------------------------
         // First nibble (LSB)
         //--------------------------------------------
         low_nibble = m_mii_tx_seq_item.MTxD;
-        //--------------------------------------------
-        // Put key in semaphore then wait until it's
-        // available
-        //--------------------------------------------
-        m_sem_tx_seq_item.put(1); 
-        #1ns;
-        m_sem_tx_seq_item.get(1);
-        //--------------------------------------------
-        // if MTxErr is asserted raise flag
-        //--------------------------------------------
-       if (!m_mii_tx_seq_item.MTxERR) begin
-            m_flag_txerr=1;
-       end
+
         //--------------------------------------------
         // Expect second nibble
         //--------------------------------------------
+        get_mii_tx_seq_item();
+
         if (!m_mii_tx_seq_item.MTxEN) begin
             `uvm_error(get_type_name(),
                 "MTxEN deasserted after only one nibble was transmitted")
             break;
         end
+
         //--------------------------------------------
         // Store one byte
         //--------------------------------------------
@@ -730,8 +712,12 @@ task eth_tx_scoreboard::comp_pack_pkt();
             {m_mii_tx_seq_item.MTxD, low_nibble}
         );
 
+        //--------------------------------------------
+        // Next nibble (or end of frame)
+        //--------------------------------------------
+        get_mii_tx_seq_item();
+
     end
-    while (m_mii_tx_seq_item.MTxEN);
 
     //--------------------------------------------------------
     // Frame completed
@@ -744,16 +730,16 @@ task eth_tx_scoreboard::comp_pack_pkt();
         UVM_MEDIUM)
 
 endtask
-
+//------------------------------------------------------------------------------
+// Compare one protocol field
+//------------------------------------------------------------------------------
 function void eth_tx_scoreboard::comp_compare_field(
     string field_name,
     int    start_idx,
     int    num_bytes,
     ref bit error_found
 );
-//------------------------------------------------------------------------------
-// Compare one protocol field
-//------------------------------------------------------------------------------
+
     for (int i = 0; i < num_bytes; i++) 
 	begin
 
@@ -780,7 +766,9 @@ function void eth_tx_scoreboard::comp_compare_field(
 
 endfunction
 
-
+//------------------------------------------------------------------------------
+// Compare expected packet against transmitted packet
+//------------------------------------------------------------------------------
 task eth_tx_scoreboard::comp_compare_pkt();
 
     bit        error_found = 0;
@@ -869,7 +857,7 @@ task eth_tx_scoreboard::comp_compare_pkt();
     else 
 	begin
 
-        payload_len = m_tx_bd_cfg_s.len;
+        payload_len = m_tx_bd_cfg_s.len-6-6-2;
 
         comp_compare_field("Payload",
                            idx,
@@ -885,25 +873,28 @@ task eth_tx_scoreboard::comp_compare_pkt();
 	begin
 
     int target_len;
-    int frame_len_no_preamble;
+    int frame_len;
 
-    // Minimum frame length excluding preamble/SFD
+    // Minimum frame length 
     target_len = m_tx_bd_cfg_s.minfl;
 
     // CRC occupies 4 bytes of MINFL
     if (m_tx_bd_cfg_s.eff_crc)
         target_len -= 4;
 
-    // Current frame length excluding preamble/SFD, 
-    // = DA + SA + Length/Type + Payload
-	
-    frame_len = 6 + 6 + 2 + payload_len;
+    // Current frame length 
+	//with preamble = preamble+ sfd+ DA + SA + Length/Type + Payload 
+    //without preamble= sfd+ DA + SA + Length/Type + Payload
+	if (!m_tx_bd_cfg_s.no_pre) 
+    frame_len = 7+1+ m_tx_bd_cfg_s.len;
+	else
+    frame_len = 1+ m_tx_bd_cfg_s.len;
 
 
-    if (frame_len_no_preamble < target_len) 
+    if (frame_len < target_len) 
 	begin
 
-        pad_len = target_len - frame_len_no_preamble;
+        pad_len = target_len - frame_len;
 
         comp_compare_field(
             "Padding",

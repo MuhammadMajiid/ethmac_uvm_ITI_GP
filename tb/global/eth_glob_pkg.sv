@@ -37,11 +37,18 @@ package eth_glob_pkg;
     parameter ETH_PREAMBLE           = 8'h55;
     parameter ETH_SFD                = 8'h5D;
     parameter ETH_CRC_POLY           = 32'hc704dd7b;    
-    
+    parameter ETH_PREAMBLE_LEN       = 7;
+    parameter ETH_SFD_LEN            = 1;
+    parameter ETH_CRC_LEN            = 4;
+    parameter ETH_ADDR_LEN           = 6;
+    parameter ETH_TYPE_LEN           = 2;
+    parameter ETH_PAUSE_OPCODE_LEN   = 2;
+    parameter ETH_PAUSE_TIMER_LEN    = 2;
+    parameter ETH_PAUSE_RESERVED_LEN = 42;
     // Clocks
-    parameter ETH_PHY_TX_CLK_FREQ_MHZ    = 25;
-    parameter ETH_PHY_RX_CLK_FREQ_MHZ    = 25;
-    parameter WB_CLK_FREQ_MHZ        = 200;
+    parameter ETH_PHY_TX_CLK_PERIOD_NS    = 40; // 25 MHz
+    parameter ETH_PHY_RX_CLK_PERIOD_NS    = 40; // 25MHz
+    parameter WB_CLK_PERIOD_NS            = 5;  // 200 MHz
 
     `include "dma_mem.sv"
     `include "crc_func.sv"

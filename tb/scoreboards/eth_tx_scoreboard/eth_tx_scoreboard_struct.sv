@@ -170,21 +170,14 @@ typedef struct {
 // =============================================================================
 
 typedef struct {
-    // BD + register configuration (populated on RD=1 arm event)
-    eth_tx_bd_cfg_s cfg;
-
-    // DMA-fetched bytes (populated from wb_master_monitor observations)
-    // Sparse: dma_bytes[byte_address] = byte_value
-    // Never read directly from the SRAM model — always from monitor evidence
-    bit [7:0] dma_bytes [bit [31:0]];
 
     // Collision / error tracking (populated from mii_monitor events)
     int unsigned attempt_count;         // total MTxEn pulses seen for this BD
     int unsigned jam_count;             // jam patterns (0x99999999) observed
-    bit          had_late_collision;    // MColl after COLLVALID window
-    bit          had_cs_loss;           // MCrS drop mid-frame
-    bit          had_defer;             // MCrS busy before first MTxEn
-
+    bit          flag_late_collision;    // MColl after COLLVALID window
+    bit          flag_cs_loss;           // MCrS drop mid-frame
+    bit          flag_defer;             // MCrS busy before first MTxEn
+    bit          flag_txerr;           // set when Tx error is asserted 
 
     // actual frame captured by mii_monitor (populated on MII_TX_FRAME event)
     // INCLUDING any CRC trailer if CRC was appended

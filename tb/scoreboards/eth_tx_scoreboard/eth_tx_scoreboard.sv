@@ -15,7 +15,7 @@ class eth_tx_scoreboard extends uvm_scoreboard;
     // =========================================================================
     // Parameters for semaphore keys
     // =========================================================================
-    parameter SEM_TX_SEQ_ITEM_NO_KEYS = 2;
+    parameter SEM_TX_SEQ_ITEM_NO_KEYS = 1;
     parameter SEM_WB_M_SEQ_ITEM_NO_KEYS = 1;
 
     // =========================================================================
@@ -53,7 +53,7 @@ class eth_tx_scoreboard extends uvm_scoreboard;
     // =========================================================================
     // Events
     // =========================================================================    
-    event m_ev_end_scoreboard;  // triggered when all tasks in scoreboard finish
+    event m_ev_end_packet;      // triggered when each packet is compared
     event m_ev_end_seqs;        // triggerd when all sequences finish
     event m_ev_txen;            // triggered when TXEN bit in MODER register changes from 0 to 1
     event m_ev_rd;              // triggered when RD bit in the current buffer descriptor changes from  0 to 1
@@ -64,10 +64,7 @@ class eth_tx_scoreboard extends uvm_scoreboard;
     eth_tx_expected_s m_tx_expected_s;
     eth_tx_bd_cfg_s   m_tx_bd_cfg_s;
     eth_tx_pending_s  m_tx_pending_s;
-    // =========================================================================
-    // Flags
-    // ========================================================================= 
-    bit m_flag_txerr;           // set when Tx error is asserted 
+
     // =========================================================================
     // Constructor, write tlm function, Build Phase, Connect phase and Run phase
     // =========================================================================
@@ -274,7 +271,7 @@ task eth_tx_scoreboard::run_phase(uvm_phase phase);
         #0 comparator();
         begin
         wait(m_ev_end_seqs.triggered);
-        wait(m_ev_end_scoreboard.triggered);
+        wait(m_ev_end_packet.triggered);
         disable fork_run_phase;
         end    
     join    
@@ -373,7 +370,7 @@ task eth_tx_scoreboard::comparator();
         comp_check_txerr();
         comp_check_interrupt();
         comp_check_bd_status();
-        (-> m_ev_end_scoreboard);
+        (-> m_ev_end_packet);
         disable fork_comp;
     end    
     join     
@@ -456,12 +453,7 @@ function void eth_tx_scoreboard::pred_read_mem();
     // Check that txpnt value exists in memory
     if(!dma_mem::read(txpnt,rd_data))
         `uvm_fatal(get_name(), $sformatf("Buffer descriptor number %0d Txpnt value doesn't exist in dma memory, txpnt = %0h",m_tx_bd_cfg_s.bd_index,txpnt))
-    
-    // Check that length is divisble by 4
-    if(len%4!=0)
-        `uvm_fatal(get_name(), $sformatf("Buffer descriptor number %0d Packet length isn't divisible by 4, length = %0d",m_tx_bd_cfg_s.bd_index,len))
-            
-
+      
     for (int unsigned i =0; i<len/4;i++) begin
         // Read each word from memory
         if(!dma_mem::read(txpnt+i*4,rd_data)) begin
@@ -473,6 +465,12 @@ function void eth_tx_scoreboard::pred_read_mem();
                 m_tx_expected_s.exp_pkt.push_back(rd_data[8*i+:8]);
         end
     end    
+
+    // push remaining bytes if length isn't divisble by 4
+    if(len%4!=0) begin
+        for(int i=1;i<=len%4;i++)
+              m_tx_expected_s.exp_pkt.push_back(rd_data[8*(4-i)+:8]);
+    end  
 
 endfunction
 
@@ -675,6 +673,27 @@ task eth_tx_scoreboard::pred_track_rd();
 
 endtask
 
+// task: pred_track_underrun
+task eth_tx_scoreboard::pred_track_underrun();
+    // Number of bytes read from memory by wb interface
+    longint unsigned rd_bytes=0;
+    
+    wait(m_ev_txen.triggerd);
+    forever begin
+        // Get Semaphore
+        m_sem_wb_m_seq_item.get(1);
+        
+        // check if it's read transaction
+        if(m_wb_m_seq_item.m_dir==WB_READ && m_wb_m_seq_item.m_stb_o
+           && m_wb_m_seq_item.m_cyc_o && (&m_wb_m_seq_item.m_sel_o)) begin
+            rd_bytes++;
+        end  
+        // if number of   
+        // Put Semaphore
+end
+
+endtask
+
 function bit eth_tx_scoreboard::pred_check_len_4();
 //------------------------------------------------------------------------------
 // Check minimum transmit length.
@@ -717,7 +736,7 @@ function void eth_tx_scoreboard::pred_add_pad();
         return;
 
     // Length that should exist before CRC insertion (4 bytes) & preamble & SFD (8 bytes)
-    target_len = m_tx_bd_cfg_s.minfl-8-4;
+    target_len = m_tx_bd_cfg_s.minfl-ETH_PREAMBLE_LEN-ETH_SFD_LEN-ETH_CRC_LEN;
 
     // if the length become negative after subtraction, it should be 0
     if(target_len<0)
@@ -989,6 +1008,13 @@ task eth_tx_scoreboard::comp_check_bd_status();
                 bd_data[WB_TX_BD_UR_POS],m_tx_expected_s.exp_ur))
     end    
 
+    // check if it's control frame
+    if(m_tx_bd_cfg_s.tx_pause_req ==1 && m_tx_bd_cfg_s.tx_flow ==1) begin
+        // update mirror value of pausereq with 0 because it is cleared after the frame is sent
+        m_regmodel.TXCTRL.TXPAUSERQ.predict(0);
+        // check that pausereq is cleared in dut register file
+        m_regmodel.TXCTRL.TXPAUSERQ.mirror(status, UVM_CHECK, UVM_BACKDOOR);
+    end
 endtask
 
 // function: comp_check_txerr
@@ -997,10 +1023,10 @@ function void eth_tx_scoreboard::comp_check_txerr();
     m_tx_expected_s.exp_txerr= m_tx_expected_s.exp_huge | m_tx_expected_s.exp_ur;
     
     // Check if expected error is different than actual
-    if(m_flag_txerr!=m_tx_expected_s.exp_txerr) begin
+    if(m_tx_pending_s.flag_txerr!=m_tx_expected_s.exp_txerr) begin
             `uvm_error(get_name(),
             $sformatf("Actual tx error isn't equal to expected,underrun error = %0b huge packet error = %0b actual error = %0b expected = %0b",
-            m_tx_expected_s.exp_ur,m_tx_expected_s.exp_huge,m_flag_txerr,m_tx_expected_s.exp_txerr))
+            m_tx_expected_s.exp_ur,m_tx_expected_s.exp_huge,m_tx_pending_s.flag_txerr,m_tx_expected_s.exp_txerr))
     end    
 endfunction
 
@@ -1045,7 +1071,7 @@ task eth_tx_scoreboard::comp_pack_pkt();
         // if MTxErr is asserted raise flag
         //--------------------------------------------
        if (m_mii_tx_seq_item.MTxERR) begin
-            m_flag_txerr=1;
+            m_tx_pending_s.flag_txerr=1;
        end
         //--------------------------------------------
         // Expect second nibble
@@ -1110,7 +1136,7 @@ function void eth_tx_scoreboard::comp_compare_field(
     end
 
 endfunction
-/*
+
 // function: comp_compare_pkt
 function void eth_tx_scoreboard::comp_compare_pkt();
 
@@ -1143,55 +1169,56 @@ function void eth_tx_scoreboard::comp_compare_pkt();
     if (!m_tx_bd_cfg_s.no_pre) 
 	begin
 
-        comp_compare_field("Preamble", idx, 7, error_found);
-        idx += 7;
+        comp_compare_field("Preamble", idx, ETH_PREAMBLE_LEN, error_found);
+        idx += ETH_PREAMBLE_LEN;
 		
 	end
 
-        comp_compare_field("SFD", idx, 1, error_found);
-        idx += 1;
+        comp_compare_field("SFD", idx, ETH_SFD_LEN, error_found);
+        idx += ETH_SFD_LEN;
 
     
-
-    //----------------------------------------------------------
-    // Destination Address
-    //----------------------------------------------------------
-    comp_compare_field("Destination Address", idx, 6, error_found);
-    idx += 6;
-
-    //----------------------------------------------------------
-    // Source Address
-    //----------------------------------------------------------
-    comp_compare_field("Source Address", idx, 6, error_found);
-    idx += 6;
-
-    //----------------------------------------------------------
-    // Length / Type
-    //----------------------------------------------------------
-    comp_compare_field("Length/Type", idx, 2, error_found);
-
-    type_len = {
-        m_tx_expected_s.exp_pkt[idx],
-        m_tx_expected_s.exp_pkt[idx+1]
-    };
-
-    idx += 2;
-
+    if(m_tx_expected_s.exp_pkt.size()-idx >= ETH_ADDR_LEN)
+    begin
+        //----------------------------------------------------------
+        // Destination Address
+        //----------------------------------------------------------
+        comp_compare_field("Destination Address", idx, ETH_ADDR_LEN, error_found);
+        idx += ETH_ADDR_LEN;
+    end
+   if(m_tx_expected_s.exp_pkt.size()-idx >= ETH_ADDR_LEN)
+   begin
+        //----------------------------------------------------------
+        // Source Address
+        //----------------------------------------------------------
+        comp_compare_field("Source Address", idx, ETH_ADDR_LEN, error_found);
+        idx += ETH_ADDR_LEN;
+   end
+   if(m_tx_expected_s.exp_pkt.size()-idx >= ETH_TYPE_LEN)
+   begin
+        //----------------------------------------------------------
+        // Length / Type
+        //----------------------------------------------------------
+        comp_compare_field("Length/Type", idx, ETH_TYPE_LEN, error_found);
+        idx += ETH_TYPE_LEN;
+   end
     //----------------------------------------------------------
     // Pause frame
     //----------------------------------------------------------
-    if (type_len == 16'h8808) 
+    if (m_tx_bd_cfg_s.tx_pause_req && m_tx_bd_cfg_s.tx_flow) 
 	begin
 
-        comp_compare_field("Opcode", idx, 2, error_found);
-        idx += 2;
+        comp_compare_field("Opcode", idx, ETH_PAUSE_OPCODE_LEN, error_found);
+        idx += ETH_PAUSE_OPCODE_LEN;
 
-        comp_compare_field("Pause Timer", idx, 2, error_found);
-        idx += 2;
+        comp_compare_field("Pause Timer", idx, ETH_PAUSE_TIMER_LEN, error_found);
+        idx += ETH_PAUSE_TIMER_LEN;
 
-        comp_compare_field("Reserved", idx, 42, error_found);
-        idx += 42;
-
+        comp_compare_field("Reserved", idx, ETH_PAUSE_RESERVED_LEN, error_found);
+        idx += ETH_PAUSE_RESERVED_LEN;
+        
+        comp_compare_field("CRC",idx,ETH_CRC_LEN,error_found);
+        idx += ETH_CRC_LEN;
     end
 
     //----------------------------------------------------------
@@ -1200,8 +1227,9 @@ function void eth_tx_scoreboard::comp_compare_pkt();
     else 
 	begin
 
-        payload_len = m_tx_bd_cfg_s.len;
-
+        payload_len = m_tx_bd_cfg_s.len-ETH_ADDR_LEN*2-ETH_TYPE_LEN;
+        if(payload_len < 0)
+            payload_len=0;
         comp_compare_field("Payload",
                            idx,
                            payload_len,
@@ -1216,25 +1244,28 @@ function void eth_tx_scoreboard::comp_compare_pkt();
 	begin
 
     int target_len;
-    int frame_len_no_preamble;
+    int frame_len;
 
-    // Minimum frame length excluding preamble/SFD
+    // Minimum frame length 
     target_len = m_tx_bd_cfg_s.minfl;
 
     // CRC occupies 4 bytes of MINFL
     if (m_tx_bd_cfg_s.eff_crc)
-        target_len -= 4;
+        target_len -= ETH_CRC_LEN;
 
-    // Current frame length excluding preamble/SFD, 
-    // = DA + SA + Length/Type + Payload
-	
-    frame_len = 6 + 6 + 2 + payload_len;
+    // Current frame length 
+	//with preamble = preamble+ sfd+ DA + SA + Length/Type + Payload 
+    //without preamble= sfd+ DA + SA + Length/Type + Payload
+	if (!m_tx_bd_cfg_s.no_pre) 
+    frame_len = ETH_SFD_LEN+ETH_PREAMBLE_LEN+ m_tx_bd_cfg_s.len;
+	else
+    frame_len = ETH_SFD_LEN+ m_tx_bd_cfg_s.len;
 
 
-    if (frame_len_no_preamble < target_len) 
+    if (frame_len < target_len) 
 	begin
 
-        pad_len = target_len - frame_len_no_preamble;
+        pad_len = target_len - frame_len;
 
         comp_compare_field(
             "Padding",
@@ -1246,9 +1277,6 @@ function void eth_tx_scoreboard::comp_compare_pkt();
     end
 
    end
-
-  end
-
     //----------------------------------------------------------
     // Optional CRC
     //----------------------------------------------------------
@@ -1256,12 +1284,14 @@ function void eth_tx_scoreboard::comp_compare_pkt();
 
         comp_compare_field("CRC",
                            idx,
-                           4,
+                           ETH_CRC_LEN,
                            error_found);
 
-        idx += 4;
+        idx += ETH_CRC_LEN;
 
     end
+  end
+
 
     //----------------------------------------------------------
     // Final result
@@ -1276,14 +1306,9 @@ function void eth_tx_scoreboard::comp_compare_pkt();
             "Packet comparison FAILED")
 
 endfunction
-*/
+
 // function clear
 function void eth_tx_scoreboard::clear();
-
-    //----------------------------------------------------------
-    // Clear flags
-    //----------------------------------------------------------    
-    m_flag_txerr=0;
     //----------------------------------------------------------
     // Clear structs
     //----------------------------------------------------------  
