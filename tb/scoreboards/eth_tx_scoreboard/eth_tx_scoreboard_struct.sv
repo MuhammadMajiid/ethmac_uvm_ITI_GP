@@ -93,6 +93,17 @@ typedef struct {
     //--------------------------------------------
     bit        tx_pause_req;
     bit[15:0] tx_pause_tv;
+    //--------------------------------------------
+    // INT_MASK Register (0x00)
+    //--------------------------------------------
+    bit   txc_m;
+    bit   txe_m;      
+    bit   txb_m;   
+
+    //--------------------------------------------
+    // CTRL_CONFIG Register (0x00)
+    //--------------------------------------------
+    bit tx_flow;
 
     //--------------------------------------------
     // MAC Address Registers
@@ -119,59 +130,6 @@ typedef struct {
 
 
 // =============================================================================
-// struct: eth_tx_pending_s
-// Internal scoreboard record maintained while a TX BD is in flight.
-// Populated incrementally as evidence arrives from the three monitors.
-// Emitted to the comparator FIFO once the completion-read is observed.
-// =============================================================================
-
-typedef struct {
-
-    // DMA-fetched bytes (populated from wb_master_monitor observations)
-    // Sparse: dma_bytes[byte_address] = byte_value
-    // Never read directly from the SRAM model — always from monitor evidence
-    bit [7:0] dma_bytes [bit [31:0]];
-
-    // Collision / error tracking (populated from mii_monitor events)
-    int unsigned attempt_count;         // total MTxEn pulses seen for this BD
-    int unsigned jam_count;             // jam patterns (0x99999999) observed
-    bit          had_late_collision;    // MColl after COLLVALID window
-    bit          had_cs_loss;           // MCrS drop mid-frame
-    bit          had_defer;             // MCrS busy before first MTxEn
-
-    // Underrun flag (set by pred_track_underrun, cleared per-BD)
-    // Meaning: DUT aborted because TX FIFO drained empty mid-transfer
-    bit          had_underrun;
-
-    // Status written back by DUT (observed by wb_slave_monitor read RD=0)
-    // Bit layout from eth_wishbone.v TxStatusInLatched:
-    //   [8] TxUnderRun
-    //   [7:4] RetryCntLatched
-    //   [3] RetryLimit
-    //   [2] LateCollLatched
-    //   [1] DeferLatched
-    //   [0] CarrierSenseLost
-    bit tx_underrun;
-    bit [3:0] retry_cnt;
-    bit retry_limit;
-    bit late_collision;
-    bit deferred;
-    bit carrier_sense_lost;
-
-    // Whether the completion-read has been observed (RD cleared by DUT)
-    bit          status_valid;
-
-    // Wire frame captured by mii_monitor (populated on MII_TX_FRAME event)
-    // payload[] contains data EXCLUDING preamble/SFD,
-    // INCLUDING any CRC trailer if CRC was appended
-    byte         wire_payload[];
-    int unsigned wire_length;
-    bit          wire_frame_valid;
-
-} eth_tx_pending_s;
-
-
-// =============================================================================
 // struct: eth_tx_expected_s
 // Object pushed into the predictor-to-comparator FIFO once a BD has both
 // a captured wire frame AND a DUT-written status available.
@@ -180,8 +138,8 @@ typedef struct {
 
 typedef struct {
     // Expected packet bytes
-    bytes_q       exp_pkt[];
-    int unsigned exp_length;    // total expected wire length incl. CRC if any
+    bytes_q       exp_pkt;
+    int unsigned  exp_length;    // total expected wire length incl. CRC if any
 
     // Expected status field values (all exact, all deterministic from evidence)
     // Backoff DURATION is deliberately NOT included — it is randomized by
@@ -197,6 +155,42 @@ typedef struct {
     // BD index and config snapshot (carried through for error reporting)
     int unsigned bd_index;
 
+    bit         exp_huge;               // huge frame error 
+    bit         exp_txerr;      // expected Mtxerr
+
 } eth_tx_expected_s;
+
+
+
+// =============================================================================
+// struct: eth_tx_pending_s
+// Internal scoreboard record maintained while a TX BD is in flight.
+// Populated incrementally as evidence arrives from the three monitors.
+// Emitted to the comparator FIFO once the completion-read is observed.
+// =============================================================================
+
+typedef struct {
+    // BD + register configuration (populated on RD=1 arm event)
+    eth_tx_bd_cfg_s cfg;
+
+    // DMA-fetched bytes (populated from wb_master_monitor observations)
+    // Sparse: dma_bytes[byte_address] = byte_value
+    // Never read directly from the SRAM model — always from monitor evidence
+    bit [7:0] dma_bytes [bit [31:0]];
+
+    // Collision / error tracking (populated from mii_monitor events)
+    int unsigned attempt_count;         // total MTxEn pulses seen for this BD
+    int unsigned jam_count;             // jam patterns (0x99999999) observed
+    bit          had_late_collision;    // MColl after COLLVALID window
+    bit          had_cs_loss;           // MCrS drop mid-frame
+    bit          had_defer;             // MCrS busy before first MTxEn
+
+
+    // actual frame captured by mii_monitor (populated on MII_TX_FRAME event)
+    // INCLUDING any CRC trailer if CRC was appended
+    byte_q       actual_pkt;
+
+
+} eth_tx_pending_s;
 
 `endif // ETH_TX_SCOREBOARD_STRUCT_SV
