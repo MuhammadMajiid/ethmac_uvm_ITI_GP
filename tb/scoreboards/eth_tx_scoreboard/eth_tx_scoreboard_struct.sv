@@ -73,7 +73,6 @@ typedef struct {
     bit full_duplex;
     bit exdfren;
     bit no_pre;
-    bit ifg;
     bit nobackoff;
     bit loopback;
 
@@ -109,6 +108,11 @@ typedef struct {
     // MAC Address Registers
     //--------------------------------------------
      bit [47:0] mac_addr;
+
+    //--------------------------------------------
+    //IPGT (Back to Back Inter Packet Gap Register)
+    //--------------------------------------------
+   bit [6:0] ipgt;
 
     // ------------------------------------------------------------------
     // Derived / computed fields (set inside pred_read_cfg)

@@ -14,9 +14,12 @@
 
 package eth_glob_pkg;
     
-    // Enum represents write/read
+    // Enum represents write/read in wishbone
     typedef enum logic { WB_READ = 1'b0, WB_WRITE = 1'b1 , UNKNOWN= 1'bx, HIGH_IMP= 1'bz} wb_dir_t;    
-
+    
+    // Enum represent states of interpacket gap time during transmission
+    typedef enum bit [1:0] {WAIT_FIRST_FRAME,WAIT_END_FRAME,COUNT_IPGT} ipgt_state_e;
+    
     // Queue for storing packet in bytes
     typedef byte bytes_q[$];
 
