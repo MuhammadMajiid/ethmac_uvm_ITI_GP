@@ -22,6 +22,7 @@ typedef struct {
 
 typedef struct {
     byte         exp_pkt[$];    // DA+SA+L/T+payload+CRC, as it should land in memory
+    byte         payload[];
     int unsigned exp_len;
     bit          cf_flag;
     bit          miss_bit;
@@ -231,7 +232,7 @@ function automatic void eth_rx_scoreboard::predictor(
     uvm_reg_data_t moder_v, pack_v, ctrl_v;
     uvm_reg_data_t mac0_v,  mac1_v, h0_v, h1_v;
 
-    int unsigned raw_len;     // total bytes (DA..CRC inclusive)
+    int unsigned exps.exp_len;     // total bytes (DA..CRC inclusive)
     int unsigned cmp_bytes;   // bytes to compare in payload (CRC-stripped)
 
     //  Allocate output transaction ─
@@ -280,8 +281,8 @@ function automatic void eth_rx_scoreboard::predictor(
     reg_s.hash1 = h1_v[31:0];
 
     //  Raw frame length (DA..CRC inclusive, preamble+SFD already stripped) 
-    raw_len = frame.payload_no_crc.size() + 4;  // +4 = 4 CRC bytes
-
+    //exps.exp_len = frame.payload_no_crc.size() + 4;  // +4 = 4 CRC bytes
+    exps.exp_len = frame.frame_data_q.size() ;  
 
     // PHASE A — PHY-LEVEL ABORT
     if (frame.phy_error) begin
@@ -459,17 +460,17 @@ function automatic void eth_rx_scoreboard::predictor(
 
     exp_s.sf_flag  = 1'b0;
     exp_s.tl_flag  = 1'b0;
-    exp_s.exp_len  = raw_len;  // default: full length accepted
+   
 
     begin : phase_d_length
         /////////////////////////////// Short frame decision ////////////////////////////////
-        if (raw_len < reg_s.minfl) begin
+        if (exps.exp_len < reg_s.minfl) begin
             if (!reg_s.recsmall) begin
             // RECSMALL=0: "Packets smaller than MINFL are ignored."
             // Silently discard: BD not consumed, zero DMA writes.
             `uvm_info("SB/PRED/D",
                 $sformatf("[%0t ns] #%0d Phase D — SHORT FRAME len=%0d < MINFL=%0d,RECSMALL=0. DROPPED.",
-                $realtime, frames_total, raw_len, minfl), UVM_MEDIUM)
+                $realtime, frames_total, exps.exp_len, minfl), UVM_MEDIUM)
             frame_dropped = 1'b1;
             drops_length++;
             return;   // < early exit
@@ -478,7 +479,7 @@ function automatic void eth_rx_scoreboard::predictor(
             exp_s.sf_flag = 1'b1;
             `uvm_info("SB/PRED/D",
                 $sformatf("[%0t ns] #%0d Phase D — SHORT FRAME len=%0d < MINFL=%0d, RECSMALL=1. ACCEPTED, SF=1.",
-                $realtime, frames_total, raw_len, minfl), UVM_MEDIUM)
+                $realtime, frames_total, exps.exp_len, minfl), UVM_MEDIUM)
             end
         end
 
@@ -486,22 +487,22 @@ function automatic void eth_rx_scoreboard::predictor(
         //   (4-byte frame = only CRC bytes, zero payload ≡ CRC all-wrong)
         //   This check applies INSIDE the "RECSMALL=1 accept" branch above.
         //   We do NOT drop here; CRC error flag is assembled 
-        //   (exp_s.crc_flag will be forced for raw_len <= 4.)
+        //   (exp_s.crc_flag will be forced for exps.exp_len <= 4.)
 
         /////////////////////////////////// Oversized frame decision //////////////////////////////////
-        if (!reg_s.hugen && (raw_len > reg_s.maxfl)) begin
+        if (!reg_s.hugen && (exps.exp_len > reg_s.maxfl)) begin
             // HUGEN=0: truncate at MAXFL.  Frame IS accepted but TL=1.
             // DUT stops DMA after MAXFL bytes; memory has exactly MAXFL bytes.
             exp_s.tl_flag = 1'b1;
             exp_s.exp_len  = reg_s.maxfl;
             `uvm_info("SB/PRED/D",
                 $sformatf("[%0t ns] #%0d Phase D — OVERSIZE len=%0d > MAXFL=%0d, HUGEN=0.ACCEPTED, TL=1, truncated to %0d.",
-                $realtime, frames_total, raw_len, reg_s.maxfl, reg_s.maxfl), UVM_MEDIUM)
-        end else if (reg_s.hugen && (raw_len > reg_s.maxfl)) begin
+                $realtime, frames_total, exps.exp_len, reg_s.maxfl, reg_s.maxfl), UVM_MEDIUM)
+        end else if (reg_s.hugen && (exps.exp_len > reg_s.maxfl)) begin
             // HUGEN=1: accept jumbo frames without truncation.  TL stays 0.
             `uvm_info("SB/PRED/D",
                 $sformatf("[%0t ns] #%0d Phase D — JUMBO len=%0d > MAXFL=%0d, HUGEN=1.ACCEPTED (no truncation).",
-                $realtime, frames_total, raw_len, reg_s.maxfl), UVM_MEDIUM)
+                $realtime, frames_total, exps.exp_len, reg_s.maxfl), UVM_MEDIUM)
         end
 
     end : phase_d_length
@@ -516,10 +517,10 @@ function automatic void eth_rx_scoreboard::predictor(
     //   Normal mode   (DLYCRCEN=0): CRC computed immediately after SFD.
     //   Delayed mode  (DLYCRCEN=1): CRC computation starts 4 bytes after SFD
     //   The MII monitor provides crc_delayed_ok for this mode.
-    //   Frames ≤ 4 bytes (raw_len ≤ 4): CRC is always wrong per §4.2.4 note
+    //   Frames ≤ 4 bytes (exps.exp_len ≤ 4): CRC is always wrong per §4.2.4 note
     //   (payload ≤ 0 bytes; only CRC bytes present which cannot be valid).
 
-    if ((raw_len - 4) == 0 || raw_len <= 4) begin
+    if ((exps.exp_len - 4) == 0 || exps.exp_len <= 4) begin
       // No payload bytes → CRC inherently invalid
       exp_s.crc_flag = 1'b1;
     end else if (reg_s.dlycrcen) begin
@@ -542,7 +543,7 @@ function automatic void eth_rx_scoreboard::predictor(
     // PHASE F — FINAL BD ASSEMBLY
     
     exp_s.e_flag      = 1'b0;             // E MUST be cleared when frame is stored
-    exp_s.exp_len;    // LEN = raw_len or MAXFL when TL=1
+    exp_s.exp_len;    // LEN = exps.exp_len or MAXFL when TL=1
     exp_s.cf_flag;    // Control frame (PAUSE with PASSALL=1)
     exp_s.miss_bit;   // Miss: accept ed only via PRO
     exp_s.or_flag  = 1'b0;          // Overrun not predictable from PHY data;
@@ -584,14 +585,14 @@ function automatic void eth_rx_scoreboard::predictor(
             payload_bytes_to_store = payload_bytes_available;
         end
 
-        exp_bd.payload = new[payload_bytes_to_store];
+        exp_s.payload = new[payload_bytes_to_store];
         for (int unsigned i = 0; i < payload_bytes_to_store; i++)
-            exp_bd.payload[i] = frame.payload_no_crc[i];
+            exp_s.payload[i] = frame.payload_no_crc[i];
     end
 
     `uvm_info("SB/PRED/F",
         $sformatf("[%0t ns] #%0d PREDICT ACCEPT: DA=%0h len=%0d→%0d BD[E=%0b CF=%0b M=%0b OR=?? IS=%0b DN=%0b TL=%0b SF=%0b CRC=%0b LC=%0b]",
-            $realtime, frames_total, frame.destination_addr, raw_len, 
+            $realtime, frames_total, frame.destination_addr, exps.exp_len, 
             exp_s.exp_len, exp_s.e,  exp_s.cf,  exp_s.m,
             exp_s.is_flag, exp_s.dn, exp_s.tl, exp_s.sf,
             exp_s.crc_flag, exp_s.lc), UVM_MEDIUM)
@@ -708,7 +709,7 @@ function automatic void eth_rx_scoreboard::comparator(
     //     bytes only.  The last 4 bytes in memory are the CRC; we do not
     //     compare them separately (the CRC bit in the BD is the pass/fail
     //     signal for CRC correctness).
-    //     For truncated frames (tl=1): compare all exp_bd.payload bytes
+    //     For truncated frames (tl=1): compare all exp_s.payload bytes
     //     (no CRC at the end — frame was cut before CRC bytes were received).
     if (!act_bd.or_flag && !exp_s.crc_err) begin
         int unsigned cmp_len;   // bytes to compare

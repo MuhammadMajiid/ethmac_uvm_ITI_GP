@@ -50,6 +50,7 @@ class mii_rx_seq_item extends uvm_sequence_item;
 
     // The fully assembled frame bytes (excluding preamble/SFD)
     byte frame_data_q[$];   // queue to hold the frame as byte by byte 
+    byte frame_no_crc[$];   
 
     //--------------------------------------------------------------------------
     // Constraints
@@ -81,29 +82,31 @@ class mii_rx_seq_item extends uvm_sequence_item;
     //--------------------------------------------------------------------------
     function void post_randomize();
         frame_data_q.delete(); // Clear queue just in case
+        frame_no_crc.delete(); // Clear queue just in case
 
         for(int i=5 ; i>=0 ; i--) begin 
-            frame_data_q.push_back(destination_addr[i*8 +: 8]);  // part select [start +: width]
+            frame_no_crc.push_back(destination_addr[i*8 +: 8]);  // part select [start +: width]
         end
 
         for(int i=5 ; i>=0 ; i--) begin 
-            frame_data_q.push_back(source_addr[i*8 +: 8]);
+            frame_no_crc.push_back(source_addr[i*8 +: 8]);
         end
 
-        frame_data_q.push_back(length_type[15:8]);
-        frame_data_q.push_back(length_type[7:0]);
+        frame_no_crc.push_back(length_type[15:8]);
+        frame_no_crc.push_back(length_type[7:0]);
 
         foreach (payload[i]) begin 
-            frame_data_q.push_back(payload[i]);
+            frame_no_crc.push_back(payload[i]);
         end
 
         // Calculate actual CRC based on the queue so far
-        fcs = calc_crc32(frame_data_q);
+        fcs = calc_crc32(frame_no_crc);
 
         // 5. Inject CRC Error if requested (Driver doesn't need to know!)
         if (inject_crc_error) begin
             fcs = ~fcs; 
         end
+        frame_data_q = frame_no_crc; // Copy the frame without CRC first
 
         frame_data_q.push_back(fcs[31:24]);
         frame_data_q.push_back(fcs[23:16]);
@@ -112,12 +115,29 @@ class mii_rx_seq_item extends uvm_sequence_item;
     endfunction
 
     //--------------------------------------------------------------------------
-    // 
+    // calc_crc32
     //--------------------------------------------------------------------------
     function bit [31:0] calc_crc32(const ref byte data_q[$]);
-        //
-        return 32'hABCD_1234;  // Dummy 
-    endfunction
+
+        bit          [31:0] crc;
+        byte         current_byte;
+        bit          b;
+        int len = data.size();
+
+        crc = 32'hFFFF_FFFF;
+
+        for (int i = 0; i < len; i++) begin
+            current_byte = data[i];
+            for (int bit_i = 0; bit_i < 8; bit_i++) begin
+                b   = crc[0] ^ current_byte[bit_i];
+                crc = crc >> 1;
+                if (b) crc = crc ^ ETH_CRC_POLY;
+            end
+        end
+
+        return ~crc;
+
+    endfunction   
 
     //--------------------------------------------------------------------------
     // Un-packing the frame
