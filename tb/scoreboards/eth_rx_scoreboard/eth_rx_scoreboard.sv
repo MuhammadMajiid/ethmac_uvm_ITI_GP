@@ -232,9 +232,6 @@ function automatic void eth_rx_scoreboard::predictor(
     uvm_reg_data_t moder_v, pack_v, ctrl_v;
     uvm_reg_data_t mac0_v,  mac1_v, h0_v, h1_v;
 
-    int unsigned exps.exp_len;     // total bytes (DA..CRC inclusive)
-    int unsigned cmp_bytes;   // bytes to compare in payload (CRC-stripped)
-
     //  Allocate output transaction ─
     exp_bd        = wb_bd_seq_item::type_id::create("exp_bd");
     frame_dropped = 1'b0; // default to accepted
