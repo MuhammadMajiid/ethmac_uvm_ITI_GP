@@ -185,7 +185,7 @@ typedef struct {
     bit          flag_rd;
     // actual frame captured by mii_monitor (populated on MII_TX_FRAME event)
     // INCLUDING any CRC trailer if CRC was appended
-    byte_q       actual_pkt;
+    bytes_q      actual_pkt;
 
 
 } eth_tx_pending_s;

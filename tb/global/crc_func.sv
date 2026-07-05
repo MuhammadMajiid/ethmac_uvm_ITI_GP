@@ -14,8 +14,9 @@
         bit          [31:0] crc;
         byte         current_byte;
         bit          b;
-        int len = data.size();
-
+        int         len ;
+        
+        len = data.size();
         crc = 32'hFFFF_FFFF;
 
         for (int i = 0; i < len; i++) begin

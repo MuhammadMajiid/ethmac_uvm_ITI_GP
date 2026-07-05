@@ -21,8 +21,8 @@ class eth_tx_scoreboard extends uvm_scoreboard;
     // =========================================================================
     // Analysis fifos — one for wishbone master, one for MII TX
     // =========================================================================
-    uvm_analysis_fifo  #(wb_m_seq_item_base)        wb_m_fifo;
-    uvm_analysis_fifo  #(mii_tx_seq_item_base)      mii_tx_fifo;
+    uvm_tlm_analysis_fifo  #(wb_m_seq_item_base)        wb_m_fifo;
+    uvm_tlm_analysis_fifo  #(mii_tx_seq_item_base)      mii_tx_fifo;
     // =========================================================================
     // Analysis exports — one for wishbone master, one for MII TX
     // =========================================================================
@@ -40,11 +40,7 @@ class eth_tx_scoreboard extends uvm_scoreboard;
     // =========================================================================
     // Register block
     // =========================================================================
-    eth_reg_block                                   m_regmodel;
-    //---------------------------------------------------------------------------
-    // Predictor shadow copy of BD memory
-    //---------------------------------------------------------------------------
-    bd_mem m_bd_mem;    
+    eth_reg_block                                   m_regmodel;   
     // =========================================================================
     // Semaphores
     // =========================================================================
@@ -253,9 +249,6 @@ function void eth_tx_scoreboard::build_phase(uvm_phase phase);
     // Build transactions
     m_mii_tx_seq_item  = mii_tx_seq_item_base::type_id::create("m_mii_tx_seq_item");
     m_wb_m_seq_item    = wb_m_seq_item_base::type_id::create("m_wb_m_seq_item");
-    
-    // Build buffer descriptor memory model
-    m_bd_mem = bd_mem::type_id::create("m_bd_mem");
 
     // Creating semaphore objects
     m_sem_tx_seq_item=new(SEM_TX_SEQ_ITEM_NO_KEYS);
@@ -331,7 +324,7 @@ task eth_tx_scoreboard::comparator();
         comp_check_interrupt();
         comp_check_bd_status();
         clear();
-        (-> m_ev_end_pkt);
+        -> m_ev_end_pkt;
         disable fork_comp;
     end    
     join     
@@ -548,7 +541,7 @@ task eth_tx_scoreboard::pred_track_rd();
     //------------------------------------------------------------
     status_idx = m_tx_bd_cfg_s.bd_index * 2;
 
-    m_regmodel.WB_TX_BD_mem.peek(
+    m_regmodel.eth_bd_mem.peek(
         status,
         status_idx,
         rtl_data
@@ -566,7 +559,7 @@ task eth_tx_scoreboard::pred_track_rd();
         //--------------------------------------------------------
         // Read current BD through backdoor
         //--------------------------------------------------------
-        m_regmodel.WB_TX_BD_mem.peek(
+        m_regmodel.eth_bd_mem.peek(
             status,
             status_idx,
             rtl_data
@@ -612,7 +605,7 @@ task eth_tx_scoreboard::pred_track_rd();
             //----------------------------------------------------
             status_idx = m_tx_bd_cfg_s.bd_index * 2;
 
-            m_regmodel.WB_TX_BD_mem.peek(
+            m_regmodel.eth_bd_mem.peek(
                 status,
                 status_idx,
                 rtl_data
@@ -816,10 +809,10 @@ task eth_tx_scoreboard::pred_read_cfg_reg();
     m_regmodel.MAC_ADDR0.mirror(status, UVM_CHECK, UVM_BACKDOOR);
 
 
-    m_tx_bd_cfg_s.mac_addr[39:32] = m_regmodel.MAC_ADDR0.BYTE2.get_mirrored_value();
-    m_tx_bd_cfg_s.mac_addr[31:24] = m_regmodel.MAC_ADDR0.BYTE3.get_mirrored_value();
-    m_tx_bd_cfg_s.mac_addr[23:16] = m_regmodel.MAC_ADDR0.BYTE4.get_mirrored_value();
-    m_tx_bd_cfg_s.mac_addr[15:8]  = m_regmodel.MAC_ADDR0.BYTE5.get_mirrored_value();
+    m_tx_bd_cfg_s.mac_addr[31:24] = m_regmodel.MAC_ADDR0.BYTE2.get_mirrored_value();
+    m_tx_bd_cfg_s.mac_addr[23:16] = m_regmodel.MAC_ADDR0.BYTE3.get_mirrored_value();
+    m_tx_bd_cfg_s.mac_addr[15:8] = m_regmodel.MAC_ADDR0.BYTE4.get_mirrored_value();
+    m_tx_bd_cfg_s.mac_addr[7:0]  = m_regmodel.MAC_ADDR0.BYTE5.get_mirrored_value();
 
     //------------------------------------------
     // MAC_ADDR1
@@ -828,7 +821,7 @@ task eth_tx_scoreboard::pred_read_cfg_reg();
 
 
     m_tx_bd_cfg_s.mac_addr[47:40] = m_regmodel.MAC_ADDR1.BYTE0.get_mirrored_value();
-    m_tx_bd_cfg_s.mac_addr[7:0]   = m_regmodel.MAC_ADDR1.BYTE1.get_mirrored_value();
+    m_tx_bd_cfg_s.mac_addr[39:32]   = m_regmodel.MAC_ADDR1.BYTE1.get_mirrored_value();
 	  
 	//------------------------------------------
     //CTRLMODER
@@ -876,13 +869,13 @@ task eth_tx_scoreboard::pred_read_cfg_bd();
     //------------------------------------------
     // Read Status Word
     //------------------------------------------
-    m_regmodel.WB_TX_BD_mem.peek(
+    m_regmodel.eth_bd_mem.peek(
         status,
         status_idx,
         data
     );
 
-    rd_data = m_bd_mem::read(status_idx);
+    rd_data = bd_mem::read(status_idx);
     // Compare against software-written shadow copy
     if (data !== rd_data) begin
         `uvm_error(get_type_name(),
@@ -903,13 +896,13 @@ task eth_tx_scoreboard::pred_read_cfg_bd();
     //------------------------------------------
     // Read Pointer Word
     //------------------------------------------
-    m_regmodel.WB_TX_BD_mem.peek(
+    m_regmodel.eth_bd_mem.peek(
         status,
         ptr_idx,
         data
     );
 
-    rd_data = m_bd_mem::read(ptr_idx);
+    rd_data = bd_mem::read(ptr_idx);
 
     if (data !== rd_data) begin
         `uvm_error(get_type_name(),
@@ -981,9 +974,9 @@ task eth_tx_scoreboard::comp_check_interrupt();
         end
 
         //Read 3 values from register file
-        m_regmodel.INT_SOURCE.TXE_E.read(status,txe,UVM_BACKDOOR);  
-        m_regmodel.INT_SOURCE.TXC_E.read(status,txc,UVM_BACKDOOR);  
-        m_regmodel.INT_SOURCE.TXB_E.read(status,txb,UVM_BACKDOOR) ; 
+        m_regmodel.INT_SOURCE.TXE.read(status,txe,UVM_BACKDOOR);  
+        m_regmodel.INT_SOURCE.TXC.read(status,txc,UVM_BACKDOOR);  
+        m_regmodel.INT_SOURCE.TXB.read(status,txb,UVM_BACKDOOR) ; 
 
         // check that only one interrupt fires in the 3
         assert($onehot({txe[0],txc[0],txb[0]}))
@@ -1002,7 +995,7 @@ task eth_tx_scoreboard::comp_check_bd_status();
     // Read current BD through backdoor
     //--------------------------------------------------------
     status_idx = m_tx_bd_cfg_s.bd_index * 2;
-    m_regmodel.WB_TX_BD_mem.peek(status,status_idx,bd_data);
+    m_regmodel.eth_bd_mem.peek(status,status_idx,bd_data);
 
     // check that underrun actual error equal actal
     if(bd_data[WB_TX_BD_UR_POS]!=m_tx_expected_s.exp_ur) begin
@@ -1412,7 +1405,7 @@ function void eth_tx_scoreboard::write( wb_s_seq_item_base#(WB_S_ADDR_WIDTH, WB_
 
         mem_idx = tr.m_addr[7:0];
 
-        m_bd_mem::write(mem_idx,tr.m_wdata);
+        bd_mem::write(mem_idx,tr.m_wdata);
 
         `uvm_info(get_type_name(),
             $sformatf(
