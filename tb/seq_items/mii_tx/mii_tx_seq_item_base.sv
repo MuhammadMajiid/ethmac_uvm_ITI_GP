@@ -30,6 +30,9 @@ class mii_tx_seq_item_base extends uvm_sequence_item;
     logic MTxEN;                    // Transmit Enable. indicates to the PHY that the data MTxD is valid and the transmission can start.
     logic MTxERR;                   // Transmit Coding Error
 
+    bit ipgt_valid;
+    ipgt_state_e ipgt_cycles;
+    
     function new(string name = "mii_tx_seq_item_base");
         super.new(name);
     endfunction

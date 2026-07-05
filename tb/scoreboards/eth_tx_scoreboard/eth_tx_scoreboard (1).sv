@@ -937,6 +937,63 @@ task eth_tx_scoreboard::comp_compare_pkt();
 
 endtask
 
+//------------------------------------------------------------------------------
+// Compare measured IPGT with expected IPGT
+//------------------------------------------------------------------------------
+task eth_tx_scoreboard::comp_compare_ipgt();
+
+    int unsigned exp_cycles;
+
+    forever begin
+
+        //------------------------------------------------------
+        // Wait until monitor reports an IPGT measurement
+        //------------------------------------------------------
+        get_mii_tx_seq_item();
+
+        if (!m_mii_tx_seq_item.ipgt_valid)
+            continue;
+
+        //------------------------------------------------------
+        // Calculate expected IPGT
+        //------------------------------------------------------
+        if (m_tx_bd_cfg_s.full_duplex)
+            exp_cycles = m_tx_bd_cfg_s.ipgt + 6;
+        else
+            exp_cycles = m_tx_bd_cfg_s.ipgt + 3;
+
+        //------------------------------------------------------
+        // Compare
+        //------------------------------------------------------
+        if (m_mii_tx_seq_item.ipgt_cycles != exp_cycles) begin
+
+            `uvm_error(get_type_name(),
+                $sformatf(
+                "IPGT mismatch\n\
+                 Mode           : %s\n\
+                 Register IPGT  : 0x%02h\n\
+                 Expected       : %0d MII cycles\n\
+                 Measured       : %0d MII cycles",
+                m_tx_bd_cfg_s.full_duplex ? "Full Duplex" : "Half Duplex",
+                m_tx_bd_cfg_s.ipgt,
+                exp_cycles,
+                m_mii_tx_seq_item.ipgt_cycles))
+
+        end
+        else begin
+
+            `uvm_info(get_type_name(),
+                $sformatf(
+                "IPGT PASS (%0d MII cycles)",
+                exp_cycles),
+                UVM_LOW)
+
+        end
+
+    end
+
+endtask
+
 
 
 `endif // ETH_TX_SCOREBOARD_SV

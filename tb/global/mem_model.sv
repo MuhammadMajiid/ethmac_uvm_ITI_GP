@@ -1,21 +1,23 @@
 //==============================================================================
 // Project  : ethmac_uvm_ITI_GP
-// File     : dma_mem.sv
+// File     : mem_model.sv
 // Author   : Wael
 // Date     : 2026-06-30
 //------------------------------------------------------------------------------
 // Description:
-//   Memory model represents the external memory that the DUT write to it during
-//   Reception or reads from it during transmission.
+//   Contains 2 classes represent  2 memory models, the first represents the
+//   external memory that the DUT write to it during Reception or reads from it
+//   during transmission. the second models buffer descriptors in the DUT.
+//   
 //==============================================================================
-`ifndef DMA_MEM_SV
-`define DMA_MEM_SV
+`ifndef MEM_MODEL_SV
+`define MEM_MODEL_SV
 
 class dma_mem extends uvm_object;
   `uvm_object_utils(dma_mem)
 
-  // Associative array holding memory elements
-  static local bit [31:0] dma_mem [int unsigned];
+  // Associative array holding tx&rx data memory elements
+  static local bit [WB_DATA_WIDTH-1:0] dma_mem [int unsigned];
 
   function new(string name = "dma_mem");
     super.new(name);
@@ -35,7 +37,7 @@ class dma_mem extends uvm_object;
   //  1: Data is written successfully
   //  0: Data isn't written due to byte alignment error.
   // -------------------------------------------------------------------------
-  static function bit write(int unsigned addr,bit [31:0] data);
+  static function bit write(int unsigned addr,bit [WB_DATA_WIDTH-1:0] data);
     if (addr % 4 != 0) begin
       `uvm_error_context("DMA_ERROR",$sformatf("Can't write in memory, address %0d is not divisible by 4",addr),uvm_root::get());
       return 0;
@@ -63,7 +65,7 @@ class dma_mem extends uvm_object;
   //  1: Data is read successfully
   //  0: Data isn't written due to address existance or byte alignment errors.
   // -------------------------------------------------------------------------
-  static function bit read(int unsigned addr,ref bit [31:0] data);
+  static function bit read(int unsigned addr,ref bit [WB_DATA_WIDTH-1:0] data);
     if (!dma_mem.exists(addr)) begin
       `uvm_error_context("DMA_ERROR",$sformatf("Can't read from memory, address %0d doesn't exist",addr),uvm_root::get());
       return 0;
@@ -91,4 +93,46 @@ class dma_mem extends uvm_object;
 
 endclass
 
-`endif // DMA_MEM_SV
+
+class bd_mem extends uvm_object;
+  `uvm_object_utils(bd_mem)
+
+  // Memory array holding BD data memory elements
+  static local bit [WB_DATA_WIDTH-1:0] bd_mem [WB_BD_MEM_DEPTH];
+
+  function new(string name = "bd_mem");
+    super.new(name);
+  endfunction
+  // -------------------------------------------------------------------------
+  //  function : write
+  // -------------------------------------------------------------------------
+  // Description:
+  //  Write data to memory.
+  //
+  // Arguments: 
+  //  addr: Memory Address
+  //  data  Data written to memory
+  //  
+  // -------------------------------------------------------------------------
+  static function void write(bit [$clog2(WB_BD_MEM_DEPTH)-1:0] addr,bit [WB_DATA_WIDTH-1:0] data);
+    bd_mem[addr] = data;
+  endfunction
+  // -------------------------------------------------------------------------
+  //  function : read
+  // -------------------------------------------------------------------------
+  // Description:
+  //  Read data from memory.
+  //
+  // Arguments: 
+  //  addr: Memory Address
+  //  data  reference to the desired data to be read 
+  //  
+  // -------------------------------------------------------------------------
+  static function bit [WB_DATA_WIDTH-1:0] read(bit [$clog2(WB_BD_MEM_DEPTH)-1:0] addr);
+    return(bd_mem[addr]);
+  endfunction
+
+endclass
+
+
+`endif // MEM_MODEL_SV

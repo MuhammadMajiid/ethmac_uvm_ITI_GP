@@ -73,7 +73,6 @@ typedef struct {
     bit full_duplex;
     bit exdfren;
     bit no_pre;
-    bit ifg;
     bit nobackoff;
     bit loopback;
 
@@ -109,6 +108,11 @@ typedef struct {
     // MAC Address Registers
     //--------------------------------------------
      bit [47:0] mac_addr;
+
+    //--------------------------------------------
+    //IPGT (Back to Back Inter Packet Gap Register)
+    //--------------------------------------------
+   bit [6:0] ipgt;
 
     // ------------------------------------------------------------------
     // Derived / computed fields (set inside pred_read_cfg)
@@ -178,7 +182,7 @@ typedef struct {
     bit          flag_cs_loss;           // MCrS drop mid-frame
     bit          flag_defer;             // MCrS busy before first MTxEn
     bit          flag_txerr;           // set when Tx error is asserted 
-
+    bit          flag_rd;
     // actual frame captured by mii_monitor (populated on MII_TX_FRAME event)
     // INCLUDING any CRC trailer if CRC was appended
     byte_q       actual_pkt;
