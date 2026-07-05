@@ -16,7 +16,10 @@ package eth_ral_pkg;
   `include "uvm_macros.svh"
     import uvm_pkg::*;
 
-    import wb_s_pkg::*;
+    // Global package
+    import eth_glob_pkg::*;
+
+    import wb_s_seq_item_pkg::*;
 
     // -------------------------------------------------------------------------
     // Step 1: Individual register class files

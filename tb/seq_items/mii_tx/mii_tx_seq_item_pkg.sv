@@ -1,24 +1,24 @@
 //==============================================================================
 // Project  : ethmac_uvm_ITI_GP
-// File     : wb_m_seq_item_pkg.sv
+// File     : mii_tx_seq_item_pkg.sv
 // Author   : Wael
-// Date     : 2026-06-26
+// Date     : 2026-07-5
 //------------------------------------------------------------------------------
 // Description:
-//   Package contain all wishbone master transactions.
+//   Package contain all mii tx master transactions.
 //==============================================================================
 
-`ifndef WB_M_SEQ_ITEM_PKG_SV
-`define WB_M_SEQ_ITEM_PKG_SV
-package wb_m_seq_item_pkg;
+`ifndef MII_TX_SEQ_ITEM_PKG_SV
+`define MII_TX_SEQ_ITEM_PKG_SV
+
+package mii_tx_seq_item_pkg;
 
     `include "uvm_macros.svh"
      import uvm_pkg::*;
 
     import eth_glob_pkg::*;
 
-    `include "wb_m_seq_item_base.sv";
+    `include "mii_tx_seq_item_base.sv";
 
-endpackage : wb_m_seq_item_pkg
-
-`endif // WB_M_SEQ_ITEM_PKG_SV
+endpackage : mii_tx_seq_item_pkg
+`endif // MII_TX_SEQ_ITEM_PKG_SV

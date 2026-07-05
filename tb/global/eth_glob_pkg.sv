@@ -14,6 +14,9 @@
 
 package eth_glob_pkg;
     
+    `include "uvm_macros.svh"
+    import uvm_pkg::*;
+    
     // Enum represents write/read in wishbone
     typedef enum logic { WB_READ = 1'b0, WB_WRITE = 1'b1 , UNKNOWN= 1'bx, HIGH_IMP= 1'bz} wb_dir_t;    
     
@@ -39,7 +42,7 @@ package eth_glob_pkg;
     parameter ETH_PAD                = 8'h00;
     parameter ETH_PREAMBLE           = 8'h55;
     parameter ETH_SFD                = 8'h5D;
-    parameter ETH_CRC_POLY           = 32'hc704dd7b;   
+    parameter ETH_CRC_POLY           = 32'hEDB88320;   
     parameter real IFG_MIN_NS        = 960.0; 
     parameter ETH_PREAMBLE_LEN       = 7;
     parameter ETH_SFD_LEN            = 1;
@@ -53,7 +56,7 @@ package eth_glob_pkg;
     parameter ETH_PHY_TX_CLK_PERIOD_NS    = 40; // 25 MHz
     parameter ETH_PHY_RX_CLK_PERIOD_NS    = 40; // 25MHz
     parameter WB_CLK_PERIOD_NS            = 5;  // 200 MHz
-
+    
     `include "mem_model.sv"
     `include "crc_func.sv"
  

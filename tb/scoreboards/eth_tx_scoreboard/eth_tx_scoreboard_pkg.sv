@@ -21,9 +21,14 @@ package eth_tx_scoreboard_pkg;
 
     // RAL package
     import eth_ral_pkg::*;
-    
-    `include "eth_tx_scoreboard.sv"
+
+    // Transactions packages
+    import wb_m_seq_item_pkg::*;
+    import wb_s_seq_item_pkg::*;
+    import mii_tx_seq_item_pkg::*;
+
     `include "eth_tx_scoreboard_struct.sv"
+    `include "eth_tx_scoreboard.sv"
  
 endpackage : eth_tx_scoreboard_pkg
 
