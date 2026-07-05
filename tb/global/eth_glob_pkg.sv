@@ -54,7 +54,7 @@ package eth_glob_pkg;
     parameter ETH_PHY_RX_CLK_PERIOD_NS    = 40; // 25MHz
     parameter WB_CLK_PERIOD_NS            = 5;  // 200 MHz
 
-    `include "dma_mem.sv"
+    `include "mem_model.sv"
     `include "crc_func.sv"
  
 endpackage : eth_glob_pkg

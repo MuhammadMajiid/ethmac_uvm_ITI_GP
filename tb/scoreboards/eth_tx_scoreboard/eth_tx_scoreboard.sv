@@ -44,7 +44,7 @@ class eth_tx_scoreboard extends uvm_scoreboard;
     //---------------------------------------------------------------------------
     // Predictor shadow copy of BD memory
     //---------------------------------------------------------------------------
-     bit [WB_DATA_WIDTH-1:0] m_bd_shadow [WB_BD_MEM_DEPTH];    
+    bd_mem m_bd_mem;    
     // =========================================================================
     // Semaphores
     // =========================================================================
@@ -54,10 +54,9 @@ class eth_tx_scoreboard extends uvm_scoreboard;
     // Events
     // =========================================================================    
     event m_ev_end_pkt;      // triggered when each packet is compared
-    event m_ev_end_seqs;        // triggerd when all sequences finish
-    event m_ev_txen;            // triggered when TXEN bit in MODER register changes from 0 to 1
-    event m_ev_rd;              // triggered when RD bit in the current buffer descriptor changes from  0 to 1
-    event m_ev_start_comp;      // triggered when packet ends to start comparison
+    event m_ev_end_seqs;    // triggerd when all sequences finish
+    event m_ev_txen;        // triggered when TXEN bit in MODER register changes from 0 to 1
+    event m_ev_start_comp;  // triggered when packet ends to start comparison
     // =========================================================================
     // Structs
     // ========================================================================= 
@@ -205,8 +204,8 @@ class eth_tx_scoreboard extends uvm_scoreboard;
     //  task : pred_track_rd
     // -------------------------------------------------------------------------
     // Description:
-    //   always check rd bit in register model and when it rises to high, 
-    //   trigger event m_ev_txen. 
+    //   always check rd bit of each BD in register model and when it's high set
+    //   a flag and when it falls increment current bd.
     // Arguments: None
     //
     // -------------------------------------------------------------------------     
@@ -253,8 +252,11 @@ function void eth_tx_scoreboard::build_phase(uvm_phase phase);
 
     // Build transactions
     m_mii_tx_seq_item  = mii_tx_seq_item_base::type_id::create("m_mii_tx_seq_item");
-    m_wb_m_seq_item    = wb_m_seq_item_base::type_id::create("m_wb_m_seq_item ");
+    m_wb_m_seq_item    = wb_m_seq_item_base::type_id::create("m_wb_m_seq_item");
     
+    // Build buffer descriptor memory model
+    m_bd_mem = bd_mem::type_id::create("m_bd_mem");
+
     // Creating semaphore objects
     m_sem_tx_seq_item=new(SEM_TX_SEQ_ITEM_NO_KEYS);
     m_sem_wb_m_seq_item=new(SEM_WB_M_SEQ_ITEM_NO_KEYS);
@@ -300,11 +302,14 @@ task eth_tx_scoreboard::predictor();
                     pred_read_cfg_reg();
                 forever begin
                     if(!m_tx_bd_cfg_s.tx_pause_req || !m_tx_bd_cfg_s.tx_flow) begin
-                        wait(m_ev_rd.triggered);
+                        wait(m_tx_pending_s.flag_rd);
                         pred_read_cfg_bd();
                         if(pred_check_len_4())
                         pred_construct_data_pkt();                
                     end
+                    else begin
+                        pred_construct_ctrl_pkt();
+                    end    
                     wait(m_ev_end_pkt.triggered);
                     pred_read_cfg_reg();
                 end    
@@ -320,11 +325,12 @@ task eth_tx_scoreboard::comparator();
     comp_pack_pkt();
     comp_compare_ipgt();
     begin
-        wait(m_ev_start_comp);
+        wait(m_ev_start_comp.triggered);
         comp_compare_pkt();
         comp_check_txerr();
         comp_check_interrupt();
         comp_check_bd_status();
+        clear();
         (-> m_ev_end_pkt);
         disable fork_comp;
     end    
@@ -347,7 +353,7 @@ function void eth_tx_scoreboard::pred_construct_data_pkt();
         crc=calc_crc32(m_tx_expected_s.exp_pkt);
         
         // push crc (4 bytes)
-        for(int i = 3; i>=0; i--)
+        for(int i = ETH_CRC_LEN-1; i>=0; i--)
             m_tx_expected_s.exp_pkt.push_back(crc[8*i+:8]);
     end
     // check if the packet is greater than maximum size, discard additional bytes
@@ -361,11 +367,11 @@ endfunction
 function void eth_tx_scoreboard::pred_construct_ctrl_pkt();
         bit [31:0] crc;
         // push destination addr (6 bytes)
-        for(int i = 5; i>=0; i--)
+        for(int i = ETH_ADDR_LEN-1; i>=0; i--)
             m_tx_expected_s.exp_pkt.push_back(ETH_PAUSE_FRAME_ADDR[8*i+:8]);
         
         // push source addr (6 bytes)
-        for(int i = 5; i>=0; i--)
+        for(int i = ETH_ADDR_LEN-1; i>=0; i--)
             m_tx_expected_s.exp_pkt.push_back(m_tx_bd_cfg_s.mac_addr[8*i+:8]);
         
         // push lenth_type (2 bytes)
@@ -388,7 +394,7 @@ function void eth_tx_scoreboard::pred_construct_ctrl_pkt();
             crc=calc_crc32(m_tx_expected_s.exp_pkt);
 
         // push crc (4 bytes)
-        for(int i = 3; i>=0; i--)
+        for(int i = ETH_CRC_LEN-1; i>=0; i--)
             m_tx_expected_s.exp_pkt.push_back(crc[8*i+:8]);
 
         // add preamble (7 bytes) & SFD (1 byte)     
@@ -401,9 +407,9 @@ function void eth_tx_scoreboard::pred_read_mem();
     // length of packet in BD
     bit [15:0] len =  m_tx_bd_cfg_s.len;
     // base address of packet
-    bit [31:0] txpnt =  m_tx_bd_cfg_s.txpnt;
+    bit [WB_DATA_WIDTH-1:0] txpnt =  m_tx_bd_cfg_s.txpnt;
     // Read data from dma memory (4 bytes)
-    bit [31:0] rd_data;
+    bit [WB_DATA_WIDTH-1:0] rd_data;
 
     // Check that txpnt value exists in memory
     if(!dma_mem::read(txpnt,rd_data))
@@ -572,14 +578,14 @@ task eth_tx_scoreboard::pred_track_rd();
         //--------------------------------------------------------
         // Software armed this BD (RD : 0 -> 1)
         //--------------------------------------------------------
-        if (!prev_rd && curr_rd) begin
+        if (curr_rd) begin
 
             `uvm_info(get_type_name(),
                 $sformatf("TX BD[%0d] armed",
                           m_tx_bd_cfg_s.bd_index),
                 UVM_MEDIUM)
 
-            -> m_ev_rd;
+            m_tx_pending_s.flag_rd=1;
 
         end
 
@@ -635,14 +641,14 @@ task eth_tx_scoreboard::pred_track_underrun();
     longint unsigned pkt_len=0;
     int      pre_crc_bytes =0;
 
-    wait(m_ev_txen.triggerd);     
+    wait(m_ev_txen.triggered);     
     
     forever
     begin
         fork: fork_underrun
             begin
                 #1ns;
-                pkt_len=m_tx_bd_cfg_s.len()+ETH_SFD_LEN;
+                pkt_len=m_tx_bd_cfg_s.len+ETH_SFD_LEN;
                 pre_crc_bytes =ETH_SFD_LEN;
 
                 if(!m_tx_bd_cfg_s.no_pre) begin
@@ -667,6 +673,8 @@ task eth_tx_scoreboard::pred_track_underrun();
                             m_tx_expected_s.exp_ur=1;
                             
                         // Put Semaphore
+                        m_sem_wb_m_seq_item.put(1);
+                        #1;
                 end
             end
             begin
@@ -830,6 +838,13 @@ task eth_tx_scoreboard::pred_read_cfg_reg();
 	m_tx_bd_cfg_s.tx_flow = m_regmodel.CTRLMODER.TXFLOW.get_mirrored_value();
 
     //------------------------------------------
+    // IPGT
+    //------------------------------------------
+    m_regmodel.IPGT.mirror(status, UVM_CHECK, UVM_BACKDOOR);
+
+    m_tx_bd_cfg_s.ipgt = m_regmodel.IPGT.get_mirrored_value();
+
+    //------------------------------------------
     // INT_MASK
     //------------------------------------------
     m_regmodel.INT_MASK.mirror(status, UVM_CHECK, UVM_BACKDOOR);
@@ -853,6 +868,7 @@ task eth_tx_scoreboard::pred_read_cfg_bd();
 
     int status_idx;
     int ptr_idx;
+    bit [WB_DATA_WIDTH-1:0] rd_data;
 
     status_idx = m_tx_bd_cfg_s.bd_index * 2;
     ptr_idx    = status_idx + 1;
@@ -866,14 +882,15 @@ task eth_tx_scoreboard::pred_read_cfg_bd();
         data
     );
 
+    rd_data = m_bd_mem::read(status_idx);
     // Compare against software-written shadow copy
-    if (data !== m_bd_shadow[status_idx]) begin
+    if (data !== rd_data) begin
         `uvm_error(get_type_name(),
             $sformatf(
             "TX BD[%0d] STATUS mismatch\nRTL      = 0x%08h\nExpected = 0x%08h",
             m_tx_bd_cfg_s.bd_index,
             data,
-            m_bd_shadow[status_idx]))
+            rd_data))
     end
 
     m_tx_bd_cfg_s.len     = data[31:16];
@@ -892,13 +909,15 @@ task eth_tx_scoreboard::pred_read_cfg_bd();
         data
     );
 
-    if (data !== m_bd_shadow[ptr_idx]) begin
+    rd_data = m_bd_mem::read(ptr_idx);
+
+    if (data !== rd_data) begin
         `uvm_error(get_type_name(),
             $sformatf(
             "TX BD[%0d] POINTER mismatch\nRTL      = 0x%08h\nExpected = 0x%08h",
             m_tx_bd_cfg_s.bd_index,
             data,
-            m_bd_shadow[ptr_idx]))
+            rd_data))
     end
 
     m_tx_bd_cfg_s.txpnt = data;
@@ -944,7 +963,7 @@ task eth_tx_scoreboard::comp_check_interrupt();
 
         end    
         // Check TXC interrupt & a ctrl frame is sent
-        if (m_tx_bd_cfg_s.txc_m==1 && m_tx_bd_cfg_s.tx_pause_req ==1 && m_tx_bd_cfg_s.tx_flow ==1) begin
+        else if (m_tx_bd_cfg_s.txc_m==1 && m_tx_bd_cfg_s.tx_pause_req ==1 && m_tx_bd_cfg_s.tx_flow ==1) begin
             // Put 1 in mirrored value
             m_regmodel.INT_SOURCE.TXC.predict(1);
 
@@ -1297,11 +1316,13 @@ task eth_tx_scoreboard::comp_compare_ipgt();
 
     forever begin
 
-        m_sem_tx_seq_item.put(1); 
+        m_sem_tx_seq_item.get(1); 
 
-        if (!m_mii_tx_seq_item.ipgt_valid)
+        if (!m_mii_tx_seq_item.ipgt_valid) begin
+            m_sem_tx_seq_item.put(1);
+            #1ns;
             continue;
-
+        end
         //------------------------------------------------------
         // Calculate expected IPGT
         //------------------------------------------------------
@@ -1378,7 +1399,7 @@ function void eth_tx_scoreboard::write( wb_s_seq_item_base#(WB_S_ADDR_WIDTH, WB_
     //-------------------------------------------------------
     // Ignore reads
     //-------------------------------------------------------
-    if (!tr.we)
+    if (tr.m_dir==WB_READ)
         return;
 
     //-------------------------------------------------------
@@ -1387,17 +1408,17 @@ function void eth_tx_scoreboard::write( wb_s_seq_item_base#(WB_S_ADDR_WIDTH, WB_
     // BD memory occupies:
     // 10'h100 -> 10'h1FF
     //-------------------------------------------------------
-    if (tr.addr[9:8] == 2'b01) begin
+    if (tr.m_addr[9:8] == 2'b01 && (&tr.m_sel)) begin
 
-        mem_idx = tr.addr[7:0];
+        mem_idx = tr.m_addr[7:0];
 
-        m_bd_shadow[mem_idx] = tr.data;
+        m_bd_mem::write(mem_idx,tr.m_wdata);
 
         `uvm_info(get_type_name(),
             $sformatf(
             "BD_MEM[%0d] <= 0x%08h",
             mem_idx,
-            tr.data),
+            tr.m_wdata),
             UVM_HIGH)
 
     end

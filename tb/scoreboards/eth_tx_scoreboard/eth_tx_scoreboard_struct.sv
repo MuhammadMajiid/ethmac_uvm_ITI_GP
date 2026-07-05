@@ -182,7 +182,7 @@ typedef struct {
     bit          flag_cs_loss;           // MCrS drop mid-frame
     bit          flag_defer;             // MCrS busy before first MTxEn
     bit          flag_txerr;           // set when Tx error is asserted 
-
+    bit          flag_rd;
     // actual frame captured by mii_monitor (populated on MII_TX_FRAME event)
     // INCLUDING any CRC trailer if CRC was appended
     byte_q       actual_pkt;
