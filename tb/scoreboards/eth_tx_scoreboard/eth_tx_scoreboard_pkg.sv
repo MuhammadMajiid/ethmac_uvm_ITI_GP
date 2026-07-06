@@ -2,7 +2,7 @@
 // Project  : ethmac_uvm_ITI_GP
 // File     : eth_tx_scoreboard_pkg.sv
 // Author   : Wael
-// Date     : 2026-07-1
+// Date     : 2026-07-01
 //------------------------------------------------------------------------------
 // Description:
 //   Package for including scoreboard files.
@@ -26,6 +26,9 @@ package eth_tx_scoreboard_pkg;
     import wb_m_seq_item_pkg::*;
     import wb_s_seq_item_pkg::*;
     import mii_tx_seq_item_pkg::*;
+
+    // import config package
+    import eth_config_pkg::*;
 
     `include "eth_tx_scoreboard_struct.sv"
     `include "eth_tx_scoreboard.sv"

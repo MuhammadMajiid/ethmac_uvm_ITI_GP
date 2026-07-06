@@ -1,6 +1,6 @@
 //==============================================================================
 // Project  : ethmac_uvm_ITI_GP
-// File     : mdio_pkg.sv
+// File     : mdio_agent_pkg.sv
 // Author   : Muhammad Majid
 // Date     : 2026-06-26
 //------------------------------------------------------------------------------
@@ -8,13 +8,16 @@
 //   Package for MDIO agent components. Includes sequencer, driver, and monitor base classes.
 //==============================================================================
 
-`ifndef MDIO_PKG_SV
-`define MDIO_PKG_SV
+`ifndef MDIO_AGENT_PKG_SV
+`define MDIO_AGENT_PKG_SV
 
-package mdio_pkg;
+package mdio_agent_pkg;
   `include "uvm_macros.svh"
   import uvm_pkg::*;
 
+  // import config package
+  import eth_config_pkg::*;
+  
   // The transaction item must be compiled first because everything else uses it.
   `include "../../seq_items/mdio/mdio_seq_item_base.sv"
 
@@ -27,4 +30,4 @@ package mdio_pkg;
   `include "mdio_agent.sv"
 endpackage
 
-`endif // MDIO_PKG_SV
+`endif // MDIO_AGENT_PKG_SV

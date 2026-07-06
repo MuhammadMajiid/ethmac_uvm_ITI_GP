@@ -7,10 +7,9 @@
 // Description:
 //   Configuration object for wishbone master agent.
 //==============================================================================
-package wb_m_config_obj_pkg;
 
-    `include "uvm_macros.svh"
-     import uvm_pkg::*;
+`ifndef WB_M_CONFIG_OBJ_SV
+`define WB_M_CONFIG_OBJ_SV
 
 class wb_m_config_obj extends uvm_object;
 
@@ -25,4 +24,4 @@ class wb_m_config_obj extends uvm_object;
 
 endclass : wb_m_config_obj
 
-endpackage 
+`endif //WB_M_CONFIG_OBJ

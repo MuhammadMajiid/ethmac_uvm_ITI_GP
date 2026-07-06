@@ -1,6 +1,6 @@
 //==============================================================================
 // Project  : ethmac_uvm_ITI_GP
-// File     : mii_tx_config_obj_base.sv
+// File     : mii_tx_config_obj.sv
 // Author   : Mounir
 // Date     : 2026-06-24
 //------------------------------------------------------------------------------
@@ -19,18 +19,18 @@
 //             counting, backoff delay measurement)
 //==============================================================================
 
-`ifndef MII_TX_CONFIG_OBJ_BASE_SV
-`define MII_TX_CONFIG_OBJ_BASE_SV
+`ifndef MII_TX_CONFIG_OBJ_SV
+`define MII_TX_CONFIG_OBJ_SV
 
-class mii_tx_config_obj_base extends uvm_object;
+class mii_tx_config_obj extends uvm_object;
 
-    `uvm_object_utils(mii_tx_config_obj_base)
+    `uvm_object_utils(mii_tx_config_obj)
     // enum for holding if the agent is activeor passive
     uvm_active_passive_enum is_active = UVM_ACTIVE;
 
     virtual mii_tx_if vif;
 
-    function new(string name = "mii_tx_config_obj_base");
+    function new(string name = "mii_tx_config_obj");
         super.new(name);
     endfunction
 /*
@@ -72,6 +72,6 @@ class mii_tx_config_obj_base extends uvm_object;
     // measure backoff delays
     logic measure_backoff    = 1;
 */
-endclass : mii_tx_config_obj_base
+endclass : mii_tx_config_obj
 
-`endif
+`endif // MII_TX_CONFIG_OBJ_SV

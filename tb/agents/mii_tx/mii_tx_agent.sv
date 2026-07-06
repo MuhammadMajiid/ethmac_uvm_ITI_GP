@@ -29,7 +29,7 @@ class mii_tx_agent extends uvm_agent;
     mii_tx_monitor_base m_monitor;
     mii_tx_sequencer_base m_sequencer;
 
-    mii_tx_config_obj_base m_config;
+    mii_tx_config_obj m_config;
 
     function new(string name = "mii_tx_agent", uvm_component parent = null);
         super.new(name, parent);
@@ -39,8 +39,8 @@ class mii_tx_agent extends uvm_agent;
         super.build_phase(phase);
 
         // Get config object from database
-        if(!uvm_config_db #(mii_tx_config_obj_base)::get(this, "", "CFG_VIF", m_config)) begin
-            `uvm_fatal("build_phase" ,"Unable to get configuration object mii_tx_config_obj_base")
+        if(!uvm_config_db #(mii_tx_config_obj)::get(this, "", "CFG_VIF", m_config)) begin
+            `uvm_fatal("build_phase" ,"Unable to get configuration object mii_tx_config_obj")
         end
 
         // Instantiate driver & monitor if the agent is active

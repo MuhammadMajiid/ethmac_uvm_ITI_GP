@@ -22,7 +22,8 @@ package wb_m_agent_pkg;
 
     // Transaction and configuration object packages
     import wb_m_seq_item_pkg::*;
-    import wb_m_config_obj_pkg::*;
+    // import config package
+    import eth_config_pkg::*;
     
     // Agent subcomponents files
     `include "wb_m_sequencer_base.sv"
