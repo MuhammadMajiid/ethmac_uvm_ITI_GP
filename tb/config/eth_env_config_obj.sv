@@ -2,9 +2,12 @@
 `define ETH_ENV_CONFIG_SV
 class eth_env_config_obj extends uvm_object;
 
-  uvm_active_passive_enum wb_s_is_active = UVM_ACTIVE;
+  //uvm_active_passive_enum wb_s_is_active = UVM_ACTIVE;
  // uvm_active_passive_enum wb_m_is_active = UVM_ACTIVE;
   //uvm_active_passive_enum mii_is_active  = UVM_ACTIVE;
+
+ // RAL 
+ eth_reg_block m_regmodel; 
 
   // Per-agent configs, each carrying its own vif 
   wb_s_config_obj     m_wb_s_config;

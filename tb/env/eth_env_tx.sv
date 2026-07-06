@@ -19,6 +19,9 @@ class eth_env_tx extends eth_env_base;
   // declare TX scoreboard handle
   eth_tx_scoreboard            m_tx_sb;
 
+  // declare virtual sequencer
+  eth_v_sequencer             m_v_sqr;
+
   function new(string name, uvm_component parent);
     super.new(name, parent);
   endfunction
@@ -32,6 +35,9 @@ class eth_env_tx extends eth_env_base;
     // Distribute tx scoreboard config down to scoreboard
     uvm_config_db #(eth_tx_scoreboard_config_obj) ::set(this, "m_tx_sb","config", m_config.m_tx_sb_config);
 
+    // build Virtual sequencer
+    m_v_sqr = eth_v_sequencer::type_id::create("m_v_sqr", this);
+
     // build TX agent
     m_mii_tx_agent  = mii_tx_agent::type_id::create("m_mii_tx_agent",this);
 
@@ -43,6 +49,11 @@ class eth_env_tx extends eth_env_base;
 
     super.connect_phase(phase);
 
+    // Connect each sequencer in virtual sequencer to it's real sequencer
+    m_v_sqr.m_mii_tx_sqr=m_mii_tx_agent.m_sequencer;
+    m_v_sqr.m_wb_m_sqr=m_wb_m_agent.m_sequencer;
+    m_v_sqr.m_wb_s_sqr=m_wb_s_agent.m_sequencer;
+
     // Connect TX Scoreboard analysis export with TX agent analysis export
     m_mii_tx_agent.agent_a_port.connect(m_tx_sb.mii_tx_a_export);  
     // Connect TX Scoreboard analysis export with wishbone agent analysis export
@@ -53,6 +64,7 @@ class eth_env_tx extends eth_env_base;
     // Assign regmodel in scoreboard config to regmodel in tx scoreboard
     m_tx_sb.m_regmodel=m_config.m_tx_sb_config.m_regmodel;
 
+    
   endfunction
 
 endclass

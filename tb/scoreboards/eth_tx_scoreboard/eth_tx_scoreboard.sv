@@ -267,6 +267,12 @@ endfunction
 // function: connect_phase
 function void eth_tx_scoreboard::connect_phase(uvm_phase phase);
     super.connect_phase(phase);
+    
+    // assign ral handle to it's corresponding in config
+    m_regmodel=m_config.m_regmodel;
+    // assign end seq event handle to it's corresponding in config
+    m_ev_end_seqs=m_config.m_ev_end_seqs;
+    
     // Connect each export with it's corrosponding fifo
     wb_m_a_export.connect(wb_m_fifo.analysis_export);
     mii_tx_a_export.connect(mii_tx_fifo.analysis_export);
