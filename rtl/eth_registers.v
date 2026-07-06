@@ -9,7 +9,7 @@
 ////      - Igor Mohor (igorM@opencores.org)                      ////
 ////                                                              ////
 ////  All additional information is avaliable in the Readme.txt   ////
-////  file.                                                       ////
+////  file.                                                      ////
 ////                                                              ////
 //////////////////////////////////////////////////////////////////////
 ////                                                              ////
