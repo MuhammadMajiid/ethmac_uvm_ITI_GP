@@ -48,7 +48,8 @@ class eth_env_base extends uvm_env;
       m_regmodel = eth_reg_block::type_id::create("m_regmodel");
       m_regmodel.build();
       m_regmodel.lock_model();
-           
+  // Initialize desired and mirrored values to reset values
+      m_regmodel.reset();     
     end
 
     m_reg2wb   = eth_wb_adapter::type_id::create("m_reg2wb");
