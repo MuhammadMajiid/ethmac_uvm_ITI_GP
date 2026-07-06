@@ -48,7 +48,8 @@ class eth_env_base extends uvm_env;
       m_regmodel = eth_reg_block::type_id::create("m_regmodel");
       m_regmodel.build();
       m_regmodel.lock_model();
-           
+  // Initialize desired and mirrored values to reset values
+      m_regmodel.reset(); 
     end
 
     m_reg2wb   = eth_wb_adapter::type_id::create("m_reg2wb");
@@ -59,15 +60,17 @@ class eth_env_base extends uvm_env;
  
     super.connect_phase(phase);
 
-    
-   //Connect the wb_s_sequencer  to the address map in order
-      //to use the API of the registers to start wb_s transactions
+    // connect ral in config with local ral
+    m_config.m_regmodel=m_regmodel;
+
+    //Connect the wb_s_sequencer  to the address map in order
+    //to use the API of the registers to start wb_s transactions
     m_regmodel.default_map.set_sequencer(m_wb_s_agent.m_sequencer, m_reg2wb);
       
     //Configure the predictor with an address map and an adapter
     m_predictor.map     = m_regmodel.default_map;
     m_predictor.adapter = m_reg2wb;
-    m_regmodel.default_map.set_auto_predict(0);
+    m_regmodel.default_map.set_auto_predict(1);
     
   endfunction
 
