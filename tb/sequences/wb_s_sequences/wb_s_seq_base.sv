@@ -2,82 +2,39 @@
 // Project  : ethmac_uvm_ITI_GP
 // File     : wb_s_seq_base.sv
 // Author   : Nada
-// Date     : 2026-06-24
+// Date     : 2026-07-06
 //------------------------------------------------------------------------------
 // Description:
-// Base sequence for Wishbone transactions.
+// Base UVM sequence for the Wishbone Slave Agent.
 //
-// Provides common Wishbone read and write tasks that can be reused by
-// register, BD, interrupt, and Ethernet MAC test sequences.
+// Serves as the parent class for all Wishbone slave sequences used to
+// configure the Ethernet MAC. The sequence provides access to the
+// Ethernet MAC Register Abstraction Layer (RAL) model through the
+// regmodel handle, enabling register and memory accesses using the
+// UVM register API instead of raw Wishbone transactions.
+//
+// Derived sequences use this base class to configure MAC registers,
+// program transmit/receive buffer descriptors, and initialize the
+// DUT before functional test execution.
 //==============================================================================
 `ifndef WB_S_SEQ_BASE_SV
 `define WB_S_SEQ_BASE_SV
-class wb_s_seq_base extends uvm_sequence #(wb_s_seq_item_base#(WB_S_ADDR_WIDTH, WB_DATA_WIDTH,WB_SEL_WIDTH)); 
-                                              
-  `uvm_object_utils(wb_s_seq_base)
 
-  //--------------------------------------------------------------------------
-  // Constructor
-  //--------------------------------------------------------------------------
-  function new (string name = "");
-    super.new(name);
-  endfunction
+class wb_s_seq_base extends
+    uvm_sequence#(
+        wb_s_seq_item_base#(
+            WB_S_ADDR_WIDTH,
+            WB_DATA_WIDTH,
+            WB_SEL_WIDTH));
 
-  //--------------------------------------------------------------------------
-  // Wishbone Write
-  //--------------------------------------------------------------------------
-  task wb_write(
-    input bit [31:0] addr,
-    input bit [31:0] data
-  );
-    req = wb_s_seq_item_base#(
-        WB_S_ADDR_WIDTH,
-        WB_DATA_WIDTH,
-        WB_SEL_WIDTH
-      )::type_id::create("req");
+    `uvm_object_utils(wb_s_seq_base)
 
-    start_item(req);
-    req.m_addr  = addr;
-    req.m_wdata = data;
-    req.m_dir    = WB_WRITE;
-    req.m_sel   = 4'hF;
-    finish_item(req);
-    if (!req.m_ack)
-      `uvm_error(get_type_name(),
-                 $sformatf("Write failed at address 0x%08h", addr))
-  endtask
+    function new(string name="wb_s_seq_base");
+        super.new(name);
+    endfunction
 
-  //--------------------------------------------------------------------------
-  // Wishbone Read
-  //--------------------------------------------------------------------------
-  task wb_read(
-    input  bit [31:0] addr,
-    output bit [31:0] data
-  );
-   req = wb_s_seq_item_base#(
-        WB_S_ADDR_WIDTH,
-        WB_DATA_WIDTH,
-        WB_SEL_WIDTH
-      )::type_id::create("req");
-
-    start_item(req);
-    req.m_addr  = addr;
-    req.m_wdata = '0;
-    req.m_dir   = WB_READ;
-    req.m_sel   = 4'hF;
-    finish_item(req);
-    if (!req.m_ack)
-      `uvm_error(get_type_name(),
-                 $sformatf("Read failed at address 0x%08h", addr))
-    data = req.m_rdata;
-  endtask
-
-  //--------------------------------------------------------------------------
-  // Sequence Body
-  //--------------------------------------------------------------------------
-  task body();
-    `uvm_info(get_type_name(), "Executing wb_s_seq_base", UVM_LOW)
-  endtask
+    virtual task body();
+    endtask
 
 endclass
 `endif // WB_S_SEQ_BASE_SV

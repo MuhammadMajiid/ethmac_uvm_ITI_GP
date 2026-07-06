@@ -102,17 +102,9 @@ class wb_s_driver_base extends uvm_driver #(wb_s_seq_item_base#(WB_S_ADDR_WIDTH,
   vif.cb.cyc_i   <= 1'b1;
   vif.cb.stb_i   <= 1'b1;
 
-  //----------------------------------------------------------------------
-  // Keep request asserted for one cycle
-  //----------------------------------------------------------------------
+ 
   @(vif.cb);
 
-  //----------------------------------------------------------------------
-  // Return bus to idle
-  //----------------------------------------------------------------------
-  vif.cb.cyc_i <= 1'b0;
-  vif.cb.stb_i <= 1'b0;
-  vif.cb.we_i  <= 1'b0;
 
   //----------------------------------------------------------------------
   // Wait for ACK/ERR
@@ -141,6 +133,12 @@ class wb_s_driver_base extends uvm_driver #(wb_s_seq_item_base#(WB_S_ADDR_WIDTH,
   end
 
   @(vif.cb);
+  @(vif.cb);
+  //----------------------------------------------------------------------
+  // Return bus to idle
+  //----------------------------------------------------------------------
+  vif.cb.cyc_i <= 1'b0;
+  vif.cb.stb_i <= 1'b0;
 
  endtask
 endclass
