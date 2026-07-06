@@ -1,6 +1,6 @@
 //==============================================================================
 // Project  : ethmac_uvm_ITI_GP
-// File     : wb_s_pkg.sv
+// File     : wb_agent_s_pkg.sv
 // Author   : Nada
 // Date     : 2026-06-23
 //------------------------------------------------------------------------------
@@ -10,18 +10,18 @@
 // Wishbone slave agent, including the configuration object, sequencer,
 // driver, monitor, and agent classes.
 //------------------------------------------------------------------------------
-`ifndef WB_S_PKG_SV
-`define WB_S_PKG_SV
+`ifndef WB_S_AGENT_PKG_SV
+`define WB_S_AGENT_PKG_SV
 
-package wb_s_pkg;
+package wb_s_agent_pkg;
   `include "uvm_macros.svh"
   import uvm_pkg::*;
   import eth_glob_pkg::*;
 
   
-  `include "wb_s_config_obj.sv"
-  `include "wb_s_seq_item_base.sv"
-  `include "wb_s_seq_base.sv"
+  // import config package
+  import eth_config_pkg::*;
+   import wb_s_seq_item_pkg::*;
   `include "wb_s_sequencer_base.sv"
   `include "wb_s_driver_base.sv"
   `include "wb_s_monitor_base.sv"
@@ -30,6 +30,6 @@ package wb_s_pkg;
   
   
 
-endpackage : wb_s_pkg
+endpackage : wb_s_agent_pkg
 
-`endif // WB_S_PKG_SV
+`endif // WB_S_AGENT_PKG_SV

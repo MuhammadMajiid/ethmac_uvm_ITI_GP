@@ -17,7 +17,9 @@ package mii_rx_agent_pkg;
   import uvm_pkg::*;
 
   `include "mii_rx_seq_item.sv"
-  `include "mii_rx_agent_config.sv"
+  
+  // import config package
+  import eth_config_pkg::*;
 
   // Agent subcomponents files
   `include "mii_rx_sequencer_base.sv"

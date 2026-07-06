@@ -38,6 +38,10 @@ class eth_tx_scoreboard extends uvm_scoreboard;
     wb_m_seq_item_base                              m_wb_m_seq_item;
     mii_tx_seq_item_base                            m_mii_tx_seq_item;
     // =========================================================================
+    //  Configuration object 
+    // =========================================================================
+    eth_tx_scoreboard_config_obj                    m_config;
+    // =========================================================================
     // Register block
     // =========================================================================
     eth_reg_block                                   m_regmodel;   
@@ -50,7 +54,7 @@ class eth_tx_scoreboard extends uvm_scoreboard;
     // Events
     // =========================================================================    
     event m_ev_end_pkt;      // triggered when each packet is compared
-    event m_ev_end_seqs;    // triggerd when all sequences finish
+    event m_ev_end_seqs;    // triggerd when running sequence finish
     event m_ev_txen;        // triggered when TXEN bit in MODER register changes from 0 to 1
     event m_ev_start_comp;  // triggered when packet ends to start comparison
     // =========================================================================
@@ -253,6 +257,11 @@ function void eth_tx_scoreboard::build_phase(uvm_phase phase);
     // Creating semaphore objects
     m_sem_tx_seq_item=new(SEM_TX_SEQ_ITEM_NO_KEYS);
     m_sem_wb_m_seq_item=new(SEM_WB_M_SEQ_ITEM_NO_KEYS);
+
+    // get config object from database
+    if (!uvm_config_db #(eth_tx_scoreboard_config_obj)::get(this, "", "config", m_config))
+      `uvm_error(get_type_name(), "eth_tx_scoreboard_config not found in config_db")
+
 endfunction
 
 // function: connect_phase
