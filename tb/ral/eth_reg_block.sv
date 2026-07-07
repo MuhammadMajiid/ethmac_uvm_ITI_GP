@@ -237,6 +237,7 @@ MODER.add_hdl_path_slice("ethreg1.MODER_2.DataOut",16, 8);
 
 
 INT_MASK.add_hdl_path_slice("ethreg1.INT_MASK_0.DataOut",0,8);
+INT_SOURCE.add_hdl_path_slice("ethreg1.INT_SOURCEOut",0,8);
 
 IPGT.add_hdl_path_slice("ethreg1.IPGT_0.DataOut",0,8);
 
