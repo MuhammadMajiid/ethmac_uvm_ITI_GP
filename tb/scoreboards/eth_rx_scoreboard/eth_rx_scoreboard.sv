@@ -93,19 +93,58 @@ class eth_rx_scoreboard extends uvm_scoreboard;
 
     extern task read_cfg_regs();
 
-    extern function automatic void predictor();
+    // -----------------------------------------------------------
+    // PREDICTOR — top level + one function per phase / sub-case.
+    // Each phase function returns bit dropped (1 = frame dropped).
+    // -----------------------------------------------------------
+    extern function automatic void predictor(input mii_rx_seq_item frame, output bit frame_dropped);
 
-    extern function automatic void comparator();
+    extern function automatic bit predictor_phy_abort(input mii_rx_seq_item frame);
+    extern function automatic bit predictor_ifg_violation(input mii_rx_seq_item frame);
 
-    
+    extern function automatic bit predictor_address_recognition(input mii_rx_seq_item frame);
+    extern function automatic bit predictor_pause_frame(input mii_rx_seq_item frame);
+    extern function automatic bit predictor_promiscuous(input mii_rx_seq_item frame);
+    extern function automatic bit predictor_broadcast(input mii_rx_seq_item frame);
+    extern function automatic bit predictor_unicast(input mii_rx_seq_item frame);
+    extern function automatic bit predictor_multicast(input mii_rx_seq_item frame);
 
-    extern function automatic bit compute_hash_hit();
+    extern function automatic bit  predictor_length_gating();
+    extern function automatic void predictor_error_assembly(input mii_rx_seq_item frame);
+    extern function automatic void predictor_build_payload(input mii_rx_seq_item frame);
 
-    extern function automatic bit [7:0] reflect_byte();
+    // -----------------------------------------------------------
+    // COMPARATOR — top level + one check function per BD field.
+    // Each check function returns bit pass (1 = matched) and
+    // appends a mismatch line to msg on failure.
+    // -----------------------------------------------------------
+    extern function automatic void comparator(input wb_bd_seq_item act_bd, input mii_rx_seq_item frame);
 
-    extern function automatic bit [31:0] reflect_word();
+    extern function automatic bit check_e_bit(input wb_bd_seq_item act_bd, ref string msg);
+    extern function automatic bit check_cf_bit(input wb_bd_seq_item act_bd, ref string msg);
+    extern function automatic bit check_m_bit(input wb_bd_seq_item act_bd, ref string msg);
+    extern function automatic bit check_or_bit(input wb_bd_seq_item act_bd, input mii_rx_seq_item frame, ref string msg);
+    extern function automatic bit check_is_bit(input wb_bd_seq_item act_bd, ref string msg);
+    extern function automatic bit check_dn_bit(input wb_bd_seq_item act_bd, ref string msg);
+    extern function automatic bit check_tl_bit(input wb_bd_seq_item act_bd, ref string msg);
+    extern function automatic bit check_sf_bit(input wb_bd_seq_item act_bd, ref string msg);
+    extern function automatic bit check_crc_bit(input wb_bd_seq_item act_bd, ref string msg);
+    extern function automatic bit check_lc_bit(input wb_bd_seq_item act_bd, ref string msg);
+    extern function automatic bit check_len_field(input wb_bd_seq_item act_bd, ref string msg);
+    extern function automatic bit check_payload(input wb_bd_seq_item act_bd, ref string msg);
+    extern function automatic void report_verdict(input bit pass, input string msg,
+                                                   input wb_bd_seq_item act_bd,
+                                                   input mii_rx_seq_item frame);
 
-    extern function automatic bit is_pause_frame();
+    extern function automatic bit compute_hash_hit(input bit [47:0] da,
+                                                    input bit [31:0] hash0,
+                                                    input bit [31:0] hash1);
+
+    extern function automatic bit [7:0] reflect_byte(input byte unsigned b);
+
+    extern function automatic bit [31:0] reflect_word(input bit [31:0] w);
+
+    extern function automatic bit is_pause_frame(input mii_rx_seq_item frame);
 
 endclass
 
@@ -161,7 +200,6 @@ task eth_rx_scoreboard::run_phase(uvm_phase phase);
     super.run_phase(phase);
     mii_rx_seq_item        m_rx_frame;
     wb_bd_seq_item         act_bd;
-    wb_bd_seq_item         exp_bd;
     bit                    frame_dropped;
 
     fork
@@ -177,7 +215,7 @@ task eth_rx_scoreboard::run_phase(uvm_phase phase);
         `uvm_info("SB/RUN",$sformatf("Got RX frame: %s", m_rx_frame.convert2string()), UVM_MEDIUM)
 
         // Step 2: predict what the DUT hardware should do
-        predictor(m_rx_frame, exp_bd, frame_dropped);
+        predictor(m_rx_frame, frame_dropped);
 
         // Step 3a: predictor says DROPPED   loop without touching wb_m_fifo
         if(frame_dropped) begin
@@ -193,7 +231,7 @@ task eth_rx_scoreboard::run_phase(uvm_phase phase);
         frames_predicted_accept++;
         wb_m_fifo.get(act_bd);
 
-        comparator(exp_bd, act_bd, m_rx_frame);
+        comparator(act_bd, m_rx_frame);
 
         // Update IFG tracker for next iteration
         last_frame_end_time_ns = m_rx_frame.end_time_ns;
@@ -244,7 +282,7 @@ task eth_rx_scoreboard::read_cfg_regs();
     m_reg_s.pro      = m_regmodel.MODER.PRO.get_mirrored_value();
     m_reg_s.iam      = m_regmodel.MODER.IAM.get_mirrored_value();
     m_reg_s.bro      = m_regmodel.MODER.BRO.get_mirrored_value();
-    m_reg_s.ifg      = m_regmodel.MODER.IFG.get_mirrored_value();
+    m_reg_s.ifg_byp  = m_regmodel.MODER.IFG.get_mirrored_value();
 
     m_regmodel.PACKETLEN.mirror(status, UVM_CHECK, UVM_BACKDOOR);
     m_reg_s.minfl = m_regmodel.PACKETLEN.MINFL.get_mirrored_value();
@@ -271,518 +309,591 @@ task eth_rx_scoreboard::read_cfg_regs();
 
 
 endtask
-// -------------------------------------------------------
+// =========================================================
 // PREDICTOR
-// -------------------------------------------------------
+// =========================================================
+// Top-level predictor: runs each phase in order and stops at
+// the first phase that drops the frame. Each phase is its own
+// function so each drop/accept case can be read (and tested)
+// in isolation.
 function automatic void eth_rx_scoreboard::predictor(
     input mii_rx_seq_item frame,
-    input wb_bd_seq_item exp_bd,
     output bit frame_dropped
 );
 
     read_cfg_regs();
+
     //  Allocate output transaction ─
-    exp_bd        = wb_bd_seq_item::type_id::create("exp_bd");
     frame_dropped = 1'b0; // default to accepted
 
-    
-    //  Raw frame length (DA..CRC inclusive, preamble+SFD already stripped) 
-    //m_exp_s.exp_len = frame.payload_no_crc.size() + 4;  // +4 = 4 CRC bytes
-    m_exp_s.exp_len = frame.frame_data_q.size() ;  
+    //  Raw frame length (DA..CRC inclusive, preamble+SFD already stripped)
+    m_exp_s.exp_len = frame.frame_data_q.size();
 
     // PHASE A — PHY-LEVEL ABORT
+    if (predictor_phy_abort(frame)) begin
+        frame_dropped = 1'b1;
+        return;
+    end
+
+    // PHASE B — IFG VIOLATION
+    if (predictor_ifg_violation(frame)) begin
+        frame_dropped = 1'b1;
+        return;
+    end
+
+    // PHASE C — ADDRESS RECOGNITION
+    if (predictor_address_recognition(frame)) begin
+        frame_dropped = 1'b1;
+        return;
+    end
+
+    // PHASE D — LENGTH GATING
+    if (predictor_length_gating()) begin
+        frame_dropped = 1'b1;
+        return;
+    end
+
+    // PHASE E — ERROR BIT ASSEMBLY
+    predictor_error_assembly(frame);
+
+    // PHASE F — FINAL BD ASSEMBLY + expected payload slice
+    predictor_build_payload(frame);
+
+endfunction
+
+// ---------------------------------------------------------
+// PHASE A — PHY-LEVEL ABORT
+//   MRxErr asserted during reception → HW silently discards the frame.
+// ---------------------------------------------------------
+function automatic bit eth_rx_scoreboard::predictor_phy_abort(input mii_rx_seq_item frame);
     if (frame.phy_error) begin
         `uvm_info("SB/PRED/A",
             $sformatf("[%0t ns] #%0d Phase A — PHY ABORT (MRxErr asserted). DA=%0h. DROPPED.",
             $realtime, frames_total, frame.destination_addr), UVM_MEDIUM)
-        frame_dropped  = 1'b1;
         drops_phy_abort++;
-        return;   // < early exit: no WB transaction expected
+        return 1'b1;   // dropped
     end
 
-    //  Phase A.2: capture IS flag (soft error, no drop) Invalid Symbol (BD bit[5])
+    // Soft error, no drop: Invalid Symbol (BD bit[5])
     m_exp_s.is_flag = frame.invalid_symbol;
+    return 1'b0;
+endfunction
 
-    // PHASE B — IFG VIOLATION
+// ---------------------------------------------------------
+// PHASE B — IFG VIOLATION
+//   Gap since previous frame's end < 960 ns (unless IFG check bypassed).
+// ---------------------------------------------------------
+function automatic bit eth_rx_scoreboard::predictor_ifg_violation(input mii_rx_seq_item frame);
+    real gap_ns;
+
     if (!m_reg_s.ifg_byp && first_frame_seen) begin
-      real gap_ns;
-      gap_ns = frame.start_time_ns - last_frame_end_time_ns;
-      if (gap_ns < IFG_MIN_NS) begin
-        `uvm_info("SB/PRED/B",
-            $sformatf("[%0t ns] #%0d Phase B — IFG violation: gap=%.1f ns < %.1f ns. DA=%0h. DROPPED.",
-            $realtime, frames_total, gap_ns, IFG_MIN_NS, frame.destination_addr), UVM_MEDIUM)
-        frame_dropped = 1'b1;
-        drops_ifg++;
-        return;   // < early exit
-      end
+        gap_ns = frame.start_time_ns - last_frame_end_time_ns;
+        if (gap_ns < IFG_MIN_NS) begin
+            `uvm_info("SB/PRED/B",
+                $sformatf("[%0t ns] #%0d Phase B — IFG violation: gap=%.1f ns < %.1f ns. DA=%0h. DROPPED.",
+                $realtime, frames_total, gap_ns, IFG_MIN_NS, frame.destination_addr), UVM_MEDIUM)
+            drops_ifg++;
+            return 1'b1;   // dropped
+        end
+    end
+    return 1'b0;
+endfunction
+
+// ---------------------------------------------------------
+// PHASE C — ADDRESS RECOGNITION (dispatcher)
+//   Routes to the sub-case that applies to this frame:
+//   PAUSE/control frame, promiscuous mode, broadcast, unicast, multicast.
+// ---------------------------------------------------------
+function automatic bit eth_rx_scoreboard::predictor_address_recognition(input mii_rx_seq_item frame);
+    bit is_bcast, is_ucast;
+
+    m_exp_s.miss_bit = 1'b0;
+    m_exp_s.cf_flag  = 1'b0;
+
+    // P0: PAUSE / MAC Control frame (§4.5.1 Figure 3)
+    if (is_pause_frame(frame))
+        return predictor_pause_frame(frame);
+
+    // P1: PRO=1 — accept everything, compute M bit
+    if (m_reg_s.pro)
+        return predictor_promiscuous(frame);
+
+    // PRO=0: strict address recognition
+    is_bcast = (frame.destination_addr == BCAST_ADDR);
+    is_ucast = (frame.destination_addr[0] == 1'b0);
+
+    if (is_bcast)
+        return predictor_broadcast(frame);
+    else if (is_ucast)
+        return predictor_unicast(frame);
+    else
+        return predictor_multicast(frame);
+endfunction
+
+// P0: PAUSE / MAC Control frame.
+//   PASSALL=0 → control module consumes frame; not stored → DROPPED (from WB view).
+//   PASSALL=1 → frame stored in memory with CF=1, regardless of RXFLOW.
+function automatic bit eth_rx_scoreboard::predictor_pause_frame(input mii_rx_seq_item frame);
+    m_exp_s.cf_flag = 1'b1;
+
+    if (!m_reg_s.passall) begin
+        `uvm_info("SB/PRED/C",
+            $sformatf("[%0t ns] #%0d Phase C — PAUSE frame, PASSALL=0. Control module processes, NOT stored to memory. DROPPED.",
+            $realtime, frames_total), UVM_MEDIUM)
+        drops_addr++;
+        return 1'b1;   // dropped
     end
 
-    ///////////////////////////////////////////////////////////////////////
-    // PHASE C — ADDRESS RECOGNITION
-    
-    bit addr_accepted = 1'b0;
-    m_exp_s.miss_bit      = 1'b0;
-    m_exp_s.cf_flag       = 1'b0;
+    // PASSALL=1: fall through with cf_flag=1; frame will be stored
+    m_exp_s.miss_bit = 1'b0;  // CF frame: not an address miss
+    `uvm_info("SB/PRED/C",
+        $sformatf("[%0t ns] #%0d Phase C — PAUSE frame, PASSALL=1. CF=1. ACCEPTED.",
+        $realtime, frames_total), UVM_MEDIUM)
+    return 1'b0;
+endfunction
 
-    begin : phase_c_addr
-        bit is_bcast, is_mcast, is_ucast;
-        bit hash_hit;
-        bit addr_would_match_without_pro;
+// P1: PRO=1 — accept everything; M bit reflects what address recognition
+// would have said WITHOUT promiscuous mode.
+function automatic bit eth_rx_scoreboard::predictor_promiscuous(input mii_rx_seq_item frame);
+    bit is_bcast, is_ucast;
+    bit addr_would_match_without_pro;
 
-        is_bcast = (frame.destination_addr == BCAST_ADDR);
-        // Multicast: bit[0] of DA (first byte) = 1, but NOT broadcast
-        is_mcast = (frame.destination_addr[0] == 1'b1) && !is_bcast;
-        is_ucast = (frame.destination_addr[0] == 1'b0);
+    is_bcast = (frame.destination_addr == BCAST_ADDR);
+    is_ucast = (frame.destination_addr[0] == 1'b0);
 
-        //  P0: PAUSE / MAC Control frame (§4.5.1 Figure 3) 
-        //   Valid PAUSE frame: DA = ETH_PAUSE_FRAME_ADDR or DA = our MAC
-        //                      EtherType = 0x8808 at bytes[12:13]
-        //                      Opcode    = 0x0001 at bytes[14:15]
-        //
-        //   PASSALL=0, RXFLOW=x → control module consumes frame; not stored
-        //                          to host memory → DROPPED from WB perspective.
-        //   PASSALL=0, RXFLOW=1 → RXC interrupt set, PAUSE timer updated,
-        //                          frame still NOT in host memory.
-        //   PASSALL=1, any RXFLOW → frame stored in memory with CF=1;
-        //                            RXB interrupt set (not RXC per §4.5.1 note).
-        //
-        //   Spec §4.5.1: "If PASSALL bit is set then the control frame is stored
-        //   to the memory and related buffer descriptor has the control frame bit
-        //   (CF) set to 1."
-        if (is_pause_frame(frame)) begin
-            m_exp_s.cf_flag = 1'b1;
-            if (!m_reg_s.passall) begin
-            `uvm_info("SB/PRED/C",
-                $sformatf("[%0t ns] #%0d Phase C — PAUSE frame, PASSALL=0.Control module processes, NOT stored to memory. DROPPED.",
-                $realtime, frames_total), UVM_MEDIUM)
-            frame_dropped = 1'b1;
-            drops_addr++;
-            return;   // < early exit; no WB transaction
-            end 
-            // PASSALL=1: fall through with m_exp_s.cf_flag=1; frame will be stored
-            addr_accepted = 1'b1;
-            m_exp_s.miss_bit      = 1'b0;  // CF frame: not an address miss
-            `uvm_info("SB/PRED/C",
-                $sformatf("[%0t ns] #%0d Phase C — PAUSE frame, PASSALL=1. CF=1. ACCEPTED.",
-                $realtime, frames_total), UVM_MEDIUM)
-            
+    if (is_bcast)
+        addr_would_match_without_pro = !m_reg_s.bro;   // bro=0 → match, bro=1 → miss
+    else if (is_ucast)
+        addr_would_match_without_pro = (frame.destination_addr == m_reg_s.mac_addr);
+    else  // multicast
+        addr_would_match_without_pro = m_reg_s.iam &&
+            compute_hash_hit(frame.destination_addr, m_reg_s.hash0, m_reg_s.hash1);
 
-        /////////////////////////////////////// P1: PRO=1 — accept everything, compute M bit /////////////////////
-        end else if (m_reg_s.pro) begin
-            addr_accepted = 1'b1;
-            // Determine what address recognition would say WITHOUT PRO
-            // to decide the M bit correctly
-            if (is_bcast)
-            addr_would_match_without_pro = !bro;   // bro=0 → match, bro=1 → miss
-            else if (is_ucast)
-            addr_would_match_without_pro = (frame.destination_addr == mac_addr);
-            else  // multicast
-            addr_would_match_without_pro = iam && compute_hash_hit(frame.destination_addr, hash0, hash1);
+    m_exp_s.miss_bit = !addr_would_match_without_pro;
+    `uvm_info("SB/PRED/C",
+        $sformatf("[%0t ns] #%0d Phase C — PRO=1. ACCEPTED. M=%0b (addr_match_wo_pro=%0b).",
+        $realtime, frames_total, m_exp_s.miss_bit, addr_would_match_without_pro), UVM_MEDIUM)
+    return 1'b0;   // accepted
+endfunction
 
-            m_exp_s.miss_bit = !addr_would_match_without_pro;
-            `uvm_info("SB/PRED/C",
-                $sformatf("[%0t ns] #%0d Phase C — PRO=1. ACCEPTED. M=%0b (addr_match_wo_pro=%0b).",
-                $realtime, frames_total, m_exp_s.miss_bit, addr_would_match_without_pro),UVM_MEDIUM)
+// P2: Broadcast — spec §3.1 "reject all broadcast unless PRO=1".
+function automatic bit eth_rx_scoreboard::predictor_broadcast(input mii_rx_seq_item frame);
+    if (!m_reg_s.bro) begin
+        m_exp_s.miss_bit = 1'b0;
+        `uvm_info("SB/PRED/C",
+            $sformatf("[%0t ns] #%0d Phase C — BCAST, BRO=0. ACCEPTED.",
+            $realtime, frames_total), UVM_MEDIUM)
+        return 1'b0;   // accepted
+    end
 
-        end else begin
-            // PRO=0: strict address recognition
+    `uvm_info("SB/PRED/C",
+        $sformatf("[%0t ns] #%0d Phase C — BCAST, BRO=1, PRO=0. DROPPED.",
+        $realtime, frames_total), UVM_MEDIUM)
+    drops_addr++;
+    return 1'b1;   // dropped
+endfunction
 
-            ///////////////////////////////////// P2: Broadcast ///////////////////////////////////////
-            if (is_bcast) begin
-                if (!m_reg_s.bro) begin
-                    addr_accepted = 1'b1;
-                    m_exp_s.miss_bit      = 1'b0;
-                    `uvm_info("SB/PRED/C",
-                        $sformatf("[%0t ns] #%0d Phase C — BCAST, BRO=0. ACCEPTED.",
-                        $realtime, frames_total), UVM_MEDIUM)
-                end else begin
-                    // BRO=1, PRO=0: spec §3.1 "reject all broadcast unless PRO=1"
-                    `uvm_info("SB/PRED/C",
-                        $sformatf("[%0t ns] #%0d Phase C — BCAST, BRO=1, PRO=0. DROPPED.",
-                        $realtime, frames_total), UVM_MEDIUM)
-                    frame_dropped = 1'b1;
-                    drops_addr++;
-                    return;
-                end
+// P3: Unicast — must match our MAC exactly.
+function automatic bit eth_rx_scoreboard::predictor_unicast(input mii_rx_seq_item frame);
+    if (frame.destination_addr == m_reg_s.mac_addr) begin
+        m_exp_s.miss_bit = 1'b0;
+        `uvm_info("SB/PRED/C",
+            $sformatf("[%0t ns] #%0d Phase C — UCAST match DA=%0h. ACCEPTED.",
+            $realtime, frames_total, frame.destination_addr), UVM_MEDIUM)
+        return 1'b0;   // accepted
+    end
 
-            ///////////////////////////////////// P3: Unicast /////////////////////////////////////////////
-            end else if (is_ucast) begin
-            if (frame.destination_addr == mac_addr) begin
-                addr_accepted = 1'b1;
-                m_exp_s.miss_bit      = 1'b0;
-                `uvm_info("SB/PRED/C",
-                    $sformatf("[%0t ns] #%0d Phase C — UCAST match DA=%0h. ACCEPTED.",
-                    $realtime, frames_total, frame.destination_addr), UVM_MEDIUM)
-            end else begin
-                `uvm_info("SB/PRED/C",
-                    $sformatf("[%0t ns] #%0d Phase C — UCAST mismatch DA=%0h, MAC=%0h. DROPPED.",
-                    $realtime, frames_total, frame.destination_addr, mac_addr), UVM_MEDIUM)
-                frame_dropped = 1'b1;
-                drops_addr++;
-                return;
-            end
+    `uvm_info("SB/PRED/C",
+        $sformatf("[%0t ns] #%0d Phase C — UCAST mismatch DA=%0h, MAC=%0h. DROPPED.",
+        $realtime, frames_total, frame.destination_addr, m_reg_s.mac_addr), UVM_MEDIUM)
+    drops_addr++;
+    return 1'b1;   // dropped
+endfunction
 
-            //////////////////////////////////// P4: Multicast (not broadcast) ////////////////////////////////
-            end else begin
-            if (m_reg_s.iam) begin
-                hash_hit = compute_hash_hit(frame.destination_addr, hash0, hash1);
-                if (hash_hit) begin
-                addr_accepted = 1'b1;
-                m_exp_s.miss_bit      = 1'b0;
-                `uvm_info("SB/PRED/C",
-                    $sformatf("[%0t ns] #%0d Phase C — MCAST DA=%0h, IAM=1, hash HIT. ACCEPTED.",
-                    $realtime, frames_total, frame.destination_addr), UVM_MEDIUM)
-                end else begin
-                `uvm_info("SB/PRED/C",
-                    $sformatf("[%0t ns] #%0d Phase C — MCAST DA=%0h, IAM=1, hash MISS. DROPPED.",
-                    $realtime, frames_total, frame.destination_addr), UVM_MEDIUM)
-                frame_dropped = 1'b1;
-                drops_addr++;
-                return;
-                end
-            end else begin
-                // IAM=0: no hash table; multicast not accepted
-                `uvm_info("SB/PRED/C",
-                    $sformatf("[%0t ns] #%0d Phase C — MCAST DA=%0h, IAM=0. DROPPED.",
-                    $realtime, frames_total, frame.destination_addr), UVM_MEDIUM)
-                frame_dropped = 1'b1;
-                drops_addr++;
-                return;
-            end
-            end
-        end
-    end : phase_c_addr
+// P4: Multicast (not broadcast) — needs IAM=1 and a hash-table hit.
+function automatic bit eth_rx_scoreboard::predictor_multicast(input mii_rx_seq_item frame);
+    bit hash_hit;
 
-    /////////////////////////////////////////////////////////////////////////////////////
-    // PHASE D — LENGTH GATING
-    //   Decision matrix:
-    //     raw_len < MINFL, RECSMALL=0 → SILENT DROP (BD not consumed)
-    //     raw_len < MINFL, RECSMALL=1 → ACCEPT, SF=1 in BD
-    //     raw_len ≤ 4                 → ACCEPT with CRC error (§4.2.4 note)
-    //                                   RECSMALL must also be 1 to reach here
-    //     raw_len > MAXFL, HUGEN=0   → ACCEPT, TL=1, cap m_exp_s.exp_len at MAXFL
-    //     raw_len > MAXFL, HUGEN=1   → ACCEPT, TL=0, m_exp_s.exp_len = raw_len
-    //     MINFL ≤ raw_len ≤ MAXFL   → ACCEPT, SF=0, TL=0
+    if (!m_reg_s.iam) begin
+        // IAM=0: no hash table; multicast not accepted
+        `uvm_info("SB/PRED/C",
+            $sformatf("[%0t ns] #%0d Phase C — MCAST DA=%0h, IAM=0. DROPPED.",
+            $realtime, frames_total, frame.destination_addr), UVM_MEDIUM)
+        drops_addr++;
+        return 1'b1;   // dropped
+    end
 
-    m_exp_s.sf_flag  = 1'b0;
-    m_exp_s.tl_flag  = 1'b0;
-   
+    hash_hit = compute_hash_hit(frame.destination_addr, m_reg_s.hash0, m_reg_s.hash1);
+    if (hash_hit) begin
+        m_exp_s.miss_bit = 1'b0;
+        `uvm_info("SB/PRED/C",
+            $sformatf("[%0t ns] #%0d Phase C — MCAST DA=%0h, IAM=1, hash HIT. ACCEPTED.",
+            $realtime, frames_total, frame.destination_addr), UVM_MEDIUM)
+        return 1'b0;   // accepted
+    end
 
-    begin : phase_d_length
-        /////////////////////////////// Short frame decision ////////////////////////////////
-        if (m_exp_s.exp_len < m_reg_s.minfl) begin
-            if (!m_reg_s.recsmall) begin
+    `uvm_info("SB/PRED/C",
+        $sformatf("[%0t ns] #%0d Phase C — MCAST DA=%0h, IAM=1, hash MISS. DROPPED.",
+        $realtime, frames_total, frame.destination_addr), UVM_MEDIUM)
+    drops_addr++;
+    return 1'b1;   // dropped
+endfunction
+
+// ---------------------------------------------------------
+// PHASE D — LENGTH GATING
+//   Decision matrix:
+//     raw_len < MINFL, RECSMALL=0 → SILENT DROP (BD not consumed)
+//     raw_len < MINFL, RECSMALL=1 → ACCEPT, SF=1 in BD
+//     raw_len > MAXFL, HUGEN=0    → ACCEPT, TL=1, cap exp_len at MAXFL
+//     raw_len > MAXFL, HUGEN=1    → ACCEPT, TL=0, exp_len = raw_len
+//     MINFL ≤ raw_len ≤ MAXFL     → ACCEPT, SF=0, TL=0
+// ---------------------------------------------------------
+function automatic bit eth_rx_scoreboard::predictor_length_gating();
+    m_exp_s.sf_flag = 1'b0;
+    m_exp_s.tl_flag = 1'b0;
+
+    // Short frame decision
+    if (m_exp_s.exp_len < m_reg_s.minfl) begin
+        if (!m_reg_s.recsmall) begin
             // RECSMALL=0: "Packets smaller than MINFL are ignored."
-            // Silently discard: BD not consumed, zero DMA writes.
             `uvm_info("SB/PRED/D",
-                $sformatf("[%0t ns] #%0d Phase D — SHORT FRAME len=%0d < MINFL=%0d,RECSMALL=0. DROPPED.",
-                $realtime, frames_total, m_exp_s.exp_len, minfl), UVM_MEDIUM)
-            frame_dropped = 1'b1;
+                $sformatf("[%0t ns] #%0d Phase D — SHORT FRAME len=%0d < MINFL=%0d, RECSMALL=0. DROPPED.",
+                $realtime, frames_total, m_exp_s.exp_len, m_reg_s.minfl), UVM_MEDIUM)
             drops_length++;
-            return;   // < early exit
-            end else begin
+            return 1'b1;   // dropped
+        end else begin
             // RECSMALL=1: "Packets smaller than MINFL are accepted."  SF=1.
             m_exp_s.sf_flag = 1'b1;
             `uvm_info("SB/PRED/D",
                 $sformatf("[%0t ns] #%0d Phase D — SHORT FRAME len=%0d < MINFL=%0d, RECSMALL=1. ACCEPTED, SF=1.",
-                $realtime, frames_total, m_exp_s.exp_len, minfl), UVM_MEDIUM)
-            end
+                $realtime, frames_total, m_exp_s.exp_len, m_reg_s.minfl), UVM_MEDIUM)
         end
-
-        //   frames ≤ 4 bytes always produce CRC error 
-        //   (4-byte frame = only CRC bytes, zero payload ≡ CRC all-wrong)
-        //   This check applies INSIDE the "RECSMALL=1 accept" branch above.
-        //   We do NOT drop here; CRC error flag is assembled 
-        //   (m_exp_s.crc_flag will be forced for m_exp_s.exp_len <= 4.)
-
-        /////////////////////////////////// Oversized frame decision //////////////////////////////////
-        if (!m_reg_s.hugen && (m_exp_s.exp_len > m_reg_s.maxfl)) begin
-            // HUGEN=0: truncate at MAXFL.  Frame IS accepted but TL=1.
-            // DUT stops DMA after MAXFL bytes; memory has exactly MAXFL bytes.
-            m_exp_s.tl_flag = 1'b1;
-            m_exp_s.exp_len  = m_reg_s.maxfl;
-            `uvm_info("SB/PRED/D",
-                $sformatf("[%0t ns] #%0d Phase D — OVERSIZE len=%0d > MAXFL=%0d, HUGEN=0.ACCEPTED, TL=1, truncated to %0d.",
-                $realtime, frames_total, m_exp_s.exp_len, m_reg_s.maxfl, m_reg_s.maxfl), UVM_MEDIUM)
-        end else if (m_reg_s.hugen && (m_exp_s.exp_len > m_reg_s.maxfl)) begin
-            // HUGEN=1: accept jumbo frames without truncation.  TL stays 0.
-            `uvm_info("SB/PRED/D",
-                $sformatf("[%0t ns] #%0d Phase D — JUMBO len=%0d > MAXFL=%0d, HUGEN=1.ACCEPTED (no truncation).",
-                $realtime, frames_total, m_exp_s.exp_len, m_reg_s.maxfl), UVM_MEDIUM)
-        end
-
-    end : phase_d_length
-
-    ////////////////////////////////////////////////////////////////////////////////////////
-    // PHASE E — ERROR BIT ASSEMBLY
-    //
-    //   Assemble the remaining Rx BD status bits for all frames that have
-    //   passed Phases A–D without being silently dropped.
-
-    /////////////////////////////CRC Error ////////////////////////////////////////
-    //   Normal mode   (DLYCRCEN=0): CRC computed immediately after SFD.
-    //   Delayed mode  (DLYCRCEN=1): CRC computation starts 4 bytes after SFD
-    //   The MII monitor provides crc_delayed_ok for this mode.
-    //   Frames ≤ 4 bytes (m_exp_s.exp_len ≤ 4): CRC is always wrong per §4.2.4 note
-    //   (payload ≤ 0 bytes; only CRC bytes present which cannot be valid).
-
-    if ((m_exp_s.exp_len - 4) == 0 || m_exp_s.exp_len <= 4) begin
-      // No payload bytes → CRC inherently invalid
-      m_exp_s.crc_flag = 1'b1;
-    end else if (m_reg_s.dlycrcen) begin
-      // tc_rx_delayed_crc: MII monitor computes CRC starting 4 bytes post-SFD
-      m_exp_s.crc_flag = !frame.crc_delayed_ok;
-    end else begin
-      // Normal CRC check
-      m_exp_s.crc_flag = !frame.crc_ok;
     end
 
-    /////////////////////////Dribble Nibble (BD bit[4])////////////////////////////////
-    //   Set when total received nibble count is odd (frame not divisible by 8).
+    // Oversized frame decision
+    if (!m_reg_s.hugen && (m_exp_s.exp_len > m_reg_s.maxfl)) begin
+        // HUGEN=0: truncate at MAXFL. Frame IS accepted but TL=1.
+        m_exp_s.tl_flag = 1'b1;
+        m_exp_s.exp_len = m_reg_s.maxfl;
+        `uvm_info("SB/PRED/D",
+            $sformatf("[%0t ns] #%0d Phase D — OVERSIZE len=%0d > MAXFL=%0d, HUGEN=0. ACCEPTED, TL=1, truncated to %0d.",
+            $realtime, frames_total, m_exp_s.exp_len, m_reg_s.maxfl, m_reg_s.maxfl), UVM_MEDIUM)
+    end else if (m_reg_s.hugen && (m_exp_s.exp_len > m_reg_s.maxfl)) begin
+        // HUGEN=1: accept jumbo frames without truncation. TL stays 0.
+        `uvm_info("SB/PRED/D",
+            $sformatf("[%0t ns] #%0d Phase D — JUMBO len=%0d > MAXFL=%0d, HUGEN=1. ACCEPTED (no truncation).",
+            $realtime, frames_total, m_exp_s.exp_len, m_reg_s.maxfl), UVM_MEDIUM)
+    end
+
+    return 1'b0;   // accepted
+endfunction
+
+// ---------------------------------------------------------
+// PHASE E — ERROR BIT ASSEMBLY
+//   Assembles CRC / dribble-nibble / late-collision bits for frames that
+//   survived Phases A–D.
+// ---------------------------------------------------------
+function automatic void eth_rx_scoreboard::predictor_error_assembly(input mii_rx_seq_item frame);
+    // CRC error:
+    //   Normal mode  (DLYCRCEN=0): CRC computed immediately after SFD.
+    //   Delayed mode (DLYCRCEN=1): CRC computation starts 4 bytes after SFD.
+    //   Frames ≤4 bytes: CRC is always wrong per §4.2.4 note (no payload,
+    //   only CRC bytes present, which cannot be valid).
+    if ((m_exp_s.exp_len - 4) == 0 || m_exp_s.exp_len <= 4) begin
+        m_exp_s.crc_flag = 1'b1;
+    end else if (m_reg_s.dlycrcen) begin
+        m_exp_s.crc_flag = !frame.crc_delayed_ok;
+    end else begin
+        m_exp_s.crc_flag = !frame.crc_ok;
+    end
+
+    // Dribble Nibble (BD bit[4]) — total received nibble count is odd.
     m_exp_s.dn_flag = frame.dribble_nibble;
 
-    ///////////////////////// Late Collision (BD bit[0], tc_rx_late_collision, RX-FEAT-012)
-    //   Half-duplex only (MODER.FULLD=0).PHY asserts MColl after the COLLVALID window (>64 bytes from preamble).
-    m_exp_s.lc_flag = (!fulld) && frame.late_collision;
+    // Late Collision (BD bit[0]) — half-duplex only (MODER.FULLD=0).
+    m_exp_s.lc_flag = (!m_reg_s.fulld) && frame.late_collision;
+endfunction
 
-    //////////////////////////////////////////////////////////////////////////////////
-    // PHASE F — FINAL BD ASSEMBLY
-    
-    m_exp_s.e_flag      = 1'b0;             // E MUST be cleared when frame is stored
-    m_exp_s.exp_len;    // LEN = m_exp_s.exp_len or MAXFL when TL=1
-    m_exp_s.cf_flag;    // Control frame (PAUSE with PASSALL=1)
-    m_exp_s.miss_bit;   // Miss: accept ed only via PRO
-    m_exp_s.or_flag  = 1'b0;          // Overrun not predictable from PHY data;
-                                    // comparator handles OR mismatch gracefully
-    m_exp_s.is_flag;    // Invalid symbol during reception
-    m_exp_s.dn_flag;    // Dribble nibble
-    m_exp_s.tl_flag;    // Too long (HUGEN=0 and raw > MAXFL)
-    m_exp_s.sf_flag;    // Short frame (RECSMALL=1 and len < MINFL)
-    m_exp_s.crc_flag;   // CRC-32 failed (or DLYCRCEN-adjusted)
-    m_exp_s.lc_flag;    // Late collision (half-duplex only)
+// ---------------------------------------------------------
+// PHASE F — FINAL BD ASSEMBLY
+//   Clears E/OR, builds the expected payload slice (with CRC stripped for
+//   normal frames, kept raw for truncated frames), and logs the verdict.
+//
+//   Convention (per tc_rx_basic_frame): exp.len includes the CRC bytes.
+//   The comparator later strips the last 4 bytes for valid-CRC,
+//   non-truncated frames when doing the byte-by-byte payload check.
+// ---------------------------------------------------------
+function automatic void eth_rx_scoreboard::predictor_build_payload(
+    input mii_rx_seq_item frame
+);
+    int unsigned payload_bytes_available;
+    int unsigned payload_bytes_to_store;
 
-    /////////////////////////////// Build expected payload slice //////////////////////////////////
-    //   Convention (verified against tc_rx_basic_frame: "60-byte payload +
-    //   4-byte CRC → LEN=64"):
-    //     exp_bd.len includes CRC bytes in the COUNT.
-    //     The DUT writes the FULL frame (payload + CRC) to host memory.
-    //     LEN = total bytes DMA-written = payload_no_crc.size() + 4 normally,
-    //           or MAXFL when truncated.
-    //   The comparator will later compare only first (m_exp_s.exp_len - 4) bytes for
-    //   valid-CRC frames (CRC-stripped comparison).  For truncated or CRC-error
-    //   frames the comparator compares all m_exp_s.exp_len bytes without stripping.
-    //
-    //   exp_bd.payload holds a COPY of the MII frame bytes up to m_exp_s.exp_len.
-    //   For truncated frames: first min(payload_no_crc.size(), m_exp_s.exp_len) raw bytes.
-    begin
-        int unsigned payload_bytes_available;
-        int unsigned payload_bytes_to_store;
+    m_exp_s.e_flag  = 1'b0;   // E MUST be cleared when frame is stored
+    m_exp_s.or_flag = 1'b0;   // Overrun not predictable from PHY data;
+                              // comparator handles OR mismatch gracefully
 
-        payload_bytes_available = frame.payload_no_crc.size();
+    payload_bytes_available = frame.payload_no_crc.size();
 
-        if (m_exp_s.tl_flag) begin
-            // Truncated: DUT stores MAXFL raw bytes (CRC not stripped, never reached)
-            // First min(payload_available, m_exp_s.exp_len) bytes go to memory
-            payload_bytes_to_store = (payload_bytes_available < m_exp_s.exp_len)
-                                    ? payload_bytes_available : m_exp_s.exp_len;
-        end else begin
-            // Normal: DUT stores m_exp_s.exp_len bytes = payload_no_crc + CRC
-            // payload_no_crc.size() should equal m_exp_s.exp_len - 4
-            payload_bytes_to_store = payload_bytes_available;
-        end
-
-        m_exp_s.payload = new[payload_bytes_to_store];
-        for (int unsigned i = 0; i < payload_bytes_to_store; i++)
-            m_exp_s.payload[i] = frame.payload_no_crc[i];
+    if (m_exp_s.tl_flag) begin
+        // Truncated: DUT stores MAXFL raw bytes (CRC not stripped, never reached)
+        payload_bytes_to_store = (payload_bytes_available < m_exp_s.exp_len)
+                                ? payload_bytes_available : m_exp_s.exp_len;
+    end else begin
+        // Normal: DUT stores exp_len bytes = payload_no_crc + CRC
+        payload_bytes_to_store = payload_bytes_available;
     end
+
+    m_exp_s.payload = new[payload_bytes_to_store];
+    for (int unsigned i = 0; i < payload_bytes_to_store; i++)
+        m_exp_s.payload[i] = frame.payload_no_crc[i];
 
     `uvm_info("SB/PRED/F",
-        $sformatf("[%0t ns] #%0d PREDICT ACCEPT: DA=%0h len=%0d→%0d BD[E=%0b CF=%0b M=%0b OR=?? IS=%0b DN=%0b TL=%0b SF=%0b CRC=%0b LC=%0b]",
-            $realtime, frames_total, frame.destination_addr, m_exp_s.exp_len, 
-            m_exp_s.exp_len, m_exp_s.e,  m_exp_s.cf,  m_exp_s.m,
-            m_exp_s.is_flag, m_exp_s.dn, m_exp_s.tl, m_exp_s.sf,
-            m_exp_s.crc_flag, m_exp_s.lc), UVM_MEDIUM)
+        $sformatf("[%0t ns] #%0d PREDICT ACCEPT: DA=%0h len=%0d BD[E=%0b CF=%0b M=%0b OR=%0b IS=%0b DN=%0b TL=%0b SF=%0b CRC=%0b LC=%0b]",
+            $realtime, frames_total, frame.destination_addr, m_exp_s.exp_len,
+            m_exp_s.e_flag, m_exp_s.cf_flag, m_exp_s.miss_bit, m_exp_s.or_flag,
+            m_exp_s.is_flag, m_exp_s.dn_flag, m_exp_s.tl_flag, m_exp_s.sf_flag,
+            m_exp_s.crc_flag, m_exp_s.lc_flag), UVM_MEDIUM)
+endfunction
 
+
+// =========================================================
+// COMPARATOR
+// =========================================================
+// Top-level comparator: runs one check function per BD field,
+// collects a mismatch report, then logs the final verdict.
+function automatic void eth_rx_scoreboard::comparator(
+    input wb_bd_seq_item     act_bd,
+    input mii_rx_seq_item    frame
+);
+
+    bit    pass = 1'b1;
+    string msg  = "";
+
+    pass &= check_e_bit(act_bd, msg);
+    pass &= check_cf_bit(act_bd, msg);
+    pass &= check_m_bit(act_bd, msg);
+    pass &= check_or_bit(act_bd, frame, msg);
+    pass &= check_is_bit(act_bd, msg);
+    pass &= check_dn_bit(act_bd, msg);
+    pass &= check_tl_bit(act_bd, msg);
+    pass &= check_sf_bit(act_bd, msg);
+    pass &= check_crc_bit(act_bd, msg);
+    pass &= check_lc_bit(act_bd, msg);
+    pass &= check_len_field(act_bd, msg);
+    pass &= check_payload(act_bd, msg);
+
+    report_verdict(pass, msg, act_bd, frame);
 
 endfunction
 
-// -------------------------------------------------------
-// COMPARATOR
-// -------------------------------------------------------
-
-function automatic void eth_rx_scoreboard::comparator(
-    input wb_bd_seq_item     exp_bd,
-    input wb_bd_seq_item     act_bd,
-    input mii_rx_seq_item    frame   
-)
-
-    bit pass = 1'b1;
-    string msg = "";
-
-    //  BD.E — must be 0 after DUT accepts the frame 
+//  BD.E — must be 0 after DUT accepts the frame
+function automatic bit eth_rx_scoreboard::check_e_bit(input wb_bd_seq_item act_bd, ref string msg);
     if (act_bd.e !== 1'b0) begin
-      msg  = {msg, $sformatf("\n E-bit : exp=0 act=%0b  ← DUT did not clear E (BD not consumed)", act_bd.e)};
-      pass = 1'b0;
+        msg = {msg, $sformatf("\n E-bit : exp=0 act=%0b  ← DUT did not clear E (BD not consumed)", act_bd.e)};
+        return 1'b0;
+    end
+    return 1'b1;
+endfunction
+
+//  CF — Control Frame flag
+function automatic bit eth_rx_scoreboard::check_cf_bit(input wb_bd_seq_item act_bd, ref string msg);
+    if (act_bd.cf !== m_exp_s.cf_flag) begin
+        msg = {msg, $sformatf("\n    CF    : exp=%0b act=%0b", m_exp_s.cf_flag, act_bd.cf)};
+        return 1'b0;
+    end
+    return 1'b1;
+endfunction
+
+//  M — Miss bit (critical for address recognition tests)
+function automatic bit eth_rx_scoreboard::check_m_bit(input wb_bd_seq_item act_bd, ref string msg);
+    if (act_bd.m !== m_exp_s.miss_bit) begin
+        msg = {msg, $sformatf("\n    M-bit : exp=%0b act=%0b  ← address recognition error", m_exp_s.miss_bit, act_bd.m)};
+        return 1'b0;
+    end
+    return 1'b1;
+endfunction
+
+//  OR — Overrun.
+//   Expected OR was deliberately set (e.g., tc_rx_overrun): hard fail if
+//   DUT does not report it. Unexpected OR (predicted=0, DUT reports 1) is
+//   an INFO warning only — WB stalls can't be predicted from PHY timestamps.
+function automatic bit eth_rx_scoreboard::check_or_bit(input wb_bd_seq_item act_bd, input mii_rx_seq_item frame, ref string msg);
+    if (m_exp_s.or_flag === act_bd.or_flag)
+        return 1'b1;
+
+    if (m_exp_s.or_flag) begin
+        msg = {msg, $sformatf("\n  OR  : exp=%0b act=%0b  ← expected overrun NOT seen", m_exp_s.or_flag, act_bd.or_flag)};
+        return 1'b0;
     end
 
-    //  CF — Control Frame flag 
-    if (act_bd.cf !== m_exp_s.cf) begin
-      msg  = {msg, $sformatf("\n    CF    : exp=%0b act=%0b", m_exp_s.cf, act_bd.cf)};
-      pass = 1'b0;
-    end
+    `uvm_info("SB/CMP",
+        $sformatf("[%0t ns] WARNING — Unexpected OR=1 in act_bd (no WB stall modelled for this frame). Frame DA=%0h",
+        $realtime, frame.destination_addr), UVM_MEDIUM)
+    return 1'b1;
+endfunction
 
-    //  M — Miss bit 
-    //  Critical for address recognition tests 
-    if (act_bd.m !== m_exp_s.m) begin
-      msg  = {msg, $sformatf("\n    M-bit : exp=%0b act=%0b  ← address recognition error", m_exp_s.m, act_bd.m)};
-      pass = 1'b0;
-    end
-
-    //  OR — Overrun 
-    //   Expected OR was deliberately set (e.g., tc_rx_overrun): hard fail if
-    //   DUT does not report it.
-    //   Unexpected OR (predicted=0 but DUT reports 1): INFO warning only —
-    //   cannot deterministically predict WB stalls from PHY timestamps alone.
-    if (m_exp_s.or_flag !== act_bd.or_flag) begin
-        if (m_exp_s.or_flag) begin
-            msg  = {msg, $sformatf("\n  OR  : exp=%0b act=%0b  ← expected overrun NOT seen", m_exp_s.or_flag, act_bd.or_flag)};
-            pass = 1'b0;
-        end else begin
-            `uvm_info("SB/CMP",
-                $sformatf("[%0t ns] WARNING — Unexpected OR=1 in act_bd (no WB stall modelled for this frame). Frame DA=%0h",
-                $realtime, frame.destination_addr), UVM_MEDIUM)
-        end
-    end
-
-    //  IS — Invalid Symbol 
+//  IS — Invalid Symbol
+function automatic bit eth_rx_scoreboard::check_is_bit(input wb_bd_seq_item act_bd, ref string msg);
     if (act_bd.is_flag !== m_exp_s.is_flag) begin
-      msg  = {msg, $sformatf("\n    IS    : exp=%0b act=%0b", m_exp_s.is_flag, act_bd.is_flag)};
-      pass = 1'b0;
+        msg = {msg, $sformatf("\n    IS    : exp=%0b act=%0b", m_exp_s.is_flag, act_bd.is_flag)};
+        return 1'b0;
+    end
+    return 1'b1;
+endfunction
+
+//  DN — Dribble Nibble
+function automatic bit eth_rx_scoreboard::check_dn_bit(input wb_bd_seq_item act_bd, ref string msg);
+    if (act_bd.dn !== m_exp_s.dn_flag) begin
+        msg = {msg, $sformatf("\n    DN    : exp=%0b act=%0b", m_exp_s.dn_flag, act_bd.dn)};
+        return 1'b0;
+    end
+    return 1'b1;
+endfunction
+
+//  TL — Too Long
+function automatic bit eth_rx_scoreboard::check_tl_bit(input wb_bd_seq_item act_bd, ref string msg);
+    if (act_bd.tl !== m_exp_s.tl_flag) begin
+        msg = {msg, $sformatf("\n    TL    : exp=%0b act=%0b", m_exp_s.tl_flag, act_bd.tl)};
+        return 1'b0;
+    end
+    return 1'b1;
+endfunction
+
+//  SF — Short Frame
+function automatic bit eth_rx_scoreboard::check_sf_bit(input wb_bd_seq_item act_bd, ref string msg);
+    if (act_bd.sf !== m_exp_s.sf_flag) begin
+        msg = {msg, $sformatf("\n    SF    : exp=%0b act=%0b", m_exp_s.sf_flag, act_bd.sf)};
+        return 1'b0;
+    end
+    return 1'b1;
+endfunction
+
+//  CRC — CRC Error
+function automatic bit eth_rx_scoreboard::check_crc_bit(input wb_bd_seq_item act_bd, ref string msg);
+    if (act_bd.crc_err !== m_exp_s.crc_flag) begin
+        msg = {msg, $sformatf("\n    CRC   : exp=%0b act=%0b", m_exp_s.crc_flag, act_bd.crc_err)};
+        return 1'b0;
+    end
+    return 1'b1;
+endfunction
+
+//  LC — Late Collision
+function automatic bit eth_rx_scoreboard::check_lc_bit(input wb_bd_seq_item act_bd, ref string msg);
+    if (act_bd.lc !== m_exp_s.lc_flag) begin
+        msg = {msg, $sformatf("\n    LC    : exp=%0b act=%0b", m_exp_s.lc_flag, act_bd.lc)};
+        return 1'b0;
+    end
+    return 1'b1;
+endfunction
+
+//  LEN field — skip on overrun (DMA partial, LEN undefined).
+//   tc_rx_basic_frame: "LEN field value matches received byte count"
+function automatic bit eth_rx_scoreboard::check_len_field(input wb_bd_seq_item act_bd, ref string msg);
+    if (act_bd.or_flag)
+        return 1'b1;   // undefined after overrun — not checked
+
+    if (act_bd.len !== m_exp_s.exp_len) begin
+        msg = {msg, $sformatf("\n    LEN   : exp=%0d act=%0d  ← byte count mismatch",
+                m_exp_s.exp_len, act_bd.len)};
+        return 1'b0;
+    end
+    return 1'b1;
+endfunction
+
+//  PAYLOAD byte-by-byte comparison.
+//
+//   Skip conditions:
+//     1. act_bd.or_flag==1  : memory content undefined after overrun
+//     2. m_exp_s.crc_flag==1: payload may be corrupted by deliberate CRC
+//                             injection (tc_rx_crc_check_fail); the CRC
+//                             flag is already checked in check_crc_bit()
+//
+//   CRC stripping:
+//     Valid-CRC, non-truncated frames: compare first (exp_len - 4) bytes
+//     only (the last 4 bytes in memory are the CRC; the CRC BD bit is the
+//     pass/fail signal for CRC correctness, not a byte compare).
+//     Truncated frames (tl=1): compare all exp_len bytes (no CRC at the
+//     end — frame was cut before CRC bytes were received).
+function automatic bit eth_rx_scoreboard::check_payload(input wb_bd_seq_item act_bd, ref string msg);
+    int unsigned cmp_len;
+    int unsigned first_mismatch;
+    int unsigned mismatch_count;
+
+    if (act_bd.or_flag || m_exp_s.crc_flag)
+        return 1'b1;   // not compared — see skip conditions above
+
+    if (m_exp_s.tl_flag) begin
+        // Truncated: all exp_len bytes stored raw; no CRC stripping
+        cmp_len = m_exp_s.exp_len;
+    end else begin
+        // Normal: strip 4 CRC bytes (they ARE in memory, just not compared)
+        cmp_len = (m_exp_s.exp_len >= 4) ? (m_exp_s.exp_len - 4) : 0;
     end
 
-    //  DN — Dribble Nibble 
-    if (act_bd.dn !== m_exp_s.dn) begin
-      msg  = {msg, $sformatf("\n    DN    : exp=%0b act=%0b", m_exp_s.dn, act_bd.dn)};
-      pass = 1'b0;
+    // Size sanity checks
+    if (act_bd.payload.size() < cmp_len) begin
+        msg = {msg, $sformatf("\n    PAYLOAD SIZE: exp_cmp=%0d act_payload_size=%0d  ← too few bytes in DMA log",
+                cmp_len, act_bd.payload.size())};
+        return 1'b0;
+    end
+    if (m_exp_s.payload.size() < cmp_len) begin
+        msg = {msg, $sformatf("\n    PAYLOAD SIZE: cmp_len=%0d exp_payload_size=%0d  ← scoreboard internal error",
+                cmp_len, m_exp_s.payload.size())};
+        return 1'b0;
     end
 
-    //  TL — Too Long 
-    if (act_bd.tl !== m_exp_s.tl) begin
-      msg  = {msg, $sformatf("\n    TL    : exp=%0b act=%0b", m_exp_s.tl, act_bd.tl)};
-      pass = 1'b0;
-    end
-
-    //  SF — Short Frame  
-    if (act_bd.sf !== m_exp_s.sf) begin
-      msg  = {msg, $sformatf("\n    SF    : exp=%0b act=%0b", m_exp_s.sf, act_bd.sf)};
-      pass = 1'b0;
-    end
-
-    //  CRC — CRC Error 
-    if (act_bd.crc_err !== m_exp_s.crc_err) begin
-      msg  = {msg, $sformatf("\n    CRC   : exp=%0b act=%0b", m_exp_s.crc_err, act_bd.crc_err)};
-      pass = 1'b0;
-    end
-
-    //  LC — Late Collision 
-    if (act_bd.lc !== m_exp_s.lc) begin
-      msg  = {msg, $sformatf("\n    LC    : exp=%0b act=%0b", m_exp_s.lc, act_bd.lc)};
-      pass = 1'b0;
-    end
-
-    //  LEN field — skip on overrun (DMA partial, LEN undefined) 
-    //   tc_rx_basic_frame: "LEN field value matches received byte count"
-    if (!act_bd.or_flag) begin
-      if (act_bd.len !== m_exp_s.len) begin
-        msg  = {msg, $sformatf("\n    LEN   : exp=%0d act=%0d  ← byte count mismatch",
-                  m_exp_s.len, act_bd.len)};
-        pass = 1'b0;
-      end
-    end
-
-    //  PAYLOAD byte-by-byte comparison ─
-    //
-    //   Skip conditions:
-    //     1. act_bd.or_flag==1    : memory content undefined after overrun
-    //     2. exp_bd.crc_err==1    : payload may be corrupted by deliberate
-    //                               CRC injection (tc_rx_crc_check_fail);
-    //                               we already checked the CRC flag above
-    //     3. tl_flag and payload
-    //        already compared     : handled below by adjusting cmp_len
-    //
-    //   CRC stripping:
-    //     For valid-CRC, non-truncated frames: compare first (exp_bd.len - 4)
-    //     bytes only.  The last 4 bytes in memory are the CRC; we do not
-    //     compare them separately (the CRC bit in the BD is the pass/fail
-    //     signal for CRC correctness).
-    //     For truncated frames (tl=1): compare all m_exp_s.payload bytes
-    //     (no CRC at the end — frame was cut before CRC bytes were received).
-    if (!act_bd.or_flag && !m_exp_s.crc_err) begin
-        int unsigned cmp_len;   // bytes to compare
-
-        if (m_exp_s.tl) begin
-            // Truncated: all m_exp_s.len bytes stored raw; no CRC stripping
-            cmp_len = m_exp_s.len;
-        end else begin
-            // Normal: strip 4 CRC bytes (they ARE in memory, just not compared)
-            cmp_len = (m_exp_s.len >= 4) ? (m_exp_s.len - 4) : 0;
-        end
-
-        // Size sanity check
-        if (act_bd.payload.size() < cmp_len) begin
-            msg  = {msg, $sformatf("\n    PAYLOAD SIZE: exp_cmp=%0d act_payload_size=%0d  ← too few bytes in DMA log",
-                    cmp_len, act_bd.payload.size())};
-            pass = 1'b0;
-        end else if (m_exp_s.payload.size() < cmp_len) begin
-            msg  = {msg, $sformatf("\n    PAYLOAD SIZE: cmp_len=%0d exp_payload_size=%0d  ← scoreboard internal error",
-                    cmp_len, m_exp_s.payload.size())};
-            pass = 1'b0;
-        end else begin
-            // Byte-by-byte comparison (cap error prints at 16 bytes)
-            int unsigned first_mismatch = 0;
-            int unsigned mismatch_count = 0;
-            for (int unsigned b = 0; b < cmp_len; b++) begin
-            if (act_bd.payload[b] !== m_exp_s.payload[b]) begin
-                if (mismatch_count == 0) first_mismatch = b;
-                mismatch_count++;
-                if (mismatch_count <= 16) begin
+    // Byte-by-byte comparison (cap error prints at 16 bytes)
+    first_mismatch = 0;
+    mismatch_count = 0;
+    for (int unsigned b = 0; b < cmp_len; b++) begin
+        if (act_bd.payload[b] !== m_exp_s.payload[b]) begin
+            if (mismatch_count == 0) first_mismatch = b;
+            mismatch_count++;
+            if (mismatch_count <= 16) begin
                 msg = {msg, $sformatf("\n    PAYLOAD[%0d]: exp=0x%02h act=0x%02h",
                         b, m_exp_s.payload[b], act_bd.payload[b])};
-                end else if (mismatch_count == 17) begin
+            end else if (mismatch_count == 17) begin
                 msg = {msg, "\n    ... (further payload mismatches suppressed)"};
-                end
-            end
-            end
-            if (mismatch_count > 0) begin
-            msg  = {msg, $sformatf("\n    PAYLOAD TOTAL: %0d/%0d bytes mismatched (first@[%0d])",
-                        mismatch_count, cmp_len, first_mismatch)};
-            pass = 1'b0;
             end
         end
     end
 
-    //  Final verdict ─
-    if (pass) begin
-      compare_pass++;
-      `uvm_info("SB/PASS",
-            $sformatf("[%0t ns] PASS #%0d — DA=%0h len=%0d%s%s%s%s",
-            $realtime, compare_pass, frame.destination_addr, m_exp_s.len,
-            m_exp_s.crc_err ? " CRC-ERR" : "",
-            m_exp_s.sf      ? " SF"       : "",
-            m_exp_s.tl      ? " TL"       : "",
-            m_exp_s.cf      ? " CF"       : ""),
-            UVM_MEDIUM)
-    end else begin
-      compare_fail++;
-      `uvm_error("SB/FAIL",
-        $sformatf("[%0t ns] FAIL #%0d — DA=%0h exp_len=%0d act_len=%0d\n  MISMATCHES:%s",
-            $realtime, compare_fail,
-            frame.destination_addr, m_exp_s.len, act_bd.len, msg))
+    if (mismatch_count > 0) begin
+        msg = {msg, $sformatf("\n    PAYLOAD TOTAL: %0d/%0d bytes mismatched (first@[%0d])",
+                    mismatch_count, cmp_len, first_mismatch)};
+        return 1'b0;
     end
-
+    return 1'b1;
 endfunction
 
-function automatic bit is_pause_frame(input mii_rx_seq_item frame);
+//  Final verdict — updates pass/fail counters and logs the result.
+function automatic void eth_rx_scoreboard::report_verdict(
+    input bit               pass,
+    input string            msg,
+    input wb_bd_seq_item    act_bd,
+    input mii_rx_seq_item   frame
+);
+    if (pass) begin
+        compare_pass++;
+        `uvm_info("SB/PASS",
+            $sformatf("[%0t ns] PASS #%0d — DA=%0h len=%0d%s%s%s%s",
+            $realtime, compare_pass, frame.destination_addr, m_exp_s.exp_len,
+            m_exp_s.crc_flag ? " CRC-ERR" : "",
+            m_exp_s.sf_flag  ? " SF"      : "",
+            m_exp_s.tl_flag  ? " TL"      : "",
+            m_exp_s.cf_flag  ? " CF"      : ""),
+            UVM_MEDIUM)
+    end else begin
+        compare_fail++;
+        `uvm_error("SB/FAIL",
+            $sformatf("[%0t ns] FAIL #%0d — DA=%0h exp_len=%0d act_len=%0d\n  MISMATCHES:%s",
+                $realtime, compare_fail,
+                frame.destination_addr, m_exp_s.exp_len, act_bd.len, msg))
+    end
+endfunction
+
+function automatic bit eth_rx_scoreboard::is_pause_frame(input mii_rx_seq_item frame);
     uvm_reg_data_t mac0_v, mac1_v;
     bit [47:0]     our_mac;
     bit [15:0]     ethertype, opcode;
@@ -791,8 +902,11 @@ function automatic bit is_pause_frame(input mii_rx_seq_item frame);
     if (frame.payload_no_crc.size() < 16) return 1'b0;
 
     // Reconstruct our MAC from RAL for DA comparison
-    mac0_v  = m_regmodel.MAC_ADDR0.get();
-    mac1_v  = m_regmodel.MAC_ADDR1.get();
+    m_regmodel.MAC_ADDR0.mirror(status, UVM_CHECK, UVM_BACKDOOR);
+    m_regmodel.MAC_ADDR1.mirror(status, UVM_CHECK, UVM_BACKDOOR);
+
+    mac0_v  = m_regmodel.MAC_ADDR0.get_mirrored_value();
+    mac1_v  = m_regmodel.MAC_ADDR1.get_mirrored_value();
     our_mac = { mac1_v[15:8], mac1_v[7:0],
                 mac0_v[31:24], mac0_v[23:16],
                 mac0_v[15:8],  mac0_v[7:0] };
@@ -807,7 +921,7 @@ function automatic bit is_pause_frame(input mii_rx_seq_item frame);
 
 endfunction : is_pause_frame
 
-function automatic bit compute_hash_hit(
+function automatic bit eth_rx_scoreboard::compute_hash_hit(
     input bit [47:0] da,
     input bit [31:0] hash0,
     input bit [31:0] hash1);
@@ -863,14 +977,14 @@ function automatic bit compute_hash_hit(
 endfunction : compute_hash_hit
 
   //  Byte bit-reflection (bit 7 → bit 0, bit 6 → bit 1, …) 
-function automatic bit [7:0] reflect_byte(input byte unsigned b);
+function automatic bit [7:0] eth_rx_scoreboard::reflect_byte(input byte unsigned b);
     bit [7:0] r;
     for (int i = 0; i < 8; i++) r[i] = b[7-i];
     return r;
 endfunction : reflect_byte
 
   //  32-bit word bit-reflection 
-function automatic bit [31:0] reflect_word(input bit [31:0] w);
+function automatic bit [31:0] eth_rx_scoreboard::reflect_word(input bit [31:0] w);
     bit [31:0] r;
     for (int i = 0; i < 32; i++) r[i] = w[31-i];
     return r;
