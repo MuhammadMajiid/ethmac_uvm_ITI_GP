@@ -48,8 +48,7 @@ class mii_tx_driver_base extends uvm_driver #(mii_tx_seq_item_base);
     task reset_items();
         vif.cb_mii_tx.MColl<=0;
         vif.cb_mii_tx.MCrS <=0;
-        @(negedge vif.rst_n);   // wait for reset assertion
-        @(posedge vif.rst_n);   // wait for reset deassertion
+        @(negedge vif.rst);   // wait for reset deassertion
         @(posedge vif.MTxCLK);  
         `uvm_info("DRIVER", "Reset deasserted — starting stimulus", UVM_LOW)
     endtask

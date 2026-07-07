@@ -54,7 +54,7 @@ class mii_tx_monitor_base extends uvm_monitor;
     // Task: mon_reset
     task mon_reset();
         // Reset deassertion 
-        @(negedge vif.rst_n);
+        @(negedge vif.rst);
         `uvm_info(get_type_name(),"Begin monitoring after reset deassertion", UVM_LOW)
     endtask 
 	

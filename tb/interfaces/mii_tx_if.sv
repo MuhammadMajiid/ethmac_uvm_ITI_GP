@@ -19,10 +19,10 @@
 
 `ifndef MII_TX_IF_SV
 `define MII_TX_IF_SV
-
+`timescale 1ns/1ps
 interface mii_tx_if #(parameter PHY_NIBBLE_WIDTH = 4)(
     input logic MTxCLK,
-    input logic rst_n
+    input logic rst
     );
 
     // MII TX Signals
@@ -55,7 +55,7 @@ interface mii_tx_if #(parameter PHY_NIBBLE_WIDTH = 4)(
     modport DUT (
 
         input MTxCLK,
-        input rst_n,
+        input rst,
 
         input MColl,
         input MCrS, 

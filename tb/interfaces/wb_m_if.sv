@@ -10,7 +10,7 @@
 
 `ifndef WB_M_IF_SV
 `define WB_M_IF_SV
-
+`timescale 1ns/1ps
 interface wb_m_if #(parameter ADDR_WIDTH = 32, DATA_WIDTH = 32,SEL_WIDTH = 4)(
     input logic clk_i,
     input logic rst_i

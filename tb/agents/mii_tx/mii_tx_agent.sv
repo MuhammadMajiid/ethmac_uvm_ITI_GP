@@ -39,7 +39,7 @@ class mii_tx_agent extends uvm_agent;
         super.build_phase(phase);
 
         // Get config object from database
-        if(!uvm_config_db #(mii_tx_config_obj)::get(this, "", "CFG_VIF", m_config)) begin
+        if(!uvm_config_db #(mii_tx_config_obj)::get(this, "", "config", m_config)) begin
             `uvm_fatal("build_phase" ,"Unable to get configuration object mii_tx_config_obj")
         end
 

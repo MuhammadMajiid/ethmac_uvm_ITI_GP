@@ -58,7 +58,14 @@ class wb_s_basic_tx_seq extends wb_s_seq_base;
         tx_ptr[2] = 32'h0000_0078;
         tx_ptr[3] = 32'h0000_00B4;
 
-        
+        //-----------------------------------------------------
+        // Write dma memory
+        //----------------------------------------------------- 
+
+        foreach (tx_ptr[i]) begin
+            for(int j=0; j<PKT_LEN;j+=4)
+            dma_mem::write(tx_ptr[i]+j,$random);
+        end
 
         //-----------------------------------------------------
         // Configure registers

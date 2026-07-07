@@ -48,6 +48,8 @@ class eth_env_tx extends eth_env_base;
   function void connect_phase(uvm_phase phase);
 
     super.connect_phase(phase);
+    // Assign ral handle in scoreboard config obj to local
+    m_config.m_tx_sb_config.m_regmodel=m_regmodel;
 
     // Connect each sequencer in virtual sequencer to it's real sequencer
     m_v_sqr.m_mii_tx_sqr=m_mii_tx_agent.m_sequencer;

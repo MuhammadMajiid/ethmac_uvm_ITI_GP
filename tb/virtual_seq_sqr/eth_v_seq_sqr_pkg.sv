@@ -23,6 +23,7 @@ import mii_tx_agent_pkg::mii_tx_sequencer_base;
 
 // import sequences package
 import wb_m_seq_pkg::*;
+import wb_s_seq_pkg::*;
 
 // include virtual sequencer files
 `include "eth_v_sequencer.sv"

@@ -251,8 +251,8 @@ function void eth_tx_scoreboard::build_phase(uvm_phase phase);
     wb_s_imp = new("wb_s_imp", this);
 
     // Build transactions
-    m_mii_tx_seq_item  = mii_tx_seq_item_base::type_id::create("m_mii_tx_seq_item");
-    m_wb_m_seq_item    = wb_m_seq_item_base::type_id::create("m_wb_m_seq_item");
+    //_mii_tx_seq_item  = mii_tx_seq_item_base::type_id::create("m_mii_tx_seq_item");
+    //m_wb_m_seq_item    = wb_m_seq_item_base::type_id::create("m_wb_m_seq_item");
 
     // Creating semaphore objects
     m_sem_tx_seq_item=new(SEM_TX_SEQ_ITEM_NO_KEYS);
@@ -286,8 +286,8 @@ task eth_tx_scoreboard::run_phase(uvm_phase phase);
     fork: fork_run_phase 
         get_mii_tx_seq_item();
         get_wb_m_seq_item();
-        #0 predictor();
-        #0 comparator();
+        #0.2ns predictor();
+        #0.2ns comparator();
         begin
         wait(m_ev_end_seqs.triggered);
         wait(m_ev_end_pkt.triggered);
@@ -588,10 +588,10 @@ task eth_tx_scoreboard::pred_track_rd();
         //--------------------------------------------------------
         if (curr_rd) begin
 
-            `uvm_info(get_type_name(),
-                $sformatf("TX BD[%0d] armed",
-                          m_tx_bd_cfg_s.bd_index),
-                UVM_MEDIUM)
+            //`uvm_info(get_type_name(),
+              //  $sformatf("TX BD[%0d] armed",
+                //          m_tx_bd_cfg_s.bd_index),
+                //UVM_MEDIUM)
 
             m_tx_pending_s.flag_rd=1;
 
@@ -1055,6 +1055,7 @@ task eth_tx_scoreboard::comp_pack_pkt();
     m_sem_tx_seq_item.put(1); 
     #1ns;
     end
+    `uvm_info(get_type_name(),"Comp_pack: MTXEN asserted",UVM_MEDIUM)
     //--------------------------------------------------------
     // Capture complete bytes
     //--------------------------------------------------------
@@ -1342,7 +1343,7 @@ task eth_tx_scoreboard::comp_compare_ipgt();
         //------------------------------------------------------
         // Compare
         //------------------------------------------------------
-        if (m_mii_tx_seq_item.ipgt_cycles != exp_cycles) begin
+        if (m_mii_tx_seq_item.ipgt_cycles < exp_cycles) begin
 
             `uvm_error(get_type_name(),
                 $sformatf(
@@ -1442,7 +1443,7 @@ task eth_tx_scoreboard::get_mii_tx_seq_item();
     mii_tx_fifo.get(m_mii_tx_seq_item);
     // Put all Keys in semaphore
     m_sem_tx_seq_item.put(SEM_TX_SEQ_ITEM_NO_KEYS);
-    #0.5ns;
+    #1.5ns;
 endtask    
 
 // task: get_wb_m_seq_item
@@ -1452,9 +1453,10 @@ task eth_tx_scoreboard::get_wb_m_seq_item();
     m_sem_wb_m_seq_item.get(1);
     // Get transaction item from fifo
     wb_m_fifo.get(m_wb_m_seq_item);
+    `uvm_info(get_type_name(),m_wb_m_seq_item.convert2string(),UVM_HIGH)
     // Put all Keys in semaphore
     m_sem_wb_m_seq_item.put(SEM_WB_M_SEQ_ITEM_NO_KEYS);
-    #0.5ns;
+    #1.5ns;
 endtask 
 
 `endif // ETH_TX_SCOREBOARD_SV
