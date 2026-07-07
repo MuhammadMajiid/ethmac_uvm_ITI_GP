@@ -1392,8 +1392,8 @@ function void eth_tx_scoreboard::clear();
     // Clear structs
     //----------------------------------------------------------  
     m_tx_bd_cfg_s        ='{default:'0};
-    m_tx_expected_s      ='{default:'0};
-    m_tx_pending_s       ='{default:'0};
+    m_tx_expected_s      ='{default:'0,exp_pkt: {}};
+    m_tx_pending_s       ='{default:'0,actual_pkt: {}};
 
 endfunction
 
@@ -1436,14 +1436,17 @@ endfunction
 
 // task: get_mii_tx_seq_item
 task eth_tx_scoreboard::get_mii_tx_seq_item();
-    // Get all keys from semaphore
-    repeat(SEM_TX_SEQ_ITEM_NO_KEYS)
-    m_sem_tx_seq_item.get(1);
-    // Get transaction item from fifo
-    mii_tx_fifo.get(m_mii_tx_seq_item);
-    // Put all Keys in semaphore
-    m_sem_tx_seq_item.put(SEM_TX_SEQ_ITEM_NO_KEYS);
-    #1.5ns;
+    forever begin
+        // Get all keys from semaphore
+        repeat(SEM_TX_SEQ_ITEM_NO_KEYS)
+        m_sem_tx_seq_item.get(1);
+        // Get transaction item from fifo
+        mii_tx_fifo.get(m_mii_tx_seq_item);
+        `uvm_info(get_type_name(),m_mii_tx_seq_item.convert2string(),UVM_HIGH)
+        // Put all Keys in semaphore
+        m_sem_tx_seq_item.put(SEM_TX_SEQ_ITEM_NO_KEYS);
+        #1.5ns;
+    end
 endtask    
 
 // task: get_wb_m_seq_item
