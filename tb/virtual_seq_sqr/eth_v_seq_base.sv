@@ -18,7 +18,7 @@
     wb_s_sequencer_base m_wb_s_sqr;
     mii_tx_sequencer_base m_mii_tx_sqr;
 
-    function new(string name);
+    function new(string name ="eth_v_seq_base");
     super.new(name);
     endfunction
 

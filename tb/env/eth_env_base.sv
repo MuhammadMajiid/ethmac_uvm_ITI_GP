@@ -59,7 +59,8 @@ class eth_env_base extends uvm_env;
   function void connect_phase(uvm_phase phase);
  
     super.connect_phase(phase);
-
+    // Assign ral handle in scoreboard config obj to local
+    m_config.m_regmodel=m_regmodel;
     
    //Connect the wb_s_sequencer  to the address map in order
       //to use the API of the registers to start wb_s transactions
@@ -68,7 +69,7 @@ class eth_env_base extends uvm_env;
     //Configure the predictor with an address map and an adapter
     m_predictor.map     = m_regmodel.default_map;
     m_predictor.adapter = m_reg2wb;
-    m_regmodel.default_map.set_auto_predict(0);
+    m_regmodel.default_map.set_auto_predict(1);
     
   endfunction
 

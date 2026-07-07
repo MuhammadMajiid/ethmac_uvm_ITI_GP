@@ -1,0 +1,33 @@
+//==============================================================================
+// Project  : ethmac_uvm_ITI_GP
+// File     : wb_m_seq_pkg.sv
+// Author   : Nada
+// Date     : 2026-06-26
+//------------------------------------------------------------------------------
+// Description:
+//   Package for including wisbone master sequences.
+//==============================================================================
+
+`ifndef WB_S_SEQ_PKG_SV
+`define WB_S_SEQ_PKG_SV
+
+package wb_s_seq_pkg;
+
+    `include "uvm_macros.svh"
+    import uvm_pkg::*;
+
+    // Global package
+    import eth_glob_pkg::*;
+    // Transaction object package
+    import wb_s_seq_item_pkg::*;
+    
+    // RAL package
+    import eth_ral_pkg::*;
+
+    // Sequences
+    `include "wb_s_seq_base.sv"
+    `include "wb_s_basic_tx_seq.sv"
+
+endpackage : wb_s_seq_pkg
+
+`endif // WB_S_SEQ_PKG_SV
