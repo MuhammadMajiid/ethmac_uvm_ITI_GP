@@ -18,6 +18,10 @@ typedef struct {
     bit [47:0]  mac_addr;   // MAC_ADDR0/1 concatenated
     bit [31:0]  hash0;      // HASH0
     bit [31:0]  hash1;      // HASH1
+    bit         rxc_m;      // INT_MASK.RXC_M
+    bit         busy_m;     // INT_MASK.BUSY_M
+    bit         rxe_m;      // INT_MASK.RXE_M
+    bit         rxf_m;      // INT_MASK.RXF_M (spec's mask name for the RXB status bit)
 } eth_rx_reg_cfg_s;
 
 typedef struct {
@@ -50,8 +54,8 @@ class eth_rx_scoreboard extends uvm_scoreboard;
     eth_reg_block                                 m_regmodel;
 
     // struct
-    eth_rx_reg_cfg_s                              reg_s;
-    eth_rx_expected_s                             exps;
+    eth_rx_reg_cfg_s                              m_reg_s;
+    eth_rx_expected_s                             m_exp_s;
 
     int unsigned frames_total;              // all MII frames seen
     int unsigned frames_predicted_drop;     // predictor   HW silently discards
@@ -74,12 +78,20 @@ class eth_rx_scoreboard extends uvm_scoreboard;
     realtime  last_frame_end_time_ns;
     bit       first_frame_seen;   // suppresses IFG check before first frame
 
+    // IEEE 802.3 broadcast address — ADDR-FEAT-003
+    localparam bit [47:0] BCAST_ADDR  = 48'hFF_FF_FF_FF_FF_FF;
+
+    // CRC-32 polynomial (IEEE 802.3) — used by compute_hash_hit()
+    localparam bit [31:0] ETH_CRC_POLY  = 32'h04C11DB7;
+
     extern function new(string name, uvm_component parent);
     extern function void build_phase(uvm_phase phase);
     extern function void connect_phase(uvm_phase phase);
     extern task run_phase(uvm_phase phase);
 
     extern task track_rxen();
+
+    extern task read_cfg_regs();
 
     extern function automatic void predictor();
 
@@ -220,7 +232,45 @@ task eth_rx_scoreboard::track_rxen();
     end
 endtask
 
+task eth_rx_scoreboard::read_cfg_regs();
 
+    uvm_status_e status;
+    m_regmodel.MODER.mirror(status, UVM_CHECK, UVM_BACKDOOR);
+    m_reg_s.rxen     = m_regmodel.MODER.RXEN.get_mirrored_value();
+    m_reg_s.recsmall = m_regmodel.MODER.RECSMALL.get_mirrored_value();
+    m_reg_s.hugen    = m_regmodel.MODER.HUGEN.get_mirrored_value();
+    m_reg_s.dlycrcen = m_regmodel.MODER.DLYCRCEN.get_mirrored_value();
+    m_reg_s.fulld    = m_regmodel.MODER.FULLD.get_mirrored_value();
+    m_reg_s.pro      = m_regmodel.MODER.PRO.get_mirrored_value();
+    m_reg_s.iam      = m_regmodel.MODER.IAM.get_mirrored_value();
+    m_reg_s.bro      = m_regmodel.MODER.BRO.get_mirrored_value();
+    m_reg_s.ifg      = m_regmodel.MODER.IFG.get_mirrored_value();
+
+    m_regmodel.PACKETLEN.mirror(status, UVM_CHECK, UVM_BACKDOOR);
+    m_reg_s.minfl = m_regmodel.PACKETLEN.MINFL.get_mirrored_value();
+    m_reg_s.maxfl = m_regmodel.PACKETLEN.MAXFL.get_mirrored_value();
+
+    m_regmodel.CTRLMODER.mirror(status, UVM_CHECK, UVM_BACKDOOR);
+    m_reg_s.passall = m_regmodel.CTRLMODER.PASSALL.get_mirrored_value();
+    m_reg_s.rxflow  = m_regmodel.CTRLMODER.RXFLOW.get_mirrored_value();
+
+    m_regmodel.MAC_ADDR0.mirror(status, UVM_CHECK, UVM_BACKDOOR);
+    m_regmodel.MAC_ADDR1.mirror(status, UVM_CHECK, UVM_BACKDOOR);
+    m_reg_s.mac_addr = m_regmodel.get_mac_address();
+
+    m_regmodel.HASH0.mirror(status, UVM_CHECK, UVM_BACKDOOR);
+    m_reg_s.hash0 = m_regmodel.HASH0.get_mirrored_value();
+    m_regmodel.HASH1.mirror(status, UVM_CHECK, UVM_BACKDOOR);
+    m_reg_s.hash1 = m_regmodel.HASH1.get_mirrored_value();
+
+    m_regmodel.INT_MASK.mirror(status, UVM_CHECK, UVM_BACKDOOR);
+    m_reg_s.rxc_m  = m_regmodel.INT_MASK.RXC_M.get_mirrored_value();
+    m_reg_s.busy_m = m_regmodel.INT_MASK.BUSY_M.get_mirrored_value();
+    m_reg_s.rxe_m  = m_regmodel.INT_MASK.RXE_M.get_mirrored_value();
+    m_reg_s.rxf_m  = m_regmodel.INT_MASK.RXF_M.get_mirrored_value();
+
+
+endtask
 // -------------------------------------------------------
 // PREDICTOR
 // -------------------------------------------------------
@@ -229,57 +279,16 @@ function automatic void eth_rx_scoreboard::predictor(
     input wb_bd_seq_item exp_bd,
     output bit frame_dropped
 );
-    uvm_reg_data_t moder_v, pack_v, ctrl_v;
-    uvm_reg_data_t mac0_v,  mac1_v, h0_v, h1_v;
 
+    read_cfg_regs();
     //  Allocate output transaction ─
     exp_bd        = wb_bd_seq_item::type_id::create("exp_bd");
     frame_dropped = 1'b0; // default to accepted
 
-    //Snapshot register mirror 
-    moder_v = m_regmodel.MODER.get();
-    pack_v  = m_regmodel.PACKETLEN.get();
-    ctrl_v  = m_regmodel.CTRLMODER.get();
-    mac0_v  = m_regmodel.MAC_ADDR0.get();
-    mac1_v  = m_regmodel.MAC_ADDR1.get();
-    h0_v    = m_regmodel.HASH0.get();
-    h1_v    = m_regmodel.HASH1.get();
-
-    //  Unpack MODER fields (Spec §3.1 Table 4) 
-    //    Bit[16]=RECSMALL [14]=HUGEN [12]=DLYCRCEN [10]=FULLD [6]=IFG
-    //    Bit[5]=PRO [4]=IAM [3]=BRO
-    reg_s.recsmall  = moder_v[16];
-    reg_s.hugen     = moder_v[14];
-    reg_s.dlycrcen  = moder_v[12];
-    reg_s.fulld     = moder_v[10];
-    reg_s.ifg_byp   = moder_v[6];
-    reg_s.pro       = moder_v[5];
-    reg_s.iam       = moder_v[4];
-    reg_s.bro       = moder_v[3];
-    //  Unpack PACKETLEN (Spec §3.7 Table 10) 
-    //    Bits[31:16] = MINFL,  Bits[15:0] = MAXFL
-    reg_s.minfl = pack_v[31:16];
-    reg_s.maxfl = pack_v[15:0];
-    //  Unpack CTRLMODER (Spec §3.10 Table 13) ─
-    //    Bit[1]=RXFLOW,  Bit[0]=PASSALL
-    reg_s.rxflow  = ctrl_v[1];
-    reg_s.passall = ctrl_v[0];
-    //  Reconstruct 48-bit MAC address from MAC_ADDR0 / MAC_ADDR1 
-    //    "byte 0 is sent first and byte 5 last."
-    //    da[47:40]=byte0 (first byte on wire) matches mac_addr[47:40]
-    reg_s.mac_addr = {  mac1_v[15:8],   // byte 0 (first on wire)
-                        mac1_v[7:0],    // byte 1
-                        mac0_v[31:24],  // byte 2
-                        mac0_v[23:16],  // byte 3
-                        mac0_v[15:8],   // byte 4
-                        mac0_v[7:0]  }; // byte 5 (last on wire)
-
-    reg_s.hash0 = h0_v[31:0];
-    reg_s.hash1 = h1_v[31:0];
-
+    
     //  Raw frame length (DA..CRC inclusive, preamble+SFD already stripped) 
-    //exps.exp_len = frame.payload_no_crc.size() + 4;  // +4 = 4 CRC bytes
-    exps.exp_len = frame.frame_data_q.size() ;  
+    //m_exp_s.exp_len = frame.payload_no_crc.size() + 4;  // +4 = 4 CRC bytes
+    m_exp_s.exp_len = frame.frame_data_q.size() ;  
 
     // PHASE A — PHY-LEVEL ABORT
     if (frame.phy_error) begin
@@ -292,10 +301,10 @@ function automatic void eth_rx_scoreboard::predictor(
     end
 
     //  Phase A.2: capture IS flag (soft error, no drop) Invalid Symbol (BD bit[5])
-    exp_s.is_flag = frame.invalid_symbol;
+    m_exp_s.is_flag = frame.invalid_symbol;
 
     // PHASE B — IFG VIOLATION
-    if (!reg_s.ifg_byp && first_frame_seen) begin
+    if (!m_reg_s.ifg_byp && first_frame_seen) begin
       real gap_ns;
       gap_ns = frame.start_time_ns - last_frame_end_time_ns;
       if (gap_ns < IFG_MIN_NS) begin
@@ -312,8 +321,8 @@ function automatic void eth_rx_scoreboard::predictor(
     // PHASE C — ADDRESS RECOGNITION
     
     bit addr_accepted = 1'b0;
-    exp_s.miss_bit      = 1'b0;
-    exp_s.cf_flag       = 1'b0;
+    m_exp_s.miss_bit      = 1'b0;
+    m_exp_s.cf_flag       = 1'b0;
 
     begin : phase_c_addr
         bit is_bcast, is_mcast, is_ucast;
@@ -326,7 +335,7 @@ function automatic void eth_rx_scoreboard::predictor(
         is_ucast = (frame.destination_addr[0] == 1'b0);
 
         //  P0: PAUSE / MAC Control frame (§4.5.1 Figure 3) 
-        //   Valid PAUSE frame: DA = PAUSE_MCAST or DA = our MAC
+        //   Valid PAUSE frame: DA = ETH_PAUSE_FRAME_ADDR or DA = our MAC
         //                      EtherType = 0x8808 at bytes[12:13]
         //                      Opcode    = 0x0001 at bytes[14:15]
         //
@@ -341,8 +350,8 @@ function automatic void eth_rx_scoreboard::predictor(
         //   to the memory and related buffer descriptor has the control frame bit
         //   (CF) set to 1."
         if (is_pause_frame(frame)) begin
-            exp_s.cf_flag = 1'b1;
-            if (!reg_s.passall) begin
+            m_exp_s.cf_flag = 1'b1;
+            if (!m_reg_s.passall) begin
             `uvm_info("SB/PRED/C",
                 $sformatf("[%0t ns] #%0d Phase C — PAUSE frame, PASSALL=0.Control module processes, NOT stored to memory. DROPPED.",
                 $realtime, frames_total), UVM_MEDIUM)
@@ -350,16 +359,16 @@ function automatic void eth_rx_scoreboard::predictor(
             drops_addr++;
             return;   // < early exit; no WB transaction
             end 
-            // PASSALL=1: fall through with exp_s.cf_flag=1; frame will be stored
+            // PASSALL=1: fall through with m_exp_s.cf_flag=1; frame will be stored
             addr_accepted = 1'b1;
-            exp_s.miss_bit      = 1'b0;  // CF frame: not an address miss
+            m_exp_s.miss_bit      = 1'b0;  // CF frame: not an address miss
             `uvm_info("SB/PRED/C",
                 $sformatf("[%0t ns] #%0d Phase C — PAUSE frame, PASSALL=1. CF=1. ACCEPTED.",
                 $realtime, frames_total), UVM_MEDIUM)
             
 
         /////////////////////////////////////// P1: PRO=1 — accept everything, compute M bit /////////////////////
-        end else if (reg_s.pro) begin
+        end else if (m_reg_s.pro) begin
             addr_accepted = 1'b1;
             // Determine what address recognition would say WITHOUT PRO
             // to decide the M bit correctly
@@ -370,19 +379,19 @@ function automatic void eth_rx_scoreboard::predictor(
             else  // multicast
             addr_would_match_without_pro = iam && compute_hash_hit(frame.destination_addr, hash0, hash1);
 
-            exp_s.miss_bit = !addr_would_match_without_pro;
+            m_exp_s.miss_bit = !addr_would_match_without_pro;
             `uvm_info("SB/PRED/C",
                 $sformatf("[%0t ns] #%0d Phase C — PRO=1. ACCEPTED. M=%0b (addr_match_wo_pro=%0b).",
-                $realtime, frames_total, exp_s.miss_bit, addr_would_match_without_pro),UVM_MEDIUM)
+                $realtime, frames_total, m_exp_s.miss_bit, addr_would_match_without_pro),UVM_MEDIUM)
 
         end else begin
             // PRO=0: strict address recognition
 
             ///////////////////////////////////// P2: Broadcast ///////////////////////////////////////
             if (is_bcast) begin
-                if (!reg_s.bro) begin
+                if (!m_reg_s.bro) begin
                     addr_accepted = 1'b1;
-                    exp_s.miss_bit      = 1'b0;
+                    m_exp_s.miss_bit      = 1'b0;
                     `uvm_info("SB/PRED/C",
                         $sformatf("[%0t ns] #%0d Phase C — BCAST, BRO=0. ACCEPTED.",
                         $realtime, frames_total), UVM_MEDIUM)
@@ -400,7 +409,7 @@ function automatic void eth_rx_scoreboard::predictor(
             end else if (is_ucast) begin
             if (frame.destination_addr == mac_addr) begin
                 addr_accepted = 1'b1;
-                exp_s.miss_bit      = 1'b0;
+                m_exp_s.miss_bit      = 1'b0;
                 `uvm_info("SB/PRED/C",
                     $sformatf("[%0t ns] #%0d Phase C — UCAST match DA=%0h. ACCEPTED.",
                     $realtime, frames_total, frame.destination_addr), UVM_MEDIUM)
@@ -415,11 +424,11 @@ function automatic void eth_rx_scoreboard::predictor(
 
             //////////////////////////////////// P4: Multicast (not broadcast) ////////////////////////////////
             end else begin
-            if (reg_s.iam) begin
+            if (m_reg_s.iam) begin
                 hash_hit = compute_hash_hit(frame.destination_addr, hash0, hash1);
                 if (hash_hit) begin
                 addr_accepted = 1'b1;
-                exp_s.miss_bit      = 1'b0;
+                m_exp_s.miss_bit      = 1'b0;
                 `uvm_info("SB/PRED/C",
                     $sformatf("[%0t ns] #%0d Phase C — MCAST DA=%0h, IAM=1, hash HIT. ACCEPTED.",
                     $realtime, frames_total, frame.destination_addr), UVM_MEDIUM)
@@ -451,32 +460,32 @@ function automatic void eth_rx_scoreboard::predictor(
     //     raw_len < MINFL, RECSMALL=1 → ACCEPT, SF=1 in BD
     //     raw_len ≤ 4                 → ACCEPT with CRC error (§4.2.4 note)
     //                                   RECSMALL must also be 1 to reach here
-    //     raw_len > MAXFL, HUGEN=0   → ACCEPT, TL=1, cap exp_s.exp_len at MAXFL
-    //     raw_len > MAXFL, HUGEN=1   → ACCEPT, TL=0, exp_s.exp_len = raw_len
+    //     raw_len > MAXFL, HUGEN=0   → ACCEPT, TL=1, cap m_exp_s.exp_len at MAXFL
+    //     raw_len > MAXFL, HUGEN=1   → ACCEPT, TL=0, m_exp_s.exp_len = raw_len
     //     MINFL ≤ raw_len ≤ MAXFL   → ACCEPT, SF=0, TL=0
 
-    exp_s.sf_flag  = 1'b0;
-    exp_s.tl_flag  = 1'b0;
+    m_exp_s.sf_flag  = 1'b0;
+    m_exp_s.tl_flag  = 1'b0;
    
 
     begin : phase_d_length
         /////////////////////////////// Short frame decision ////////////////////////////////
-        if (exps.exp_len < reg_s.minfl) begin
-            if (!reg_s.recsmall) begin
+        if (m_exp_s.exp_len < m_reg_s.minfl) begin
+            if (!m_reg_s.recsmall) begin
             // RECSMALL=0: "Packets smaller than MINFL are ignored."
             // Silently discard: BD not consumed, zero DMA writes.
             `uvm_info("SB/PRED/D",
                 $sformatf("[%0t ns] #%0d Phase D — SHORT FRAME len=%0d < MINFL=%0d,RECSMALL=0. DROPPED.",
-                $realtime, frames_total, exps.exp_len, minfl), UVM_MEDIUM)
+                $realtime, frames_total, m_exp_s.exp_len, minfl), UVM_MEDIUM)
             frame_dropped = 1'b1;
             drops_length++;
             return;   // < early exit
             end else begin
             // RECSMALL=1: "Packets smaller than MINFL are accepted."  SF=1.
-            exp_s.sf_flag = 1'b1;
+            m_exp_s.sf_flag = 1'b1;
             `uvm_info("SB/PRED/D",
                 $sformatf("[%0t ns] #%0d Phase D — SHORT FRAME len=%0d < MINFL=%0d, RECSMALL=1. ACCEPTED, SF=1.",
-                $realtime, frames_total, exps.exp_len, minfl), UVM_MEDIUM)
+                $realtime, frames_total, m_exp_s.exp_len, minfl), UVM_MEDIUM)
             end
         end
 
@@ -484,22 +493,22 @@ function automatic void eth_rx_scoreboard::predictor(
         //   (4-byte frame = only CRC bytes, zero payload ≡ CRC all-wrong)
         //   This check applies INSIDE the "RECSMALL=1 accept" branch above.
         //   We do NOT drop here; CRC error flag is assembled 
-        //   (exp_s.crc_flag will be forced for exps.exp_len <= 4.)
+        //   (m_exp_s.crc_flag will be forced for m_exp_s.exp_len <= 4.)
 
         /////////////////////////////////// Oversized frame decision //////////////////////////////////
-        if (!reg_s.hugen && (exps.exp_len > reg_s.maxfl)) begin
+        if (!m_reg_s.hugen && (m_exp_s.exp_len > m_reg_s.maxfl)) begin
             // HUGEN=0: truncate at MAXFL.  Frame IS accepted but TL=1.
             // DUT stops DMA after MAXFL bytes; memory has exactly MAXFL bytes.
-            exp_s.tl_flag = 1'b1;
-            exp_s.exp_len  = reg_s.maxfl;
+            m_exp_s.tl_flag = 1'b1;
+            m_exp_s.exp_len  = m_reg_s.maxfl;
             `uvm_info("SB/PRED/D",
                 $sformatf("[%0t ns] #%0d Phase D — OVERSIZE len=%0d > MAXFL=%0d, HUGEN=0.ACCEPTED, TL=1, truncated to %0d.",
-                $realtime, frames_total, exps.exp_len, reg_s.maxfl, reg_s.maxfl), UVM_MEDIUM)
-        end else if (reg_s.hugen && (exps.exp_len > reg_s.maxfl)) begin
+                $realtime, frames_total, m_exp_s.exp_len, m_reg_s.maxfl, m_reg_s.maxfl), UVM_MEDIUM)
+        end else if (m_reg_s.hugen && (m_exp_s.exp_len > m_reg_s.maxfl)) begin
             // HUGEN=1: accept jumbo frames without truncation.  TL stays 0.
             `uvm_info("SB/PRED/D",
                 $sformatf("[%0t ns] #%0d Phase D — JUMBO len=%0d > MAXFL=%0d, HUGEN=1.ACCEPTED (no truncation).",
-                $realtime, frames_total, exps.exp_len, reg_s.maxfl), UVM_MEDIUM)
+                $realtime, frames_total, m_exp_s.exp_len, m_reg_s.maxfl), UVM_MEDIUM)
         end
 
     end : phase_d_length
@@ -514,43 +523,43 @@ function automatic void eth_rx_scoreboard::predictor(
     //   Normal mode   (DLYCRCEN=0): CRC computed immediately after SFD.
     //   Delayed mode  (DLYCRCEN=1): CRC computation starts 4 bytes after SFD
     //   The MII monitor provides crc_delayed_ok for this mode.
-    //   Frames ≤ 4 bytes (exps.exp_len ≤ 4): CRC is always wrong per §4.2.4 note
+    //   Frames ≤ 4 bytes (m_exp_s.exp_len ≤ 4): CRC is always wrong per §4.2.4 note
     //   (payload ≤ 0 bytes; only CRC bytes present which cannot be valid).
 
-    if ((exps.exp_len - 4) == 0 || exps.exp_len <= 4) begin
+    if ((m_exp_s.exp_len - 4) == 0 || m_exp_s.exp_len <= 4) begin
       // No payload bytes → CRC inherently invalid
-      exp_s.crc_flag = 1'b1;
-    end else if (reg_s.dlycrcen) begin
+      m_exp_s.crc_flag = 1'b1;
+    end else if (m_reg_s.dlycrcen) begin
       // tc_rx_delayed_crc: MII monitor computes CRC starting 4 bytes post-SFD
-      exp_s.crc_flag = !frame.crc_delayed_ok;
+      m_exp_s.crc_flag = !frame.crc_delayed_ok;
     end else begin
       // Normal CRC check
-      exp_s.crc_flag = !frame.crc_ok;
+      m_exp_s.crc_flag = !frame.crc_ok;
     end
 
     /////////////////////////Dribble Nibble (BD bit[4])////////////////////////////////
     //   Set when total received nibble count is odd (frame not divisible by 8).
-    exp_s.dn_flag = frame.dribble_nibble;
+    m_exp_s.dn_flag = frame.dribble_nibble;
 
     ///////////////////////// Late Collision (BD bit[0], tc_rx_late_collision, RX-FEAT-012)
     //   Half-duplex only (MODER.FULLD=0).PHY asserts MColl after the COLLVALID window (>64 bytes from preamble).
-    exp_s.lc_flag = (!fulld) && frame.late_collision;
+    m_exp_s.lc_flag = (!fulld) && frame.late_collision;
 
     //////////////////////////////////////////////////////////////////////////////////
     // PHASE F — FINAL BD ASSEMBLY
     
-    exp_s.e_flag      = 1'b0;             // E MUST be cleared when frame is stored
-    exp_s.exp_len;    // LEN = exps.exp_len or MAXFL when TL=1
-    exp_s.cf_flag;    // Control frame (PAUSE with PASSALL=1)
-    exp_s.miss_bit;   // Miss: accept ed only via PRO
-    exp_s.or_flag  = 1'b0;          // Overrun not predictable from PHY data;
+    m_exp_s.e_flag      = 1'b0;             // E MUST be cleared when frame is stored
+    m_exp_s.exp_len;    // LEN = m_exp_s.exp_len or MAXFL when TL=1
+    m_exp_s.cf_flag;    // Control frame (PAUSE with PASSALL=1)
+    m_exp_s.miss_bit;   // Miss: accept ed only via PRO
+    m_exp_s.or_flag  = 1'b0;          // Overrun not predictable from PHY data;
                                     // comparator handles OR mismatch gracefully
-    exp_s.is_flag;    // Invalid symbol during reception
-    exp_s.dn_flag;    // Dribble nibble
-    exp_s.tl_flag;    // Too long (HUGEN=0 and raw > MAXFL)
-    exp_s.sf_flag;    // Short frame (RECSMALL=1 and len < MINFL)
-    exp_s.crc_flag;   // CRC-32 failed (or DLYCRCEN-adjusted)
-    exp_s.lc_flag;    // Late collision (half-duplex only)
+    m_exp_s.is_flag;    // Invalid symbol during reception
+    m_exp_s.dn_flag;    // Dribble nibble
+    m_exp_s.tl_flag;    // Too long (HUGEN=0 and raw > MAXFL)
+    m_exp_s.sf_flag;    // Short frame (RECSMALL=1 and len < MINFL)
+    m_exp_s.crc_flag;   // CRC-32 failed (or DLYCRCEN-adjusted)
+    m_exp_s.lc_flag;    // Late collision (half-duplex only)
 
     /////////////////////////////// Build expected payload slice //////////////////////////////////
     //   Convention (verified against tc_rx_basic_frame: "60-byte payload +
@@ -559,40 +568,40 @@ function automatic void eth_rx_scoreboard::predictor(
     //     The DUT writes the FULL frame (payload + CRC) to host memory.
     //     LEN = total bytes DMA-written = payload_no_crc.size() + 4 normally,
     //           or MAXFL when truncated.
-    //   The comparator will later compare only first (exp_s.exp_len - 4) bytes for
+    //   The comparator will later compare only first (m_exp_s.exp_len - 4) bytes for
     //   valid-CRC frames (CRC-stripped comparison).  For truncated or CRC-error
-    //   frames the comparator compares all exp_s.exp_len bytes without stripping.
+    //   frames the comparator compares all m_exp_s.exp_len bytes without stripping.
     //
-    //   exp_bd.payload holds a COPY of the MII frame bytes up to exp_s.exp_len.
-    //   For truncated frames: first min(payload_no_crc.size(), exp_s.exp_len) raw bytes.
+    //   exp_bd.payload holds a COPY of the MII frame bytes up to m_exp_s.exp_len.
+    //   For truncated frames: first min(payload_no_crc.size(), m_exp_s.exp_len) raw bytes.
     begin
         int unsigned payload_bytes_available;
         int unsigned payload_bytes_to_store;
 
         payload_bytes_available = frame.payload_no_crc.size();
 
-        if (exp_s.tl_flag) begin
+        if (m_exp_s.tl_flag) begin
             // Truncated: DUT stores MAXFL raw bytes (CRC not stripped, never reached)
-            // First min(payload_available, exp_s.exp_len) bytes go to memory
-            payload_bytes_to_store = (payload_bytes_available < exp_s.exp_len)
-                                    ? payload_bytes_available : exp_s.exp_len;
+            // First min(payload_available, m_exp_s.exp_len) bytes go to memory
+            payload_bytes_to_store = (payload_bytes_available < m_exp_s.exp_len)
+                                    ? payload_bytes_available : m_exp_s.exp_len;
         end else begin
-            // Normal: DUT stores exp_s.exp_len bytes = payload_no_crc + CRC
-            // payload_no_crc.size() should equal exp_s.exp_len - 4
+            // Normal: DUT stores m_exp_s.exp_len bytes = payload_no_crc + CRC
+            // payload_no_crc.size() should equal m_exp_s.exp_len - 4
             payload_bytes_to_store = payload_bytes_available;
         end
 
-        exp_s.payload = new[payload_bytes_to_store];
+        m_exp_s.payload = new[payload_bytes_to_store];
         for (int unsigned i = 0; i < payload_bytes_to_store; i++)
-            exp_s.payload[i] = frame.payload_no_crc[i];
+            m_exp_s.payload[i] = frame.payload_no_crc[i];
     end
 
     `uvm_info("SB/PRED/F",
         $sformatf("[%0t ns] #%0d PREDICT ACCEPT: DA=%0h len=%0d→%0d BD[E=%0b CF=%0b M=%0b OR=?? IS=%0b DN=%0b TL=%0b SF=%0b CRC=%0b LC=%0b]",
-            $realtime, frames_total, frame.destination_addr, exps.exp_len, 
-            exp_s.exp_len, exp_s.e,  exp_s.cf,  exp_s.m,
-            exp_s.is_flag, exp_s.dn, exp_s.tl, exp_s.sf,
-            exp_s.crc_flag, exp_s.lc), UVM_MEDIUM)
+            $realtime, frames_total, frame.destination_addr, m_exp_s.exp_len, 
+            m_exp_s.exp_len, m_exp_s.e,  m_exp_s.cf,  m_exp_s.m,
+            m_exp_s.is_flag, m_exp_s.dn, m_exp_s.tl, m_exp_s.sf,
+            m_exp_s.crc_flag, m_exp_s.lc), UVM_MEDIUM)
 
 
 endfunction
@@ -617,15 +626,15 @@ function automatic void eth_rx_scoreboard::comparator(
     end
 
     //  CF — Control Frame flag 
-    if (act_bd.cf !== exp_s.cf) begin
-      msg  = {msg, $sformatf("\n    CF    : exp=%0b act=%0b", exp_s.cf, act_bd.cf)};
+    if (act_bd.cf !== m_exp_s.cf) begin
+      msg  = {msg, $sformatf("\n    CF    : exp=%0b act=%0b", m_exp_s.cf, act_bd.cf)};
       pass = 1'b0;
     end
 
     //  M — Miss bit 
     //  Critical for address recognition tests 
-    if (act_bd.m !== exp_s.m) begin
-      msg  = {msg, $sformatf("\n    M-bit : exp=%0b act=%0b  ← address recognition error", exp_s.m, act_bd.m)};
+    if (act_bd.m !== m_exp_s.m) begin
+      msg  = {msg, $sformatf("\n    M-bit : exp=%0b act=%0b  ← address recognition error", m_exp_s.m, act_bd.m)};
       pass = 1'b0;
     end
 
@@ -634,9 +643,9 @@ function automatic void eth_rx_scoreboard::comparator(
     //   DUT does not report it.
     //   Unexpected OR (predicted=0 but DUT reports 1): INFO warning only —
     //   cannot deterministically predict WB stalls from PHY timestamps alone.
-    if (exp_s.or_flag !== act_bd.or_flag) begin
-        if (exp_s.or_flag) begin
-            msg  = {msg, $sformatf("\n  OR  : exp=%0b act=%0b  ← expected overrun NOT seen", exp_s.or_flag, act_bd.or_flag)};
+    if (m_exp_s.or_flag !== act_bd.or_flag) begin
+        if (m_exp_s.or_flag) begin
+            msg  = {msg, $sformatf("\n  OR  : exp=%0b act=%0b  ← expected overrun NOT seen", m_exp_s.or_flag, act_bd.or_flag)};
             pass = 1'b0;
         end else begin
             `uvm_info("SB/CMP",
@@ -646,47 +655,47 @@ function automatic void eth_rx_scoreboard::comparator(
     end
 
     //  IS — Invalid Symbol 
-    if (act_bd.is_flag !== exp_s.is_flag) begin
-      msg  = {msg, $sformatf("\n    IS    : exp=%0b act=%0b", exp_s.is_flag, act_bd.is_flag)};
+    if (act_bd.is_flag !== m_exp_s.is_flag) begin
+      msg  = {msg, $sformatf("\n    IS    : exp=%0b act=%0b", m_exp_s.is_flag, act_bd.is_flag)};
       pass = 1'b0;
     end
 
     //  DN — Dribble Nibble 
-    if (act_bd.dn !== exp_s.dn) begin
-      msg  = {msg, $sformatf("\n    DN    : exp=%0b act=%0b", exp_s.dn, act_bd.dn)};
+    if (act_bd.dn !== m_exp_s.dn) begin
+      msg  = {msg, $sformatf("\n    DN    : exp=%0b act=%0b", m_exp_s.dn, act_bd.dn)};
       pass = 1'b0;
     end
 
     //  TL — Too Long 
-    if (act_bd.tl !== exp_s.tl) begin
-      msg  = {msg, $sformatf("\n    TL    : exp=%0b act=%0b", exp_s.tl, act_bd.tl)};
+    if (act_bd.tl !== m_exp_s.tl) begin
+      msg  = {msg, $sformatf("\n    TL    : exp=%0b act=%0b", m_exp_s.tl, act_bd.tl)};
       pass = 1'b0;
     end
 
     //  SF — Short Frame  
-    if (act_bd.sf !== exp_s.sf) begin
-      msg  = {msg, $sformatf("\n    SF    : exp=%0b act=%0b", exp_s.sf, act_bd.sf)};
+    if (act_bd.sf !== m_exp_s.sf) begin
+      msg  = {msg, $sformatf("\n    SF    : exp=%0b act=%0b", m_exp_s.sf, act_bd.sf)};
       pass = 1'b0;
     end
 
     //  CRC — CRC Error 
-    if (act_bd.crc_err !== exp_s.crc_err) begin
-      msg  = {msg, $sformatf("\n    CRC   : exp=%0b act=%0b", exp_s.crc_err, act_bd.crc_err)};
+    if (act_bd.crc_err !== m_exp_s.crc_err) begin
+      msg  = {msg, $sformatf("\n    CRC   : exp=%0b act=%0b", m_exp_s.crc_err, act_bd.crc_err)};
       pass = 1'b0;
     end
 
     //  LC — Late Collision 
-    if (act_bd.lc !== exp_s.lc) begin
-      msg  = {msg, $sformatf("\n    LC    : exp=%0b act=%0b", exp_s.lc, act_bd.lc)};
+    if (act_bd.lc !== m_exp_s.lc) begin
+      msg  = {msg, $sformatf("\n    LC    : exp=%0b act=%0b", m_exp_s.lc, act_bd.lc)};
       pass = 1'b0;
     end
 
     //  LEN field — skip on overrun (DMA partial, LEN undefined) 
     //   tc_rx_basic_frame: "LEN field value matches received byte count"
     if (!act_bd.or_flag) begin
-      if (act_bd.len !== exp_s.len) begin
+      if (act_bd.len !== m_exp_s.len) begin
         msg  = {msg, $sformatf("\n    LEN   : exp=%0d act=%0d  ← byte count mismatch",
-                  exp_s.len, act_bd.len)};
+                  m_exp_s.len, act_bd.len)};
         pass = 1'b0;
       end
     end
@@ -706,17 +715,17 @@ function automatic void eth_rx_scoreboard::comparator(
     //     bytes only.  The last 4 bytes in memory are the CRC; we do not
     //     compare them separately (the CRC bit in the BD is the pass/fail
     //     signal for CRC correctness).
-    //     For truncated frames (tl=1): compare all exp_s.payload bytes
+    //     For truncated frames (tl=1): compare all m_exp_s.payload bytes
     //     (no CRC at the end — frame was cut before CRC bytes were received).
-    if (!act_bd.or_flag && !exp_s.crc_err) begin
+    if (!act_bd.or_flag && !m_exp_s.crc_err) begin
         int unsigned cmp_len;   // bytes to compare
 
-        if (exp_s.tl) begin
-            // Truncated: all exp_s.len bytes stored raw; no CRC stripping
-            cmp_len = exp_s.len;
+        if (m_exp_s.tl) begin
+            // Truncated: all m_exp_s.len bytes stored raw; no CRC stripping
+            cmp_len = m_exp_s.len;
         end else begin
             // Normal: strip 4 CRC bytes (they ARE in memory, just not compared)
-            cmp_len = (exp_s.len >= 4) ? (exp_s.len - 4) : 0;
+            cmp_len = (m_exp_s.len >= 4) ? (m_exp_s.len - 4) : 0;
         end
 
         // Size sanity check
@@ -724,21 +733,21 @@ function automatic void eth_rx_scoreboard::comparator(
             msg  = {msg, $sformatf("\n    PAYLOAD SIZE: exp_cmp=%0d act_payload_size=%0d  ← too few bytes in DMA log",
                     cmp_len, act_bd.payload.size())};
             pass = 1'b0;
-        end else if (exp_s.payload.size() < cmp_len) begin
+        end else if (m_exp_s.payload.size() < cmp_len) begin
             msg  = {msg, $sformatf("\n    PAYLOAD SIZE: cmp_len=%0d exp_payload_size=%0d  ← scoreboard internal error",
-                    cmp_len, exp_s.payload.size())};
+                    cmp_len, m_exp_s.payload.size())};
             pass = 1'b0;
         end else begin
             // Byte-by-byte comparison (cap error prints at 16 bytes)
             int unsigned first_mismatch = 0;
             int unsigned mismatch_count = 0;
             for (int unsigned b = 0; b < cmp_len; b++) begin
-            if (act_bd.payload[b] !== exp_s.payload[b]) begin
+            if (act_bd.payload[b] !== m_exp_s.payload[b]) begin
                 if (mismatch_count == 0) first_mismatch = b;
                 mismatch_count++;
                 if (mismatch_count <= 16) begin
                 msg = {msg, $sformatf("\n    PAYLOAD[%0d]: exp=0x%02h act=0x%02h",
-                        b, exp_s.payload[b], act_bd.payload[b])};
+                        b, m_exp_s.payload[b], act_bd.payload[b])};
                 end else if (mismatch_count == 17) begin
                 msg = {msg, "\n    ... (further payload mismatches suppressed)"};
                 end
@@ -757,18 +766,18 @@ function automatic void eth_rx_scoreboard::comparator(
       compare_pass++;
       `uvm_info("SB/PASS",
             $sformatf("[%0t ns] PASS #%0d — DA=%0h len=%0d%s%s%s%s",
-            $realtime, compare_pass, frame.destination_addr, exp_s.len,
-            exp_s.crc_err ? " CRC-ERR" : "",
-            exp_s.sf      ? " SF"       : "",
-            exp_s.tl      ? " TL"       : "",
-            exp_s.cf      ? " CF"       : ""),
+            $realtime, compare_pass, frame.destination_addr, m_exp_s.len,
+            m_exp_s.crc_err ? " CRC-ERR" : "",
+            m_exp_s.sf      ? " SF"       : "",
+            m_exp_s.tl      ? " TL"       : "",
+            m_exp_s.cf      ? " CF"       : ""),
             UVM_MEDIUM)
     end else begin
       compare_fail++;
       `uvm_error("SB/FAIL",
         $sformatf("[%0t ns] FAIL #%0d — DA=%0h exp_len=%0d act_len=%0d\n  MISMATCHES:%s",
             $realtime, compare_fail,
-            frame.destination_addr, exp_s.len, act_bd.len, msg))
+            frame.destination_addr, m_exp_s.len, act_bd.len, msg))
     end
 
 endfunction
@@ -793,8 +802,8 @@ function automatic bit is_pause_frame(input mii_rx_seq_item frame);
     // Opcode is at payload_no_crc[14:15]
     opcode    = { frame.payload_no_crc[14], frame.payload_no_crc[15] };
 
-    return ((frame.destination_addr == PAUSE_MCAST) || (frame.destination_addr == our_mac)) &&
-           (ethertype == PAUSE_ETYPE) && (opcode    == PAUSE_OPCODE);
+    return ((frame.destination_addr == ETH_PAUSE_FRAME_ADDR) || (frame.destination_addr == our_mac)) &&
+           (ethertype == ETH_PAUSE_LEN_TYPE) && (opcode    == ETH_PAUSE_OPCODE);
 
 endfunction : is_pause_frame
 
@@ -823,7 +832,7 @@ function automatic bit compute_hash_hit(
       byte_val = reflect_byte(da_bytes[i]);  // reflect: MSB→LSB for processing
       for (int b = 7; b >= 0; b--) begin
         if (crc[31] ^ byte_val[b])
-          crc = (crc << 1) ^ CRC32_POLY;
+          crc = (crc << 1) ^ ETH_CRC_POLY;
         else
           crc = (crc << 1);
       end
