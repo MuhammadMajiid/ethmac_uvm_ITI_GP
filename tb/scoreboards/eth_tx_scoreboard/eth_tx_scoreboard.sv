@@ -994,8 +994,8 @@ task eth_tx_scoreboard::comp_check_interrupt();
         m_regmodel.INT_SOURCE.TXB.read(status,txb,UVM_BACKDOOR) ; 
 
         // check that only one interrupt fires in the 3
-        assert($onehot({txe[0],txc[0],txb[0]}))
-        else begin
+        if(!$onehot({txe[0],txc[0],txb[0]}))
+         begin
             `uvm_error(get_name(),
             $sformatf("More than one Tx interrupt fired at the same time, TXE = %0b TXC = %0b TXB = %0b",txe,txc,txb))
         end
@@ -1061,12 +1061,11 @@ task eth_tx_scoreboard::comp_pack_pkt();
     //--------------------------------------------------------
     do begin
         //--------------------------------------------
-        // Put key in semaphore then wait until it's
-        // available
+        // if MTxErr is asserted raise flag
         //--------------------------------------------
-        m_sem_tx_seq_item.put(1); 
-        #1ns;
-        m_sem_tx_seq_item.get(1);
+       if (m_mii_tx_seq_item.MTxERR) begin
+            m_tx_pending_s.flag_txerr=1;
+       end
         //--------------------------------------------
         // First nibble (LSB)
         //--------------------------------------------
@@ -1098,7 +1097,13 @@ task eth_tx_scoreboard::comp_pack_pkt();
         m_tx_pending_s.actual_pkt.push_back(
             {m_mii_tx_seq_item.MTxD, low_nibble}
         );
-
+        //--------------------------------------------
+        // Put key in semaphore then wait until it's
+        // available
+        //--------------------------------------------
+        m_sem_tx_seq_item.put(1); 
+        #1ns;
+        m_sem_tx_seq_item.get(1);
     end
     while (m_mii_tx_seq_item.MTxEN);
 
@@ -1445,7 +1450,6 @@ task eth_tx_scoreboard::get_mii_tx_seq_item();
         `uvm_info(get_type_name(),m_mii_tx_seq_item.convert2string(),UVM_HIGH)
         // Put all Keys in semaphore
         m_sem_tx_seq_item.put(SEM_TX_SEQ_ITEM_NO_KEYS);
-        #1.5ns;
     end
 endtask    
 

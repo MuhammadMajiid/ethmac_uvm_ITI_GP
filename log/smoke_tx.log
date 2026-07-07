@@ -1,5 +1,6 @@
+# 0
 # QuestaSim-64 vlog 2021.1 Compiler 2021.01 Jan 19 2021
-# Start time: 16:23:34 on Jul 07,2026
+# Start time: 18:12:50 on Jul 07,2026
 # vlog repo/tb/global/eth_glob_pkg.sv repo/tb/seq_items/mii_tx/mii_tx_seq_item_pkg.sv repo/tb/seq_items/wb_m/wb_m_seq_item_pkg.sv repo/tb/seq_items/wb_s/wb_s_seq_item_pkg.sv repo/tb/config/eth_config_pkg.sv repo/tb/ral/eth_ral_pkg.sv repo/tb/sequences/wb_m_seq/wb_m_seq_pkg.sv repo/tb/sequences/wb_s_seq/wb_s_seq_pkg.sv repo/tb/virtual_seq_sqr/eth_v_seq_sqr_pkg.sv repo/tb/agents/mii_tx/mii_tx_agent_pkg.sv repo/tb/agents/wb_m/wb_m_agent_pkg.sv repo/tb/agents/wb_s/wb_s_agent_pkg.sv repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard_pkg.sv repo/tb/env/eth_env_pkg.sv repo/tb/tests/eth_tests_tx/eth_test_tx_pkg.sv repo/tb/interfaces/mdio_if.sv repo/tb/interfaces/mii_tx_if.sv repo/tb/interfaces/wb_m_if.sv repo/tb/interfaces/wb_s_if.sv repo/rtl/eth_clockgen.v repo/rtl/eth_cop.v repo/rtl/eth_crc.v repo/rtl/eth_defines.v repo/rtl/eth_fifo.v repo/rtl/eth_maccontrol.v repo/rtl/eth_macstatus.v repo/rtl/eth_miim.v repo/rtl/eth_outputcontrol.v repo/rtl/eth_random.v repo/rtl/eth_receivecontrol.v repo/rtl/eth_register.v repo/rtl/eth_registers.v repo/rtl/eth_rxaddrcheck.v repo/rtl/eth_rxcounters.v repo/rtl/eth_rxethmac.v repo/rtl/eth_rxstatem.v repo/rtl/eth_shiftreg.v repo/rtl/eth_spram_256x32.v repo/rtl/eth_top.v repo/rtl/eth_transmitcontrol.v repo/rtl/eth_txcounters.v repo/rtl/eth_txethmac.v repo/rtl/eth_txstatem.v repo/rtl/eth_wishbone.v repo/rtl/timescale.v repo/tb/top/eth_tb.sv "+cover" -covercells 
 # -- Compiling package eth_glob_pkg
 # ** Note: (vlog-2286) repo/tb/global/eth_glob_pkg.sv(17): Using implicit +incdir+D:/B/qsim_2021_1/uvm-1.1d/../verilog_src/uvm-1.1d/src from import uvm_pkg
@@ -74,11 +75,26 @@
 # Top level modules:
 # 	eth_cop
 # 	eth_tb
-# End time: 16:23:35 on Jul 07,2026, Elapsed time: 0:00:01
+# End time: 18:12:52 on Jul 07,2026, Elapsed time: 0:00:02
 # Errors: 0, Warnings: 8
 # vsim -c -voptargs="+acc" work.eth_tb -coverage -classdebug -uvmcontrol=all "+uvm_set_verbosity=uvm_test_top.m_env.*,_ALL_,UVM_HIGH,time,0" "+UVM_TESTNAME=eth_test_tx_smoke" 
-# Start time: 16:23:36 on Jul 07,2026
-# ** Note: (vsim-8009) Loading existing optimized design _opt
+# Start time: 18:12:52 on Jul 07,2026
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# ** Warning: repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(476): (vopt-2240) Treating stand-alone use of function 'pop_back' as an implicit VOID cast.
+# ** Warning: repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(967): (vopt-2240) Treating stand-alone use of function 'predict' as an implicit VOID cast.
+# ** Warning: repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(976): (vopt-2240) Treating stand-alone use of function 'predict' as an implicit VOID cast.
+# ** Warning: repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(985): (vopt-2240) Treating stand-alone use of function 'predict' as an implicit VOID cast.
+# ** Warning: repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1024): (vopt-2240) Treating stand-alone use of function 'predict' as an implicit VOID cast.
+# ** Warning: repo/tb/top/eth_tb.sv(72): (vopt-2685) [TFMPC] - Too few port connections for 'dut'.  Expected 35, found 27.
+# ** Warning: repo/tb/top/eth_tb.sv(72): (vopt-2718) [TFMPC] - Missing connection for port 'md_padoe_o'.
+# ** Warning: repo/tb/top/eth_tb.sv(72): (vopt-2718) [TFMPC] - Missing connection for port 'md_pad_o'.
+# ** Warning: repo/tb/top/eth_tb.sv(72): (vopt-2718) [TFMPC] - Missing connection for port 'md_pad_i'.
+# ** Warning: repo/tb/top/eth_tb.sv(72): (vopt-2718) [TFMPC] - Missing connection for port 'mdc_pad_o'.
+# ** Warning: repo/tb/top/eth_tb.sv(72): (vopt-2718) [TFMPC] - Missing connection for port 'mrxerr_pad_i'.
+# ** Warning: repo/tb/top/eth_tb.sv(72): (vopt-2718) [TFMPC] - Missing connection for port 'mrxdv_pad_i'.
+# ** Warning: repo/tb/top/eth_tb.sv(72): (vopt-2718) [TFMPC] - Missing connection for port 'mrxd_pad_i'.
+# ** Warning: repo/tb/top/eth_tb.sv(72): (vopt-2718) [TFMPC] - Missing connection for port 'mrx_clk_pad_i'.
+# ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=0, Warnings=14.
 # //  Questa Sim-64
 # //  Version 2021.1 win64 Jan 19 2021
 # //
@@ -202,56 +218,56 @@
 # ---------------------------------------------------------------------------------
 # uvm_test_top                  eth_test_tx_smoke                       -     @486 
 #   m_env                       eth_env_tx                              -     @505 
-#     m_mii_tx_agent            mii_tx_agent                            -     @804 
-#       agent_a_port            uvm_analysis_port                       -     @827 
+#     m_mii_tx_agent            mii_tx_agent                            -     @805 
+#       agent_a_port            uvm_analysis_port                       -     @828 
 #         recording_detail      integral                                32    'd1  
-#       m_monitor               mii_tx_monitor_base                     -     @820 
-#         monitor_tr_a_port     uvm_analysis_port                       -     @835 
+#       m_monitor               mii_tx_monitor_base                     -     @821 
+#         monitor_tr_a_port     uvm_analysis_port                       -     @836 
 #           recording_detail    integral                                32    'd1  
-#         recording_detail      integral                                32    'd1  
-#       recording_detail        integral                                32    'd1  
-#     m_predictor               uvm_reg_predictor #(uvm_sequence_item)  -     @666 
-#       bus_in                  uvm_analysis_imp                        -     @673 
-#         recording_detail      integral                                32    'd1  
-#       reg_ap                  uvm_analysis_port                       -     @681 
 #         recording_detail      integral                                32    'd1  
 #       recording_detail        integral                                32    'd1  
-#     m_tx_sb                   eth_tx_scoreboard                       -     @811 
-#       mii_tx_export           uvm_analysis_export                     -     @945 
+#     m_predictor               uvm_reg_predictor #(uvm_sequence_item)  -     @667 
+#       bus_in                  uvm_analysis_imp                        -     @674 
 #         recording_detail      integral                                32    'd1  
-#       mii_tx_fifo             uvm_tlm_analysis_fifo #(T)              -     @890 
-#         analysis_export       uvm_analysis_imp                        -     @929 
-#           recording_detail    integral                                32    'd1  
-#         get_ap                uvm_analysis_port                       -     @921 
-#           recording_detail    integral                                32    'd1  
-#         get_peek_export       uvm_get_peek_imp                        -     @905 
-#           recording_detail    integral                                32    'd1  
-#         put_ap                uvm_analysis_port                       -     @913 
-#           recording_detail    integral                                32    'd1  
-#         put_export            uvm_put_imp                             -     @897 
-#           recording_detail    integral                                32    'd1  
-#         recording_detail      integral                                32    'd1  
-#       wb_m_export             uvm_analysis_export                     -     @937 
-#         recording_detail      integral                                32    'd1  
-#       wb_m_fifo               uvm_tlm_analysis_fifo #(T)              -     @843 
-#         analysis_export       uvm_analysis_imp                        -     @882 
-#           recording_detail    integral                                32    'd1  
-#         get_ap                uvm_analysis_port                       -     @874 
-#           recording_detail    integral                                32    'd1  
-#         get_peek_export       uvm_get_peek_imp                        -     @858 
-#           recording_detail    integral                                32    'd1  
-#         put_ap                uvm_analysis_port                       -     @866 
-#           recording_detail    integral                                32    'd1  
-#         put_export            uvm_put_imp                             -     @850 
-#           recording_detail    integral                                32    'd1  
-#         recording_detail      integral                                32    'd1  
-#       wb_s_imp                uvm_analysis_imp                        -     @953 
+#       reg_ap                  uvm_analysis_port                       -     @682 
 #         recording_detail      integral                                32    'd1  
 #       recording_detail        integral                                32    'd1  
-#     m_v_sqr                   eth_v_sequencer                         -     @695 
-#       rsp_export              uvm_analysis_export                     -     @702 
+#     m_tx_sb                   eth_tx_scoreboard                       -     @812 
+#       mii_tx_export           uvm_analysis_export                     -     @946 
 #         recording_detail      integral                                32    'd1  
-#       seq_item_export         uvm_seq_item_pull_imp                   -     @796 
+#       mii_tx_fifo             uvm_tlm_analysis_fifo #(T)              -     @891 
+#         analysis_export       uvm_analysis_imp                        -     @930 
+#           recording_detail    integral                                32    'd1  
+#         get_ap                uvm_analysis_port                       -     @922 
+#           recording_detail    integral                                32    'd1  
+#         get_peek_export       uvm_get_peek_imp                        -     @906 
+#           recording_detail    integral                                32    'd1  
+#         put_ap                uvm_analysis_port                       -     @914 
+#           recording_detail    integral                                32    'd1  
+#         put_export            uvm_put_imp                             -     @898 
+#           recording_detail    integral                                32    'd1  
+#         recording_detail      integral                                32    'd1  
+#       wb_m_export             uvm_analysis_export                     -     @938 
+#         recording_detail      integral                                32    'd1  
+#       wb_m_fifo               uvm_tlm_analysis_fifo #(T)              -     @844 
+#         analysis_export       uvm_analysis_imp                        -     @883 
+#           recording_detail    integral                                32    'd1  
+#         get_ap                uvm_analysis_port                       -     @875 
+#           recording_detail    integral                                32    'd1  
+#         get_peek_export       uvm_get_peek_imp                        -     @859 
+#           recording_detail    integral                                32    'd1  
+#         put_ap                uvm_analysis_port                       -     @867 
+#           recording_detail    integral                                32    'd1  
+#         put_export            uvm_put_imp                             -     @851 
+#           recording_detail    integral                                32    'd1  
+#         recording_detail      integral                                32    'd1  
+#       wb_s_imp                uvm_analysis_imp                        -     @954 
+#         recording_detail      integral                                32    'd1  
+#       recording_detail        integral                                32    'd1  
+#     m_v_sqr                   eth_v_sequencer                         -     @696 
+#       rsp_export              uvm_analysis_export                     -     @703 
+#         recording_detail      integral                                32    'd1  
+#       seq_item_export         uvm_seq_item_pull_imp                   -     @797 
 #         recording_detail      integral                                32    'd1  
 #       recording_detail        integral                                32    'd1  
 #       arbitration_queue       array                                   0     -    
@@ -259,38 +275,38 @@
 #       num_last_reqs           integral                                32    'd1  
 #       num_last_rsps           integral                                32    'd1  
 #     m_wb_m_agent              wb_m_agent                              -     @526 
-#       a_port                  uvm_analysis_port                       -     @1108
+#       a_port                  uvm_analysis_port                       -     @1109
 #         recording_detail      integral                                32    'd1  
-#       m_driver                wb_m_driver_base                        -     @1078
-#         rsp_port              uvm_analysis_port                       -     @1093
+#       m_driver                wb_m_driver_base                        -     @1079
+#         rsp_port              uvm_analysis_port                       -     @1094
 #           recording_detail    integral                                32    'd1  
-#         seq_item_port         uvm_seq_item_pull_port                  -     @1085
-#           recording_detail    integral                                32    'd1  
-#         recording_detail      integral                                32    'd1  
-#       m_monitor               wb_m_monitor_base                       -     @1101
-#         request_a_port        uvm_analysis_port                       -     @1124
-#           recording_detail    integral                                32    'd1  
-#         transaction_a_port    uvm_analysis_port                       -     @1116
+#         seq_item_port         uvm_seq_item_pull_port                  -     @1086
 #           recording_detail    integral                                32    'd1  
 #         recording_detail      integral                                32    'd1  
-#       m_sequencer             wb_m_sequencer_base                     -     @969 
-#         request_export        uvm_analysis_export                     -     @1184
+#       m_monitor               wb_m_monitor_base                       -     @1102
+#         request_a_port        uvm_analysis_port                       -     @1125
 #           recording_detail    integral                                32    'd1  
-#         request_fifo          uvm_tlm_analysis_fifo #(T)              -     @1137
-#           analysis_export     uvm_analysis_imp                        -     @1176
+#         transaction_a_port    uvm_analysis_port                       -     @1117
+#           recording_detail    integral                                32    'd1  
+#         recording_detail      integral                                32    'd1  
+#       m_sequencer             wb_m_sequencer_base                     -     @970 
+#         request_export        uvm_analysis_export                     -     @1185
+#           recording_detail    integral                                32    'd1  
+#         request_fifo          uvm_tlm_analysis_fifo #(T)              -     @1138
+#           analysis_export     uvm_analysis_imp                        -     @1177
 #             recording_detail  integral                                32    'd1  
-#           get_ap              uvm_analysis_port                       -     @1168
+#           get_ap              uvm_analysis_port                       -     @1169
 #             recording_detail  integral                                32    'd1  
-#           get_peek_export     uvm_get_peek_imp                        -     @1152
+#           get_peek_export     uvm_get_peek_imp                        -     @1153
 #             recording_detail  integral                                32    'd1  
-#           put_ap              uvm_analysis_port                       -     @1160
+#           put_ap              uvm_analysis_port                       -     @1161
 #             recording_detail  integral                                32    'd1  
-#           put_export          uvm_put_imp                             -     @1144
+#           put_export          uvm_put_imp                             -     @1145
 #             recording_detail  integral                                32    'd1  
 #           recording_detail    integral                                32    'd1  
-#         rsp_export            uvm_analysis_export                     -     @976 
+#         rsp_export            uvm_analysis_export                     -     @977 
 #           recording_detail    integral                                32    'd1  
-#         seq_item_export       uvm_seq_item_pull_imp                   -     @1070
+#         seq_item_export       uvm_seq_item_pull_imp                   -     @1071
 #           recording_detail    integral                                32    'd1  
 #         recording_detail      integral                                32    'd1  
 #         arbitration_queue     array                                   0     -    
@@ -299,22 +315,22 @@
 #         num_last_rsps         integral                                32    'd1  
 #       recording_detail        integral                                32    'd1  
 #     m_wb_s_agent              wb_s_agent                              -     @519 
-#       a_port                  uvm_analysis_port                       -     @1337
+#       a_port                  uvm_analysis_port                       -     @1338
 #         recording_detail      integral                                32    'd1  
-#       m_driver                wb_s_driver_base                        -     @1307
-#         rsp_port              uvm_analysis_port                       -     @1322
+#       m_driver                wb_s_driver_base                        -     @1308
+#         rsp_port              uvm_analysis_port                       -     @1323
 #           recording_detail    integral                                32    'd1  
-#         seq_item_port         uvm_seq_item_pull_port                  -     @1314
-#           recording_detail    integral                                32    'd1  
-#         recording_detail      integral                                32    'd1  
-#       m_monitor               wb_s_monitor_base                       -     @1330
-#         a_port                uvm_analysis_port                       -     @1347
+#         seq_item_port         uvm_seq_item_pull_port                  -     @1315
 #           recording_detail    integral                                32    'd1  
 #         recording_detail      integral                                32    'd1  
-#       m_sequencer             wb_s_sequencer_base                     -     @1198
-#         rsp_export            uvm_analysis_export                     -     @1205
+#       m_monitor               wb_s_monitor_base                       -     @1331
+#         a_port                uvm_analysis_port                       -     @1348
 #           recording_detail    integral                                32    'd1  
-#         seq_item_export       uvm_seq_item_pull_imp                   -     @1299
+#         recording_detail      integral                                32    'd1  
+#       m_sequencer             wb_s_sequencer_base                     -     @1199
+#         rsp_export            uvm_analysis_export                     -     @1206
+#           recording_detail    integral                                32    'd1  
+#         seq_item_export       uvm_seq_item_pull_imp                   -     @1300
 #           recording_detail    integral                                32    'd1  
 #         recording_detail      integral                                32    'd1  
 #         arbitration_queue     array                                   0     -    
@@ -410,7 +426,7 @@
 # UVM_INFO repo/tb/agents/wb_s/wb_s_driver_base.sv(65) @ 2500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] Driving transaction: addr=0x3 dir=WRITE sel=0xf wdata=0x15 rdata=0x0 ack=0 err=0 inta=0
 # UVM_INFO repo/tb/agents/wb_m/wb_m_monitor_base.sv(100) @ 50000: uvm_test_top.m_env.m_wb_m_agent.m_monitor [wb_m_monitor_base] Begin monitoring after reset deassertion
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(58) @ 50000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [mii_tx_monitor_base] Begin monitoring after reset deassertion
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1459) @ 52500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] 
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1463) @ 52500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] 
 # m_dir   = WB_READ
 # m_addr  = 0x00000000
 # m_data_o= 0xxxxxxxxx
@@ -421,446 +437,436 @@
 # m_ack   = 0
 # m_err   = 0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 60000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 60000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 60000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
 # UVM_INFO repo/tb/agents/wb_s/wb_s_driver_base.sv(65) @ 67500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] Driving transaction: addr=0x8 dir=WRITE sel=0xf wdata=0x4 rdata=0x0 ack=0 err=0 inta=0
 # UVM_INFO repo/tb/agents/wb_s/wb_s_driver_base.sv(65) @ 92500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] Driving transaction: addr=0x11 dir=WRITE sel=0xf wdata=0x1122 rdata=0x0 ack=0 err=0 inta=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 100000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 100000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 100000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
 # UVM_INFO repo/tb/agents/wb_s/wb_s_driver_base.sv(65) @ 117500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] Driving transaction: addr=0x10 dir=WRITE sel=0xf wdata=0x33445566 rdata=0x0 ack=0 err=0 inta=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 140000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 140000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 140000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
 # UVM_INFO repo/tb/agents/wb_s/wb_s_driver_base.sv(65) @ 142500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] Driving transaction: addr=0x100 dir=WRITE sel=0xf wdata=0x3c9800 rdata=0x0 ack=0 err=0 inta=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1426) @ 167500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] BD_MEM[0] <= 0x003c9800
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1431) @ 167500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] BD_MEM[0] <= 0x003c9800
 # UVM_INFO repo/tb/agents/wb_s/wb_s_driver_base.sv(65) @ 177500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] Driving transaction: addr=0x101 dir=WRITE sel=0xf wdata=0x0 rdata=0x0 ack=0 err=0 inta=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 180000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 180000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1426) @ 187500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] BD_MEM[0] <= 0x003c9800
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1426) @ 207500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] BD_MEM[1] <= 0x00000000
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 180000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1431) @ 187500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] BD_MEM[0] <= 0x003c9800
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1431) @ 207500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] BD_MEM[1] <= 0x00000000
 # UVM_INFO repo/tb/agents/wb_s/wb_s_driver_base.sv(65) @ 217500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] Driving transaction: addr=0x102 dir=WRITE sel=0xf wdata=0x3c9800 rdata=0x0 ack=0 err=0 inta=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 220000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 220000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1426) @ 227500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] BD_MEM[1] <= 0x00000000
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1426) @ 247500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] BD_MEM[2] <= 0x003c9800
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 220000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1431) @ 227500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] BD_MEM[1] <= 0x00000000
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1431) @ 247500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] BD_MEM[2] <= 0x003c9800
 # UVM_INFO repo/tb/agents/wb_s/wb_s_driver_base.sv(65) @ 257500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] Driving transaction: addr=0x103 dir=WRITE sel=0xf wdata=0x3c rdata=0x0 ack=0 err=0 inta=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 260000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 260000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1426) @ 267500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] BD_MEM[2] <= 0x003c9800
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1426) @ 287500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] BD_MEM[3] <= 0x0000003c
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 260000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1431) @ 267500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] BD_MEM[2] <= 0x003c9800
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1431) @ 287500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] BD_MEM[3] <= 0x0000003c
 # UVM_INFO repo/tb/agents/wb_s/wb_s_driver_base.sv(65) @ 297500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] Driving transaction: addr=0x104 dir=WRITE sel=0xf wdata=0x3c9800 rdata=0x0 ack=0 err=0 inta=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 300000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 300000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1426) @ 307500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] BD_MEM[3] <= 0x0000003c
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1426) @ 327500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] BD_MEM[4] <= 0x003c9800
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 300000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1431) @ 307500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] BD_MEM[3] <= 0x0000003c
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1431) @ 327500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] BD_MEM[4] <= 0x003c9800
 # UVM_INFO repo/tb/agents/wb_s/wb_s_driver_base.sv(65) @ 337500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] Driving transaction: addr=0x105 dir=WRITE sel=0xf wdata=0x78 rdata=0x0 ack=0 err=0 inta=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 340000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 340000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1426) @ 347500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] BD_MEM[4] <= 0x003c9800
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1426) @ 367500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] BD_MEM[5] <= 0x00000078
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 340000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1431) @ 347500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] BD_MEM[4] <= 0x003c9800
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1431) @ 367500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] BD_MEM[5] <= 0x00000078
 # UVM_INFO repo/tb/agents/wb_s/wb_s_driver_base.sv(65) @ 377500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] Driving transaction: addr=0x106 dir=WRITE sel=0xf wdata=0x3cb800 rdata=0x0 ack=0 err=0 inta=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 380000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 380000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1426) @ 387500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] BD_MEM[5] <= 0x00000078
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1426) @ 407500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] BD_MEM[6] <= 0x003cb800
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 380000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1431) @ 387500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] BD_MEM[5] <= 0x00000078
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1431) @ 407500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] BD_MEM[6] <= 0x003cb800
 # UVM_INFO repo/tb/agents/wb_s/wb_s_driver_base.sv(65) @ 417500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] Driving transaction: addr=0x107 dir=WRITE sel=0xf wdata=0xb4 rdata=0x0 ack=0 err=0 inta=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 420000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 420000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1426) @ 427500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] BD_MEM[6] <= 0x003cb800
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1426) @ 447500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] BD_MEM[7] <= 0x000000b4
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 420000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1431) @ 427500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] BD_MEM[6] <= 0x003cb800
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1431) @ 447500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] BD_MEM[7] <= 0x000000b4
 # UVM_INFO repo/tb/agents/wb_s/wb_s_driver_base.sv(65) @ 457500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] Driving transaction: addr=0x0 dir=WRITE sel=0xf wdata=0xa402 rdata=0x0 ack=0 err=0 inta=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 460000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 460000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1426) @ 467500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] BD_MEM[7] <= 0x000000b4
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 460000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1431) @ 467500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] BD_MEM[7] <= 0x000000b4
 # UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(158) @ 487500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@wb_s_basic_tx_seq [wb_s_basic_tx_seq] Basic TX configuration completed
 # UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(520) @ 487500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TXEN asserted
 # UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(944) @ 487500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[0] LEN=60 RD=1 IRQ=0 WR=0 PAD=1 CRC=1 PTR=0x00000000
 # UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(26) @ 487500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [eth_v_seq_tx] virtual sequence completed
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 500000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 500000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 500000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 540000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 540000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 540000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 580000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 580000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 580000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 620000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 620000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 620000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 660000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 660000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 660000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 700000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 700000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 700000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 740000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 740000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 740000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 780000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 780000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 780000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 820000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 820000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 820000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 860000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 860000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 860000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 900000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 900000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 900000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 940000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 940000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 940000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 980000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 980000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 980000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 1020000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 1020000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 1020000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 1060000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 1060000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 1060000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1058) @ 1060000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 1100000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 1100000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 1100000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 1140000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 1140000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 1140000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 1180000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 1180000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 1180000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 1220000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 1220000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 1220000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 1260000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 1260000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 1260000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 1300000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 1300000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 1300000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 1340000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 1340000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 1340000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 1380000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 1380000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 1380000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 1420000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 1420000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 1420000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 1460000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 1460000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 1460000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 1500000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 1500000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 1500000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 1540000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 1540000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 1540000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 1580000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 1580000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 1580000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 1620000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 1620000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 1620000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 1660000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=d, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 1660000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=d, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 1660000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=d, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 1700000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=2, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 1700000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=2, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 1700000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=2, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 1740000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=1, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 1740000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=1, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 1740000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=1, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 1780000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 1780000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 1780000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 1820000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=1, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 1820000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=1, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 1820000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=1, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 1860000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 1860000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 1860000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 1900000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=3, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 1900000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=3, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 1900000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=3, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 1940000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=4, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 1940000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=4, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 1940000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=4, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 1980000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=2, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 1980000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=2, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 1980000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=2, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 2020000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=2, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 2020000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=2, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 2020000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=2, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 2060000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=1, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 2060000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=1, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 2060000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=1, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 2100000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 2100000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 2100000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 2140000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=1, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 2140000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=1, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 2140000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=1, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 2180000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 2180000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 2180000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 2220000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=3, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 2220000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=3, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 2220000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=3, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 2260000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=4, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 2260000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=4, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 2260000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=4, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 2300000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=2, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 2300000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=2, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 2300000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=2, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 2340000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=2, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 2340000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=2, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 2340000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=2, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 2380000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=1, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 2380000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=1, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 2380000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=1, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 2420000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 2420000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 2420000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 2460000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=1, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 2460000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=1, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 2460000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=1, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 2500000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 2500000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 2500000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 2540000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=3, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 2540000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=3, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 2540000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=3, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 2580000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=4, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 2580000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=4, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 2580000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=4, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 2620000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=2, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 2620000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=2, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 2620000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=2, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 2660000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=0, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 2660000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 2660000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 2700000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=c, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 2700000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=c, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 2700000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=c, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 2740000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=9, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 2740000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=9, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 2740000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=9, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 2780000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=8, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 2780000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=8, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 2780000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=8, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 2820000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=e, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 2820000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=e, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 2820000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=e, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 2860000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 2860000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 2860000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 2900000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=1, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 2900000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=1, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 2900000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=1, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 2940000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=8, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 2940000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=8, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 2940000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=8, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 2980000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=4, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 2980000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=4, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 2980000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=4, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 3020000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=8, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 3020000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=8, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 3020000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=8, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 3060000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=4, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 3060000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=4, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 3060000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=4, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 3100000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=8, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 3100000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=8, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 3100000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=8, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 3140000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=6, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 3140000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=6, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 3140000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=6, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 3180000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=d, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 3180000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=d, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 3180000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=d, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 3220000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=9, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 3220000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=9, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 3220000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=9, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 3260000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=0, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 3260000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 3260000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 3300000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=1, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 3300000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=1, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 3300000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=1, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 3340000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=b, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 3340000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=b, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 3340000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=b, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 3380000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=0, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 3380000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 3380000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 3420000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=f, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 3420000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=f, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 3420000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=f, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 3460000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=6, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 3460000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=6, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 3460000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=6, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 3500000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 3500000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 3500000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 3540000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=3, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 3540000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=3, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 3540000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=3, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 3580000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=6, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 3580000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=6, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 3580000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=6, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 3620000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=6, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 3620000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=6, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 3620000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=6, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 3660000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=0, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 3660000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 3660000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 3700000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=9, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 3700000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=9, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 3700000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=9, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 3740000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=b, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 3740000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=b, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 3740000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=b, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 3780000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=b, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 3780000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=b, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 3780000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=b, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 3820000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=7, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 3820000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=7, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 3820000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=7, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 3860000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=d, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 3860000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=d, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 3860000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=d, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 3900000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=0, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 3900000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 3900000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 3940000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=6, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 3940000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=6, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 3940000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=6, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 3980000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=0, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 3980000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 3980000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 4020000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=9, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 4020000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=9, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 4020000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=9, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 4060000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=b, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 4060000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=b, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 4060000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=b, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 4100000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=b, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 4100000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=b, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 4100000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=b, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 4140000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=7, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 4140000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=7, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 4140000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=7, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 4180000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=d, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 4180000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=d, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 4180000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=d, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 4220000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=0, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 4220000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 4220000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 4260000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=6, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 4260000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=6, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 4260000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=6, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 4300000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=0, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 4300000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 4300000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 4340000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=9, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 4340000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=9, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 4340000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=9, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 4380000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=b, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 4380000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=b, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 4380000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=b, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 4420000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=b, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 4420000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=b, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 4420000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=b, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 4460000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=7, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 4460000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=7, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 4460000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=7, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 4500000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=d, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 4500000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=d, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 4500000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=d, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 4540000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=0, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 4540000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 4540000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 4580000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=6, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 4580000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=6, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 4580000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=6, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 4620000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=4, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 4620000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=4, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 4620000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=4, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 4660000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=f, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 4660000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=f, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 4660000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=f, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 4700000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=d, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 4700000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=d, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 4700000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=d, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 4740000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=9, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 4740000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=9, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 4740000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=9, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 4780000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=9, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 4780000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=9, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 4780000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=9, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 4820000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=d, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 4820000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=d, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 4820000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=d, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 4860000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=8, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 4860000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=8, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 4860000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=8, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 4900000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=2, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 4900000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=2, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 4900000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=2, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 4940000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=b, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 4940000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=b, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 4940000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=b, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 4980000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=2, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 4980000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=2, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 4980000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=2, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 5020000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=c, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 5020000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=c, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 5020000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=c, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 5060000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=4, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 5060000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=4, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 5060000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=4, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 5100000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=8, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 5100000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=8, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 5100000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=8, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 5140000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 5140000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 5140000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 5180000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=6, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 5180000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=6, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 5180000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=6, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 5220000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=9, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 5220000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=9, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 5220000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=9, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 5260000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=8, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 5260000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=8, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 5260000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=8, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 5300000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=7, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 5300000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=7, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 5300000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=7, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 5340000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=3, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 5340000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=3, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 5340000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=3, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 5380000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=2, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 5380000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=2, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 5380000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=2, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 5420000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 5420000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 5420000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=5, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 5460000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=2, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 5460000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=2, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 5460000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=2, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 5500000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=1, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 5500000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=1, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 5500000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=1, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 5540000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=0, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 5540000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 5540000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 5580000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=0, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 5580000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 5580000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 5620000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=3, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 5620000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=3, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 5620000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=3, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 5660000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=f, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 5660000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=f, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 5660000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=f, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 5700000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=3, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 5700000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=3, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 5700000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=3, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 5740000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=e, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 5740000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=e, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 5740000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=e, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 5780000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=1, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 5780000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=1, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 5780000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=1, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 5820000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=0, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 5820000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 5820000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 5860000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=0, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 5860000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 5860000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 5900000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=0, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 5900000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 5900000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 5940000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=3, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 5940000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=3, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 5940000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=3, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 5980000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=f, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 5980000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=f, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 5980000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=f, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 6020000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=3, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 6020000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=3, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 6020000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=3, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 6060000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=e, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 6060000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=e, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 6060000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=e, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 6100000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=1, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 6100000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=1, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 6100000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=1, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 6140000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=0, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 6140000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 6140000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 6180000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=0, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 6180000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 6180000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 6220000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=0, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 6220000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 6220000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 6260000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=3, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 6260000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=3, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 6260000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=3, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 6300000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=f, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 6300000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=f, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 6300000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=f, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 6340000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=3, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 6340000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=3, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 6340000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=3, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 6380000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=e, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 6380000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=e, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 6380000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=e, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 6420000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=1, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 6420000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=1, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 6420000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=1, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 6460000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=0, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 6460000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 6460000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 6500000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=6, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 6500000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=6, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 6500000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=6, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 6540000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=0, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 6540000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 6540000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 6580000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=7, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 6580000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=7, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 6580000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=7, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 6620000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=d, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 6620000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=d, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 6620000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=d, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 6660000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=d, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 6660000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=d, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 6660000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=d, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 6700000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=c, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 6700000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=c, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 6700000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=c, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 6740000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=d, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 6740000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=d, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 6740000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=d, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 6780000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=0, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 6780000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 6780000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 6820000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=3, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 6820000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=3, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 6820000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=3, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 6860000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=e, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 6860000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=e, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 6860000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=e, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 6900000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=c, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 6900000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=c, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 6900000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=c, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 6940000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=0, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 6940000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 6940000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 6980000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=6, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 6980000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=6, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 6980000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=6, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 7020000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=1, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 7020000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=1, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 7020000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=1, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 7060000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=1, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 7060000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=1, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 7060000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=1, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 7100000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=6, MTxEN=1, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 7100000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=6, MTxEN=1, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 7100000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=6, MTxEN=1, MTxERR=0
 # UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(605) @ 7108200: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[0] completed
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 7140000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1445) @ 7140000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1091) @ 7140000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MTxEN deasserted after only one nibble was transmitted
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1110) @ 7140000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 151 bytes from MII
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1167) @ 7140000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet size mismatch Expected=72 Actual=151
-# UVM_WARNING verilog_src/uvm-1.1d/src/reg/uvm_reg.svh(2607) @ 7140000: reporter [RegModel] No backdoor access available for register 'm_regmodel.INT_SOURCE' . Using frontdoor instead.
-# UVM_INFO repo/tb/agents/wb_s/wb_s_driver_base.sv(65) @ 7140000: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] Driving transaction: addr=0x1 dir=READ sel=0xf wdata=0x0 rdata=0x0 ack=0 err=0 inta=0
-# UVM_INFO repo/tb/agents/wb_s/wb_s_driver_base.sv(127) @ 7152500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000000 ADDR=00000001
-# UVM_WARNING verilog_src/uvm-1.1d/src/reg/uvm_reg_field.svh(1381) @ 7162500: reporter [RegModel] No backdoor access available for field 'm_regmodel.INT_SOURCE.TXE' . Using frontdoor instead.
-# UVM_WARNING verilog_src/uvm-1.1d/src/reg/uvm_reg_field.svh(1714) @ 7162500: reporter [RegModel] Individual field access not available for field 'm_regmodel.INT_SOURCE.TXE'. Accessing complete register instead.
-# UVM_INFO repo/tb/agents/wb_s/wb_s_driver_base.sv(65) @ 7162500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] Driving transaction: addr=0x1 dir=READ sel=0xf wdata=0x0 rdata=0x0 ack=0 err=0 inta=0
-# UVM_INFO repo/tb/agents/wb_s/wb_s_driver_base.sv(127) @ 7177500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000000 ADDR=00000001
-# UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 7180000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
-# UVM_WARNING verilog_src/uvm-1.1d/src/reg/uvm_reg_field.svh(1381) @ 7187500: reporter [RegModel] No backdoor access available for field 'm_regmodel.INT_SOURCE.TXC' . Using frontdoor instead.
-# UVM_WARNING verilog_src/uvm-1.1d/src/reg/uvm_reg_field.svh(1714) @ 7187500: reporter [RegModel] Individual field access not available for field 'm_regmodel.INT_SOURCE.TXC'. Accessing complete register instead.
-# UVM_INFO repo/tb/agents/wb_s/wb_s_driver_base.sv(65) @ 7187500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] Driving transaction: addr=0x1 dir=READ sel=0xf wdata=0x0 rdata=0x0 ack=0 err=0 inta=0
-# UVM_INFO repo/tb/agents/wb_s/wb_s_driver_base.sv(127) @ 7202500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000000 ADDR=00000001
-# UVM_WARNING verilog_src/uvm-1.1d/src/reg/uvm_reg_field.svh(1381) @ 7212500: reporter [RegModel] No backdoor access available for field 'm_regmodel.INT_SOURCE.TXB' . Using frontdoor instead.
-# UVM_WARNING verilog_src/uvm-1.1d/src/reg/uvm_reg_field.svh(1714) @ 7212500: reporter [RegModel] Individual field access not available for field 'm_regmodel.INT_SOURCE.TXB'. Accessing complete register instead.
-# UVM_INFO repo/tb/agents/wb_s/wb_s_driver_base.sv(65) @ 7212500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] Driving transaction: addr=0x1 dir=READ sel=0xf wdata=0x0 rdata=0x0 ack=0 err=0 inta=0
-# UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(84) @ 7220000: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [run phase] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
-# UVM_INFO repo/tb/agents/wb_s/wb_s_driver_base.sv(127) @ 7227500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000000 ADDR=00000001
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(999) @ 7237500: uvm_test_top.m_env.m_tx_sb [m_tx_sb] More than one Tx interrupt fired at the same time, TXE = 0 TXC = 0 TXB = 0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(298) @ 7237500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Tx scoreboard dropped objection
-# UVM_INFO verilog_src/uvm-1.1d/src/base/uvm_objection.svh(1267) @ 7237500: reporter [TEST_DONE] 'run' phase is ready to proceed to the 'extract' phase
-# UVM_INFO repo/tb/agents/wb_m/wb_m_driver_base.sv(111) @ 7237500: uvm_test_top.m_env.m_wb_m_agent.m_driver [wb_m_driver_base] Drived 1437 active transactions
-# UVM_INFO repo/tb/agents/wb_m/wb_m_monitor_base.sv(129) @ 7237500: uvm_test_top.m_env.m_wb_m_agent.m_monitor [wb_m_monitor_base] Monitored 1438 TRANSACTIONS
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1450) @ 7140000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MColl=x, MCrS=x, MTxD=0, MTxEN=0, MTxERR=0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1115) @ 7140000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 76 bytes from MII
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1172) @ 7140000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet size mismatch Expected=72 Actual=76
+# UVM_WARNING verilog_src/uvm-1.1d/src/reg/uvm_reg_field.svh(1707) @ 7140000: reporter [RegModel] Individual BACKDOOR field access not available for field 'm_regmodel.INT_SOURCE.TXE'. Accessing complete register instead.
+# UVM_WARNING verilog_src/uvm-1.1d/src/reg/uvm_reg_field.svh(1707) @ 7140000: reporter [RegModel] Individual BACKDOOR field access not available for field 'm_regmodel.INT_SOURCE.TXC'. Accessing complete register instead.
+# UVM_WARNING verilog_src/uvm-1.1d/src/reg/uvm_reg_field.svh(1707) @ 7140000: reporter [RegModel] Individual BACKDOOR field access not available for field 'm_regmodel.INT_SOURCE.TXB'. Accessing complete register instead.
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(999) @ 7140000: uvm_test_top.m_env.m_tx_sb [m_tx_sb] More than one Tx interrupt fired at the same time, TXE = 0 TXC = 0 TXB = 0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1316) @ 7140000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison PASSED (0 bytes)
+# UVM_WARNING verilog_src/uvm-1.1d/src/reg/uvm_reg_field.svh(1707) @ 7140000: reporter [RegModel] Individual BACKDOOR field access not available for field 'm_regmodel.INT_SOURCE.TXE'. Accessing complete register instead.
+# UVM_WARNING verilog_src/uvm-1.1d/src/reg/uvm_reg_field.svh(1707) @ 7140000: reporter [RegModel] Individual BACKDOOR field access not available for field 'm_regmodel.INT_SOURCE.TXC'. Accessing complete register instead.
+# UVM_WARNING verilog_src/uvm-1.1d/src/reg/uvm_reg_field.svh(1707) @ 7140000: reporter [RegModel] Individual BACKDOOR field access not available for field 'm_regmodel.INT_SOURCE.TXB'. Accessing complete register instead.
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(999) @ 7140000: uvm_test_top.m_env.m_tx_sb [m_tx_sb] More than one Tx interrupt fired at the same time, TXE = 0 TXC = 0 TXB = 0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(298) @ 7140000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Tx scoreboard dropped objection
+# UVM_INFO verilog_src/uvm-1.1d/src/base/uvm_objection.svh(1267) @ 7140000: reporter [TEST_DONE] 'run' phase is ready to proceed to the 'extract' phase
+# UVM_INFO repo/tb/agents/wb_m/wb_m_driver_base.sv(111) @ 7140000: uvm_test_top.m_env.m_wb_m_agent.m_driver [wb_m_driver_base] Drived 1417 active transactions
+# UVM_INFO repo/tb/agents/wb_m/wb_m_monitor_base.sv(129) @ 7140000: uvm_test_top.m_env.m_wb_m_agent.m_monitor [wb_m_monitor_base] Monitored 1418 TRANSACTIONS
 # 
 # --- UVM Report Summary ---
 # 
 # ** Report counts by severity
-# UVM_INFO :  418
-# UVM_WARNING :    7
+# UVM_INFO :  409
+# UVM_WARNING :    6
 # UVM_ERROR :    3
 # UVM_FATAL :    0
 # ** Report counts by id
 # [Questa UVM]     2
 # [RNTST]     1
-# [RegModel]     7
+# [RegModel]     6
 # [TEST_DONE]     1
 # [build_phase]     1
 # [connect_phase]     1
 # [eth_test_tx_smoke]     2
 # [eth_tx_scoreboard]   204
 # [eth_v_seq_tx]     2
-# [m_tx_sb]     1
+# [m_tx_sb]     2
 # [mii_tx_monitor_base]     1
-# [run phase]   180
+# [run phase]   178
 # [wb_m_driver_base]     1
 # [wb_m_monitor_base]     2
 # [wb_s_basic_tx_seq]     1
-# [wb_s_driver_base]    21
+# [wb_s_driver_base]    13
 # ** Note: $finish    : D:/B/qsim_2021_1/win64/../verilog_src/uvm-1.1d/src/base/uvm_root.svh(430)
-#    Time: 7237500 ps  Iteration: 65  Instance: /eth_tb
-# End time: 16:23:48 on Jul 07,2026, Elapsed time: 0:00:12
-# Errors: 0, Warnings: 4
+#    Time: 7140 ns  Iteration: 63  Instance: /eth_tb
+# End time: 18:13:08 on Jul 07,2026, Elapsed time: 0:00:16
+# Errors: 0, Warnings: 18
