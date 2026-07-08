@@ -93,13 +93,10 @@ endtask
 // Task: drive_items
 task wb_m_driver_base::drive_items();
 
-
-    @(posedge vif.clk_i);
-
     // Drive pin level DUT signals
-    vif.cb.m_ack_i<=m_item.m_ack_i;
-    vif.cb.m_err_i<=m_item.m_err_i;
-    vif.cb.m_data_i<=m_item.m_data_i;
+    vif.m_ack_i<=m_item.m_ack_i;
+    vif.m_err_i<=m_item.m_err_i;
+    vif.m_data_i<=m_item.m_data_i;
 
     `uvm_info(get_type_name(),m_item.convert2string(), UVM_DEBUG)
 

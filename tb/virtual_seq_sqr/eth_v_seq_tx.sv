@@ -19,7 +19,7 @@ class eth_v_seq_tx extends eth_v_seq_base;
         fork : fork_v_seq_wr_rd
             m_wb_m_seq_wr_rd.start(m_wb_m_sqr);
         join_none;
-            
+        
         // Run wishbone slave sequence
         m_wb_s_basic_tx_seq.start(m_wb_s_sqr);
 

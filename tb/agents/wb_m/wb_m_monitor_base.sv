@@ -104,7 +104,7 @@ endtask
 task wb_m_monitor_base::mon_items(wb_m_seq_item_base m_item);
 
     // Wait until clocking block triggers at positive edge
-    @(vif.cb);
+    @(negedge vif.clk_i);
     
     // DUT input signals -> output from testbench
     m_item.m_err_i=vif.m_err_i;
@@ -112,12 +112,12 @@ task wb_m_monitor_base::mon_items(wb_m_seq_item_base m_item);
     m_item.m_data_i=vif.m_data_i;
     
     // DUT output signals -> input to testbench
-    m_item.m_addr_o=vif.cb.m_addr_o;
-    m_item.m_cyc_o=vif.cb.m_cyc_o;
-    m_item.m_sel_o=vif.cb.m_sel_o;
-    m_item.m_stb_o=vif.cb.m_stb_o;
-    m_item.m_data_o=vif.cb.m_data_o;
-    m_item.m_dir=wb_dir_t'(vif.cb.m_we_o);
+    m_item.m_addr_o=vif.m_addr_o;
+    m_item.m_cyc_o=vif.m_cyc_o;
+    m_item.m_sel_o=vif.m_sel_o;
+    m_item.m_stb_o=vif.m_stb_o;
+    m_item.m_data_o=vif.m_data_o;
+    m_item.m_dir=wb_dir_t'(vif.m_we_o);
 
     `uvm_info(get_type_name(),m_item.convert2string(), UVM_DEBUG)
 

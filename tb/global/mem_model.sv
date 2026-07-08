@@ -91,6 +91,10 @@ class dma_mem extends uvm_object;
     return dma_mem.exists(addr);
   endfunction
 
+  static function print();
+    $display("Dma memory contents: %0p",dma_mem);
+  endfunction
+
 endclass
 
 
