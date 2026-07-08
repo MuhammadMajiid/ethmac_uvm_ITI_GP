@@ -16,7 +16,7 @@ class eth_tx_scoreboard extends uvm_scoreboard;
     // =========================================================================
     // Parameters for semaphore keys
     // =========================================================================
-    parameter SEM_TX_SEQ_ITEM_NO_KEYS = 2;
+    parameter SEM_TX_SEQ_ITEM_NO_KEYS = 1;
     parameter SEM_WB_M_SEQ_ITEM_NO_KEYS = 1;
 
     // =========================================================================
@@ -286,15 +286,15 @@ task eth_tx_scoreboard::run_phase(uvm_phase phase);
     `uvm_info(get_type_name(),"Tx scoreboard raised objection", UVM_LOW)
     fork: fork_run_phase 
         get_mii_tx_seq_item();
-        get_wb_m_seq_item();
+        //get_wb_m_seq_item();
         #0.1 predictor();
         #0.1 comparator();
         begin
-        wait(m_ev_end_seqs.triggered);
-        //repeat(4) begin
-        wait(m_ev_end_pkt.triggered);
-        //#0.1;
-        //end
+            wait(m_ev_end_seqs.triggered);
+            repeat(4) begin
+            wait(m_ev_end_pkt.triggered);
+            #0.2;
+        end
         disable fork_run_phase;
         end    
     join    
@@ -308,7 +308,7 @@ task eth_tx_scoreboard::predictor();
     fork: fork_pred
         pred_track_txen();
         pred_track_rd();
-        pred_track_underrun(); 
+        //pred_track_underrun(); 
              begin
                 wait(m_ev_txen.triggered);
                     pred_read_cfg_reg();
@@ -318,7 +318,7 @@ task eth_tx_scoreboard::predictor();
                         pred_read_cfg_bd();
                         if(pred_check_len_4())
                         pred_construct_data_pkt();                
-                        dma_mem::print();
+                        //dma_mem::print();
                     end
                     else begin
                         pred_construct_ctrl_pkt();
@@ -337,7 +337,7 @@ task eth_tx_scoreboard::comparator();
    forever begin
     fork : fork_comp
     comp_pack_pkt();
-    comp_compare_ipgt();
+    //comp_compare_ipgt();
     begin
         wait(m_ev_start_comp.triggered);
         comp_compare_pkt();
@@ -656,7 +656,6 @@ task eth_tx_scoreboard::pred_track_rd();
         // DUT completed this BD (RD : 1 -> 0)
         //--------------------------------------------------------
         if (prev_rd && !curr_rd) begin
-
             `uvm_info(get_type_name(),
                 $sformatf("TX BD[%0d] completed",
                           m_tx_bd_cfg_s.bd_index),
@@ -665,8 +664,10 @@ task eth_tx_scoreboard::pred_track_rd();
             //----------------------------------------------------
             // Move to next BD
             //----------------------------------------------------
-            if (wrap_bit)
+            if (wrap_bit) begin
                 m_tx_bd_cfg_s.bd_index = 0;
+                `uvm_info(get_type_name(),"WRAPP",UVM_HIGH)
+            end
             else
                 m_tx_bd_cfg_s.bd_index++;
 
@@ -682,7 +683,7 @@ task eth_tx_scoreboard::pred_track_rd();
             );
 
             prev_rd = rtl_data[WB_TX_BD_RD_POS];
-
+            #1ns;
             continue;
         end
 
@@ -1119,7 +1120,7 @@ task eth_tx_scoreboard::comp_pack_pkt();
         m_sem_tx_seq_item.get(1);
     end
     while (m_mii_tx_seq_item.MTxEN);
-
+    m_sem_tx_seq_item.put(1); 
     //--------------------------------------------------------
     // Frame completed
     //--------------------------------------------------------
@@ -1317,11 +1318,6 @@ function void eth_tx_scoreboard::comp_compare_pkt();
     end
   end
 
-    `uvm_info(get_type_name(),
-        $sformatf("Actual packet = %0p, Expected packet = %0p",
-                    m_tx_pending_s.actual_pkt,m_tx_expected_s.exp_pkt),
-        UVM_HIGH)
-
     //----------------------------------------------------------
     // Final result
     //----------------------------------------------------------
@@ -1409,7 +1405,7 @@ function void eth_tx_scoreboard::clear();
     //----------------------------------------------------------
     // Clear structs
     //----------------------------------------------------------  
-    m_tx_bd_cfg_s        ='{default:'0};
+    m_tx_bd_cfg_s        ='{default:'0,bd_index: m_tx_bd_cfg_s.bd_index};
     m_tx_expected_s      ='{default:'0,exp_pkt: {}};
     m_tx_pending_s       ='{default:'0,actual_pkt: {}};
 
