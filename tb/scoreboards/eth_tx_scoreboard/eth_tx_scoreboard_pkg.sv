@@ -7,7 +7,7 @@
 // Description:
 //   Package for including scoreboard files.
 //==============================================================================
-
+`timescale 1ns/1ps
 `ifndef ETH_ETH_TX_SCOREBOARD_PKG
 `define ETH_ETH_TX_SCOREBOARD_PKG
 

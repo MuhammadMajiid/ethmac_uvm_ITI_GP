@@ -37,7 +37,7 @@ class wb_s_basic_tx_seq extends wb_s_seq_base;
     // Parameters
     //---------------------------------------------------------
     localparam int NUM_TX_BD = 4;
-    localparam int        PKT_LEN    = 60;
+    localparam int unsigned        PKT_LEN    = 60;
     bit [31:0] tx_ptr[NUM_TX_BD];
 
 
@@ -53,7 +53,7 @@ class wb_s_basic_tx_seq extends wb_s_seq_base;
     //-----------------------------------------------------
     // DMA packet addresses for the basic test
     //-----------------------------------------------------
-        tx_ptr[0] = 32'h0000_0000;
+        tx_ptr[0] = 32'h0000_1000;
         tx_ptr[1] = 32'h0000_003C;
         tx_ptr[2] = 32'h0000_0078;
         tx_ptr[3] = 32'h0000_00B4;
@@ -63,10 +63,10 @@ class wb_s_basic_tx_seq extends wb_s_seq_base;
         //----------------------------------------------------- 
 
         foreach (tx_ptr[i]) begin
-            for(int j=0; j<PKT_LEN;j+=4)
-            dma_mem::write(tx_ptr[i]+j,$random);
+            for(int j=0; j<$ceil(PKT_LEN/4.0);j++)
+            dma_mem::write(tx_ptr[i]+j*4,$random);
         end
-
+        
         //-----------------------------------------------------
         // Configure registers
         //-----------------------------------------------------

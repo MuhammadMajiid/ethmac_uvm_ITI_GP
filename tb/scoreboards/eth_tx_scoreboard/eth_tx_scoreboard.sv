@@ -10,6 +10,7 @@
 //==============================================================================
 `ifndef ETH_TX_SCOREBOARD_SV
 `define ETH_TX_SCOREBOARD_SV
+
 class eth_tx_scoreboard extends uvm_scoreboard;
     `uvm_component_utils(eth_tx_scoreboard)
     // =========================================================================
@@ -286,11 +287,14 @@ task eth_tx_scoreboard::run_phase(uvm_phase phase);
     fork: fork_run_phase 
         get_mii_tx_seq_item();
         get_wb_m_seq_item();
-        #0.2ns predictor();
-        #0.2ns comparator();
+        #0.1 predictor();
+        #0.1 comparator();
         begin
         wait(m_ev_end_seqs.triggered);
+        //repeat(4) begin
         wait(m_ev_end_pkt.triggered);
+        //#0.1;
+        //end
         disable fork_run_phase;
         end    
     join    
@@ -314,12 +318,14 @@ task eth_tx_scoreboard::predictor();
                         pred_read_cfg_bd();
                         if(pred_check_len_4())
                         pred_construct_data_pkt();                
+                        dma_mem::print();
                     end
                     else begin
                         pred_construct_ctrl_pkt();
                     end    
                     wait(m_ev_end_pkt.triggered);
                     pred_read_cfg_reg();
+                    #1;
                 end    
             end        
     join
@@ -342,28 +348,31 @@ task eth_tx_scoreboard::comparator();
         -> m_ev_end_pkt;
         disable fork_comp;
     end    
-    join     
+    join 
+    #0.1;    
 end 
 endtask
 
 // function: pred_construct_data_pkt
 function void eth_tx_scoreboard::pred_construct_data_pkt();
     bit [31:0] crc;
+    `uvm_info(get_name(),"Begin constructing data packet",UVM_HIGH )
     // read data packts from dma memory
     pred_read_mem();
     
     // add padding bytes if required
     pred_add_pad();
-    
+
     // check if crc is enabled 
     if (m_tx_bd_cfg_s.eff_crc) begin
         // Calculate crc
         crc=calc_crc32(m_tx_expected_s.exp_pkt);
         
         // push crc (4 bytes)
-        for(int i = ETH_CRC_LEN-1; i>=0; i--)
+        for(int i = 0; i<ETH_CRC_LEN; i++)
             m_tx_expected_s.exp_pkt.push_back(crc[8*i+:8]);
     end
+
     // check if the packet is greater than maximum size, discard additional bytes
     pred_check_huge();
     
@@ -374,6 +383,7 @@ endfunction
 // function: pred_construct_ctrl_pkt
 function void eth_tx_scoreboard::pred_construct_ctrl_pkt();
         bit [31:0] crc;
+        `uvm_info(get_name(),"Begin constructing control packet",UVM_HIGH )       
         // push destination addr (6 bytes)
         for(int i = ETH_ADDR_LEN-1; i>=0; i--)
             m_tx_expected_s.exp_pkt.push_back(ETH_PAUSE_FRAME_ADDR[8*i+:8]);
@@ -402,7 +412,7 @@ function void eth_tx_scoreboard::pred_construct_ctrl_pkt();
             crc=calc_crc32(m_tx_expected_s.exp_pkt);
 
         // push crc (4 bytes)
-        for(int i = ETH_CRC_LEN-1; i>=0; i--)
+        for(int i = 0; i<ETH_CRC_LEN; i++)
             m_tx_expected_s.exp_pkt.push_back(crc[8*i+:8]);
 
         // add preamble (7 bytes) & SFD (1 byte)     
@@ -437,6 +447,7 @@ function void eth_tx_scoreboard::pred_read_mem();
 
     // push remaining bytes if length isn't divisble by 4
     if(len%4!=0) begin
+        dma_mem::read(txpnt+len-len%4,rd_data);
         for(int i=1;i<=len%4;i++)
               m_tx_expected_s.exp_pkt.push_back(rd_data[8*(4-i)+:8]);
     end  
@@ -457,6 +468,50 @@ function void eth_tx_scoreboard::pred_add_pream_sfd();
     end  
 
 endfunction    
+
+function void eth_tx_scoreboard::pred_add_pad();
+//------------------------------------------------------------------------------
+// Add zero padding if required
+//
+// Ethernet minimum frame size includes the CRC.
+// Since the CRC is appended later, pad only until:
+//
+//      frame_size_without_crc = MINFL - 4
+//
+// Padding bytes are always 8'h00.
+//------------------------------------------------------------------------------
+
+
+    int unsigned target_len= m_tx_bd_cfg_s.minfl;
+    int pad_bytes;
+
+    // No padding required
+    if (!m_tx_bd_cfg_s.eff_pad)
+        return;
+
+    // Length that should exist before CRC insertion (4 bytes) 
+    if(m_tx_bd_cfg_s.eff_crc)
+    target_len -= ETH_CRC_LEN;
+
+    // if the length become negative after subtraction, it should be 0
+    if(target_len<0)
+        target_len=0;
+
+    if (m_tx_expected_s.exp_pkt.size() >= target_len)
+        return;
+
+    pad_bytes = target_len - m_tx_expected_s.exp_pkt.size();
+
+    repeat (pad_bytes)
+        m_tx_expected_s.exp_pkt.push_back(ETH_PAD);
+
+    `uvm_info(get_type_name(),
+        $sformatf("Added %0d padding bytes (frame length = %0d)",
+                  pad_bytes,
+                  m_tx_expected_s.exp_pkt.size()),
+        UVM_LOW)
+
+endfunction
 
 // function: pred_check_huge
 function void eth_tx_scoreboard::pred_check_huge();
@@ -655,7 +710,7 @@ task eth_tx_scoreboard::pred_track_underrun();
     begin
         fork: fork_underrun
             begin
-                #1ns;
+                #1;
                 pkt_len=m_tx_bd_cfg_s.len+ETH_SFD_LEN;
                 pre_crc_bytes =ETH_SFD_LEN;
 
@@ -683,13 +738,14 @@ task eth_tx_scoreboard::pred_track_underrun();
                         // Put Semaphore
                         m_sem_wb_m_seq_item.put(1);
                         #1;
-                end
+                    end
             end
             begin
                 wait(m_ev_end_pkt.triggered);
                 disable fork_underrun;
             end    
         join
+        #1;    
     end
 
 endtask
@@ -711,50 +767,6 @@ function bit eth_tx_scoreboard::pred_check_len_4();
     end
 
     return 1;
-
-endfunction
-
-
-function void eth_tx_scoreboard::pred_add_pad();
-//------------------------------------------------------------------------------
-// Add zero padding if required
-//
-// Ethernet minimum frame size includes the CRC.
-// Since the CRC is appended later, pad only until:
-//
-//      frame_size_without_crc = MINFL - 4
-//
-// Padding bytes are always 8'h00.
-//------------------------------------------------------------------------------
-
-
-    int target_len;
-    int pad_bytes;
-
-    // No padding required
-    if (!m_tx_bd_cfg_s.eff_pad)
-        return;
-
-    // Length that should exist before CRC insertion (4 bytes) & preamble & SFD (8 bytes)
-    target_len = m_tx_bd_cfg_s.minfl-ETH_PREAMBLE_LEN-ETH_SFD_LEN-ETH_CRC_LEN;
-
-    // if the length become negative after subtraction, it should be 0
-    if(target_len<0)
-        target_len=0;
-
-    if (m_tx_expected_s.exp_pkt.size() >= target_len)
-        return;
-
-    pad_bytes = target_len - m_tx_expected_s.exp_pkt.size();
-
-    repeat (pad_bytes)
-        m_tx_expected_s.exp_pkt.push_back(ETH_PAD);
-
-    `uvm_info(get_type_name(),
-        $sformatf("Added %0d padding bytes (frame length = %0d)",
-                  pad_bytes,
-                  m_tx_expected_s.exp_pkt.size()),
-        UVM_LOW)
 
 endfunction
 
@@ -862,7 +874,8 @@ task eth_tx_scoreboard::pred_read_cfg_reg();
     m_tx_bd_cfg_s.txe_m = m_regmodel.INT_MASK.TXE_M.get_mirrored_value();
     m_tx_bd_cfg_s.txb_m = m_regmodel.INT_MASK.TXB_M.get_mirrored_value();
 
-
+    //m_regmodel.PACKETLEN.print();
+    //$display("Minfl = %d",m_tx_bd_cfg_s.minfl);
 endtask
 
 
@@ -994,7 +1007,7 @@ task eth_tx_scoreboard::comp_check_interrupt();
         m_regmodel.INT_SOURCE.TXB.read(status,txb,UVM_BACKDOOR) ; 
 
         // check that only one interrupt fires in the 3
-        if(!$onehot({txe[0],txc[0],txb[0]}))
+        if(!$onehot({txe[0],txc[0],txb[0]}) && (txe[0] || txc[0] || txb[0]))
          begin
             `uvm_error(get_name(),
             $sformatf("More than one Tx interrupt fired at the same time, TXE = %0b TXC = %0b TXB = %0b",txe,txc,txb))
@@ -1137,11 +1150,7 @@ function void eth_tx_scoreboard::comp_compare_field(
 
             `uvm_error(get_type_name(),
                 $sformatf(
-                "%s mismatch\n" +
-                "Byte Index : %0d\n" +
-                "Field Offset : %0d\n" +
-                "Expected : 0x%02h\n" +
-                "Actual   : 0x%02h",
+                "%s mismatch Byte Index: %0d Field Offset: %0d\n Expected: 0x%02h\n Actual: 0x%02h",
                 field_name,
                 start_idx+i,
                 i,
@@ -1308,6 +1317,10 @@ function void eth_tx_scoreboard::comp_compare_pkt();
     end
   end
 
+    `uvm_info(get_type_name(),
+        $sformatf("Actual packet = %0p, Expected packet = %0p",
+                    m_tx_pending_s.actual_pkt,m_tx_expected_s.exp_pkt),
+        UVM_HIGH)
 
     //----------------------------------------------------------
     // Final result
@@ -1455,15 +1468,16 @@ endtask
 
 // task: get_wb_m_seq_item
 task eth_tx_scoreboard::get_wb_m_seq_item();
-    // Get all keys from semaphore
-    repeat(SEM_WB_M_SEQ_ITEM_NO_KEYS)
-    m_sem_wb_m_seq_item.get(1);
-    // Get transaction item from fifo
-    wb_m_fifo.get(m_wb_m_seq_item);
-    `uvm_info(get_type_name(),m_wb_m_seq_item.convert2string(),UVM_HIGH)
-    // Put all Keys in semaphore
-    m_sem_wb_m_seq_item.put(SEM_WB_M_SEQ_ITEM_NO_KEYS);
-    #1.5ns;
+    forever begin
+        // Get all keys from semaphore
+        repeat(SEM_WB_M_SEQ_ITEM_NO_KEYS)
+        m_sem_wb_m_seq_item.get(1);
+        // Get transaction item from fifo
+        wb_m_fifo.get(m_wb_m_seq_item);
+        `uvm_info(get_type_name(),m_wb_m_seq_item.convert2string(),UVM_HIGH)
+        // Put all Keys in semaphore
+        m_sem_wb_m_seq_item.put(SEM_WB_M_SEQ_ITEM_NO_KEYS);
+    end
 endtask 
 
 `endif // ETH_TX_SCOREBOARD_SV
