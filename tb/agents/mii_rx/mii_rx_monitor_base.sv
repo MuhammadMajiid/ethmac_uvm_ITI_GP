@@ -45,6 +45,10 @@ class mii_rx_monitor_base extends uvm_monitor;
       bit [7:0] current_byte;
       bit [3:0] nibble;
 
+      // timestamp locals 
+      realtime t_start_ns = 0.0;
+      realtime t_end_ns   = 0.0;
+
       // Error tracking flags
       bit is_dribble       = 0;
       bit seen_sfd         = 0;
@@ -96,6 +100,7 @@ class mii_rx_monitor_base extends uvm_monitor;
           if (current_byte == 8'hD5) begin
             seen_sfd = 1;
             item.preamble_len = preamble_cnt;
+            t_start_ns  = $realtime; // record start time at the moment SFD is confirmed
           end 
           else if (current_byte == 8'h55) begin
             preamble_cnt++;
@@ -109,8 +114,15 @@ class mii_rx_monitor_base extends uvm_monitor;
         @(posedge vif.MRxClk);
       end
 
+      // record end time the moment MRxDV deasserts
+      t_end_ns = $realtime;
+
       // Create the item once the frame is fully received
       item = mii_rx_seq_item::type_id::create("item");
+
+      // populate timestamp fields 
+      item.start_time_ns      = t_start_ns;
+      item.end_time_ns        = t_end_ns;
 
       // Record captured errors for the Scoreboard
       item.has_mrxerr         = err_flag;

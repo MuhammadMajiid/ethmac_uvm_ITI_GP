@@ -41,6 +41,10 @@ class mii_rx_seq_item extends uvm_sequence_item;
          bit has_mrxerr;
          bit has_invalid_symbol;
 
+         // Timestamp fields
+         realtime start_time_ns;      // $realtime when SFD byte is first detected
+         realtime end_time_ns;        // $realtime when MRxDV finally deasserts
+
     //--------------------------------------------------------------------------
     // Rx Frame
     //--------------------------------------------------------------------------
@@ -122,19 +126,19 @@ class mii_rx_seq_item extends uvm_sequence_item;
         bit          [31:0] crc;
         byte         current_byte;
         bit          b;
-        int len = data.size();
+        int len = data_q.size();
 
         crc = 32'hFFFF_FFFF;
 
         for (int i = 0; i < len; i++) begin
-            current_byte = data[i];
+            current_byte = data_q[i];
             for (int bit_i = 0; bit_i < 8; bit_i++) begin
                 b   = crc[0] ^ current_byte[bit_i];
                 crc = crc >> 1;
                 if (b) crc = crc ^ ETH_CRC_POLY;
             end
         end
-
+        
         return ~crc;
 
     endfunction   

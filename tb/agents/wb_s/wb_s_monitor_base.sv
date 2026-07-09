@@ -19,7 +19,8 @@ class wb_s_monitor_base extends uvm_monitor;
   `uvm_component_utils(wb_s_monitor_base)
 
   virtual wb_s_if vif;
-  uvm_analysis_port #(wb_s_seq_item_base#(WB_S_ADDR_WIDTH, WB_DATA_WIDTH,WB_SEL_WIDTH)) a_port;
+  uvm_analysis_port #(wb_s_seq_item_base #(WB_S_ADDR_WIDTH, WB_DATA_WIDTH, WB_SEL_WIDTH)) a_port;
+  uvm_analysis_port #(wb_s_seq_item_base #(WB_S_ADDR_WIDTH, WB_DATA_WIDTH, WB_SEL_WIDTH)) bd_status_ap;
   wb_s_config_obj m_config;
 
   function new(string name, uvm_component parent);
@@ -37,6 +38,7 @@ class wb_s_monitor_base extends uvm_monitor;
       `uvm_fatal(get_type_name(), "wb_s monitor virtual interface not set")
 
     a_port = new("a_port", this);
+    bd_status_ap = new("bd_status_ap", this);
 
   endfunction
 
@@ -86,6 +88,26 @@ class wb_s_monitor_base extends uvm_monitor;
         // Publish transaction
         //-----------------------------
         a_port.write(tr);
+
+        begin : bd_done_filter
+            localparam bit [31:0] BD_BASE = 32'h0000_0400;
+            localparam bit [31:0] BD_END  = 32'h0000_0800;
+            int unsigned word_offset;
+        
+            if ((tr.m_dir     == WB_READ)         &&   // host reading
+                (tr.m_addr    >= BD_BASE)      &&   // within BD RAM
+                (tr.m_addr    <  BD_END)       &&   // within BD RAM
+                (tr.m_ack     == 1'b1)         &&   // successful cycle
+                (tr.m_rdata[15] == 1'b0))           // E=0: DUT has written BD
+            begin
+                word_offset = (tr.m_addr - BD_BASE) >> 2;
+                
+                if (word_offset % 2 == 0) begin     // status word only (not RXPNT)
+                  bd_status_ap.write(tr);
+                end            
+                    
+            end
+        end : bd_done_filter
 
       end
 

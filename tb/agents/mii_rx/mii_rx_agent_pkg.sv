@@ -15,8 +15,8 @@ package mii_rx_agent_pkg;
   
   `include "uvm_macros.svh"
   import uvm_pkg::*;
-
-  `include "mii_rx_seq_item.sv"
+  import eth_glob_pkg::*;
+  import mii_rx_seq_item_pkg::*;
   
   // import config package
   import eth_config_pkg::*;
