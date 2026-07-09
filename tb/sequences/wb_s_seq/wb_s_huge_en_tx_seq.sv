@@ -67,7 +67,7 @@ class wb_s_basic_tx_seq extends wb_s_seq_base;
             dma_mem::write(tx_ptr[i]+j*4,$random);
         end
 		
-		 regmodel.PACKETLEN.MAXFL.set(16'd76);
+		 regmodel.PACKETLEN.MAXFL.set(16'd75);
         regmodel.PACKETLEN.update(status);
         
         //-----------------------------------------------------

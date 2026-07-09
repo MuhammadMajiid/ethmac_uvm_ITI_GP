@@ -31,7 +31,7 @@ class mii_tx_seq_item_base extends uvm_sequence_item;
     logic MTxERR;                   // Transmit Coding Error
 
     bit ipgt_valid;
-    ipgt_state_e ipgt_cycles;
+    int ipgt_cycles;
     
     function new(string name = "mii_tx_seq_item_base");
         super.new(name);
@@ -44,8 +44,8 @@ class mii_tx_seq_item_base extends uvm_sequence_item;
     //constraint c_MCrS {MCrS dist{};}
 
     function string convert2string();
-        return $sformatf("MColl=%0b, MCrS=%0b, MTxD=%0h, MTxEN=%0b, MTxERR=%0b", 
-            MColl, MCrS, MTxD, MTxEN, MTxERR);
+        return $sformatf("MColl=%0b, MCrS=%0b, MTxD=%0h, MTxEN=%0b, MTxERR=%0b IPGT valid = %0d IPGT cycles = %0d", 
+            MColl, MCrS, MTxD, MTxEN, MTxERR,ipgt_valid,ipgt_cycles);
     endfunction
 
     function string convert2string_stimulus();

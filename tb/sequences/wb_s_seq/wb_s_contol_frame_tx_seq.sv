@@ -1,12 +1,12 @@
 //==============================================================================
 // Project  : ethmac_uvm_ITI_GP
-// File     : wb_s_basic_tx_seq.sv
+// File     : wb_s_control_frame_tx_seq.sv
 // Author   : Nada
-// Date     : 2026-07-06
+// Date     : 2026-07-08
 //------------------------------------------------------------------------------
 // Description:
 // Basic transmit configuration sequence for the Ethernet MAC.
-// full duplex , padding and crc are enabled , no control frames are transmiited
+// full duplex , padding and crc are enabled , control frames are transmiited
 //
 // Programs the MAC through the Wishbone slave interface using the
 // Register Abstraction Layer (RAL). The sequence performs the initial
@@ -36,8 +36,8 @@ class wb_s_basic_tx_seq extends wb_s_seq_base;
     //---------------------------------------------------------
     // Parameters
     //---------------------------------------------------------
-    localparam int NUM_TX_BD = 1;
-    localparam int unsigned        PKT_LEN    = 81;
+    localparam int NUM_TX_BD = 4;
+    localparam int unsigned        PKT_LEN    = 60;
     bit [31:0] tx_ptr[NUM_TX_BD];
 
 
@@ -66,9 +66,6 @@ class wb_s_basic_tx_seq extends wb_s_seq_base;
             for(int j=0; j<$ceil(PKT_LEN/4.0);j++)
             dma_mem::write(tx_ptr[i]+j*4,$random);
         end
-		
-		 regmodel.PACKETLEN.MAXFL.set(16'd76);
-        regmodel.PACKETLEN.update(status);
         
         //-----------------------------------------------------
         // Configure registers
@@ -147,12 +144,17 @@ class wb_s_basic_tx_seq extends wb_s_seq_base;
            regmodel.eth_bd_mem.write(status, bd*2+1, tx_ptr[bd]);
            
         end
-		
+		   regmodel.CTRLMODER.TXFLOW.set(1);
+           regmodel.CTRLMODER.update(status);
+		   
+		   regmodel.TXCTRL.TXPAUSERQ.set(1);
+		   regmodel.TXCTRL.TXPAUSETV.set(16'h2244);
+		   regmodel.TXCTRL.update(status);
 
         //-----------------------------------------------------
         // Enable transmitter LAST
         //-----------------------------------------------------
-           //regmodel.MODER.HUGEN.set(1);
+
            regmodel.MODER.TXEN.set(1);
            regmodel.MODER.FULLD.set(1);
            regmodel.MODER.update(status);

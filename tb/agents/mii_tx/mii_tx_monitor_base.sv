@@ -81,7 +81,7 @@ class mii_tx_monitor_base extends uvm_monitor;
         // Send transaction to agent analysis port
         monitor_tr_a_port.write(m_seq_item);
 
-        `uvm_info("run phase", m_seq_item.convert2string(), UVM_MEDIUM);
+        `uvm_info("run phase", m_seq_item.convert2string(), UVM_HIGH);
     endtask
 
 	
@@ -142,7 +142,7 @@ task check_ipgt(ref mii_tx_seq_item_base tr);
         else if (!prev_txen && tr.MTxEN) begin
 
             tr.ipgt_valid  = 1;
-            tr.ipgt_cycles = ipgt_state_e'(cycle_cnt);
+            tr.ipgt_cycles = cycle_cnt;
 
             `uvm_info(get_type_name(),
                 $sformatf("Measured IPGT = %0d MII clock cycles",
@@ -163,6 +163,8 @@ task check_ipgt(ref mii_tx_seq_item_base tr);
     // Save current TXEN
     //--------------------------------------------------------
     prev_txen = tr.MTxEN;
+
+
 
 endtask
 
