@@ -16,7 +16,7 @@ class eth_tx_scoreboard extends uvm_scoreboard;
     // =========================================================================
     // Parameters for semaphore keys
     // =========================================================================
-    parameter SEM_TX_SEQ_ITEM_NO_KEYS = 1;
+    parameter SEM_TX_SEQ_ITEM_NO_KEYS = 2;
     parameter SEM_WB_M_SEQ_ITEM_NO_KEYS = 1;
 
     // =========================================================================
@@ -291,7 +291,7 @@ task eth_tx_scoreboard::run_phase(uvm_phase phase);
         #0.1 comparator();
         begin
             wait(m_ev_end_seqs.triggered);
-            repeat(4) begin
+            repeat(1) begin
             wait(m_ev_end_pkt.triggered);
             #0.2;
         end
@@ -337,7 +337,7 @@ task eth_tx_scoreboard::comparator();
    forever begin
     fork : fork_comp
     comp_pack_pkt();
-    //comp_compare_ipgt();
+    comp_compare_ipgt();
     begin
         wait(m_ev_start_comp.triggered);
         comp_compare_pkt();
@@ -482,7 +482,7 @@ function void eth_tx_scoreboard::pred_add_pad();
 //------------------------------------------------------------------------------
 
 
-    int unsigned target_len= m_tx_bd_cfg_s.minfl;
+    int target_len= m_tx_bd_cfg_s.minfl;
     int pad_bytes;
 
     // No padding required
@@ -525,9 +525,11 @@ function void eth_tx_scoreboard::pred_check_huge();
     // if packet length is greater than maximum packet size, discard additional bytes
     else begin
         // number of discarded bytes 
-        int unsigned discarded_bytes=m_tx_bd_cfg_s.len - m_tx_bd_cfg_s.maxfl;
+        int discarded_bytes=m_tx_bd_cfg_s.len - m_tx_bd_cfg_s.maxfl;
+        if(m_tx_bd_cfg_s.eff_crc)
+            discarded_bytes+=ETH_CRC_LEN;
         // pop number of discarded bytes from back of queue
-        for (int unsigned i =0;i<discarded_bytes;i++)
+        repeat(discarded_bytes)
             m_tx_expected_s.exp_pkt.pop_back();
             
         // Set huge error flag    
@@ -1079,7 +1081,8 @@ task eth_tx_scoreboard::comp_pack_pkt();
         //--------------------------------------------
        if (m_mii_tx_seq_item.MTxERR) begin
             m_tx_pending_s.flag_txerr=1;
-       end
+       
+        end
         //--------------------------------------------
         // First nibble (LSB)
         //--------------------------------------------
@@ -1101,8 +1104,10 @@ task eth_tx_scoreboard::comp_pack_pkt();
         // Expect second nibble
         //--------------------------------------------
         if (!m_mii_tx_seq_item.MTxEN) begin
+            if(!m_tx_pending_s.flag_txerr) begin
             `uvm_error(get_type_name(),
                 "MTxEN deasserted after only one nibble was transmitted")
+            end
             break;
         end
         //--------------------------------------------
