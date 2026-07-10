@@ -12,44 +12,63 @@
 `ifndef ETH_MDIO_SCOREBOARD_SV
 `define ETH_MDIO_SCOREBOARD_SV
 
+typedef struct {
+    
+    // ------------------------------------------------------------------
+    // From the TX BD status word (wb_slave_monitor observed DATA_I)
+    // ------------------------------------------------------------------
+    bit [7:0]  clk_div;           // BD[31:16] – payload byte count
+    bit        no_pre;            // BD[15]    – ready / armed flag
+    bit        wr_ctrl_data;           // BD[14]    – per-BD interrupt enable
+    bit        r_stat;            // BD[13]    – wrap bit (last BD in ring)
+    bit        s_stat;        // BD[12]    – per-packet pad enable
+    bit [4:0]  rgad;        // BD[11]    – per-packet CRC enable
+    bit [4:0]  fiad;         // Pointer word – DMA source address
+}m_cfg_s;
+
 class eth_mdio_scoreboard extends uvm_scoreboard;
   `uvm_component_utils(eth_mdio_scoreboard)
 
-  // -------------------------------------------------------------------------
-  // TLM Analysis FIFOs (Buffers to hold incoming transactions)
-  // -------------------------------------------------------------------------
-  // Receives the CPU commands (e.g., "Read PHY 1, Reg 5") from the Wishbone monitor
-  uvm_tlm_analysis_fifo #(wb_tx) wb_fifo;
+  parameter SEM_NO_KEYS = 1;
 
-  // Receives the actual 64-bit frame observed on the wire from your MDIO monitor
-  uvm_tlm_analysis_fifo #(mdio_tx) mdio_fifo;
 
-  // Counters for End-of-Test statistics
-  int match_count;
-  int mismatch_count;
+  // =========================================================================
+  // Analysis fifo
+  // =========================================================================
+  uvm_tlm_analysis_fifo  #(mdio_seq_item_base)      a_fifo;
+  // =========================================================================
+  // Analysis export
+  // =========================================================================
+  uvm_analysis_export  #(mdio_seq_item_base)        a_export;
+  // =========================================================================
+  // Transaction for storing last item pulled from tlm fifo
+  // =========================================================================
+  mdio_seq_item_base                                m_wb_m_seq_item;
+  // =========================================================================
+  //  Configuration object 
+  // =========================================================================
+  mdio_scoreboard_config_obj                        m_config;
+  // =========================================================================
+  // Register block
+  // =========================================================================
+  eth_reg_block                                     m_regmodel;   
+  // =========================================================================
+  // Semaphore for getting mii tx transaction from fifo
+  // =========================================================================
+  semaphore                                         m_sem; 
 
-  // -------------------------------------------------------------------------
+
+  // =========================================================================
   // Constructor
-  // -------------------------------------------------------------------------
+  // =========================================================================
+  extern function new(string name,uvm_component parent);
+  
   function new(string name = "eth_mdio_scoreboard", uvm_component parent = null);
     super.new(name, parent);
   endfunction
 
-  // -------------------------------------------------------------------------
-  // Build Phase
-  // -------------------------------------------------------------------------
-  function void build_phase(uvm_phase phase);
-    super.build_phase(phase);
-    wb_fifo   = new("wb_fifo", this);
-    mdio_fifo = new("mdio_fifo", this);
-    match_count    = 0;
-    mismatch_count = 0;
-  endfunction
 
-  // -------------------------------------------------------------------------
-  // Run Phase (The Comparison Engine)
-  // -------------------------------------------------------------------------
-  task run_phase(uvm_phase phase);
+  extern task run_phase(uvm_phase phase);
     wb_tx   host_cmd;
     mdio_tx actual_mdio;
     mdio_tx expected_mdio;
@@ -114,5 +133,36 @@ class eth_mdio_scoreboard extends uvm_scoreboard;
   endfunction
 
 endclass
+
+
+// =============================================================================
+//  IMPLEMENTATION
+// =============================================================================
+
+function eth_mdio_scoreboard::new(string name = "eth_mdio_scoreboard", uvm_component parent = null);
+  super.new(name, parent);
+endfunction
+
+function void eth_mdio_scoreboard::build_phase(uvm_phase phase);
+    super.build_phase(phase);
+    a_fifo = new("a_fifo", this);
+    m_sem  =new(SEM_NO_KEYS);
+    // get config object from database
+    if (!uvm_config_db #(eth_tx_scoreboard_config_obj)::get(this, "", "config", m_config))
+      `uvm_error(get_type_name(), "eth_tx_scoreboard_config not found in config_db")
+endfunction
+
+function void eth_mdio_scoreboard::connect_phase(uvm_phase phase);
+    super.connect_phase(phase);
+    
+    // assign ral handle to it's corresponding in config
+    m_regmodel=m_config.m_regmodel;
+    
+    // Connect each export with it's corrosponding fifo
+    a_export.connect(a_fifo.analysis_export);
+endfunction 
+
+task run_phase(uvm_phase phase);
+endtask
 
 `endif // ETH_MDIO_SCOREBOARD_SV
