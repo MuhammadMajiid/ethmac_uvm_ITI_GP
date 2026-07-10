@@ -36,7 +36,7 @@ class wb_s_basic_tx_seq extends wb_s_seq_base;
     //---------------------------------------------------------
     // Parameters
     //---------------------------------------------------------
-    localparam int NUM_TX_BD = 1;
+    localparam int NUM_TX_BD = 4;
     localparam int unsigned        PKT_LEN    = 81;
     bit [31:0] tx_ptr[NUM_TX_BD];
 
@@ -67,8 +67,8 @@ class wb_s_basic_tx_seq extends wb_s_seq_base;
             dma_mem::write(tx_ptr[i]+j*4,$random);
         end
 		
-		 regmodel.PACKETLEN.MAXFL.set(16'd76);
-        regmodel.PACKETLEN.update(status);
+		 //regmodel.PACKETLEN.MAXFL.set(16'd76);
+        //regmodel.PACKETLEN.update(status);
         
         //-----------------------------------------------------
         // Configure registers
