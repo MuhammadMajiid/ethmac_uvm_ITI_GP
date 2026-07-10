@@ -20,7 +20,7 @@ class mii_rx_agent extends uvm_agent;
   uvm_analysis_port #(mii_rx_seq_item) a_port;
 
   // Configuration Object Handle
-  mii_rx_agent_config m_cfg;
+  mii_rx_config_obj m_cfg;
 
   mii_rx_sequencer_base       m_sequencer;
   mii_rx_driver_base          m_driver;
@@ -36,8 +36,8 @@ class mii_rx_agent extends uvm_agent;
     super.build_phase(phase);
 
     // Retrieve the configuration object from the config_db
-    if (!uvm_config_db #(mii_rx_agent_config)::get(this, "", "mii_rx_agent_config", m_cfg)) begin
-      `uvm_fatal(get_type_name(), "Failed to get mii_rx_agent_config from uvm_config_db")
+    if (!uvm_config_db #(mii_rx_config_obj)::get(this, "", "mii_rx_config_obj", m_cfg)) begin
+      `uvm_fatal(get_type_name(), "Failed to get mii_rx_config_obj from uvm_config_db")
     end
 
     // Build Sequencer and Driver ONLY if the agent is ACTIVE
