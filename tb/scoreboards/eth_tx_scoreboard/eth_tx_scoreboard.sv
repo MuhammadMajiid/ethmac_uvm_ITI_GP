@@ -252,10 +252,6 @@ function void eth_tx_scoreboard::build_phase(uvm_phase phase);
     // Build analysis import
     wb_s_imp = new("wb_s_imp", this);
 
-    // Build transactions
-    //_mii_tx_seq_item  = mii_tx_seq_item_base::type_id::create("m_mii_tx_seq_item");
-    //m_wb_m_seq_item    = wb_m_seq_item_base::type_id::create("m_wb_m_seq_item");
-
     // Creating semaphore objects
     m_sem_tx_seq_item=new(SEM_TX_SEQ_ITEM_NO_KEYS);
     m_sem_wb_m_seq_item=new(SEM_WB_M_SEQ_ITEM_NO_KEYS);
