@@ -54,13 +54,13 @@ class eth_int_source_reg extends uvm_reg;
         // Hardware sets these bits when events occur
         // volatile=1 because hardware can modify these bits
         //           parent  sz  lsb  access  vol  reset  has_rst rand  indv
-        RXC .configure(this,  1,  6,  "W1C",   1,  1'b0,   1,      0,    0);
-        TXC .configure(this,  1,  5,  "W1C",   1,  1'b0,   1,      0,    0);
-        BUSY.configure(this,  1,  4,  "W1C",   1,  1'b0,   1,      0,    0);
-        RXE .configure(this,  1,  3,  "W1C",   1,  1'b0,   1,      0,    0);
-        RXB .configure(this,  1,  2,  "W1C",   1,  1'b0,   1,      0,    0);
-        TXE .configure(this,  1,  1,  "W1C",   1,  1'b0,   1,      0,    0);
-        TXB .configure(this,  1,  0,  "W1C",   1,  1'b0,   1,      0,    0);
+        RXC .configure(this,  1,  6,  "W1C",   0,  1'b0,   1,      0,    0);
+        TXC .configure(this,  1,  5,  "W1C",   0,  1'b0,   1,      0,    0);
+        BUSY.configure(this,  1,  4,  "W1C",   0,  1'b0,   1,      0,    0);
+        RXE .configure(this,  1,  3,  "W1C",   0,  1'b0,   1,      0,    0);
+        RXB .configure(this,  1,  2,  "W1C",   0,  1'b0,   1,      0,    0);
+        TXE .configure(this,  1,  1,  "W1C",   0,  1'b0,   1,      0,    0);
+        TXB .configure(this,  1,  0,  "W1C",   0,  1'b0,   1,      0,    0);
 
     endfunction
 

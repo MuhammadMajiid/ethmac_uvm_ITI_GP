@@ -16,7 +16,7 @@ class eth_tx_scoreboard extends uvm_scoreboard;
     // =========================================================================
     // Parameters for semaphore keys
     // =========================================================================
-    parameter SEM_TX_SEQ_ITEM_NO_KEYS = 2;
+    parameter SEM_TX_SEQ_ITEM_NO_KEYS = 4;
     parameter SEM_WB_M_SEQ_ITEM_NO_KEYS = 1;
 
     // =========================================================================
@@ -214,6 +214,8 @@ class eth_tx_scoreboard extends uvm_scoreboard;
     extern task pred_track_underrun();
     extern task pred_read_cfg_reg();
     extern task pred_read_cfg_bd();
+    extern task pred_defer();
+    extern task pred_coll();
     // =============================================================================
     //  Compatator methods
     // =============================================================================    
@@ -223,8 +225,7 @@ class eth_tx_scoreboard extends uvm_scoreboard;
     extern task comp_check_interrupt();
     extern task comp_check_bd_status();
     extern function void comp_compare_field(string field_name,int start_idx,int num_bytes,ref bit error_found);
-    extern task comp_compare_ipgt();
-
+    extern task comp_compare_ipgt(); 
     extern function void clear();
 endclass : eth_tx_scoreboard
 
@@ -232,13 +233,13 @@ endclass : eth_tx_scoreboard
 //  IMPLEMENTATION
 // =============================================================================
 
-// function: new
 function eth_tx_scoreboard::new(string name, uvm_component parent);
     super.new(name, parent);
 endfunction
 
 
-// function: build_phase
+
+
 function void eth_tx_scoreboard::build_phase(uvm_phase phase);
     super.build_phase(phase);
     // Build fifos
@@ -265,7 +266,8 @@ function void eth_tx_scoreboard::build_phase(uvm_phase phase);
 
 endfunction
 
-// function: connect_phase
+
+
 function void eth_tx_scoreboard::connect_phase(uvm_phase phase);
     super.connect_phase(phase);
     
@@ -279,7 +281,8 @@ function void eth_tx_scoreboard::connect_phase(uvm_phase phase);
     mii_tx_a_export.connect(mii_tx_fifo.analysis_export);
 endfunction    
 
-// task: run_phase
+
+
 task eth_tx_scoreboard::run_phase(uvm_phase phase);
     super.run_phase(phase);
     phase.raise_objection(this);
@@ -291,7 +294,9 @@ task eth_tx_scoreboard::run_phase(uvm_phase phase);
         #0.1 comparator();
         begin
             wait(m_ev_end_seqs.triggered);
-            repeat(1) begin
+            wait(m_ev_end_pkt.triggered);
+            #0.2;
+            repeat(m_tx_bd_cfg_s.tx_bd_num-1) begin
             wait(m_ev_end_pkt.triggered);
             #0.2;
         end
@@ -302,7 +307,46 @@ task eth_tx_scoreboard::run_phase(uvm_phase phase);
     `uvm_info(get_type_name(),"Tx scoreboard dropped objection", UVM_LOW)
 endtask
 
-// task: predictor
+
+
+function void eth_tx_scoreboard::write( wb_s_seq_item_base#(WB_S_ADDR_WIDTH, WB_DATA_WIDTH,WB_SEL_WIDTH ) tr);
+//------------------------------------------------------------------------------
+// Receives every WB slave transaction.
+// Maintains a predictor copy of the BD memory.
+//------------------------------------------------------------------------------
+    int mem_idx;
+
+    //-------------------------------------------------------
+    // Ignore reads
+    //-------------------------------------------------------
+    if (tr.m_dir==WB_READ)
+        return;
+
+    //-------------------------------------------------------
+    // Is this transaction targeting BD memory?
+    //
+    // BD memory occupies:
+    // 10'h100 -> 10'h1FF
+    //-------------------------------------------------------
+    if (tr.m_addr[9:8] == 2'b01 && (&tr.m_sel)) begin
+
+        mem_idx = tr.m_addr[7:0];
+
+        bd_mem::write(mem_idx,tr.m_wdata);
+
+        `uvm_info(get_type_name(),
+            $sformatf(
+            "BD_MEM[%0d] <= 0x%08h",
+            mem_idx,
+            tr.m_wdata),
+            UVM_HIGH)
+
+    end
+
+endfunction
+
+
+
 task eth_tx_scoreboard::predictor();
 
     fork: fork_pred
@@ -313,6 +357,9 @@ task eth_tx_scoreboard::predictor();
                 wait(m_ev_txen.triggered);
                     pred_read_cfg_reg();
                 forever begin
+                    if(!m_tx_bd_cfg_s.full_duplex) begin
+            
+                    end 
                     if(!m_tx_bd_cfg_s.tx_pause_req || !m_tx_bd_cfg_s.tx_flow) begin
                         wait(m_tx_pending_s.flag_rd);
                         pred_read_cfg_bd();
@@ -332,7 +379,8 @@ task eth_tx_scoreboard::predictor();
 
 endtask    
 
-// task: comparator
+
+
 task eth_tx_scoreboard::comparator();
    forever begin
     fork : fork_comp
@@ -353,7 +401,38 @@ task eth_tx_scoreboard::comparator();
 end 
 endtask
 
-// function: pred_construct_data_pkt
+
+
+task eth_tx_scoreboard::get_mii_tx_seq_item();
+    forever begin
+        // Get all keys from semaphore
+        repeat(SEM_TX_SEQ_ITEM_NO_KEYS)
+        m_sem_tx_seq_item.get(1);
+        // Get transaction item from fifo
+        mii_tx_fifo.get(m_mii_tx_seq_item);
+        `uvm_info(get_type_name(),m_mii_tx_seq_item.convert2string(),UVM_HIGH)
+        // Put all Keys in semaphore
+        m_sem_tx_seq_item.put(SEM_TX_SEQ_ITEM_NO_KEYS);
+    end
+endtask    
+
+
+
+task eth_tx_scoreboard::get_wb_m_seq_item();
+    forever begin
+        // Get all keys from semaphore
+        repeat(SEM_WB_M_SEQ_ITEM_NO_KEYS)
+        m_sem_wb_m_seq_item.get(1);
+        // Get transaction item from fifo
+        wb_m_fifo.get(m_wb_m_seq_item);
+        `uvm_info(get_type_name(),m_wb_m_seq_item.convert2string(),UVM_HIGH)
+        // Put all Keys in semaphore
+        m_sem_wb_m_seq_item.put(SEM_WB_M_SEQ_ITEM_NO_KEYS);
+    end
+endtask 
+
+
+
 function void eth_tx_scoreboard::pred_construct_data_pkt();
     bit [31:0] crc;
     `uvm_info(get_name(),"Begin constructing data packet",UVM_HIGH )
@@ -365,9 +444,19 @@ function void eth_tx_scoreboard::pred_construct_data_pkt();
 
     // check if crc is enabled 
     if (m_tx_bd_cfg_s.eff_crc) begin
-        // Calculate crc
-        crc=calc_crc32(m_tx_expected_s.exp_pkt);
-        
+        // Check if delay crc  is enabled
+        if(m_tx_bd_cfg_s.dlycrcen) begin
+        bytes_q pkt_copy=m_tx_expected_s.exp_pkt;
+        // pop first 4 bytes from packet copy to calculate crc of remaining bytes
+        repeat(4)
+            pkt_copy.pop_front();
+        // Calculate delayed crc
+            crc=calc_crc32(pkt_copy);    
+        end  
+        else begin
+            // Calculate crc
+            crc=calc_crc32(m_tx_expected_s.exp_pkt);
+        end
         // push crc (4 bytes)
         for(int i = 0; i<ETH_CRC_LEN; i++)
             m_tx_expected_s.exp_pkt.push_back(crc[8*i+:8]);
@@ -380,7 +469,8 @@ function void eth_tx_scoreboard::pred_construct_data_pkt();
     pred_add_pream_sfd();
 endfunction   
 
-// function: pred_construct_ctrl_pkt
+
+
 function void eth_tx_scoreboard::pred_construct_ctrl_pkt();
         bit [31:0] crc;
         `uvm_info(get_name(),"Begin constructing control packet",UVM_HIGH )       
@@ -420,54 +510,7 @@ function void eth_tx_scoreboard::pred_construct_ctrl_pkt();
 
 endfunction  
 
-// function: pred_read_mem 
-function void eth_tx_scoreboard::pred_read_mem();
-    // length of packet in BD
-    bit [15:0] len =  m_tx_bd_cfg_s.len;
-    // base address of packet
-    bit [WB_DATA_WIDTH-1:0] txpnt =  m_tx_bd_cfg_s.txpnt;
-    // Read data from dma memory (4 bytes)
-    bit [WB_DATA_WIDTH-1:0] rd_data;
 
-    // Check that txpnt value exists in memory
-    if(!dma_mem::read(txpnt,rd_data))
-        `uvm_fatal(get_name(), $sformatf("Buffer descriptor number %0d Txpnt value doesn't exist in dma memory, txpnt = %0h",m_tx_bd_cfg_s.bd_index,txpnt))
-      
-    for (int unsigned i =0; i<len/4;i++) begin
-        // Read each word from memory
-        if(!dma_mem::read(txpnt+i*4,rd_data)) begin
-            `uvm_fatal(get_name(), $sformatf("In buffer descriptor number %0d, address doesn't exist in dma memory, address = %0h",m_tx_bd_cfg_s.bd_index,txpnt+i*4))
-        end
-        else begin
-            // push word in expected packet queue
-            for(int i = 3; i>=0; i--)
-                m_tx_expected_s.exp_pkt.push_back(rd_data[8*i+:8]);
-        end
-    end    
-
-    // push remaining bytes if length isn't divisble by 4
-    if(len%4!=0) begin
-        dma_mem::read(txpnt+len-len%4,rd_data);
-        for(int i=1;i<=len%4;i++)
-              m_tx_expected_s.exp_pkt.push_back(rd_data[8*(4-i)+:8]);
-    end  
-
-endfunction
-
-// function: insert_pream_sfd
-function void eth_tx_scoreboard::pred_add_pream_sfd();
-
-    // push Start of frame delimiter (1 byte)
-    m_tx_expected_s.exp_pkt.push_front(ETH_SFD);
-
-    // check if preamble is enabled
-    if(!m_tx_bd_cfg_s.no_pre) begin
-        // push preamble (7 bytes)
-        repeat(ETH_PREAMBLE_LEN)
-            m_tx_expected_s.exp_pkt.push_front(ETH_PREAMBLE);
-    end  
-
-endfunction    
 
 function void eth_tx_scoreboard::pred_add_pad();
 //------------------------------------------------------------------------------
@@ -513,7 +556,47 @@ function void eth_tx_scoreboard::pred_add_pad();
 
 endfunction
 
-// function: pred_check_huge
+
+
+function void eth_tx_scoreboard::pred_add_pream_sfd();
+
+    // push Start of frame delimiter (1 byte)
+    m_tx_expected_s.exp_pkt.push_front(ETH_SFD);
+
+    // check if preamble is enabled
+    if(!m_tx_bd_cfg_s.no_pre) begin
+        // push preamble (7 bytes)
+        repeat(ETH_PREAMBLE_LEN)
+            m_tx_expected_s.exp_pkt.push_front(ETH_PREAMBLE);
+    end  
+
+endfunction    
+
+
+
+function bit eth_tx_scoreboard::pred_check_len_4();
+//------------------------------------------------------------------------------
+// Check minimum transmit length.
+// Ethernet MAC does not transmit frames whose length <= 4 bytes.
+//------------------------------------------------------------------------------
+    if (m_tx_bd_cfg_s.len <= 16'd4) begin
+
+        `uvm_info(get_type_name(),
+            $sformatf("BD[%0d]: Frame length (%0d bytes) <= 4. Transmission suppressed.",
+                      m_tx_bd_cfg_s.bd_index,
+                      m_tx_bd_cfg_s.len),
+            UVM_MEDIUM)
+
+        return 0;
+    end
+
+    return 1;
+
+endfunction
+
+
+
+
 function void eth_tx_scoreboard::pred_check_huge();
     // if Huge enavle = 1 , send packet regardless of it's size
     if(m_tx_bd_cfg_s.hugen)
@@ -537,7 +620,43 @@ function void eth_tx_scoreboard::pred_check_huge();
     end
 endfunction
 
-// function: pred_track_txen
+
+
+function void eth_tx_scoreboard::pred_read_mem();
+    // length of packet in BD
+    bit [15:0] len =  m_tx_bd_cfg_s.len;
+    // base address of packet
+    bit [WB_DATA_WIDTH-1:0] txpnt =  m_tx_bd_cfg_s.txpnt;
+    // Read data from dma memory (4 bytes)
+    bit [WB_DATA_WIDTH-1:0] rd_data;
+
+    // Check that txpnt value exists in memory
+    if(!dma_mem::read(txpnt,rd_data))
+        `uvm_fatal(get_name(), $sformatf("Buffer descriptor number %0d Txpnt value doesn't exist in dma memory, txpnt = %0h",m_tx_bd_cfg_s.bd_index,txpnt))
+      
+    for (int unsigned i =0; i<len/4;i++) begin
+        // Read each word from memory
+        if(!dma_mem::read(txpnt+i*4,rd_data)) begin
+            `uvm_fatal(get_name(), $sformatf("In buffer descriptor number %0d, address doesn't exist in dma memory, address = %0h",m_tx_bd_cfg_s.bd_index,txpnt+i*4))
+        end
+        else begin
+            // push word in expected packet queue
+            for(int i = 3; i>=0; i--)
+                m_tx_expected_s.exp_pkt.push_back(rd_data[8*i+:8]);
+        end
+    end    
+
+    // push remaining bytes if length isn't divisble by 4
+    if(len%4!=0) begin
+        dma_mem::read(txpnt+len-len%4,rd_data);
+        for(int i=1;i<=len%4;i++)
+              m_tx_expected_s.exp_pkt.push_back(rd_data[8*(4-i)+:8]);
+    end  
+
+endfunction
+
+
+
 task eth_tx_scoreboard::pred_track_txen();
 
     uvm_status_e   status;
@@ -586,7 +705,8 @@ task eth_tx_scoreboard::pred_track_txen();
 
 endtask
 
-// task: pred_track_rd
+
+
 task eth_tx_scoreboard::pred_track_rd();
 //------------------------------------------------------------------------------
 // Track TX Buffer Descriptor RD bit
@@ -700,7 +820,8 @@ task eth_tx_scoreboard::pred_track_rd();
 
 endtask
 
-// task: pred_track_underrun
+
+
 task eth_tx_scoreboard::pred_track_underrun();
     // Number of bytes read from memory by wb interface
     longint unsigned rd_bytes=0;
@@ -753,25 +874,6 @@ task eth_tx_scoreboard::pred_track_underrun();
 
 endtask
 
-function bit eth_tx_scoreboard::pred_check_len_4();
-//------------------------------------------------------------------------------
-// Check minimum transmit length.
-// Ethernet MAC does not transmit frames whose length <= 4 bytes.
-//------------------------------------------------------------------------------
-    if (m_tx_bd_cfg_s.len <= 16'd4) begin
-
-        `uvm_info(get_type_name(),
-            $sformatf("BD[%0d]: Frame length (%0d bytes) <= 4. Transmission suppressed.",
-                      m_tx_bd_cfg_s.bd_index,
-                      m_tx_bd_cfg_s.len),
-            UVM_MEDIUM)
-
-        return 0;
-    end
-
-    return 1;
-
-endfunction
 
 
 task eth_tx_scoreboard::pred_read_cfg_reg();
@@ -883,6 +985,8 @@ endtask
 
 
 
+
+
 task eth_tx_scoreboard::pred_read_cfg_bd();
 //------------------------------------------------------------------------------
 // Read the currently armed TX Buffer Descriptor
@@ -972,91 +1076,72 @@ task eth_tx_scoreboard::pred_read_cfg_bd();
 
 endtask
 
-task eth_tx_scoreboard::comp_check_interrupt();
-        uvm_status_e   status;
-        uvm_reg_data_t txe,txc,txb;        
-       
 
-        // Check TXE interrupt, triggered if Tx error is asserted
-        if (m_tx_bd_cfg_s.txe_m==1 && m_tx_expected_s.exp_txerr ==1) begin
-            // Put 1 in mirrored value
-            m_regmodel.INT_SOURCE.TXE.predict(1);
 
-            // Mirror to check DUT value = mirror value
-	        m_regmodel.INT_SOURCE.TXE.mirror(status, UVM_CHECK, UVM_BACKDOOR);  
-
-        end    
-        // Check TXC interrupt & a ctrl frame is sent
-        else if (m_tx_bd_cfg_s.txc_m==1 && m_tx_bd_cfg_s.tx_pause_req ==1 && m_tx_bd_cfg_s.tx_flow ==1) begin
-            // Put 1 in mirrored value
-            m_regmodel.INT_SOURCE.TXC.predict(1);
-
-            // Mirror to check DUT value = mirror value
-	        m_regmodel.INT_SOURCE.TXC.mirror(status, UVM_CHECK, UVM_BACKDOOR);  
-                      
-        end   
-        // Else packet is transmitted successfully
-        else begin
-            // Put 1 in mirrored value
-            m_regmodel.INT_SOURCE.TXB.predict(1);
-
-            // Mirror to check DUT value = mirror value
-	        m_regmodel.INT_SOURCE.TXB.mirror(status, UVM_CHECK, UVM_BACKDOOR);     
+task eth_tx_scoreboard::pred_defer();
+    int i;
+    forever
+    begin
+        // Conditions of starting deferral counter 
+        // 1- Collision occurs and no backoff
+        // 2- Retry limit is reached
+        // 3- Carrier sense at beginning transmission of packet
+        // 4- Carrier sense at IPGR1
+        m_sem_tx_seq_item.get(1);
+        // Collision conditions
+        if (m_tx_bd_cfg_s.nobackoff && m_mii_tx_seq_item.MColl // 1
+            || m_tx_expected_s.exp_rl)                         // 2                                                
+        begin
+            m_sem_tx_seq_item.put(1);
+            #1;
+            // Start counter
+            for(i=0; i<ETH_EXCESS_DEFER_LIMIT; i++) begin
+                m_sem_tx_seq_item.get(1);
+                if(!m_mii_tx_seq_item.MColl) begin
+                    m_sem_tx_seq_item.put(1);
+                    break;
+                end    
+                m_sem_tx_seq_item.put(1);
+                #ETH_PHY_TX_CLK_PERIOD_NS;
+            end     
         end
-
-        //Read 3 values from register file
-        m_regmodel.INT_SOURCE.TXE.read(status,txe,UVM_BACKDOOR);  
-        m_regmodel.INT_SOURCE.TXC.read(status,txc,UVM_BACKDOOR);  
-        m_regmodel.INT_SOURCE.TXB.read(status,txb,UVM_BACKDOOR) ; 
-
-        // check that only one interrupt fires in the 3
-        if(!$onehot({txe[0],txc[0],txb[0]}) && (txe[0] || txc[0] || txb[0]))
-         begin
-            `uvm_error(get_name(),
-            $sformatf("More than one Tx interrupt fired at the same time, TXE = %0b TXC = %0b TXB = %0b",txe,txc,txb))
+        // Carrier sense conditions
+        if (m_mii_tx_seq_item.MCrS && (1||1))                         //3,4                                                
+        begin
+            m_sem_tx_seq_item.put(1);
+            #1;
+            // Start counter
+            for(i=0; i<ETH_EXCESS_DEFER_LIMIT; i++) begin
+                m_sem_tx_seq_item.get(1);
+                if(!m_mii_tx_seq_item.MColl) begin
+                    m_sem_tx_seq_item.put(1);
+                    break;
+                end    
+                m_sem_tx_seq_item.put(1);
+                #ETH_PHY_TX_CLK_PERIOD_NS;
+            end     
         end
+        // check if counter reaches excessive deferral limit
+        if(i==ETH_EXCESS_DEFER_LIMIT)
+            m_tx_pending_s.flag_abort=1;
+        #1; 
+    end    
 endtask
 
-// task: comp_check_bd_status
-task eth_tx_scoreboard::comp_check_bd_status();
-        uvm_status_e   status;
-        uvm_reg_data_t bd_data;
-        int status_idx; 
-    //--------------------------------------------------------
-    // Read current BD through backdoor
-    //--------------------------------------------------------
-    status_idx = m_tx_bd_cfg_s.bd_index * 2;
-    m_regmodel.eth_bd_mem.peek(status,status_idx,bd_data);
-
-    // check that underrun actual error equal actal
-    if(bd_data[WB_TX_BD_UR_POS]!=m_tx_expected_s.exp_ur) begin
-            `uvm_error(get_name(),$sformatf("Actual underrun error isn't equal to expected,actual error = %0b expected = %0b",
-                bd_data[WB_TX_BD_UR_POS],m_tx_expected_s.exp_ur))
-    end    
-
-    // check if it's control frame
-    if(m_tx_bd_cfg_s.tx_pause_req ==1 && m_tx_bd_cfg_s.tx_flow ==1) begin
-        // update mirror value of pausereq with 0 because it is cleared after the frame is sent
-        m_regmodel.TXCTRL.TXPAUSERQ.predict(0);
-        // check that pausereq is cleared in dut register file
-        m_regmodel.TXCTRL.TXPAUSERQ.mirror(status, UVM_CHECK, UVM_BACKDOOR);
+task eth_tx_scoreboard::pred_coll();
+    forever begin
+        m_sem_tx_seq_item.get(1);
+        if(m_mii_tx_seq_item.MColl) begin
+            #0.1;
+            // check if collision occurs after collsion window
+            if(m_tx_pending_s.actual_pkt.size()>=m_tx_bd_cfg_s.collvalid)
+                m_tx_expected_s.exp_lc=1;
+        end    
+        m_sem_tx_seq_item.put(1);
+        #1;
     end
 endtask
 
-// function: comp_check_txerr
-function void eth_tx_scoreboard::comp_check_txerr();
-    // Txerror occurs when underrun occurs or packet length is greater than configured maximum value 
-    m_tx_expected_s.exp_txerr= m_tx_expected_s.exp_huge | m_tx_expected_s.exp_ur;
-    
-    // Check if expected error is different than actual
-    if(m_tx_pending_s.flag_txerr!=m_tx_expected_s.exp_txerr) begin
-            `uvm_error(get_name(),
-            $sformatf("Actual tx error isn't equal to expected,underrun error = %0b huge packet error = %0b actual error = %0b expected = %0b",
-            m_tx_expected_s.exp_ur,m_tx_expected_s.exp_huge,m_tx_pending_s.flag_txerr,m_tx_expected_s.exp_txerr))
-    end    
-endfunction
-
-// task: comp_pack_pkt
 task eth_tx_scoreboard::comp_pack_pkt();
 
     bit [3:0] low_nibble;
@@ -1138,37 +1223,8 @@ task eth_tx_scoreboard::comp_pack_pkt();
 
 endtask
 
-// function: comp_compare_field
-function void eth_tx_scoreboard::comp_compare_field(
-    string field_name,
-    int    start_idx,
-    int    num_bytes,
-    ref bit error_found
-);
 
-    for (int i = 0; i < num_bytes; i++) 
-	begin
 
-        if (m_tx_expected_s.exp_pkt[start_idx+i] !== m_tx_pending_s.actual_pkt[start_idx+i]) 
-		begin
-
-            error_found = 1;
-
-            `uvm_error(get_type_name(),
-                $sformatf(
-                "%s mismatch Byte Index: %0d Field Offset: %0d\n Expected: 0x%02h\n Actual: 0x%02h",
-                field_name,
-                start_idx+i,
-                i,
-                m_tx_expected_s.exp_pkt[start_idx+i],
-                m_tx_pending_s.actual_pkt[start_idx+i]))
-        end
-
-    end
-
-endfunction
-
-// function: comp_compare_pkt
 function void eth_tx_scoreboard::comp_compare_pkt();
 
     bit        error_found = 0;
@@ -1337,7 +1393,129 @@ function void eth_tx_scoreboard::comp_compare_pkt();
 
 endfunction
 
-// task: eth_tx_scoreboard
+
+
+function void eth_tx_scoreboard::comp_check_txerr();
+    // Txerror occurs when underrun occurs or packet length is greater than configured maximum value 
+    m_tx_expected_s.exp_txerr= m_tx_expected_s.exp_huge | m_tx_expected_s.exp_ur;
+    
+    // Check if expected error is different than actual
+    if(m_tx_pending_s.flag_txerr!=m_tx_expected_s.exp_txerr) begin
+            `uvm_error(get_name(),
+            $sformatf("Actual tx error isn't equal to expected,underrun error = %0b huge packet error = %0b actual error = %0b expected = %0b",
+            m_tx_expected_s.exp_ur,m_tx_expected_s.exp_huge,m_tx_pending_s.flag_txerr,m_tx_expected_s.exp_txerr))
+    end    
+endfunction
+
+
+
+task eth_tx_scoreboard::comp_check_interrupt();
+        uvm_status_e   status;
+        uvm_reg_data_t txe,txc,txb;        
+       
+        // Return if interrupt request is disabled in buffer dwscriptor
+        if(!m_tx_bd_cfg_s.irq)
+            return;
+
+        // Check TXE interrupt, triggered if Tx error is asserted
+        if (m_tx_bd_cfg_s.txe_m && m_tx_expected_s.exp_txerr) begin
+            // Put 1 in mirrored value
+            m_regmodel.INT_SOURCE.TXE.predict(1);
+
+            // Mirror to check DUT value = mirror value
+	        m_regmodel.INT_SOURCE.TXE.mirror(status, UVM_CHECK, UVM_BACKDOOR);  
+
+        end    
+        // Check TXC interrupt & a ctrl frame is sent
+        else if (m_tx_bd_cfg_s.txc_m && m_tx_bd_cfg_s.tx_pause_req && m_tx_bd_cfg_s.tx_flow) begin
+            // Put 1 in mirrored value
+            m_regmodel.INT_SOURCE.TXC.predict(1);
+
+            // Mirror to check DUT value = mirror value
+	        m_regmodel.INT_SOURCE.TXC.mirror(status, UVM_CHECK, UVM_BACKDOOR);  
+                      
+        end   
+        // Else packet is transmitted successfully
+        else if (m_tx_bd_cfg_s.txb_m) begin
+            // Put 1 in mirrored value
+            m_regmodel.INT_SOURCE.TXB.predict(1);
+            // Mirror to check DUT value = mirror value
+	        m_regmodel.INT_SOURCE.TXB.mirror(status, UVM_CHECK, UVM_BACKDOOR);     
+        end 
+        
+        //Read 3 values from register file
+        m_regmodel.INT_SOURCE.TXE.read(status,txe,UVM_BACKDOOR);  
+        m_regmodel.INT_SOURCE.TXC.read(status,txc,UVM_BACKDOOR);  
+        m_regmodel.INT_SOURCE.TXB.read(status,txb,UVM_BACKDOOR); 
+
+        // check that only one interrupt fires in the 3
+        if(!$onehot({txe[0],txc[0],txb[0]}) && (txe[0] || txc[0] || txb[0]))
+         begin
+            `uvm_error(get_name(),
+            $sformatf("More than one Tx interrupt fired at the same time, TXE = %0b TXC = %0b TXB = %0b",txe,txc,txb))
+        end
+endtask
+
+
+
+task eth_tx_scoreboard::comp_check_bd_status();
+        uvm_status_e   status;
+        uvm_reg_data_t bd_data;
+        int status_idx; 
+    //--------------------------------------------------------
+    // Read current BD through backdoor
+    //--------------------------------------------------------
+    status_idx = m_tx_bd_cfg_s.bd_index * 2;
+    m_regmodel.eth_bd_mem.peek(status,status_idx,bd_data);
+
+    // check that underrun actual error equal actal
+    if(bd_data[WB_TX_BD_UR_POS]!=m_tx_expected_s.exp_ur) begin
+            `uvm_error(get_name(),$sformatf("Actual underrun error isn't equal to expected,actual error = %0b expected = %0b",
+                bd_data[WB_TX_BD_UR_POS],m_tx_expected_s.exp_ur))
+    end    
+
+    // check if it's control frame
+    if(m_tx_bd_cfg_s.tx_pause_req ==1 && m_tx_bd_cfg_s.tx_flow ==1) begin
+        // update mirror value of pausereq with 0 because it is cleared after the frame is sent
+        m_regmodel.TXCTRL.TXPAUSERQ.predict(0);
+        // check that pausereq is cleared in dut register file
+        m_regmodel.TXCTRL.TXPAUSERQ.mirror(status, UVM_CHECK, UVM_BACKDOOR);
+    end
+endtask
+
+
+
+function void eth_tx_scoreboard::comp_compare_field(
+    string field_name,
+    int    start_idx,
+    int    num_bytes,
+    ref bit error_found
+);
+
+    for (int i = 0; i < num_bytes; i++) 
+	begin
+
+        if (m_tx_expected_s.exp_pkt[start_idx+i] !== m_tx_pending_s.actual_pkt[start_idx+i]) 
+		begin
+
+            error_found = 1;
+
+            `uvm_error(get_type_name(),
+                $sformatf(
+                "%s mismatch Byte Index: %0d Field Offset: %0d\n Expected: 0x%02h\n Actual: 0x%02h",
+                field_name,
+                start_idx+i,
+                i,
+                m_tx_expected_s.exp_pkt[start_idx+i],
+                m_tx_pending_s.actual_pkt[start_idx+i]))
+        end
+
+    end
+
+endfunction
+
+
+
 task eth_tx_scoreboard::comp_compare_ipgt();
 
     int unsigned exp_cycles;
@@ -1405,7 +1583,7 @@ endtask
 
 
 
-// function clear
+
 function void eth_tx_scoreboard::clear();
     //----------------------------------------------------------
     // Clear structs
@@ -1416,69 +1594,6 @@ function void eth_tx_scoreboard::clear();
 
 endfunction
 
-// function: write
-function void eth_tx_scoreboard::write( wb_s_seq_item_base#(WB_S_ADDR_WIDTH, WB_DATA_WIDTH,WB_SEL_WIDTH ) tr);
-//------------------------------------------------------------------------------
-// Receives every WB slave transaction.
-// Maintains a predictor copy of the BD memory.
-//------------------------------------------------------------------------------
-    int mem_idx;
 
-    //-------------------------------------------------------
-    // Ignore reads
-    //-------------------------------------------------------
-    if (tr.m_dir==WB_READ)
-        return;
-
-    //-------------------------------------------------------
-    // Is this transaction targeting BD memory?
-    //
-    // BD memory occupies:
-    // 10'h100 -> 10'h1FF
-    //-------------------------------------------------------
-    if (tr.m_addr[9:8] == 2'b01 && (&tr.m_sel)) begin
-
-        mem_idx = tr.m_addr[7:0];
-
-        bd_mem::write(mem_idx,tr.m_wdata);
-
-        `uvm_info(get_type_name(),
-            $sformatf(
-            "BD_MEM[%0d] <= 0x%08h",
-            mem_idx,
-            tr.m_wdata),
-            UVM_HIGH)
-
-    end
-
-endfunction
-
-// task: get_mii_tx_seq_item
-task eth_tx_scoreboard::get_mii_tx_seq_item();
-    forever begin
-        // Get all keys from semaphore
-        repeat(SEM_TX_SEQ_ITEM_NO_KEYS)
-        m_sem_tx_seq_item.get(1);
-        // Get transaction item from fifo
-        mii_tx_fifo.get(m_mii_tx_seq_item);
-        `uvm_info(get_type_name(),m_mii_tx_seq_item.convert2string(),UVM_HIGH)
-        // Put all Keys in semaphore
-        m_sem_tx_seq_item.put(SEM_TX_SEQ_ITEM_NO_KEYS);
-    end
-endtask    
-
-// task: get_wb_m_seq_item
-task eth_tx_scoreboard::get_wb_m_seq_item();
-    forever begin
-        // Get all keys from semaphore
-        repeat(SEM_WB_M_SEQ_ITEM_NO_KEYS)
-        m_sem_wb_m_seq_item.get(1);
-        // Get transaction item from fifo
-        wb_m_fifo.get(m_wb_m_seq_item);
-        `uvm_info(get_type_name(),m_wb_m_seq_item.convert2string(),UVM_HIGH)
-        // Put all Keys in semaphore
-        m_sem_wb_m_seq_item.put(SEM_WB_M_SEQ_ITEM_NO_KEYS);
-    end
-endtask 
 
 `endif // ETH_TX_SCOREBOARD_SV

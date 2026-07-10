@@ -155,13 +155,10 @@ typedef struct {
     bit          exp_df;        // deferred?           (from mii_monitor MCrS busy before MTxEn)
     int unsigned exp_rtry;      // retry count         (= jam_count, exact from mii_monitor)
     bit          exp_rl;        // retry limit hit?    (exp_rtry >= cfg.maxret + 1)
+    
 
-    // BD index and config snapshot (carried through for error reporting)
-    int unsigned bd_index;
-
-    bit         exp_huge;               // huge frame error 
-    bit         exp_txerr;      // expected Mtxerr
-
+    bit         exp_huge;              // huge frame error 
+    bit         exp_txerr;             // Mtxerr
 } eth_tx_expected_s;
 
 
@@ -183,6 +180,8 @@ typedef struct {
     bit          flag_defer;             // MCrS busy before first MTxEn
     bit          flag_txerr;           // set when Tx error is asserted 
     bit          flag_rd;
+    bit          flag_abort;             // frame abort
+    bit          flag_start_frame;       //
     // actual frame captured by mii_monitor (populated on MII_TX_FRAME event)
     // INCLUDING any CRC trailer if CRC was appended
     bytes_q      actual_pkt;

@@ -1176,4 +1176,20 @@ assign INT_SOURCEOut = {{(32-`ETH_INT_SOURCE_WIDTH_0){1'b0}}, irq_rxc, irq_txc, 
 
 
 
+eth_register #(8, 8'h00)  INT_SOURCE // Request bit is synchronously reset
+  (
+   .DataIn    ({1'b0,irq_rxc, irq_txc, irq_busy, irq_rxe, irq_rxb, irq_txe, irq_txb}),
+   .Write     (1),
+   .Clk       (Clk),
+   .Reset     (Reset),
+   .SyncReset (0)
+  );
+/*
+reg [7:0] INT_SOURCE;
+always@(posedge Clk or posedge Reset)
+if(Reset)
+ INT_SOURCE<=0;
+else
+ INT_SOURCE<={1'b0,irq_rxc, irq_txc, irq_busy, irq_rxe, irq_rxb, irq_txe, irq_txb};
+*/
 endmodule
