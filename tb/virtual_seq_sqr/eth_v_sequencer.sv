@@ -12,12 +12,13 @@
 
 class eth_v_sequencer extends uvm_sequencer;
  `uvm_component_utils(eth_v_sequencer)
-  wb_m_sequencer_base m_wb_m_sqr;
-  wb_s_sequencer_base m_wb_s_sqr;
+  wb_m_sequencer_base   m_wb_m_sqr;
+  wb_s_sequencer_base   m_wb_s_sqr;
   mii_tx_sequencer_base m_mii_tx_sqr;
+  mii_rx_sequencer_base m_mii_rx_sqr;
 
  function new(string name, uvm_component parent);
- super.new(name, parent);
+  super.new(name, parent);
  endfunction
 endclass
 

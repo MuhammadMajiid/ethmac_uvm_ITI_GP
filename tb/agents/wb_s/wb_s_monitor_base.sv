@@ -94,7 +94,7 @@ class wb_s_monitor_base extends uvm_monitor;
             localparam bit [31:0] BD_END  = 32'h0000_0800;
             int unsigned word_offset;
         
-            if ((tr.m_dir     == WB_READ)         &&   // host reading
+            if ((tr.m_dir     == WB_READ)      &&   // host reading
                 (tr.m_addr    >= BD_BASE)      &&   // within BD RAM
                 (tr.m_addr    <  BD_END)       &&   // within BD RAM
                 (tr.m_ack     == 1'b1)         &&   // successful cycle
