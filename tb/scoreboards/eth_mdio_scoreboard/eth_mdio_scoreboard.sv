@@ -69,6 +69,7 @@ class eth_mdio_scoreboard extends uvm_scoreboard;
   mdio_cfg_reg_s m_cfg_reg_s;
 
   bit m_exp_rd_pkt[$];
+  bit m_exp_wr_pkt[$];
   bit m_actual_rd_pkt[$];
 
   // =========================================================================
@@ -80,6 +81,9 @@ class eth_mdio_scoreboard extends uvm_scoreboard;
   extern task run_phase(uvm_phase phase);
   
   extern task get_seq_item();
+  extern task read_cfg_regs();
+  extern task pred_write(input mdio_seq_item_base item);
+  extern task comp_write(input mdio_seq_item_base item);
 
 
 endclass
@@ -151,36 +155,99 @@ task eth_mdio_scoreboard::get_seq_item();
     end
 endtask 
 
+task eth_mdio_scoreboard::read_cfg_regs();
+
+  uvm_status_e status;
+  m_regmodel.MIIMODER.mirror(status, UVM_CHECK, UVM_BACKDOOR);
+  m_cfg_reg_s.mii_no_pre = m_regmodel.MIIMODER.MIINOPRE.get_mirrored_value();
+  m_cfg_reg_s.clk_div    = m_regmodel.MIIMODER.CLKDIV.get_mirrored_value();
+
+  m_regmodel.MIICOMMAND.mirror(status, UVM_CHECK, UVM_BACKDOOR);
+  m_cfg_reg_s.w_ctrl_data = m_regmodel.MIICOMMAND.WCTRLDATA.get_mirrored_value();
+  m_cfg_reg_s.r_stat      = m_regmodel.MIICOMMAND.RSTAT.get_mirrored_value();
+  m_cfg_reg_s.scan_stat   = m_regmodel.MIICOMMAND.SCANSTAT.get_mirrored_value();
+
+
+  m_regmodel.MIIADDRESS.mirror(status, UVM_CHECK, UVM_BACKDOOR);
+  m_cfg_reg_s.reg_addr = m_regmodel.MIIADDRESS.RGAD.get_mirrored_value();
+  m_cfg_reg_s.phy_addr = m_regmodel.MIIADDRESS.FIAD.get_mirrored_value();
+
+  m_regmodel.MIITX_DATA.mirror(status, UVM_CHECK, UVM_BACKDOOR);
+  m_cfg_reg_s.wr_data = m_regmodel.MIITX_DATA.CTRLDATA.get_mirrored_value();
+
+  m_regmodel.MIIRX_DATA.mirror(status, UVM_CHECK, UVM_BACKDOOR);
+  m_cfg_reg_s.rd_data = m_regmodel.MIIRX_DATA.PRSD.get_mirrored_value();
+
+  m_regmodel.MIISTATUS.mirror(status, UVM_CHECK, UVM_BACKDOOR);
+  m_cfg_reg_s.invalid   = m_regmodel.MIISTATUS.NVALID.get_mirrored_value();
+  m_cfg_reg_s.busy      = m_regmodel.MIISTATUS.BUSY.get_mirrored_value();
+  m_cfg_reg_s.link_fail = m_regmodel.MIISTATUS.LINKFAIL.get_mirrored_value();
+
+endtask
+
+task eth_mdio_scoreboard::pred_write();
+  // Check if no preamble is disabled then push preamble
+  if(!m_cfg_reg_s.mii_no_pre) begin
+    for (int i=ETH_CTRL_PREAMBLE_LEN-1; i>=0; i--)
+    m_exp_wr_pkt.push_back(1);
+  end
+
+  // push start of frame  
+  m_exp_wr_pkt.push_back(0);
+  m_exp_wr_pkt.push_back(1);
+
+  // push opcode
+  m_exp_wr_pkt.push_back(0);
+  m_exp_wr_pkt.push_back(1);     
+
+  // push fiad
+  for (int i=ETH_CTRL_ADDR_LEN-1; i>=0; i--)
+      m_exp_wr_pkt.push_back(m_cfg_reg_s.phy_addr[i]);
+
+  // push rgad
+  for (int i=ETH_CTRL_ADDR_LEN-1; i>=0; i--)
+      m_exp_wr_pkt.push_back(m_cfg_reg_s.reg_addr[i]);
+
+  //push turn around
+  m_exp_wr_pkt.push_back(0);
+  m_exp_wr_pkt.push_back(1); 
+
+  // push data
+  for (int i=ETH_CTRL_DATA_LEN-1; i>=0; i--)
+      m_exp_wr_pkt.push_back(m_cfg_reg_s.wr_data[i]);
+
+endtask
+
 task pred_read();
-      // Check if no preamble is disabled then push preamble
-      if(!m_cfg_reg_s.mii_no_pre) begin
-        for (int i=ETH_CTRL_PREAMBLE_LEN-1; i>=0; i--)
-        m_exp_rd_pkt.push_back(1);
-      end
+  // Check if no preamble is disabled then push preamble
+  if(!m_cfg_reg_s.mii_no_pre) begin
+    for (int i=ETH_CTRL_PREAMBLE_LEN-1; i>=0; i--)
+    m_exp_rd_pkt.push_back(1);
+  end
 
-      // push start of frame  
-      m_exp_rd_pkt.push_back(0);
-      m_exp_rd_pkt.push_back(1);
+  // push start of frame  
+  m_exp_rd_pkt.push_back(0);
+  m_exp_rd_pkt.push_back(1);
 
-      // push opcode
-      m_exp_rd_pkt.push_back(1);
-      m_exp_rd_pkt.push_back(0);     
+  // push opcode
+  m_exp_rd_pkt.push_back(1);
+  m_exp_rd_pkt.push_back(0);     
 
-      // push fiad
-      for (int i=ETH_CTRL_ADDR_LEN-1; i>=0; i--)
-         m_exp_rd_pkt.push_back(m_cfg_reg_s.phy_addr[i]);
+  // push fiad
+  for (int i=ETH_CTRL_ADDR_LEN-1; i>=0; i--)
+      m_exp_rd_pkt.push_back(m_cfg_reg_s.phy_addr[i]);
 
-      // push rgad
-      for (int i=ETH_CTRL_ADDR_LEN-1; i>=0; i--)
-         m_exp_rd_pkt.push_back(m_cfg_reg_s.reg_addr[i]);
+  // push rgad
+  for (int i=ETH_CTRL_ADDR_LEN-1; i>=0; i--)
+      m_exp_rd_pkt.push_back(m_cfg_reg_s.reg_addr[i]);
 
-      //push turn around
-      m_exp_rd_pkt.push_back(1);
-      m_exp_rd_pkt.push_back(0); 
+  //push turn around
+  m_exp_rd_pkt.push_back(1);
+  m_exp_rd_pkt.push_back(0); 
 
-      // push data
-      for (int i=ETH_CTRL_DATA_LEN-1; i>=0; i--)
-         m_exp_rd_pkt.push_back(m_cfg_reg_s.rd_data[i]);
+  // push data
+  for (int i=ETH_CTRL_DATA_LEN-1; i>=0; i--)
+      m_exp_rd_pkt.push_back(m_cfg_reg_s.rd_data[i]);
 
 endtask
 
@@ -198,6 +265,94 @@ task pred_scan();
       wait(m_ev_end_comp.triggered);
   end  
 endtask
+
+task eth_mdio_scoreboard::comp_write(input mdio_seq_item_base item);
+  int idx =0;
+  bit err =0;
+  bit temp[$];
+  forever begin
+    if(!m_cfg_reg_s.w_ctrl_data) begin
+      #1;
+      continue;
+    end  
+    // Compare preamble
+    if(!m_cfg_reg_s.mii_no_pre) begin
+      temp=m_exp_wr_pkt[idx:ETH_CTRL_PREAMBLE_LEN-1];
+      if(temp!=item.preamble) begin
+        `uvm_error(get_type_name(),
+          $sformatf("Preamble mismatch  Field Offset: %0d\n Expected: %0p\n Actual: %0p",
+          idx,temp,item.preamble))
+          err =1;
+      end            
+      idx+=ETH_CTRL_PREAMBLE_LEN;
+    end
+    // Compare start of frame
+    temp=m_exp_wr_pkt[idx:ETH_CTRL_ST_LEN-1];
+    if(temp!=item.st) begin
+        `uvm_error(get_type_name(),
+        $sformatf(
+        "Start of frame mismatch  Field Offset: %0d\n Expected: %0p\n Actual: %0p",
+        idx,temp,item.st))
+        err =1;
+      end
+    // Compare opcode
+    idx+=ETH_CTRL_OPCODE_LEN;
+    temp=m_exp_wr_pkt[idx:ETH_CTRL_OPCODE_LEN-1];
+    if({temp[0],temp[1]} != bit'(item.op)) begin
+        `uvm_error(get_type_name(),
+          $sformatf("Opcode mismatch  Field Offset: %0d\n Expected: %0p\n Actual: %0d",
+          idx,temp,bit'(item.op))
+        err =1;
+    end 
+    // Compare phy address   
+    idx+=ETH_CTRL_ADDR_LEN;
+    temp=m_exp_wr_pkt[idx:ETH_CTRL_ADDR_LEN-1];
+    if(temp!= item.phy_addr) begin
+        `uvm_error(get_type_name(),
+        $sformatf(
+        "Phy address mismatch  Field Offset: %0d\n Expected: %0p\n Actual: %0p",
+        idx,temp,item.phy_addr))
+        err =1;
+    end 
+    // Compare register address   
+    idx+=ETH_CTRL_ADDR_LEN;
+    temp=m_exp_wr_pkt[idx:ETH_CTRL_ADDR_LEN-1];
+    if(temp!= item.reg_addr) begin
+        `uvm_error(get_type_name(),
+        $sformatf(
+        "Register address mismatch  Field Offset: %0d\n Expected: %0p\n Actual: %0p",
+        idx,temp,item.reg_addr))
+        err =1;
+      end 
+    // Compare turnaround   
+    idx+=ETH_CTRL_TA_LEN;
+    temp=m_exp_rd_pkt[idx:ETH_CTRL_TA_LEN-1];
+    if(temp!= m_mdio_seq_item.turn_around) begin
+        `uvm_error(get_type_name(),
+        $sformatf(
+        "Turnaround mismatch  Field Offset: %0d\n Expected: %0p\n Actual: %0p",
+        idx,temp,m_mdio_seq_item.turn_around))
+        err =1;
+      end
+    // Compare data   
+    idx+=ETH_CTRL_DATA_LEN;
+    temp=m_exp_rd_pkt[idx:ETH_CTRL_DATA_LEN-1];
+    if(temp!= m_mdio_seq_item.data) begin
+        `uvm_error(get_type_name(),
+        $sformatf(
+        "Data mismatch  Field Offset: %0d\n Expected: %0p\n Actual: %0p",
+        idx,temp,m_mdio_seq_item.data))
+        err =1;
+    end
+    if(!err)
+        `uvm_info(get_type_name(),"Management Packet comparison PASSED",UVM_LOW)
+
+    -> m_ev_end_comp;
+      #1ns;
+    end
+
+endtask
+
 
 task comp_read();
     int idx =0;
