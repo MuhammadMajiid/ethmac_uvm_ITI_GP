@@ -33,46 +33,75 @@ class mdio_monitor_base extends uvm_monitor;
   endfunction
 
   task run_phase(uvm_phase phase);
-    mdio_seq_item_base tx;
-    bit [1:0] shift_reg;
+    mdio_seq_item_base m_mdio_seq_item;
+    bit [1:0] m_mdio_seq_item.st;
     bit [1:0] op_bits;
 
     forever begin
-      tx = mdio_seq_item_base::type_id::create("tx");
-      shift_reg = 2'b11;
+      m_mdio_seq_item = mdio_seq_item_base::type_id::create("m_mdio_seq_item");
 
-      // 1. Wait for Start of Frame (01)
-      forever begin
+      @(posedge vif.mdio_en);  
+      fork 
+      pack_preamble();
+      pack_data();
+      calc_freq();
+      join;  
+
+      // 7. Broadcast the fully constructed transaction to the testbench
+      a_port.write(m_mdio_seq_item);
+    end
+  endtask
+
+task pack_preamble();
+
+  for (int i=ETH_CTRL_PREAMBLE_LEN-1; i>=0; i--) begin   
+    m_mdio_seq_item.preamble[i]=vif.mdio_out;
+    @(posedge vif.mdc);
+  end
+
+endtask  
+
+task pack_data();
+        m_mdio_seq_item.st = 2'b11;
+        // 1. Wait for Start of Frame (01)      
+        forever begin
+        m_mdio_seq_item.st = {m_mdio_seq_item.st[0], vif.mdio_out};
         @(posedge vif.mdc);
-        shift_reg = {shift_reg[0], vif.mdio};
-        if (shift_reg == 2'b01) break;
+        if (m_mdio_seq_item.st == 2'b01) break;
       end
 
       // 2. Sample Opcode
-      @(posedge vif.mdc); op_bits[1] = vif.mdio;
-      @(posedge vif.mdc); op_bits[0] = vif.mdio;
-      $cast(tx.op, op_bits);
+      @(posedge vif.mdc); op_bits[1] = vif.mdio_out;
+      @(posedge vif.mdc); op_bits[0] = vif.mdio_out;
+      $cast(m_mdio_seq_item.op, op_bits);
 
       // 3. Sample PHY Address
-      for(int i=4; i>=0; i--) begin @(posedge vif.mdc); tx.phy_addr[i] = vif.mdio; end
+      for(int i=4; i>=0; i--) begin @(posedge vif.mdc); m_mdio_seq_item.phy_addr[i] = vif.mdio_out; end
 
       // 4. Sample REG Address
-      for(int i=4; i>=0; i--) begin @(posedge vif.mdc); tx.reg_addr[i] = vif.mdio; end
+      for(int i=4; i>=0; i--) begin @(posedge vif.mdc); m_mdio_seq_item.reg_addr[i] = vif.mdio_out; end
 
-      // 5. Turn Around Phase (2 cycles)
+      // 5. sample Turn Around bits (2 cycles)
       @(posedge vif.mdc);
+      m_mdio_seq_item.turn_around[1]=vif.mdio_out;
       @(posedge vif.mdc);
+      m_mdio_seq_item.turn_around[0]=vif.mdio_out;
 
       // 6. Sample Data
       for(int i=15; i>=0; i--) begin
         @(posedge vif.mdc);
-        tx.data[i] = vif.mdio;
+        m_mdio_seq_item.data[i] = (op_code==WRITE)?vif.mdio_out:vif.mdio_in;
       end
-
-      // 7. Broadcast the fully constructed transaction to the testbench
-      a_port.write(tx);
-    end
   endtask
+
+task calc_freq();
+  realtime st,fin;
+  @(posedge vif.mdc);
+  fin=$time;
+  @(posedge vif.mdc);
+  fin=$time;
+  m_mdio_seq_item.clk_period_ns=(fin-start)/1000.0;
+endtask
 
 endclass
 

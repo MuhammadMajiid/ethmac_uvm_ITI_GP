@@ -13,13 +13,10 @@
 
 interface mdio_if;
   logic mdc;       // Management Data Clock (Driven by DUT)
-  wire  mdio;      // Bidirectional Management Data Line
+  bit mdio_in;      // Bidirectional Management Data Line
 
-  // Internal driving logic for bidirectional handling
   logic mdio_out;
   logic mdio_en;
-
-  assign mdio = mdio_en ? mdio_out : 1'bz;
 
   // Modport for the MAC
   modport mac (
