@@ -23,6 +23,9 @@ package eth_glob_pkg;
     // Enum represent states of interpacket gap time during transmission
     typedef enum bit [1:0] {WAIT_FIRST_FRAME,WAIT_END_FRAME,COUNT_IPGT} ipgt_state_e;
     
+    // Enum for mdio opcode
+    typedef enum bit [1:0] {MDIO_WRITE = 2'b01, MDIO_READ = 2'b10} op_code_e;
+
     // Queue for storing packet in bytes
     typedef byte bytes_q[$];
 
@@ -44,6 +47,13 @@ package eth_glob_pkg;
     parameter ETH_SFD                = 8'hD5;
     parameter ETH_CRC_POLY           = 32'hEDB88320;
     parameter ETH_EXCESS_DEFER_LIMIT = 16'h17b7;   
+    parameter ETH_CTRL_PREAMBLE      = 32'hFFFF_FFFF;
+    parameter ETH_CTRL_PREAMBLE_LEN  = 32;
+    parameter ETH_CTRL_ADDR_LEN      = 5;
+    parameter ETH_CTRL_DATA_LEN      = 16;
+    parameter ETH_CTRL_ST_LEN        = 2;
+    parameter ETH_CTRL_OPCODE_LEN    = 2;
+    parameter ETH_CTRL_TA_LEN        = 2;
     parameter real IFG_MIN_NS        = 960.0; 
     parameter ETH_PREAMBLE_LEN       = 7;
     parameter ETH_SFD_LEN            = 1;
@@ -54,9 +64,9 @@ package eth_glob_pkg;
     parameter ETH_PAUSE_TIMER_LEN    = 2;
     parameter ETH_PAUSE_RESERVED_LEN = 42;
     // Clocks
-    parameter ETH_PHY_TX_CLK_PERIOD_NS    = 40; // 25 MHz
-    parameter ETH_PHY_RX_CLK_PERIOD_NS    = 40; // 25MHz
-    parameter WB_CLK_PERIOD_NS            = 5;  // 200 MHz
+    parameter real ETH_PHY_TX_CLK_PERIOD_NS    = 40.0; // 25 MHz
+    parameter real ETH_PHY_RX_CLK_PERIOD_NS    = 40.0; // 25MHz
+    parameter real WB_CLK_PERIOD_NS            = 5.0;  // 200 MHz
     
     `include "mem_model.sv"
     `include "crc_func.sv"
