@@ -54,6 +54,7 @@ package eth_glob_pkg;
     parameter ETH_CTRL_ST_LEN        = 2;
     parameter ETH_CTRL_OPCODE_LEN    = 2;
     parameter ETH_CTRL_TA_LEN        = 2;
+    parameter ETH_CTRL_CLK_DIV_LEN   = 8;
     parameter real IFG_MIN_NS        = 960.0; 
     parameter ETH_PREAMBLE_LEN       = 7;
     parameter ETH_SFD_LEN            = 1;
