@@ -62,9 +62,7 @@ class eth_rx_scoreboard extends uvm_scoreboard;
     //uvm_analysis_export   #(eth_rx_bd_s)    wb_bd_export;
     //uvm_tlm_analysis_fifo #(eth_rx_bd_s)    wb_m_fifo;
 
-    // =========================================================================
     // TLM PORTS
-    // =========================================================================
     // MII Rx monitor → FIFO → run_phase
     uvm_analysis_export        #(mii_rx_seq_item)   mii_rx_export;
     uvm_tlm_analysis_fifo      #(mii_rx_seq_item)   mii_rx_fifo;
@@ -80,39 +78,27 @@ class eth_rx_scoreboard extends uvm_scoreboard;
     uvm_analysis_export       #(wb_s_seq_item_t) bd_status_export;
     uvm_tlm_analysis_fifo     #(wb_s_seq_item_t) bd_status_fifo;
 
-    // =========================================================================
     // RAW PAYLOAD QUEUE
-    // =========================================================================
     byte payload_q[$];
 
-    // =========================================================================
     // MINIMAL BD SHADOW (For WR bit only)
-    // =========================================================================
     bit m_wr_shadow [128];      // m_wr_shadow[abs_bd_idx] = WR bit
 
-    // =========================================================================
     // BD INDEX STATE
-    // =========================================================================
     int unsigned m_rx_bd_index; // current absolute BD index (TX_BD_NUM … 127)
     // int   m_bd_index;        // index of the RX BD currently armed, relative to the RX region
     int unsigned m_rx_bd_start; // = TX_BD_NUM, latched at RXEN 0→1
     bit          m_prev_rxen;   // previous RXEN value (for edge detection in slave write)
 
-    // =========================================================================
     // SYNCHRONISATION EVENTS (signalled in zero simulation time)
-    // =========================================================================
     event m_ev_rxen;            // MODER.RXEN 0→1 — triggers run_phase to start monitoring
     event m_payload_ev;         // one pulse per DMA byte pushed to payload_q — wakes
                                 // collect_payload() without any # delay
 
-    // =========================================================================
     // RAL MODEL
-    // =========================================================================
     eth_reg_block m_regmodel;
 
-    // =========================================================================
     // STATISTICS
-    // =========================================================================
     int unsigned frames_total;              // all MII frames seen
     int unsigned frames_predicted_drop;     // predictor   HW silently discards
     int unsigned frames_predicted_accept;   // predictor   HW stores to memory
@@ -125,24 +111,18 @@ class eth_rx_scoreboard extends uvm_scoreboard;
     int unsigned drops_addr;                // Phase C: address filter
     int unsigned drops_length;              // Phase D: length below MINFL
 
-    // =========================================================================
     // STRUCT
-    // =========================================================================
     eth_rx_reg_cfg_s m_reg_s;
     eth_rx_bd_s      m_exp_s;
 
-    // =========================================================================
     // IFG STATE
-    // =========================================================================
     // The scoreboard tracks when the previous frame ended
     // whether the inter-frame gap satisfies the minimum 0.96 µs (960 ns) at 100 Mbps.
     realtime  last_frame_end_time_ns;
     bit       first_frame_seen;   // suppresses IFG check before first frame
 
 
-    // =========================================================================
-    // ⑨ CONSTANTS  (spec references in comments)
-    // =========================================================================
+    // CONSTANTS  (spec references in comments)
     localparam real       IFG_MIN_NS   = 960.0;                 // 3.4 IPGT — 0.96 µs
     localparam bit [47:0] BCAST_ADDR   = 48'hFF_FF_FF_FF_FF_FF; // IEEE 802.3 broadcast address — ADDR-FEAT-003
     localparam bit [47:0] PAUSE_MCAST  = 48'h01_80_C2_00_00_01; // §4.5.1
@@ -153,9 +133,7 @@ class eth_rx_scoreboard extends uvm_scoreboard;
     localparam bit [31:0] WB_BD_END    = 32'h0000_0800;         // exclusive
     localparam bit [31:0] MODER_ADDR   = 32'h0000_0000;
 
-    // =========================================================================
     // METHOD DECLARATIONS
-    // =========================================================================
     extern function new(string name, uvm_component parent);
     extern function void build_phase(uvm_phase phase);
     extern function void connect_phase(uvm_phase phase);
@@ -182,10 +160,8 @@ class eth_rx_scoreboard extends uvm_scoreboard;
 
     extern task read_cfg_regs();
 
-    // -----------------------------------------------------------
     // PREDICTOR — top level + one function per phase / sub-case.
     // Each phase function returns bit dropped (1 = frame dropped).
-    // -----------------------------------------------------------
     extern task predictor(input mii_rx_seq_item frame, output bit frame_dropped);
 
     extern function bit predictor_phy_abort(input mii_rx_seq_item frame);
@@ -202,11 +178,9 @@ class eth_rx_scoreboard extends uvm_scoreboard;
     extern function void predictor_error_assembly(input mii_rx_seq_item frame);
     extern function void predictor_build_payload(input mii_rx_seq_item frame);
 
-    // -----------------------------------------------------------
     // COMPARATOR — top level + one check function per BD field.
     // Each check function returns bit pass (1 = matched) and
     // appends a mismatch line to msg on failure.
-    // -----------------------------------------------------------
     extern function void comparator(input eth_rx_bd_s act_bd, input mii_rx_seq_item frame);
 
     extern function bit check_e_bit(input eth_rx_bd_s act_bd, ref string msg);
@@ -237,13 +211,9 @@ class eth_rx_scoreboard extends uvm_scoreboard;
 
 endclass
 
-// =============================================================================
 //  OUT-OF-BODY IMPLEMENTATIONS
-// =============================================================================
 
-// -------------------------------------------------------
 // CONSTRUCTOR
-// -------------------------------------------------------
 function eth_rx_scoreboard::new(string name, uvm_component parent);
     super.new(name, parent);
     
@@ -261,9 +231,9 @@ function eth_rx_scoreboard::new(string name, uvm_component parent);
     drops_length             = 0;
 endfunction : new
 
-// -------------------------------------------------------
+
 // BUILD PHASE
-// -------------------------------------------------------
+
 function void eth_rx_scoreboard::build_phase(uvm_phase phase);
     super.build_phase(phase);
     // MII stream
@@ -285,17 +255,17 @@ function void eth_rx_scoreboard::build_phase(uvm_phase phase);
     `uvm_fatal("SB/CFG", "eth_rx_scoreboard: cannot retrieve eth_reg_block from uvm_config_db")
 endfunction : build_phase
 
-// -------------------------------------------------------
+
 // CONNECT PHASE
-// -------------------------------------------------------
+
 function void eth_rx_scoreboard::connect_phase(uvm_phase phase);
     mii_rx_export.connect(mii_rx_fifo.analysis_export);
     bd_status_export.connect(bd_status_fifo .analysis_export);
 endfunction : connect_phase
 
-// -------------------------------------------------------
+
 // RUN PHASE
-// -------------------------------------------------------
+
 task eth_rx_scoreboard::run_phase(uvm_phase phase);
     mii_rx_seq_item    m_rx_frame;
     //eth_rx_bd_s     exp_bd;
@@ -311,7 +281,7 @@ task eth_rx_scoreboard::run_phase(uvm_phase phase);
         track_rxen();
     join_none*/
 
-    // ── Step 0: wait for RXEN 0→1 ────────────────────────────────────────────
+    // ── Step 0: wait for RXEN 0→1 
     //   Startup guard: if RXEN is already asserted when run_phase begins
     //   (set by a sequence before our monitoring started), self-trigger
     //   m_ev_rxen from a zero-time mirror read so wait() doesn't hang.
@@ -320,24 +290,21 @@ task eth_rx_scoreboard::run_phase(uvm_phase phase);
     //wait (m_ev_rxen.triggered);
 
     forever begin
-        //------------------------------------------
+        
         // Step 1: wait for the next PHY-level frame
-        //------------------------------------------
         mii_rx_fifo.get(m_rx_frame);
         frames_total++;
         frame_recv_time = $realtime;
 
         `uvm_info("SB/RUN",$sformatf("Got RX frame: %s", m_rx_frame.convert2string()), UVM_MEDIUM)
 
-        //------------------------------------------------
+        
         // Step 2: predict what the DUT hardware should do
-        //------------------------------------------------
+        
         predictor(m_rx_frame, frame_dropped);
-        //predictor(m_rx_frame, exp_bd, frame_dropped);
-
-        //---------------------------------------------------------------
+        
         // Step 3a: predictor says DROPPED loop without touching wb_m_fifo
-        //---------------------------------------------------------------
+        
         if(frame_dropped) begin
             frames_predicted_drop++;
             // IFG tracking: MRxDV deasserted even for dropped frames, so the
@@ -350,37 +317,26 @@ task eth_rx_scoreboard::run_phase(uvm_phase phase);
             continue;
         end
 
-        //--------------------------------------------------------
+        
         // Step 3b: predictor says ACCEPTED collect WB transaction
-        //--------------------------------------------------------
         frames_predicted_accept++;
 
-        //-------------------------------------------------------
         // Step 4: PRIMARY SYNC POINT — hardware-enforced BD-done
-        //-------------------------------------------------------
         bd_status_fifo.get(bd_status_tr);
         //wb_m_fifo.get(act_bd);
 
-        //-----------------------------------
         // Step 5: Unpack Actual Hardware BD
-        //-----------------------------------
         unpack_actual_bd(bd_status_tr, act_bd);
 
-        //------------------------------------------
+        
         // Step 6: Collect ACTUAL DMA payload bytes
-        //------------------------------------------
         collect_payload(act_bd.len, collected_bytes);
         act_bd.payload = collected_bytes;
 
-        //-------------------------------------------------
         // Step 7: Field-by-field + byte-by-byte comparison 
-        //-------------------------------------------------
         comparator(act_bd, m_rx_frame);
-        //comparator(exp_bd, act_bd, m_rx_frame);
 
-        //----------------------------------------------------------
         // Step 8: Advance BD index (mirrors DUT's internal pointer) 
-        //----------------------------------------------------------
         advance_rx_bd_index();
 
         // Update IFG tracker for next iteration
