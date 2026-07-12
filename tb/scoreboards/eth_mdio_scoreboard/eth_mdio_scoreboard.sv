@@ -33,42 +33,42 @@ class eth_mdio_scoreboard extends uvm_scoreboard;
   `uvm_component_utils(eth_mdio_scoreboard)
 
 
-  // =========================================================================
+
   // Analysis fifo
-  // =========================================================================
+
   uvm_tlm_analysis_fifo  #(mdio_seq_item_base)      a_fifo;
-  // =========================================================================
+
   // Analysis export
-  // =========================================================================
+
   uvm_analysis_export  #(mdio_seq_item_base)        a_export;
-  // =========================================================================
+
   // Transaction for storing last item pulled from tlm fifo
-  // =========================================================================
+
   mdio_seq_item_base                                m_mdio_seq_item;
-  // =========================================================================
+
   //  Configuration object 
-  // =========================================================================
+
   eth_mdio_scoreboard_config_obj                    m_config;
-  // =========================================================================
+
   // Register block
-  // =========================================================================
+
   eth_reg_block                                     m_regmodel;   
-  // =========================================================================
+
   // Event for ending packet comparison
-  // =========================================================================
+
   event                                             m_ev_end_comp;  
-  // =========================================================================
+
   // Configuration struct
-  // =========================================================================
+
   mdio_cfg_reg_s m_cfg_reg_s;
 
   bit m_exp_rd_pkt[$];
   bit m_exp_wr_pkt[$];
   bit m_actual_rd_pkt[$];
 
-  // =========================================================================
-  // 
-  // =========================================================================
+
+  // fuctions and tasks
+
   extern function new(string name,uvm_component parent);
   extern function void build_phase(uvm_phase phase);
   extern function void eth_mdio_scoreboard::connect_phase(uvm_phase phase);
@@ -85,9 +85,8 @@ class eth_mdio_scoreboard extends uvm_scoreboard;
 endclass
 
 
-// =============================================================================
+
 //  IMPLEMENTATION
-// =============================================================================
 
 function eth_mdio_scoreboard::new(string name = "eth_mdio_scoreboard", uvm_component parent = null);
   super.new(name, parent);
@@ -111,7 +110,7 @@ function void eth_mdio_scoreboard::connect_phase(uvm_phase phase);
     a_export.connect(a_fifo.analysis_export);
 endfunction 
 
-task run_phase(uvm_phase phase);
+task eth_mdio_scoreboard::run_phase(uvm_phase phase);
   
       phase.raise_objection(this);
       fork: fork_mdio
@@ -194,7 +193,7 @@ task eth_mdio_scoreboard::read_cfg_regs();
 endtask
 
 task read_stat_regs();
-   m_regmodel.MIIRX_DATA.mirror(status, UVM_CHECK, UVM_BACKDOOR);
+  m_regmodel.MIIRX_DATA.mirror(status, UVM_CHECK, UVM_BACKDOOR);
   m_cfg_reg_s.rd_data = m_regmodel.MIIRX_DATA.PRSD.get_mirrored_value();
 
   m_regmodel.MIISTATUS.mirror(status, UVM_CHECK, UVM_BACKDOOR);
@@ -236,7 +235,7 @@ task eth_mdio_scoreboard::pred_write();
 
 endtask
 
-task pred_read();
+task eth_mdio_scoreboard::pred_read();
   // Check if no preamble is disabled then push preamble
   if(!m_cfg_reg_s.mii_no_pre) begin
     for (int i=ETH_CTRL_PREAMBLE_LEN-1; i>=0; i--)
@@ -269,7 +268,7 @@ task pred_read();
 
 endtask
 
-task pred_scan();
+task eth_mdio_scoreboard::pred_scan();
 
   if(m_cfg_reg_s.scan_stat) begin
     do begin 
@@ -364,7 +363,7 @@ task eth_mdio_scoreboard::comp_write(input mdio_seq_item_base item);
 endtask
 
 
-task comp_read();
+task eth_mdio_scoreboard::comp_read();
     int idx =0;
     bit err =0;
     bit temp[$];
@@ -451,7 +450,7 @@ task comp_read();
     end
 endtask
 
-task comp_clk_period();
+task eth_mdio_scoreboard::comp_clk_period();
     real exp_period_ns;
 
       // check if the division value is 0
