@@ -18,17 +18,6 @@ interface mdio_if;
   logic mdio_out;
   logic mdio_en;
 
-  // Modport for the MAC
-  modport mac (
-    output mdc,
-    inout  mdio
-  );
-
-  // Modport for the PHY
-  modport phy (
-    input mdc,
-    inout mdio
-  );
 
 endinterface
 

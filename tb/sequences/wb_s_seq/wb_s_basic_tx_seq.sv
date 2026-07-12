@@ -29,9 +29,6 @@ class wb_s_basic_tx_seq extends wb_s_seq_base;
 
     `uvm_object_utils(wb_s_basic_tx_seq)
    
-     eth_reg_block regmodel;
-     uvm_status_e status;
-     uvm_reg_data_t rd_data;
 
     //---------------------------------------------------------
     // Parameters
@@ -45,6 +42,37 @@ class wb_s_basic_tx_seq extends wb_s_seq_base;
     function new(string name="wb_s_basic_tx_seq");
         super.new(name);
     endfunction
+
+    extern task configure_tx_registers(
+    bit [7:0]  ipgt = 8'h12,
+    bit [7:0]  ipgr1 = 8'h0C,
+    bit [7:0]  ipgr2 = 8'h12,
+    bit [15:0] minfl = 16'h0040,
+    bit [15:0] maxfl = 16'h05EE,
+    bit [7:0]  tx_bd_num = 8'h00,
+    bit [15:0] mac_addr1 = 16'h0000,
+    bit [31:0] mac_addr0 = 32'h00000000,
+    bit [3:0]  pause_timer = 16'h0000,
+    bit fulld = 1'b0,
+    bit txen = 1'b0,
+    bit nopre = 1'b0,
+    bit crcen = 1'b1,
+    bit pad = 1'b1,
+    bit hugen = 1'b0,
+    bit nobckof = 1'b0,
+    bit pause_req = 1'b0,
+    bit tx_flow  = 1'b0
+    );
+
+    extern task configure_tx_bd(
+    int bd_index,
+    bit [15:0] frame_length,
+    bit [31:0] frame_ptr,
+    bit enable_irq,
+    bit is_wrap,
+    bit enable_pad,
+    bit enable_crc
+    );
 
     //---------------------------------------------------------
     task body();
@@ -66,97 +94,20 @@ class wb_s_basic_tx_seq extends wb_s_seq_base;
             for(int j=0; j<$ceil(PKT_LEN/4.0);j++)
             dma_mem::write(tx_ptr[i]+j*4,$random);
         end
-		
-		 //regmodel.PACKETLEN.MAXFL.set(16'd76);
-        //regmodel.PACKETLEN.update(status);
-        
-        //-----------------------------------------------------
-        // Configure registers
-        //-----------------------------------------------------
-
-        regmodel.IPGT.write(status,8'h15);
-
-
-        //-----------------------------------------------------
-        // Number of TX BDs
-        //-----------------------------------------------------
-
-        regmodel.TX_BD_NUM.write(status,NUM_TX_BD);
-
-        //-----------------------------------------------------
-        // MAC Address
-        //-----------------------------------------------------
-
-        regmodel.MAC_ADDR1.BYTE0.set(8'h11);
-        regmodel.MAC_ADDR1.BYTE1.set(8'h22);
-        regmodel.MAC_ADDR1.update(status);
-
-        regmodel.MAC_ADDR0.BYTE2.set(8'h33);
-        regmodel.MAC_ADDR0.BYTE3.set(8'h44);
-        regmodel.MAC_ADDR0.BYTE4.set(8'h55);
-        regmodel.MAC_ADDR0.BYTE5.set(8'h66);
-        regmodel.MAC_ADDR0.update(status);
 
         //-----------------------------------------------------
         // Program Buffer Descriptors
         //-----------------------------------------------------
 
         for(int bd=0; bd<NUM_TX_BD; bd++) begin
-
-            bd_status = 0;
-
-            //------------------------------
-            // Packet length
-            //------------------------------
-            bd_status[31:16] = PKT_LEN;
-
-            //------------------------------
-            // Ready
-            //------------------------------
-            bd_status[15] = 1'b1;
-
-            //------------------------------
-            // IRQ disabled
-            //------------------------------
-            bd_status[14] = 1'b0;
-
-            //------------------------------
-            // Wrap on last BD
-            //------------------------------
-            bd_status[13] = (bd == NUM_TX_BD-1);
-
-            //------------------------------
-            // Padding enabled
-            //------------------------------
-            bd_status[12] = 1'b1;
-
-            //------------------------------
-            // CRC enabled
-            //------------------------------
-            bd_status[11] = 1'b1;
-
-            //------------------------------
-            // Status word
-            //------------------------------
-            regmodel.eth_bd_mem.write(status, bd*2, bd_status);
-
-
-            //------------------------------
-            // Pointer word
-            //------------------------------
-           regmodel.eth_bd_mem.write(status, bd*2+1, tx_ptr[bd]);
-           
+            configure_tx_bd(.bd_index(bd),.frame_length(PKT_LEN),.frame_ptr(tx_ptr[bd]),.enable_irq(0),
+            .is_wrap(bd == NUM_TX_BD-1),.enable_pad(1),.enable_crc(1));
         end
-		
 
         //-----------------------------------------------------
-        // Enable transmitter LAST
+        // Configure registers
         //-----------------------------------------------------
-           //regmodel.MODER.HUGEN.set(1);
-           regmodel.MODER.TXEN.set(1);
-           regmodel.MODER.FULLD.set(1);
-           regmodel.MODER.update(status);
-       
+        configure_tx_registers(.tx_bd_num(NUM_TX_BD),.mac_addr0($random),.mac_addr1($random),.txen(1),.fulld(1));
 
 
         `uvm_info(get_type_name(),
@@ -165,5 +116,146 @@ class wb_s_basic_tx_seq extends wb_s_seq_base;
 
     endtask
 
+ 
+
 endclass
+
+task wb_s_basic_tx_seq::configure_tx_registers(
+    bit [7:0] ipgt,
+    bit [7:0] ipgr1,
+    bit [7:0] ipgr2,
+    bit [15:0] minfl,
+    bit [15:0] maxfl,
+    bit [7:0] tx_bd_num,
+    bit [15:0] mac_addr1,
+    bit [31:0] mac_addr0,
+    bit [3:0] pause_timer,
+    bit fulld,
+    bit txen,
+    bit nopre,
+    bit crcen,
+    bit pad,
+    bit hugen,
+    bit nobckof,
+    bit pause_req,
+    bit tx_flow
+    );
+    uvm_status_e status;
+
+    `uvm_info("TX_CONFIG", "Configuring TX registers", UVM_MEDIUM)
+
+    // ── IPGT Register ────────────────────────────────────
+    regmodel.IPGT.write(status, ipgt);
+
+    // ── IPGR1 Register ───────────────────────────────────
+    regmodel.IPGR1.write(status, ipgr1);
+
+    // ── IPGR2 Register ───────────────────────────────────
+    regmodel.IPGR2.write(status, ipgr2);
+
+    // ── PACKETLEN Register ────────────────────────────────
+    regmodel.PACKETLEN.MINFL.set(minfl);
+    regmodel.PACKETLEN.MAXFL.set(maxfl);
+    regmodel.PACKETLEN.update(status);
+
+    // ── TX_BD_NUM Register ────────────────────────────────
+    regmodel.TX_BD_NUM.write(status, tx_bd_num);
+
+
+    // ── MAC_ADDR Registers ────────────────────────────────
+    regmodel.MAC_ADDR1.BYTE0.set(mac_addr1[7:0]);
+    regmodel.MAC_ADDR1.BYTE1.set(mac_addr1[15:8]);
+    regmodel.MAC_ADDR1.update(status);
+
+
+    regmodel.MAC_ADDR0.BYTE2.set(mac_addr0[7:0]);
+    regmodel.MAC_ADDR0.BYTE3.set(mac_addr0[15:8]);
+    regmodel.MAC_ADDR0.BYTE4.set(mac_addr0[23:16]);
+    regmodel.MAC_ADDR0.BYTE5.set(mac_addr0[31:24]);
+    regmodel.MAC_ADDR0.update(status);
+
+    // CTRLMODER
+    regmodel.CTRLMODER.TXFLOW.set(tx_flow);
+    regmodel.CTRLMODER.update(status);
+    
+    // TXCTRL
+    regmodel.TXCTRL.TXPAUSERQ.set(pause_req);
+    regmodel.TXCTRL.TXPAUSETV.set(pause_timer);
+    regmodel.TXCTRL.update(status);
+
+    // ── MODER Register: Control Flags ─────────────────────
+    regmodel.MODER.FULLD.set(fulld);
+    regmodel.MODER.TXEN.set(txen);
+    regmodel.MODER.NOPRE.set(nopre);
+    regmodel.MODER.CRCEN.set(crcen);
+    regmodel.MODER.PAD.set(pad);
+    regmodel.MODER.HUGEN.set(hugen);
+    regmodel.MODER.NOBCKOF.set(nobckof);
+    regmodel.MODER.update(status);
+    `uvm_info("TX_CONFIG", 
+        $sformatf("MODER: FULLD=%0d, TXEN=%0d, NOPRE=%0d, CRCEN=%0d, PAD=%0d, HUGEN=%0d, NOBCKOF=%0d",
+                  fulld, txen, nopre, crcen, pad, hugen, nobckof),
+        UVM_MEDIUM)
+
+endtask 
+
+
+//-----------------------------------------------------
+// Task: Configure Single TX Buffer Descriptor
+//
+// Sets up one TX BD with configurable parameters.
+// RD (Ready) bit is always set to 1 by this task.
+// Status bits [10:0] are always cleared by this task
+// (they are set by MAC after transmission).
+//
+// Parameters:
+//   - bd_index: Which BD to configure (0 to NUM_TX_BD-1)
+//   - frame_length: Length of frame in bytes
+//   - frame_ptr: DMA address where frame data is stored
+//   - enable_irq: 1=interrupt on completion, 0=no interrupt
+//   - is_wrap: 1=set wrap bit, 0=no wrap
+//   - enable_pad: 1=enable padding to MINFL, 0=no padding
+//   - enable_crc: 1=enable CRC append, 0=no CRC
+//-----------------------------------------------------
+
+task wb_s_basic_tx_seq::configure_tx_bd(
+    int bd_index,
+    bit [15:0] frame_length,
+    bit [31:0] frame_ptr,
+    bit enable_irq,
+    bit is_wrap,
+    bit enable_pad,
+    bit enable_crc
+);
+    bit [31:0] bd_status_word;
+    bit [31:0] bd_pointer_word;
+    bit [31:0] bd_addr;
+    uvm_status_e status;
+
+    // Calculate BD address in BD RAM
+    bd_addr = bd_index * 2;
+
+
+    bd_status_word[31:16] = frame_length;
+    bd_status_word[15]    = 1'b1;                          // RD always 1
+    bd_status_word[14]    = enable_irq;
+    bd_status_word[13]    = is_wrap;
+    bd_status_word[12]    = enable_pad;
+    bd_status_word[11]    = enable_crc;
+    bd_status_word[10:0]  = 11'h0;                         // Status bits cleared
+
+
+    bd_pointer_word = frame_ptr;
+
+
+    regmodel.eth_bd_mem.write(status, bd_addr, bd_status_word);
+    regmodel.eth_bd_mem.write(status, bd_addr+1, bd_pointer_word);
+
+    `uvm_info("TX_CONFIG", 
+        $sformatf(" Configuring TX BD[%0d] - LEN=0x%04h, PTR=0x%08h, IRQ=%0d, WR=%0d, PAD=%0d, CRC=%0d", 
+                  bd_index, frame_length, frame_ptr, enable_irq, is_wrap, enable_pad, enable_crc), 
+        UVM_HIGH)
+
+endtask
+
 `endif

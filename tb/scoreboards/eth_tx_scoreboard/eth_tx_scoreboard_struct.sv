@@ -113,7 +113,14 @@ typedef struct {
     //IPGT (Back to Back Inter Packet Gap Register)
     //--------------------------------------------
    bit [6:0] ipgt;
-
+    //--------------------------------------------
+    //IPGR1 (Non Back to Back Inter Packet Gap Register)
+    //--------------------------------------------
+    bit [6:0] ipgr1;
+    //--------------------------------------------
+    //IPGR1 (Non Back to Back Inter Packet Gap Register)
+    //--------------------------------------------
+    bit [6:0] ipgr2;
     // ------------------------------------------------------------------
     // Derived / computed fields (set inside pred_read_cfg)
     // ------------------------------------------------------------------
@@ -153,7 +160,7 @@ typedef struct {
     bit          exp_lc;        // late collision?     (from mii_monitor nibble offset vs COLLVALID)
     bit          exp_cs;        // carrier sense lost? (from mii_monitor MCrS mid-frame drop)
     bit          exp_df;        // deferred?           (from mii_monitor MCrS busy before MTxEn)
-    int unsigned exp_rtry;      // retry count         (= jam_count, exact from mii_monitor)
+    bit[3:0]     exp_rtry;      // retry count         (= jam_count, exact from mii_monitor)
     bit          exp_rl;        // retry limit hit?    (exp_rtry >= cfg.maxret + 1)
     
 
@@ -175,13 +182,15 @@ typedef struct {
     // Collision / error tracking (populated from mii_monitor events)
     int unsigned attempt_count;         // total MTxEn pulses seen for this BD
     int unsigned jam_count;             // jam patterns (0x99999999) observed
-    bit          flag_late_collision;    // MColl after COLLVALID window
-    bit          flag_cs_loss;           // MCrS drop mid-frame
-    bit          flag_defer;             // MCrS busy before first MTxEn
     bit          flag_txerr;           // set when Tx error is asserted 
     bit          flag_rd;
     bit          flag_abort;             // frame abort
     bit          flag_start_frame;       //
+    int unsigned ipgt_cycles;
+	bit          ipgt_valid;
+	int unsigned ipgr_cycles;
+	bit          ipgr_valid ;
+	bit          collision_seen;
     // actual frame captured by mii_monitor (populated on MII_TX_FRAME event)
     // INCLUDING any CRC trailer if CRC was appended
     bytes_q      actual_pkt;

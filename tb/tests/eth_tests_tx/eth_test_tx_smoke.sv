@@ -40,7 +40,7 @@ class eth_test_tx_smoke extends eth_test_tx_base;
       m_v_seq_tx = eth_v_seq_tx::type_id::create("m_v_seq_tx");
 
       // assign regmodel in wishbone slave sequence to the one in config object
-      m_v_seq_tx.m_wb_s_basic_tx_seq.regmodel=m_config.m_regmodel;
+      m_v_seq_tx.m_wb_s_control_frame_tx_seq.regmodel=m_config.m_regmodel;
 
       phase.raise_objection(this);
       // Start virtual sequence;      
