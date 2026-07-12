@@ -976,8 +976,7 @@ task eth_tx_scoreboard::pred_track_underrun();
                         m_sem_wb_m_seq_item.get(1);
                         
                         // check if it's read transaction
-                        if(m_wb_m_seq_item.m_dir==WB_READ && m_wb_m_seq_item.m_stb_o
-                        && m_wb_m_seq_item.m_cyc_o && (&m_wb_m_seq_item.m_sel_o)) begin
+                        if(m_wb_m_seq_item.m_dir==WB_READ &&  (&m_wb_m_seq_item.m_sel_o)) begin
                             rd_bytes++;
                         end  
                         if(m_tx_expected_s.exp_pkt.size()>=(rd_bytes+pre_crc_bytes) && m_tx_expected_s.exp_pkt.size()<pkt_len)
