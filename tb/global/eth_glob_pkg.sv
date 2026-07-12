@@ -21,8 +21,16 @@ package eth_glob_pkg;
     typedef enum logic { WB_READ = 1'b0, WB_WRITE = 1'b1 , UNKNOWN= 1'bx, HIGH_IMP= 1'bz} wb_dir_t;    
     
     // Enum represent states of interpacket gap time during transmission
-    typedef enum bit [1:0] {WAIT_FIRST_FRAME,WAIT_END_FRAME,COUNT_IPGT} ipgt_state_e;
-    
+    typedef enum bit [2:0] {
+        WAIT_FIRST_FRAME,
+        WAIT_END_FRAME,
+        COUNT_IPGT,
+        DEFER,
+        WAIT_COLLISION_END,
+        COUNT_IPGR1,
+        COUNT_IPGR2
+    } ipg_state_e;
+
     // Enum for mdio opcode
     typedef enum bit [1:0] {MDIO_WRITE = 2'b01, MDIO_READ = 2'b10} op_code_e;
 
@@ -37,6 +45,12 @@ package eth_glob_pkg;
     parameter WB_TX_BD_RD_POS        = 15;
     parameter WB_TX_BD_WR_POS        = 13;
     parameter WB_TX_BD_UR_POS        = 8;
+    parameter WB_TX_RC_LSB_POS       = 4;
+    parameter WB_TX_RC_MSB_POS       = 7;
+    parameter WB_TX_RL_POS           = 3;
+    parameter WB_TX_LC_POS           = 2;
+    parameter WB_TX_DF_POS           = 1;
+    parameter WB_TX_CS_POS           = 0;
     parameter WB_BD_MEM_DEPTH        = 256;
     parameter ETH_NIBBLE_WIDTH       = 4;
     parameter ETH_PAUSE_FRAME_ADDR   = 48'h0180C2000001;                    
@@ -64,6 +78,9 @@ package eth_glob_pkg;
     parameter ETH_PAUSE_OPCODE_LEN   = 2;
     parameter ETH_PAUSE_TIMER_LEN    = 2;
     parameter ETH_PAUSE_RESERVED_LEN = 42;
+    parameter ETH_JAM_NIBBLES            = 8;
+    parameter ETH_JAM_PATTERN            = 4'h9;
+    
     // Clocks
     parameter real ETH_PHY_TX_CLK_PERIOD_NS    = 40.0; // 25 MHz
     parameter real ETH_PHY_RX_CLK_PERIOD_NS    = 40.0; // 25MHz

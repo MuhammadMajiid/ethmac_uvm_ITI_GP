@@ -16,7 +16,7 @@ class eth_tx_scoreboard extends uvm_scoreboard;
     // =========================================================================
     // Parameters for semaphore keys
     // =========================================================================
-    parameter SEM_TX_SEQ_ITEM_NO_KEYS = 4;
+    parameter SEM_TX_SEQ_ITEM_NO_KEYS = 7;
     parameter SEM_WB_M_SEQ_ITEM_NO_KEYS = 1;
 
     // =========================================================================
@@ -211,21 +211,148 @@ class eth_tx_scoreboard extends uvm_scoreboard;
     //
     // -------------------------------------------------------------------------     
     extern task pred_track_rd();
+    // -------------------------------------------------------------------------
+    //  task : pred_track_underrun
+    // -------------------------------------------------------------------------
+    // Description:
+    //   always check the number of transmitted packets on TX and read data on 
+    //   wishbone to check if underrun occurs
+    // Arguments: None
+    //
+    // ------------------------------------------------------------------------- 
     extern task pred_track_underrun();
+    // -------------------------------------------------------------------------
+    //  task : pred_read_cfg_reg
+    // -------------------------------------------------------------------------
+    // Description:
+    //   Read configurations of register file through backdoor access
+    // Arguments: None
+    //
+    // ------------------------------------------------------------------------- 
     extern task pred_read_cfg_reg();
+    // -------------------------------------------------------------------------
+    //  task : pred_read_cfg_bd
+    // -------------------------------------------------------------------------
+    // Description:
+    //   Read configurations of one buffer descriptor file through backdoor access
+    // Arguments: None
+    //
+    // ------------------------------------------------------------------------- 
     extern task pred_read_cfg_bd();
+    // -------------------------------------------------------------------------
+    //  task : pred_defer
+    // -------------------------------------------------------------------------
+    // Description:
+    //   Predict occurence of packet deferral 
+    // Arguments: None
+    //
+    // ------------------------------------------------------------------------- 
     extern task pred_defer();
+    // -------------------------------------------------------------------------
+    //  task : pred_coll
+    // -------------------------------------------------------------------------
+    // Description:
+    //   Predict occurence of late collision 
+    // Arguments: None
+    //
+    // -------------------------------------------------------------------------
     extern task pred_coll();
+    // -------------------------------------------------------------------------
+    //  task : pred_check_jam_retry
+    // -------------------------------------------------------------------------
+    // Description:
+    //   count number of transmitted jam signals to count retry count  
+    // Arguments: None
+    //
+    // -------------------------------------------------------------------------
+    extern task pred_check_jam_retry();
     // =============================================================================
     //  Compatator methods
     // =============================================================================    
+    //  task : comp_pack_pkt
+    // -------------------------------------------------------------------------
+    // Description:
+    //   pack the transmitted nibbles of dut in queue 
+    // Arguments: None
+    //
+    // -------------------------------------------------------------------------
     extern task comp_pack_pkt();
-    extern function void comp_compare_pkt();
-    extern function void comp_check_txerr();
-    extern task comp_check_interrupt();
-    extern task comp_check_bd_status();
+    // -------------------------------------------------------------------------
+    //  function : comp_compare_field
+    // -------------------------------------------------------------------------
+    // Description:
+    //   compare field of actual packet and expected 
+    // Arguments: 
+    // field_name: Name of field in packet (ex SFD,CRC..)
+    // start_idx: first byte in the field
+    // num_bytes: number of bytes of the field
+    // error_found: set if there's mismatch , it's ref to can be seen by 
+    //              comp_compare_pkt function.
+    // -------------------------------------------------------------------------
     extern function void comp_compare_field(string field_name,int start_idx,int num_bytes,ref bit error_found);
-    extern task comp_compare_ipgt(); 
+    // -------------------------------------------------------------------------
+    //  function : comp_compare_pkt
+    // -------------------------------------------------------------------------
+    // Description:
+    //   compare between actual and expected packet 
+    // Arguments: None
+    //
+    // -------------------------------------------------------------------------
+    extern function void comp_compare_pkt();
+    // -------------------------------------------------------------------------
+    //  function : comp_check_txerr
+    // -------------------------------------------------------------------------
+    // Description:
+    //   check MTXerr asserted when error condition occur (underrun or 
+    //   huge packet more than maximum frame length)
+    // Arguments: None
+    //
+    // -------------------------------------------------------------------------
+    extern function void comp_check_txerr();
+    // -------------------------------------------------------------------------
+    //  task : comp_check_interrupt
+    // -------------------------------------------------------------------------
+    // Description:
+    //   check interrupt status after packet transmission
+    // Arguments: None
+    //
+    // -------------------------------------------------------------------------
+    extern task comp_check_interrupt();
+    // -------------------------------------------------------------------------
+    //  task : comp_check_bd_status
+    // -------------------------------------------------------------------------
+    // Description:
+    //   check buffer descriptor status bits after packet transmission
+    // Arguments: None
+    //
+    // -------------------------------------------------------------------------
+    extern task comp_check_bd_status();
+    // -------------------------------------------------------------------------
+    //  task : comp_check_ipgt
+    // -------------------------------------------------------------------------
+    // Description:
+    //   calculate ipgt period and compare it with value in register
+    // Arguments: None
+    //
+    // -------------------------------------------------------------------------
+    extern task comp_check_ipgt();
+    // -------------------------------------------------------------------------
+    //  task : comp_check_ipgr
+    // -------------------------------------------------------------------------
+    // Description:
+    //   calculate ipgr2 period 
+    // Arguments: None
+    //
+    // -------------------------------------------------------------------------
+    extern task comp_check_ipg();
+    // -------------------------------------------------------------------------
+    //  function : clear
+    // -------------------------------------------------------------------------
+    // Description:
+    //   reset all structs to it's default value after packet comparison 
+    // Arguments: None
+    //
+    // -------------------------------------------------------------------------
     extern function void clear();
 endclass : eth_tx_scoreboard
 
@@ -381,7 +508,8 @@ task eth_tx_scoreboard::comparator();
    forever begin
     fork : fork_comp
     comp_pack_pkt();
-    comp_compare_ipgt();
+    //comp_compare_ipgt();
+    comp_check_ipgt();
     begin
         wait(m_ev_start_comp.triggered);
         comp_compare_pkt();
@@ -1102,7 +1230,7 @@ task eth_tx_scoreboard::pred_defer();
             end     
         end
         // Carrier sense conditions
-        if (m_mii_tx_seq_item.MCrS && (1||1))                         //3,4                                                
+        if (m_mii_tx_seq_item.MCrS && (m_tx_expected_s.exp_df||1))                         //3,4                                                
         begin
             m_sem_tx_seq_item.put(1);
             #1;
@@ -1165,6 +1293,12 @@ task eth_tx_scoreboard::comp_pack_pkt();
        
         end
         //--------------------------------------------
+        // In half duplex check if carrier sense dropped 
+        //--------------------------------------------
+       if (!m_tx_bd_cfg_s.full_duplex && !m_mii_tx_seq_item.MCrS) begin
+            m_tx_expected_s.exp_cs=1;
+       end
+        //--------------------------------------------
         // First nibble (LSB)
         //--------------------------------------------
         low_nibble = m_mii_tx_seq_item.MTxD;
@@ -1180,6 +1314,12 @@ task eth_tx_scoreboard::comp_pack_pkt();
         //--------------------------------------------
        if (m_mii_tx_seq_item.MTxERR) begin
             m_tx_pending_s.flag_txerr=1;
+       end
+        //--------------------------------------------
+        // In half duplex check if carrier sense dropped 
+        //--------------------------------------------
+       if (!m_tx_bd_cfg_s.full_duplex && !m_mii_tx_seq_item.MCrS) begin
+            m_tx_expected_s.exp_cs=1;
        end
         //--------------------------------------------
         // Expect second nibble
@@ -1414,7 +1554,7 @@ task eth_tx_scoreboard::comp_check_interrupt();
             return;
 
         // Check TXE interrupt, triggered if Tx error is asserted
-        if (m_tx_bd_cfg_s.txe_m && m_tx_expected_s.exp_txerr) begin
+        if (m_tx_bd_cfg_s.txe_m && (m_tx_expected_s.exp_ur || m_tx_expected_s.exp_lc || m_tx_expected_s.exp_rl || m_tx_expected_s.exp_cs)) begin
             // Put 1 in mirrored value
             m_regmodel.INT_SOURCE.TXE.predict(1);
 
@@ -1464,11 +1604,41 @@ task eth_tx_scoreboard::comp_check_bd_status();
     status_idx = m_tx_bd_cfg_s.bd_index * 2;
     m_regmodel.eth_bd_mem.peek(status,status_idx,bd_data);
 
-    // check that underrun actual error equal actal
+    // check underrun expected equal actal
     if(bd_data[WB_TX_BD_UR_POS]!=m_tx_expected_s.exp_ur) begin
             `uvm_error(get_name(),$sformatf("Actual underrun error isn't equal to expected,actual error = %0b expected = %0b",
                 bd_data[WB_TX_BD_UR_POS],m_tx_expected_s.exp_ur))
     end    
+
+    // check RTRY count expected equal actal
+    if(bd_data[WB_TX_RC_MSB_POS:WB_TX_RC_LSB_POS]!=m_tx_expected_s.exp_rtry) begin
+            `uvm_error(get_name(),$sformatf("Actual Retry count  isn't equal to expected,actual  = %0b expected = %0b",
+                bd_data[WB_TX_RC_MSB_POS:WB_TX_RC_LSB_POS],m_tx_expected_s.exp_rtry))
+    end 
+
+    // check Retransmission limit expected equal actal
+    if(bd_data[WB_TX_RL_POS]!=m_tx_expected_s.exp_rl) begin
+            `uvm_error(get_name(),$sformatf("Actual Retrnsmission limit  isn't equal to expected,actual  = %0b expected = %0b",
+                bd_data[WB_TX_RL_POS],m_tx_expected_s.exp_rl))
+    end     
+
+    // check late collision expected equal actal
+    if(bd_data[WB_TX_LC_POS]!=m_tx_expected_s.exp_lc) begin
+            `uvm_error(get_name(),$sformatf("Actual Late collision  isn't equal to expected,actual  = %0b expected = %0b",
+                bd_data[WB_TX_LC_POS],m_tx_expected_s.exp_lc))
+    end 
+
+    // check Deferral indication expected equal actal
+    if(bd_data[WB_TX_DF_POS]!=m_tx_expected_s.exp_df) begin
+            `uvm_error(get_name(),$sformatf("Actual Deferral indication  isn't equal to expected,actual  = %0b expected = %0b",
+                bd_data[WB_TX_DF_POS],m_tx_expected_s.exp_df))
+    end 
+
+    // check Carrier sense lost expected equal actal
+    if(bd_data[WB_TX_CS_POS]!=m_tx_expected_s.exp_cs) begin
+            `uvm_error(get_name(),$sformatf("Actual Carrier sense lost count  isn't equal to expected,actual  = %0b expected = %0b",
+                bd_data[WB_TX_CS_POS],m_tx_expected_s.exp_cs))
+    end 
 
     // check if it's control frame
     if(m_tx_bd_cfg_s.tx_pause_req ==1 && m_tx_bd_cfg_s.tx_flow ==1) begin
@@ -1512,64 +1682,541 @@ endfunction
 
 
 
-task eth_tx_scoreboard::comp_compare_ipgt();
+//------------------------------------------------------------------------------
+// Measure Inter Packet Gap Time (IPGT)
+//------------------------------------------------------------------------------
+task eth_tx_scoreboard::comp_check_ipgt();
 
-    int unsigned exp_cycles;
+    static ipg_state_e state = WAIT_FIRST_FRAME;
+
+    static bit prev_txen = 0;
+
+    static int unsigned cycle_cnt = 0;
+
+    //--------------------------------------------------------
+    // Default values
+    //--------------------------------------------------------
+   m_tx_pending_s.ipgt_valid  = 0;
+   m_tx_pending_s.ipgt_cycles = 0;
+   
+   forever 
+   begin
+   
+    m_sem_tx_seq_item.get(1); 
+
+    case(state)
+
+    //--------------------------------------------------------
+    // Wait for first frame
+    //--------------------------------------------------------
+    WAIT_FIRST_FRAME: begin
+
+        if (!prev_txen && m_mii_tx_seq_item.MTxEN)
+            state = WAIT_END_FRAME;
+            
+            m_tx_pending_s.ipgt_valid  = 0;
+
+    end
+
+    //--------------------------------------------------------
+    // Wait for end of current frame
+    //--------------------------------------------------------
+    WAIT_END_FRAME: begin
+
+        if (prev_txen && !m_mii_tx_seq_item.MTxEN) begin
+
+             cycle_cnt = 1;      // First idle clock
+
+            state = COUNT_IPGT;
+
+            m_tx_pending_s.ipgt_valid  = 0;
+        end
+
+    end
+
+    //--------------------------------------------------------
+    // Count idle clocks
+    //--------------------------------------------------------
+    COUNT_IPGT: begin
+
+        if (!m_mii_tx_seq_item.MTxEN) begin
+
+            cycle_cnt++;
+
+        end
+        else if (!prev_txen && m_mii_tx_seq_item.MTxEN) begin
+            int exp_cycles;
+            m_tx_pending_s.ipgt_valid  = 1;
+            m_tx_pending_s.ipgt_cycles = cycle_cnt;
+
+            `uvm_info(get_type_name(),
+                $sformatf("Measured IPGT = %0d MII clock cycles",
+                          cycle_cnt),
+                UVM_LOW)
+
+            cycle_cnt = 0;
+
+            state = WAIT_END_FRAME;
+            
+            //------------------------------------------------------
+            // Calculate expected IPGT
+            //------------------------------------------------------
+            if (m_tx_bd_cfg_s.full_duplex)
+                exp_cycles = m_tx_bd_cfg_s.ipgt + 6;
+            else
+                exp_cycles = m_tx_bd_cfg_s.ipgt + 3;
+
+            //------------------------------------------------------
+            // Compare
+            //------------------------------------------------------
+            if (m_tx_pending_s.ipgt_cycles < exp_cycles) begin
+
+                `uvm_error(get_type_name(),
+                    $sformatf(
+                    "IPGT mismatch\n\
+                    Mode           : %s\n\
+                    Register IPGT  : 0x%02h\n\
+                    Expected       : %0d MII cycles\n\
+                    Measured       : %0d MII cycles",
+                    m_tx_bd_cfg_s.full_duplex ? "Full Duplex" : "Half Duplex",
+                    m_tx_bd_cfg_s.ipgt,
+                    exp_cycles,
+                    m_tx_pending_s.ipgt_cycles))
+
+            end
+            else  begin
+
+                `uvm_info(get_type_name(),
+                    $sformatf(
+                    "IPGT PASS (%0d MII cycles)",
+                    exp_cycles),
+                    UVM_LOW)
+
+            end
+        end
+
+    end
+
+    endcase
+
+    //--------------------------------------------------------
+    // Save current TXEN
+    //--------------------------------------------------------
+    prev_txen = m_mii_tx_seq_item.MTxEN;
+	 
+   m_sem_tx_seq_item.put(1);
+   #1ns;
+	
+  end	
+
+endtask
+
+
+task eth_tx_scoreboard::pred_check_jam_retry();
+
+//------------------------------------------------------------------------------
+// Check JAM sequence and retry limit after collision.
+// IEEE802.3/OpenCores JAM = 0x99999999 = 8 nibbles of 0x9.
+//------------------------------------------------------------------------------
+// Collision handling:
+// 1. PHY asserts MColl when collision is detected.
+// 2. MAC transmits JAM pattern 
+// 3. MAC retries after backoff.
+// 4. After MAX_RETRY collisions, MAC aborts transmission.
+//------------------------------------------------------------------------------
+
+    int unsigned jam_cnt;
+    int unsigned retry_cnt;
+
+    jam_cnt   = 0;
+    retry_cnt = 0;
 
     forever begin
 
-        m_sem_tx_seq_item.get(1); 
+        //--------------------------------------------------
+        // Wait for a TX MII sample
+        //--------------------------------------------------
+        m_sem_tx_seq_item.get(1);
 
-        if (!m_mii_tx_seq_item.ipgt_valid) begin
-            m_sem_tx_seq_item.put(1);
-            #1ns;
-            continue;
-        end
-        //------------------------------------------------------
-        // Calculate expected IPGT
-        //------------------------------------------------------
-        if (m_tx_bd_cfg_s.full_duplex)
-            exp_cycles = m_tx_bd_cfg_s.ipgt + 6;
-        else
-            exp_cycles = m_tx_bd_cfg_s.ipgt + 3;
+        //--------------------------------------------------
+        // Collision detected while transmitting
+        //--------------------------------------------------
+        if (m_mii_tx_seq_item.MColl && m_mii_tx_seq_item.MTxEN)
+        begin
 
-        //------------------------------------------------------
-        // Compare
-        //------------------------------------------------------
-        if (m_mii_tx_seq_item.ipgt_cycles < exp_cycles) begin
-
-            `uvm_error(get_type_name(),
-                $sformatf(
-                "IPGT mismatch\n\
-                 Mode           : %s\n\
-                 Register IPGT  : 0x%02h\n\
-                 Expected       : %0d MII cycles\n\
-                 Measured       : %0d MII cycles",
-                m_tx_bd_cfg_s.full_duplex ? "Full Duplex" : "Half Duplex",
-                m_tx_bd_cfg_s.ipgt,
-                exp_cycles,
-                m_mii_tx_seq_item.ipgt_cycles))
-
-        end
-        else begin
+            retry_cnt++;
 
             `uvm_info(get_type_name(),
                 $sformatf(
-                "IPGT PASS (%0d MII cycles)",
-                exp_cycles),
-                UVM_LOW)
+                "Collision detected. Retry attempt = %0d",
+                retry_cnt),
+                UVM_MEDIUM)
+
+            //--------------------------------------------------
+            // Release current collision sample
+            //--------------------------------------------------
+            m_sem_tx_seq_item.put(1);
+            #1ns
+
+            //--------------------------------------------------
+            // Check JAM sequence
+            // MColl is ignored here because PHY may deassert
+            // it while JAM is still transmitted.
+            //--------------------------------------------------
+            jam_cnt = 0;
+
+            while (jam_cnt < ETH_JAM_NIBBLES)
+            begin
+
+                m_sem_tx_seq_item.get(1);
+
+                if (m_mii_tx_seq_item.MTxD != ETH_JAM_PATTERN)
+                begin
+
+                    `uvm_error(get_type_name(),
+                        $sformatf(
+                        "Invalid JAM nibble at index %0d. Expected %0h, Got %0h",
+                        jam_cnt,
+                        ETH_JAM_PATTERN,
+                        m_mii_tx_seq_item.MTxD))
+
+                    m_sem_tx_seq_item.put(1);
+					#1ns;
+
+                    return;
+
+                end
+            
+
+                jam_cnt++;
+
+                m_sem_tx_seq_item.put(1);
+
+                #1ns;
+
+            end
+
+            `uvm_info(get_type_name(),
+                $sformatf(
+                "Correct JAM sequence detected (%0d nibbles)",
+                ETH_JAM_NIBBLES),
+                UVM_MEDIUM)
+
+            //--------------------------------------------------
+            // Check retry limit
+            //--------------------------------------------------
+            if (retry_cnt >= m_tx_bd_cfg_s.maxret)
+            begin
+
+                //--------------------------------------------------
+                // Wait for next TX state after JAM
+                //--------------------------------------------------
+                m_sem_tx_seq_item.get(1);
+
+                if (m_mii_tx_seq_item.MTxEN)
+                begin
+
+                    `uvm_error(get_type_name(),
+                        "MAC continued transmitting after retry limit")
+
+                end
+                else
+                begin
+
+                    `uvm_info(get_type_name(),
+                        "Retry limit reached. Transmission aborted correctly",
+                        UVM_MEDIUM)
+
+                end
+
+                m_sem_tx_seq_item.put(1);
+				#1ns;
+
+                return;
+
+            end
+
+            //--------------------------------------------------
+            // Continue monitoring for next retry
+            //--------------------------------------------------
+            continue;
 
         end
 
-        m_sem_tx_seq_item.put(1); 
+        //--------------------------------------------------
+        // Successful transmission completed
+        // Retry counter belongs to one frame only.
+        //--------------------------------------------------
+        if (!m_tx_pending_s.flag_rd)
+        begin
+
+            retry_cnt = 0;
+
+        end
+
+        //--------------------------------------------------
+        // Release TX sample
+        //--------------------------------------------------
+        m_sem_tx_seq_item.put(1);
+
         #1ns;
 
     end
 
 endtask
 
+//------------------------------------------------------------------------------
+// Check IPGT/IPGR behavior including:
+//  - Normal back-to-back IPGT
+//  - Carrier sense defer
+//  - Collision recovery IPGR
+//------------------------------------------------------------------------------
+task eth_tx_scoreboard::comp_check_ipg();
 
+    static ipg_state_e ipg_state = WAIT_FIRST_FRAME;
 
+    static bit ipg_prev_txen = 0;
+
+    static int unsigned ipg_cnt = 0;
+
+    //--------------------------------------------------
+    // Default values
+    //--------------------------------------------------
+   m_tx_pending_s.ipgt_valid  = 0;
+   m_tx_pending_s.ipgt_cycles = 0;
+   m_tx_expected_s.exp_df = 0;
+   m_tx_pending_s.collision_seen = 0;
+   
+   forever 
+   begin
+    m_sem_tx_seq_item.get(1); 
+    
+	case(ipg_state)
+
+    //--------------------------------------------------
+    // Wait first packet
+    //--------------------------------------------------
+    WAIT_FIRST_FRAME:
+    begin
+
+        if(! ipg_prev_txen && m_mii_tx_seq_item.MTxEN)
+            ipg_state = WAIT_END_FRAME;
+
+    end
+
+    //--------------------------------------------------
+    // Wait frame completion
+    //--------------------------------------------------
+    WAIT_END_FRAME:
+    begin
+
+        //--------------------------------------------------
+        // Collision has priority
+        //--------------------------------------------------
+        if(m_mii_tx_seq_item.MColl && m_mii_tx_seq_item.MTxEN)
+        begin
+
+            m_tx_pending_s.collision_seen = 1;
+
+            ipg_cnt = 0;
+
+            ipg_state = WAIT_COLLISION_END;
+
+        end
+
+        else if( ipg_prev_txen && !m_mii_tx_seq_item.MTxEN)
+        begin
+
+            ipg_cnt = 1;      // First idle clock
+
+            ipg_state = COUNT_IPGT;
+
+        end
+
+    end
+
+    //--------------------------------------------------
+    // Count IPGT
+    //--------------------------------------------------
+    COUNT_IPGT:
+    begin
+
+        //--------------------------------------------------
+        // Collision during IPGT
+        //--------------------------------------------------
+        if(m_mii_tx_seq_item.MColl)
+        begin
+
+            ipg_cnt = 0;
+
+            ipg_state = WAIT_COLLISION_END;
+
+        end
+
+        else
+        begin
+
+            ipg_cnt++;
+
+            //--------------------------------------------------
+            // IPGT completed
+            //--------------------------------------------------
+            if(ipg_cnt >= m_tx_bd_cfg_s.ipgt)
+            begin
+
+                //--------------------------------------------------
+                // Medium idle
+                //--------------------------------------------------
+                if(!m_mii_tx_seq_item.MCrS)
+                begin
+
+                    m_tx_pending_s.ipgt_valid  = 1;
+
+                    m_tx_pending_s.ipgt_cycles = ipg_cnt;
+
+                    ipg_cnt = 0;
+
+                    ipg_state= WAIT_END_FRAME;
+
+                end
+
+                //--------------------------------------------------
+                // Carrier active -> DEFER
+                //--------------------------------------------------
+                else
+                begin
+
+                    m_tx_expected_s.exp_df = 1;
+
+                    ipg_cnt = 0;
+
+                    ipg_state = DEFER;
+
+                end
+
+            end
+
+        end
+
+    end
+
+    //--------------------------------------------------
+    // Wait carrier sense release
+    //--------------------------------------------------
+    DEFER:
+    begin
+
+        if(!m_mii_tx_seq_item.MCrS)
+        begin
+
+            ipg_cnt = 0;
+
+            ipg_state = COUNT_IPGR1;
+
+        end
+
+    end
+
+    //--------------------------------------------------
+    // Collision recovery wait
+    //--------------------------------------------------
+    WAIT_COLLISION_END:
+    begin
+
+        //--------------------------------------------------
+        // Collision finished and medium idle
+        //--------------------------------------------------
+        if(!m_mii_tx_seq_item.MColl && !m_mii_tx_seq_item.MCrS)
+        begin
+
+            ipg_cnt = 0;
+
+            ipg_state = COUNT_IPGR1;
+
+        end
+
+    end
+
+    //--------------------------------------------------
+    // IPGR1 window
+    //--------------------------------------------------
+    COUNT_IPGR1:
+    begin
+
+        //--------------------------------------------------
+        // Carrier appeared inside IPGR1
+        //--------------------------------------------------
+        if(m_mii_tx_seq_item.MCrS)
+        begin
+
+            ipg_cnt = 0;
+
+            ipg_state = DEFER;
+
+        end
+
+        else
+        begin
+
+            ipg_cnt++;
+
+            //--------------------------------------------------
+            // Move to IPGR2
+            //--------------------------------------------------
+            if(ipg_cnt >= m_tx_bd_cfg_s.ipgr1)
+            begin
+
+                ipg_state = COUNT_IPGR2;
+
+            end
+
+        end
+
+    end
+
+    //--------------------------------------------------
+    // IPGR2 window
+    //--------------------------------------------------
+    COUNT_IPGR2:
+    begin
+
+        ipg_cnt++;
+
+        //--------------------------------------------------
+        // Carrier here does NOT reset counter
+        //--------------------------------------------------
+
+        if(ipg_cnt >= m_tx_bd_cfg_s.ipgr2)
+        begin
+
+            if(m_mii_tx_seq_item.MTxEN)
+            begin
+
+                m_tx_pending_s.ipgr_valid  = 1;
+
+                m_tx_pending_s.ipgr_cycles = ipg_cnt;
+
+                ipg_cnt = 0;
+
+                ipg_state = WAIT_END_FRAME;
+
+            end
+
+        end
+
+    end
+
+    endcase
+
+    //--------------------------------------------------
+    // Save previous TX enable
+    //--------------------------------------------------
+     ipg_prev_txen = m_mii_tx_seq_item.MTxEN;
+	 m_sem_tx_seq_item.put(1);
+   #1ns;
+	
+end
+endtask
 
 
 

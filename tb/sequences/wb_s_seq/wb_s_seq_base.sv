@@ -28,13 +28,15 @@ class wb_s_seq_base extends
             WB_SEL_WIDTH));
 
     `uvm_object_utils(wb_s_seq_base)
-
+     eth_reg_block regmodel;
+     uvm_status_e status;
     function new(string name="wb_s_seq_base");
         super.new(name);
     endfunction
 
     virtual task body();
     endtask
+
 
 endclass
 `endif // WB_S_SEQ_BASE_SV

@@ -74,8 +74,6 @@ class mii_tx_monitor_base extends uvm_monitor;
         m_seq_item.MTxEN  = vif.cb_mii_tx.MTxEN;
         m_seq_item.MTxERR = vif.cb_mii_tx.MTxERR;
 		
-       // Calculate IPGT
-       check_ipgt(m_seq_item);
 
 
         // Send transaction to agent analysis port
@@ -85,88 +83,7 @@ class mii_tx_monitor_base extends uvm_monitor;
     endtask
 
 	
-//------------------------------------------------------------------------------
-// Measure Inter Packet Gap Time (IPGT)
-//------------------------------------------------------------------------------
-task check_ipgt(ref mii_tx_seq_item_base tr);
 
-    static ipgt_state_e state = WAIT_FIRST_FRAME;
-
-    static bit prev_txen = 0;
-
-    static int unsigned cycle_cnt = 0;
-
-    //--------------------------------------------------------
-    // Default values
-    //--------------------------------------------------------
-    tr.ipgt_valid  = 0;
-    tr.ipgt_cycles = ipgt_state_e'(0);
-
-    case(state)
-
-    //--------------------------------------------------------
-    // Wait for first frame
-    //--------------------------------------------------------
-    WAIT_FIRST_FRAME: begin
-
-        if (!prev_txen && tr.MTxEN)
-            state = WAIT_END_FRAME;
-
-    end
-
-    //--------------------------------------------------------
-    // Wait for end of current frame
-    //--------------------------------------------------------
-    WAIT_END_FRAME: begin
-
-        if (prev_txen && !tr.MTxEN) begin
-
-             cycle_cnt = 1;      // First idle clock
-
-            state = COUNT_IPGT;
-
-        end
-
-    end
-
-    //--------------------------------------------------------
-    // Count idle clocks
-    //--------------------------------------------------------
-    COUNT_IPGT: begin
-
-        if (!tr.MTxEN) begin
-
-            cycle_cnt++;
-
-        end
-        else if (!prev_txen && tr.MTxEN) begin
-
-            tr.ipgt_valid  = 1;
-            tr.ipgt_cycles = cycle_cnt;
-
-            `uvm_info(get_type_name(),
-                $sformatf("Measured IPGT = %0d MII clock cycles",
-                          cycle_cnt),
-                UVM_MEDIUM)
-
-            cycle_cnt = 0;
-
-            state = WAIT_END_FRAME;
-
-        end
-
-    end
-
-    endcase
-
-    //--------------------------------------------------------
-    // Save current TXEN
-    //--------------------------------------------------------
-    prev_txen = tr.MTxEN;
-
-
-
-endtask
 
 endclass : mii_tx_monitor_base
 

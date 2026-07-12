@@ -30,8 +30,7 @@ class mii_tx_seq_item_base extends uvm_sequence_item;
     logic MTxEN;                    // Transmit Enable. indicates to the PHY that the data MTxD is valid and the transmission can start.
     logic MTxERR;                   // Transmit Coding Error
 
-    bit ipgt_valid;
-    int ipgt_cycles;
+ 
     
     function new(string name = "mii_tx_seq_item_base");
         super.new(name);
@@ -44,8 +43,8 @@ class mii_tx_seq_item_base extends uvm_sequence_item;
     //constraint c_MCrS {MCrS dist{};}
 
     function string convert2string();
-        return $sformatf("MColl=%0b, MCrS=%0b, MTxD=%0h, MTxEN=%0b, MTxERR=%0b IPGT valid = %0d IPGT cycles = %0d", 
-            MColl, MCrS, MTxD, MTxEN, MTxERR,ipgt_valid,ipgt_cycles);
+        return $sformatf("MColl=%0b, MCrS=%0b, MTxD=%0h, MTxEN=%0b, MTxERR=%0b", 
+            MColl, MCrS, MTxD, MTxEN, MTxERR);
     endfunction
 
     function string convert2string_stimulus();
