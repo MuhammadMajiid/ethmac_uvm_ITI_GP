@@ -19,6 +19,9 @@ class eth_env_tx extends eth_env_base;
   // declare TX scoreboard handle
   eth_tx_scoreboard            m_tx_sb;
 
+  // declare coverage handle
+  eth_tx_cov                    m_tx_cov;
+
   // declare virtual sequencer
   eth_v_sequencer             m_v_sqr;
 
@@ -43,6 +46,9 @@ class eth_env_tx extends eth_env_base;
 
     // build TX scoreboard
     m_tx_sb = eth_tx_scoreboard::type_id::create("m_tx_sb", this);
+
+    // build TX coverage
+    m_tx_cov = eth_tx_cov::type_id::create("m_tx_cov", this);
   endfunction
 
   function void connect_phase(uvm_phase phase);
@@ -58,14 +64,16 @@ class eth_env_tx extends eth_env_base;
 
     // Connect TX Scoreboard analysis export with TX agent analysis export
     m_mii_tx_agent.agent_a_port.connect(m_tx_sb.mii_tx_a_export);  
-    // Connect TX Scoreboard analysis export with wishbone agent analysis export
+    // Connect TX Scoreboard analysis export with wishbone master agent analysis export
     m_wb_m_agent.a_port.connect(m_tx_sb.wb_m_a_export);  
-    // Connect TX Scoreboard analysis implementation with wishbone agent analysis export
+    // Connect TX Scoreboard analysis implementation with wishbone slave agent analysis export
     m_wb_s_agent.a_port.connect(m_tx_sb.wb_s_imp); 
 
     // Assign regmodel in scoreboard config to regmodel in tx scoreboard
     m_tx_sb.m_regmodel=m_config.m_tx_sb_config.m_regmodel;
 
+    // Connect TX Coverage analysis implementation with wishbone slave agent analysis export
+    m_wb_s_agent.a_port.connect(m_tx_cov.wb_s_a_export); 
     
   endfunction
 

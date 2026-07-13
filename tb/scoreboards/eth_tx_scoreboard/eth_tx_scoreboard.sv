@@ -1645,6 +1645,7 @@ task eth_tx_scoreboard::comp_check_bd_status();
         m_regmodel.TXCTRL.TXPAUSERQ.predict(0);
         // check that pausereq is cleared in dut register file
         m_regmodel.TXCTRL.TXPAUSERQ.mirror(status, UVM_CHECK, UVM_BACKDOOR);
+        
     end
 endtask
 
