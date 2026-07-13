@@ -26,7 +26,7 @@ import mii_rx_seq_item_pkg::*;
 
 
 // include coverage files
-`include "eth_tx_cov.sv"
+`include "eth_cov_tx.sv"
 
 endpackage
 

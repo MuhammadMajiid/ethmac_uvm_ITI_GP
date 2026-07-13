@@ -10,9 +10,6 @@ class eth_env_rx extends eth_env_base;
   // Declare RX scoreboard handle
   eth_rx_scoreboard   m_rx_sb;
 
-  // Declare virtual sequencer
-  eth_v_sequencer     m_v_sqr;
-
   //--------------------------------------------------------------------------
   // Constructor
   //--------------------------------------------------------------------------
@@ -34,7 +31,6 @@ class eth_env_rx extends eth_env_base;
     uvm_config_db #(eth_reg_block)::set(this, "m_rx_sb", "m_regmodel", m_regmodel);
 
     // 3. Build Components
-    m_v_sqr        = eth_v_sequencer::type_id::create("m_v_sqr", this);
     m_mii_rx_agent = mii_rx_agent::type_id::create("m_mii_rx_agent", this);
     m_rx_sb        = eth_rx_scoreboard::type_id::create("m_rx_sb", this);
   endfunction
