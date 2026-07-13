@@ -52,6 +52,10 @@ package eth_glob_pkg;
     parameter WB_TX_DF_POS           = 1;
     parameter WB_TX_CS_POS           = 0;
     parameter WB_BD_MEM_DEPTH        = 256;
+    parameter WB_BD_MEM_BASE_ADDR    = 'h400;
+    parameter WB_BD_MEM_OFFSET_ADDR  = 'h7FF;
+    parameter ETH_REG_BASE_ADDR      = 'h0;
+    parameter ETH_REG_OFFSET_ADDR    = 'h50;
     parameter ETH_NIBBLE_WIDTH       = 4;
     parameter ETH_PAUSE_FRAME_ADDR   = 48'h0180C2000001;                    
     parameter ETH_PAUSE_LEN_TYPE     = 16'h8808;
@@ -78,8 +82,8 @@ package eth_glob_pkg;
     parameter ETH_PAUSE_OPCODE_LEN   = 2;
     parameter ETH_PAUSE_TIMER_LEN    = 2;
     parameter ETH_PAUSE_RESERVED_LEN = 42;
-    parameter ETH_JAM_NIBBLES            = 8;
-    parameter ETH_JAM_PATTERN            = 4'h9;
+    parameter ETH_JAM_NIBBLES        = 8;
+    parameter ETH_JAM_PATTERN        = 4'h9;
     
     // Clocks
     parameter real ETH_PHY_TX_CLK_PERIOD_NS    = 40.0; // 25 MHz

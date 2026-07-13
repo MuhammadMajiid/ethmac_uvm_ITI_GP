@@ -8,8 +8,8 @@
 //   Package for including environment files.
 //==============================================================================
 
-`ifndef ETH_ENV_SCOREBOARD_PKG
-`define ETH_ENV_SCOREBOARD_PKG
+`ifndef ETH_ENV_PKG
+`define ETH_ENV_PKG
 package eth_env_pkg;
 
 import uvm_pkg::*;
@@ -42,6 +42,9 @@ import eth_v_seq_sqr_pkg::eth_v_sequencer;
 import eth_tx_scoreboard_pkg::*;
 import eth_rx_scoreboard_pkg::*;
 
+// import coverage
+import eth_cov_pkg::*;
+
 // include env files
 `include "eth_env_base.sv"
 `include "eth_env_tx.sv"
@@ -56,4 +59,4 @@ import eth_rx_scoreboard_pkg::*;
 
 endpackage
 
-`endif // ETH_ENV_SCOREBOARD_PKG
+`endif // ETH_ENV_PKG

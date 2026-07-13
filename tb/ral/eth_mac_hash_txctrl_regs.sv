@@ -241,7 +241,7 @@ class eth_txctrl_reg extends uvm_reg;
         // We model as RW because host writes 1 to request
         // Hardware clears it automatically (volatile=1)
         //             parent  sz   lsb  access  vol  reset     has_rst rand  indv
-        TXPAUSERQ.configure(this,  1,  16,  "RW",   1,  1'b0,   1,      1,    0);
+        TXPAUSERQ.configure(this,  1,  16,  "RW",   0,  1'b0,   1,      1,    0);
         TXPAUSETV.configure(this, 16,   0,  "RW",   0,  16'h0,  1,      1,    0);
 
     endfunction
