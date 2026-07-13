@@ -22,6 +22,9 @@ class eth_env_base extends uvm_env;
   eth_wb_adapter    m_reg2wb;
   uvm_reg_predictor #(wb_s_seq_item_base) m_predictor;
 
+  // Declare virtual sequencer
+  eth_v_sequencer     m_v_sqr;
+
   function new(string name, uvm_component parent);
     super.new(name, parent);
   endfunction
@@ -36,6 +39,8 @@ class eth_env_base extends uvm_env;
     uvm_config_db #(wb_s_config_obj)::set(this, "m_wb_s_agent", "config", m_config.m_wb_s_config);
     uvm_config_db #(wb_m_config_obj)::set(this, "m_wb_m_agent", "config", m_config.m_wb_m_config);
     
+    // Build virtual sequencer
+    m_v_sqr        = eth_v_sequencer::type_id::create("m_v_sqr", this);
     // Build wishbone slave agent
     m_wb_s_agent = wb_s_agent::type_id::create("m_wb_s_agent", this);
     // Build wishbone master agent

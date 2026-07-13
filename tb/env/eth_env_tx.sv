@@ -20,10 +20,7 @@ class eth_env_tx extends eth_env_base;
   eth_tx_scoreboard            m_tx_sb;
 
   // declare coverage handle
-  eth_tx_cov                    m_tx_cov;
-
-  // declare virtual sequencer
-  eth_v_sequencer             m_v_sqr;
+  eth_cov_tx                    m_cov_tx;
 
   function new(string name, uvm_component parent);
     super.new(name, parent);
@@ -38,9 +35,6 @@ class eth_env_tx extends eth_env_base;
     // Distribute tx scoreboard config down to scoreboard
     uvm_config_db #(eth_tx_scoreboard_config_obj) ::set(this, "m_tx_sb","config", m_config.m_tx_sb_config);
 
-    // build Virtual sequencer
-    m_v_sqr = eth_v_sequencer::type_id::create("m_v_sqr", this);
-
     // build TX agent
     m_mii_tx_agent  = mii_tx_agent::type_id::create("m_mii_tx_agent",this);
 
@@ -48,7 +42,7 @@ class eth_env_tx extends eth_env_base;
     m_tx_sb = eth_tx_scoreboard::type_id::create("m_tx_sb", this);
 
     // build TX coverage
-    m_tx_cov = eth_tx_cov::type_id::create("m_tx_cov", this);
+    m_cov_tx = eth_cov_tx::type_id::create("m_cov_tx", this);
   endfunction
 
   function void connect_phase(uvm_phase phase);
@@ -73,8 +67,14 @@ class eth_env_tx extends eth_env_base;
     m_tx_sb.m_regmodel=m_config.m_tx_sb_config.m_regmodel;
 
     // Connect TX Coverage analysis implementation with wishbone slave agent analysis export
-    m_wb_s_agent.a_port.connect(m_tx_cov.wb_s_a_export); 
-    
+    m_wb_s_agent.a_port.connect(m_cov_tx.wb_s_a_export); 
+  
+    // Connect TX Coverage analysis implementation with wishbone master agent analysis export
+    m_wb_m_agent.a_port.connect(m_cov_tx.wb_m_a_export); 
+
+    // Connect TX Coverage analysis implementation with mii tx agent analysis export
+    m_mii_tx_agent.agent_a_port.connect(m_cov_tx.mii_tx_a_export); 
+
   endfunction
 
 endclass
