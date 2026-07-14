@@ -1,3 +1,30 @@
+//==============================================================================
+// Project  : ethmac_uvm_ITI_GP
+// File     : eth_rx_coverage.sv
+// Author   : Mariam & Mounir
+// Date     : 2026-07-13
+//------------------------------------------------------------------------------
+// Description:
+// Functional coverage model for the Ethernet MAC RX path.
+// Subscribes to the MII Rx Monitor analysis port (same port as scoreboard)
+// and samples covergroups on every received frame transaction.
+//
+// Coverage organised by topic, matching the scoreboard predictor phases:
+//   CG1  — Frame type distribution
+//   CG2  — PHY-level errors (Phase A)
+//   CG3  — Inter-frame gap (Phase B)
+//   CG4  — Address recognition (Phase C)
+//   CG5  — Frame length / size boundaries (Phase D)
+//   CG6  — CRC and error flags (Phase E)
+//   CG7  — Dribble nibble
+//   CG8  — Late collision on RX
+//   CG9  — PAUSE / control frame (PASSALL × RXFLOW matrix)
+//   CG10 — Register configuration cross-coverage
+//   CG11 — BD status bit combinations
+//   CG12 — Payload size distribution
+//   CG13 — Error injection cross-coverage
+//==============================================================================
+
 `ifndef RTH_RX_COVERAGE_SV
 `define RTH_RX_COVERAGE_SV
 
