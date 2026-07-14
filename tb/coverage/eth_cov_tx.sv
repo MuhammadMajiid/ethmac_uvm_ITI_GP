@@ -15,7 +15,9 @@ class eth_cov_tx extends uvm_component;
     // =========================================================================
     // Register model
     // =========================================================================
-    eth_reg_block m_reg_block;
+    eth_reg_block m_regmodel;
+    uvm_reg reg_h;
+    uvm_reg regs[$];
     // =========================================================================
     // Analysis fifos for wishbone master ,wishbone master, MII TX
     // =========================================================================
@@ -66,13 +68,6 @@ class eth_cov_tx extends uvm_component;
     logic [3:0] m_txd ;               // Transmit Data Nibble
     logic m_txen;                    // Transmit Enable. indicates to the PHY that the data MTxD is valid and the transmission can start.
     logic m_txerr;                   // Transmit Error
-	// =============================================================================
-    // RW / Reserved bits coverage
-    // =============================================================================
-    bit m_field_value;
-    bit m_reserved_value;
-    string m_current_reg;
-    string m_current_field;
     // =========================================================================
     // Constructor, Build Phase, Connect phase and Run phase
     // =========================================================================
@@ -87,43 +82,57 @@ class eth_cov_tx extends uvm_component;
 	extern function void sample_rw_reserved_cov(uvm_reg reg_h,logic [31:0] r_data);
 
     // =============================================================================
-    //  Register read/write cover group
+    //  Register bit read coverage
     // =============================================================================
-    covergroup rw_field_cov;
 
-        cp_field : coverpoint m_current_field;
+    int unsigned m_current_bit_id;
+        bit m_field_value;
+        bit m_reserved_value;
+        int unsigned m_current_reg_id;
+        int unsigned m_current_field_id;
 
-        cp_rw_value : coverpoint m_field_value {
+    covergroup m_rw_bit_cov;
+
+        // 21 registers
+        cp_reg : coverpoint m_current_reg_id {
+
+            bins regs[21] = {[0:20]};
+
+        }
+
+
+        // Every bit in register
+        cp_bit : coverpoint m_current_bit_id {
+
+            bins bits[32] = {[0:31]};
+
+        }
+
+
+        // Bit value
+        cp_value : coverpoint m_field_value {
 
             bins zero = {0};
             bins one  = {1};
 
         }
 
-        field_value_cross:
-            cross cp_field, cp_rw_value;
 
+        cross_reg_bit :
+            cross cp_reg, cp_bit;
+
+
+        cross_bit_value :
+            cross cp_bit, cp_value;
     endgroup
-
-
-
-    covergroup reserved_bit_cov;
-
-        cp_reg : coverpoint m_current_reg;
-
-        cp_reserved : coverpoint m_reserved_value {
-
-            bins reserved_zero = {0};
-
-            illegal_bins reserved_one = {1};
-
-        }
-
-        cross_reg_reserved:
-            cross cp_reg, cp_reserved;
-
+    covergroup m_reserved_bit_cov; 
+    cp_reg : coverpoint m_current_reg_id 
+    { bins regs[21] = {[0:20]}; } 
+    cp_reserved : coverpoint m_reserved_value 
+    { bins reserved_zero = {0};
+    illegal_bins reserved_one = {1}; } 
+    cross cp_reg, cp_reserved; 
     endgroup
-
     // =============================================================================
     //  Write Configurations cover group
     // =============================================================================
@@ -131,7 +140,7 @@ class eth_cov_tx extends uvm_component;
         // Addresses
         cp_addr: coverpoint m_addr{
             bins tx_reg0 = {'h00};
-            bins tx_reg1 []= {['h01:'h08]} ;
+            bins tx_reg1 []= {[10'h02:10'h08]} ;
             bins tx_reg2 []= {['h10:'h11]}; 
             bins tx_reg3   = {'h14};
             bins tx_bd   [] = {[WB_BD_MEM_BASE_ADDR:WB_BD_MEM_OFFSET_ADDR]};
@@ -321,11 +330,11 @@ class eth_cov_tx extends uvm_component;
     cp_bd_cfg: coverpoint m_bd_cfg iff(m_addr>=WB_BD_MEM_BASE_ADDR && m_addr<=WB_BD_MEM_OFFSET_ADDR && m_addr%2==0) {
 
         // All configurations
-        bins bd_config [] = {['b00_0000:'b11_1111]};
+        bins bd_config [] = {['b0_0000:'b1_1111]};
         // padding
-        wildcard bins bd_pad [2] = {'b??_??0?,'b??_??1?};
+        wildcard bins bd_pad [2] = {5'b?_??0?,5'b?_??1?};
         // CRC
-        wildcard bins bd_crc [2] = {'b??_???0,'b??_???1};
+        wildcard bins bd_crc [2] = {5'b?_???0,5'b?_???1};
 
         // ignore other values
         bins others = default;
@@ -405,7 +414,7 @@ class eth_cov_tx extends uvm_component;
             bins inta_1={1};
             bins inta_0={0};
         } 
-
+        /*
         cp_bd_stat: coverpoint m_bd_stat iff(m_addr>=WB_BD_MEM_BASE_ADDR && m_addr<=WB_BD_MEM_OFFSET_ADDR && m_addr%2==0) {
             // underrun
             wildcard bins ur []= {'b1_????};
@@ -418,7 +427,7 @@ class eth_cov_tx extends uvm_component;
         }
 
 
-       /* cp_bd_retry: coverpoint m_retry_cnt iff(m_addr>=WB_BD_MEM_BASE_ADDR && m_addr<=WB_BD_MEM_OFFSET_ADDR  && m_addr%2==0) {
+        cp_bd_retry: coverpoint m_retry_cnt iff(m_addr>=WB_BD_MEM_BASE_ADDR && m_addr<=WB_BD_MEM_OFFSET_ADDR  && m_addr%2==0) {
             // minimum
             bins retry_min = {'b0000};
             // maximum
@@ -610,6 +619,8 @@ function eth_cov_tx::new(string name, uvm_component parent);
     m_rd_cfg_cov=new();
     m_mii_cov_tx=new();
     m_wb_m_cov=new();
+    m_rw_bit_cov     = new();
+    m_reserved_bit_cov = new();
 endfunction
 
 
@@ -667,25 +678,15 @@ task eth_cov_tx::sample_wb_s_item();
     m_retry_cnt = m_wdata[7:4];
     m_bd_stat ={m_wdata[8],m_wdata[3:0]};
 
-    // if address isn't inside register or bd range return
-    /*if(! ((m_addr inside{WB_BD_MEM_BASE_ADDR,WB_BD_MEM_OFFSET_ADDR}) || (m_addr inside{ETH_REG_BASE_ADDR,ETH_REG_OFFSET_ADDR})))
-        return;
-*/
+
     // if select isn't valid return 
     if(!(&m_wb_s_seq_item.m_sel))
         return;
-
-    // if write transaction cover config_group
-    if(m_wb_s_seq_item.m_dir==WB_WRITE) begin
-        m_wr_cfg_cov.sample();
-        `uvm_info(get_name(), "SAMPLED", UVM_NONE)
-        
-    end
     
     // if write transaction cover config_group
     if(m_wb_s_seq_item.m_dir==WB_WRITE) begin
         m_wr_cfg_cov.sample();
-        `uvm_info(get_name(), "SAMPLED", UVM_NONE)
+        `uvm_info(get_full_name(), m_wb_s_seq_item.convert2string(), UVM_NONE)
         
     end
     
@@ -694,18 +695,25 @@ task eth_cov_tx::sample_wb_s_item();
 
     m_rd_cfg_cov.sample();
 
-    uvm_reg reg_h;
 
-    reg_h = m_reg_block.get_reg_by_offset(
-                m_addr,
-                UVM_NO_HIER
-            );
+    reg_h = null;
+
+    m_regmodel.get_registers(regs);
+
+    foreach (regs[r]) begin
+        if (regs[r].get_offset() == m_addr) begin
+            reg_h = regs[r];
+            m_current_reg_id = r;
+            break;
+        end
+    end
 
     if (reg_h != null)
         sample_rw_reserved_cov(reg_h, m_rdata);
 
     end
 endtask
+
 task eth_cov_tx::sample_wb_m_item();
 
     // Get transaction from fifo
@@ -750,7 +758,8 @@ task eth_cov_tx::sample_mii_tx_item();
     m_mii_cov_tx.sample();
 
 endtask
-function void eth_tx_cov::sample_rw_reserved_cov
+
+function void eth_cov_tx::sample_rw_reserved_cov
 (
     uvm_reg reg_h,
     logic [31:0] r_data
@@ -760,6 +769,7 @@ function void eth_tx_cov::sample_rw_reserved_cov
     uvm_reg_field fields[$];
 
     logic [31:0] implemented_mask;
+    logic [31:0] reserved_mask;
 
     implemented_mask = 32'b0;
 
@@ -795,35 +805,26 @@ function void eth_tx_cov::sample_rw_reserved_cov
         // Only RW fields
         //-------------------------------------
 
-        if(fields[i].get_access() == "RW") begin
+       if(fields[i].get_access() == "RW") begin
 
+       for(int b=0; b<width; b++) begin
 
-            m_current_field = fields[i].get_name();
+    m_current_bit_id = lsb+b;
 
+    m_field_value = r_data[lsb+b];
 
-            for(int b=0;b<width;b++) begin
+    m_rw_bit_cov.sample();
 
-
-                m_field_value = r_data[lsb+b];
-
-
-                m_rw_field_cov.sample();
-
-
-            end
-
-
-        end
-
-    end
-
-
+      end
+       end
+    
+ end       
 
     //-----------------------------------------
     // Reserved bits = bits not in fields
     //-----------------------------------------
 
-    logic [31:0] reserved_mask;
+
 
     reserved_mask = ~implemented_mask;
 
@@ -861,4 +862,5 @@ function void eth_tx_cov::sample_rw_reserved_cov
 
 
 endfunction
+
 `endif // ETH_COV_TX_SV

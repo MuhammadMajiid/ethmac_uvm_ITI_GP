@@ -28,6 +28,7 @@ package wb_s_seq_pkg;
     `include "wb_s_seq_base.sv"
     `include "wb_s_basic_tx_seq.sv"
     `include "wb_s_control_frame_tx_seq.sv"
+    `include "wb_s_seq_tx_no_pre.sv"
 endpackage : wb_s_seq_pkg
 
 `endif // WB_S_SEQ_PKG_SV

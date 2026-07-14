@@ -20,12 +20,7 @@
 `ifndef WB_S_SEQ_BASE_SV
 `define WB_S_SEQ_BASE_SV
 
-class wb_s_seq_base extends
-    uvm_sequence#(
-        wb_s_seq_item_base#(
-            WB_S_ADDR_WIDTH,
-            WB_DATA_WIDTH,
-            WB_SEL_WIDTH));
+class wb_s_seq_base extends uvm_sequence;
 
     `uvm_object_utils(wb_s_seq_base)
      eth_reg_block regmodel;

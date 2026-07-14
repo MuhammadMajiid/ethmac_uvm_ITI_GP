@@ -13,11 +13,12 @@
 package wb_s_seq_item_pkg;
 
     `include "uvm_macros.svh"
-     import uvm_pkg::*;
+    import uvm_pkg::*;
 
     import eth_glob_pkg::*;
 
     `include "wb_s_seq_item_base.sv";
+    `include "wb_s_seq_item_tx.sv";
 
 endpackage : wb_s_seq_item_pkg
 

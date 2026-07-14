@@ -16,7 +16,7 @@ class eth_tx_scoreboard extends uvm_scoreboard;
     // =========================================================================
     // Parameters for semaphore keys
     // =========================================================================
-    parameter SEM_TX_SEQ_ITEM_NO_KEYS = 7;
+    parameter SEM_TX_SEQ_ITEM_NO_KEYS = 3;
     parameter SEM_WB_M_SEQ_ITEM_NO_KEYS = 1;
 
     // =========================================================================
@@ -419,9 +419,11 @@ task eth_tx_scoreboard::run_phase(uvm_phase phase);
             wait(m_ev_end_seqs.triggered);
             wait(m_ev_end_pkt.triggered);
             #0.2;
-            repeat(m_tx_bd_cfg_s.tx_bd_num-1) begin
-            wait(m_ev_end_pkt.triggered);
-            #0.2;
+            if(!m_tx_bd_cfg_s.tx_pause_req || !m_tx_bd_cfg_s.tx_flow) begin
+                repeat(m_tx_bd_cfg_s.tx_bd_num-1) begin
+                wait(m_ev_end_pkt.triggered);
+                #0.2;
+            end
         end
         disable fork_run_phase;
         end    
@@ -480,9 +482,6 @@ task eth_tx_scoreboard::predictor();
                 wait(m_ev_txen.triggered);
                     pred_read_cfg_reg();
                 forever begin
-                    if(!m_tx_bd_cfg_s.full_duplex) begin
-            
-                    end 
                     if(!m_tx_bd_cfg_s.tx_pause_req || !m_tx_bd_cfg_s.tx_flow) begin
                         wait(m_tx_pending_s.flag_rd);
                         pred_read_cfg_bd();
