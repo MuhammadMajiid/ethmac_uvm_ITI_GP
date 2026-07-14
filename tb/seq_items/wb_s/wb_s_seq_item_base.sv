@@ -28,7 +28,7 @@ class wb_s_seq_item_base #(
   //--------------------------------------------------------------------------
   rand bit [WB_S_ADDR_WIDTH-1:0] m_addr;     // ADDR_I
   rand bit [WB_DATA_WIDTH-1:0] m_wdata;    // DATA_I
-  rand wb_dir_t             m_dir;      // Read/Write
+  wb_dir_t             m_dir;      // Read/Write
   rand bit [WB_SEL_WIDTH -1:0] m_sel;  // Byte enables
 
   //--------------------------------------------------------------------------

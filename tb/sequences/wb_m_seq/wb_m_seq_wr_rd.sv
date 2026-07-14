@@ -27,7 +27,7 @@ class wb_m_seq_wr_rd extends wb_m_seq_base;
             m_tr_item  = wb_m_seq_item_base::type_id::create("m_tr_item");
             
             // Check if sel is valid
-            if((&m_req_item.m_sel_o)) begin
+            if((&m_req_item.m_sel_o) && m_req_item.m_cyc_o && m_req_item.m_stb_o) begin
             // Check if transaction is write or read
             case (m_req_item.m_dir)
                 WB_WRITE:

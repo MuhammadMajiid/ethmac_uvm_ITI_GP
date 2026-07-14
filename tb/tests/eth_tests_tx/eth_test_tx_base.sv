@@ -8,7 +8,12 @@ class eth_test_tx_base extends uvm_test;
 
   eth_env_tx                 m_env;
   eth_env_config_obj         m_config;       
-  
+  // declare virtual sequence
+  eth_v_seq_tx  m_v_seq_tx;
+
+  // declare end sequences event
+  event         m_ev_end_seqs;
+
   function new(string name, uvm_component parent);
     super.new(name, parent);
   endfunction
@@ -46,6 +51,26 @@ endfunction
     this.print();
     factory.print();
   endfunction
+
+  task run_phase(uvm_phase phase);
+      super.run_phase(phase);
+
+      m_env.m_cov_tx.m_reserved_bit_cov.stop();
+      m_env.m_cov_tx.m_rw_bit_cov.stop();
+      
+      // create virtual sequence
+      m_v_seq_tx = eth_v_seq_tx::type_id::create("m_v_seq_tx");
+
+      // assign regmodel in wishbone slave sequence to the one in config object
+      m_v_seq_tx.m_wb_s_seq_base.regmodel=m_config.m_regmodel;
+
+      phase.raise_objection(this);
+      // Start virtual sequence;      
+      m_v_seq_tx.start(m_env.m_v_sqr);
+      //trigger end seqs event
+      -> m_ev_end_seqs;
+      phase.drop_objection(this);
+  endtask
 
 endclass
 

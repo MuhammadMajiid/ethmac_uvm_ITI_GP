@@ -16,7 +16,8 @@ import uvm_pkg::*;
 `include "uvm_macros.svh"
 import eth_glob_pkg::*;
 
-
+// import RAL package
+import eth_ral_pkg::*;
 
 // import transactions packages
 import wb_m_seq_item_pkg::*;
