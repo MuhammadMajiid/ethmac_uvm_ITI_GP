@@ -61,7 +61,7 @@ class wb_s_seq_tx_no_pre extends wb_s_basic_tx_seq;
     //-----------------------------------------------------
     // Configure registers
     //-----------------------------------------------------
-    configure_tx_registers(.tx_bd_num(m_item.tx_bd_num),.fulld(1),.txen(1),.nopre(1));
+    configure_tx_registers(.tx_bd_num(m_item.tx_bd_num),.fulld(0),.txen(1),.nopre(1));
 
     `uvm_info(get_type_name(),
                 "No preamble TX configuration completed",

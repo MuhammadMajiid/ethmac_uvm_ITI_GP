@@ -23,8 +23,8 @@ class mii_tx_seq_item_base extends uvm_sequence_item;
     `uvm_object_utils(mii_tx_seq_item_base)
 
 
-    rand logic MColl;                // Collision signal:  The PHY asynchronously asserts it 
-    rand logic MCrS;                 // Carrier Sense: The PHY asynchronously asserts it. MCrS=1 (busy medium)
+    rand bit MColl;                // Collision signal:  The PHY asynchronously asserts it 
+    rand bit MCrS;                 // Carrier Sense: The PHY asynchronously asserts it. MCrS=1 (busy medium)
 
     logic [3:0] MTxD;               // Transmit Data Nibble. They are synchronized to the rising edge of MTxClk.
     logic MTxEN;                    // Transmit Enable. indicates to the PHY that the data MTxD is valid and the transmission can start.
