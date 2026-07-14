@@ -26,7 +26,8 @@ package  eth_v_seq_sqr_pkg;
   // import sequences package
   import wb_m_seq_pkg::*;
   import wb_s_seq_pkg::*;
-
+  import mii_tx_seq_pkg::*;
+  
   // include virtual sequencer files
   `include "eth_v_sequencer.sv"
   `include "eth_v_seq_base.sv"

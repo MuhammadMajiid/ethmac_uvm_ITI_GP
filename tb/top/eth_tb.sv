@@ -5,7 +5,7 @@ module eth_tb;
   import uvm_pkg::*;
   import eth_glob_pkg::*;
   import eth_test_tx_pkg::*;
-  
+
   //--------------------------------------------------------------------------
   // Clock / Reset
   //--------------------------------------------------------------------------
@@ -16,31 +16,33 @@ module eth_tb;
   // Wishbone slave Interface
   //--------------------------------------------------------------------------
   wb_s_if #(
-    .WB_S_ADDR_WIDTH (WB_S_ADDR_WIDTH),
-    .WB_DATA_WIDTH (WB_DATA_WIDTH),
-    .WB_SEL_WIDTH(WB_SEL_WIDTH)
+  .WB_S_ADDR_WIDTH (WB_S_ADDR_WIDTH),
+  .WB_DATA_WIDTH (WB_DATA_WIDTH),
+  .WB_SEL_WIDTH(WB_SEL_WIDTH)
   ) m_wb_s_if (
-    .clk(wb_clk),
-    .rst(rst)
+  .clk(wb_clk),
+  .rst(rst)
   );
-  mii_rx_if mii_rx_interface();
   //--------------------------------------------------------------------------
   // Wishbone master Interface
   //--------------------------------------------------------------------------
-   wb_m_if #(
-    .ADDR_WIDTH (WB_M_ADDR_WIDTH),
-    .DATA_WIDTH (WB_DATA_WIDTH),
-    .SEL_WIDTH(WB_SEL_WIDTH)
-    ) m_wb_m_if(.clk_i(wb_clk), .rst_i(rst));
+  wb_m_if #(
+  .ADDR_WIDTH (WB_M_ADDR_WIDTH),
+  .DATA_WIDTH (WB_DATA_WIDTH),
+  .SEL_WIDTH(WB_SEL_WIDTH)
+  ) m_wb_m_if(.clk_i(wb_clk), .rst_i(rst));
 
   //--------------------------------------------------------------------------
   // MII TX Interface
   //--------------------------------------------------------------------------
-    mii_tx_if #(.PHY_NIBBLE_WIDTH(ETH_NIBBLE_WIDTH)) m_mii_tx_if(
-        .MTxCLK(tx_clk),
-        .rst(rst)
-        );
-
+  mii_tx_if #(.PHY_NIBBLE_WIDTH(ETH_NIBBLE_WIDTH)) m_mii_tx_if(
+      .MTxCLK(tx_clk),
+      .rst(rst)
+      );
+  //--------------------------------------------------------------------------
+  // MII RX Interface
+  //--------------------------------------------------------------------------
+  mii_rx_if mii_rx_interface();
   //--------------------------------------------------------------------------
   // wishbone Clock Generation 
   //--------------------------------------------------------------------------
@@ -104,8 +106,8 @@ module eth_tb;
       .mtxd_pad_o       (m_mii_tx_if.MTxD),
       .mtxen_pad_o     (m_mii_tx_if.MTxEN),
       .mtxerr_pad_o    (m_mii_tx_if.MTxERR),
-      .mcoll_pad_i      (1'b0),
-      .mcrs_pad_i       (1'b0)
+      .mcoll_pad_i      (m_mii_tx_if.MColl),
+      .mcrs_pad_i       (m_mii_tx_if.MCrS)
 
   );
 

@@ -42,7 +42,9 @@ class eth_test_tx_base extends uvm_test;
 
     // Build environment
     m_env = eth_env_tx::type_id::create("m_env", this);
-
+    
+    // Assign end sequence event to event in config object
+    m_config.m_tx_sb_config.m_ev_end_seqs=m_ev_end_seqs;
 endfunction
 
   function void start_of_simulation_phase(uvm_phase phase);

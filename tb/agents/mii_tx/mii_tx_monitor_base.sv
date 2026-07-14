@@ -66,8 +66,8 @@ class mii_tx_monitor_base extends uvm_monitor;
         @(vif.cb_mii_tx);
 
         // DUT input signals -> output from testbench
-        m_seq_item.MColl  = vif.cb_mii_tx.MColl;
-        m_seq_item.MCrS   = vif.cb_mii_tx.MCrS;
+        m_seq_item.MColl  = vif.MColl;
+        m_seq_item.MCrS   = vif.MCrS;
 
         // DUT output signals -> input to testbench
         m_seq_item.MTxD   = vif.cb_mii_tx.MTxD;
