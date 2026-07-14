@@ -24,6 +24,7 @@ package mii_tx_agent_pkg;
     
     `include "mii_tx_sequencer_base.sv"
     `include "mii_tx_driver_base.sv"
+    `include "mii_tx_driver_hd.sv"
     `include "mii_tx_monitor_base.sv"
     `include "mii_tx_agent.sv"
 

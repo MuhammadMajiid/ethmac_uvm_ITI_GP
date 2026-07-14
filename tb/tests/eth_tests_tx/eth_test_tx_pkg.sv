@@ -20,6 +20,9 @@ package eth_test_tx_pkg;
   import wb_m_seq_pkg::*;
   import wb_s_seq_pkg::*;
 
+  // import agent package
+  import mii_tx_agent_pkg::*;
+
   // import environment package
   import eth_env_pkg::*;
 

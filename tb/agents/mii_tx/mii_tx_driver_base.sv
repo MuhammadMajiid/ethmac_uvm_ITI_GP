@@ -40,6 +40,9 @@ class mii_tx_driver_base extends uvm_driver #(mii_tx_seq_item_base);
         reset_items();
         forever begin
             m_seq_item = mii_tx_seq_item_base::type_id::create("m_seq_item");
+            
+            // Get the next item from the sequencer
+            seq_item_port.get_next_item(m_seq_item);
             drive_items(m_seq_item);
         end
     endtask 
@@ -49,23 +52,20 @@ class mii_tx_driver_base extends uvm_driver #(mii_tx_seq_item_base);
         vif.cb_mii_tx.MColl<=0;
         vif.cb_mii_tx.MCrS <=0;
         @(negedge vif.rst);   // wait for reset deassertion
-        @(posedge vif.MTxCLK);  
+        @(vif.cb_mii_tx);  
         `uvm_info("DRIVER", "Reset deasserted — starting stimulus", UVM_LOW)
     endtask
 
     // Task: drive_items
     task drive_items(mii_tx_seq_item_base m_seq_item);
-        // Get the next item from the sequencer
-        seq_item_port.get_next_item(m_seq_item);
 
         // Drive pin level DUT signals
         vif.cb_mii_tx.MColl <= m_seq_item.MColl ;
         vif.cb_mii_tx.MCrS <= m_seq_item.MCrS ;
-
-        @(negedge vif.MTxCLK);
+        @(vif.cb_mii_tx);
 
         seq_item_port.item_done();
-            `uvm_info("run_phase", m_seq_item.convert2string_stimulus(), UVM_MEDIUM)
+            `uvm_info("run_phase", m_seq_item.convert2string_stimulus(), UVM_HIGH)
     endtask 
     
 endclass : mii_tx_driver_base
