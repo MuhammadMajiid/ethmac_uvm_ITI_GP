@@ -1148,10 +1148,8 @@ function void eth_cov_rx::build_phase(uvm_phase phase);
     wb_m_a_export   = new("wb_m_a_export",   this);
     wb_s_a_export   = new("wb_s_a_export",   this);
 
-    if (!uvm_config_db #(eth_reg_block)::get(
-            this, "", "m_regmodel", m_regmodel))
-        `uvm_fatal(get_full_name(),
-            "eth_cov_rx: cannot get eth_reg_block from config_db")
+    if (!uvm_config_db #(eth_reg_block)::get(this, "", "m_regmodel", m_regmodel))
+        `uvm_fatal(get_full_name(),"eth_cov_rx: cannot get eth_reg_block from config_db")
 endfunction
 
 // -----------------------------------------------------------------------------
