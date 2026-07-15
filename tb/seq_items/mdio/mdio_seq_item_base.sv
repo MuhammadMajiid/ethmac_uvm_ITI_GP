@@ -25,7 +25,7 @@ class mdio_seq_item_base extends uvm_sequence_item;
     rand bit [4:0]  phy_addr;
     rand bit [4:0]  reg_addr;
     rand bit [15:0] data;
-    bit [1:0]  turn_around;
+    rand bit [1:0]  turn_around;
     real       clk_period_ns;
     function new(string name = "mdio_seq_item_base");
     super.new(name);

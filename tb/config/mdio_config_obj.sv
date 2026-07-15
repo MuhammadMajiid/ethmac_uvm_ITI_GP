@@ -16,6 +16,7 @@ class mdio_config_obj extends uvm_object;
 
   uvm_active_passive_enum is_active = UVM_ACTIVE;
   virtual mdio_if vif;
+  eth_reg_block m_regmodel;
 
   function new(string name = "mdio_config_obj");
     super.new(name);

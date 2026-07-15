@@ -20,7 +20,6 @@ class mdio_monitor_base extends uvm_monitor;
   virtual mdio_if vif;
 
   mdio_seq_item_base m_mdio_seq_item;
-  bit [1:0] op_bits;
 
   function new(string name, uvm_component parent);
     super.new(name, parent);
@@ -37,6 +36,7 @@ class mdio_monitor_base extends uvm_monitor;
   endfunction
 
   task run_phase(uvm_phase phase);
+    bit [1:0] op_bits;
 
     forever begin
       m_mdio_seq_item = mdio_seq_item_base::type_id::create("m_mdio_seq_item");
@@ -65,16 +65,19 @@ endtask
 task pack_data();
         m_mdio_seq_item.st = 2'b11;
         // 1. Wait for Start of Frame (01)
-        forever begin
+      forever begin
+        @(posedge vif.mdc); // Sample AFTER the clock edge, not before
         m_mdio_seq_item.st = {m_mdio_seq_item.st[0], vif.mdio_out};
-        @(posedge vif.mdc);
         if (m_mdio_seq_item.st == 2'b01) break;
       end
 
       // 2. Sample Opcode
       @(posedge vif.mdc); op_bits[1] = vif.mdio_out;
       @(posedge vif.mdc); op_bits[0] = vif.mdio_out;
-      $cast(m_mdio_seq_item.op, op_bits);
+      // $cast(m_mdio_seq_item.op, op_bits);
+      if (!$cast(m_mdio_seq_item.op, op_bits)) begin
+          `uvm_error("MON", $sformatf("Invalid opcode observed: %b", op_bits))
+      end
 
       // 3. Sample PHY Address
       for(int i=4; i>=0; i--) begin @(posedge vif.mdc); m_mdio_seq_item.phy_addr[i] = vif.mdio_out; end
@@ -84,25 +87,25 @@ task pack_data();
 
       // 5. sample Turn Around bits (2 cycles)
       @(posedge vif.mdc);
-      m_mdio_seq_item.turn_around[1]=vif.mdio_in;
+      m_mdio_seq_item.turn_around[1] = (vif.mdio_en) ? vif.mdio_out : vif.mdio_in;
       @(posedge vif.mdc);
-      m_mdio_seq_item.turn_around[0]=vif.mdio_in;
+      m_mdio_seq_item.turn_around[0] = (vif.mdio_en) ? vif.mdio_out : vif.mdio_in;
 
       // 6. Sample Data
       for(int i=15; i>=0; i--) begin
         @(posedge vif.mdc);
-        m_mdio_seq_item.data[i] = (m_mdio_seq_item.op==WRITE)?vif.mdio_out:vif.mdio_in;
+        m_mdio_seq_item.data[i] = (vif.mdio_en) ? vif.mdio_out : vif.mdio_in;
       end
   endtask
 
 task calc_freq();
-  realtime st,fin;
-  @(posedge vif.mdc);
-  fin=$time;
-  @(posedge vif.mdc);
-  fin=$time;
-  m_mdio_seq_item.clk_period_ns=(fin-st)/1000.0;
-endtask
+    realtime st, fin;
+    @(posedge vif.mdc);
+    st=$time;
+    @(posedge vif.mdc);
+    fin=$time;
+    m_mdio_seq_item.clk_period_ns=(fin-st); // Removed /1000.0 to keep it in ns
+  endtask
 
 endclass
 

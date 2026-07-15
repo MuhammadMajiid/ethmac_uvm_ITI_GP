@@ -25,7 +25,7 @@ typedef struct {
     bit [ETH_CTRL_ADDR_LEN-1:0]     wr_data;
     bit [ETH_CTRL_DATA_LEN-1:0]     rd_data;
     bit                             invalid;
-    bit                             busy; 
+    bit                             busy;
     bit                             link_fail;
 } mdio_cfg_reg_s;
 
@@ -46,17 +46,15 @@ class eth_mdio_scoreboard extends uvm_scoreboard;
 
   mdio_seq_item_base                                m_mdio_seq_item;
 
-  //  Configuration object 
+  //  Configuration object
 
   mdio_config_obj                    m_config;
 
   // Register block
 
-  eth_reg_block                                     m_regmodel;   
+  eth_reg_block                                     m_regmodel;
 
-  // Event for ending packet comparison
 
-  event                                             m_ev_end_comp;  
 
   // Configuration struct
 
@@ -73,12 +71,11 @@ class eth_mdio_scoreboard extends uvm_scoreboard;
   extern function void build_phase(uvm_phase phase);
   extern function void connect_phase(uvm_phase phase);
   extern task run_phase(uvm_phase phase);
-  
+
   extern task get_seq_item();
   extern task read_cfg_regs();
   extern task read_stat_regs();
   extern task pred_write();
-  extern task pred_scan();
   extern task comp_write(input mdio_seq_item_base item);
   extern task pred_read();
   extern task comp_read();
@@ -106,66 +103,54 @@ endfunction
 
 function void eth_mdio_scoreboard::connect_phase(uvm_phase phase);
     super.connect_phase(phase);
-    
+
     // assign ral handle to it's corresponding in config
     m_regmodel=m_config.m_regmodel;
-    
+
     // Connect each export with it's corrosponding fifo
     a_export.connect(a_fifo.analysis_export);
-endfunction 
+endfunction
 
 task eth_mdio_scoreboard::run_phase(uvm_phase phase);
-  
-      phase.raise_objection(this);
-      fork: fork_mdio
-      begin
-        forever
-        begin
-            get_seq_item();
-            read_cfg_regs();
-            if(m_cfg_reg_s.w_ctrl_data) begin 
-                do begin
-                  #1;
-                  read_stat_regs();
-                end
-                while(m_cfg_reg_s.busy);
-                pred_write(m_mdio_seq_item);
-                comp_write(m_mdio_seq_item);
-            end  
-            else if(m_cfg_reg_s.scan_stat) begin 
-                do begin
-                  #1;
-                  read_stat_regs();
-                end
-                while(m_cfg_reg_s.invalid);
-                pred_read();
-                comp_read();
-                comp_linkfail();
-            end  
-            else if(m_cfg_reg_s.r_stat) begin 
-                do begin
-                  #1;
-                  read_stat_regs();
-                end
-                while(m_cfg_reg_s.busy);
-                pred_read();
-                comp_read();
-                comp_linkfail();
-              end  
 
-            comp_clk_period();   
-            -> m_ev_end_comp;          
-        end  
+  forever
+  begin
+      get_seq_item();
+      read_cfg_regs();
+      if(m_cfg_reg_s.w_ctrl_data) begin
+          do begin
+            @(posedge m_config.vif.mdc); // Replaced #1 with clock edge
+            read_stat_regs();
+          end
+          while(m_cfg_reg_s.busy);
+          pred_write();
+          comp_write(m_mdio_seq_item);
       end
-      begin
-        wait(m_ev_end_comp.triggered);
-        disable fork_mdio;
+      else if(m_cfg_reg_s.scan_stat) begin
+          do begin
+            @(posedge m_config.vif.mdc); // Replaced #1 with clock edge
+            read_stat_regs();
+          end
+          while(m_cfg_reg_s.invalid);
+          pred_read();
+          comp_read();
+          comp_linkfail();
       end
-      join;
-      
-      phase.drop_objection(this);
-      
-   
+      else if(m_cfg_reg_s.r_stat) begin
+          do begin
+            #1;
+            read_stat_regs();
+          end
+          while(m_cfg_reg_s.busy);
+          pred_read();
+          comp_read();
+          comp_linkfail();
+        end
+
+      comp_clk_period();
+  end
+
+
 endtask
 
 task eth_mdio_scoreboard::get_seq_item();
@@ -173,7 +158,7 @@ task eth_mdio_scoreboard::get_seq_item();
         a_fifo.get(m_mdio_seq_item);
         `uvm_info(get_type_name(),m_mdio_seq_item.convert2string(),UVM_HIGH)
 
-endtask 
+endtask
 
 task eth_mdio_scoreboard::read_cfg_regs();
 
@@ -205,7 +190,7 @@ task eth_mdio_scoreboard::read_stat_regs();
   m_cfg_reg_s.invalid   = m_regmodel.MIISTATUS.NVALID.get_mirrored_value();
   m_cfg_reg_s.busy      = m_regmodel.MIISTATUS.BUSY.get_mirrored_value();
   m_cfg_reg_s.link_fail = m_regmodel.MIISTATUS.LINKFAIL.get_mirrored_value();
-endtask  
+endtask
 
 task eth_mdio_scoreboard::pred_write();
   // Check if no preamble is disabled then push preamble
@@ -214,13 +199,13 @@ task eth_mdio_scoreboard::pred_write();
     m_exp_wr_pkt.push_back(1);
   end
 
-  // push start of frame  
+  // push start of frame
   m_exp_wr_pkt.push_back(0);
   m_exp_wr_pkt.push_back(1);
 
   // push opcode
   m_exp_wr_pkt.push_back(0);
-  m_exp_wr_pkt.push_back(1);     
+  m_exp_wr_pkt.push_back(1);
 
   // push fiad
   for (int i=ETH_CTRL_ADDR_LEN-1; i>=0; i--)
@@ -230,9 +215,9 @@ task eth_mdio_scoreboard::pred_write();
   for (int i=ETH_CTRL_ADDR_LEN-1; i>=0; i--)
       m_exp_wr_pkt.push_back(m_cfg_reg_s.reg_addr[i]);
 
-  //push turn around
+  //push turn around (TA = 10 for write per spec)
+  m_exp_wr_pkt.push_back(1);
   m_exp_wr_pkt.push_back(0);
-  m_exp_wr_pkt.push_back(1); 
 
   // push data
   for (int i=ETH_CTRL_DATA_LEN-1; i>=0; i--)
@@ -247,13 +232,13 @@ task eth_mdio_scoreboard::pred_read();
     m_exp_rd_pkt.push_back(1);
   end
 
-  // push start of frame  
+  // push start of frame
   m_exp_rd_pkt.push_back(0);
   m_exp_rd_pkt.push_back(1);
 
   // push opcode
   m_exp_rd_pkt.push_back(1);
-  m_exp_rd_pkt.push_back(0);     
+  m_exp_rd_pkt.push_back(0);
 
   // push fiad
   for (int i=ETH_CTRL_ADDR_LEN-1; i>=0; i--)
@@ -265,7 +250,7 @@ task eth_mdio_scoreboard::pred_read();
 
   //push turn around
   m_exp_rd_pkt.push_back(1);
-  m_exp_rd_pkt.push_back(0); 
+  m_exp_rd_pkt.push_back(0);
 
   // push data
   for (int i=ETH_CTRL_DATA_LEN-1; i>=0; i--)
@@ -273,98 +258,72 @@ task eth_mdio_scoreboard::pred_read();
 
 endtask
 
-task eth_mdio_scoreboard::pred_scan();
-
-  if(m_cfg_reg_s.scan_stat) begin
-    do begin 
-      pred_read();
-      wait(m_ev_end_comp.triggered);
-    end
-    while(m_cfg_reg_s.scan_stat);
-  end
-  else if(m_cfg_reg_s.r_stat) begin
-      pred_read();
-      wait(m_ev_end_comp.triggered);
-  end  
-endtask
 
 task eth_mdio_scoreboard::comp_write(input mdio_seq_item_base item);
   int idx =0;
   bit err =0;
   bit temp[$];
- 
+
     // Compare preamble
     if(!m_cfg_reg_s.mii_no_pre) begin
-      temp=m_exp_wr_pkt[idx:ETH_CTRL_PREAMBLE_LEN-1];
+      temp=m_exp_wr_pkt[idx +: ETH_CTRL_PREAMBLE_LEN];
       if(temp!=item.preamble) begin
         `uvm_error(get_type_name(),
-          $sformatf("Preamble mismatch  Field Offset: %0d\n Expected: %0p\n Actual: %0p",
-          idx,temp,item.preamble))
+          $sformatf("Preamble mismatch  Field Offset: %0d\n Expected: %0p\n Actual: %0p", idx,temp,item.preamble))
           err =1;
-      end            
+      end
       idx+=ETH_CTRL_PREAMBLE_LEN;
     end
     // Compare start of frame
-    temp=m_exp_wr_pkt[idx:ETH_CTRL_ST_LEN-1];
+    temp=m_exp_wr_pkt[idx +: ETH_CTRL_ST_LEN];
     if(temp!=item.st) begin
         `uvm_error(get_type_name(),
-        $sformatf(
-        "Start of frame mismatch  Field Offset: %0d\n Expected: %0p\n Actual: %0p",
-        idx,temp,item.st))
+        $sformatf("Start of frame mismatch  Field Offset: %0d\n Expected: %0p\n Actual: %0p", idx,temp,item.st))
         err =1;
-      end
+    end
     // Compare opcode
-    idx+=ETH_CTRL_OPCODE_LEN;
-    temp=m_exp_wr_pkt[idx:ETH_CTRL_OPCODE_LEN-1];
-    if({temp[0],temp[1]} != bit'(item.op)) begin
+    idx+=ETH_CTRL_ST_LEN;
+    temp=m_exp_wr_pkt[idx +: ETH_CTRL_OPCODE_LEN];
+    if({temp[0],temp[1]} != item.op) begin
         `uvm_error(get_type_name(),
-          $sformatf("Opcode mismatch  Field Offset: %0d\n Expected: %0p\n Actual: %0d",
-          idx,temp,bit'(item.op)))
+          $sformatf("Opcode mismatch  Field Offset: %0d\n Expected: %0p\n Actual: %0d", idx,temp,bit'(item.op)))
         err =1;
-    end 
-    // Compare phy address   
-    idx+=ETH_CTRL_ADDR_LEN;
-    temp=m_exp_wr_pkt[idx:ETH_CTRL_ADDR_LEN-1];
+    end
+
+    // Compare phy address
+    idx+=ETH_CTRL_OPCODE_LEN;
+    temp=m_exp_wr_pkt[idx +: ETH_CTRL_ADDR_LEN];
     if(temp!= item.phy_addr) begin
         `uvm_error(get_type_name(),
-        $sformatf(
-        "Phy address mismatch  Field Offset: %0d\n Expected: %0p\n Actual: %0p",
-        idx,temp,item.phy_addr))
+        $sformatf("Phy address mismatch  Field Offset: %0d\n Expected: %0p\n Actual: %0p", idx,temp,item.phy_addr))
         err =1;
-    end 
-    // Compare register address   
+    end
+    // Compare register address
     idx+=ETH_CTRL_ADDR_LEN;
-    temp=m_exp_wr_pkt[idx:ETH_CTRL_ADDR_LEN-1];
+    temp=m_exp_wr_pkt[idx +: ETH_CTRL_ADDR_LEN];
     if(temp!= item.reg_addr) begin
         `uvm_error(get_type_name(),
-        $sformatf(
-        "Register address mismatch  Field Offset: %0d\n Expected: %0p\n Actual: %0p",
-        idx,temp,item.reg_addr))
+        $sformatf("Register address mismatch  Field Offset: %0d\n Expected: %0p\n Actual: %0p", idx,temp,item.reg_addr))
         err =1;
-      end 
-    // Compare turnaround   
+    end
+    // Compare turnaround
+    idx+=ETH_CTRL_ADDR_LEN;
+    temp=m_exp_wr_pkt[idx +: ETH_CTRL_TA_LEN]; // Changed to wr_pkt
+    if(temp!= item.turn_around) begin // Changed m_mdio_seq_item to item
+        `uvm_error(get_type_name(),
+        $sformatf("Turnaround mismatch  Field Offset: %0d\n Expected: %0p\n Actual: %0p", idx,temp,item.turn_around))
+        err =1;
+    end
+    // Compare data
     idx+=ETH_CTRL_TA_LEN;
-    temp=m_exp_rd_pkt[idx:ETH_CTRL_TA_LEN-1];
-    if(temp!= m_mdio_seq_item.turn_around) begin
+    temp=m_exp_wr_pkt[idx +: ETH_CTRL_DATA_LEN]; // Changed to wr_pkt
+    if(temp!= item.data) begin // Changed m_mdio_seq_item to item
         `uvm_error(get_type_name(),
-        $sformatf(
-        "Turnaround mismatch  Field Offset: %0d\n Expected: %0p\n Actual: %0p",
-        idx,temp,m_mdio_seq_item.turn_around))
-        err =1;
-      end
-    // Compare data   
-    idx+=ETH_CTRL_DATA_LEN;
-    temp=m_exp_rd_pkt[idx:ETH_CTRL_DATA_LEN-1];
-    if(temp!= m_mdio_seq_item.data) begin
-        `uvm_error(get_type_name(),
-        $sformatf(
-        "Data mismatch  Field Offset: %0d\n Expected: %0p\n Actual: %0p",
-        idx,temp,m_mdio_seq_item.data))
+        $sformatf("Data mismatch  Field Offset: %0d\n Expected: %0p\n Actual: %0p", idx,temp,item.data))
         err =1;
     end
     if(!err)
         `uvm_info(get_type_name(),"Management Write Packet comparison PASSED",UVM_LOW)
-
 endtask
 
 
@@ -372,87 +331,68 @@ task eth_mdio_scoreboard::comp_read();
     int idx =0;
     bit err =0;
     bit temp[$];
-    forever begin
-      if(!(m_cfg_reg_s.scan_stat || m_cfg_reg_s.r_stat)) begin
-        #1;
-        continue;
-      end  
 
-      // Compare preamble
-      if(!m_cfg_reg_s.mii_no_pre) begin
-        temp=m_exp_rd_pkt[idx:ETH_CTRL_PREAMBLE_LEN-1];
-        if(temp!=m_mdio_seq_item.preamble) begin
-            `uvm_error(get_type_name(),
-            $sformatf(
-            "Preamble mismatch  Field Offset: %0d\n Expected: %0p\n Actual: %0p",
-            idx,temp,m_mdio_seq_item.preamble))
-            err =1;
-        end            
-        idx+=ETH_CTRL_PREAMBLE_LEN;
-      end
-      // Compare start of frame
-      temp=m_exp_rd_pkt[idx:ETH_CTRL_ST_LEN-1];
-      if(temp!=m_mdio_seq_item.st) begin
+    // Removed forever begin and continue logic, this runs once per transaction
+    // Compare preamble
+    if(!m_cfg_reg_s.mii_no_pre) begin
+      temp=m_exp_rd_pkt[idx +: ETH_CTRL_PREAMBLE_LEN];
+      if(temp!=m_mdio_seq_item.preamble) begin
           `uvm_error(get_type_name(),
-          $sformatf(
-          "Start of frame mismatch  Field Offset: %0d\n Expected: %0p\n Actual: %0p",
-          idx,temp,m_mdio_seq_item.st))
-          err =1;
-        end
-      // Compare opcode
-      idx+=ETH_CTRL_OPCODE_LEN;
-      temp=m_exp_rd_pkt[idx:ETH_CTRL_OPCODE_LEN-1];
-      if({temp[1],temp[0]} != bit'(m_mdio_seq_item.op)) begin
-          `uvm_error(get_type_name(),
-          $sformatf(
-          "Opcode mismatch  Field Offset: %0d\n Expected: %0p\n Actual: %0d",
-          idx,temp,bit'(m_mdio_seq_item.op))
-          err =1;
-      end 
-      // Compare phy address   
-      idx+=ETH_CTRL_ADDR_LEN;
-      temp=m_exp_rd_pkt[idx:ETH_CTRL_ADDR_LEN-1];
-      if(temp!= m_mdio_seq_item.phy_addr) begin
-          `uvm_error(get_type_name(),
-          $sformatf(
-          "Phy address mismatch  Field Offset: %0d\n Expected: %0p\n Actual: %0p",
-          idx,temp,m_mdio_seq_item.phy_addr))
-          err =1;
-      end 
-      // Compare register address   
-      idx+=ETH_CTRL_ADDR_LEN;
-      temp=m_exp_rd_pkt[idx:ETH_CTRL_ADDR_LEN-1];
-      if(temp!= m_mdio_seq_item.reg_addr) begin
-          `uvm_error(get_type_name(),
-          $sformatf(
-          "Register address mismatch  Field Offset: %0d\n Expected: %0p\n Actual: %0p",
-          idx,temp,m_mdio_seq_item.reg_addr))
-          err =1;
-        end 
-      // Compare turnaround   
-      idx+=ETH_CTRL_TA_LEN;
-      temp=m_exp_rd_pkt[idx:ETH_CTRL_TA_LEN-1];
-      if(temp!= m_mdio_seq_item.turn_around) begin
-          `uvm_error(get_type_name(),
-          $sformatf(
-          "Turnaround mismatch  Field Offset: %0d\n Expected: %0p\n Actual: %0p",
-          idx,temp,m_mdio_seq_item.turn_around))
-          err =1;
-        end
-      // Compare data   
-      idx+=ETH_CTRL_DATA_LEN;
-      temp=m_exp_rd_pkt[idx:ETH_CTRL_DATA_LEN-1];
-      if(temp!= m_mdio_seq_item.data) begin
-          `uvm_error(get_type_name(),
-          $sformatf(
-          "Data mismatch  Field Offset: %0d\n Expected: %0p\n Actual: %0p",
-          idx,temp,m_mdio_seq_item.data))
+          $sformatf("Preamble mismatch  Field Offset: %0d\n Expected: %0p\n Actual: %0p", idx,temp,m_mdio_seq_item.preamble))
           err =1;
       end
-      if(!err)
-          `uvm_info(get_type_name(),"Management Read Packet comparison PASSED",UVM_LOW)
-      
+      idx+=ETH_CTRL_PREAMBLE_LEN;
     end
+    // Compare start of frame
+    temp=m_exp_rd_pkt[idx +: ETH_CTRL_ST_LEN];
+    if(temp!=m_mdio_seq_item.st) begin
+        `uvm_error(get_type_name(),
+        $sformatf("Start of frame mismatch  Field Offset: %0d\n Expected: %0p\n Actual: %0p", idx,temp,m_mdio_seq_item.st))
+        err =1;
+    end
+    // Compare opcode
+    idx+=ETH_CTRL_ST_LEN;
+    temp=m_exp_rd_pkt[idx +: ETH_CTRL_OPCODE_LEN];
+    if({temp[1],temp[0]} != m_mdio_seq_item.op) begin
+        `uvm_error(get_type_name(),
+        $sformatf("Opcode mismatch  Field Offset: %0d\n Expected: %0p\n Actual: %0d", idx,temp,bit'(m_mdio_seq_item.op)))
+        err =1;
+    end
+    // Compare phy address
+    idx+=ETH_CTRL_OPCODE_LEN;
+    temp=m_exp_rd_pkt[idx +: ETH_CTRL_ADDR_LEN];
+    if(temp!= m_mdio_seq_item.phy_addr) begin
+        `uvm_error(get_type_name(),
+        $sformatf("Phy address mismatch  Field Offset: %0d\n Expected: %0p\n Actual: %0p", idx,temp,m_mdio_seq_item.phy_addr))
+        err =1;
+    end
+    // Compare register address
+    idx+=ETH_CTRL_ADDR_LEN;
+    temp=m_exp_rd_pkt[idx +: ETH_CTRL_ADDR_LEN];
+    if(temp!= m_mdio_seq_item.reg_addr) begin
+        `uvm_error(get_type_name(),
+        $sformatf("Register address mismatch  Field Offset: %0d\n Expected: %0p\n Actual: %0p", idx,temp,m_mdio_seq_item.reg_addr))
+        err =1;
+    end
+    // Compare turnaround
+    idx+=ETH_CTRL_ADDR_LEN;
+    temp=m_exp_rd_pkt[idx +: ETH_CTRL_TA_LEN];
+    if(temp!= m_mdio_seq_item.turn_around) begin
+        `uvm_error(get_type_name(),
+        $sformatf("Turnaround mismatch  Field Offset: %0d\n Expected: %0p\n Actual: %0p", idx,temp,m_mdio_seq_item.turn_around))
+        err =1;
+    end
+    // Compare data
+    idx+=ETH_CTRL_TA_LEN;
+    temp=m_exp_rd_pkt[idx +: ETH_CTRL_DATA_LEN];
+    if(temp!= m_mdio_seq_item.data) begin
+        `uvm_error(get_type_name(),
+        $sformatf("Data mismatch  Field Offset: %0d\n Expected: %0p\n Actual: %0p", idx,temp,m_mdio_seq_item.data))
+        err =1;
+    end
+    if(!err)
+        `uvm_info(get_type_name(),"Management Read Packet comparison PASSED",UVM_LOW)
+
 endtask
 
 task eth_mdio_scoreboard::comp_linkfail();
@@ -463,8 +403,8 @@ task eth_mdio_scoreboard::comp_linkfail();
     exp_link_fail = ~m_mdio_seq_item.data[2];
 
     if(m_cfg_reg_s.link_fail != exp_link_fail) begin
-        `uvm_error(get_type_name(), 
-            $sformatf("Linkfail mismatch. Expected: %0b, Actual: %0b", 
+        `uvm_error(get_type_name(),
+            $sformatf("Linkfail mismatch. Expected: %0b, Actual: %0b",
             exp_link_fail, m_cfg_reg_s.link_fail))
     end else begin
         `uvm_info(get_type_name(), "Linkfail comparison PASSED", UVM_LOW)
@@ -478,11 +418,12 @@ task eth_mdio_scoreboard::comp_clk_period();
       if(m_cfg_reg_s.clk_div==0) begin
           `uvm_error(get_type_name(),"Clock frequency divider = 0",UVM_LOW)
           return;
-      end  
+      end
 
       // Calculate expected period , check if it's even or odd as the calculation differs
-      exp_period_ns=(m_cfg_reg_s.clk_div%2==0)?(WB_CLK_PERIOD_NS*m_cfg_reg_s.clk_div):(WB_CLK_PERIOD_NS*(m_cfg_reg_s.clk_div-1));
-      if(exp_period_ns!=m_mdio_seq_item.clk_period_ns) 
+      // exp_period_ns=(m_cfg_reg_s.clk_div%2==0)?(WB_CLK_PERIOD_NS*m_cfg_reg_s.clk_div):(WB_CLK_PERIOD_NS*(m_cfg_reg_s.clk_div-1));
+      exp_period_ns = 2.0 * m_cfg_reg_s.clk_div * WB_CLK_PERIOD_NS;
+      if(exp_period_ns!=m_mdio_seq_item.clk_period_ns)
       begin
           `uvm_error(get_type_name(),
           $sformatf("clock period mismatch, Divisor value = %0d, clk periods in ns:\n Wishbone = %0f \n Expexcted Management = %0f \n Actual Management = %0f",
