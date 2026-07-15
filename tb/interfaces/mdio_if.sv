@@ -13,11 +13,18 @@
 
 interface mdio_if;
   logic mdc;       // Management Data Clock (Driven by DUT)
-  bit mdio_in;      // Bidirectional Management Data Line
+  logic mdio_in;      // Bidirectional Management Data Line
 
   logic mdio_out;
   logic mdio_en;
 
+  // Clocking block for synchronous TB drives/samples
+  clocking cb @(posedge mdc);
+    default input #1step output #1ns;
+    input  mdio_out;
+    input  mdio_en;
+    output mdio_in;
+  endclocking
 
 endinterface
 

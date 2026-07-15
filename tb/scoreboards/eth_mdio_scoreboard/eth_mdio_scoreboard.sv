@@ -26,7 +26,7 @@ typedef struct {
     bit [ETH_CTRL_DATA_LEN-1:0]     rd_data;
     bit                             invalid;
     bit                             busy; 
-    bit        l                    ink_fail;
+    bit                             link_fail;
 } mdio_cfg_reg_s;
 
 class eth_mdio_scoreboard extends uvm_scoreboard;
@@ -48,7 +48,7 @@ class eth_mdio_scoreboard extends uvm_scoreboard;
 
   //  Configuration object 
 
-  eth_mdio_scoreboard_config_obj                    m_config;
+  mdio_config_obj                    m_config;
 
   // Register block
 
@@ -71,16 +71,19 @@ class eth_mdio_scoreboard extends uvm_scoreboard;
 
   extern function new(string name,uvm_component parent);
   extern function void build_phase(uvm_phase phase);
-  extern function void eth_mdio_scoreboard::connect_phase(uvm_phase phase);
+  extern function void connect_phase(uvm_phase phase);
   extern task run_phase(uvm_phase phase);
   
   extern task get_seq_item();
   extern task read_cfg_regs();
   extern task read_stat_regs();
-  extern task pred_write(input mdio_seq_item_base item);
+  extern task pred_write();
+  extern task pred_scan();
   extern task comp_write(input mdio_seq_item_base item);
   extern task pred_read();
   extern task comp_read();
+  extern task comp_linkfail();
+  extern task comp_clk_period();
 
 endclass
 
@@ -95,9 +98,10 @@ endfunction
 function void eth_mdio_scoreboard::build_phase(uvm_phase phase);
     super.build_phase(phase);
     a_fifo = new("a_fifo", this);
+    a_export = new("a_export", this);
     // get config object from database
-    if (!uvm_config_db #(eth_mdio_scoreboard_config)::get(this, "", "config", m_config))
-      `uvm_error(get_type_name(), "eth_mdio_scoreboard_config not found in config_db")
+    if (!uvm_config_db #(mdio_config_obj)::get(this, "", "config", m_config))
+      `uvm_error(get_type_name(), "mdio_config_obj not found in config_db")
 endfunction
 
 function void eth_mdio_scoreboard::connect_phase(uvm_phase phase);
@@ -136,6 +140,7 @@ task eth_mdio_scoreboard::run_phase(uvm_phase phase);
                 while(m_cfg_reg_s.invalid);
                 pred_read();
                 comp_read();
+                comp_linkfail();
             end  
             else if(m_cfg_reg_s.r_stat) begin 
                 do begin
@@ -145,7 +150,7 @@ task eth_mdio_scoreboard::run_phase(uvm_phase phase);
                 while(m_cfg_reg_s.busy);
                 pred_read();
                 comp_read();
-                // comp linkfail
+                comp_linkfail();
               end  
 
             comp_clk_period();   
@@ -314,7 +319,7 @@ task eth_mdio_scoreboard::comp_write(input mdio_seq_item_base item);
     if({temp[0],temp[1]} != bit'(item.op)) begin
         `uvm_error(get_type_name(),
           $sformatf("Opcode mismatch  Field Offset: %0d\n Expected: %0p\n Actual: %0d",
-          idx,temp,bit'(item.op))
+          idx,temp,bit'(item.op)))
         err =1;
     end 
     // Compare phy address   
@@ -450,6 +455,22 @@ task eth_mdio_scoreboard::comp_read();
     end
 endtask
 
+task eth_mdio_scoreboard::comp_linkfail();
+    bit exp_link_fail;
+
+    // PHY status bit[2] is 1 for Link OK, 0 for Link Fail.
+    // MIISTATUS.LINKFAIL goes high (1) when link fails.
+    exp_link_fail = ~m_mdio_seq_item.data[2];
+
+    if(m_cfg_reg_s.link_fail != exp_link_fail) begin
+        `uvm_error(get_type_name(), 
+            $sformatf("Linkfail mismatch. Expected: %0b, Actual: %0b", 
+            exp_link_fail, m_cfg_reg_s.link_fail))
+    end else begin
+        `uvm_info(get_type_name(), "Linkfail comparison PASSED", UVM_LOW)
+    end
+endtask
+
 task eth_mdio_scoreboard::comp_clk_period();
     real exp_period_ns;
 
@@ -460,7 +481,7 @@ task eth_mdio_scoreboard::comp_clk_period();
       end  
 
       // Calculate expected period , check if it's even or odd as the calculation differs
-      exp_period_ns=(m_cfg_reg_s.clk_div%2==0)?(WB_CLK_PERIOD_NS*m_cfg_reg_s.clk_div):(WB_CLK_PERIOD_NS*(m_cfg_reg_s.clk_div-1)):
+      exp_period_ns=(m_cfg_reg_s.clk_div%2==0)?(WB_CLK_PERIOD_NS*m_cfg_reg_s.clk_div):(WB_CLK_PERIOD_NS*(m_cfg_reg_s.clk_div-1));
       if(exp_period_ns!=m_mdio_seq_item.clk_period_ns) 
       begin
           `uvm_error(get_type_name(),

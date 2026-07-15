@@ -66,14 +66,13 @@ function void mdio_driver_base::build_phase(uvm_phase phase);
   vif = m_config.vif;
 
   if (vif == null)
-    `uvm_fatal(get_type_name(),
-                "mdio driver virtual interface not set")
+    `uvm_fatal(get_type_name(), "mdio driver virtual interface not set")
 endfunction
 
 
 // Task : run_phase
 task mdio_driver_base::run_phase(uvm_phase phase);
-  vif.mdio <= 1'bz; // PHY starts by not driving the bus
+  vif.mdio_out <= 1'bz; // PHY starts by not driving the bus
   forever begin
     drive_items();
   end
@@ -89,17 +88,17 @@ task mdio_driver_base::drive_items();
   // 1. Wait for Start of Frame (ST = 01)
   forever begin
     @(posedge vif.mdc);
-    shift_reg = {shift_reg[0], vif.mdio};
+    shift_reg = {shift_reg[0], vif.mdio_in};
     if (shift_reg == 2'b01) break;
   end
 
   // 2. Decode Opcode
-  @(posedge vif.mdc); op[1] = vif.mdio;
-  @(posedge vif.mdc); op[0] = vif.mdio;
+  @(posedge vif.mdc); op[1] = vif.mdio_in;
+  @(posedge vif.mdc); op[0] = vif.mdio_in;
 
   // 3. Decode Addresses (We just consume these clocks to stay synchronized)
-  for(int i=4; i>=0; i--) begin @(posedge vif.mdc); phy_ad[i] = vif.mdio; end
-  for(int i=4; i>=0; i--) begin @(posedge vif.mdc); reg_ad[i] = vif.mdio; end
+  for(int i=4; i>=0; i--) begin @(posedge vif.mdc); phy_ad[i] = vif.mdio_in; end
+  for(int i=4; i>=0; i--) begin @(posedge vif.mdc); reg_ad[i] = vif.mdio_in; end
 
   // 4. React based on Opcode
   if (op == 2'b10) begin // READ OPERATION requested by MAC
@@ -109,19 +108,19 @@ task mdio_driver_base::drive_items();
 
     // Turn Around (TA) time: MAC releases bus, PHY takes over driving a '0'
     @(negedge vif.mdc);
-    vif.mdio <= 1'b0;
+    vif.mdio_out <= 1'b0;
     @(posedge vif.mdc);
 
     // Drive 16-bit Data back to the MAC
     for(int i=15; i>=0; i--) begin
       @(negedge vif.mdc);
-      vif.mdio <= req.data[i];
+      vif.mdio_out <= req.data[i];
       @(posedge vif.mdc);
     end
 
     // Release bus and tell sequencer we are done
     @(negedge vif.mdc);
-    vif.mdio <= 1'bz;
+    vif.mdio_out <= 1'bz;
     seq_item_port.item_done();
 
   end else begin

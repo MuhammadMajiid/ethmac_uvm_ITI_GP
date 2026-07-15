@@ -16,7 +16,11 @@ class mdio_monitor_base extends uvm_monitor;
   `uvm_component_utils(mdio_monitor_base)
 
   uvm_analysis_port #(mdio_seq_item_base) a_port;
+  mdio_config_obj   m_config;
   virtual mdio_if vif;
+
+  mdio_seq_item_base m_mdio_seq_item;
+  bit [1:0] op_bits;
 
   function new(string name, uvm_component parent);
     super.new(name, parent);
@@ -33,19 +37,16 @@ class mdio_monitor_base extends uvm_monitor;
   endfunction
 
   task run_phase(uvm_phase phase);
-    mdio_seq_item_base m_mdio_seq_item;
-    bit [1:0] m_mdio_seq_item.st;
-    bit [1:0] op_bits;
 
     forever begin
       m_mdio_seq_item = mdio_seq_item_base::type_id::create("m_mdio_seq_item");
 
-      @(posedge vif.mdio_en);  
-      fork 
+      @(posedge vif.mdio_en);
+      fork
       pack_preamble();
       pack_data();
       calc_freq();
-      join;  
+      join;
 
       // 7. Broadcast the fully constructed transaction to the testbench
       a_port.write(m_mdio_seq_item);
@@ -54,16 +55,16 @@ class mdio_monitor_base extends uvm_monitor;
 
 task pack_preamble();
 
-  for (int i=ETH_CTRL_PREAMBLE_LEN-1; i>=0; i--) begin   
+  for (int i=ETH_CTRL_PREAMBLE_LEN-1; i>=0; i--) begin
     m_mdio_seq_item.preamble[i]=vif.mdio_out;
     @(posedge vif.mdc);
   end
 
-endtask  
+endtask
 
 task pack_data();
         m_mdio_seq_item.st = 2'b11;
-        // 1. Wait for Start of Frame (01)      
+        // 1. Wait for Start of Frame (01)
         forever begin
         m_mdio_seq_item.st = {m_mdio_seq_item.st[0], vif.mdio_out};
         @(posedge vif.mdc);
@@ -83,14 +84,14 @@ task pack_data();
 
       // 5. sample Turn Around bits (2 cycles)
       @(posedge vif.mdc);
-      m_mdio_seq_item.turn_around[1]=vif.mdio_out;
+      m_mdio_seq_item.turn_around[1]=vif.mdio_in;
       @(posedge vif.mdc);
-      m_mdio_seq_item.turn_around[0]=vif.mdio_out;
+      m_mdio_seq_item.turn_around[0]=vif.mdio_in;
 
       // 6. Sample Data
       for(int i=15; i>=0; i--) begin
         @(posedge vif.mdc);
-        m_mdio_seq_item.data[i] = (op_code==WRITE)?vif.mdio_out:vif.mdio_in;
+        m_mdio_seq_item.data[i] = (m_mdio_seq_item.op==WRITE)?vif.mdio_out:vif.mdio_in;
       end
   endtask
 
@@ -100,7 +101,7 @@ task calc_freq();
   fin=$time;
   @(posedge vif.mdc);
   fin=$time;
-  m_mdio_seq_item.clk_period_ns=(fin-start)/1000.0;
+  m_mdio_seq_item.clk_period_ns=(fin-st)/1000.0;
 endtask
 
 endclass

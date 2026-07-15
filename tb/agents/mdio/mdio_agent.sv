@@ -35,6 +35,9 @@ class mdio_agent extends uvm_agent;
     if (!uvm_config_db #(mdio_config_obj)::get(this, "", "config", m_config))
       `uvm_fatal(get_type_name(), "mdio_config_obj not found in config_db")
 
+
+    vif = m_config.vif;
+
     if (m_config.vif == null)
       `uvm_fatal(get_type_name(), "mdio virtual interface not set")
 
