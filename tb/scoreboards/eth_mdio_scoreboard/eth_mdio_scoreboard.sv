@@ -197,7 +197,7 @@ task eth_mdio_scoreboard::read_cfg_regs();
 
 endtask
 
-task read_stat_regs();
+task eth_mdio_scoreboard::read_stat_regs();
   m_regmodel.MIIRX_DATA.mirror(status, UVM_CHECK, UVM_BACKDOOR);
   m_cfg_reg_s.rd_data = m_regmodel.MIIRX_DATA.PRSD.get_mirrored_value();
 
