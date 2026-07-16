@@ -47,16 +47,7 @@ class wb_m_seq_item_base extends uvm_sequence_item;
 function string convert2string();
 
     return $sformatf(
-        "\n\
-m_dir   = %s\n\
-m_addr  = 0x%08h\n\
-m_data_o= 0x%08h\n\
-m_data_i= 0x%08h\n\
-m_sel   = 0x%1h\n\
-m_stb   = %0b\n\
-m_cyc   = %0b\n\
-m_ack   = %0b\n\
-m_err   = %0b",
+        "\nm_dir   = %s\nm_addr  = 0x%08h\nm_data_o= 0x%08h\nm_data_i= 0x%08h\nm_sel   = 0x%1h\nm_stb   = %0b\nm_cyc   = %0b\nm_ack   = %0b\nm_err   = %0b",
         m_dir.name(),
         m_addr_o,
         m_data_o,

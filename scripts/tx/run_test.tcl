@@ -10,9 +10,9 @@ puts " Compiling and Running TEST = $TESTNAME"
 puts "=================================================="
 
 # Paths
-set SCRIPT_PATH "repo/results/tx/log"
-set COV_PATH    "repo/results/tx/coverage"
-set LOG_PATH    "repo/results/tx/log"
+set SCRIPT_PATH "results/tx/log"
+set COV_PATH    "results/tx/coverage"
+set LOG_PATH    "results/tx/log"
 
 # Log file and ucdb variables
 set LOG_FILE "${SCRIPT_PATH}/${TESTNAME}.log"
@@ -34,15 +34,18 @@ close $fp
 transcript file $LOG_FILE
 
 
-vsim -c -voptargs=+acc work.eth_tb -coverage -classdebug -sv_seed random -uvmcontrol=all \
+  
+  vsim -voptargs=+acc work.eth_tb -coverage -classdebug -sv_seed random -uvmcontrol=all \
   +uvm_set_verbosity=uvm_test_top.m_env.*,_ALL_,$VERBOSITY,time,0 \
   +UVM_TESTNAME=$TESTNAME -onfinish stop \
   -do {
-    run -all; 
+    view wave
+    add wave -r /eth_tb/dut/*
+    run -all
     coverage save $CODE_UCDB -codeAll -instance eth_tb.dut
     coverage save $FUNC_UCDB -cvg -directive -assert
-    transcript file ""
-    }
+  }
+	
 
 
 vcover report $FUNC_UCDB -details -annotate -all -output  $FUNC_REP

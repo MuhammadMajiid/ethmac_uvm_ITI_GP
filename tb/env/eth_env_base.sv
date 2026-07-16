@@ -18,6 +18,8 @@ class eth_env_base extends uvm_env;
   wb_s_agent  m_wb_s_agent;
   wb_m_agent  m_wb_m_agent;
   
+  reset_agent           m_reset_agent;
+  
   eth_reg_block     m_regmodel;   
   eth_wb_adapter    m_reg2wb;
   uvm_reg_predictor #(wb_s_seq_item_base) m_predictor;
@@ -38,6 +40,8 @@ class eth_env_base extends uvm_env;
     // Distribute agent-specific configs down to each agent
     uvm_config_db #(wb_s_config_obj)::set(this, "m_wb_s_agent", "config", m_config.m_wb_s_config);
     uvm_config_db #(wb_m_config_obj)::set(this, "m_wb_m_agent", "config", m_config.m_wb_m_config);
+	uvm_config_db #(reset_config_obj)::set(this, "m_reset_agent", "config", m_config.m_rst_config);
+	
     
     // Build virtual sequencer
     m_v_sqr        = eth_v_sequencer::type_id::create("m_v_sqr", this);
@@ -45,6 +49,10 @@ class eth_env_base extends uvm_env;
     m_wb_s_agent = wb_s_agent::type_id::create("m_wb_s_agent", this);
     // Build wishbone master agent
     m_wb_m_agent = wb_m_agent::type_id::create("m_wb_m_agent", this);
+	
+	 //reset agent
+     m_reset_agent  =  reset_agent::type_id::create("m_reset_agent",this);
+
     
     // Register layer - only build if this env is the top-level owner
     // (m_regmodel == null means no parent env has already set it)
@@ -66,6 +74,9 @@ class eth_env_base extends uvm_env;
     super.connect_phase(phase);
     // Assign ral handle in scoreboard config obj to local
     m_config.m_regmodel=m_regmodel;
+	
+	m_v_sqr.m_reset_sqr = m_reset_agent.m_sequencer;
+
     
    //Connect the wb_s_sequencer  to the address map in order
       //to use the API of the registers to start wb_s transactions

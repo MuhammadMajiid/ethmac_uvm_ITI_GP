@@ -37,6 +37,7 @@ class eth_env_tx extends eth_env_base;
 
     // build TX agent
     m_mii_tx_agent  = mii_tx_agent::type_id::create("m_mii_tx_agent",this);
+	
 
     // build TX scoreboard
     m_tx_sb = eth_tx_scoreboard::type_id::create("m_tx_sb", this);
@@ -55,7 +56,7 @@ class eth_env_tx extends eth_env_base;
     m_v_sqr.m_mii_tx_sqr=m_mii_tx_agent.m_sequencer;
     m_v_sqr.m_wb_m_sqr=m_wb_m_agent.m_sequencer;
     m_v_sqr.m_wb_s_sqr=m_wb_s_agent.m_sequencer;
-
+	
     // Connect TX Scoreboard analysis export with TX agent analysis export
     m_mii_tx_agent.agent_a_port.connect(m_tx_sb.mii_tx_a_export);  
     // Connect TX Scoreboard analysis export with wishbone master agent analysis export

@@ -10,7 +10,8 @@ module eth_tb;
   // Clock / Reset
   //--------------------------------------------------------------------------
   bit wb_clk,tx_clk;
-  bit rst;
+  
+  reset_if m_reset_if(.clk(wb_clk));
 
   //--------------------------------------------------------------------------
   // Wishbone slave Interface
@@ -21,7 +22,7 @@ module eth_tb;
   .WB_SEL_WIDTH(WB_SEL_WIDTH)
   ) m_wb_s_if (
   .clk(wb_clk),
-  .rst(rst)
+  .rst(m_reset_if.rst)
   );
   //--------------------------------------------------------------------------
   // Wishbone master Interface
@@ -30,14 +31,14 @@ module eth_tb;
   .ADDR_WIDTH (WB_M_ADDR_WIDTH),
   .DATA_WIDTH (WB_DATA_WIDTH),
   .SEL_WIDTH(WB_SEL_WIDTH)
-  ) m_wb_m_if(.clk_i(wb_clk), .rst_i(rst));
+  ) m_wb_m_if(.clk_i(wb_clk), .rst_i(m_reset_if.rst));
 
   //--------------------------------------------------------------------------
   // MII TX Interface
   //--------------------------------------------------------------------------
   mii_tx_if #(.PHY_NIBBLE_WIDTH(ETH_NIBBLE_WIDTH)) m_mii_tx_if(
       .MTxCLK(tx_clk),
-      .rst(rst)
+      .rst(m_reset_if.rst)
       );
   //--------------------------------------------------------------------------
   // MII RX Interface
@@ -59,14 +60,6 @@ module eth_tb;
     forever #(ETH_PHY_TX_CLK_PERIOD_NS/2.0) tx_clk = ~tx_clk;
   end
 
-  //--------------------------------------------------------------------------
-  // Reset Generation
-  //--------------------------------------------------------------------------
-  initial begin
-    rst = 1'b1;
-    #50;
-    rst = 1'b0;
-  end
 
   //--------------------------------------------------------------------------
   // DUT
@@ -75,7 +68,7 @@ module eth_tb;
   (
       // Wishbone Slave 
       .wb_clk_i (wb_clk),
-      .wb_rst_i (rst),
+      .wb_rst_i (m_reset_if.rst),
 
       .wb_adr_i (m_wb_s_if.addr_i),
       .wb_dat_i (m_wb_s_if.wdata_i),
@@ -119,6 +112,7 @@ module eth_tb;
     uvm_config_db#(virtual wb_m_if)::set(null,"*","wb_m_vif",m_wb_m_if);
     uvm_config_db#(virtual wb_s_if)::set(null,"*","wb_s_vif", m_wb_s_if);
     uvm_config_db#(virtual mii_tx_if)::set(null,"*","mii_tx_vif",m_mii_tx_if);
+	uvm_config_db#(virtual reset_if)::set(null,"*","reset_if",m_reset_if);
 
     
     run_test();

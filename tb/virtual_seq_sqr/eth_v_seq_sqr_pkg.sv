@@ -22,17 +22,23 @@ package  eth_v_seq_sqr_pkg;
   import wb_m_agent_pkg::wb_m_sequencer_base;
   import mii_tx_agent_pkg::mii_tx_sequencer_base;
   import mii_rx_agent_pkg::mii_rx_sequencer_base;
+  import reset_agent_pkg::reset_sequencer;
 
   // import sequences package
   import wb_m_seq_pkg::*;
   import wb_s_seq_pkg::*;
   import mii_tx_seq_pkg::*;
+  import reset_seq_pkg::*;
+
+  
   
   // include virtual sequencer files
   `include "eth_v_sequencer.sv"
   `include "eth_v_seq_base.sv"
   `include "eth_v_seq_tx.sv"
   `include "eth_v_seq_tx_active.sv"
+  
+  
 
 endpackage
 

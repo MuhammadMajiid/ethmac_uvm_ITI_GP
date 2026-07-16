@@ -14,6 +14,7 @@ class eth_env_config_obj extends uvm_object;
   wb_m_config_obj     m_wb_m_config;
   mii_tx_config_obj   m_mii_tx_config;
   mii_rx_config_obj   m_mii_rx_config;
+  reset_config_obj    m_rst_config; 
 
   // config of tx scoreboard
   eth_tx_scoreboard_config_obj m_tx_sb_config;
@@ -26,6 +27,7 @@ class eth_env_config_obj extends uvm_object;
     m_mii_tx_config = mii_tx_config_obj::type_id::create("m_mii_tx_config");
     m_mii_rx_config = mii_rx_config_obj::type_id::create("m_mii_rx_config");
     m_tx_sb_config  = eth_tx_scoreboard_config_obj::type_id::create("m_tx_sb_config");
+	m_rst_config   = reset_config_obj::type_id::create("m_rst_config"); 
   endfunction
 
 endclass

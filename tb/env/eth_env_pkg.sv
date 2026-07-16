@@ -27,6 +27,8 @@ import wb_m_seq_item_pkg::*;
 import wb_s_seq_item_pkg::*;
 import mii_tx_seq_item_pkg::*;
 import mii_rx_seq_item_pkg::*;
+import reset_seq_item_pkg::*;
+
 
 
 // import agent packages
@@ -34,6 +36,7 @@ import wb_s_agent_pkg::wb_s_agent;
 import wb_m_agent_pkg::wb_m_agent;
 import mii_tx_agent_pkg::mii_tx_agent;
 import mii_rx_agent_pkg::mii_rx_agent;
+import reset_agent_pkg::*;
 
 // import virtual sequence/sequencer package
 import eth_v_seq_sqr_pkg::eth_v_sequencer;

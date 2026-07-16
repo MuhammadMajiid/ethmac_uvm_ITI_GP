@@ -26,8 +26,10 @@ package eth_config_pkg;
     `include "mii_tx_config_obj.sv"
     `include "mii_rx_config_obj.sv"
     `include "wb_m_config_obj.sv"
-    `include "wb_s_config_obj.sv"
+    `include "wb_s_config_obj.sv"	
+	`include "reset_config_obj.sv"
     `include "eth_env_config_obj.sv"
+
 
 endpackage : eth_config_pkg
 

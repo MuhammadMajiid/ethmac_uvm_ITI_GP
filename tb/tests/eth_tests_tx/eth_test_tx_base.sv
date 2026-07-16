@@ -35,6 +35,11 @@ class eth_test_tx_base extends uvm_test;
     // Retrieve mii tx interface
     if (!uvm_config_db #(virtual mii_tx_if)::get(this, "", "mii_tx_vif", m_config.m_mii_tx_config.vif))
       `uvm_fatal(get_type_name(), "mii_tx_interface is not found in config_db")
+	  
+	  
+	 // Retrieve mii tx interface
+    if (!uvm_config_db #(virtual reset_if)::get(this, "", "reset_if", m_config.m_rst_config.vif))
+      `uvm_fatal(get_type_name(), "reset_interface is not found in config_db")
 
 
     // Propagate Environmrnt configuration object to env and it's subcomponents
