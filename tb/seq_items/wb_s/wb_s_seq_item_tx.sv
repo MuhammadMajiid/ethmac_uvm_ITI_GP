@@ -28,6 +28,7 @@ class wb_s_seq_item_tx #(
   //--------------------------------------------------------------------------
   rand bit moder_recsmall;
   rand bit moder_pad;
+  rand bit moder_fd;
   rand bit moder_hugen;
   rand bit moder_crc;
   rand bit moder_dcrc;
@@ -60,6 +61,7 @@ class wb_s_seq_item_tx #(
   // tx bd num register field
   //--------------------------------------------------------------------------
   rand bit [7:0] tx_bd_num;
+  rand bit [7:0] rand_tx_bd_idx;
   //--------------------------------------------------------------------------
   // pause control frame related register fields
   //--------------------------------------------------------------------------
@@ -96,8 +98,12 @@ class wb_s_seq_item_tx #(
   constraint c_minfl_maxfl{
     minfl<maxfl;
   }
+constraint c_rand_bd_index{
+  rand_tx_bd_idx inside{[0:tx_bd_num]};
+}
+
 constraint c_solve_order {
-    solve tx_bd_num before tx_pnt, pkt_len, bd_crc, bd_pad;
+    solve tx_bd_num before tx_pnt, pkt_len, bd_crc, bd_pad,rand_tx_bd_idx;
 }
   //--------------------------------------------------------------------------
   // Constructor

@@ -21,11 +21,8 @@ class eth_test_tx_nopre extends eth_test_tx_base;
       wb_s_seq_base::get_type(),
       wb_s_seq_tx_no_pre::get_type()
   );
-    
-    factory.set_type_override_by_type(
-      mii_tx_driver_base::get_type(),
-      mii_tx_driver_hd::get_type()
-  );
+
+
   
     super.build_phase(phase);
 
@@ -34,7 +31,7 @@ class eth_test_tx_nopre extends eth_test_tx_base;
     m_config.m_wb_s_config.is_active=UVM_ACTIVE;
 
     // set mii tx agent to passive
-    m_config.m_mii_tx_config.is_active=UVM_ACTIVE;
+    m_config.m_mii_tx_config.is_active=UVM_PASSIVE;
 
     // Assign end sequence event to event in config object
     m_config.m_tx_sb_config.m_ev_end_seqs=m_ev_end_seqs;

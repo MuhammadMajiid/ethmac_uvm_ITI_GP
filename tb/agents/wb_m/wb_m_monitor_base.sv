@@ -88,7 +88,7 @@ task wb_m_monitor_base::run_phase(uvm_phase phase);
         end
         // Send transaction to sequencer in all cases
         request_a_port.write(m_item);
-        `uvm_info(get_type_name(), $sformatf("time %0t, Item no. %0d monitored successfully",$time,m_item_cnt), UVM_DEBUG)
+        `uvm_info(get_type_name(), $sformatf("Item no. %0d monitored successfully",m_item_cnt), UVM_DEBUG)
         // Increment number of monitored transactions
         m_item_cnt++;
     end    

@@ -39,7 +39,7 @@ class dma_mem extends uvm_object;
   // -------------------------------------------------------------------------
   static function bit write(int unsigned addr,bit [WB_DATA_WIDTH-1:0] data);
     if (addr % 4 != 0) begin
-      `uvm_error_context("DMA_ERROR",$sformatf("Can't write in memory, address %0d is not divisible by 4",addr),uvm_root::get());
+      `uvm_error_context("DMA_ERROR",$sformatf("Can't write in memory, address %0h is not divisible by 4",addr),uvm_root::get());
       return 0;
     end
 
@@ -67,7 +67,7 @@ class dma_mem extends uvm_object;
   // -------------------------------------------------------------------------
   static function bit read(int unsigned addr,ref bit [WB_DATA_WIDTH-1:0] data);
     if (!dma_mem.exists(addr)) begin
-      `uvm_error_context("DMA_ERROR",$sformatf("Can't read from memory, address %0d doesn't exist",addr),uvm_root::get());
+      `uvm_error_context("DMA_ERROR",$sformatf("Can't read from memory, address %0h doesn't exist",addr),uvm_root::get());
       return 0;
     end
 

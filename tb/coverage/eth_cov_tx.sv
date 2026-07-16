@@ -68,6 +68,12 @@ class eth_cov_tx extends uvm_component;
     logic [3:0] m_txd ;               // Transmit Data Nibble
     logic m_txen;                    // Transmit Enable. indicates to the PHY that the data MTxD is valid and the transmission can start.
     logic m_txerr;                   // Transmit Error
+    int unsigned m_current_bit_id;
+    bit m_field_value;
+    bit m_reserved_value;
+    int unsigned m_current_reg_id;
+    int unsigned m_current_field_id;    
+    
     // =========================================================================
     // Constructor, Build Phase, Connect phase and Run phase
     // =========================================================================
@@ -81,58 +87,7 @@ class eth_cov_tx extends uvm_component;
 	extern task sample_mii_tx_item();
 	extern function void sample_rw_reserved_cov(uvm_reg reg_h,logic [31:0] r_data);
 
-    // =============================================================================
-    //  Register bit read coverage
-    // =============================================================================
 
-    int unsigned m_current_bit_id;
-        bit m_field_value;
-        bit m_reserved_value;
-        int unsigned m_current_reg_id;
-        int unsigned m_current_field_id;
-
-    covergroup m_rw_bit_cov;
-
-        // 21 registers
-        cp_reg : coverpoint m_current_reg_id {
-
-            bins regs[21] = {[0:20]};
-
-        }
-
-
-        // Every bit in register
-        cp_bit : coverpoint m_current_bit_id {
-
-            bins bits[32] = {[0:31]};
-
-        }
-
-
-        // Bit value
-        cp_value : coverpoint m_field_value {
-
-            bins zero = {0};
-            bins one  = {1};
-
-        }
-
-
-        cross_reg_bit :
-            cross cp_reg, cp_bit;
-
-
-        cross_bit_value :
-            cross cp_bit, cp_value;
-    endgroup
-    covergroup m_reserved_bit_cov; 
-    cp_reg : coverpoint m_current_reg_id 
-    { bins regs[21] = {[0:20]}; } 
-    cp_reserved : coverpoint m_reserved_value 
-    { bins reserved_zero = {0};
-    illegal_bins reserved_one = {1}; } 
-    cross cp_reg, cp_reserved; 
-    endgroup
     // =============================================================================
     //  Write Configurations cover group
     // =============================================================================
@@ -154,11 +109,11 @@ class eth_cov_tx extends uvm_component;
         // All configurations
         bins reg_config [] = {['b1_0000_0000:'b1_1111_1111]};
         // padding
-        wildcard bins reg_pad [2] = {'b1_1???_????,'b1_0???_????};
+        //wildcard bins reg_pad [2] = {'b1_1???_????,'b1_0???_????};
         // Normal CRC
-        wildcard bins reg_crc [2] = {'b1_??00_????,'b1_??10_????};
+        //wildcard bins reg_crc [2] = {'b1_??00_????,'b1_??10_????};
         // Delayd CRC
-        wildcard bins reg_d_crc [2] = {'b1_??10_????,'b1_??11_????};
+        //wildcard bins reg_d_crc [2] = {'b1_??10_????,'b1_??11_????};
         // ignore other values
         bins others = default;
         }
@@ -235,9 +190,9 @@ class eth_cov_tx extends uvm_component;
     cp_minfl: coverpoint m_minfl iff(m_addr=='h06) {
         
         // MINFL variations
-        wildcard bins minfl_4  [] = {['h0000:'h0004]};        // Less than 4 bytes
-        wildcard bins minfl_64 [] = {['h0005:'h0040]};       // More 4 and less than or equal minimum in standard (64 bytes)
-        wildcard bins minfl_max = {'hFFFF};                  // MAximum MINFL value
+        bins minfl_4  [] = {['h0000:'h0004]};        // Less than 4 bytes
+        bins minfl_64 [] = {['h0005:'h0040]};       // More 4 and less than or equal minimum in standard (64 bytes)
+        bins minfl_max = {'hFFFF};                  // MAximum MINFL value
 
         // ignore other values
         bins others = default;
@@ -251,9 +206,9 @@ class eth_cov_tx extends uvm_component;
 
     // Collision valid COLLCONFIG Register (Address 0x1C)
     cp_collconfig: coverpoint m_wdata iff(m_addr=='h07) {
-        wildcard bins collvalid_min = {'b11_1111};              // Minimum collision window = 0 byte 
-        wildcard bins collvalid_any [8]= {['b00_0001:'b11_1110]};   // Any collision window between 0 and 63
-        wildcard bins collvalid_max = {'b11_1111};              // maximum collision window = 63
+        bins collvalid_min = {'b11_1111};              // Minimum collision window = 0 byte 
+        bins collvalid_any [8]= {['b00_0001:'b11_1110]};   // Any collision window between 0 and 63
+        bins collvalid_max = {'b11_1111};              // maximum collision window = 63
         
         // ignore other values
         bins others = default;
@@ -354,7 +309,7 @@ class eth_cov_tx extends uvm_component;
     // =============================================================================
     // Cross cover points
     // =============================================================================
-    
+    /*
     // Cross padding between register and bd
     cp_cross_pad: cross cp_moder,cp_bd_cfg{
         ignore_bins ign_pad = binsof(cp_bd_cfg.bd_crc) || binsof(cp_bd_cfg.bd_config) || binsof(cp_moder.reg_crc)
@@ -376,7 +331,7 @@ class eth_cov_tx extends uvm_component;
     // Cross txpause req and txflow
     cp_cross_ctrl: cross cp_ctrlmoder,cp_txctrl{
         ignore_bins ign_ctrl = binsof(cp_txctrl.time_val_any) || binsof(cp_txctrl.time_val_max) || binsof(cp_txctrl.time_val_min);
-    }
+    }*/
 
     endgroup
 
@@ -606,7 +561,61 @@ class eth_cov_tx extends uvm_component;
 
 
     endgroup 
-endclass    
+
+    // =============================================================================
+    //  Register bit read coverage
+    // =============================================================================
+
+    covergroup m_rw_bit_cov;
+
+    cp_reg : coverpoint m_current_reg_id {
+
+        bins regs[21] = {[0:20]};
+
+        ignore_bins ro_regs = {14,15};
+
+    }
+
+
+        // Every bit in register
+        cp_bit : coverpoint m_current_bit_id {
+
+            bins bits[32] = {[0:31]};
+
+        }
+
+
+        // Bit value
+        cp_value : coverpoint m_field_value {
+
+            bins zero = {0};
+            bins one  = {1};
+
+        }
+
+
+        cross_reg_bit :
+            cross cp_reg, cp_bit;
+
+
+        cross_bit_value :
+            cross cp_bit, cp_value;
+
+
+    endgroup
+
+    covergroup m_reserved_bit_cov; 
+    cp_reg : coverpoint m_current_reg_id { 
+    bins regs[21] = {[0:20]}; 
+    ignore_bins no_reserved_fields = {6,16,18,19};
+    } 
+    cp_reserved : coverpoint m_reserved_value { 
+    bins reserved_zero = {0};
+    illegal_bins reserved_one = {1}; 
+    } 
+    cross cp_reg, cp_reserved; 
+    endgroup  
+endclass
 
 
 // =============================================================================
@@ -686,32 +695,33 @@ task eth_cov_tx::sample_wb_s_item();
     // if write transaction cover config_group
     if(m_wb_s_seq_item.m_dir==WB_WRITE) begin
         m_wr_cfg_cov.sample();
-        `uvm_info(get_full_name(), m_wb_s_seq_item.convert2string(), UVM_NONE)
+        `uvm_info(get_full_name(), m_wb_s_seq_item.convert2string(), UVM_HIGH)
         
     end
     
     // if read transaction voer status_group
     else if(m_wb_s_seq_item.m_dir==WB_READ) begin
+        `uvm_info(get_full_name(), m_wb_s_seq_item.convert2string(), UVM_HIGH)
+        m_rd_cfg_cov.sample();
 
-    m_rd_cfg_cov.sample();
+        reg_h = null;
 
+        m_regmodel.get_registers(regs);
 
-    reg_h = null;
-
-    m_regmodel.get_registers(regs);
-
-    foreach (regs[r]) begin
-        if (regs[r].get_offset() == m_addr) begin
-            reg_h = regs[r];
-            m_current_reg_id = r;
-            break;
+        foreach(regs[r]) begin
+            
+            if (regs[r].get_offset() == m_addr) begin
+                reg_h = regs[r];
+                m_current_reg_id = regs[r].get_offset();
+                
+                break;
+            end
         end
-    end
 
-    if (reg_h != null)
-        sample_rw_reserved_cov(reg_h, m_rdata);
+            if (reg_h != null)
+                sample_rw_reserved_cov(reg_h, m_rdata);
 
-    end
+            end
 endtask
 
 task eth_cov_tx::sample_wb_m_item();
@@ -805,7 +815,7 @@ function void eth_cov_tx::sample_rw_reserved_cov
         // Only RW fields
         //-------------------------------------
 
-       if(fields[i].get_access() == "RW") begin
+     if(fields[i].get_access() inside {"RW","W1C"}) begin
 
        for(int b=0; b<width; b++) begin
 

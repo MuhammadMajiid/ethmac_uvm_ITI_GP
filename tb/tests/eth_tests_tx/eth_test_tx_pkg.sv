@@ -29,6 +29,10 @@ package eth_test_tx_pkg;
   `include "eth_test_tx_base.sv"
   `include "eth_test_tx_smoke.sv"
   `include "eth_test_tx_nopre.sv"
+  `include "eth_test_tx_hugen.sv"
+  `include "eth_test_tx_dcrc.sv"
+  `include "eth_test_tx_moder.sv"
+  `include "eth_test_tx_pad.sv"
 endpackage
 
 `endif // ETH_TEST_TX_PKG_SV

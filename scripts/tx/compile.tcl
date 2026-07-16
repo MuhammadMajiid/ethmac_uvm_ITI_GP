@@ -1,0 +1,24 @@
+vlog repo/tb/global/eth_glob_pkg.sv \
+repo/tb/interfaces/*.sv \
+repo/tb/seq_items/mii_tx/mii_tx_seq_item_pkg.sv \
+repo/tb/seq_items/wb_m/wb_m_seq_item_pkg.sv \
+repo/tb/seq_items/wb_s/wb_s_seq_item_pkg.sv \
+repo/tb/seq_items/mii_rx/mii_rx_seq_item_pkg.sv \
+repo/tb/config/eth_config_pkg.sv \
+repo/tb/ral/eth_ral_pkg.sv \
+repo/tb/sequences/wb_m_seq/wb_m_seq_pkg.sv \
+repo/tb/sequences/wb_s_seq/wb_s_seq_pkg.sv \
+repo/tb/sequences/mii_tx_seq/mii_tx_seq_pkg.sv \
+repo/tb/virtual_seq_sqr/eth_v_seq_sqr_pkg.sv \
+repo/tb/agents/mii_tx/mii_tx_agent_pkg.sv \
+repo/tb/agents/mii_rx/mii_rx_agent_pkg.sv \
+repo/tb/agents/wb_m/wb_m_agent_pkg.sv \
+repo/tb/agents/wb_s/wb_s_agent_pkg.sv \
+repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard_pkg.sv \
+repo/tb/scoreboards/eth_rx_scoreboard/eth_rx_scoreboard_pkg.sv \
+repo/tb/coverage/eth_cov_pkg.sv \
+repo/tb/env/eth_env_pkg.sv \
+repo/tb/tests/eth_tests_tx/eth_test_tx_pkg.sv \
+repo/rtl/*.v \
+repo/tb/top/eth_tb.sv \
++cover -covercells

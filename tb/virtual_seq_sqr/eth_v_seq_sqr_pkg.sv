@@ -32,6 +32,7 @@ package  eth_v_seq_sqr_pkg;
   `include "eth_v_sequencer.sv"
   `include "eth_v_seq_base.sv"
   `include "eth_v_seq_tx.sv"
+  `include "eth_v_seq_tx_active.sv"
 
 endpackage
 

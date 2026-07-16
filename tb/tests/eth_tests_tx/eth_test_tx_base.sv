@@ -48,7 +48,14 @@ class eth_test_tx_base extends uvm_test;
 endfunction
 
   function void start_of_simulation_phase(uvm_phase phase);
+    longint seed;
+    int fd;
     super.start_of_simulation_phase(phase);
+    seed = $get_initial_random_seed();
+
+    fd = $fopen("repo/results/tx/seeds.txt", "a");
+    $fdisplay(fd, "Test = %s Seed = %0d", get_type_name(), seed);
+    $fclose(fd);
     `uvm_info(get_type_name(),"start of sim phase", UVM_LOW)
     this.print();
     factory.print();
@@ -66,6 +73,9 @@ endfunction
       // assign regmodel in wishbone slave sequence to the one in config object
       m_v_seq_tx.m_wb_s_seq_base.regmodel=m_config.m_regmodel;
 
+      // assign regmodel in wishbone slave sequence to the one in config object
+      m_v_seq_tx.m_wb_s_seq_base.m_ev_end_pkt=m_config.m_tx_sb_config.m_ev_end_pkt;
+      
       phase.raise_objection(this);
       // Start virtual sequence;      
       m_v_seq_tx.start(m_env.m_v_sqr);

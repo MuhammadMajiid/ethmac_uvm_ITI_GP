@@ -57,9 +57,11 @@ class wb_s_basic_tx_seq extends wb_s_seq_base;
     bit txen = 1'b0,
     bit nopre = 1'b0,
     bit crcen = 1'b1,
+    bit dcrc = 1'b0,
     bit pad = 1'b1,
     bit hugen = 1'b0,
     bit nobckof = 1'b0,
+    bit exdf = 1'b0,
     bit pause_req = 1'b0,
     bit tx_flow  = 1'b0
     );
@@ -133,9 +135,11 @@ task wb_s_basic_tx_seq::configure_tx_registers(
     bit txen = 1'b0,
     bit nopre = 1'b0,
     bit crcen = 1'b1,
+    bit dcrc = 1'b0,
     bit pad = 1'b1,
     bit hugen = 1'b0,
     bit nobckof = 1'b0,
+    bit exdf = 1'b0,
     bit pause_req = 1'b0,
     bit tx_flow  = 1'b0
     );
@@ -187,13 +191,15 @@ task wb_s_basic_tx_seq::configure_tx_registers(
     regmodel.MODER.TXEN.set(txen);
     regmodel.MODER.NOPRE.set(nopre);
     regmodel.MODER.CRCEN.set(crcen);
+    regmodel.MODER.DLYCRCEN.set(dcrc);
     regmodel.MODER.PAD.set(pad);
     regmodel.MODER.HUGEN.set(hugen);
     regmodel.MODER.NOBCKOF.set(nobckof);
+    regmodel.MODER.EXDFREN.set(exdf);
     regmodel.MODER.update(status);
     `uvm_info("TX_CONFIG", 
-        $sformatf("MODER: FULLD=%0d, TXEN=%0d, NOPRE=%0d, CRCEN=%0d, PAD=%0d, HUGEN=%0d, NOBCKOF=%0d",
-                  fulld, txen, nopre, crcen, pad, hugen, nobckof),
+        $sformatf("MODER: FULLD=%0d, TXEN=%0d, BDNUM = %0d, NOPRE=%0d, CRCEN=%0d, PAD=%0d, HUGEN=%0d, NOBCKOF=%0d, EXDF=%0d, MAXFL = %0d, MINFL = %0d",
+                  fulld, txen, tx_bd_num, nopre, crcen, pad, hugen, nobckof,exdf,maxfl,minfl),
         UVM_MEDIUM)
 
 endtask 
