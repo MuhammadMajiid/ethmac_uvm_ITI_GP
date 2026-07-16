@@ -3,12 +3,10 @@ class eth_v_seq_tx extends eth_v_seq_base;
  
     wb_m_seq_base   m_wb_m_seq_base;
     wb_s_seq_base   m_wb_s_seq_base;
-    mii_tx_seq_base m_mii_tx_seq_base;
     function new(string name ="eth_v_seq_tx");
         super.new(name);
         m_wb_s_seq_base = wb_s_seq_base::type_id::create("m_wb_s_seq_base");  
         m_wb_m_seq_base= wb_m_seq_base::type_id::create("m_wb_m_seq_base"); 
-        m_mii_tx_seq_base= mii_tx_seq_base::type_id::create("m_mii_tx_seq_base"); 
     endfunction
 
     virtual task body();
@@ -19,7 +17,6 @@ class eth_v_seq_tx extends eth_v_seq_base;
         // Start wb master seq in join_none as it runs on reactive agent
         fork : fork_v_seq_wr_rd
             m_wb_m_seq_base.start(m_wb_m_sqr);
-            m_mii_tx_seq_base.start(m_mii_tx_sqr);
         join_none;
         
         // Run wishbone slave sequence

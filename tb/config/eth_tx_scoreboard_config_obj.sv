@@ -17,7 +17,7 @@ class eth_tx_scoreboard_config_obj extends uvm_object;
 
   eth_reg_block         m_regmodel;       // RAL model
   event                 m_ev_end_seqs;    // triggerd when sequences finish
-
+  event                 m_ev_end_pkt;
   function new(string name = "eth_tx_scoreboard_config_obj");
     super.new(name);
   endfunction

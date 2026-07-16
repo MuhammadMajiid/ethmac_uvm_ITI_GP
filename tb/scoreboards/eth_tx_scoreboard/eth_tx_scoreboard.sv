@@ -18,7 +18,7 @@ class eth_tx_scoreboard extends uvm_scoreboard;
     // =========================================================================
     parameter SEM_TX_SEQ_ITEM_NO_KEYS = 3;
     parameter SEM_WB_M_SEQ_ITEM_NO_KEYS = 1;
-
+    int no_ev;
     // =========================================================================
     // Analysis fifos — one for wishbone master, one for MII TX
     // =========================================================================
@@ -58,6 +58,7 @@ class eth_tx_scoreboard extends uvm_scoreboard;
     event m_ev_end_seqs;    // triggerd when running sequence finish
     event m_ev_txen;        // triggered when TXEN bit in MODER register changes from 0 to 1
     event m_ev_start_comp;  // triggered when packet ends to start comparison
+    event m_ev_start_pred;
     // =========================================================================
     // Structs
     // ========================================================================= 
@@ -398,7 +399,7 @@ function void eth_tx_scoreboard::connect_phase(uvm_phase phase);
     m_regmodel=m_config.m_regmodel;
     // assign end seq event handle to it's corresponding in config
     m_ev_end_seqs=m_config.m_ev_end_seqs;
-    
+    m_config.m_ev_end_pkt=m_ev_end_pkt;
     // Connect each export with it's corrosponding fifo
     wb_m_a_export.connect(wb_m_fifo.analysis_export);
     mii_tx_a_export.connect(mii_tx_fifo.analysis_export);
@@ -416,6 +417,12 @@ task eth_tx_scoreboard::run_phase(uvm_phase phase);
         #0.1 predictor();
         #0.1 comparator();
         begin
+            wait(m_ev_txen.triggered);
+            #1;
+            if(m_tx_bd_cfg_s.tx_bd_num==0)
+            disable fork_run_phase;
+        end    
+        begin  
             wait(m_ev_end_seqs.triggered);
             wait(m_ev_end_pkt.triggered);
             #0.2;
@@ -423,9 +430,9 @@ task eth_tx_scoreboard::run_phase(uvm_phase phase);
                 repeat(m_tx_bd_cfg_s.tx_bd_num-1) begin
                 wait(m_ev_end_pkt.triggered);
                 #0.2;
-            end
-        end
+            end    
         disable fork_run_phase;
+        end
         end    
     join    
     phase.drop_objection(this);
@@ -493,6 +500,7 @@ task eth_tx_scoreboard::predictor();
                         pred_construct_ctrl_pkt();
                     end    
                     wait(m_ev_end_pkt.triggered);
+
                     pred_read_cfg_reg();
                     #1;
                 end    
@@ -562,6 +570,8 @@ function void eth_tx_scoreboard::pred_construct_data_pkt();
     // read data packts from dma memory
     pred_read_mem();
     
+    // pad bytes only if minfl < maxfl
+    if(m_tx_bd_cfg_s.minfl<m_tx_bd_cfg_s.maxfl)
     // add padding bytes if required
     pred_add_pad();
 
@@ -771,7 +781,9 @@ function void eth_tx_scoreboard::pred_read_mem();
 
     // push remaining bytes if length isn't divisble by 4
     if(len%4!=0) begin
-        dma_mem::read(txpnt+len-len%4,rd_data);
+        if(!dma_mem::read(txpnt+len-len%4,rd_data))
+            `uvm_fatal(get_name(), $sformatf("In buffer descriptor number %0d, address doesn't exist in dma memory, address = %0h",m_tx_bd_cfg_s.bd_index,txpnt+len-len%4))
+     
         for(int i=1;i<=len%4;i++)
               m_tx_expected_s.exp_pkt.push_back(rd_data[8*(4-i)+:8]);
     end  
@@ -1101,8 +1113,6 @@ task eth_tx_scoreboard::pred_read_cfg_reg();
     m_tx_bd_cfg_s.txe_m = m_regmodel.INT_MASK.TXE_M.get_mirrored_value();
     m_tx_bd_cfg_s.txb_m = m_regmodel.INT_MASK.TXB_M.get_mirrored_value();
 
-    //m_regmodel.PACKETLEN.print();
-    //$display("Minfl = %d",m_tx_bd_cfg_s.minfl);
 endtask
 
 
@@ -1279,6 +1289,7 @@ task eth_tx_scoreboard::comp_pack_pkt();
     #1ns;
     end
     `uvm_info(get_type_name(),"Comp_pack: MTXEN asserted",UVM_MEDIUM)
+    -> m_ev_start_pred;
     //--------------------------------------------------------
     // Capture complete bytes
     //--------------------------------------------------------
@@ -1602,42 +1613,44 @@ task eth_tx_scoreboard::comp_check_bd_status();
     status_idx = m_tx_bd_cfg_s.bd_index * 2;
     m_regmodel.eth_bd_mem.peek(status,status_idx,bd_data);
 
+
     // check underrun expected equal actal
     if(bd_data[WB_TX_BD_UR_POS]!=m_tx_expected_s.exp_ur) begin
             `uvm_error(get_name(),$sformatf("Actual underrun error isn't equal to expected,actual error = %0b expected = %0b",
                 bd_data[WB_TX_BD_UR_POS],m_tx_expected_s.exp_ur))
     end    
 
-    // check RTRY count expected equal actal
-    if(bd_data[WB_TX_RC_MSB_POS:WB_TX_RC_LSB_POS]!=m_tx_expected_s.exp_rtry) begin
-            `uvm_error(get_name(),$sformatf("Actual Retry count  isn't equal to expected,actual  = %0b expected = %0b",
-                bd_data[WB_TX_RC_MSB_POS:WB_TX_RC_LSB_POS],m_tx_expected_s.exp_rtry))
-    end 
+    if(!m_tx_bd_cfg_s.full_duplex) begin
+        // check RTRY count expected equal actal
+        if(bd_data[WB_TX_RC_MSB_POS:WB_TX_RC_LSB_POS]!=m_tx_expected_s.exp_rtry) begin
+                `uvm_error(get_name(),$sformatf("Actual Retry count  isn't equal to expected,actual  = %0b expected = %0b",
+                    bd_data[WB_TX_RC_MSB_POS:WB_TX_RC_LSB_POS],m_tx_expected_s.exp_rtry))
+        end 
 
-    // check Retransmission limit expected equal actal
-    if(bd_data[WB_TX_RL_POS]!=m_tx_expected_s.exp_rl) begin
-            `uvm_error(get_name(),$sformatf("Actual Retrnsmission limit  isn't equal to expected,actual  = %0b expected = %0b",
-                bd_data[WB_TX_RL_POS],m_tx_expected_s.exp_rl))
-    end     
+        // check Retransmission limit expected equal actal
+        if(bd_data[WB_TX_RL_POS]!=m_tx_expected_s.exp_rl) begin
+                `uvm_error(get_name(),$sformatf("Actual Retrnsmission limit  isn't equal to expected,actual  = %0b expected = %0b",
+                    bd_data[WB_TX_RL_POS],m_tx_expected_s.exp_rl))
+        end     
 
-    // check late collision expected equal actal
-    if(bd_data[WB_TX_LC_POS]!=m_tx_expected_s.exp_lc) begin
-            `uvm_error(get_name(),$sformatf("Actual Late collision  isn't equal to expected,actual  = %0b expected = %0b",
-                bd_data[WB_TX_LC_POS],m_tx_expected_s.exp_lc))
-    end 
+        // check late collision expected equal actal
+        if(bd_data[WB_TX_LC_POS]!=m_tx_expected_s.exp_lc) begin
+                `uvm_error(get_name(),$sformatf("Actual Late collision  isn't equal to expected,actual  = %0b expected = %0b",
+                    bd_data[WB_TX_LC_POS],m_tx_expected_s.exp_lc))
+        end 
 
-    // check Deferral indication expected equal actal
-    if(bd_data[WB_TX_DF_POS]!=m_tx_expected_s.exp_df) begin
-            `uvm_error(get_name(),$sformatf("Actual Deferral indication  isn't equal to expected,actual  = %0b expected = %0b",
-                bd_data[WB_TX_DF_POS],m_tx_expected_s.exp_df))
-    end 
+        // check Deferral indication expected equal actal
+        if(bd_data[WB_TX_DF_POS]!=m_tx_expected_s.exp_df) begin
+                `uvm_error(get_name(),$sformatf("Actual Deferral indication  isn't equal to expected,actual  = %0b expected = %0b",
+                    bd_data[WB_TX_DF_POS],m_tx_expected_s.exp_df))
+        end 
 
-    // check Carrier sense lost expected equal actal
-    if(bd_data[WB_TX_CS_POS]!=m_tx_expected_s.exp_cs) begin
-            `uvm_error(get_name(),$sformatf("Actual Carrier sense lost count  isn't equal to expected,actual  = %0b expected = %0b",
-                bd_data[WB_TX_CS_POS],m_tx_expected_s.exp_cs))
-    end 
-
+        // check Carrier sense lost expected equal actal
+        if(bd_data[WB_TX_CS_POS]!=m_tx_expected_s.exp_cs) begin
+                `uvm_error(get_name(),$sformatf("Actual Carrier sense lost  isn't equal to expected,actual  = %0b expected = %0b",
+                    bd_data[WB_TX_CS_POS],m_tx_expected_s.exp_cs))
+        end 
+    end
     // check if it's control frame
     if(m_tx_bd_cfg_s.tx_pause_req ==1 && m_tx_bd_cfg_s.tx_flow ==1) begin
         // update mirror value of pausereq with 0 because it is cleared after the frame is sent
@@ -2230,7 +2243,7 @@ function void eth_tx_scoreboard::clear();
     //----------------------------------------------------------
     // Clear structs
     //----------------------------------------------------------  
-    m_tx_bd_cfg_s        ='{default:'0,bd_index: m_tx_bd_cfg_s.bd_index};
+    m_tx_bd_cfg_s        ='{default:'0,bd_index: m_tx_bd_cfg_s.bd_index,tx_bd_num: m_tx_bd_cfg_s.tx_bd_num};
     m_tx_expected_s      ='{default:'0,exp_pkt: {}};
     m_tx_pending_s       ='{default:'0,actual_pkt: {}};
 

@@ -108,7 +108,7 @@ class wb_s_monitor_base extends uvm_monitor;
                     
             end
         end : bd_done_filter
-      `uvm_info(get_full_name(),tr.convert2string(), UVM_MEDIUM)
+      `uvm_info(get_full_name(),tr.convert2string(), UVM_HIGH)
       
       end
 

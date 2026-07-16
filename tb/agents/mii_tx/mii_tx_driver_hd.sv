@@ -20,12 +20,14 @@ class mii_tx_driver_hd extends mii_tx_driver_base;
     endfunction
 
     task run_phase(uvm_phase phase);
+        bit prev_txen;
         reset_items();
         forever begin
             m_seq_item = mii_tx_seq_item_base::type_id::create("m_seq_item");
             seq_item_port.get_next_item(m_seq_item);
-            m_seq_item.MCrS=vif.MTxEN;
-            m_seq_item.MColl=vif.MColl;
+            m_seq_item.MCrS=vif.MTxEN | prev_txen;
+            m_seq_item.MColl=0;
+            prev_txen=vif.MTxEN;
             drive_items(m_seq_item);
         end
     endtask 

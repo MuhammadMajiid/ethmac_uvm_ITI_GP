@@ -9,54 +9,46 @@ puts "=================================================="
 puts " Compiling and Running TEST = $TESTNAME"
 puts "=================================================="
 
+# Paths
+set SCRIPT_PATH "repo/results/tx/log"
+set COV_PATH    "repo/results/tx/coverage"
+set LOG_PATH    "repo/results/tx/log"
 
+# Log file and ucdb variables
+set LOG_FILE "${SCRIPT_PATH}/${TESTNAME}.log"
+set CODE_UCDB "${COV_PATH}/${TESTNAME}_code_cov.ucdb"
+set FUNC_UCDB "${COV_PATH}/${TESTNAME}_func_cov.ucdb"
+set CODE_REP "${COV_PATH}/${TESTNAME}_code_cov.txt"
+set FUNC_REP "${COV_PATH}/${TESTNAME}_func_cov.txt"
 
-set seed [clock milliseconds]
-
-set fp [open "repo/results/tx/seeds.txt" a]
-puts $fp "$TESTNAME,$seed"
+# Clear previous coverage files
+set fp [open $CODE_UCDB w]
+close $fp
+set fp [open $FUNC_UCDB w]
+close $fp
+set fp [open $CODE_REP w]
+close $fp
+set fp [open $FUNC_REP w]
 close $fp
 
-vlib work
-vmap work work
-
-transcript file repo/results/tx/log/${TESTNAME}.log
+transcript file $LOG_FILE
 
 
-vlog repo/tb/global/eth_glob_pkg.sv \
-repo/tb/interfaces/*.sv \
-repo/tb/seq_items/mii_tx/mii_tx_seq_item_pkg.sv \
-repo/tb/seq_items/wb_m/wb_m_seq_item_pkg.sv \
-repo/tb/seq_items/wb_s/wb_s_seq_item_pkg.sv \
-repo/tb/seq_items/mii_rx/mii_rx_seq_item_pkg.sv \
-repo/tb/config/eth_config_pkg.sv \
-repo/tb/ral/eth_ral_pkg.sv \
-repo/tb/sequences/wb_m_seq/wb_m_seq_pkg.sv \
-repo/tb/sequences/wb_s_seq/wb_s_seq_pkg.sv \
-repo/tb/sequences/mii_tx_seq/mii_tx_seq_pkg.sv \
-repo/tb/virtual_seq_sqr/eth_v_seq_sqr_pkg.sv \
-repo/tb/agents/mii_tx/mii_tx_agent_pkg.sv \
-repo/tb/agents/mii_rx/mii_rx_agent_pkg.sv \
-repo/tb/agents/wb_m/wb_m_agent_pkg.sv \
-repo/tb/agents/wb_s/wb_s_agent_pkg.sv \
-repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard_pkg.sv \
-repo/tb/scoreboards/eth_rx_scoreboard/eth_rx_scoreboard_pkg.sv \
-repo/tb/coverage/eth_cov_pkg.sv \
-repo/tb/env/eth_env_pkg.sv \
-repo/tb/tests/eth_tests_tx/eth_test_tx_pkg.sv \
-repo/rtl/*.v \
-repo/tb/top/eth_tb.sv \
-+cover -covercells
-
-vsim -c -voptargs=+acc work.eth_tb -coverage -classdebug -sv_seed seed -uvmcontrol=all \
-  +uvm_set_verbosity=uvm_test_top.m_env.*,_ALL_,UVM_MEDIUM,time,0 \
+vsim -c -voptargs=+acc work.eth_tb -coverage -classdebug -sv_seed random -uvmcontrol=all \
+  +uvm_set_verbosity=uvm_test_top.m_env.*,_ALL_,$VERBOSITY,time,0 \
   +UVM_TESTNAME=$TESTNAME -onfinish stop \
   -do {
     run -all; 
-    coverage save repo/results/tx/coverage/${TESTNAME}_code_cov.ucdb -codeAll -instance eth_tb.dut
-    coverage save repo/results/tx/coverage/${TESTNAME}_func_cov.ucdb -cvg -directive -assert
+    coverage save $CODE_UCDB -codeAll -instance eth_tb.dut
+    coverage save $FUNC_UCDB -cvg -directive -assert
+    transcript file ""
     }
-transcript file ""
 
-vcover report repo/results/tx/coverage/${TESTNAME}_func_cov.ucdb -details -annotate -all -output repo/results/tx/coverage/${TESTNAME}_func_cov.txt
-vcover report repo/results/tx/coverage/${TESTNAME}_code_cov.ucdb -details -annotate -all -output repo/results/tx/coverage/${TESTNAME}_code_cov.txt
+
+vcover report $FUNC_UCDB -details -annotate -all -output  $FUNC_REP
+vcover report $CODE_UCDB -details -annotate -all -output  $CODE_REP
+
+puts ""
+puts "=================================================="
+puts " Finishing TEST = $TESTNAME"
+puts "=================================================="
