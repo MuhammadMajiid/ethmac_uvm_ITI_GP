@@ -76,6 +76,7 @@ class eth_env_base extends uvm_env;
     m_config.m_regmodel=m_regmodel;
 	
 	m_v_sqr.m_reset_sqr = m_reset_agent.m_sequencer;
+	m_v_sqr.regmodel = m_regmodel;
 
     
    //Connect the wb_s_sequencer  to the address map in order

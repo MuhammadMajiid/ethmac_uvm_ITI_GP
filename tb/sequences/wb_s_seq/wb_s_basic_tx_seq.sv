@@ -33,8 +33,8 @@ class wb_s_basic_tx_seq extends wb_s_seq_base;
     //---------------------------------------------------------
     // Parameters
     //---------------------------------------------------------
-    localparam int NUM_TX_BD = 1;
-    localparam int unsigned        PKT_LEN    = 80;
+    localparam int NUM_TX_BD = 4;
+    localparam int unsigned        PKT_LEN    = 81;
     bit [31:0] tx_ptr[NUM_TX_BD];
 
 
@@ -57,11 +57,9 @@ class wb_s_basic_tx_seq extends wb_s_seq_base;
     bit txen = 1'b0,
     bit nopre = 1'b0,
     bit crcen = 1'b1,
-    bit dcrc = 1'b0,
     bit pad = 1'b1,
     bit hugen = 1'b0,
     bit nobckof = 1'b0,
-    bit exdf = 1'b0,
     bit pause_req = 1'b0,
     bit tx_flow  = 1'b0
     );
@@ -75,7 +73,7 @@ class wb_s_basic_tx_seq extends wb_s_seq_base;
     bit enable_pad,
     bit enable_crc
     );
-    extern function void dma_mem_wr(bit [31:0] tx_ptr,bit [15:0] len,bit [31:0] data);
+
     //---------------------------------------------------------
     task body();
 
@@ -93,7 +91,8 @@ class wb_s_basic_tx_seq extends wb_s_seq_base;
         //----------------------------------------------------- 
 
         foreach (tx_ptr[i]) begin
-            dma_mem_wr(tx_ptr[i],PKT_LEN,$random);
+            for(int j=0; j<$ceil(PKT_LEN/4.0);j++)
+            dma_mem::write(tx_ptr[i]+j*4,$random);
         end
 
         //-----------------------------------------------------
@@ -122,26 +121,24 @@ class wb_s_basic_tx_seq extends wb_s_seq_base;
 endclass
 
 task wb_s_basic_tx_seq::configure_tx_registers(
-    bit [7:0]  ipgt = 8'h12,
-    bit [7:0]  ipgr1 = 8'h0C,
-    bit [7:0]  ipgr2 = 8'h12,
-    bit [15:0] minfl = 16'h0040,
-    bit [15:0] maxfl = 16'h05EE,
-    bit [7:0]  tx_bd_num = 8'h00,
-    bit [15:0] mac_addr1 = 16'h0000,
-    bit [31:0] mac_addr0 = 32'h00000000,
-    bit [3:0]  pause_timer = 16'h0000,
-    bit fulld = 1'b0,
-    bit txen = 1'b0,
-    bit nopre = 1'b0,
-    bit crcen = 1'b1,
-    bit dcrc = 1'b0,
-    bit pad = 1'b1,
-    bit hugen = 1'b0,
-    bit nobckof = 1'b0,
-    bit exdf = 1'b0,
-    bit pause_req = 1'b0,
-    bit tx_flow  = 1'b0
+    bit [7:0] ipgt,
+    bit [7:0] ipgr1,
+    bit [7:0] ipgr2,
+    bit [15:0] minfl,
+    bit [15:0] maxfl,
+    bit [7:0] tx_bd_num,
+    bit [15:0] mac_addr1,
+    bit [31:0] mac_addr0,
+    bit [3:0] pause_timer,
+    bit fulld,
+    bit txen,
+    bit nopre,
+    bit crcen,
+    bit pad,
+    bit hugen,
+    bit nobckof,
+    bit pause_req,
+    bit tx_flow
     );
     uvm_status_e status;
 
@@ -191,25 +188,35 @@ task wb_s_basic_tx_seq::configure_tx_registers(
     regmodel.MODER.TXEN.set(txen);
     regmodel.MODER.NOPRE.set(nopre);
     regmodel.MODER.CRCEN.set(crcen);
-    regmodel.MODER.DLYCRCEN.set(dcrc);
     regmodel.MODER.PAD.set(pad);
     regmodel.MODER.HUGEN.set(hugen);
     regmodel.MODER.NOBCKOF.set(nobckof);
-    regmodel.MODER.EXDFREN.set(exdf);
     regmodel.MODER.update(status);
     `uvm_info("TX_CONFIG", 
-        $sformatf("MODER: FULLD=%0d, TXEN=%0d, BDNUM = %0d, NOPRE=%0d, CRCEN=%0d, PAD=%0d, HUGEN=%0d, NOBCKOF=%0d, EXDF=%0d, MAXFL = %0d, MINFL = %0d",
-                  fulld, txen, tx_bd_num, nopre, crcen, pad, hugen, nobckof,exdf,maxfl,minfl),
+        $sformatf("MODER: FULLD=%0d, TXEN=%0d, NOPRE=%0d, CRCEN=%0d, PAD=%0d, HUGEN=%0d, NOBCKOF=%0d",
+                  fulld, txen, nopre, crcen, pad, hugen, nobckof),
         UVM_MEDIUM)
 
 endtask 
 
-function void wb_s_basic_tx_seq::dma_mem_wr(bit [31:0] tx_ptr,bit [15:0] len,bit [31:0] data);
-            for(int j=0; j<$ceil(len/4.0);j++)
-                dma_mem::write(tx_ptr+j*4,data);
-endfunction
 
-
+//-----------------------------------------------------
+// Task: Configure Single TX Buffer Descriptor
+//
+// Sets up one TX BD with configurable parameters.
+// RD (Ready) bit is always set to 1 by this task.
+// Status bits [10:0] are always cleared by this task
+// (they are set by MAC after transmission).
+//
+// Parameters:
+//   - bd_index: Which BD to configure (0 to NUM_TX_BD-1)
+//   - frame_length: Length of frame in bytes
+//   - frame_ptr: DMA address where frame data is stored
+//   - enable_irq: 1=interrupt on completion, 0=no interrupt
+//   - is_wrap: 1=set wrap bit, 0=no wrap
+//   - enable_pad: 1=enable padding to MINFL, 0=no padding
+//   - enable_crc: 1=enable CRC append, 0=no CRC
+//-----------------------------------------------------
 
 task wb_s_basic_tx_seq::configure_tx_bd(
     int bd_index,
@@ -247,7 +254,7 @@ task wb_s_basic_tx_seq::configure_tx_bd(
     `uvm_info("TX_CONFIG", 
         $sformatf(" Configuring TX BD[%0d] - LEN=0x%04h, PTR=0x%08h, IRQ=%0d, WR=%0d, PAD=%0d, CRC=%0d", 
                   bd_index, frame_length, frame_ptr, enable_irq, is_wrap, enable_pad, enable_crc), 
-        UVM_MEDIUM)
+        UVM_HIGH)
 
 endtask
 

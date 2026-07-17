@@ -20,13 +20,16 @@
 `ifndef WB_S_SEQ_BASE_SV
 `define WB_S_SEQ_BASE_SV
 
-class wb_s_seq_base extends uvm_sequence;
+class wb_s_seq_base extends
+    uvm_sequence#(
+        wb_s_seq_item_base#(
+            WB_S_ADDR_WIDTH,
+            WB_DATA_WIDTH,
+            WB_SEL_WIDTH));
 
     `uvm_object_utils(wb_s_seq_base)
-    eth_reg_block regmodel;
-    uvm_status_e status;
-    event m_ev_end_pkt;
-    bit m_ev_end_seqs;
+     eth_reg_block regmodel;
+     uvm_status_e status;
     function new(string name="wb_s_seq_base");
         super.new(name);
     endfunction

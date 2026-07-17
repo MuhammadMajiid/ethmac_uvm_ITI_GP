@@ -15,6 +15,10 @@ package  eth_v_seq_sqr_pkg;
 
   import uvm_pkg::*;
   `include "uvm_macros.svh"
+  
+   
+  // RAL package
+  import eth_ral_pkg::*;
 
 
   // import agent packages
@@ -35,6 +39,8 @@ package  eth_v_seq_sqr_pkg;
   // include virtual sequencer files
   `include "eth_v_sequencer.sv"
   `include "eth_v_seq_base.sv"
+  `include "eth_v_seq_reg.sv"
+  `include "eth_v_seq_bd.sv"
   `include "eth_v_seq_tx.sv"
   `include "eth_v_seq_tx_active.sv"
   

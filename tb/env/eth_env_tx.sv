@@ -41,7 +41,7 @@ class eth_env_tx extends eth_env_base;
 
     // build TX scoreboard
     m_tx_sb = eth_tx_scoreboard::type_id::create("m_tx_sb", this);
-
+	
     // build TX coverage
     m_cov_tx = eth_cov_tx::type_id::create("m_cov_tx", this);
   endfunction
@@ -51,7 +51,8 @@ class eth_env_tx extends eth_env_base;
     super.connect_phase(phase);
     // Assign ral handle in scoreboard config obj to local
     m_config.m_tx_sb_config.m_regmodel=m_regmodel;
-
+	
+    m_cov_tx.m_regmodel=m_config.m_regmodel;
     // Connect each sequencer in virtual sequencer to it's real sequencer
     m_v_sqr.m_mii_tx_sqr=m_mii_tx_agent.m_sequencer;
     m_v_sqr.m_wb_m_sqr=m_wb_m_agent.m_sequencer;

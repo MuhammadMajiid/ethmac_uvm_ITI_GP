@@ -13,6 +13,7 @@
 
 package wb_s_seq_pkg;
 
+   
     `include "uvm_macros.svh"
     import uvm_pkg::*;
 
@@ -33,6 +34,20 @@ package wb_s_seq_pkg;
     `include "wb_s_seq_tx_dcrc.sv"
     `include "wb_s_seq_tx_moder.sv"
     `include "wb_s_seq_tx_pad.sv"
+	`include "eth_tx_bd_num_bit_bash_seq.sv"
+	`include "eth_max_value_seq.sv"
+	`include "eth_rw_pattern_seq.sv"
+	`include "eth_bd_mem_walk_seq.sv"
+	`include "eth_bd_mem_alternating_seq.sv"
+	`include "eth_bd_wr_seq.sv"
+    
+   
+
+	
 endpackage : wb_s_seq_pkg
+
+
+
+
 
 `endif // WB_S_SEQ_PKG_SV

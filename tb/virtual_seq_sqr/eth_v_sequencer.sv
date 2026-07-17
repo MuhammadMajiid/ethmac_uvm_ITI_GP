@@ -17,6 +17,7 @@ class eth_v_sequencer extends uvm_sequencer;
   mii_tx_sequencer_base m_mii_tx_sqr;
   mii_rx_sequencer_base m_mii_rx_sqr;
   reset_sequencer m_reset_sqr;
+  eth_reg_block         regmodel;
 
  function new(string name, uvm_component parent);
   super.new(name, parent);

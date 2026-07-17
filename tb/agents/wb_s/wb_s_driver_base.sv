@@ -64,7 +64,7 @@ class wb_s_driver_base extends uvm_driver #(wb_s_seq_item_base#(WB_S_ADDR_WIDTH,
 
      `uvm_info(get_type_name(),
           $sformatf("Driving transaction:%s",
-                    req.convert2string()),UVM_HIGH)
+                    req.convert2string()),UVM_MEDIUM)
 
       drive_transfer(req);
 
@@ -133,6 +133,7 @@ class wb_s_driver_base extends uvm_driver #(wb_s_seq_item_base#(WB_S_ADDR_WIDTH,
   end
 
   @(vif.cb);
+  if(req.m_addr!='h00B)
   @(vif.cb);
   //----------------------------------------------------------------------
   // Return bus to idle
