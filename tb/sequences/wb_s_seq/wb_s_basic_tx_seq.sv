@@ -28,19 +28,16 @@
 class wb_s_basic_tx_seq extends wb_s_seq_base;
 
     `uvm_object_utils(wb_s_basic_tx_seq)
-   
-
-    //---------------------------------------------------------
-    // Parameters
-    //---------------------------------------------------------
-    localparam int NUM_TX_BD = 1;
-    localparam int unsigned        PKT_LEN    = 80;
-    bit [31:0] tx_ptr[NUM_TX_BD];
-
+    wb_s_seq_item_tx m_item;
 
     //---------------------------------------------------------
     function new(string name="wb_s_basic_tx_seq");
         super.new(name);
+        m_item = wb_s_seq_item_tx#(
+        WB_S_ADDR_WIDTH,
+        WB_DATA_WIDTH,
+        WB_SEL_WIDTH
+      )::type_id::create("m_item");
     endfunction
 
     extern task configure_tx_registers(
@@ -78,8 +75,10 @@ class wb_s_basic_tx_seq extends wb_s_seq_base;
     extern function void dma_mem_wr(bit [31:0] tx_ptr,bit [15:0] len,bit [31:0] data);
     //---------------------------------------------------------
     task body();
+    parameter int NUM_TX_BD = 2;
+    parameter int unsigned        PKT_LEN    = 75;
+    bit [31:0] tx_ptr[NUM_TX_BD];
 
-        bit [31:0] bd_status;
     //-----------------------------------------------------
     // DMA packet addresses for the basic test
     //-----------------------------------------------------
@@ -108,16 +107,19 @@ class wb_s_basic_tx_seq extends wb_s_seq_base;
         //-----------------------------------------------------
         // Configure registers
         //-----------------------------------------------------
-        configure_tx_registers(.tx_bd_num(NUM_TX_BD),.mac_addr0($random),.mac_addr1($random),.txen(1),.fulld(1));
+        configure_tx_registers(.tx_bd_num(NUM_TX_BD),.txen(1),.fulld(0),.ipgt('h7F));
 
 
         `uvm_info(get_type_name(),
                   "Basic TX configuration completed",
                   UVM_LOW)
 
-    endtask
 
- 
+        repeat(NUM_TX_BD) begin
+            @(m_ev_end_pkt);
+        end
+
+    endtask 
 
 endclass
 
@@ -198,8 +200,8 @@ task wb_s_basic_tx_seq::configure_tx_registers(
     regmodel.MODER.EXDFREN.set(exdf);
     regmodel.MODER.update(status);
     `uvm_info("TX_CONFIG", 
-        $sformatf("MODER: FULLD=%0d, TXEN=%0d, BDNUM = %0d, NOPRE=%0d, CRCEN=%0d, PAD=%0d, HUGEN=%0d, NOBCKOF=%0d, EXDF=%0d, MAXFL = %0d, MINFL = %0d",
-                  fulld, txen, tx_bd_num, nopre, crcen, pad, hugen, nobckof,exdf,maxfl,minfl),
+        $sformatf("MODER: FULLD=%0d, TXEN=%0d, BDNUM = %0d, NOPRE=%0d, CRCEN=%0d, PAD=%0d, HUGEN=%0d, NOBCKOF=%0d, EXDF=%0d, IPGT = %0d, MAXFL = %0d, MINFL = %0d",
+                  fulld, txen, tx_bd_num, nopre, crcen, pad, hugen, nobckof,exdf,ipgt,maxfl,minfl),
         UVM_MEDIUM)
 
 endtask 

@@ -1,4 +1,4 @@
-set TESTNAME "eth_test_tx_nopre"
+set TESTNAME "eth_test_tx_bd_num"
 set VERBOSITY "UVM_MEDIUM"
 vlib work
 vmap work work

@@ -48,10 +48,15 @@ class eth_cov_tx extends uvm_component;
     bit   [15:0]               m_maxfl;
     bit   [3:0]                m_retry_max;
     bit   [5:0]                m_coll_v;
+    bit   [16:0]               m_txctrl;
+    bit                        m_ctrl_moder;
+    bit   [31:0]               m_mac_addr0;
+    bit   [15:0]               m_mac_addr1;
+    bit   [6:0]                m_int_mask;
     bit   [15:0]               m_bd_len;
     bit   [4:0]                m_bd_cfg;
-    logic   [3:0]                m_retry_cnt;
-    logic   [4:0]                m_bd_stat;
+    bit   [3:0]                m_retry_cnt;
+    bit   [4:0]                m_bd_stat;
 	// =========================================================================
     // Wishbone master fields
     // =========================================================================    
@@ -104,21 +109,21 @@ class eth_cov_tx extends uvm_component;
         }
         
         // MODER register (Address 0x00)
-        cp_moder: coverpoint m_moder_tx iff(m_addr=='h00){
+        cp_moder: coverpoint m_moder_tx{
 
         // All configurations
         bins reg_config [] = {['b1_0000_0000:'b1_1111_1111]};
         // padding
-        //wildcard bins reg_pad [2] = {'b1_1???_????,'b1_0???_????};
+        wildcard bins reg_pad [2] = {'b1_1???_????,'b1_0???_????};
         // Normal CRC
-        //wildcard bins reg_crc [2] = {'b1_??00_????,'b1_??10_????};
+        wildcard bins reg_crc [2] = {'b1_??00_????,'b1_??10_????};
         // Delayd CRC
-        //wildcard bins reg_d_crc [2] = {'b1_??10_????,'b1_??11_????};
+        wildcard bins reg_d_crc [2] = {'b1_??10_????,'b1_??11_????};
         // ignore other values
         bins others = default;
         }
         // INT_MASK coverpoint (Address 0x08)
-        cp_int_mask: coverpoint m_wdata iff(m_addr=='h02){
+        cp_int_mask: coverpoint m_int_mask{
             // None is masked
             bins no_mask = {'h0000_0000};
             // TXB mask;
@@ -173,7 +178,7 @@ class eth_cov_tx extends uvm_component;
  
 
     // Maximum frame length in PACKETLEN Register (Address 0x18)
-    cp_maxfl: coverpoint m_maxfl iff(m_addr=='h06) {
+    cp_maxfl: coverpoint m_maxfl {
 
         
         // MAXFL variations
@@ -187,7 +192,7 @@ class eth_cov_tx extends uvm_component;
     }
 
     // Minimum frame length in PACKETLEN Register (Address 0x18)
-    cp_minfl: coverpoint m_minfl iff(m_addr=='h06) {
+    cp_minfl: coverpoint m_minfl {
         
         // MINFL variations
         bins minfl_4  [] = {['h0000:'h0004]};        // Less than 4 bytes
@@ -229,19 +234,16 @@ class eth_cov_tx extends uvm_component;
  
 
     // CTRLMODER Register (Address 0x44)
-    cp_ctrlmoder: coverpoint m_wdata iff(m_addr=='h09) {
+    cp_ctrlmoder: coverpoint m_ctrl_moder {
         // TXFLOW bit 
-        bins tx_flow [2] = {'h0000_0000,'h0000_0004};
-        
-        // ignore other values
-        bins others = default;
+        bins tx_flow [2] = {0,1};
         
     }
  
  
 
     // MAC_ADDR0 Register (Address 0x40)
-    cp_mac_addr0: coverpoint m_wdata iff(m_addr=='h10) {
+    cp_mac_addr0: coverpoint m_mac_addr0 {
         
         // 64 bins for address range
         bins mac_addr0_all [64] = {['h0000_0000:'hFFFF_FFFF]};     
@@ -251,7 +253,7 @@ class eth_cov_tx extends uvm_component;
     }
 
     // MAC_ADDR1 Register (Address 0x44)
-    cp_mac_addr1: coverpoint m_wdata iff(m_addr=='h11) {
+    cp_mac_addr1: coverpoint m_mac_addr1 {
         // 8 bins for address range
         bins mac_addr1_all [8] = {['h0000_0000:'h0000_FFFF]};     
         
@@ -260,7 +262,7 @@ class eth_cov_tx extends uvm_component;
     }
  
     // TXCTRL Register (Address 0x50)
-    cp_txctrl: coverpoint m_wdata iff(m_addr=='h14) {
+    cp_txctrl: coverpoint m_txctrl {
         // pause request bit (1 & 0)
         wildcard bins tx_pause_req [2] = {'h0000_????,'h0001_????}; 
         // minimum timer value = 0
@@ -309,7 +311,7 @@ class eth_cov_tx extends uvm_component;
     // =============================================================================
     // Cross cover points
     // =============================================================================
-    /*
+    
     // Cross padding between register and bd
     cp_cross_pad: cross cp_moder,cp_bd_cfg{
         ignore_bins ign_pad = binsof(cp_bd_cfg.bd_crc) || binsof(cp_bd_cfg.bd_config) || binsof(cp_moder.reg_crc)
@@ -331,7 +333,7 @@ class eth_cov_tx extends uvm_component;
     // Cross txpause req and txflow
     cp_cross_ctrl: cross cp_ctrlmoder,cp_txctrl{
         ignore_bins ign_ctrl = binsof(cp_txctrl.time_val_any) || binsof(cp_txctrl.time_val_max) || binsof(cp_txctrl.time_val_min);
-    }*/
+    }
 
     endgroup
 
@@ -677,9 +679,27 @@ task eth_cov_tx::sample_wb_s_item();
     m_wdata = m_wb_s_seq_item.m_wdata;
     m_rdata = m_wb_s_seq_item.m_rdata;
     m_inta  = m_wb_s_seq_item.m_inta;
-    m_moder_tx = {m_wdata[1],m_wdata[15],m_wdata[14],m_wdata[13],m_wdata[12],m_wdata[10],m_wdata[9],m_wdata[8],m_wdata[2]};
-    m_minfl = m_wdata[31:16];
-    m_maxfl = m_wdata[15:0];
+    if(m_addr=='h00)
+        m_moder_tx = {m_wdata[1],m_wdata[15],m_wdata[14],m_wdata[13],m_wdata[12],m_wdata[10],m_wdata[9],m_wdata[8],m_wdata[2]};
+    if(m_addr=='h02)
+        m_int_mask=m_wdata[6:0];
+    if(m_addr=='h06)
+    begin
+        m_minfl = m_wdata[31:16];
+        m_maxfl = m_wdata[15:0];
+    end    
+    if(m_addr=='h09) begin
+        m_ctrl_moder=m_wdata[2];
+    end    
+    if(m_addr=='h10) begin
+        m_mac_addr0=m_wdata[31:0];
+    end 
+    if(m_addr=='h11) begin
+        m_mac_addr1=m_wdata[15:0];
+    end    
+    if(m_addr=='h14) begin
+        m_txctrl=m_wdata[16:0];
+    end
     m_retry_max = m_wdata[19:16];
     m_coll_v = m_wdata[5:0];
     m_bd_len = m_wdata[31:16];

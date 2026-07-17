@@ -1,37 +1,36 @@
 //==============================================================================
 // Project  : ethmac_uvm_ITI_GP
-// File     : wb_s_seq_tx_hugen.sv
+// File     : wb_s_seq_tx_bd_num.sv
 // Author   : Wael
 // Date     : 2026-07-14
 //------------------------------------------------------------------------------
 // Description:
 // transmit configuration without preamble sequence for the Ethernet MAC.
 //==============================================================================
-`ifndef WB_S_TX_HUGEN_SV
-`define WB_S_TX_HUGEN_SV
-class wb_s_seq_tx_hugen extends wb_s_basic_tx_seq;
+`ifndef WB_S_TX_BD_NUM_SV
+`define WB_S_TX_BD_NUM_SV
+class wb_s_seq_tx_bd_num extends wb_s_basic_tx_seq;
 
-    `uvm_object_utils(wb_s_seq_tx_hugen)
+    `uvm_object_utils(wb_s_seq_tx_bd_num)
 
     //---------------------------------------------------------
-    function new(string name="wb_s_seq_tx_hugen");
+    function new(string name="wb_s_seq_tx_bd_num");
         super.new(name);
     endfunction
 
 
     //---------------------------------------------------------
     task body();
-
+        
     uvm_resource_db#(bit)::set("*","end_seq",0,this);
     //-----------------------------------------------------
     // Randomize transaction
     //-----------------------------------------------------
     assert(m_item.randomize() with {
-    tx_bd_num<5;
+    tx_bd_num=='h80;
     foreach (pkt_len[i]){
-        pkt_len[i]<100;
+        pkt_len[i]<80;
         pkt_len[i]>4;
-        pkt_len[i] >maxfl;
     }
     })   
     else begin
@@ -51,18 +50,20 @@ class wb_s_seq_tx_hugen extends wb_s_basic_tx_seq;
     //-----------------------------------------------------
     // Configure registers
     //-----------------------------------------------------
-    configure_tx_registers(.tx_bd_num(m_item.tx_bd_num),.fulld(0),.txen(1),.nopre(0),.hugen(0),.maxfl(m_item.maxfl));
+    configure_tx_registers(.tx_bd_num(m_item.tx_bd_num),.fulld(m_item.moder_fd),.txen(1));
 
 
     `uvm_info(get_type_name(),
-                "Hugen TX configuration completed",
+                "TX BD Num configuration completed",
                 UVM_LOW)
 
     repeat(m_item.tx_bd_num) begin
         @(m_ev_end_pkt);
     end 
 
-    endtask 
+    endtask
+
+ 
 
 endclass
 

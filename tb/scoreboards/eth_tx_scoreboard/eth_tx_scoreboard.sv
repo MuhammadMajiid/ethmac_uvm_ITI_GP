@@ -65,7 +65,12 @@ class eth_tx_scoreboard extends uvm_scoreboard;
     eth_tx_expected_s m_tx_expected_s;
     eth_tx_bd_cfg_s   m_tx_bd_cfg_s;
     eth_tx_pending_s  m_tx_pending_s;
-
+    // =========================================================================
+    // Variables for ipgt checking
+    // ========================================================================= 
+    ipg_state_e state = WAIT_FIRST_FRAME;
+    bit prev_txen = 0;
+    int unsigned cycle_cnt = 0;
     // =========================================================================
     // Constructor, write tlm function, Build Phase, Connect phase and Run phase
     // =========================================================================
@@ -381,8 +386,7 @@ function void eth_tx_scoreboard::build_phase(uvm_phase phase);
     wb_s_imp = new("wb_s_imp", this);
 
     // Creating semaphore objects
-    m_sem_tx_seq_item=new(SEM_TX_SEQ_ITEM_NO_KEYS);
-    m_sem_wb_m_seq_item=new(SEM_WB_M_SEQ_ITEM_NO_KEYS);
+
 
     // get config object from database
     if (!uvm_config_db #(eth_tx_scoreboard_config_obj)::get(this, "", "config", m_config))
@@ -409,34 +413,38 @@ endfunction
 
 task eth_tx_scoreboard::run_phase(uvm_phase phase);
     super.run_phase(phase);
-    phase.raise_objection(this);
-    `uvm_info(get_type_name(),"Tx scoreboard raised objection", UVM_LOW)
-    fork: fork_run_phase 
-        get_mii_tx_seq_item();
-        //get_wb_m_seq_item();
-        #0.1 predictor();
-        #0.1 comparator();
-        begin
-            wait(m_ev_txen.triggered);
-            #1;
-            if(m_tx_bd_cfg_s.tx_bd_num==0)
-            disable fork_run_phase;
-        end    
-        begin  
-            wait(m_ev_end_seqs.triggered);
-            wait(m_ev_end_pkt.triggered);
-            #0.2;
-            if(!m_tx_bd_cfg_s.tx_pause_req || !m_tx_bd_cfg_s.tx_flow) begin
-                repeat(m_tx_bd_cfg_s.tx_bd_num-1) begin
+    forever begin
+        // Recreate semaphores
+        m_sem_tx_seq_item=new(SEM_TX_SEQ_ITEM_NO_KEYS);
+        m_sem_wb_m_seq_item=new(SEM_WB_M_SEQ_ITEM_NO_KEYS);
+        // Reset IPGT variables
+        state = WAIT_FIRST_FRAME;
+        prev_txen = 0;
+        cycle_cnt = 0;
+        fork: fork_run_phase 
+            get_mii_tx_seq_item();
+            //get_wb_m_seq_item();
+            #0.1 predictor();
+            #0.1 comparator();
+            begin
+                wait(m_ev_txen.triggered);
+                #1;
+                if(m_tx_bd_cfg_s.tx_bd_num==0)
+                disable fork_run_phase;
+            end    
+            begin  
                 wait(m_ev_end_pkt.triggered);
                 #0.2;
+                if(!m_tx_bd_cfg_s.tx_pause_req || !m_tx_bd_cfg_s.tx_flow) begin
+                    repeat(m_tx_bd_cfg_s.tx_bd_num-1) begin
+                    wait(m_ev_end_pkt.triggered);
+                    #0.2;
+                end    
+            disable fork_run_phase;
+            end
             end    
-        disable fork_run_phase;
-        end
-        end    
-    join    
-    phase.drop_objection(this);
-    `uvm_info(get_type_name(),"Tx scoreboard dropped objection", UVM_LOW)
+        join   
+    end 
 endtask
 
 
@@ -541,7 +549,7 @@ task eth_tx_scoreboard::get_mii_tx_seq_item();
         m_sem_tx_seq_item.get(1);
         // Get transaction item from fifo
         mii_tx_fifo.get(m_mii_tx_seq_item);
-        `uvm_info(get_type_name(),m_mii_tx_seq_item.convert2string(),UVM_HIGH)
+        `uvm_info(get_type_name(),m_mii_tx_seq_item.convert2string(),UVM_DEBUG)
         // Put all Keys in semaphore
         m_sem_tx_seq_item.put(SEM_TX_SEQ_ITEM_NO_KEYS);
     end
@@ -584,7 +592,7 @@ function void eth_tx_scoreboard::pred_construct_data_pkt();
         repeat(4)
             pkt_copy.pop_front();
         // Calculate delayed crc
-            crc=calc_crc32(pkt_copy);    
+        crc=calc_crc32(pkt_copy);    
         end  
         else begin
             // Calculate crc
@@ -731,19 +739,21 @@ endfunction
 
 
 function void eth_tx_scoreboard::pred_check_huge();
+    longint total_len;
     // if Huge enavle = 1 , send packet regardless of it's size
     if(m_tx_bd_cfg_s.hugen)
         return;
+
+    total_len=(m_tx_bd_cfg_s.eff_crc)?m_tx_bd_cfg_s.len+ETH_CRC_LEN:m_tx_bd_cfg_s.len;
     // if packet length is smaller than maximum packet size, send packet
-    if (m_tx_bd_cfg_s.len <= m_tx_bd_cfg_s.maxfl)
+    if (total_len <= m_tx_bd_cfg_s.maxfl)
         return;
 
     // if packet length is greater than maximum packet size, discard additional bytes
     else begin
         // number of discarded bytes 
-        int discarded_bytes=m_tx_bd_cfg_s.len - m_tx_bd_cfg_s.maxfl;
-        if(m_tx_bd_cfg_s.eff_crc)
-            discarded_bytes+=ETH_CRC_LEN;
+        int discarded_bytes=total_len - m_tx_bd_cfg_s.maxfl;
+        
         // pop number of discarded bytes from back of queue
         repeat(discarded_bytes)
             m_tx_expected_s.exp_pkt.pop_back();
@@ -1699,12 +1709,6 @@ endfunction
 //------------------------------------------------------------------------------
 task eth_tx_scoreboard::comp_check_ipgt();
 
-    static ipg_state_e state = WAIT_FIRST_FRAME;
-
-    static bit prev_txen = 0;
-
-    static int unsigned cycle_cnt = 0;
-
     //--------------------------------------------------------
     // Default values
     //--------------------------------------------------------
@@ -2243,7 +2247,7 @@ function void eth_tx_scoreboard::clear();
     //----------------------------------------------------------
     // Clear structs
     //----------------------------------------------------------  
-    m_tx_bd_cfg_s        ='{default:'0,bd_index: m_tx_bd_cfg_s.bd_index,tx_bd_num: m_tx_bd_cfg_s.tx_bd_num};
+    m_tx_bd_cfg_s        ='{default:'0,bd_index: m_tx_bd_cfg_s.bd_index};
     m_tx_expected_s      ='{default:'0,exp_pkt: {}};
     m_tx_pending_s       ='{default:'0,actual_pkt: {}};
 

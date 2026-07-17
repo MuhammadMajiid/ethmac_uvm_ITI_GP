@@ -1,20 +1,20 @@
 //==============================================================================
 // Project  : ethmac_uvm_ITI_GP
-// File     : wb_s_seq_tx_hugen.sv
+// File     : wb_s_seq_tx_ipgt.sv
 // Author   : Wael
-// Date     : 2026-07-14
+// Date     : 2026-07-16
 //------------------------------------------------------------------------------
 // Description:
 // transmit configuration without preamble sequence for the Ethernet MAC.
 //==============================================================================
-`ifndef WB_S_TX_HUGEN_SV
-`define WB_S_TX_HUGEN_SV
-class wb_s_seq_tx_hugen extends wb_s_basic_tx_seq;
+`ifndef WB_S_TX_IPGT_SV
+`define WB_S_TX_IPGT_SV
+class wb_s_seq_tx_ipgt extends wb_s_basic_tx_seq;
 
-    `uvm_object_utils(wb_s_seq_tx_hugen)
+    `uvm_object_utils(wb_s_seq_tx_ipgt)
 
     //---------------------------------------------------------
-    function new(string name="wb_s_seq_tx_hugen");
+    function new(string name="wb_s_seq_tx_ipgt");
         super.new(name);
     endfunction
 
@@ -27,11 +27,11 @@ class wb_s_seq_tx_hugen extends wb_s_basic_tx_seq;
     // Randomize transaction
     //-----------------------------------------------------
     assert(m_item.randomize() with {
-    tx_bd_num<5;
+    tx_bd_num==4;
+    ipgt inside {'h0000_0000,'h0000_0020,'h0000_007F};
     foreach (pkt_len[i]){
         pkt_len[i]<100;
         pkt_len[i]>4;
-        pkt_len[i] >maxfl;
     }
     })   
     else begin
@@ -51,18 +51,20 @@ class wb_s_seq_tx_hugen extends wb_s_basic_tx_seq;
     //-----------------------------------------------------
     // Configure registers
     //-----------------------------------------------------
-    configure_tx_registers(.tx_bd_num(m_item.tx_bd_num),.fulld(0),.txen(1),.nopre(0),.hugen(0),.maxfl(m_item.maxfl));
+    configure_tx_registers(.tx_bd_num(m_item.tx_bd_num),.fulld(m_item.moder_fd),.txen(1),.ipgt(m_item.ipgt));
 
 
     `uvm_info(get_type_name(),
-                "Hugen TX configuration completed",
+                "TX BD Num configuration completed",
                 UVM_LOW)
 
     repeat(m_item.tx_bd_num) begin
         @(m_ev_end_pkt);
     end 
 
-    endtask 
+    endtask
+
+ 
 
 endclass
 

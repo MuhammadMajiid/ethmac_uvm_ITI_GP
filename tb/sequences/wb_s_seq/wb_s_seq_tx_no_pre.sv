@@ -24,12 +24,6 @@ class wb_s_seq_tx_no_pre extends wb_s_basic_tx_seq;
     //---------------------------------------------------------
     task body();
 
-    wb_s_seq_item_tx m_item = wb_s_seq_item_tx#(
-        WB_S_ADDR_WIDTH,
-        WB_DATA_WIDTH,
-        WB_SEL_WIDTH
-      )::type_id::create("m_item");
-
     //-----------------------------------------------------
     // Randomize transaction
     //-----------------------------------------------------
@@ -62,6 +56,10 @@ class wb_s_seq_tx_no_pre extends wb_s_basic_tx_seq;
     `uvm_info(get_type_name(),
                 "No preamble TX configuration completed",
                 UVM_LOW)
+
+    repeat(m_item.tx_bd_num) begin
+        @(m_ev_end_pkt);
+    end 
 
     endtask
 

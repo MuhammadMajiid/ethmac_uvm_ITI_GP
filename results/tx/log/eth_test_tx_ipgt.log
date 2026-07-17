@@ -1,0 +1,963 @@
+# vsim -c -voptargs="+acc" work.eth_tb -coverage -classdebug -sv_seed 1845683181 -uvmcontrol=all "+uvm_set_verbosity=uvm_test_top.m_env.*,_ALL_,UVM_MEDIUM,time,0" "+seq_num=10" "+UVM_TESTNAME=eth_test_tx_ipgt" -onfinish stop -do "
+#     run -all; 
+#     coverage save $CODE_UCDB -codeAll -instance eth_tb.dut
+#     coverage save $FUNC_UCDB -cvg -directive -assert
+#     transcript file ""
+#     " 
+# Start time: 16:01:52 on Jul 17,2026
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# ** Warning: (vopt-13408) Code coverage will be disabled for some DUs/packages/classes and source files.
+# ** Warning: repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(593): (vopt-2240) Treating stand-alone use of function 'pop_front' as an implicit VOID cast.
+# ** Warning: repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(759): (vopt-2240) Treating stand-alone use of function 'pop_back' as an implicit VOID cast.
+# ** Warning: repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1578): (vopt-2240) Treating stand-alone use of function 'predict' as an implicit VOID cast.
+# ** Warning: repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1587): (vopt-2240) Treating stand-alone use of function 'predict' as an implicit VOID cast.
+# ** Warning: repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1596): (vopt-2240) Treating stand-alone use of function 'predict' as an implicit VOID cast.
+# ** Warning: repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1667): (vopt-2240) Treating stand-alone use of function 'predict' as an implicit VOID cast.
+# ** Warning: repo/tb/top/eth_tb.sv(67): (vopt-2685) [TFMPC] - Too few port connections for 'dut'.  Expected 35, found 27.
+# ** Warning: repo/tb/top/eth_tb.sv(67): (vopt-2718) [TFMPC] - Missing connection for port 'md_padoe_o'.
+# ** Warning: repo/tb/top/eth_tb.sv(67): (vopt-2718) [TFMPC] - Missing connection for port 'md_pad_o'.
+# ** Warning: repo/tb/top/eth_tb.sv(67): (vopt-2718) [TFMPC] - Missing connection for port 'md_pad_i'.
+# ** Warning: repo/tb/top/eth_tb.sv(67): (vopt-2718) [TFMPC] - Missing connection for port 'mdc_pad_o'.
+# ** Warning: repo/tb/top/eth_tb.sv(67): (vopt-2718) [TFMPC] - Missing connection for port 'mrxerr_pad_i'.
+# ** Warning: repo/tb/top/eth_tb.sv(67): (vopt-2718) [TFMPC] - Missing connection for port 'mrxdv_pad_i'.
+# ** Warning: repo/tb/top/eth_tb.sv(67): (vopt-2718) [TFMPC] - Missing connection for port 'mrxd_pad_i'.
+# ** Warning: repo/tb/top/eth_tb.sv(67): (vopt-2718) [TFMPC] - Missing connection for port 'mrx_clk_pad_i'.
+# ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=0, Warnings=16.
+# //  Questa Sim-64
+# //  Version 2021.1 win64 Jan 19 2021
+# //
+# //  Copyright 1991-2021 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  QuestaSim and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading sv_std.std
+# Loading work.wb_m_if(fast)
+# Loading work.wb_s_if(fast)
+# Loading work.mii_tx_if(fast)
+# Loading work.reset_if(fast)
+# Loading mtiUvm.uvm_pkg(fast)
+# Loading work.eth_glob_pkg(fast)
+# Loading work.mii_rx_seq_item_pkg(fast)
+# Loading work.mii_tx_seq_item_pkg(fast)
+# Loading work.wb_m_seq_item_pkg(fast)
+# Loading work.wb_s_seq_item_pkg(fast)
+# Loading work.eth_ral_pkg(fast)
+# Loading work.eth_cov_pkg(fast)
+# Loading work.mdio_if(fast)
+# Loading work.mii_rx_if(fast)
+# Loading work.eth_config_pkg(fast)
+# Loading work.eth_rx_scoreboard_pkg(fast)
+# Loading work.eth_tx_scoreboard_pkg(fast)
+# Loading work.reset_seq_item_pkg(fast)
+# Loading work.reset_seq_pkg(fast)
+# Loading work.mii_tx_seq_pkg(fast)
+# Loading work.wb_s_seq_pkg(fast)
+# Loading work.wb_m_agent_pkg(fast)
+# Loading work.wb_m_seq_pkg(fast)
+# Loading work.reset_agent_pkg(fast)
+# Loading work.mii_rx_agent_pkg(fast)
+# Loading work.mii_tx_agent_pkg(fast)
+# Loading work.wb_s_agent_pkg(fast)
+# Loading work.eth_v_seq_sqr_pkg(fast)
+# Loading work.eth_env_pkg(fast)
+# Loading work.eth_test_tx_pkg(fast)
+# Loading mtiUvm.questa_uvm_pkg(fast)
+# Loading work.eth_tb(fast)
+# Loading work.reset_if(fast__2)
+# Loading work.wb_s_if(fast__2)
+# Loading work.wb_m_if(fast__2)
+# Loading work.mii_tx_if(fast__2)
+# Loading work.mii_rx_if(fast__2)
+# Loading work.eth_top(fast)
+# Loading work.eth_miim(fast)
+# Loading work.eth_clockgen(fast)
+# Loading work.eth_shiftreg(fast)
+# Loading work.eth_outputcontrol(fast)
+# Loading work.eth_registers(fast)
+# Loading work.eth_register(fast)
+# Loading work.eth_register(fast__1)
+# Loading work.eth_register(fast__2)
+# Loading work.eth_register(fast__3)
+# Loading work.eth_register(fast__4)
+# Loading work.eth_register(fast__5)
+# Loading work.eth_register(fast__6)
+# Loading work.eth_register(fast__7)
+# Loading work.eth_register(fast__8)
+# Loading work.eth_register(fast__9)
+# Loading work.eth_register(fast__10)
+# Loading work.eth_register(fast__11)
+# Loading work.eth_register(fast__12)
+# Loading work.eth_register(fast__13)
+# Loading work.eth_register(fast__14)
+# Loading work.eth_maccontrol(fast)
+# Loading work.eth_receivecontrol(fast)
+# Loading work.eth_transmitcontrol(fast)
+# Loading work.eth_txethmac(fast)
+# Loading work.eth_txcounters(fast)
+# Loading work.eth_txstatem(fast)
+# Loading work.eth_crc(fast)
+# Loading work.eth_random(fast)
+# Loading work.eth_rxethmac(fast)
+# Loading work.eth_rxstatem(fast)
+# Loading work.eth_rxcounters(fast)
+# Loading work.eth_rxaddrcheck(fast)
+# Loading work.eth_crc(fast__1)
+# Loading work.eth_wishbone(fast)
+# Loading work.eth_spram_256x32(fast)
+# Loading work.eth_fifo(fast)
+# Loading work.eth_macstatus(fast)
+# Loading D:/B/qsim_2021_1/uvm-1.1d\win64\uvm_dpi.dll
+# 
+#     run -all
+# ----------------------------------------------------------------
+# UVM-1.1d
+# (C) 2007-2013 Mentor Graphics Corporation
+# (C) 2007-2013 Cadence Design Systems, Inc.
+# (C) 2006-2013 Synopsys, Inc.
+# (C) 2011-2013 Cypress Semiconductor Corp.
+# ----------------------------------------------------------------
+# 
+#   ***********       IMPORTANT RELEASE NOTES         ************
+# 
+#   You are using a version of the UVM library that has been compiled
+#   with `UVM_NO_DEPRECATED undefined.
+#   See http://www.eda.org/svdb/view.php?id=3313 for more details.
+# 
+#   You are using a version of the UVM library that has been compiled
+#   with `UVM_OBJECT_MUST_HAVE_CONSTRUCTOR undefined.
+#   See http://www.eda.org/svdb/view.php?id=3770 for more details.
+# 
+#       (Specify +UVM_NO_RELNOTES to turn off this notice)
+# 
+# UVM_INFO verilog_src/questa_uvm_pkg-1.2/src/questa_uvm_pkg.sv(277) @ 0: reporter [Questa UVM] QUESTA_UVM-1.2.3
+# UVM_INFO verilog_src/questa_uvm_pkg-1.2/src/questa_uvm_pkg.sv(278) @ 0: reporter [Questa UVM]  questa_uvm::init(all)
+# UVM_INFO @ 0: reporter [RNTST] Running test eth_test_tx_ipgt...
+# UVM_INFO repo/tb/tests/eth_tests_tx/eth_test_tx_base.sv(22) @ 0: uvm_test_top [eth_test_tx_ipgt] start of build_phase
+# ** Warning: (vsim-8547) After dropping the illegal, ignore or invalid values, the values list associated with fixed-size array sub bin 'regs[14]' in Coverpoint 'cp_reg' of Covergroup instance '\/eth_cov_pkg::eth_cov_tx::m_rw_bit_cov ' has converged to empty list. The sub bin will be taken out of coverage calculation.
+#    Time: 0 ps  Iteration: 7  Region: /uvm_pkg::uvm_phase::m_run_phases
+# ** Warning: (vsim-8547) After dropping the illegal, ignore or invalid values, the values list associated with fixed-size array sub bin 'regs[15]' in Coverpoint 'cp_reg' of Covergroup instance '\/eth_cov_pkg::eth_cov_tx::m_rw_bit_cov ' has converged to empty list. The sub bin will be taken out of coverage calculation.
+#    Time: 0 ps  Iteration: 7  Region: /uvm_pkg::uvm_phase::m_run_phases
+# ** Warning: (vsim-8547) After dropping the illegal, ignore or invalid values, the values list associated with fixed-size array sub bin 'regs[6]' in Coverpoint 'cp_reg' of Covergroup instance '\/eth_cov_pkg::eth_cov_tx::m_reserved_bit_cov ' has converged to empty list. The sub bin will be taken out of coverage calculation.
+#    Time: 0 ps  Iteration: 7  Region: /uvm_pkg::uvm_phase::m_run_phases
+# ** Warning: (vsim-8547) After dropping the illegal, ignore or invalid values, the values list associated with fixed-size array sub bin 'regs[16]' in Coverpoint 'cp_reg' of Covergroup instance '\/eth_cov_pkg::eth_cov_tx::m_reserved_bit_cov ' has converged to empty list. The sub bin will be taken out of coverage calculation.
+#    Time: 0 ps  Iteration: 7  Region: /uvm_pkg::uvm_phase::m_run_phases
+# ** Warning: (vsim-8547) After dropping the illegal, ignore or invalid values, the values list associated with fixed-size array sub bin 'regs[18]' in Coverpoint 'cp_reg' of Covergroup instance '\/eth_cov_pkg::eth_cov_tx::m_reserved_bit_cov ' has converged to empty list. The sub bin will be taken out of coverage calculation.
+#    Time: 0 ps  Iteration: 7  Region: /uvm_pkg::uvm_phase::m_run_phases
+# ** Warning: (vsim-8547) After dropping the illegal, ignore or invalid values, the values list associated with fixed-size array sub bin 'regs[19]' in Coverpoint 'cp_reg' of Covergroup instance '\/eth_cov_pkg::eth_cov_tx::m_reserved_bit_cov ' has converged to empty list. The sub bin will be taken out of coverage calculation.
+#    Time: 0 ps  Iteration: 7  Region: /uvm_pkg::uvm_phase::m_run_phases
+# UVM_INFO repo/tb/tests/eth_tests_tx/eth_test_tx_base.sv(64) @ 0: uvm_test_top [eth_test_tx_ipgt] start of sim phase
+# ---------------------------------------------------------------------------------
+# Name                          Type                                    Size  Value
+# ---------------------------------------------------------------------------------
+# uvm_test_top                  eth_test_tx_ipgt                        -     @494 
+#   m_env                       eth_env_tx                              -     @516 
+#     m_cov_tx                  eth_cov_tx                              -     @840 
+#       mii_tx_export           uvm_analysis_export                     -     @1004
+#         recording_detail      integral                                32    'd1  
+#       mii_tx_fifo             uvm_tlm_analysis_fifo #(T)              -     @941 
+#         analysis_export       uvm_analysis_imp                        -     @980 
+#           recording_detail    integral                                32    'd1  
+#         get_ap                uvm_analysis_port                       -     @972 
+#           recording_detail    integral                                32    'd1  
+#         get_peek_export       uvm_get_peek_imp                        -     @956 
+#           recording_detail    integral                                32    'd1  
+#         put_ap                uvm_analysis_port                       -     @964 
+#           recording_detail    integral                                32    'd1  
+#         put_export            uvm_put_imp                             -     @948 
+#           recording_detail    integral                                32    'd1  
+#         recording_detail      integral                                32    'd1  
+#       wb_m_export             uvm_analysis_export                     -     @988 
+#         recording_detail      integral                                32    'd1  
+#       wb_m_fifo               uvm_tlm_analysis_fifo #(T)              -     @847 
+#         analysis_export       uvm_analysis_imp                        -     @886 
+#           recording_detail    integral                                32    'd1  
+#         get_ap                uvm_analysis_port                       -     @878 
+#           recording_detail    integral                                32    'd1  
+#         get_peek_export       uvm_get_peek_imp                        -     @862 
+#           recording_detail    integral                                32    'd1  
+#         put_ap                uvm_analysis_port                       -     @870 
+#           recording_detail    integral                                32    'd1  
+#         put_export            uvm_put_imp                             -     @854 
+#           recording_detail    integral                                32    'd1  
+#         recording_detail      integral                                32    'd1  
+#       wb_s_export             uvm_analysis_export                     -     @996 
+#         recording_detail      integral                                32    'd1  
+#       wb_s_fifo               uvm_tlm_analysis_fifo #(T)              -     @894 
+#         analysis_export       uvm_analysis_imp                        -     @933 
+#           recording_detail    integral                                32    'd1  
+#         get_ap                uvm_analysis_port                       -     @925 
+#           recording_detail    integral                                32    'd1  
+#         get_peek_export       uvm_get_peek_imp                        -     @909 
+#           recording_detail    integral                                32    'd1  
+#         put_ap                uvm_analysis_port                       -     @917 
+#           recording_detail    integral                                32    'd1  
+#         put_export            uvm_put_imp                             -     @901 
+#           recording_detail    integral                                32    'd1  
+#         recording_detail      integral                                32    'd1  
+#       recording_detail        integral                                32    'd1  
+#     m_mii_tx_agent            mii_tx_agent                            -     @826 
+#       agent_a_port            uvm_analysis_port                       -     @1153
+#         recording_detail      integral                                32    'd1  
+#       m_driver                mii_tx_driver_hd                        -     @1014
+#         rsp_port              uvm_analysis_port                       -     @1029
+#           recording_detail    integral                                32    'd1  
+#         seq_item_port         uvm_seq_item_pull_port                  -     @1021
+#           recording_detail    integral                                32    'd1  
+#         recording_detail      integral                                32    'd1  
+#       m_monitor               mii_tx_monitor_base                     -     @1146
+#         monitor_tr_a_port     uvm_analysis_port                       -     @1161
+#           recording_detail    integral                                32    'd1  
+#         recording_detail      integral                                32    'd1  
+#       m_sequencer             mii_tx_sequencer_base                   -     @1037
+#         rsp_export            uvm_analysis_export                     -     @1044
+#           recording_detail    integral                                32    'd1  
+#         seq_item_export       uvm_seq_item_pull_imp                   -     @1138
+#           recording_detail    integral                                32    'd1  
+#         recording_detail      integral                                32    'd1  
+#         arbitration_queue     array                                   0     -    
+#         lock_queue            array                                   0     -    
+#         num_last_reqs         integral                                32    'd1  
+#         num_last_rsps         integral                                32    'd1  
+#       recording_detail        integral                                32    'd1  
+#     m_predictor               uvm_reg_predictor #(uvm_sequence_item)  -     @797 
+#       bus_in                  uvm_analysis_imp                        -     @804 
+#         recording_detail      integral                                32    'd1  
+#       reg_ap                  uvm_analysis_port                       -     @812 
+#         recording_detail      integral                                32    'd1  
+#       recording_detail        integral                                32    'd1  
+#     m_reset_agent             reset_agent                             -     @656 
+#       m_driver                reset_driver                            -     @1176
+#         rsp_port              uvm_analysis_port                       -     @1191
+#           recording_detail    integral                                32    'd1  
+#         seq_item_port         uvm_seq_item_pull_port                  -     @1183
+#           recording_detail    integral                                32    'd1  
+#         recording_detail      integral                                32    'd1  
+#       m_sequencer             reset_sequencer                         -     @1199
+#         rsp_export            uvm_analysis_export                     -     @1206
+#           recording_detail    integral                                32    'd1  
+#         seq_item_export       uvm_seq_item_pull_imp                   -     @1300
+#           recording_detail    integral                                32    'd1  
+#         recording_detail      integral                                32    'd1  
+#         arbitration_queue     array                                   0     -    
+#         lock_queue            array                                   0     -    
+#         num_last_reqs         integral                                32    'd1  
+#         num_last_rsps         integral                                32    'd1  
+#       recording_detail        integral                                32    'd1  
+#     m_tx_sb                   eth_tx_scoreboard                       -     @833 
+#       mii_tx_export           uvm_analysis_export                     -     @1415
+#         recording_detail      integral                                32    'd1  
+#       mii_tx_fifo             uvm_tlm_analysis_fifo #(T)              -     @1360
+#         analysis_export       uvm_analysis_imp                        -     @1399
+#           recording_detail    integral                                32    'd1  
+#         get_ap                uvm_analysis_port                       -     @1391
+#           recording_detail    integral                                32    'd1  
+#         get_peek_export       uvm_get_peek_imp                        -     @1375
+#           recording_detail    integral                                32    'd1  
+#         put_ap                uvm_analysis_port                       -     @1383
+#           recording_detail    integral                                32    'd1  
+#         put_export            uvm_put_imp                             -     @1367
+#           recording_detail    integral                                32    'd1  
+#         recording_detail      integral                                32    'd1  
+#       wb_m_export             uvm_analysis_export                     -     @1407
+#         recording_detail      integral                                32    'd1  
+#       wb_m_fifo               uvm_tlm_analysis_fifo #(T)              -     @1313
+#         analysis_export       uvm_analysis_imp                        -     @1352
+#           recording_detail    integral                                32    'd1  
+#         get_ap                uvm_analysis_port                       -     @1344
+#           recording_detail    integral                                32    'd1  
+#         get_peek_export       uvm_get_peek_imp                        -     @1328
+#           recording_detail    integral                                32    'd1  
+#         put_ap                uvm_analysis_port                       -     @1336
+#           recording_detail    integral                                32    'd1  
+#         put_export            uvm_put_imp                             -     @1320
+#           recording_detail    integral                                32    'd1  
+#         recording_detail      integral                                32    'd1  
+#       wb_s_imp                uvm_analysis_imp                        -     @1423
+#         recording_detail      integral                                32    'd1  
+#       recording_detail        integral                                32    'd1  
+#     m_v_sqr                   eth_v_sequencer                         -     @533 
+#       rsp_export              uvm_analysis_export                     -     @540 
+#         recording_detail      integral                                32    'd1  
+#       seq_item_export         uvm_seq_item_pull_imp                   -     @634 
+#         recording_detail      integral                                32    'd1  
+#       recording_detail        integral                                32    'd1  
+#       arbitration_queue       array                                   0     -    
+#       lock_queue              array                                   0     -    
+#       num_last_reqs           integral                                32    'd1  
+#       num_last_rsps           integral                                32    'd1  
+#     m_wb_m_agent              wb_m_agent                              -     @649 
+#       a_port                  uvm_analysis_port                       -     @1578
+#         recording_detail      integral                                32    'd1  
+#       m_driver                wb_m_driver_base                        -     @1548
+#         rsp_port              uvm_analysis_port                       -     @1563
+#           recording_detail    integral                                32    'd1  
+#         seq_item_port         uvm_seq_item_pull_port                  -     @1555
+#           recording_detail    integral                                32    'd1  
+#         recording_detail      integral                                32    'd1  
+#       m_monitor               wb_m_monitor_base                       -     @1571
+#         request_a_port        uvm_analysis_port                       -     @1594
+#           recording_detail    integral                                32    'd1  
+#         transaction_a_port    uvm_analysis_port                       -     @1586
+#           recording_detail    integral                                32    'd1  
+#         recording_detail      integral                                32    'd1  
+#       m_sequencer             wb_m_sequencer_base                     -     @1439
+#         request_export        uvm_analysis_export                     -     @1654
+#           recording_detail    integral                                32    'd1  
+#         request_fifo          uvm_tlm_analysis_fifo #(T)              -     @1607
+#           analysis_export     uvm_analysis_imp                        -     @1646
+#             recording_detail  integral                                32    'd1  
+#           get_ap              uvm_analysis_port                       -     @1638
+#             recording_detail  integral                                32    'd1  
+#           get_peek_export     uvm_get_peek_imp                        -     @1622
+#             recording_detail  integral                                32    'd1  
+#           put_ap              uvm_analysis_port                       -     @1630
+#             recording_detail  integral                                32    'd1  
+#           put_export          uvm_put_imp                             -     @1614
+#             recording_detail  integral                                32    'd1  
+#           recording_detail    integral                                32    'd1  
+#         rsp_export            uvm_analysis_export                     -     @1446
+#           recording_detail    integral                                32    'd1  
+#         seq_item_export       uvm_seq_item_pull_imp                   -     @1540
+#           recording_detail    integral                                32    'd1  
+#         recording_detail      integral                                32    'd1  
+#         arbitration_queue     array                                   0     -    
+#         lock_queue            array                                   0     -    
+#         num_last_reqs         integral                                32    'd1  
+#         num_last_rsps         integral                                32    'd1  
+#       recording_detail        integral                                32    'd1  
+#     m_wb_s_agent              wb_s_agent                              -     @642 
+#       a_port                  uvm_analysis_port                       -     @1807
+#         recording_detail      integral                                32    'd1  
+#       m_driver                wb_s_driver_base                        -     @1777
+#         rsp_port              uvm_analysis_port                       -     @1792
+#           recording_detail    integral                                32    'd1  
+#         seq_item_port         uvm_seq_item_pull_port                  -     @1784
+#           recording_detail    integral                                32    'd1  
+#         recording_detail      integral                                32    'd1  
+#       m_monitor               wb_s_monitor_base                       -     @1800
+#         a_port                uvm_analysis_port                       -     @1817
+#           recording_detail    integral                                32    'd1  
+#         bd_status_ap          uvm_analysis_port                       -     @1825
+#           recording_detail    integral                                32    'd1  
+#         recording_detail      integral                                32    'd1  
+#       m_sequencer             wb_s_sequencer_base                     -     @1668
+#         rsp_export            uvm_analysis_export                     -     @1675
+#           recording_detail    integral                                32    'd1  
+#         seq_item_export       uvm_seq_item_pull_imp                   -     @1769
+#           recording_detail    integral                                32    'd1  
+#         recording_detail      integral                                32    'd1  
+#         arbitration_queue     array                                   0     -    
+#         lock_queue            array                                   0     -    
+#         num_last_reqs         integral                                32    'd1  
+#         num_last_rsps         integral                                32    'd1  
+#       recording_detail        integral                                32    'd1  
+#     recording_detail          integral                                32    'd1  
+#   recording_detail            integral                                32    'd1  
+# ---------------------------------------------------------------------------------
+# 
+#### Factory Configuration (*)
+# 
+# No instance overrides are registered with this factory
+# 
+# Type Overrides:
+# 
+#   Requested Type      Override Type      
+#   ------------------  -------------------
+#   wb_m_seq_base       wb_m_seq_wr_rd
+#   wb_s_seq_base       wb_s_seq_tx_ipgt
+#   mii_tx_driver_base  mii_tx_driver_hd
+#   eth_v_seq_tx        eth_v_seq_tx_active
+# 
+# All types registered with the factory: 138 total
+# (types without type names will not be printed)
+# 
+#   Type Name
+#   ---------
+#   bd_mem
+#   dma_mem
+#   eth_collconf_reg
+#   eth_cov_tx
+#   eth_ctrlmoder_reg
+#   eth_env_base
+#   eth_env_config_obj
+#   eth_env_rx
+#   eth_env_tx
+#   eth_hash0_reg
+#   eth_hash1_reg
+#   eth_int_mask_reg
+#   eth_int_source_reg
+#   eth_ipgr1_reg
+#   eth_ipgr2_reg
+#   eth_ipgt_reg
+#   eth_mac_addr0_reg
+#   eth_mac_addr1_reg
+#   eth_miiaddress_reg
+#   eth_miicommand_reg
+#   eth_miimoder_reg
+#   eth_miirx_data_reg
+#   eth_miistatus_reg
+#   eth_miitx_data_reg
+#   eth_moder_reg
+#   eth_packetlen_reg
+#   eth_reg_block
+#   eth_rx_scoreboard
+#   eth_test_tx_base
+#   eth_test_tx_bd_num
+#   eth_test_tx_dcrc
+#   eth_test_tx_hugen
+#   eth_test_tx_ipgt
+#   eth_test_tx_minfl
+#   eth_test_tx_moder
+#   eth_test_tx_nopre
+#   eth_test_tx_pad
+#   eth_test_tx_smoke
+#   eth_tx_bd_num_reg
+#   eth_tx_scoreboard
+#   eth_tx_scoreboard_config_obj
+#   eth_txctrl_reg
+#   eth_v_seq_base
+#   eth_v_seq_tx
+#   eth_v_seq_tx_active
+#   eth_v_sequencer
+#   eth_wb_adapter
+#   mdio_config_obj
+#   mii_rx_agent
+#   mii_rx_config_obj
+#   mii_rx_driver_base
+#   mii_rx_monitor_base
+#   mii_rx_seq_item
+#   mii_rx_sequencer_base
+#   mii_tx_agent
+#   mii_tx_config_obj
+#   mii_tx_driver_base
+#   mii_tx_driver_hd
+#   mii_tx_monitor_base
+#   mii_tx_seq_base
+#   mii_tx_seq_item_base
+#   mii_tx_sequencer_base
+#   questa_uvm_recorder
+#   reset_agent
+#   reset_config_obj
+#   reset_driver
+#   reset_seq
+#   reset_seq_item
+#   reset_sequencer
+#   wb_m_agent
+#   wb_m_config_obj
+#   wb_m_driver_base
+#   wb_m_monitor_base
+#   wb_m_seq_base
+#   wb_m_seq_item_base
+#   wb_m_seq_smoke
+#   wb_m_seq_wr_rd
+#   wb_m_sequencer_base
+#   wb_s_agent
+#   wb_s_basic_tx_seq
+#   wb_s_config_obj
+#   wb_s_driver_base
+#   wb_s_monitor_base
+#   wb_s_seq_base
+#   wb_s_seq_tx_bd_num
+#   wb_s_seq_tx_ctrl_frame
+#   wb_s_seq_tx_dcrc
+#   wb_s_seq_tx_hugen
+#   wb_s_seq_tx_ipgt
+#   wb_s_seq_tx_minfl
+#   wb_s_seq_tx_moder
+#   wb_s_seq_tx_no_pre
+#   wb_s_seq_tx_pad
+#   wb_s_sequencer_base
+# (*) Types with no associated type name will be printed as <unknown>
+# 
+####
+# 
+# **************************************************************************
+# * Questa UVM Transaction Recording Turned ON.                            *
+# * recording_detail has been set.                                         *
+# *  To turn off, set 'recording_detail' to off:                           *
+# * uvm_config_db#(int)            ::set(null, "", "recording_detail", 0); *
+# * uvm_config_db#(uvm_bitstream_t)::set(null, "", "recording_detail", 0); *
+# **************************************************************************
+# ** Warning: (vsim-WLF-5000) WLF file currently in use: vsim.wlf
+#           File in use by: mwael  Hostname: MOHAMMAD-LAPTOP  ProcessID: 9636
+#           Attempting to use alternate WLF file "./wlftjzxrhz".
+# ** Warning: (vsim-WLF-5001) Could not open WLF file: vsim.wlf
+#           Using alternate file: ./wlftjzxrhz
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx_active.sv(10) @ 0: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [eth_v_seq_tx_active] Executing virtual sequence
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(18) @ 0: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [eth_v_seq_tx_active] Executing virtual sequence
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(30) @ 22500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running %0d sequence
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 22500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 0
+# UVM_INFO repo/tb/agents/wb_m/wb_m_monitor_base.sv(101) @ 22500: uvm_test_top.m_env.m_wb_m_agent.m_monitor [wb_m_monitor_base] Begin monitoring after reset deassertion
+# UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(58) @ 22500: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [mii_tx_monitor_base] Begin monitoring after reset deassertion
+# UVM_INFO repo/tb/agents/mii_tx/mii_tx_driver_base.sv(56) @ 60000: uvm_test_top.m_env.m_mii_tx_agent.m_driver [DRIVER] Reset deasserted — starting stimulus
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(249) @ 92500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[0] - LEN=0x002a, PTR=0x351996b8, IRQ=0, WR=0, PAD=1, CRC=0
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(249) @ 172500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[1] - LEN=0x005e, PTR=0x7b69db84, IRQ=0, WR=0, PAD=0, CRC=0
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(249) @ 252500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[2] - LEN=0x000a, PTR=0xfffffffc, IRQ=0, WR=0, PAD=0, CRC=1
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(249) @ 332500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[3] - LEN=0x0056, PTR=0x4e57fc98, IRQ=0, WR=1, PAD=1, CRC=1
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(150) @ 332500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG] Configuring TX registers
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(202) @ 487500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG] MODER: FULLD=1, TXEN=1, BDNUM = 4, NOPRE=0, CRCEN=1, PAD=1, HUGEN=0, NOBCKOF=0, EXDF=0, IPGT = 32, MAXFL = 1518, MINFL = 64
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_seq_tx_ipgt.sv(57) @ 487500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [wb_s_seq_tx_ipgt] TX BD Num configuration completed
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(841) @ 487500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TXEN asserted
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1206) @ 487500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[0] LEN=42 RD=1 IRQ=0 WR=0 PAD=1 CRC=1 PTR=0x351996b8
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(692) @ 487500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Added 18 padding bytes (frame length = 60)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1301) @ 1500000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(926) @ 7223100: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[0] completed
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1374) @ 7260000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 72 bytes from MII
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1541) @ 7260000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison PASSED (72 bytes)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1206) @ 7261000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[1] LEN=94 RD=1 IRQ=0 WR=0 PAD=1 CRC=1 PTR=0x7b69db84
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1301) @ 8660000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1768) @ 8660000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 35 MII clock cycles
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1790) @ 8660000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
+#                     Mode           : Full Duplex
+#                     Register IPGT  : 0x20
+#                     Expected       : 38 MII cycles
+#                     Measured       : 35 MII cycles
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(926) @ 17103100: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[1] completed
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1374) @ 17140000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 106 bytes from MII
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1541) @ 17140000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison PASSED (106 bytes)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1206) @ 17141000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[2] LEN=10 RD=1 IRQ=0 WR=0 PAD=1 CRC=1 PTR=0xfffffffc
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(692) @ 17141000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Added 50 padding bytes (frame length = 60)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1301) @ 18540000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1768) @ 18540000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 35 MII clock cycles
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1790) @ 18540000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
+#                     Mode           : Full Duplex
+#                     Register IPGT  : 0x20
+#                     Expected       : 38 MII cycles
+#                     Measured       : 35 MII cycles
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(926) @ 24263100: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[2] completed
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1374) @ 24300000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 72 bytes from MII
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1541) @ 24300000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison PASSED (72 bytes)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1206) @ 24301000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[3] LEN=86 RD=1 IRQ=0 WR=1 PAD=1 CRC=1 PTR=0x4e57fc98
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1301) @ 25700000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1768) @ 25700000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 35 MII clock cycles
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1790) @ 25700000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
+#                     Mode           : Full Duplex
+#                     Register IPGT  : 0x20
+#                     Expected       : 38 MII cycles
+#                     Measured       : 35 MII cycles
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(926) @ 33503100: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[3] completed
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1374) @ 33540000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 98 bytes from MII
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1541) @ 33540000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison PASSED (98 bytes)
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 33562500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 1
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(249) @ 33632500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[0] - LEN=0x0046, PTR=0x1480d7e8, IRQ=0, WR=0, PAD=1, CRC=0
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(249) @ 33712500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[1] - LEN=0x0043, PTR=0x7116adf4, IRQ=0, WR=0, PAD=1, CRC=0
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(249) @ 33792500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[2] - LEN=0x003e, PTR=0x7992c84c, IRQ=0, WR=0, PAD=0, CRC=1
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(249) @ 33872500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[3] - LEN=0x001e, PTR=0xb8647ff0, IRQ=0, WR=1, PAD=1, CRC=0
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(150) @ 33872500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG] Configuring TX registers
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(202) @ 34027500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG] MODER: FULLD=1, TXEN=1, BDNUM = 4, NOPRE=0, CRCEN=1, PAD=1, HUGEN=0, NOBCKOF=0, EXDF=0, IPGT = 0, MAXFL = 1518, MINFL = 64
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_seq_tx_ipgt.sv(57) @ 34027500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [wb_s_seq_tx_ipgt] TX BD Num configuration completed
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(841) @ 34027500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TXEN asserted
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1206) @ 34027500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[0] LEN=70 RD=1 IRQ=0 WR=0 PAD=1 CRC=1 PTR=0x1480d7e8
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1301) @ 34380000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(926) @ 40903300: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[0] completed
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1374) @ 40940000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 82 bytes from MII
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1541) @ 40940000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison PASSED (82 bytes)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1206) @ 40941000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[1] LEN=67 RD=1 IRQ=0 WR=0 PAD=1 CRC=1 PTR=0x7116adf4
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1301) @ 41260000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1768) @ 41260000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 8 MII clock cycles
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1805) @ 41260000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (6 MII cycles)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(926) @ 47543300: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[1] completed
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1374) @ 47580000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 79 bytes from MII
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1541) @ 47580000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison PASSED (79 bytes)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1206) @ 47581000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[2] LEN=62 RD=1 IRQ=0 WR=0 PAD=1 CRC=1 PTR=0x7992c84c
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1301) @ 47940000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1768) @ 47940000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 9 MII clock cycles
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1805) @ 47940000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (6 MII cycles)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(926) @ 53823300: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[2] completed
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1374) @ 53860000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 74 bytes from MII
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1541) @ 53860000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison PASSED (74 bytes)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1206) @ 53861000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[3] LEN=30 RD=1 IRQ=0 WR=1 PAD=1 CRC=1 PTR=0xb8647ff0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(692) @ 53861000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Added 30 padding bytes (frame length = 60)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1301) @ 54140000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1768) @ 54140000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 7 MII clock cycles
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1805) @ 54140000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (6 MII cycles)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(926) @ 59863300: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[3] completed
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1374) @ 59900000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 72 bytes from MII
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1541) @ 59900000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison PASSED (72 bytes)
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 59922500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 2
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(249) @ 59992500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[0] - LEN=0x0027, PTR=0x3eb8613c, IRQ=0, WR=0, PAD=0, CRC=1
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(249) @ 60072500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[1] - LEN=0x0040, PTR=0xa8428e2c, IRQ=0, WR=0, PAD=0, CRC=1
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(249) @ 60152500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[2] - LEN=0x000b, PTR=0xb315bdf0, IRQ=0, WR=0, PAD=1, CRC=0
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(249) @ 60232500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[3] - LEN=0x000c, PTR=0xdec02528, IRQ=0, WR=1, PAD=1, CRC=1
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(150) @ 60232500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG] Configuring TX registers
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(202) @ 60387500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG] MODER: FULLD=1, TXEN=1, BDNUM = 4, NOPRE=0, CRCEN=1, PAD=1, HUGEN=0, NOBCKOF=0, EXDF=0, IPGT = 32, MAXFL = 1518, MINFL = 64
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_seq_tx_ipgt.sv(57) @ 60387500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [wb_s_seq_tx_ipgt] TX BD Num configuration completed
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(841) @ 60387500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TXEN asserted
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1206) @ 60387500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[0] LEN=39 RD=1 IRQ=0 WR=0 PAD=1 CRC=1 PTR=0x3eb8613c
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(692) @ 60387500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Added 21 padding bytes (frame length = 60)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1301) @ 61380000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(926) @ 67103300: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[0] completed
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1374) @ 67140000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 72 bytes from MII
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1541) @ 67140000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison PASSED (72 bytes)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1206) @ 67141000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[1] LEN=64 RD=1 IRQ=0 WR=0 PAD=1 CRC=1 PTR=0xa8428e2c
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1301) @ 68540000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1768) @ 68540000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 35 MII clock cycles
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1790) @ 68540000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
+#                     Mode           : Full Duplex
+#                     Register IPGT  : 0x20
+#                     Expected       : 38 MII cycles
+#                     Measured       : 35 MII cycles
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(926) @ 74583300: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[1] completed
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1374) @ 74620000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 76 bytes from MII
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1541) @ 74620000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison PASSED (76 bytes)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1206) @ 74621000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[2] LEN=11 RD=1 IRQ=0 WR=0 PAD=1 CRC=1 PTR=0xb315bdf0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(692) @ 74621000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Added 49 padding bytes (frame length = 60)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1301) @ 76020000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1768) @ 76020000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 35 MII clock cycles
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1790) @ 76020000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
+#                     Mode           : Full Duplex
+#                     Register IPGT  : 0x20
+#                     Expected       : 38 MII cycles
+#                     Measured       : 35 MII cycles
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(926) @ 81743300: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[2] completed
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1374) @ 81780000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 72 bytes from MII
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1541) @ 81780000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison PASSED (72 bytes)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1206) @ 81781000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[3] LEN=12 RD=1 IRQ=0 WR=1 PAD=1 CRC=1 PTR=0xdec02528
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(692) @ 81781000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Added 48 padding bytes (frame length = 60)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1301) @ 83180000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1768) @ 83180000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 35 MII clock cycles
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1790) @ 83180000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
+#                     Mode           : Full Duplex
+#                     Register IPGT  : 0x20
+#                     Expected       : 38 MII cycles
+#                     Measured       : 35 MII cycles
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(926) @ 88903300: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[3] completed
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1374) @ 88940000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 72 bytes from MII
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1541) @ 88940000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison PASSED (72 bytes)
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 88962500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 3
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(249) @ 89032500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[0] - LEN=0x0008, PTR=0x6350f710, IRQ=0, WR=0, PAD=1, CRC=0
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(249) @ 89112500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[1] - LEN=0x0056, PTR=0xc6926d58, IRQ=0, WR=0, PAD=0, CRC=0
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(249) @ 89192500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[2] - LEN=0x0031, PTR=0xd9c3f848, IRQ=0, WR=0, PAD=1, CRC=0
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(249) @ 89272500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[3] - LEN=0x0051, PTR=0xf3106b48, IRQ=0, WR=1, PAD=0, CRC=1
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(150) @ 89272500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG] Configuring TX registers
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(202) @ 89427500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG] MODER: FULLD=0, TXEN=1, BDNUM = 4, NOPRE=0, CRCEN=1, PAD=1, HUGEN=0, NOBCKOF=0, EXDF=0, IPGT = 0, MAXFL = 1518, MINFL = 64
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_seq_tx_ipgt.sv(57) @ 89427500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [wb_s_seq_tx_ipgt] TX BD Num configuration completed
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(841) @ 89427500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TXEN asserted
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1206) @ 89427500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[0] LEN=8 RD=1 IRQ=0 WR=0 PAD=1 CRC=1 PTR=0x6350f710
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(692) @ 89427500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Added 52 padding bytes (frame length = 60)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1301) @ 89860000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(926) @ 95583300: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[0] completed
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1374) @ 95620000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 72 bytes from MII
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1541) @ 95620000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison PASSED (72 bytes)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1206) @ 95621000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[1] LEN=86 RD=1 IRQ=0 WR=0 PAD=1 CRC=1 PTR=0xc6926d58
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1301) @ 95940000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1768) @ 95940000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 8 MII clock cycles
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1805) @ 95940000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (3 MII cycles)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(926) @ 103743300: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[1] completed
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1374) @ 103780000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 98 bytes from MII
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1541) @ 103780000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison PASSED (98 bytes)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1206) @ 103781000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[2] LEN=49 RD=1 IRQ=0 WR=0 PAD=1 CRC=1 PTR=0xd9c3f848
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(692) @ 103781000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Added 11 padding bytes (frame length = 60)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1301) @ 104100000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1768) @ 104100000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 8 MII clock cycles
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1805) @ 104100000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (3 MII cycles)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(926) @ 109823300: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[2] completed
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1374) @ 109860000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 72 bytes from MII
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1541) @ 109860000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison PASSED (72 bytes)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1206) @ 109861000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[3] LEN=81 RD=1 IRQ=0 WR=1 PAD=1 CRC=1 PTR=0xf3106b48
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1301) @ 110180000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1768) @ 110180000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 8 MII clock cycles
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1805) @ 110180000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (3 MII cycles)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(926) @ 117583300: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[3] completed
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1374) @ 117620000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 93 bytes from MII
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1541) @ 117620000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison PASSED (93 bytes)
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 117642500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 4
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(249) @ 117712500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[0] - LEN=0x0014, PTR=0xef0048f0, IRQ=0, WR=0, PAD=0, CRC=0
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(249) @ 117792500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[1] - LEN=0x003c, PTR=0xffffffe0, IRQ=0, WR=0, PAD=1, CRC=0
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(249) @ 117872500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[2] - LEN=0x0010, PTR=0x93e22358, IRQ=0, WR=0, PAD=0, CRC=1
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(249) @ 117952500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[3] - LEN=0x000f, PTR=0x957e0984, IRQ=0, WR=1, PAD=1, CRC=0
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(150) @ 117952500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG] Configuring TX registers
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(202) @ 118107500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG] MODER: FULLD=1, TXEN=1, BDNUM = 4, NOPRE=0, CRCEN=1, PAD=1, HUGEN=0, NOBCKOF=0, EXDF=0, IPGT = 32, MAXFL = 1518, MINFL = 64
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_seq_tx_ipgt.sv(57) @ 118107500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [wb_s_seq_tx_ipgt] TX BD Num configuration completed
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(841) @ 118107500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TXEN asserted
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1206) @ 118107500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[0] LEN=20 RD=1 IRQ=0 WR=0 PAD=1 CRC=1 PTR=0xef0048f0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(692) @ 118107500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Added 40 padding bytes (frame length = 60)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1301) @ 119100000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(926) @ 124823300: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[0] completed
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1374) @ 124860000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 72 bytes from MII
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1541) @ 124860000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison PASSED (72 bytes)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1206) @ 124861000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[1] LEN=60 RD=1 IRQ=0 WR=0 PAD=1 CRC=1 PTR=0xffffffe0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1301) @ 126260000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1768) @ 126260000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 35 MII clock cycles
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1790) @ 126260000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
+#                     Mode           : Full Duplex
+#                     Register IPGT  : 0x20
+#                     Expected       : 38 MII cycles
+#                     Measured       : 35 MII cycles
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(926) @ 131983300: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[1] completed
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1374) @ 132020000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 72 bytes from MII
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1541) @ 132020000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison PASSED (72 bytes)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1206) @ 132021000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[2] LEN=16 RD=1 IRQ=0 WR=0 PAD=1 CRC=1 PTR=0x93e22358
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(692) @ 132021000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Added 44 padding bytes (frame length = 60)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1301) @ 133420000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1768) @ 133420000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 35 MII clock cycles
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1790) @ 133420000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
+#                     Mode           : Full Duplex
+#                     Register IPGT  : 0x20
+#                     Expected       : 38 MII cycles
+#                     Measured       : 35 MII cycles
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(926) @ 139143300: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[2] completed
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1374) @ 139180000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 72 bytes from MII
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1541) @ 139180000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison PASSED (72 bytes)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1206) @ 139181000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[3] LEN=15 RD=1 IRQ=0 WR=1 PAD=1 CRC=1 PTR=0x957e0984
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(692) @ 139181000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Added 45 padding bytes (frame length = 60)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1301) @ 140580000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1768) @ 140580000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 35 MII clock cycles
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1790) @ 140580000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
+#                     Mode           : Full Duplex
+#                     Register IPGT  : 0x20
+#                     Expected       : 38 MII cycles
+#                     Measured       : 35 MII cycles
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(926) @ 146303300: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[3] completed
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1374) @ 146340000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 72 bytes from MII
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1541) @ 146340000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison PASSED (72 bytes)
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 146362500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 5
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(249) @ 146432500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[0] - LEN=0x000b, PTR=0xb866f758, IRQ=0, WR=0, PAD=0, CRC=0
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(249) @ 146512500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[1] - LEN=0x0039, PTR=0xffffffe4, IRQ=0, WR=0, PAD=0, CRC=0
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(249) @ 146592500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[2] - LEN=0x000d, PTR=0x1a69a25c, IRQ=0, WR=0, PAD=1, CRC=1
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(249) @ 146672500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[3] - LEN=0x0028, PTR=0x61be8994, IRQ=0, WR=1, PAD=0, CRC=1
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(150) @ 146672500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG] Configuring TX registers
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(202) @ 146827500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG] MODER: FULLD=0, TXEN=1, BDNUM = 4, NOPRE=0, CRCEN=1, PAD=1, HUGEN=0, NOBCKOF=0, EXDF=0, IPGT = 127, MAXFL = 1518, MINFL = 64
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_seq_tx_ipgt.sv(57) @ 146827500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [wb_s_seq_tx_ipgt] TX BD Num configuration completed
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(841) @ 146827500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TXEN asserted
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1206) @ 146827500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[0] LEN=11 RD=1 IRQ=0 WR=0 PAD=1 CRC=1 PTR=0xb866f758
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(692) @ 146827500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Added 49 padding bytes (frame length = 60)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1301) @ 147260000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(926) @ 152983300: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[0] completed
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1374) @ 153020000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 72 bytes from MII
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1541) @ 153020000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison PASSED (72 bytes)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1206) @ 153021000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[1] LEN=57 RD=1 IRQ=0 WR=0 PAD=1 CRC=1 PTR=0xffffffe4
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(692) @ 153021000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Added 3 padding bytes (frame length = 60)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1301) @ 158380000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1768) @ 158380000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 134 MII clock cycles
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1805) @ 158380000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (130 MII cycles)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(926) @ 164103300: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[1] completed
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1374) @ 164140000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 72 bytes from MII
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1541) @ 164140000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison PASSED (72 bytes)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1206) @ 164141000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[2] LEN=13 RD=1 IRQ=0 WR=0 PAD=1 CRC=1 PTR=0x1a69a25c
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(692) @ 164141000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Added 47 padding bytes (frame length = 60)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1301) @ 169500000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1768) @ 169500000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 134 MII clock cycles
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1805) @ 169500000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (130 MII cycles)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(926) @ 175223300: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[2] completed
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1374) @ 175260000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 72 bytes from MII
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1541) @ 175260000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison PASSED (72 bytes)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1206) @ 175261000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[3] LEN=40 RD=1 IRQ=0 WR=1 PAD=1 CRC=1 PTR=0x61be8994
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(692) @ 175261000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Added 20 padding bytes (frame length = 60)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1301) @ 180620000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1768) @ 180620000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 134 MII clock cycles
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1805) @ 180620000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (130 MII cycles)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(926) @ 186343300: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[3] completed
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1374) @ 186380000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 72 bytes from MII
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1541) @ 186380000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison PASSED (72 bytes)
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 186402500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 6
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(249) @ 186472500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[0] - LEN=0x004a, PTR=0x07d223b4, IRQ=0, WR=0, PAD=0, CRC=0
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(249) @ 186552500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[1] - LEN=0x003f, PTR=0xfbd0608c, IRQ=0, WR=0, PAD=1, CRC=1
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(249) @ 186632500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[2] - LEN=0x0060, PTR=0xffffffb8, IRQ=0, WR=0, PAD=1, CRC=1
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(249) @ 186712500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[3] - LEN=0x0054, PTR=0xd695da7c, IRQ=0, WR=1, PAD=1, CRC=0
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(150) @ 186712500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG] Configuring TX registers
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(202) @ 186867500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG] MODER: FULLD=1, TXEN=1, BDNUM = 4, NOPRE=0, CRCEN=1, PAD=1, HUGEN=0, NOBCKOF=0, EXDF=0, IPGT = 32, MAXFL = 1518, MINFL = 64
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_seq_tx_ipgt.sv(57) @ 186867500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [wb_s_seq_tx_ipgt] TX BD Num configuration completed
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(841) @ 186867500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TXEN asserted
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1206) @ 186867500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[0] LEN=74 RD=1 IRQ=0 WR=0 PAD=1 CRC=1 PTR=0x07d223b4
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1301) @ 187860000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(926) @ 194703300: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[0] completed
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1374) @ 194740000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 86 bytes from MII
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1541) @ 194740000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison PASSED (86 bytes)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1206) @ 194741000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[1] LEN=63 RD=1 IRQ=0 WR=0 PAD=1 CRC=1 PTR=0xfbd0608c
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1301) @ 196140000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1768) @ 196140000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 35 MII clock cycles
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1790) @ 196140000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
+#                     Mode           : Full Duplex
+#                     Register IPGT  : 0x20
+#                     Expected       : 38 MII cycles
+#                     Measured       : 35 MII cycles
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(926) @ 202103300: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[1] completed
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1374) @ 202140000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 75 bytes from MII
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1541) @ 202140000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison PASSED (75 bytes)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1206) @ 202141000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[2] LEN=96 RD=1 IRQ=0 WR=0 PAD=1 CRC=1 PTR=0xffffffb8
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1301) @ 203540000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1768) @ 203540000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 35 MII clock cycles
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1790) @ 203540000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
+#                     Mode           : Full Duplex
+#                     Register IPGT  : 0x20
+#                     Expected       : 38 MII cycles
+#                     Measured       : 35 MII cycles
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(926) @ 212143300: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[2] completed
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1374) @ 212180000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 108 bytes from MII
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1541) @ 212180000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison PASSED (108 bytes)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1206) @ 212181000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[3] LEN=84 RD=1 IRQ=0 WR=1 PAD=1 CRC=1 PTR=0xd695da7c
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1301) @ 213580000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1768) @ 213580000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 35 MII clock cycles
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1790) @ 213580000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
+#                     Mode           : Full Duplex
+#                     Register IPGT  : 0x20
+#                     Expected       : 38 MII cycles
+#                     Measured       : 35 MII cycles
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(926) @ 221223300: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[3] completed
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1374) @ 221260000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 96 bytes from MII
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1541) @ 221260000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison PASSED (96 bytes)
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 221282500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 7
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(249) @ 221352500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[0] - LEN=0x004f, PTR=0xc0c36a54, IRQ=0, WR=0, PAD=1, CRC=1
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(249) @ 221432500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[1] - LEN=0x0010, PTR=0xcfd5176c, IRQ=0, WR=0, PAD=1, CRC=1
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(249) @ 221512500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[2] - LEN=0x0054, PTR=0xdc6e8acc, IRQ=0, WR=0, PAD=1, CRC=0
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(249) @ 221592500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[3] - LEN=0x0009, PTR=0xffdfa4bc, IRQ=0, WR=1, PAD=0, CRC=1
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(150) @ 221592500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG] Configuring TX registers
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(202) @ 221747500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG] MODER: FULLD=1, TXEN=1, BDNUM = 4, NOPRE=0, CRCEN=1, PAD=1, HUGEN=0, NOBCKOF=0, EXDF=0, IPGT = 32, MAXFL = 1518, MINFL = 64
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_seq_tx_ipgt.sv(57) @ 221747500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [wb_s_seq_tx_ipgt] TX BD Num configuration completed
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(841) @ 221747500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TXEN asserted
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1206) @ 221747500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[0] LEN=79 RD=1 IRQ=0 WR=0 PAD=1 CRC=1 PTR=0xc0c36a54
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1301) @ 222740000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(926) @ 229983300: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[0] completed
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1374) @ 230020000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 91 bytes from MII
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1541) @ 230020000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison PASSED (91 bytes)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1206) @ 230021000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[1] LEN=16 RD=1 IRQ=0 WR=0 PAD=1 CRC=1 PTR=0xcfd5176c
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(692) @ 230021000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Added 44 padding bytes (frame length = 60)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1301) @ 231420000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1768) @ 231420000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 35 MII clock cycles
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1790) @ 231420000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
+#                     Mode           : Full Duplex
+#                     Register IPGT  : 0x20
+#                     Expected       : 38 MII cycles
+#                     Measured       : 35 MII cycles
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(926) @ 237143300: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[1] completed
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1374) @ 237180000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 72 bytes from MII
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1541) @ 237180000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison PASSED (72 bytes)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1206) @ 237181000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[2] LEN=84 RD=1 IRQ=0 WR=0 PAD=1 CRC=1 PTR=0xdc6e8acc
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1301) @ 238580000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1768) @ 238580000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 35 MII clock cycles
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1790) @ 238580000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
+#                     Mode           : Full Duplex
+#                     Register IPGT  : 0x20
+#                     Expected       : 38 MII cycles
+#                     Measured       : 35 MII cycles
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(926) @ 246223300: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[2] completed
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1374) @ 246260000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 96 bytes from MII
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1541) @ 246260000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison PASSED (96 bytes)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1206) @ 246261000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[3] LEN=9 RD=1 IRQ=0 WR=1 PAD=1 CRC=1 PTR=0xffdfa4bc
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(692) @ 246261000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Added 51 padding bytes (frame length = 60)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1301) @ 247660000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1768) @ 247660000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 35 MII clock cycles
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1790) @ 247660000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
+#                     Mode           : Full Duplex
+#                     Register IPGT  : 0x20
+#                     Expected       : 38 MII cycles
+#                     Measured       : 35 MII cycles
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(926) @ 253383300: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[3] completed
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1374) @ 253420000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 72 bytes from MII
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1541) @ 253420000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison PASSED (72 bytes)
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 253442500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 8
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(249) @ 253512500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[0] - LEN=0x000f, PTR=0x3c32ae38, IRQ=0, WR=0, PAD=0, CRC=1
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(249) @ 253592500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[1] - LEN=0x004b, PTR=0x56d911c8, IRQ=0, WR=0, PAD=0, CRC=1
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(249) @ 253672500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[2] - LEN=0x0053, PTR=0x7e280078, IRQ=0, WR=0, PAD=1, CRC=1
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(249) @ 253752500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[3] - LEN=0x003c, PTR=0xff5c66e0, IRQ=0, WR=1, PAD=0, CRC=1
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(150) @ 253752500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG] Configuring TX registers
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(202) @ 253907500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG] MODER: FULLD=1, TXEN=1, BDNUM = 4, NOPRE=0, CRCEN=1, PAD=1, HUGEN=0, NOBCKOF=0, EXDF=0, IPGT = 0, MAXFL = 1518, MINFL = 64
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_seq_tx_ipgt.sv(57) @ 253907500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [wb_s_seq_tx_ipgt] TX BD Num configuration completed
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(841) @ 253907500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TXEN asserted
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1206) @ 253907500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[0] LEN=15 RD=1 IRQ=0 WR=0 PAD=1 CRC=1 PTR=0x3c32ae38
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(692) @ 253907500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Added 45 padding bytes (frame length = 60)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1301) @ 254220000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(926) @ 259943300: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[0] completed
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1374) @ 259980000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 72 bytes from MII
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1541) @ 259980000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison PASSED (72 bytes)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1206) @ 259981000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[1] LEN=75 RD=1 IRQ=0 WR=0 PAD=1 CRC=1 PTR=0x56d911c8
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1301) @ 260300000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1768) @ 260300000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 8 MII clock cycles
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1805) @ 260300000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (6 MII cycles)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(926) @ 267223300: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[1] completed
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1374) @ 267260000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 87 bytes from MII
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1541) @ 267260000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison PASSED (87 bytes)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1206) @ 267261000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[2] LEN=83 RD=1 IRQ=0 WR=0 PAD=1 CRC=1 PTR=0x7e280078
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1301) @ 267580000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1768) @ 267580000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 8 MII clock cycles
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1805) @ 267580000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (6 MII cycles)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(926) @ 275143300: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[2] completed
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1374) @ 275180000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 95 bytes from MII
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1541) @ 275180000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison PASSED (95 bytes)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1206) @ 275181000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[3] LEN=60 RD=1 IRQ=0 WR=1 PAD=1 CRC=1 PTR=0xff5c66e0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1301) @ 275500000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1768) @ 275500000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 8 MII clock cycles
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1805) @ 275500000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (6 MII cycles)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(926) @ 281223300: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[3] completed
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1374) @ 281260000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 72 bytes from MII
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1541) @ 281260000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison PASSED (72 bytes)
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 281282500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 9
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(249) @ 281352500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[0] - LEN=0x0042, PTR=0x925e82c8, IRQ=0, WR=0, PAD=0, CRC=0
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(249) @ 281432500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[1] - LEN=0x0027, PTR=0xb6eef078, IRQ=0, WR=0, PAD=0, CRC=1
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(249) @ 281512500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[2] - LEN=0x0054, PTR=0xe0de20e4, IRQ=0, WR=0, PAD=1, CRC=1
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(249) @ 281592500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[3] - LEN=0x0042, PTR=0xf0c59c00, IRQ=0, WR=1, PAD=1, CRC=1
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(150) @ 281592500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG] Configuring TX registers
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(202) @ 281747500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG] MODER: FULLD=0, TXEN=1, BDNUM = 4, NOPRE=0, CRCEN=1, PAD=1, HUGEN=0, NOBCKOF=0, EXDF=0, IPGT = 0, MAXFL = 1518, MINFL = 64
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_seq_tx_ipgt.sv(57) @ 281747500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [wb_s_seq_tx_ipgt] TX BD Num configuration completed
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(841) @ 281747500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TXEN asserted
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1206) @ 281747500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[0] LEN=66 RD=1 IRQ=0 WR=0 PAD=1 CRC=1 PTR=0x925e82c8
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1301) @ 282180000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(926) @ 288383300: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[0] completed
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1374) @ 288420000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 78 bytes from MII
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1541) @ 288420000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison PASSED (78 bytes)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1206) @ 288421000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[1] LEN=39 RD=1 IRQ=0 WR=0 PAD=1 CRC=1 PTR=0xb6eef078
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(692) @ 288421000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Added 21 padding bytes (frame length = 60)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1301) @ 288700000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1768) @ 288700000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 7 MII clock cycles
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1805) @ 288700000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (3 MII cycles)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(926) @ 294423300: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[1] completed
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1374) @ 294460000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 72 bytes from MII
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1541) @ 294460000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison PASSED (72 bytes)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1206) @ 294461000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[2] LEN=84 RD=1 IRQ=0 WR=0 PAD=1 CRC=1 PTR=0xe0de20e4
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1301) @ 294780000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1768) @ 294780000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 8 MII clock cycles
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1805) @ 294780000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (3 MII cycles)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(926) @ 302423300: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[2] completed
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1374) @ 302460000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 96 bytes from MII
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1541) @ 302460000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison PASSED (96 bytes)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1206) @ 302461000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[3] LEN=66 RD=1 IRQ=0 WR=1 PAD=1 CRC=1 PTR=0xf0c59c00
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1301) @ 302780000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1768) @ 302780000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 8 MII clock cycles
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1805) @ 302780000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (3 MII cycles)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(926) @ 308983300: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[3] completed
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1374) @ 309020000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 78 bytes from MII
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1541) @ 309020000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison PASSED (78 bytes)
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(39) @ 309042500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [eth_v_seq_tx_active] virtual sequence completed
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx_active.sv(19) @ 309042500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [eth_v_seq_tx_active] virtual sequence completed
+# UVM_INFO verilog_src/uvm-1.1d/src/base/uvm_objection.svh(1267) @ 309042500: reporter [TEST_DONE] 'run' phase is ready to proceed to the 'extract' phase
+# UVM_INFO repo/tb/agents/wb_m/wb_m_driver_base.sv(108) @ 309042500: uvm_test_top.m_env.m_wb_m_agent.m_driver [wb_m_driver_base] Drived 61804 active transactions
+# UVM_INFO repo/tb/agents/wb_m/wb_m_monitor_base.sv(130) @ 309042500: uvm_test_top.m_env.m_wb_m_agent.m_monitor [wb_m_monitor_base] Monitored 61804 TRANSACTIONS
+# 
+# --- UVM Report Summary ---
+# 
+# ** Report counts by severity
+# UVM_INFO :  370
+# UVM_WARNING :    0
+# UVM_ERROR :   15
+# UVM_FATAL :    0
+# ** Report counts by id
+# [DRIVER]     1
+# [Questa UVM]     2
+# [RNTST]     1
+# [TEST_DONE]     1
+# [TX_CONFIG]    60
+# [eth_test_tx_ipgt]     2
+# [eth_tx_scoreboard]   289
+# [eth_v_seq_tx_active]     4
+# [m_v_seq_tx]    11
+# [mii_tx_monitor_base]     1
+# [wb_m_driver_base]     1
+# [wb_m_monitor_base]     2
+# [wb_s_seq_tx_ipgt]    10
+# ** Note: $finish    : D:/B/qsim_2021_1/win64/../verilog_src/uvm-1.1d/src/base/uvm_root.svh(430)
+#    Time: 309042500 ps  Iteration: 66  Instance: /eth_tb
+# Break in Task uvm_pkg/uvm_root::run_test at D:/B/qsim_2021_1/win64/../verilog_src/uvm-1.1d/src/base/uvm_root.svh line 430
+# Stopped at D:/B/qsim_2021_1/win64/../verilog_src/uvm-1.1d/src/base/uvm_root.svh line 430
+#  
+#     coverage save $CODE_UCDB -codeAll -instance eth_tb.dut
+#     coverage save $FUNC_UCDB -cvg -directive -assert
+#     transcript file ""
+#     

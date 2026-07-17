@@ -7,13 +7,14 @@ class eth_v_seq_tx_active extends eth_v_seq_tx;
     endfunction
 
     virtual task body();
-        super.body();
         `uvm_info(get_type_name(), "Executing virtual sequence", UVM_LOW)
 
 
         fork : fork_v_tx
        forever     m_mii_tx_seq_base.start(m_mii_tx_sqr);
         join_none;
+
+        super.body();
 
         `uvm_info(get_type_name(), "virtual sequence completed", UVM_LOW)
 
