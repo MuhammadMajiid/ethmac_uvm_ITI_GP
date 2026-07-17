@@ -79,7 +79,7 @@ endfunction
       m_v_seq_tx.m_wb_s_seq_base.regmodel=m_config.m_regmodel;
 
       // assign regmodel in wishbone slave sequence to the one in config object
-      m_v_seq_tx.m_wb_s_seq_base.m_ev_end_pkt=m_config.m_tx_sb_config.m_ev_end_pkt;
+     // m_v_seq_tx.m_wb_s_seq_base.m_ev_end_pkt=m_config.m_tx_sb_config.m_ev_end_pkt;
       
       phase.raise_objection(this);
       // Start virtual sequence;      
