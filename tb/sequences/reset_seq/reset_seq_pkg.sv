@@ -18,6 +18,10 @@ package reset_seq_pkg;
 
     // Global package
     import eth_glob_pkg::*;
+
+    // RAL package
+    import eth_ral_pkg::*;
+    
     // Transaction object package
     import reset_seq_item_pkg::*;
     

@@ -1,6 +1,6 @@
 //==============================================================================
 // Project  : ethmac_uvm_ITI_GP
-// File     : wb_s_control_frame_tx_seq.sv
+// File     : wb_s_seq_tx_ctrl_frame.sv
 // Author   : Nada
 // Date     : 2026-07-08
 //------------------------------------------------------------------------------
@@ -23,11 +23,11 @@
 // This sequence assumes that the packet data has already been written
 // into DMA memory by the Wishbone Master environment or testbench.
 //==============================================================================
-`ifndef WB_S_CONTROL_FRAME_TX_SEQ
-`define WB_S_CONTROL_FRAME_TX_SEQ
-class wb_s_control_frame_tx_seq extends wb_s_basic_tx_seq;
+`ifndef WB_S_SEQ_TX_CTRL_FRAME
+`define WB_S_SEQ_TX_CTRL_FRAME
+class wb_s_seq_tx_ctrl_frame extends wb_s_basic_tx_seq;
 
-    `uvm_object_utils(wb_s_control_frame_tx_seq)
+    `uvm_object_utils(wb_s_seq_tx_ctrl_frame)
    
 
     //---------------------------------------------------------
@@ -39,7 +39,7 @@ class wb_s_control_frame_tx_seq extends wb_s_basic_tx_seq;
 
 
     //---------------------------------------------------------
-    function new(string name="wb_s_control_frame_tx_seq");
+    function new(string name="wb_s_seq_tx_ctrl_frame");
         super.new(name);
     endfunction
 
