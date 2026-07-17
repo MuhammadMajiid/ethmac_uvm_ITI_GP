@@ -27,9 +27,9 @@ class wb_s_seq_tx_minfl extends wb_s_basic_tx_seq;
     // Randomize transaction
     //-----------------------------------------------------
     assert(m_item.randomize() with {
-    tx_bd_num<5;
-    tx_bd_num>0;
-    minfl inside {['h0005:'h0040],'hFFFF};
+    tx_bd_num==1;
+    maxfl==1518;
+    minfl dist { ['h0005:'h0040] := 87, 'h0040 := 10, ['h00041:'hFFFE] := 5,'hFFFF := 2};
     foreach (pkt_len[i]){
         pkt_len[i]<100;
         pkt_len[i]>4;

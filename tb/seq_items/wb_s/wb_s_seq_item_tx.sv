@@ -96,7 +96,7 @@ class wb_s_seq_item_tx #(
   }
 
   constraint c_minfl_maxfl{
-    minfl<maxfl;
+    soft minfl<maxfl;
   }
 constraint c_rand_bd_index{
   rand_tx_bd_idx inside{[0:tx_bd_num]};

@@ -119,6 +119,9 @@ class eth_cov_tx extends uvm_component;
         wildcard bins reg_crc [2] = {'b1_??00_????,'b1_??10_????};
         // Delayd CRC
         wildcard bins reg_d_crc [2] = {'b1_??10_????,'b1_??11_????};
+        // Hugen
+        wildcard bins reg_hugen [2] = {'b1_?0??_????,'b1_?1??_????};
+        
         // ignore other values
         bins others = default;
         }
@@ -182,8 +185,9 @@ class eth_cov_tx extends uvm_component;
 
         
         // MAXFL variations
-        bins maxfl_4 []= {['h0000:'h0004]};                // Less than 4 bytes
-        bins maxfl_64 []= {['h0005:'h0040]};              // More 4 and less ir equal than minimum in standard (64 bytes)
+        bins maxfl_4 = {['h0000:'h0004]};                // Less than 4 bytes
+        bins maxfl_less_64 = {['h0005:'h0040]};              // More 4 and less or equal than minimum in standard (64 bytes)
+        bins maxfl_more_64  = {['h00041:'hFFFE]};      // More 64 and less than or equal maximum
         bins maxfl_std = {'h05EE};                        // Ethernet standard 1518 bytes 
         bins maxfl_max = {'hFFFF};                        // Maximum MAXFL value
         
@@ -195,9 +199,11 @@ class eth_cov_tx extends uvm_component;
     cp_minfl: coverpoint m_minfl {
         
         // MINFL variations
-        bins minfl_4  [] = {['h0000:'h0004]};        // Less than 4 bytes
-        bins minfl_64 [] = {['h0005:'h0040]};       // More 4 and less than or equal minimum in standard (64 bytes)
-        bins minfl_max = {'hFFFF};                  // MAximum MINFL value
+       // bins minfl_4  [] = {['h0000:'h0004]};        // Less than 4 bytes
+        bins minfl_less_64  = {['h0005:'h003F]};       // More 4 and less than  minimum in standard (64 bytes)
+        bins minfl_std      = {'h0040};                // Standard (64 bytes)
+        bins minfl_more_64  = {['h00041:'hFFFE]};      // More 64 and less than or equal maximum
+        bins minfl_max      = {'hFFFF};                // MAximum MINFL value
 
         // ignore other values
         bins others = default;
@@ -315,21 +321,33 @@ class eth_cov_tx extends uvm_component;
     // Cross padding between register and bd
     cp_cross_pad: cross cp_moder,cp_bd_cfg{
         ignore_bins ign_pad = binsof(cp_bd_cfg.bd_crc) || binsof(cp_bd_cfg.bd_config) || binsof(cp_moder.reg_crc)
-        || binsof(cp_moder.reg_d_crc) || binsof(cp_moder.reg_config);
+        || binsof(cp_moder.reg_d_crc) || binsof(cp_moder.reg_hugen) || binsof(cp_moder.reg_config);
     }
 
     // Cross CRC between register and bd
     cp_cross_crc: cross cp_moder,cp_bd_cfg{
         ignore_bins ign_crc = binsof(cp_bd_cfg.bd_pad) || binsof(cp_bd_cfg.bd_config) || binsof(cp_moder.reg_pad)
-        || binsof(cp_moder.reg_d_crc) || binsof(cp_moder.reg_config);
+        || binsof(cp_moder.reg_d_crc) || binsof(cp_moder.reg_hugen) || binsof(cp_moder.reg_config);
     }
 
     // Cross delayed CRC between register and bd
     cp_cross_d_crc: cross cp_moder,cp_bd_cfg{
         ignore_bins ign_d_crc = binsof(cp_bd_cfg.bd_pad) || binsof(cp_bd_cfg.bd_config) || binsof(cp_moder.reg_pad)
-        || binsof(cp_moder.reg_crc) || binsof(cp_moder.reg_config);
+        || binsof(cp_moder.reg_crc) || binsof(cp_moder.reg_hugen) || binsof(cp_moder.reg_config);
     }
 
+    // Cross minfl,framel len, reg pad and bd pad
+    cp_cross_minfl_fl_pad: cross cp_moder,cp_minfl,cp_bd_cfg,cp_bd_len{
+        ignore_bins ign_min_f_pad = binsof(cp_moder.reg_d_crc)  || binsof(cp_moder.reg_crc) || binsof(cp_moder.reg_hugen)
+        || binsof(cp_moder.reg_config) || binsof(cp_bd_cfg.bd_crc) || binsof(cp_bd_cfg.bd_config) || binsof(cp_bd_len.len_4);
+        // ignore lengths greater than 100
+        ignore_bins ign_100 = cp_cross_minfl_fl_pad with (cp_bd_len > 100);
+    }
+
+    // Cross minfl < maxfl 
+    cp_cross_minfl_maxfl: cross cp_minfl,cp_maxfl{
+        ignore_bins ignore_gre_eq = cp_cross_minfl_maxfl with (cp_minfl >= cp_maxfl);
+    }
     // Cross txpause req and txflow
     cp_cross_ctrl: cross cp_ctrlmoder,cp_txctrl{
         ignore_bins ign_ctrl = binsof(cp_txctrl.time_val_any) || binsof(cp_txctrl.time_val_max) || binsof(cp_txctrl.time_val_min);
