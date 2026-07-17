@@ -11,7 +11,7 @@
 `ifndef WB_S_SEQ_PKG_SV
 `define WB_S_SEQ_PKG_SV
 
-package wb   
+package wb_s_seq_pkg;
     `include "uvm_macros.svh"
     import uvm_pkg::*;
 
@@ -26,7 +26,7 @@ package wb
     // Sequences
     `include "wb_s_seq_base.sv"
     `include "wb_s_basic_tx_seq.sv"
-    `include "wb_s_seq_tx_control_frame.sv"
+    `include "wb_s_seq_tx_ctrl_frame.sv"
     `include "wb_s_seq_tx_no_pre.sv"
     `include "wb_s_seq_tx_hugen.sv"
     `include "wb_s_seq_tx_dcrc.sv"
@@ -46,13 +46,5 @@ package wb
 
 	
 endpackage : wb_s_seq_pkg
-
-
-
-
-minfl.sv"
-endpackage : wb_s_seq_pkg
-package : wb_s_seq_pkg
-dpackage : wb_s_seq_pkg
 
 `endif // WB_S_SEQ_PKG_SV
