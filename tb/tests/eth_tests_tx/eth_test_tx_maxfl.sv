@@ -1,10 +1,10 @@
 
-`ifndef ETH_TEST_TX_SMOKE_SV
-`define ETH_TEST_TX_SMOKE_SV
+`ifndef ETH_TEST_TX_MAXFL_SV
+`define ETH_TEST_TX_MAXFL_SV
 
 
-class eth_test_tx_smoke extends eth_test_tx_base;
-  `uvm_component_utils(eth_test_tx_smoke)
+class eth_test_tx_maxfl extends eth_test_tx_base;
+  `uvm_component_utils(eth_test_tx_maxfl)
 
   function new(string name, uvm_component parent);
     super.new(name, parent);
@@ -19,7 +19,7 @@ class eth_test_tx_smoke extends eth_test_tx_base;
   );
       factory.set_type_override_by_type(
       wb_s_seq_base::get_type(),
-      wb_s_basic_tx_seq::get_type()
+      wb_s_seq_tx_maxfl::get_type()
   );
 
     factory.set_type_override_by_type(
@@ -31,23 +31,19 @@ class eth_test_tx_smoke extends eth_test_tx_base;
       eth_v_seq_tx::get_type(),
       eth_v_seq_tx_active::get_type()
   );
+
     super.build_phase(phase);
 
     // set wishnbone master & slave agents to active
     m_config.m_wb_m_config.is_active=UVM_ACTIVE;
     m_config.m_wb_s_config.is_active=UVM_ACTIVE;
-	m_config.m_rst_config.is_active=UVM_ACTIVE;
 
     // set mii tx agent to passive
     m_config.m_mii_tx_config.is_active=UVM_ACTIVE;
-	
-
-    // Assign end sequence event to event in config object
-    m_config.m_tx_sb_config.m_ev_end_seqs=m_ev_end_seqs;
 
   endfunction
 
 
 endclass
 
-`endif // ETH_TEST_TX_SMOKE_SV
+`endif // ETH_TEST_TX_MAXFL_SV

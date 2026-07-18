@@ -423,7 +423,7 @@ task eth_tx_scoreboard::run_phase(uvm_phase phase);
         cycle_cnt = 0;
         fork: fork_run_phase 
             get_mii_tx_seq_item();
-            //get_wb_m_seq_item();
+            get_wb_m_seq_item();
             #0.1 predictor();
             #0.1 comparator();
             begin
@@ -492,7 +492,7 @@ task eth_tx_scoreboard::predictor();
     fork: fork_pred
         pred_track_txen();
         pred_track_rd();
-        //pred_track_underrun(); 
+        pred_track_underrun(); 
              begin
                 wait(m_ev_txen.triggered);
                     pred_read_cfg_reg();
@@ -972,11 +972,11 @@ task eth_tx_scoreboard::pred_track_underrun();
     longint unsigned rd_bytes=0;
     longint unsigned pkt_len=0;
     int      pre_crc_bytes =0;
-
-    wait(m_ev_txen.triggered);     
+  
     
     forever
     begin
+        wait(m_ev_txen.triggered);   
         fork: fork_underrun
             begin
                 #1;
@@ -1001,8 +1001,11 @@ task eth_tx_scoreboard::pred_track_underrun();
                             rd_bytes++;
                         end  
                         if(m_tx_expected_s.exp_pkt.size()>=(rd_bytes+pre_crc_bytes) && m_tx_expected_s.exp_pkt.size()<pkt_len)
+                        begin
                             m_tx_expected_s.exp_ur=1;
+                            `uvm_warning(get_name(), "Underrun occurs")
                             
+                        end    
                         // Put Semaphore
                         m_sem_wb_m_seq_item.put(1);
                         #1;

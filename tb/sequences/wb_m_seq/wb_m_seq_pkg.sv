@@ -26,6 +26,7 @@ package wb_m_seq_pkg;
     `include "wb_m_seq_base.sv"
     `include "wb_m_seq_smoke.sv"
     `include "wb_m_seq_wr_rd.sv"
+    `include "wb_m_seq_wait.sv"
 
 endpackage : wb_m_seq_pkg
 

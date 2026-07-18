@@ -186,8 +186,8 @@ class eth_cov_tx extends uvm_component;
         
         // MAXFL variations
         bins maxfl_4 = {['h0000:'h0004]};                // Less than 4 bytes
-        bins maxfl_less_64 = {['h0005:'h0040]};              // More 4 and less or equal than minimum in standard (64 bytes)
-        bins maxfl_more_64  = {['h00041:'hFFFE]};      // More 64 and less than or equal maximum
+        bins maxfl_less_64 = {['h0005:'h003F]};              // More 4 and less or equal than minimum in standard (64 bytes)
+        bins maxfl_more_64  = {['h00040:'hFFFE]};      // More 64 and less than or equal maximum
         bins maxfl_std = {'h05EE};                        // Ethernet standard 1518 bytes 
         bins maxfl_max = {'hFFFF};                        // Maximum MAXFL value
         
@@ -229,8 +229,10 @@ class eth_cov_tx extends uvm_component;
     // TX_BD_NUM Register (Address 0x40)
     cp_tx_bd_num: coverpoint m_wdata iff(m_addr=='h08) {
         
-        bins bd_num_all []= {['h0000_0000:'h0000_0080]};
-        
+        bins bd_num_all [16]= {['h0000_0001:'h0000_003F]};
+        bins bd_num_min ={'h0};
+        bins bd_num_max ={'h0000_0080};
+
         // illegal values
         wildcard illegal_bins ill_bd_num = {['h????_??81:'h????_??FF]};
         
@@ -252,7 +254,7 @@ class eth_cov_tx extends uvm_component;
     cp_mac_addr0: coverpoint m_mac_addr0 {
         
         // 64 bins for address range
-        bins mac_addr0_all [64] = {['h0000_0000:'hFFFF_FFFF]};     
+        bins mac_addr0_all [32] = {['h0000_0000:'hFFFF_FFFF]};     
         
         // ignore other values
         bins others = default;
@@ -336,18 +338,26 @@ class eth_cov_tx extends uvm_component;
         || binsof(cp_moder.reg_crc) || binsof(cp_moder.reg_hugen) || binsof(cp_moder.reg_config);
     }
 
-    // Cross minfl,framel len, reg pad and bd pad
-    cp_cross_minfl_fl_pad: cross cp_moder,cp_minfl,cp_bd_cfg,cp_bd_len{
-        ignore_bins ign_min_f_pad = binsof(cp_moder.reg_d_crc)  || binsof(cp_moder.reg_crc) || binsof(cp_moder.reg_hugen)
-        || binsof(cp_moder.reg_config) || binsof(cp_bd_cfg.bd_crc) || binsof(cp_bd_cfg.bd_config) || binsof(cp_bd_len.len_4);
-        // ignore lengths greater than 100
-        ignore_bins ign_100 = cp_cross_minfl_fl_pad with (cp_bd_len > 100);
+    // Cross maxfl and hugen
+    cp_cross_maxfl_hugen: cross cp_moder,cp_maxfl{
+        ignore_bins ign_max_hugen = binsof(cp_moder.reg_d_crc)  || binsof(cp_moder.reg_crc) || binsof(cp_moder.reg_pad)
+        || binsof(cp_moder.reg_config) ;
     }
 
-    // Cross minfl < maxfl 
-    cp_cross_minfl_maxfl: cross cp_minfl,cp_maxfl{
-        ignore_bins ignore_gre_eq = cp_cross_minfl_maxfl with (cp_minfl >= cp_maxfl);
+    // Cross minfl, reg pad and bd pad
+    cp_cross_minfl_pad: cross cp_moder,cp_minfl,cp_bd_cfg{
+        ignore_bins ign_min_f_pad = binsof(cp_moder.reg_d_crc)  || binsof(cp_moder.reg_crc) || binsof(cp_moder.reg_hugen)
+        || binsof(cp_moder.reg_config) || binsof(cp_bd_cfg.bd_crc) || binsof(cp_bd_cfg.bd_config);
     }
+    // Cross minfl < maxfl 
+    cp_cross_minfl_s_maxfl: cross cp_minfl,cp_maxfl{
+        ignore_bins ignore_gre_eq = cp_cross_minfl_s_maxfl with (cp_minfl >= cp_maxfl);
+    }
+    // Cross minfl > maxfl 
+    cp_cross_minfl_g_maxfl: cross cp_minfl,cp_maxfl{
+        ignore_bins ignore_gre_eq = cp_cross_minfl_g_maxfl with (cp_minfl <= cp_maxfl);
+    }
+
     // Cross txpause req and txflow
     cp_cross_ctrl: cross cp_ctrlmoder,cp_txctrl{
         ignore_bins ign_ctrl = binsof(cp_txctrl.time_val_any) || binsof(cp_txctrl.time_val_max) || binsof(cp_txctrl.time_val_min);

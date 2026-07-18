@@ -1,20 +1,20 @@
 //==============================================================================
 // Project  : ethmac_uvm_ITI_GP
-// File     : wb_s_seq_tx_minfl.sv
+// File     : wb_s_seq_tx_maxfl.sv
 // Author   : Wael
-// Date     : 2026-07-16
+// Date     : 2026-07-17
 //------------------------------------------------------------------------------
 // Description:
 // transmit configuration without preamble sequence for the Ethernet MAC.
 //==============================================================================
-`ifndef WB_S_TX_MINFL_SV
-`define WB_S_TX_MINFL_SV
-class wb_s_seq_tx_minfl extends wb_s_basic_tx_seq;
+`ifndef WB_S_TX_MAXFL_SV
+`define WB_S_TX_MAXFL_SV
+class wb_s_seq_tx_maxfl extends wb_s_basic_tx_seq;
 
-    `uvm_object_utils(wb_s_seq_tx_minfl)
+    `uvm_object_utils(wb_s_seq_tx_maxfl)
 
     //---------------------------------------------------------
-    function new(string name="wb_s_seq_tx_minfl");
+    function new(string name="wb_s_seq_tx_maxfl");
         super.new(name);
     endfunction
 
@@ -26,21 +26,18 @@ class wb_s_seq_tx_minfl extends wb_s_basic_tx_seq;
     //-----------------------------------------------------
     // Randomize transaction
     //-----------------------------------------------------
-    m_item.c_minfl_maxfl.constraint_mode(0);
     assert(m_item.randomize() with {
     tx_bd_num==1;
-    maxfl inside {'d1518,'d1000};
-    minfl dist { ['h0005:'h003F] :/ 70, 'h0040 :/ 15, ['h00041:'h000FF] :/ 10,'hFFFF :/ 5};
-
-    foreach (bd_pad[i]){
-        if(minfl == 'hFFFF){
-            bd_pad[i]==0;
-            moder_pad==0;
-        }        
-    }    
+    rand_tx_bd_idx inside {0,1};
+    minfl inside {30,64,256};
+    maxfl dist { ['h0000:'h0004] :/ 20 ,['h0005:'h003F] :/ 20, 'h0040 :/ 20, ['h00041:'hFFFE] :/20 ,'hFFFF :/ 20, 'h05EE :/20 };
     foreach (pkt_len[i]){
-        pkt_len[i]<128;
+        pkt_len[i] <= 'd128;
         pkt_len[i]>4;
+        if(rand_tx_bd_idx && moder_hugen)
+            pkt_len[i]>maxfl;
+        else if(moder_hugen)
+            pkt_len[i]<maxfl;   
     }
     })   
     else begin
@@ -60,11 +57,12 @@ class wb_s_seq_tx_minfl extends wb_s_basic_tx_seq;
     //-----------------------------------------------------
     // Configure registers
     //-----------------------------------------------------
-    configure_tx_registers(.tx_bd_num(m_item.tx_bd_num),.fulld(m_item.moder_fd),.minfl(m_item.minfl),.maxfl(m_item.maxfl),.pad(m_item.moder_pad),.txen(1));
+    configure_tx_registers(.tx_bd_num(m_item.tx_bd_num),.fulld(m_item.moder_fd),.minfl(m_item.minfl),.maxfl(m_item.maxfl),
+                            .pad(0),.hugen(m_item.moder_hugen),.txen(1));
 
 
     `uvm_info(get_type_name(),
-                "TX MINFL configuration completed",
+                "TX MAXFL configuration completed",
                 UVM_LOW)
 
     repeat(m_item.tx_bd_num) begin

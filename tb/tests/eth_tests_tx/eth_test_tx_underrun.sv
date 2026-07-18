@@ -1,10 +1,10 @@
 
-`ifndef ETH_TEST_TX_SMOKE_SV
-`define ETH_TEST_TX_SMOKE_SV
+`ifndef ETH_TEST_TX_UNDERRUN_SV
+`define ETH_TEST_TX_UNDERRUN_SV
 
 
-class eth_test_tx_smoke extends eth_test_tx_base;
-  `uvm_component_utils(eth_test_tx_smoke)
+class eth_test_tx_underrun extends eth_test_tx_base;
+  `uvm_component_utils(eth_test_tx_underrun)
 
   function new(string name, uvm_component parent);
     super.new(name, parent);
@@ -15,11 +15,11 @@ class eth_test_tx_smoke extends eth_test_tx_base;
     // Factory override
     factory.set_type_override_by_type(
       wb_m_seq_base::get_type(),
-      wb_m_seq_wr_rd::get_type()
+      wb_m_seq_wait::get_type()
   );
       factory.set_type_override_by_type(
       wb_s_seq_base::get_type(),
-      wb_s_basic_tx_seq::get_type()
+      wb_s_seq_tx_underrun::get_type()
   );
 
     factory.set_type_override_by_type(
@@ -50,4 +50,4 @@ class eth_test_tx_smoke extends eth_test_tx_base;
 
 endclass
 
-`endif // ETH_TEST_TX_SMOKE_SV
+`endif // ETH_TEST_TX_UNDERRUN_SV
