@@ -1,20 +1,20 @@
 //==============================================================================
 // Project  : ethmac_uvm_ITI_GP
-// File     : wb_s_seq_tx_minfl.sv
+// File     : wb_s_seq_tx_underrun.sv
 // Author   : Wael
-// Date     : 2026-07-16
+// Date     : 2026-07-18
 //------------------------------------------------------------------------------
 // Description:
 // transmit configuration without preamble sequence for the Ethernet MAC.
 //==============================================================================
-`ifndef WB_S_TX_MINFL_SV
-`define WB_S_TX_MINFL_SV
-class wb_s_seq_tx_minfl extends wb_s_basic_tx_seq;
+`ifndef WB_S_TX_UNDERRUN_SV
+`define WB_S_TX_UNDERRUN_SV
+class wb_s_seq_tx_underrun extends wb_s_basic_tx_seq;
 
-    `uvm_object_utils(wb_s_seq_tx_minfl)
+    `uvm_object_utils(wb_s_seq_tx_underrun)
 
     //---------------------------------------------------------
-    function new(string name="wb_s_seq_tx_minfl");
+    function new(string name="wb_s_seq_tx_underrun");
         super.new(name);
     endfunction
 
@@ -26,21 +26,11 @@ class wb_s_seq_tx_minfl extends wb_s_basic_tx_seq;
     //-----------------------------------------------------
     // Randomize transaction
     //-----------------------------------------------------
-    m_item.c_minfl_maxfl.constraint_mode(0);
     assert(m_item.randomize() with {
-    tx_bd_num==1;
-    maxfl inside {'d1518,'d1000};
-    minfl dist { ['h0005:'h003F] :/ 70, 'h0040 :/ 15, ['h00041:'h000FF] :/ 10,'hFFFF :/ 5};
-
-    foreach (bd_pad[i]){
-        if(minfl == 'hFFFF){
-            bd_pad[i]==0;
-            moder_pad==0;
-        }        
-    }    
+    tx_bd_num==3;
     foreach (pkt_len[i]){
         pkt_len[i]<128;
-        pkt_len[i]>4;
+        pkt_len[i]>64;
     }
     })   
     else begin
@@ -60,11 +50,11 @@ class wb_s_seq_tx_minfl extends wb_s_basic_tx_seq;
     //-----------------------------------------------------
     // Configure registers
     //-----------------------------------------------------
-    configure_tx_registers(.tx_bd_num(m_item.tx_bd_num),.fulld(m_item.moder_fd),.minfl(m_item.minfl),.maxfl(m_item.maxfl),.pad(m_item.moder_pad),.txen(1));
+    configure_tx_registers(.tx_bd_num(m_item.tx_bd_num),.fulld(m_item.moder_fd),.pad(m_item.moder_pad),.txen(1));
 
 
     `uvm_info(get_type_name(),
-                "TX MINFL configuration completed",
+                "TX UNDERRUN configuration completed",
                 UVM_LOW)
 
     repeat(m_item.tx_bd_num) begin

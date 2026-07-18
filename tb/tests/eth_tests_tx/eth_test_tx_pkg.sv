@@ -37,6 +37,8 @@ package eth_test_tx_pkg;
   `include "eth_test_tx_bd_num.sv"
   `include "eth_test_tx_ipgt.sv"
   `include "eth_test_tx_minfl.sv"
+  `include "eth_test_tx_maxfl.sv"
+  `include "eth_test_tx_underrun.sv"
 endpackage
 
 `endif // ETH_TEST_TX_PKG_SV
