@@ -23,8 +23,9 @@ class wb_m_seq_item_base extends uvm_sequence_item;
 
     // Randomized fields
     rand bit [WB_DATA_WIDTH-1:0] m_data_i;                                           // data read by DUT (For TX)
-    rand bit                      m_ack_i;                                            // Indicates a normal cycle termination.
-    rand bit                      m_err_i;                                            // Indicates an abnormal cycle termination.
+    rand bit                      m_ack_i;                                           // Indicates a normal cycle termination.
+    rand bit                      m_err_i;                                           // Indicates an abnormal cycle termination.
+    rand int                      wait_cycles;                                       // for inserting random wait cycles as a wb slave
 
     // fields driven by dut, not randomized
     wb_dir_t                      m_dir;                                              // write/read direction

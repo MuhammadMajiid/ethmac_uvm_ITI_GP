@@ -1,6 +1,7 @@
 set TESTNAME "eth_test_tx_smoke"
-set VERBOSITY "UVM_MEDIUM"
+set VERBOSITY "UVM_HIGH"
 vlib work
 vmap work work
-do scripts/tx/compile.tcl
-do scripts/tx/run_test.tcl
+do scripts/compile.tcl
+do scripts/run_test.tcl
+exit

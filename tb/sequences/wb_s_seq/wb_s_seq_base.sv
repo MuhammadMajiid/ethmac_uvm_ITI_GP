@@ -30,6 +30,7 @@ class wb_s_seq_base extends
     `uvm_object_utils(wb_s_seq_base)
      eth_reg_block regmodel;
      uvm_status_e status;
+    event            m_ev_end_pkt;
     function new(string name="wb_s_seq_base");
         super.new(name);
     endfunction

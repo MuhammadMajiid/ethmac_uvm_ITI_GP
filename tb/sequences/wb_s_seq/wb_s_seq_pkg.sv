@@ -12,8 +12,6 @@
 `define WB_S_SEQ_PKG_SV
 
 package wb_s_seq_pkg;
-
-   
     `include "uvm_macros.svh"
     import uvm_pkg::*;
 
@@ -28,13 +26,19 @@ package wb_s_seq_pkg;
     // Sequences
     `include "wb_s_seq_base.sv"
     `include "wb_s_basic_tx_seq.sv"
-    `include "wb_s_control_frame_tx_seq.sv"
+    `include "wb_s_seq_tx_ctrl_frame.sv"
     `include "wb_s_seq_tx_no_pre.sv"
     `include "wb_s_seq_tx_hugen.sv"
     `include "wb_s_seq_tx_dcrc.sv"
     `include "wb_s_seq_tx_moder.sv"
     `include "wb_s_seq_tx_pad.sv"
-	`include "eth_tx_bd_num_bit_bash_seq.sv"
+	`include "wb_s_seq_tx_minfl.sv"
+    `include "wb_s_seq_tx_maxfl.sv"
+    `include "wb_s_seq_tx_bd_num.sv"
+    `include "wb_s_seq_tx_ipgt.sv"
+    `include "wb_s_seq_tx_underrun.sv"
+    `include "wb_s_seq_tx_interrupts.sv"
+    `include "eth_tx_bd_num_bit_bash_seq.sv"
 	`include "eth_max_value_seq.sv"
 	`include "eth_rw_pattern_seq.sv"
 	`include "eth_bd_mem_walk_seq.sv"
@@ -46,9 +50,5 @@ package wb_s_seq_pkg;
 
 	
 endpackage : wb_s_seq_pkg
-
-
-
-
 
 `endif // WB_S_SEQ_PKG_SV

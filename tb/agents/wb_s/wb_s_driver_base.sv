@@ -64,7 +64,7 @@ class wb_s_driver_base extends uvm_driver #(wb_s_seq_item_base#(WB_S_ADDR_WIDTH,
 
      `uvm_info(get_type_name(),
           $sformatf("Driving transaction:%s",
-                    req.convert2string()),UVM_MEDIUM)
+                    req.convert2string()),UVM_DEBUG)
 
       drive_transfer(req);
 

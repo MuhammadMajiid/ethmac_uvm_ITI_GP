@@ -21,6 +21,16 @@ class eth_test_tx_smoke extends eth_test_tx_base;
       wb_s_seq_base::get_type(),
       wb_s_basic_tx_seq::get_type()
   );
+
+    factory.set_type_override_by_type(
+      mii_tx_driver_base::get_type(),
+      mii_tx_driver_hd::get_type()
+  );
+  
+    factory.set_type_override_by_type(
+      eth_v_seq_tx::get_type(),
+      eth_v_seq_tx_active::get_type()
+  );
     super.build_phase(phase);
 
     // set wishnbone master & slave agents to active
@@ -29,7 +39,7 @@ class eth_test_tx_smoke extends eth_test_tx_base;
 	m_config.m_rst_config.is_active=UVM_ACTIVE;
 
     // set mii tx agent to passive
-    m_config.m_mii_tx_config.is_active=UVM_PASSIVE;
+    m_config.m_mii_tx_config.is_active=UVM_ACTIVE;
 	
 
     // Assign end sequence event to event in config object

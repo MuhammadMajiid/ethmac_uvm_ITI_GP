@@ -19,6 +19,7 @@ package eth_test_tx_pkg;
   // import sequences package
   import wb_m_seq_pkg::*;
   import wb_s_seq_pkg::*;
+  import reset_seq_pkg::*;
 
   // import agent package
   import mii_tx_agent_pkg::*;
@@ -33,6 +34,12 @@ package eth_test_tx_pkg;
   `include "eth_test_tx_dcrc.sv"
   `include "eth_test_tx_moder.sv"
   `include "eth_test_tx_pad.sv"
+  `include "eth_test_tx_bd_num.sv"
+  `include "eth_test_tx_ipgt.sv"
+  `include "eth_test_tx_minfl.sv"
+  `include "eth_test_tx_maxfl.sv"
+  `include "eth_test_tx_underrun.sv"
+  `include "eth_test_tx_interrupts.sv"
 endpackage
 
 `endif // ETH_TEST_TX_PKG_SV

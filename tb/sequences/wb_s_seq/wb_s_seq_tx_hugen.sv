@@ -22,12 +22,6 @@ class wb_s_seq_tx_hugen extends wb_s_basic_tx_seq;
     //---------------------------------------------------------
     task body();
 
-
-    wb_s_seq_item_tx m_item = wb_s_seq_item_tx#(
-        WB_S_ADDR_WIDTH,
-        WB_DATA_WIDTH,
-        WB_SEL_WIDTH
-      )::type_id::create("m_item");
     uvm_resource_db#(bit)::set("*","end_seq",0,this);
     //-----------------------------------------------------
     // Randomize transaction
@@ -64,9 +58,11 @@ class wb_s_seq_tx_hugen extends wb_s_basic_tx_seq;
                 "Hugen TX configuration completed",
                 UVM_LOW)
 
-    endtask
+    repeat(m_item.tx_bd_num) begin
+        @(m_ev_end_pkt);
+    end 
 
- 
+    endtask 
 
 endclass
 
