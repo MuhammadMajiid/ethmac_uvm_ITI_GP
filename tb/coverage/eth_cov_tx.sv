@@ -379,7 +379,7 @@ class eth_cov_tx extends uvm_component;
         }
 
         // INT_SOURCE Register (Address 0x04)
-        cp_int_source: coverpoint m_wdata iff(m_addr=='h01) {
+        cp_int_source: coverpoint m_rdata iff(m_addr=='h01) {
             // None is fired
             bins no_int = {'h0000_0000};
             // TXB

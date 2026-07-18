@@ -29,6 +29,10 @@ class wb_s_basic_tx_seq extends wb_s_seq_base;
 
     `uvm_object_utils(wb_s_basic_tx_seq)
     wb_s_seq_item_tx m_item;
+	
+	parameter int NUM_TX_BD = 1;
+    parameter int unsigned        PKT_LEN    = 75;
+	bit [31:0] tx_ptr[NUM_TX_BD];
 
     //---------------------------------------------------------
     function new(string name="wb_s_basic_tx_seq");
@@ -75,9 +79,8 @@ class wb_s_basic_tx_seq extends wb_s_seq_base;
     extern function void dma_mem_wr(bit [31:0] tx_ptr,bit [15:0] len,bit [31:0] data);
     //---------------------------------------------------------
     task body();
-    parameter int NUM_TX_BD = 2;
-    parameter int unsigned        PKT_LEN    = 75;
-    bit [31:0] tx_ptr[NUM_TX_BD];
+
+  
 
     //-----------------------------------------------------
     // DMA packet addresses for the basic test

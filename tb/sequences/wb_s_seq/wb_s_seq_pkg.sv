@@ -37,6 +37,7 @@ package wb_s_seq_pkg;
     `include "wb_s_seq_tx_bd_num.sv"
     `include "wb_s_seq_tx_ipgt.sv"
     `include "wb_s_seq_tx_underrun.sv"
+    `include "wb_s_seq_tx_interrupts.sv"
     `include "eth_tx_bd_num_bit_bash_seq.sv"
 	`include "eth_max_value_seq.sv"
 	`include "eth_rw_pattern_seq.sv"
