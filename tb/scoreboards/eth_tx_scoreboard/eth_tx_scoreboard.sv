@@ -55,10 +55,10 @@ class eth_tx_scoreboard extends uvm_scoreboard;
     // Events
     // =========================================================================    
     event m_ev_end_pkt;      // triggered when each packet is compared
-    event m_ev_end_seqs;    // triggerd when running sequence finish
-    event m_ev_txen;        // triggered when TXEN bit in MODER register changes from 0 to 1
+    event m_ev_txen;        // triggered when TXEN bit in MODER register changes from 0 -> 1
     event m_ev_start_comp;  // triggered when packet ends to start comparison
     event m_ev_start_pred;
+    event m_ev_end_seqs;
     // =========================================================================
     // Structs
     // ========================================================================= 
@@ -423,7 +423,7 @@ task eth_tx_scoreboard::run_phase(uvm_phase phase);
         cycle_cnt = 0;
         fork: fork_run_phase 
             get_mii_tx_seq_item();
-            get_wb_m_seq_item();
+            //get_wb_m_seq_item();
             #0.1 predictor();
             #0.1 comparator();
             begin
@@ -492,7 +492,7 @@ task eth_tx_scoreboard::predictor();
     fork: fork_pred
         pred_track_txen();
         pred_track_rd();
-        pred_track_underrun(); 
+        //pred_track_underrun(); 
              begin
                 wait(m_ev_txen.triggered);
                     pred_read_cfg_reg();
@@ -523,7 +523,6 @@ task eth_tx_scoreboard::comparator();
    forever begin
     fork : fork_comp
     comp_pack_pkt();
-    //comp_compare_ipgt();
     comp_check_ipgt();
     begin
         wait(m_ev_start_comp.triggered);
@@ -885,7 +884,6 @@ task eth_tx_scoreboard::pred_track_rd();
     );
 
     prev_rd = rtl_data[WB_TX_BD_RD_POS];
-
     forever begin
 
         //--------------------------------------------------------
@@ -904,7 +902,6 @@ task eth_tx_scoreboard::pred_track_rd();
 
         curr_rd  = rtl_data[WB_TX_BD_RD_POS];
         wrap_bit = rtl_data[WB_TX_BD_WR_POS];
-
         //--------------------------------------------------------
         // Software armed this BD (RD : 0 -> 1)
         //--------------------------------------------------------
@@ -913,10 +910,9 @@ task eth_tx_scoreboard::pred_track_rd();
             //`uvm_info(get_type_name(),
               //  $sformatf("TX BD[%0d] armed",
                 //          m_tx_bd_cfg_s.bd_index),
-                //UVM_MEDIUM)
+                //UVM_HIGH)
 
             m_tx_pending_s.flag_rd=1;
-
         end
 
         //--------------------------------------------------------
@@ -927,17 +923,18 @@ task eth_tx_scoreboard::pred_track_rd();
                 $sformatf("TX BD[%0d] completed",
                           m_tx_bd_cfg_s.bd_index),
                 UVM_MEDIUM)
-
+            `uvm_info(get_name(),$sformatf("current index = %0d", m_tx_bd_cfg_s.bd_index), UVM_NONE)
+            
             //----------------------------------------------------
             // Move to next BD
             //----------------------------------------------------
             if (wrap_bit) begin
                 m_tx_bd_cfg_s.bd_index = 0;
-                `uvm_info(get_type_name(),"WRAPP",UVM_HIGH)
+                `uvm_info(get_type_name(),"WRAPP",UVM_LOW)
             end
             else
                 m_tx_bd_cfg_s.bd_index++;
-
+            `uvm_info(get_name(),$sformatf("next index = %0d", m_tx_bd_cfg_s.bd_index), UVM_NONE)
             //----------------------------------------------------
             // Initialize prev_rd for the new BD
             //----------------------------------------------------
@@ -948,7 +945,6 @@ task eth_tx_scoreboard::pred_track_rd();
                 status_idx,
                 rtl_data
             );
-
             prev_rd = rtl_data[WB_TX_BD_RD_POS];
             #1ns;
             continue;
@@ -971,54 +967,60 @@ task eth_tx_scoreboard::pred_track_underrun();
     // Number of bytes read from memory by wb interface
     longint unsigned rd_bytes=0;
     longint unsigned pkt_len=0;
-    int      pre_crc_bytes =0;
+    int      pre_bytes =0;
   
-    
-    forever
+    wait(m_ev_txen.triggered);
+    wait(m_tx_pending_s.flag_rd);
+    #1;
+    pkt_len=m_tx_bd_cfg_s.len+ETH_SFD_LEN;
+    pre_bytes =ETH_SFD_LEN;
+
+    if(!m_tx_bd_cfg_s.no_pre) begin
+        pkt_len+=ETH_PREAMBLE_LEN;
+        pre_bytes+=ETH_PREAMBLE_LEN;
+    end  
+    fork 
     begin
-        wait(m_ev_txen.triggered);   
-        fork: fork_underrun
-            begin
-                #1;
-                pkt_len=m_tx_bd_cfg_s.len+ETH_SFD_LEN;
-                pre_crc_bytes =ETH_SFD_LEN;
 
-                if(!m_tx_bd_cfg_s.no_pre) begin
-                    pkt_len+=ETH_PREAMBLE_LEN;
-                    pre_crc_bytes+=ETH_PREAMBLE_LEN;
-                end  
-                if(m_tx_bd_cfg_s.eff_crc) begin
-                    pkt_len+=ETH_CRC_LEN;
-                    pre_crc_bytes+=ETH_CRC_LEN;
-                end 
-                forever 
-                    begin
-                        // Get Semaphore
-                        m_sem_wb_m_seq_item.get(1);
-                        
-                        // check if it's read transaction
-                        if(m_wb_m_seq_item.m_dir==WB_READ &&  (&m_wb_m_seq_item.m_sel_o)) begin
-                            rd_bytes++;
-                        end  
-                        if(m_tx_expected_s.exp_pkt.size()>=(rd_bytes+pre_crc_bytes) && m_tx_expected_s.exp_pkt.size()<pkt_len)
-                        begin
-                            m_tx_expected_s.exp_ur=1;
-                            `uvm_warning(get_name(), "Underrun occurs")
-                            
-                        end    
-                        // Put Semaphore
-                        m_sem_wb_m_seq_item.put(1);
-                        #1;
-                    end
+        forever begin    
+            // Get transaction
+            wb_m_fifo.get(m_wb_m_seq_item);
+            // check if it's read transaction
+            if(m_wb_m_seq_item.m_dir==WB_READ &&  (&m_wb_m_seq_item.m_sel_o) && m_wb_m_seq_item.m_ack_i) begin
+                rd_bytes+=4;
+
+            end  
+        end
+    end 
+    begin   
+        forever
+        begin
+            if(m_tx_pending_s.actual_pkt.size()>=(rd_bytes+pre_bytes) && m_tx_pending_s.actual_pkt.size()<pkt_len)
+            begin
+                m_tx_expected_s.exp_ur=1;
+                `uvm_warning(get_name(), "Underrun occurs")
             end
-            begin
-                wait(m_ev_end_pkt.triggered);
-                disable fork_underrun;
-            end    
-        join
-        #1;    
-    end
+            //`uvm_info(get_name(),$sformatf("TX bytes = %0d, WB bytes = %0d, packet len = %0d",m_tx_pending_s.actual_pkt.size(),rd_bytes, pkt_len), UVM_MEDIUM)
+            #(ETH_PHY_TX_CLK_PERIOD_NS);    
+        end     
+    end    
+    begin
+        forever begin
+            wait(m_ev_end_pkt.triggered);
+            rd_bytes=0;
+            pkt_len=0;
+            pre_bytes=ETH_SFD_LEN;
+            //wait(m_tx_pending_s.flag_rd);
+            #1;
+            pkt_len=m_tx_bd_cfg_s.len+ETH_SFD_LEN;
 
+            if(!m_tx_bd_cfg_s.no_pre) begin
+                pkt_len+=ETH_PREAMBLE_LEN;
+                pre_bytes+=ETH_PREAMBLE_LEN;
+            end
+       end
+    end
+    join;           
 endtask
 
 
@@ -1312,7 +1314,7 @@ task eth_tx_scoreboard::comp_pack_pkt();
         //--------------------------------------------
        if (m_mii_tx_seq_item.MTxERR) begin
             m_tx_pending_s.flag_txerr=1;
-       
+            `uvm_info(get_name(), "MtxErr asserted", UVM_MEDIUM) 
         end
         //--------------------------------------------
         // In half duplex check if carrier sense dropped 
@@ -1336,6 +1338,7 @@ task eth_tx_scoreboard::comp_pack_pkt();
         //--------------------------------------------
        if (m_mii_tx_seq_item.MTxERR) begin
             m_tx_pending_s.flag_txerr=1;
+            `uvm_info(get_name(), "MtxErr asserted", UVM_MEDIUM)  
        end
         //--------------------------------------------
         // In half duplex check if carrier sense dropped 
@@ -1620,58 +1623,66 @@ task eth_tx_scoreboard::comp_check_bd_status();
         uvm_status_e   status;
         uvm_reg_data_t bd_data;
         int status_idx; 
-    //--------------------------------------------------------
-    // Read current BD through backdoor
-    //--------------------------------------------------------
-    status_idx = m_tx_bd_cfg_s.bd_index * 2;
-    m_regmodel.eth_bd_mem.peek(status,status_idx,bd_data);
+    
+    fork: fork_check_bd_status
+        begin    
+            //Wait until rd is asserted to low
+            wait(!m_tx_pending_s.flag_rd);
+            `uvm_info(get_name(), "rd is 0", UVM_NONE)
+            // Read current BD through backdoor
+            status_idx = m_tx_bd_cfg_s.bd_index * 2;
+            m_regmodel.eth_bd_mem.peek(status,status_idx,bd_data);
 
 
-    // check underrun expected equal actal
-    if(bd_data[WB_TX_BD_UR_POS]!=m_tx_expected_s.exp_ur) begin
-            `uvm_error(get_name(),$sformatf("Actual underrun error isn't equal to expected,actual error = %0b expected = %0b",
-                bd_data[WB_TX_BD_UR_POS],m_tx_expected_s.exp_ur))
-    end    
+            // check underrun expected equal actal
+            if(bd_data[WB_TX_BD_UR_POS]!=m_tx_expected_s.exp_ur) begin
+                    `uvm_error(get_name(),$sformatf("Actual underrun error isn't equal to expected,actual error = %0b expected = %0b",
+                        bd_data[WB_TX_BD_UR_POS],m_tx_expected_s.exp_ur))
+            end    
 
-    if(!m_tx_bd_cfg_s.full_duplex) begin
-        // check RTRY count expected equal actal
-        if(bd_data[WB_TX_RC_MSB_POS:WB_TX_RC_LSB_POS]!=m_tx_expected_s.exp_rtry) begin
-                `uvm_error(get_name(),$sformatf("Actual Retry count  isn't equal to expected,actual  = %0b expected = %0b",
-                    bd_data[WB_TX_RC_MSB_POS:WB_TX_RC_LSB_POS],m_tx_expected_s.exp_rtry))
-        end 
+            if(!m_tx_bd_cfg_s.full_duplex) begin
+                // check RTRY count expected equal actal
+                if(bd_data[WB_TX_RC_MSB_POS:WB_TX_RC_LSB_POS]!=m_tx_expected_s.exp_rtry) begin
+                        `uvm_error(get_name(),$sformatf("Actual Retry count  isn't equal to expected,actual  = %0b expected = %0b",
+                            bd_data[WB_TX_RC_MSB_POS:WB_TX_RC_LSB_POS],m_tx_expected_s.exp_rtry))
+                end 
 
-        // check Retransmission limit expected equal actal
-        if(bd_data[WB_TX_RL_POS]!=m_tx_expected_s.exp_rl) begin
-                `uvm_error(get_name(),$sformatf("Actual Retrnsmission limit  isn't equal to expected,actual  = %0b expected = %0b",
-                    bd_data[WB_TX_RL_POS],m_tx_expected_s.exp_rl))
-        end     
+                // check Retransmission limit expected equal actal
+                if(bd_data[WB_TX_RL_POS]!=m_tx_expected_s.exp_rl) begin
+                        `uvm_error(get_name(),$sformatf("Actual Retrnsmission limit  isn't equal to expected,actual  = %0b expected = %0b",
+                            bd_data[WB_TX_RL_POS],m_tx_expected_s.exp_rl))
+                end     
 
-        // check late collision expected equal actal
-        if(bd_data[WB_TX_LC_POS]!=m_tx_expected_s.exp_lc) begin
-                `uvm_error(get_name(),$sformatf("Actual Late collision  isn't equal to expected,actual  = %0b expected = %0b",
-                    bd_data[WB_TX_LC_POS],m_tx_expected_s.exp_lc))
-        end 
+                // check late collision expected equal actal
+                if(bd_data[WB_TX_LC_POS]!=m_tx_expected_s.exp_lc) begin
+                        `uvm_error(get_name(),$sformatf("Actual Late collision  isn't equal to expected,actual  = %0b expected = %0b",
+                            bd_data[WB_TX_LC_POS],m_tx_expected_s.exp_lc))
+                end 
 
-        // check Deferral indication expected equal actal
-        if(bd_data[WB_TX_DF_POS]!=m_tx_expected_s.exp_df) begin
-                `uvm_error(get_name(),$sformatf("Actual Deferral indication  isn't equal to expected,actual  = %0b expected = %0b",
-                    bd_data[WB_TX_DF_POS],m_tx_expected_s.exp_df))
-        end 
+                // check Deferral indication expected equal actal
+                if(bd_data[WB_TX_DF_POS]!=m_tx_expected_s.exp_df) begin
+                        `uvm_error(get_name(),$sformatf("Actual Deferral indication  isn't equal to expected,actual  = %0b expected = %0b",
+                            bd_data[WB_TX_DF_POS],m_tx_expected_s.exp_df))
+                end 
 
-        // check Carrier sense lost expected equal actal
-        if(bd_data[WB_TX_CS_POS]!=m_tx_expected_s.exp_cs) begin
-                `uvm_error(get_name(),$sformatf("Actual Carrier sense lost  isn't equal to expected,actual  = %0b expected = %0b",
-                    bd_data[WB_TX_CS_POS],m_tx_expected_s.exp_cs))
-        end 
-    end
-    // check if it's control frame
-    if(m_tx_bd_cfg_s.tx_pause_req ==1 && m_tx_bd_cfg_s.tx_flow ==1) begin
-        // update mirror value of pausereq with 0 because it is cleared after the frame is sent
-        m_regmodel.TXCTRL.TXPAUSERQ.predict(0);
-        // check that pausereq is cleared in dut register file
-        m_regmodel.TXCTRL.TXPAUSERQ.mirror(status, UVM_CHECK, UVM_BACKDOOR);
-        
-    end
+                // check Carrier sense lost expected equal actal
+                if(bd_data[WB_TX_CS_POS]!=m_tx_expected_s.exp_cs) begin
+                        `uvm_error(get_name(),$sformatf("Actual Carrier sense lost  isn't equal to expected,actual  = %0b expected = %0b",
+                            bd_data[WB_TX_CS_POS],m_tx_expected_s.exp_cs))
+                end 
+            end
+        end
+        begin
+            // check if it's control frame
+            if(m_tx_bd_cfg_s.tx_pause_req ==1 && m_tx_bd_cfg_s.tx_flow ==1) begin
+                // update mirror value of pausereq with 0 because it is cleared after the frame is sent
+                m_regmodel.TXCTRL.TXPAUSERQ.predict(0);
+                // check that pausereq is cleared in dut register file
+                m_regmodel.TXCTRL.TXPAUSERQ.mirror(status, UVM_CHECK, UVM_BACKDOOR);
+                
+            end
+        end
+    join_none;
 endtask
 
 
@@ -1790,7 +1801,7 @@ task eth_tx_scoreboard::comp_check_ipgt();
             //------------------------------------------------------
             if (m_tx_pending_s.ipgt_cycles < exp_cycles) begin
 
-                /*`uvm_error(get_type_name(),
+                `uvm_error(get_type_name(),
                     $sformatf(
                     "IPGT mismatch\n\
                     Mode           : %s\n\
@@ -1800,7 +1811,7 @@ task eth_tx_scoreboard::comp_check_ipgt();
                     m_tx_bd_cfg_s.full_duplex ? "Full Duplex" : "Half Duplex",
                     m_tx_bd_cfg_s.ipgt,
                     exp_cycles,
-                    m_tx_pending_s.ipgt_cycles))*/
+                    m_tx_pending_s.ipgt_cycles))
 
             end
             else  begin
