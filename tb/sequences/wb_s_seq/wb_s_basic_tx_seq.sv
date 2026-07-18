@@ -130,7 +130,7 @@ task wb_s_basic_tx_seq::configure_tx_registers(
     bit [7:0]  tx_bd_num = 8'h00,
     bit [15:0] mac_addr1 = 16'h0000,
     bit [31:0] mac_addr0 = 32'h00000000,
-    bit [3:0]  pause_timer = 16'h0000,
+    bit [15:0]  pause_timer = 16'h0000,
     bit fulld = 1'b0,
     bit txen = 1'b0,
     bit nopre = 1'b0,

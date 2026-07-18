@@ -40,6 +40,7 @@ package wb_s_seq_pkg;
 	`include "eth_bd_mem_walk_seq.sv"
 	`include "eth_bd_mem_alternating_seq.sv"
 	`include "eth_bd_wr_seq.sv"
+    `include "eth_tx_ctrl_flow_seq.sv"
     
    
 
