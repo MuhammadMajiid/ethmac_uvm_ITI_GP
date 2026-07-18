@@ -1,4 +1,4 @@
-set TESTNAME "eth_test_tx_ctr_pause"
+set TESTNAME "eth_test_tx_ctrl_flow"
 set VERBOSITY "UVM_MEDIUM"
 vlib work
 vmap work work

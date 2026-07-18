@@ -40,6 +40,7 @@ package eth_test_tx_pkg;
   `include "eth_test_tx_maxfl.sv"
   `include "eth_test_tx_underrun.sv"
   `include "eth_test_tx_interrupts.sv"
+  `include "eth_test_tx_ctrl_flow.sv"
 endpackage
 
 `endif // ETH_TEST_TX_PKG_SV

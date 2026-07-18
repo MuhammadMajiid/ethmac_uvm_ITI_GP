@@ -8,15 +8,76 @@
 //   All Control Flow / PAUSE sequences mapped to Planning_control_flow.xlsx.
 //   In the TX we have the Control Frame Generation
 //   and in the RX we have the Control Frame Detection.
-//   So we will write sequences for Control Frame Generation (FD-CFG-01..08)
-//
+//   So we will write sequences for Control Frame Generation
 //   All sequences extend wb_s_basic_tx_seq 
 //==============================================================================
 
 `ifndef ETH_TX_CTRL_FLOW_SEQ_SV
 `define ETH_TX_CTRL_FLOW_SEQ_SV
 
+class eth_tx_ctrl_flow_seq extends wb_s_basic_tx_seq;
 
+    `uvm_object_utils(eth_tx_ctrl_flow_seq)
+
+    rand bit [15:0] mac_addr1 ;
+    rand bit [31:0] mac_addr0 ;
+
+    constraint c_mac_addr{
+        mac_addr1 dist{'h0180:/ 20, ['h0000: 'hFFFF]:/ 80};
+        mac_addr0 dist{32'hC200_0001:/ 20, ['h0000_0000: 'hFFFF_FFFF]:/ 80};
+    }
+
+    function new(string name = "eth_tx_ctrl_flow_seq");
+        super.new(name);
+    endfunction
+
+   // PAUSE_MCAST_DA   48'h0180_C200_0001
+    task body();
+        uvm_resource_db#(bit)::set("*","end_seq",0,this);
+
+        assert(m_item.randomize() with {
+            tx_bd_num==1;
+            tx_flow dist{0:=20, 1:=80};
+            pause_req dist{0:=20, 1:=80};
+            pause_timer dist{['h0001:'h0004] :/ 20 ,['h0005:'h003F] :/ 20, 
+                             ['h00041:'hFFFE] :/20 , 'h0000 :/20, 'hFFFF :/ 20 };
+
+            /*
+            foreach (pkt_len[i]){
+            pkt_len[i]<128;
+            pkt_len[i]>4;}
+            */
+        })
+        else begin 
+            `uvm_fatal(get_name(), "Failed randomization")
+        end
+
+        /*
+        //-----------------------------------------------------
+        // Write dma memory & program buffer descriptors
+        //-----------------------------------------------------
+        for(int bd=0; bd<m_item.tx_bd_num; bd++) begin
+            dma_mem_wr(m_item.tx_pnt[bd],m_item.pkt_len[bd],$random);
+
+            configure_tx_bd(.bd_index(bd),.frame_length(m_item.pkt_len[bd]),.frame_ptr(m_item.tx_pnt[bd]),.enable_irq(0),
+            .is_wrap(bd == m_item.tx_bd_num-1),.enable_pad(m_item.bd_pad[bd]),.enable_crc(1));
+        end
+        */
+        configure_tx_registers(.tx_bd_num(m_item.tx_bd_num),.mac_addr1(mac_addr1),.mac_addr0(mac_addr0),
+        .txen(1),.fulld(1),.pause_req(m_item.pause_req),.pause_timer(m_item.pause_timer),.tx_flow(m_item.tx_flow));
+
+        `uvm_info(get_type_name(),
+                    "TX Control Pause Frame configuration completed",
+                    UVM_LOW)
+    
+        repeat(m_item.tx_bd_num) begin
+            @(m_ev_end_pkt);
+        end
+    endtask
+
+endclass
+
+/*
     // TXFLOW=1 enables PAUSE frame transmission and the TXC interrupt source.
 class eth_fd_ctr01_txflow_set_seq extends wb_s_basic_tx_seq;
     `uvm_object_utils(eth_fd_ctr01_txflow_set_seq)
@@ -171,5 +232,5 @@ class eth_fd_cfg06_duplicate_pause_request_seq extends wb_s_basic_tx_seq;
     endtask
 
 endclass : eth_fd_cfg06_duplicate_pause_request_seq
-
+*/
 `endif // ETH_TX_CTRL_FLOW_SEQ_SV
