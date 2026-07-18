@@ -121,7 +121,7 @@ class eth_fd_cfg04_txpauserq_autoclear_seq extends wb_s_basic_tx_seq;
         #5000ns;
 
         // Read back TXCTRL — TXPAUSERQ (bit[16]) must be 0 now
-        regmodel.TXCTRL.TXPAUSETV.read(pause_timer);
+        regmodel.TXCTRL.TXPAUSETV.read(status, pause_timer, UVM_FRONTDOOR);
 
         `uvm_info(get_name(),
             $sformatf("FD-CFG-04: TXCTRL readback= 16'hABCD TXPAUSERQ=%0b (expect 0)", pause_timer), UVM_LOW)
