@@ -31,7 +31,7 @@ class wb_s_basic_tx_seq extends wb_s_seq_base;
     wb_s_seq_item_tx m_item;
 	
 	parameter int NUM_TX_BD = 1;
-    parameter int unsigned        PKT_LEN    = 75;
+    parameter int unsigned        PKT_LEN    = 6;
 	bit [31:0] tx_ptr[NUM_TX_BD];
 
     //---------------------------------------------------------

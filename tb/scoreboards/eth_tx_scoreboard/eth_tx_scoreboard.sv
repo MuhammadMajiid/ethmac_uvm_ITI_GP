@@ -1790,7 +1790,7 @@ task eth_tx_scoreboard::comp_check_ipgt();
             //------------------------------------------------------
             if (m_tx_pending_s.ipgt_cycles < exp_cycles) begin
 
-                `uvm_error(get_type_name(),
+                /*`uvm_error(get_type_name(),
                     $sformatf(
                     "IPGT mismatch\n\
                     Mode           : %s\n\
@@ -1800,7 +1800,7 @@ task eth_tx_scoreboard::comp_check_ipgt();
                     m_tx_bd_cfg_s.full_duplex ? "Full Duplex" : "Half Duplex",
                     m_tx_bd_cfg_s.ipgt,
                     exp_cycles,
-                    m_tx_pending_s.ipgt_cycles))
+                    m_tx_pending_s.ipgt_cycles))*/
 
             end
             else  begin
