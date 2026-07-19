@@ -424,6 +424,7 @@ task eth_tx_scoreboard::run_phase(uvm_phase phase);
         fork: fork_run_phase 
             get_mii_tx_seq_item();
             //get_wb_m_seq_item();
+            comp_check_interrupt();
             #0.1 predictor();
             #0.1 comparator();
             begin
@@ -492,13 +493,14 @@ task eth_tx_scoreboard::predictor();
     fork: fork_pred
         pred_track_txen();
         pred_track_rd();
-        //pred_track_underrun(); 
+        pred_track_underrun(); 
              begin
                 wait(m_ev_txen.triggered);
                     pred_read_cfg_reg();
                 forever begin
                     if(!m_tx_bd_cfg_s.tx_pause_req || !m_tx_bd_cfg_s.tx_flow) begin
-                        wait(m_tx_pending_s.flag_rd);
+                        //wait(m_tx_pending_s.flag_rd);
+                        `uvm_info(get_name(), "reading bd config", UVM_NONE)
                         pred_read_cfg_bd();
                         if(pred_check_len_4())
                         pred_construct_data_pkt();                
@@ -525,10 +527,19 @@ task eth_tx_scoreboard::comparator();
     comp_pack_pkt();
     comp_check_ipgt();
     begin
-        wait(m_ev_start_comp.triggered);
+        @(m_tx_pending_s.flag_rd);
+        fork 
+        begin
+            @(!m_tx_pending_s.flag_rd);
+            @(m_ev_start_comp);
+        end
+        begin
+            @(m_ev_start_comp);
+            @(!m_tx_pending_s.flag_rd); 
+        end
+        join_any;
         comp_compare_pkt();
         comp_check_txerr();
-        comp_check_interrupt();
         comp_check_bd_status();
         clear();
         -> m_ev_end_pkt;
@@ -866,15 +877,14 @@ task eth_tx_scoreboard::pred_track_rd();
     bit wrap_bit;
 
     int status_idx;
-
     //------------------------------------------------------------
     // Start from first TX BD
     //------------------------------------------------------------
     m_tx_bd_cfg_s.bd_index = 0;
 
-    //------------------------------------------------------------
-    // Initialize previous RD
-    //------------------------------------------------------------
+    @(m_ev_txen);
+    
+    /*Get curen
     status_idx = m_tx_bd_cfg_s.bd_index * 2;
 
     m_regmodel.eth_bd_mem.peek(
@@ -882,8 +892,8 @@ task eth_tx_scoreboard::pred_track_rd();
         status_idx,
         rtl_data
     );
-
-    prev_rd = rtl_data[WB_TX_BD_RD_POS];
+*/
+    //prev_rd = rtl_data[WB_TX_BD_RD_POS];
     forever begin
 
         //--------------------------------------------------------
@@ -907,10 +917,10 @@ task eth_tx_scoreboard::pred_track_rd();
         //--------------------------------------------------------
         if (curr_rd) begin
 
-            //`uvm_info(get_type_name(),
-              //  $sformatf("TX BD[%0d] armed",
-                //          m_tx_bd_cfg_s.bd_index),
-                //UVM_HIGH)
+            `uvm_info(get_type_name(),
+                $sformatf("TX BD[%0d] armed",
+                          m_tx_bd_cfg_s.bd_index),
+                UVM_HIGH)
 
             m_tx_pending_s.flag_rd=1;
         end
@@ -918,24 +928,25 @@ task eth_tx_scoreboard::pred_track_rd();
         //--------------------------------------------------------
         // DUT completed this BD (RD : 1 -> 0)
         //--------------------------------------------------------
-        if (prev_rd && !curr_rd) begin
+        else if (!curr_rd) begin
             `uvm_info(get_type_name(),
                 $sformatf("TX BD[%0d] completed",
                           m_tx_bd_cfg_s.bd_index),
                 UVM_MEDIUM)
             `uvm_info(get_name(),$sformatf("current index = %0d", m_tx_bd_cfg_s.bd_index), UVM_NONE)
-            
-            //----------------------------------------------------
+            m_tx_pending_s.flag_rd=0;
+                //----------------------------------------------------
             // Move to next BD
             //----------------------------------------------------
             if (wrap_bit) begin
                 m_tx_bd_cfg_s.bd_index = 0;
                 `uvm_info(get_type_name(),"WRAPP",UVM_LOW)
+                 break;
             end
             else
                 m_tx_bd_cfg_s.bd_index++;
             `uvm_info(get_name(),$sformatf("next index = %0d", m_tx_bd_cfg_s.bd_index), UVM_NONE)
-            //----------------------------------------------------
+                /*  //----------------------------------------------------
             // Initialize prev_rd for the new BD
             //----------------------------------------------------
             status_idx = m_tx_bd_cfg_s.bd_index * 2;
@@ -945,16 +956,9 @@ task eth_tx_scoreboard::pred_track_rd();
                 status_idx,
                 rtl_data
             );
-            prev_rd = rtl_data[WB_TX_BD_RD_POS];
-            #1ns;
-            continue;
+            prev_rd = rtl_data[WB_TX_BD_RD_POS]; 
+            #1ns;*/
         end
-
-        //--------------------------------------------------------
-        // Update previous RD
-        //--------------------------------------------------------
-        prev_rd = curr_rd;
-
         #1ns;
 
     end
@@ -998,20 +1002,20 @@ task eth_tx_scoreboard::pred_track_underrun();
             if(m_tx_pending_s.actual_pkt.size()>=(rd_bytes+pre_bytes) && m_tx_pending_s.actual_pkt.size()<pkt_len)
             begin
                 m_tx_expected_s.exp_ur=1;
-                `uvm_warning(get_name(), "Underrun occurs")
+                //`uvm_warning(get_name(), "Underrun occurs")
             end
             //`uvm_info(get_name(),$sformatf("TX bytes = %0d, WB bytes = %0d, packet len = %0d",m_tx_pending_s.actual_pkt.size(),rd_bytes, pkt_len), UVM_MEDIUM)
             #(ETH_PHY_TX_CLK_PERIOD_NS);    
         end     
     end    
     begin
-        forever begin
-            wait(m_ev_end_pkt.triggered);
+        forever begin 
+            @(m_ev_end_pkt);
             rd_bytes=0;
             pkt_len=0;
             pre_bytes=ETH_SFD_LEN;
-            //wait(m_tx_pending_s.flag_rd);
-            #1;
+            //wait until predictor read configuration
+            #2;
             pkt_len=m_tx_bd_cfg_s.len+ETH_SFD_LEN;
 
             if(!m_tx_bd_cfg_s.no_pre) begin
@@ -1394,6 +1398,13 @@ function void eth_tx_scoreboard::comp_compare_pkt();
     int        payload_len;
     int        pad_len;
 	
+    //----------------------------------------------------------
+    // If underrun occurs return
+    //----------------------------------------------------------    
+    if(m_tx_expected_s.exp_ur) begin
+        `uvm_info(get_name(), "No packet comparison due to underrun", UVM_MEDIUM)
+        return;
+    end
 
     //----------------------------------------------------------
     // Compare packet size
@@ -1573,47 +1584,50 @@ endfunction
 task eth_tx_scoreboard::comp_check_interrupt();
         uvm_status_e   status;
         uvm_reg_data_t txe,txc,txb;        
-       
-        // Return if interrupt request is disabled in buffer dwscriptor
-        if(!m_tx_bd_cfg_s.irq)
-            return;
+       forever begin
+            @(m_ev_end_pkt);
+            # WB_CLK_PERIOD_NS;
+            // Return if interrupt request is disabled in buffer dwscriptor
+            if(!m_tx_bd_cfg_s.irq)
+                return;
 
-        // Check TXE interrupt, triggered if Tx error is asserted
-        if (m_tx_bd_cfg_s.txe_m && (m_tx_expected_s.exp_ur || m_tx_expected_s.exp_lc || m_tx_expected_s.exp_rl || m_tx_expected_s.exp_cs)) begin
-            // Put 1 in mirrored value
-            m_regmodel.INT_SOURCE.TXE.predict(1);
+            // Check TXE interrupt, triggered if Tx error is asserted
+            if (m_tx_bd_cfg_s.txe_m && (m_tx_expected_s.exp_ur || m_tx_expected_s.exp_lc || m_tx_expected_s.exp_rl || m_tx_expected_s.exp_cs)) begin
+                // Put 1 in mirrored value
+                m_regmodel.INT_SOURCE.TXE.predict(1);
 
-            // Mirror to check DUT value = mirror value
-	        m_regmodel.INT_SOURCE.TXE.mirror(status, UVM_CHECK, UVM_BACKDOOR);  
+                // Mirror to check DUT value = mirror value
+                m_regmodel.INT_SOURCE.TXE.mirror(status, UVM_CHECK, UVM_BACKDOOR);  
 
-        end    
-        // Check TXC interrupt & a ctrl frame is sent
-        else if (m_tx_bd_cfg_s.txc_m && m_tx_bd_cfg_s.tx_pause_req && m_tx_bd_cfg_s.tx_flow) begin
-            // Put 1 in mirrored value
-            m_regmodel.INT_SOURCE.TXC.predict(1);
+            end    
+            // Check TXC interrupt & a ctrl frame is sent
+            else if (m_tx_bd_cfg_s.txc_m && m_tx_bd_cfg_s.tx_pause_req && m_tx_bd_cfg_s.tx_flow) begin
+                // Put 1 in mirrored value
+                m_regmodel.INT_SOURCE.TXC.predict(1);
 
-            // Mirror to check DUT value = mirror value
-	        m_regmodel.INT_SOURCE.TXC.mirror(status, UVM_CHECK, UVM_BACKDOOR);  
-                      
-        end   
-        // Else packet is transmitted successfully
-        else if (m_tx_bd_cfg_s.txb_m) begin
-            // Put 1 in mirrored value
-            m_regmodel.INT_SOURCE.TXB.predict(1);
-            // Mirror to check DUT value = mirror value
-	        m_regmodel.INT_SOURCE.TXB.mirror(status, UVM_CHECK, UVM_BACKDOOR);     
-        end 
-        
-        //Read 3 values from register file
-        m_regmodel.INT_SOURCE.TXE.read(status,txe,UVM_BACKDOOR);  
-        m_regmodel.INT_SOURCE.TXC.read(status,txc,UVM_BACKDOOR);  
-        m_regmodel.INT_SOURCE.TXB.read(status,txb,UVM_BACKDOOR); 
+                // Mirror to check DUT value = mirror value
+                m_regmodel.INT_SOURCE.TXC.mirror(status, UVM_CHECK, UVM_BACKDOOR);  
+                        
+            end   
+            // Else packet is transmitted successfully
+            else if (m_tx_bd_cfg_s.txb_m) begin
+                // Put 1 in mirrored value
+                m_regmodel.INT_SOURCE.TXB.predict(1);
+                // Mirror to check DUT value = mirror value
+                m_regmodel.INT_SOURCE.TXB.mirror(status, UVM_CHECK, UVM_BACKDOOR);     
+            end 
+            
+            //Read 3 values from register file
+            m_regmodel.INT_SOURCE.TXE.read(status,txe,UVM_BACKDOOR);  
+            m_regmodel.INT_SOURCE.TXC.read(status,txc,UVM_BACKDOOR);  
+            m_regmodel.INT_SOURCE.TXB.read(status,txb,UVM_BACKDOOR); 
 
-        // check that only one interrupt fires in the 3
-        if(!$onehot({txe[0],txc[0],txb[0]}) && (txe[0] || txc[0] || txb[0]))
-         begin
-            `uvm_error(get_name(),
-            $sformatf("More than one Tx interrupt fired at the same time, TXE = %0b TXC = %0b TXB = %0b",txe,txc,txb))
+            // check that only one interrupt fires in the 3
+            if(!$onehot({txe[0],txc[0],txb[0]}) && (txe[0] || txc[0] || txb[0]))
+            begin
+                `uvm_error(get_name(),
+                $sformatf("More than one Tx interrupt fired at the same time, TXE = %0b TXC = %0b TXB = %0b",txe,txc,txb))
+            end
         end
 endtask
 
@@ -1623,14 +1637,12 @@ task eth_tx_scoreboard::comp_check_bd_status();
         uvm_status_e   status;
         uvm_reg_data_t bd_data;
         int status_idx; 
-    
-    fork: fork_check_bd_status
-        begin    
-            //Wait until rd is asserted to low
-            wait(!m_tx_pending_s.flag_rd);
-            `uvm_info(get_name(), "rd is 0", UVM_NONE)
+
             // Read current BD through backdoor
-            status_idx = m_tx_bd_cfg_s.bd_index * 2;
+            if(m_tx_bd_cfg_s.bd_index!=0)
+            status_idx = (m_tx_bd_cfg_s.bd_index-1) * 2;
+            else
+            status_idx = (m_tx_bd_cfg_s.tx_bd_num-1) * 2;
             m_regmodel.eth_bd_mem.peek(status,status_idx,bd_data);
 
 
@@ -1671,8 +1683,7 @@ task eth_tx_scoreboard::comp_check_bd_status();
                             bd_data[WB_TX_CS_POS],m_tx_expected_s.exp_cs))
                 end 
             end
-        end
-        begin
+
             // check if it's control frame
             if(m_tx_bd_cfg_s.tx_pause_req ==1 && m_tx_bd_cfg_s.tx_flow ==1) begin
                 // update mirror value of pausereq with 0 because it is cleared after the frame is sent
@@ -1681,8 +1692,6 @@ task eth_tx_scoreboard::comp_check_bd_status();
                 m_regmodel.TXCTRL.TXPAUSERQ.mirror(status, UVM_CHECK, UVM_BACKDOOR);
                 
             end
-        end
-    join_none;
 endtask
 
 
@@ -1801,7 +1810,7 @@ task eth_tx_scoreboard::comp_check_ipgt();
             //------------------------------------------------------
             if (m_tx_pending_s.ipgt_cycles < exp_cycles) begin
 
-                /*`uvm_error(get_type_name(),
+                `uvm_error(get_type_name(),
                     $sformatf(
                     "IPGT mismatch\n\
                     Mode           : %s\n\
@@ -1811,7 +1820,7 @@ task eth_tx_scoreboard::comp_check_ipgt();
                     m_tx_bd_cfg_s.full_duplex ? "Full Duplex" : "Half Duplex",
                     m_tx_bd_cfg_s.ipgt,
                     exp_cycles,
-                    m_tx_pending_s.ipgt_cycles))*/
+                    m_tx_pending_s.ipgt_cycles))
 
             end
             else  begin
