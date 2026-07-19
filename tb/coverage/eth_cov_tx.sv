@@ -229,9 +229,26 @@ class eth_cov_tx extends uvm_component;
     // TX_BD_NUM Register (Address 0x40)
     cp_tx_bd_num: coverpoint m_wdata iff(m_addr=='h08) {
         
-        bins bd_num_all [16]= {['h0000_0001:'h0000_004F]};
-        bins bd_num_min ={'h0};
-        bins bd_num_max ={'h0000_0080};
+    bins bd_num_min = {0};
+
+    bins bd0  = {[1:8]};
+    bins bd1  = {[9:16]};
+    bins bd2  = {[17:24]};
+    bins bd3  = {[25:32]};
+    bins bd4  = {[33:40]};
+    bins bd5  = {[41:48]};
+    bins bd6  = {[49:56]};
+    bins bd7  = {[57:64]};
+    bins bd8  = {[65:72]}; 
+    bins bd9  = {[73:80]}; 
+    bins bd10 = {[81:88]}; 
+    bins bd11 = {[89:96]}; 
+    bins bd12 = {[97:104]};
+    bins bd13 = {[105:112]}; 
+    bins bd14 = {[113:120]}; 
+    bins bd15 = {[121:127]}; 
+
+    bins bd_num_max = {128};
 
         // illegal values
         wildcard illegal_bins ill_bd_num = {['h????_??81:'h????_??FF]};
@@ -743,13 +760,13 @@ task eth_cov_tx::sample_wb_s_item();
     // if write transaction cover config_group
     if(m_wb_s_seq_item.m_dir==WB_WRITE) begin
         m_wr_cfg_cov.sample();
-        `uvm_info(get_full_name(), m_wb_s_seq_item.convert2string(), UVM_HIGH)
+        `uvm_info(get_full_name(), m_wb_s_seq_item.convert2string(), UVM_MEDIUM)
         
     end
     
     // if read transaction voer status_group
     else if(m_wb_s_seq_item.m_dir==WB_READ) begin
-        `uvm_info(get_full_name(), m_wb_s_seq_item.convert2string(), UVM_HIGH)
+        `uvm_info(get_full_name(), m_wb_s_seq_item.convert2string(), UVM_MEDIUM)
         m_rd_cfg_cov.sample();
 
         reg_h = null;

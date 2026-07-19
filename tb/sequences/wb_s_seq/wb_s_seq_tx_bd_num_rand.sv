@@ -24,7 +24,8 @@ class wb_s_seq_tx_bd_num_rand extends wb_s_basic_tx_seq;
   int iter_cnt= 0;
 
   
-
+// Legal range: 1..128 
+constraint c_tx_bd_num { tx_bd_num inside {[0:8'd128]}; }
 
 
 
