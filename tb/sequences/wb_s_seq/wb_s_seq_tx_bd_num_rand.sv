@@ -24,10 +24,6 @@ class wb_s_seq_tx_bd_num_rand extends wb_s_basic_tx_seq;
   int iter_cnt= 0;
 
   
-  // Legal range: 1..128
-  constraint c_tx_bd_num {
-    tx_bd_num inside {[0:8'd128]};
-  }
 
 
 
@@ -65,6 +61,11 @@ class wb_s_seq_tx_bd_num_rand extends wb_s_basic_tx_seq;
     endcase
 
     iter_cnt++;
+	
+	`uvm_info(get_type_name(),
+          $sformatf("iter_cnt=%0d tx_bd_num=%0d",
+                    iter_cnt, tx_bd_num),
+          UVM_LOW)
 
     `uvm_info(get_type_name(),
       $sformatf("Random TX_BD_NUM = %0d", tx_bd_num),
