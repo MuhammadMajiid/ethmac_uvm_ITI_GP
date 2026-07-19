@@ -1799,9 +1799,9 @@ task eth_tx_scoreboard::comp_check_ipgt();
             //------------------------------------------------------
             // Compare
             //------------------------------------------------------
-            /*if (m_tx_pending_s.ipgt_cycles < exp_cycles) begin
+            if (m_tx_pending_s.ipgt_cycles < exp_cycles) begin
 
-                `uvm_error(get_type_name(),
+                /*`uvm_error(get_type_name(),
                     $sformatf(
                     "IPGT mismatch\n\
                     Mode           : %s\n\
