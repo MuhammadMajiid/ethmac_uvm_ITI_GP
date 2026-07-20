@@ -82,10 +82,10 @@ task wb_m_monitor_base::run_phase(uvm_phase phase);
         mon_items(m_item);
 
         // Check if it's valid transaction
-        if(m_item.m_cyc_o && m_item.m_stb_o) begin        
+        //if(m_item.m_cyc_o && m_item.m_stb_o) begin        
         // Send transaction to agent analysis port
         transaction_a_port.write(m_item);
-        end
+        //end
         // Send transaction to sequencer in all cases
         request_a_port.write(m_item);
         `uvm_info(get_type_name(), $sformatf("Item no. %0d monitored successfully",m_item_cnt), UVM_DEBUG)

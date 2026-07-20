@@ -26,10 +26,11 @@ class wb_s_seq_tx_maxfl extends wb_s_basic_tx_seq;
     //-----------------------------------------------------
     // Randomize transaction
     //-----------------------------------------------------
+    m_item.c_minfl_maxfl.constraint_mode(0);
     assert(m_item.randomize() with {
     tx_bd_num==1;
     rand_tx_bd_idx inside {0,1};
-    minfl inside {30,64,256};
+    minfl inside {64,68};
     maxfl dist { ['h0000:'h0004] :/ 20 ,['h0005:'h003F] :/ 20, 'h0040 :/ 20, ['h00041:'hFFFE] :/20 ,'hFFFF :/ 20, 'h05EE :/20 };
     foreach (pkt_len[i]){
         pkt_len[i] <= 'd128;

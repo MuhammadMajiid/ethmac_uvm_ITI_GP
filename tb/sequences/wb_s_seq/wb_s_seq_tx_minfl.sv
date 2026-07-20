@@ -29,13 +29,14 @@ class wb_s_seq_tx_minfl extends wb_s_basic_tx_seq;
     m_item.c_minfl_maxfl.constraint_mode(0);
     assert(m_item.randomize() with {
     tx_bd_num==1;
-    maxfl inside {'d1518,'d1000};
-    minfl dist { ['h0005:'h003F] :/ 70, 'h0040 :/ 15, ['h00041:'h000FF] :/ 10,'hFFFF :/ 5};
-
+    maxfl == 'd1000;
+    minfl dist { ['h0005:'h003F] :/ 40, 'h0040 :/ 20, ['h00041:'h000FF] :/ 20,'hFFFF :/ 20};
+    if(minfl == 'hFFFF){
+        moder_pad==0;
+        }   
     foreach (bd_pad[i]){
         if(minfl == 'hFFFF){
             bd_pad[i]==0;
-            moder_pad==0;
         }        
     }    
     foreach (pkt_len[i]){

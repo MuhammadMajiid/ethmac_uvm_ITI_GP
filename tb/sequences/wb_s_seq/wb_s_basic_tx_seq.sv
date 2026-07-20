@@ -31,7 +31,7 @@ class wb_s_basic_tx_seq extends wb_s_seq_base;
     wb_s_seq_item_tx m_item;
 	
 	parameter int NUM_TX_BD = 1;
-    parameter int unsigned        PKT_LEN    = 6;
+    parameter int unsigned        PKT_LEN    = 56;
 	bit [31:0] tx_ptr[NUM_TX_BD];
 
     //---------------------------------------------------------
@@ -49,7 +49,7 @@ class wb_s_basic_tx_seq extends wb_s_seq_base;
     bit [7:0]  ipgr1 = 8'h0C,
     bit [7:0]  ipgr2 = 8'h12,
     bit [15:0] minfl = 16'h0040,
-    bit [15:0] maxfl = 16'h05EE,
+    bit [15:0] maxfl = 16'h0600,
     bit [7:0]  tx_bd_num = 8'h00,
     bit [15:0] mac_addr1 = 16'h0000,
     bit [31:0] mac_addr0 = 32'h00000000,
@@ -63,6 +63,9 @@ class wb_s_basic_tx_seq extends wb_s_seq_base;
     bit hugen = 1'b0,
     bit nobckof = 1'b0,
     bit exdf = 1'b0,
+    bit txb_m =1'b0,
+    bit txc_m =1'b0,
+    bit txe_m =1'b0,
     bit pause_req = 1'b0,
     bit tx_flow  = 1'b0
     );
@@ -110,7 +113,7 @@ class wb_s_basic_tx_seq extends wb_s_seq_base;
         //-----------------------------------------------------
         // Configure registers
         //-----------------------------------------------------
-        configure_tx_registers(.tx_bd_num(NUM_TX_BD),.txen(1),.fulld(0),.ipgt('h7F));
+        configure_tx_registers(.tx_bd_num(NUM_TX_BD),.txen(1),.fulld(1),.minfl(55),.maxfl(55));
 
 
         `uvm_info(get_type_name(),
@@ -131,7 +134,7 @@ task wb_s_basic_tx_seq::configure_tx_registers(
     bit [7:0]  ipgr1 = 8'h0C,
     bit [7:0]  ipgr2 = 8'h12,
     bit [15:0] minfl = 16'h0040,
-    bit [15:0] maxfl = 16'h05EE,
+    bit [15:0] maxfl = 16'h0600,
     bit [7:0]  tx_bd_num = 8'h00,
     bit [15:0] mac_addr1 = 16'h0000,
     bit [31:0] mac_addr0 = 32'h00000000,
@@ -145,12 +148,21 @@ task wb_s_basic_tx_seq::configure_tx_registers(
     bit hugen = 1'b0,
     bit nobckof = 1'b0,
     bit exdf = 1'b0,
+    bit txb_m =1'b0,
+    bit txc_m =1'b0,
+    bit txe_m =1'b0,
     bit pause_req = 1'b0,
     bit tx_flow  = 1'b0
     );
     uvm_status_e status;
 
     `uvm_info("TX_CONFIG", "Configuring TX registers", UVM_MEDIUM)
+
+    // ── INT_MASK Register ────────────────────────────────────
+    regmodel.INT_MASK.TXB_M.set(txb_m);
+    regmodel.INT_MASK.TXC_M.set(txc_m);
+    regmodel.INT_MASK.TXE_M.set(txe_m);
+    regmodel.INT_MASK.update(status);
 
     // ── IPGT Register ────────────────────────────────────
     regmodel.IPGT.write(status, ipgt);
@@ -203,8 +215,8 @@ task wb_s_basic_tx_seq::configure_tx_registers(
     regmodel.MODER.EXDFREN.set(exdf);
     regmodel.MODER.update(status);
     `uvm_info("TX_CONFIG", 
-        $sformatf("MODER: FULLD=%0d, TXEN=%0d, BDNUM = %0d, NOPRE=%0d, CRCEN=%0d, PAD=%0d, HUGEN=%0d, NOBCKOF=%0d, EXDF=%0d, IPGT = %0d, MAXFL = %0d, MINFL = %0d",
-                  fulld, txen, tx_bd_num, nopre, crcen, pad, hugen, nobckof,exdf,ipgt,maxfl,minfl),
+        $sformatf("MODER: FULLD=%0d, TXEN=%0d, BDNUM = %0d, NOPRE=%0d, CRCEN=%0d, DCRC=%0d, PAD=%0d, HUGEN=%0d, NOBCKOF=%0d, EXDF=%0d, IPGT = %0d, TXB_M = %0d, TXC_M = %0d, TXE_M = %0d, MAXFL = %0d, MINFL = %0d",
+                  fulld, txen, tx_bd_num, nopre, crcen, dcrc,pad, hugen, nobckof,exdf,ipgt,txb_m,txc_m,txe_m,maxfl,minfl),
         UVM_MEDIUM)
 
 endtask 
@@ -250,7 +262,7 @@ task wb_s_basic_tx_seq::configure_tx_bd(
     regmodel.eth_bd_mem.write(status, bd_addr+1, bd_pointer_word);
 
     `uvm_info("TX_CONFIG", 
-        $sformatf(" Configuring TX BD[%0d] - LEN=0x%04h, PTR=0x%08h, IRQ=%0d, WR=%0d, PAD=%0d, CRC=%0d", 
+        $sformatf(" Configuring TX BD[%0d] - LEN=%0d, PTR=0x%08h, IRQ=%0d, WR=%0d, PAD=%0d, CRC=%0d", 
                   bd_index, frame_length, frame_ptr, enable_irq, is_wrap, enable_pad, enable_crc), 
         UVM_MEDIUM)
 

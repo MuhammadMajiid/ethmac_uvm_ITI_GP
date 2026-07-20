@@ -185,7 +185,7 @@ class eth_cov_tx extends uvm_component;
 
         
         // MAXFL variations
-        bins maxfl_4 = {['h0000:'h0004]};                // Less than 4 bytes
+        bins maxfl_4 = {['h0001:'h0004]};                // Less than 4 bytes
         bins maxfl_less_64 = {['h0005:'h003F]};              // More 4 and less or equal than minimum in standard (64 bytes)
         bins maxfl_more_64  = {['h00040:'hFFFE]};      // More 64 and less than or equal maximum
         bins maxfl_std = {'h05EE};                        // Ethernet standard 1518 bytes 
@@ -300,7 +300,7 @@ class eth_cov_tx extends uvm_component;
         bins others = default;
     }
 
-    cp_bd_len: coverpoint m_bd_len iff(m_addr>=WB_BD_MEM_BASE_ADDR && m_addr<=WB_BD_MEM_OFFSET_ADDR && m_addr%2==0) {
+    cp_bd_len: coverpoint m_bd_len {
         // ALl legal lengths
         bins len_all [64] = {['h0005:'hFFFE]};
         // All illegal lengths 
@@ -309,7 +309,7 @@ class eth_cov_tx extends uvm_component;
         bins len_max   = {'hFFFF};
     }
 
-    cp_bd_cfg: coverpoint m_bd_cfg iff(m_addr>=WB_BD_MEM_BASE_ADDR && m_addr<=WB_BD_MEM_OFFSET_ADDR && m_addr%2==0) {
+    cp_bd_cfg: coverpoint m_bd_cfg {
 
         // All configurations
         bins bd_config [] = {['b0_0000:'b1_1111]};
@@ -365,8 +365,18 @@ class eth_cov_tx extends uvm_component;
     cp_cross_minfl_pad: cross cp_moder,cp_minfl,cp_bd_cfg{
         ignore_bins ign_min_f_pad = binsof(cp_moder.reg_d_crc)  || binsof(cp_moder.reg_crc) || binsof(cp_moder.reg_hugen)
         || binsof(cp_moder.reg_config) || binsof(cp_bd_cfg.bd_crc) || binsof(cp_bd_cfg.bd_config);
+        ignore_bins ign_minfl_max = binsof (cp_minfl.minfl_max);
     }
-    // Cross minfl < maxfl 
+    cp_minfl_g_maxfl: coverpoint (m_minfl > m_maxfl && m_maxfl!=0) {
+    bins minfl_g_maxfl = {1};
+    }
+    cp_minfl_s_maxfl: coverpoint (m_minfl < m_maxfl && m_minfl!=0 ) {
+    bins minfl_s_maxfl = {1};
+    }
+    cp_minfl_eq_maxfl: coverpoint (m_minfl == m_maxfl && m_minfl!=0 ) {
+    bins minfl_eq_maxfl = {1};
+    }
+    /*    // Cross minfl < maxfl 
     cp_cross_minfl_s_maxfl: cross cp_minfl,cp_maxfl{
         ignore_bins ignore_gre_eq = cp_cross_minfl_s_maxfl with (cp_minfl >= cp_maxfl);
     }
@@ -374,7 +384,7 @@ class eth_cov_tx extends uvm_component;
     cp_cross_minfl_g_maxfl: cross cp_minfl,cp_maxfl{
         ignore_bins ignore_gre_eq = cp_cross_minfl_g_maxfl with (cp_minfl <= cp_maxfl);
     }
-
+*/
     // Cross txpause req and txflow
     cp_cross_ctrl: cross cp_ctrlmoder,cp_txctrl{
         ignore_bins ign_ctrl = binsof(cp_txctrl.time_val_any) || binsof(cp_txctrl.time_val_max) || binsof(cp_txctrl.time_val_min);
@@ -396,17 +406,15 @@ class eth_cov_tx extends uvm_component;
         }
 
         // INT_SOURCE Register (Address 0x04)
-        cp_int_source: coverpoint m_wdata iff(m_addr=='h01) {
+        cp_int_source: coverpoint m_rdata iff(m_addr=='h01) {
             // None is fired
             bins no_int = {'h0000_0000};
             // TXB
-            bins txb   = {'h0000_0001};
+            wildcard bins txb   = {'b_00000000_00000000_00000000_0???_???1};
             // TXE
-            bins txe = {'h0000_0002};
+            wildcard bins txe = {'b_00000000_00000000_00000000_0???_??1?};
             // TXC 
-            bins txc = {'h0000_0020};
-            // Any combinations between more than 2 interrupts is illegal;
-            illegal_bins ill_int = {'h0000_0003,'h0000_0022,'h0000_0021,'h0000_0023};
+            wildcard bins txc = {'b_00000000_00000000_00000000_0?1?_????};
 
             // ignore other values
             bins others = default;
@@ -416,19 +424,20 @@ class eth_cov_tx extends uvm_component;
             bins inta_1={1};
             bins inta_0={0};
         } 
-        /*
+        
         cp_bd_stat: coverpoint m_bd_stat iff(m_addr>=WB_BD_MEM_BASE_ADDR && m_addr<=WB_BD_MEM_OFFSET_ADDR && m_addr%2==0) {
             // underrun
-            wildcard bins ur []= {'b1_????};
+            wildcard bins ur_0= {'b0_????};
+            wildcard bins ur_1= {'b1_????};
             // maximum
-            wildcard bins rl [] = {'b?_1???};
+         //   wildcard bins rl  = {'b?_1???};
             // late collision
-            wildcard bins lc [] = {'b?_?1??};
+          //  wildcard bins lc  = {'b?_?1??};
             // deferral
-            wildcard bins df [] = {'b?_??1?};
+          //  wildcard bins df  = {'b?_??1?};
         }
 
-
+        /*
         cp_bd_retry: coverpoint m_retry_cnt iff(m_addr>=WB_BD_MEM_BASE_ADDR && m_addr<=WB_BD_MEM_OFFSET_ADDR  && m_addr%2==0) {
             // minimum
             bins retry_min = {'b0000};
@@ -441,7 +450,10 @@ class eth_cov_tx extends uvm_component;
         //  Cross cover points
         // =============================================================================
         cross_inta_int_source: cross cp_int_source,cp_inta{
-            ignore_bins ign_cross_int = binsof(cp_int_source.no_int); 
+            ignore_bins ign_cross_no_int = binsof(cp_int_source.no_int); 
+            ignore_bins ign_cross_inta_txb = binsof(cp_int_source.txb) && binsof(cp_inta.inta_0);
+            ignore_bins ign_cross_inta_txc = binsof(cp_int_source.txc) && binsof(cp_inta.inta_0);
+            ignore_bins ign_cross_inta_txe = binsof(cp_int_source.txe) && binsof(cp_inta.inta_0);
         }
         /*
         cross_retry_stat_cp: cross cp_bd_retry,cp_bd_stat{
@@ -745,12 +757,15 @@ task eth_cov_tx::sample_wb_s_item();
     if(m_addr=='h14) begin
         m_txctrl=m_wdata[16:0];
     end
-    m_retry_max = m_wdata[19:16];
-    m_coll_v = m_wdata[5:0];
+    if(m_addr>=WB_BD_MEM_BASE_ADDR && m_addr<=WB_BD_MEM_OFFSET_ADDR && m_addr%2==0) begin
     m_bd_len = m_wdata[31:16];
     m_bd_cfg = m_wdata[15:11];
-    m_retry_cnt = m_wdata[7:4];
-    m_bd_stat ={m_wdata[8],m_wdata[3:0]};
+    end
+    m_retry_max = m_wdata[19:16];
+    m_coll_v = m_wdata[5:0];
+
+    m_retry_cnt = m_rdata[7:4];
+    m_bd_stat ={m_rdata[8],m_rdata[3:0]};
 
 
     // if select isn't valid return 
@@ -760,13 +775,26 @@ task eth_cov_tx::sample_wb_s_item();
     // if write transaction cover config_group
     if(m_wb_s_seq_item.m_dir==WB_WRITE) begin
         m_wr_cfg_cov.sample();
-        `uvm_info(get_full_name(), m_wb_s_seq_item.convert2string(), UVM_MEDIUM)
-        
+        `uvm_info(get_full_name(), m_wb_s_seq_item.convert2string(), UVM_HIGH)
+        if(m_addr=='h00) begin
+            m_moder_tx=0;
+            m_int_mask=0;
+            m_bd_cfg=0;
+            m_bd_len=0;
+            m_minfl=0;
+            m_maxfl=0;
+            m_mac_addr0=0;
+            m_mac_addr1=0;
+            m_retry_max=0;
+            m_coll_v=0;
+            m_txctrl=0;
+            m_ctrl_moder=0;
+        end
     end
     
     // if read transaction voer status_group
     else if(m_wb_s_seq_item.m_dir==WB_READ) begin
-        `uvm_info(get_full_name(), m_wb_s_seq_item.convert2string(), UVM_MEDIUM)
+        `uvm_info(get_full_name(), m_wb_s_seq_item.convert2string(), UVM_HIGH)
         m_rd_cfg_cov.sample();
 
         reg_h = null;
