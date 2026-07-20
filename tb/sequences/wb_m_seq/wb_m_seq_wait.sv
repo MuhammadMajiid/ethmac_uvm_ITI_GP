@@ -41,8 +41,8 @@ class wb_m_seq_wait extends wb_m_seq_base;
                 begin
                     // Randomize number of wait cycles
                     assert (m_tr_item.randomize with{
-                        //m_tr_item.wait_cycles inside {[4:8]};
-                        m_tr_item.wait_cycles==400;
+                        m_tr_item.wait_cycles inside {[250:400]};
+                        //m_tr_item.wait_cycles==400;
                         // Data, Error & Ack are always 0 in wait cycles
                         m_data_i==0;
                         m_err_i==0;                     

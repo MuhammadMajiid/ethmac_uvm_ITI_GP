@@ -27,7 +27,7 @@ class eth_v_seq_tx extends eth_v_seq_base;
         if (!$value$plusargs("seq_num=%0d", seq_num))
             seq_num = 1;
 
-        `uvm_info(get_name(), "Running %0d sequence", UVM_LOW)
+        `uvm_info(get_name(), $sformatf("Running %0d sequence",seq_num), UVM_LOW)
         
         // Run wishbone slave sequence
         for (int i=0; i<seq_num; i++) begin
