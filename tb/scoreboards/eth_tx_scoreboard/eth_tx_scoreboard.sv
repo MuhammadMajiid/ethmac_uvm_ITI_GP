@@ -63,6 +63,7 @@ class eth_tx_scoreboard extends uvm_scoreboard;
     // Structs
     // ========================================================================= 
     eth_tx_expected_s m_tx_expected_s;
+    eth_tx_expected_s m_tx_expected_cop_s;
     eth_tx_bd_cfg_s   m_tx_bd_cfg_s;
     eth_tx_bd_cfg_s   m_tx_bd_cfg_cop_s;    // copy for interrupt
     eth_tx_pending_s  m_tx_pending_s;
@@ -432,22 +433,30 @@ task eth_tx_scoreboard::run_phase(uvm_phase phase);
             #0.1 comparator();
             begin
                 wait(m_ev_txen.triggered);
-                #1;
+                #2;
+                if(m_tx_bd_cfg_s.tx_pause_req && m_tx_bd_cfg_s.tx_flow) begin
+                   m_tx_pending_s.flag_rd=1;
+                   #0.1;
+                   m_tx_pending_s.flag_rd=0;
+                    wait(m_ev_end_pkt.triggered);
+                    `uvm_info(get_name(), "CTRL FRAME", UVM_NONE)
+                    m_tx_pending_s.flag_rd=0;
+                    disable fork_run_phase;
+                end    
                 if(m_tx_bd_cfg_s.tx_bd_num==0)
                 disable fork_run_phase;
             end    
             begin  
                 wait(m_ev_end_pkt.triggered);
                 #0.2;
-                if(!m_tx_bd_cfg_s.tx_pause_req || !m_tx_bd_cfg_s.tx_flow) begin
-                    repeat(m_tx_bd_cfg_s.tx_bd_num-1) begin
-                    wait(m_ev_end_pkt.triggered);
-                    #0.2;
-                end    
+                repeat(m_tx_bd_cfg_s.tx_bd_num-1) begin
+                wait(m_ev_end_pkt.triggered);
+                #0.2;  
+                end
             disable fork_run_phase;
             end
-            end    
         join   
+        #0.1;
     end 
 endtask
 
@@ -531,9 +540,8 @@ task eth_tx_scoreboard::comparator();
     comp_pack_pkt();
     comp_check_ipgt();
     begin
-        if(!m_tx_bd_cfg_s.tx_pause_req || !m_tx_bd_cfg_s.tx_flow)
-        @(m_tx_pending_s.flag_rd);
-        fork 
+            @(m_tx_pending_s.flag_rd);
+       fork 
         begin
             @(!m_tx_pending_s.flag_rd);
             @(m_ev_start_comp);
@@ -545,6 +553,7 @@ task eth_tx_scoreboard::comparator();
         join_any;
         // copy config struct for interrupt
         m_tx_bd_cfg_cop_s=m_tx_bd_cfg_s; 
+        m_tx_expected_cop_s=m_tx_expected_s;
         comp_compare_pkt();
         comp_check_txerr();
         comp_check_bd_status();
@@ -552,8 +561,8 @@ task eth_tx_scoreboard::comparator();
         -> m_ev_end_pkt;
         disable fork_comp;
     end    
-    join 
-    #0.1;    
+    join
+    #0.1;
 end 
 endtask
 
@@ -758,23 +767,23 @@ endfunction
 
 function void eth_tx_scoreboard::pred_check_huge();
     longint total_len;
-    // if Huge enavle = 1 , send packet regardless of it's size
+    // if Huge enable = 1 , send packet regardless of it's size
     if(m_tx_bd_cfg_s.hugen)
         return;
 
-    total_len=(m_tx_bd_cfg_s.eff_crc)?m_tx_bd_cfg_s.len+ETH_CRC_LEN:m_tx_bd_cfg_s.len;
-    
-    if(!(total_len> m_tx_bd_cfg_s.maxfl && total_len<m_tx_bd_cfg_s.minfl))
+    // This is special condition when minfl > maxfl and padding occurs
+    if(m_tx_bd_cfg_s.len<= m_tx_bd_cfg_s.maxfl && m_tx_bd_cfg_s.len<m_tx_bd_cfg_s.minfl && 
+       m_tx_bd_cfg_s.maxfl<m_tx_bd_cfg_s.minfl)
     return;   
     
     // if packet length is smaller than maximum packet size, send packet
-    if (total_len <= m_tx_bd_cfg_s.maxfl)
+    if (m_tx_expected_s.exp_pkt.size() <= m_tx_bd_cfg_s.maxfl)
         return;
 
     // if packet length is greater than maximum packet size, discard additional bytes
     else begin
         // number of discarded bytes 
-        int discarded_bytes=total_len - m_tx_bd_cfg_s.maxfl;
+        int discarded_bytes=m_tx_expected_s.exp_pkt.size() - m_tx_bd_cfg_s.maxfl;
         
         // pop number of discarded bytes from back of queue
         repeat(discarded_bytes)
@@ -1595,36 +1604,39 @@ task eth_tx_scoreboard::comp_check_interrupt();
         uvm_status_e   status;
         uvm_reg_data_t txe,txc,txb;        
        forever begin
-            #0.1;
-            wait(m_ev_end_pkt.triggered);
-            # WB_CLK_PERIOD_NS;
-
-            // Return if interrupt request is disabled in buffer dwscriptor
-            if(!m_tx_bd_cfg_cop_s.irq)
-                continue;
-
-            // Check TXE interrupt, triggered if Tx error is asserted
-            if (m_tx_bd_cfg_cop_s.txe_m && (m_tx_expected_s.exp_ur || m_tx_expected_s.exp_lc || m_tx_expected_s.exp_rl || m_tx_expected_s.exp_cs)) begin
-                // Put 1 in mirrored value
-                m_regmodel.INT_SOURCE.TXE.predict(1);
-
-                // Mirror to check DUT value = mirror value
-                m_regmodel.INT_SOURCE.TXE.mirror(status, UVM_CHECK, UVM_BACKDOOR);  
-
-            end    
+            @(m_ev_end_pkt);
+            `uvm_info(get_name(),$sformatf("txc_m = %0b, pause req = %0b, tx flow =%0b",m_tx_bd_cfg_cop_s.txc_m,m_tx_bd_cfg_cop_s.tx_pause_req,m_tx_bd_cfg_cop_s.tx_flow)
+            , UVM_HIGH) 
             // Check TXC interrupt & a ctrl frame is sent
-            else if (m_tx_bd_cfg_cop_s.txc_m && m_tx_bd_cfg_cop_s.tx_pause_req && m_tx_bd_cfg_cop_s.tx_flow) begin
+            if (m_tx_bd_cfg_cop_s.txc_m && m_tx_bd_cfg_cop_s.tx_pause_req && m_tx_bd_cfg_cop_s.tx_flow) begin
                 // Put 1 in mirrored value
                 m_regmodel.INT_SOURCE.TXC.predict(1);
-            `uvm_info(get_name(), "INT CHECK", UVM_NONE)
+                `uvm_info(get_name(),"CONTROL INTERRUPT", UVM_HIGH)
                 // Mirror to check DUT value = mirror value
                 m_regmodel.INT_SOURCE.TXC.mirror(status, UVM_CHECK, UVM_BACKDOOR);  
                         
             end   
+
+            // Return if interrupt request is disabled in buffer dwscriptor
+            if(!m_tx_bd_cfg_cop_s.irq)
+                continue;
+ 
+            // Check TXE interrupt, triggered if Tx error is asserted
+            if (m_tx_bd_cfg_cop_s.txe_m && (m_tx_expected_cop_s.exp_ur || m_tx_expected_cop_s.exp_lc || m_tx_expected_cop_s.exp_rl || m_tx_expected_cop_s.exp_cs)) begin
+                # WB_CLK_PERIOD_NS;
+                // Put 1 in mirrored value
+                m_regmodel.INT_SOURCE.TXE.predict(1);
+                `uvm_info(get_name(),"UNDERRUN INTERRUPT", UVM_HIGH)
+                // Mirror to check DUT value = mirror value
+                m_regmodel.INT_SOURCE.TXE.mirror(status, UVM_CHECK, UVM_BACKDOOR);  
+
+            end  
+
             // Else packet is transmitted successfully
             else if (m_tx_bd_cfg_cop_s.txb_m) begin
                 // Put 1 in mirrored value
                 m_regmodel.INT_SOURCE.TXB.predict(1);
+                                `uvm_info(get_name(),"DATA INTERRUPT", UVM_HIGH)
                 // Mirror to check DUT value = mirror value
                 m_regmodel.INT_SOURCE.TXB.mirror(status, UVM_CHECK, UVM_BACKDOOR);     
             end 

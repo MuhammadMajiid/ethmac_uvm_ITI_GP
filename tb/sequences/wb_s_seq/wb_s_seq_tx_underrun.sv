@@ -60,7 +60,9 @@ class wb_s_seq_tx_underrun extends wb_s_basic_tx_seq;
     // Read interrupt and underrun for coverage
     for(int i=0; i<m_item.tx_bd_num; i++) begin
         @(m_ev_end_pkt);
-        # WB_CLK_PERIOD_NS;
+        # (2*WB_CLK_PERIOD_NS);
+        `uvm_info(get_name(), "Reading underrun", UVM_NONE)
+        
         // Read interuupt
         regmodel.INT_SOURCE.read(status,rd_data, UVM_FRONTDOOR);
         // if TXE is asserted  read underrun bit in bd
@@ -69,7 +71,7 @@ class wb_s_seq_tx_underrun extends wb_s_basic_tx_seq;
         `uvm_info(get_name(),$sformatf("Underrun bit = %0b",rd_data[8]), UVM_NONE)
         end
         // Clear interrupt source register
-        regmodel.INT_SOURCE.TXE.write(status,7'b111_1111, UVM_FRONTDOOR);
+        regmodel.INT_SOURCE.write(status,7'b111_1111, UVM_FRONTDOOR);
     end 
 
     endtask

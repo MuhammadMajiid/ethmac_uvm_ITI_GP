@@ -1,28 +1,11 @@
-# vsim -c -voptargs="+acc" work.eth_tb -coverage -classdebug -sv_seed 105206193 -uvmcontrol=all "+uvm_set_verbosity=uvm_test_top.m_env.*,_ALL_,UVM_MEDIUM,time,0" "+seq_num=2" "+UVM_TESTNAME=eth_test_tx_underrun" -onfinish stop -do "
+# vsim -c -voptargs="+acc" work.eth_tb -coverage -classdebug -sv_seed 1512752641 -uvmcontrol=all "+uvm_set_verbosity=uvm_test_top.m_env.*,_ALL_,UVM_MEDIUM,time,0" "+seq_num=2" "+UVM_TESTNAME=eth_test_tx_underrun" -onfinish stop -do "
 #     run -all; 
 #     coverage save $CODE_UCDB -codeAll -instance eth_tb.dut
 #     coverage save $FUNC_UCDB -cvg -directive -assert
 #     transcript file ""
 #     " 
-# Start time: 23:27:59 on Jul 19,2026
-# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
-# ** Warning: (vopt-13408) Code coverage will be disabled for some DUs/packages/classes and source files.
-# ** Warning: repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1599): (vopt-2240) Treating stand-alone use of function 'predict' as an implicit VOID cast.
-# ** Warning: repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1608): (vopt-2240) Treating stand-alone use of function 'predict' as an implicit VOID cast.
-# ** Warning: repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1617): (vopt-2240) Treating stand-alone use of function 'predict' as an implicit VOID cast.
-# ** Warning: repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(605): (vopt-2240) Treating stand-alone use of function 'pop_front' as an implicit VOID cast.
-# ** Warning: repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(771): (vopt-2240) Treating stand-alone use of function 'pop_back' as an implicit VOID cast.
-# ** Warning: repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1680): (vopt-2240) Treating stand-alone use of function 'predict' as an implicit VOID cast.
-# ** Warning: repo/tb/top/eth_tb.sv(68): (vopt-2685) [TFMPC] - Too few port connections for 'dut'.  Expected 35, found 27.
-# ** Warning: repo/tb/top/eth_tb.sv(68): (vopt-2718) [TFMPC] - Missing connection for port 'md_padoe_o'.
-# ** Warning: repo/tb/top/eth_tb.sv(68): (vopt-2718) [TFMPC] - Missing connection for port 'md_pad_o'.
-# ** Warning: repo/tb/top/eth_tb.sv(68): (vopt-2718) [TFMPC] - Missing connection for port 'md_pad_i'.
-# ** Warning: repo/tb/top/eth_tb.sv(68): (vopt-2718) [TFMPC] - Missing connection for port 'mdc_pad_o'.
-# ** Warning: repo/tb/top/eth_tb.sv(68): (vopt-2718) [TFMPC] - Missing connection for port 'mrxerr_pad_i'.
-# ** Warning: repo/tb/top/eth_tb.sv(68): (vopt-2718) [TFMPC] - Missing connection for port 'mrxdv_pad_i'.
-# ** Warning: repo/tb/top/eth_tb.sv(68): (vopt-2718) [TFMPC] - Missing connection for port 'mrxd_pad_i'.
-# ** Warning: repo/tb/top/eth_tb.sv(68): (vopt-2718) [TFMPC] - Missing connection for port 'mrx_clk_pad_i'.
-# ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=0, Warnings=16.
+# Start time: 21:00:49 on Jul 20,2026
+# ** Note: (vsim-8009) Loading existing optimized design _opt
 # //  Questa Sim-64
 # //  Version 2021.1 win64 Jan 19 2021
 # //
@@ -515,133 +498,15 @@
 # UVM_INFO repo/tb/agents/wb_m/wb_m_monitor_base.sv(101) @ 22500: uvm_test_top.m_env.m_wb_m_agent.m_monitor [wb_m_monitor_base] Begin monitoring after reset deassertion
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(58) @ 22500: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [mii_tx_monitor_base] Begin monitoring after reset deassertion
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_driver_base.sv(56) @ 60000: uvm_test_top.m_env.m_mii_tx_agent.m_driver [DRIVER] Reset deasserted — starting stimulus
-# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(264) @ 92500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[0] - LEN=79, PTR=0x0facaa20, IRQ=1, WR=0, PAD=0, CRC=1
-# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(264) @ 172500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[1] - LEN=70, PTR=0x71c18758, IRQ=1, WR=1, PAD=1, CRC=1
-# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(159) @ 172500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG] Configuring TX registers
-# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(217) @ 327500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG] MODER: FULLD=1, TXEN=1, BDNUM = 2, NOPRE=0, CRCEN=1, DCRC=0, PAD=1, HUGEN=0, NOBCKOF=0, EXDF=0, IPGT = 18, TXB_M = 0, TXC_M = 0, TXE_M = 1, MAXFL = 1536, MINFL = 64
-# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_seq_tx_underrun.sv(56) @ 327500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [wb_s_seq_tx_underrun] TX underrun configuration completed
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(853) @ 327500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TXEN asserted
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(503) @ 327500: uvm_test_top.m_env.m_tx_sb [m_tx_sb] reading bd config
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1217) @ 327500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[0] LEN=79 RD=1 IRQ=1 WR=0 PAD=1 CRC=1 PTR=0x0facaa20
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1312) @ 25060000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(934) @ 32303500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[0] completed
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(938) @ 32303500: uvm_test_top.m_env.m_tx_sb [m_tx_sb] current index = 0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(950) @ 32303500: uvm_test_top.m_env.m_tx_sb [m_tx_sb] next index = 1
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1386) @ 32340000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 91 bytes from MII
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1560) @ 32340000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison PASSED (91 bytes)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(503) @ 32341000: uvm_test_top.m_env.m_tx_sb [m_tx_sb] reading bd config
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1217) @ 32341000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[1] LEN=70 RD=1 IRQ=1 WR=1 PAD=1 CRC=1 PTR=0x71c18758
-# UVM_INFO repo/tb/agents/wb_s/wb_s_driver_base.sv(127) @ 32352500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000001 ADDR=00000001
-# UVM_WARNING verilog_src/uvm-1.1d/src/reg/uvm_reg_field.svh(1473) @ 32362500: reporter [RegModel] uvm_reg_field::write(): Value greater than field 'm_regmodel.INT_SOURCE.TXE'
-# UVM_WARNING verilog_src/uvm-1.1d/src/reg/uvm_reg_field.svh(1714) @ 32362500: reporter [RegModel] Individual field access not available for field 'm_regmodel.INT_SOURCE.TXE'. Accessing complete register instead.
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1312) @ 57940000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1781) @ 57940000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 640 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1818) @ 57940000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (24 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(934) @ 64463500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[1] completed
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(938) @ 64463500: uvm_test_top.m_env.m_tx_sb [m_tx_sb] current index = 1
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(945) @ 64463500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] WRAPP
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1386) @ 64500000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 82 bytes from MII
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1560) @ 64500000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison PASSED (82 bytes)
-# UVM_INFO repo/tb/agents/wb_s/wb_s_driver_base.sv(127) @ 64512500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000001 ADDR=00000001
-# UVM_WARNING verilog_src/uvm-1.1d/src/reg/uvm_reg_field.svh(1473) @ 64522500: reporter [RegModel] uvm_reg_field::write(): Value greater than field 'm_regmodel.INT_SOURCE.TXE'
-# UVM_WARNING verilog_src/uvm-1.1d/src/reg/uvm_reg_field.svh(1714) @ 64522500: reporter [RegModel] Individual field access not available for field 'm_regmodel.INT_SOURCE.TXE'. Accessing complete register instead.
-# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 64572500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 1
-# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(264) @ 64642500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[0] - LEN=73, PTR=0x0b26c2bc, IRQ=1, WR=0, PAD=0, CRC=0
-# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(264) @ 64722500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[1] - LEN=71, PTR=0x1657a668, IRQ=1, WR=0, PAD=0, CRC=1
-# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(264) @ 64802500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[2] - LEN=74, PTR=0x3f44096c, IRQ=1, WR=0, PAD=0, CRC=0
-# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(264) @ 64882500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[3] - LEN=86, PTR=0xae98f6c4, IRQ=1, WR=1, PAD=1, CRC=0
-# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(159) @ 64882500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG] Configuring TX registers
-# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(217) @ 65037500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG] MODER: FULLD=1, TXEN=1, BDNUM = 4, NOPRE=0, CRCEN=1, DCRC=0, PAD=0, HUGEN=0, NOBCKOF=0, EXDF=0, IPGT = 18, TXB_M = 0, TXC_M = 0, TXE_M = 1, MAXFL = 1536, MINFL = 64
-# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_seq_tx_underrun.sv(56) @ 65037500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [wb_s_seq_tx_underrun] TX underrun configuration completed
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(853) @ 65037500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TXEN asserted
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(503) @ 65037500: uvm_test_top.m_env.m_tx_sb [m_tx_sb] reading bd config
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1217) @ 65037500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[0] LEN=73 RD=1 IRQ=1 WR=0 PAD=0 CRC=1 PTR=0x0b26c2bc
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1312) @ 89820000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(934) @ 96573500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[0] completed
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(938) @ 96573500: uvm_test_top.m_env.m_tx_sb [m_tx_sb] current index = 0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(950) @ 96573500: uvm_test_top.m_env.m_tx_sb [m_tx_sb] next index = 1
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1386) @ 96620000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 85 bytes from MII
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1560) @ 96620000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison PASSED (85 bytes)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(503) @ 96621000: uvm_test_top.m_env.m_tx_sb [m_tx_sb] reading bd config
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1217) @ 96621000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[1] LEN=71 RD=1 IRQ=1 WR=0 PAD=0 CRC=1 PTR=0x1657a668
-# UVM_INFO repo/tb/agents/wb_s/wb_s_driver_base.sv(127) @ 96632500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000001 ADDR=00000001
-# UVM_WARNING verilog_src/uvm-1.1d/src/reg/uvm_reg_field.svh(1473) @ 96642500: reporter [RegModel] uvm_reg_field::write(): Value greater than field 'm_regmodel.INT_SOURCE.TXE'
-# UVM_WARNING verilog_src/uvm-1.1d/src/reg/uvm_reg_field.svh(1714) @ 96642500: reporter [RegModel] Individual field access not available for field 'm_regmodel.INT_SOURCE.TXE'. Accessing complete register instead.
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1312) @ 122580000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1781) @ 122580000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 649 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1818) @ 122580000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (24 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(934) @ 129173500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[1] completed
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(938) @ 129173500: uvm_test_top.m_env.m_tx_sb [m_tx_sb] current index = 1
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(950) @ 129173500: uvm_test_top.m_env.m_tx_sb [m_tx_sb] next index = 2
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1386) @ 129220000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 83 bytes from MII
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1560) @ 129220000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison PASSED (83 bytes)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(503) @ 129221000: uvm_test_top.m_env.m_tx_sb [m_tx_sb] reading bd config
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1217) @ 129221000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[2] LEN=74 RD=1 IRQ=1 WR=0 PAD=0 CRC=1 PTR=0x3f44096c
-# UVM_INFO repo/tb/agents/wb_s/wb_s_driver_base.sv(127) @ 129232500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000001 ADDR=00000001
-# UVM_WARNING verilog_src/uvm-1.1d/src/reg/uvm_reg_field.svh(1473) @ 129242500: reporter [RegModel] uvm_reg_field::write(): Value greater than field 'm_regmodel.INT_SOURCE.TXE'
-# UVM_WARNING verilog_src/uvm-1.1d/src/reg/uvm_reg_field.svh(1714) @ 129242500: reporter [RegModel] Individual field access not available for field 'm_regmodel.INT_SOURCE.TXE'. Accessing complete register instead.
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1312) @ 153260000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1781) @ 153260000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 601 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1818) @ 153260000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (24 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(934) @ 160093500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[2] completed
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(938) @ 160093500: uvm_test_top.m_env.m_tx_sb [m_tx_sb] current index = 2
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(950) @ 160093500: uvm_test_top.m_env.m_tx_sb [m_tx_sb] next index = 3
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1386) @ 160140000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 86 bytes from MII
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1560) @ 160140000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison PASSED (86 bytes)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(503) @ 160141000: uvm_test_top.m_env.m_tx_sb [m_tx_sb] reading bd config
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1217) @ 160141000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[3] LEN=86 RD=1 IRQ=1 WR=1 PAD=1 CRC=1 PTR=0xae98f6c4
-# UVM_INFO repo/tb/agents/wb_s/wb_s_driver_base.sv(127) @ 160152500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000001 ADDR=00000001
-# UVM_WARNING verilog_src/uvm-1.1d/src/reg/uvm_reg_field.svh(1473) @ 160162500: reporter [RegModel] uvm_reg_field::write(): Value greater than field 'm_regmodel.INT_SOURCE.TXE'
-# UVM_WARNING verilog_src/uvm-1.1d/src/reg/uvm_reg_field.svh(1714) @ 160162500: reporter [RegModel] Individual field access not available for field 'm_regmodel.INT_SOURCE.TXE'. Accessing complete register instead.
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1312) @ 186780000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1781) @ 186780000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 666 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1818) @ 186780000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (24 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1323) @ 193820000: uvm_test_top.m_env.m_tx_sb [m_tx_sb] MtxErr asserted
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1386) @ 194180000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 92 bytes from MII
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(934) @ 194473500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[3] completed
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(938) @ 194473500: uvm_test_top.m_env.m_tx_sb [m_tx_sb] current index = 3
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(945) @ 194473500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] WRAPP
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1407) @ 194473500: uvm_test_top.m_env.m_tx_sb [m_tx_sb] No packet comparison due to underrun
-# UVM_INFO repo/tb/agents/wb_s/wb_s_driver_base.sv(127) @ 194487500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000003 ADDR=00000001
-# UVM_INFO repo/tb/agents/wb_s/wb_s_driver_base.sv(127) @ 194527500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00567100 ADDR=00000106
-# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_seq_tx_underrun.sv(69) @ 194537500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [m_wb_s_seq_base] Underrun bit = 1
-# UVM_WARNING verilog_src/uvm-1.1d/src/reg/uvm_reg_field.svh(1473) @ 194537500: reporter [RegModel] uvm_reg_field::write(): Value greater than field 'm_regmodel.INT_SOURCE.TXE'
-# UVM_WARNING verilog_src/uvm-1.1d/src/reg/uvm_reg_field.svh(1714) @ 194537500: reporter [RegModel] Individual field access not available for field 'm_regmodel.INT_SOURCE.TXE'. Accessing complete register instead.
-# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(39) @ 194592500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [eth_v_seq_tx_active] virtual sequence completed
-# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx_active.sv(19) @ 194592500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [eth_v_seq_tx_active] virtual sequence completed
-# UVM_INFO verilog_src/uvm-1.1d/src/base/uvm_objection.svh(1267) @ 194592500: reporter [TEST_DONE] 'run' phase is ready to proceed to the 'extract' phase
-# UVM_INFO repo/tb/agents/wb_m/wb_m_driver_base.sv(108) @ 194592500: uvm_test_top.m_env.m_wb_m_agent.m_driver [wb_m_driver_base] Drived 38914 active transactions
-# UVM_INFO repo/tb/agents/wb_m/wb_m_monitor_base.sv(130) @ 194592500: uvm_test_top.m_env.m_wb_m_agent.m_monitor [wb_m_monitor_base] Monitored 38914 TRANSACTIONS
-# 
-# --- UVM Report Summary ---
-# 
-# ** Report counts by severity
-# UVM_INFO :   97
-# UVM_WARNING :   12
-# UVM_ERROR :    0
-# UVM_FATAL :    0
-# ** Report counts by id
-# [DRIVER]     1
-# [Questa UVM]     2
-# [RNTST]     1
-# [RegModel]    12
-# [TEST_DONE]     1
-# [TX_CONFIG]    10
-# [eth_test_tx_underrun]     2
-# [eth_tx_scoreboard]    41
-# [eth_v_seq_tx_active]     4
-# [m_tx_sb]    18
-# [m_v_seq_tx]     3
-# [m_wb_s_seq_base]     1
-# [mii_tx_monitor_base]     1
-# [wb_m_driver_base]     1
-# [wb_m_monitor_base]     2
-# [wb_s_driver_base]     7
-# [wb_s_seq_tx_underrun]     2
-# ** Note: $finish    : D:/B/qsim_2021_1/win64/../verilog_src/uvm-1.1d/src/base/uvm_root.svh(430)
-#    Time: 194592500 ps  Iteration: 66  Instance: /eth_tb
-# Break in Task uvm_pkg/uvm_root::run_test at D:/B/qsim_2021_1/win64/../verilog_src/uvm-1.1d/src/base/uvm_root.svh line 430
-# Stopped at D:/B/qsim_2021_1/win64/../verilog_src/uvm-1.1d/src/base/uvm_root.svh line 430
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(264) @ 92500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[0] - LEN=84, PTR=0x0359bf68, IRQ=1, WR=0, PAD=0, CRC=0
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(264) @ 172500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[1] - LEN=119, PTR=0x5f6e066c, IRQ=1, WR=0, PAD=1, CRC=1
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(264) @ 252500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[2] - LEN=99, PTR=0xc23cf85c, IRQ=1, WR=1, PAD=1, CRC=0
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(159) @ 252500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG] Configuring TX registers
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(217) @ 407500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG] MODER: FULLD=1, TXEN=1, BDNUM = 3, NOPRE=0, CRCEN=1, DCRC=0, PAD=0, HUGEN=0, NOBCKOF=0, EXDF=0, IPGT = 18, TXB_M = 0, TXC_M = 0, TXE_M = 1, MAXFL = 1536, MINFL = 64
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_seq_tx_underrun.sv(56) @ 407500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [wb_s_seq_tx_underrun] TX underrun configuration completed
+# Break key hit
+# Break at repo/tb/top/eth_tb.sv line 15
+# Stopped at repo/tb/top/eth_tb.sv line 15
 #  
 #     coverage save $CODE_UCDB -codeAll -instance eth_tb.dut
 #     coverage save $FUNC_UCDB -cvg -directive -assert

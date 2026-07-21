@@ -36,7 +36,7 @@ class wb_s_seq_tx_interrupts extends wb_s_basic_tx_seq;
 
   typedef enum bit {DATA_FRAME, CONTROL_FRAME} frame_type_e;
 
-  rand frame_type_e frame_type[NUM_TX_BD];
+  rand frame_type_e frame_type;
 
   rand bit txb_irq_en;
   rand bit txe_irq_en;
@@ -52,10 +52,9 @@ class wb_s_seq_tx_interrupts extends wb_s_basic_tx_seq;
 
   // Mostly data frames
   constraint c_frame_type {
-    foreach(frame_type[i])
-      frame_type[i] dist {
-        DATA_FRAME    := 80,
-        CONTROL_FRAME := 20
+      frame_type dist {
+        DATA_FRAME    := 60,
+        CONTROL_FRAME := 40
       };
   }
 
@@ -93,42 +92,42 @@ endtask
   uvm_status_e   status;
   uvm_reg_data_t int_source;
 
+    //-----------------------------------------------------
+    // Randomize irq
+    //-----------------------------------------------------
     if (!randomize())
         `uvm_fatal(get_type_name(),"Randomization failed")
 
-    //---------------------------------------------------------
-    // Random interrupt configuration
-    //---------------------------------------------------------
-    configure_random_int_mask();
+    //-----------------------------------------------------
+    // Randomize transaction
+    //-----------------------------------------------------
+    assert(m_item.randomize() with {
+    tx_bd_num inside{[1:3]};
+    foreach (pkt_len[i]){
+        pkt_len[i]<100;
+        pkt_len[i]>4;
+    }
+    })   
+    else begin
+    `uvm_fatal(get_name(), "Failed randomization")
+    end
 
 
-    //---------------------------------------------------------
-    // DMA addresses
-    //---------------------------------------------------------
-    tx_ptr[0] = 32'h0000_1000;
-    tx_ptr[1] = 32'h0000_2000;
-    tx_ptr[2] = 32'h0000_3000;
-    tx_ptr[3] = 32'h0000_4000;
-
-    //---------------------------------------------------------
-    // Write packet data
-    //---------------------------------------------------------
-    foreach(tx_ptr[i])
-      dma_mem_wr(tx_ptr[i], PKT_LEN, $urandom);
 
     //---------------------------------------------------------
     // Configure BDs
     //---------------------------------------------------------
-    for(int bd=0; bd<NUM_TX_BD; bd++) begin
+    for(int bd=0; bd<m_item.tx_bd_num; bd++) begin
+      dma_mem_wr(m_item.tx_pnt[bd],m_item.pkt_len[bd], $urandom);
 
       configure_tx_bd(
         .bd_index     (bd),
-        .frame_length (PKT_LEN),
-        .frame_ptr    (tx_ptr[bd]),
+        .frame_length (m_item.pkt_len[bd]),
+        .frame_ptr    (m_item.tx_pnt[bd]),
         .enable_irq   (enable_irq),
-        .is_wrap      (bd==NUM_TX_BD-1),
-        .enable_pad   (1),
-        .enable_crc   (1)
+        .is_wrap      (bd==m_item.tx_bd_num-1),
+        .enable_pad   (m_item.bd_pad[bd]),
+        .enable_crc   (m_item.bd_crc[bd])
       );
 
     end
@@ -137,37 +136,34 @@ endtask
     //---------------------------------------------------------
     // Print generated traffic
     //---------------------------------------------------------
-    foreach(frame_type[i]) begin
 
-      if(frame_type[i] == DATA_FRAME)
-        `uvm_info(get_type_name(),
-          $sformatf("BD[%0d] : DATA FRAME",i),UVM_LOW)
+      if(frame_type == DATA_FRAME)
+        `uvm_info(get_type_name(),"DATA FRAME",UVM_LOW)
 
       else
-        `uvm_info(get_type_name(),
-          $sformatf("BD[%0d] : CONTROL FRAME",i),UVM_LOW)
+        `uvm_info(get_type_name(),"CONTROL FRAME",UVM_LOW)
 
-    end
+
 
     //---------------------------------------------------------
     // Transmit frames
     //---------------------------------------------------------
-    foreach(frame_type[i]) begin
 
-      if(frame_type[i] == DATA_FRAME) begin
+      if(frame_type == DATA_FRAME) begin
 
         //-----------------------------------------------------
         // Normal Ethernet frame
         //-----------------------------------------------------
 
     configure_tx_registers(
-      .tx_bd_num(NUM_TX_BD),
-      .mac_addr0($urandom),
-      .mac_addr1($urandom),
+      .tx_bd_num(m_item.tx_bd_num),
+      .txb_m(m_item.mask_txb),
+      .txc_m(m_item.mask_txc),
+      .txe_m(m_item.mask_txe),
       .txen(1),
       .fulld(1),
-	  .pause_req(0),
-	  .tx_flow(0)
+	    .pause_req(0),
+	    .tx_flow(0)
 	  
     );
 
@@ -178,34 +174,34 @@ endtask
         // Pause control frame
         //-----------------------------------------------------
          configure_tx_registers(
-      .tx_bd_num(NUM_TX_BD),
+      .tx_bd_num(m_item.tx_bd_num),
+      .txb_m(m_item.mask_txb),
+      .txc_m(m_item.mask_txc),
+      .txe_m(m_item.mask_txe),
       .mac_addr0($urandom),
       .mac_addr1($urandom),
       .txen(1),
       .fulld(1),
-	  .pause_req(1),
-	  .tx_flow(1)
+	    .pause_req(1),
+	    .tx_flow(1)
 	  
     );
 
       end
 
       `uvm_info(get_type_name(),
-        $sformatf("Sending frame [%0d] as %s",
-                  i,
-                  (frame_type[i]==DATA_FRAME) ?
+        $sformatf("Sending frame as %s",
+                  (frame_type==DATA_FRAME) ?
                   "DATA" : "CONTROL"),
         UVM_MEDIUM)
 
-    
 
-    end
 	
 	
-	for (int i = 0; i < NUM_TX_BD; i++) begin
+	for (int i = 0; i < m_item.tx_bd_num; i++) begin
 
     @(m_ev_end_pkt);
-
+    #WB_CLK_PERIOD_NS;
     regmodel.INT_SOURCE.read(status, int_source, UVM_FRONTDOOR);
 
     `uvm_info(get_type_name(),
@@ -219,7 +215,8 @@ endtask
           int_source[5],
           int_source[6]),
         UVM_MEDIUM)
-
+    if(frame_type==CONTROL_FRAME)
+      break;
     end
 
   endtask

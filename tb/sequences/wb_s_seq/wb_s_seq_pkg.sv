@@ -7,6 +7,7 @@
 // Description:
 //   Package for including wisbone master sequences.
 //==============================================================================
+`timescale 1ns/1ps
 
 `ifndef WB_S_SEQ_PKG_SV
 `define WB_S_SEQ_PKG_SV

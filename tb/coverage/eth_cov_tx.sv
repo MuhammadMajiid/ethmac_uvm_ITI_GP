@@ -312,7 +312,7 @@ class eth_cov_tx extends uvm_component;
     cp_bd_cfg: coverpoint m_bd_cfg {
 
         // All configurations
-        bins bd_config [] = {['b0_0000:'b1_1111]};
+        bins bd_config [] = {['b1_0000:'b1_1111]};
         // padding
         wildcard bins bd_pad [2] = {5'b?_??0?,5'b?_??1?};
         // CRC

@@ -31,7 +31,7 @@ class wb_s_basic_tx_seq extends wb_s_seq_base;
     wb_s_seq_item_tx m_item;
 	
 	parameter int NUM_TX_BD = 1;
-    parameter int unsigned        PKT_LEN    = 56;
+    parameter int unsigned        PKT_LEN    = 78;
 	bit [31:0] tx_ptr[NUM_TX_BD];
 
     //---------------------------------------------------------
@@ -113,7 +113,7 @@ class wb_s_basic_tx_seq extends wb_s_seq_base;
         //-----------------------------------------------------
         // Configure registers
         //-----------------------------------------------------
-        configure_tx_registers(.tx_bd_num(NUM_TX_BD),.txen(1),.fulld(1),.minfl(55),.maxfl(55));
+        configure_tx_registers(.tx_bd_num(NUM_TX_BD),.txen(1),.fulld(1),.minfl(55),.maxfl(80));
 
 
         `uvm_info(get_type_name(),
