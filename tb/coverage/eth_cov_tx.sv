@@ -261,7 +261,8 @@ class eth_cov_tx extends uvm_component;
     // CTRLMODER Register (Address 0x44)
     cp_ctrlmoder: coverpoint m_ctrl_moder {
         // TXFLOW bit 
-        bins tx_flow [2] = {0,1};
+        bins tx_flow_0 = {0};
+        bins tx_flow_1= {1};
         
     }
  
@@ -287,15 +288,16 @@ class eth_cov_tx extends uvm_component;
     }
  
     // TXCTRL Register (Address 0x50)
-    cp_txctrl: coverpoint m_txctrl {
+    cp_txctrl: coverpoint m_wdata iff(m_addr=='h14) {
         // pause request bit (1 & 0)
-        wildcard bins tx_pause_req [2] = {'h0000_????,'h0001_????}; 
+        wildcard bins tx_pause_req_0 = {'h0000_????};
+        wildcard bins tx_pause_req_1 = {'h0001_????}; 
         // minimum timer value = 0
         bins time_val_min = {'h0001_0000}; 
         // maximum timer value = FFFF
         bins time_val_max = {'h0001_FFFF};      
         // any timer value betwee 0 and FFFF
-        bins time_val_any [64]= {['h0001_0001:'h0001_FFFE]};  
+        bins time_val_any [32]= {['h0001_0001:'h0001_FFFE]};  
         // ignore other values
         bins others = default;
     }
@@ -376,18 +378,27 @@ class eth_cov_tx extends uvm_component;
     cp_minfl_eq_maxfl: coverpoint (m_minfl == m_maxfl && m_minfl!=0 ) {
     bins minfl_eq_maxfl = {1};
     }
-    /*    // Cross minfl < maxfl 
-    cp_cross_minfl_s_maxfl: cross cp_minfl,cp_maxfl{
-        ignore_bins ignore_gre_eq = cp_cross_minfl_s_maxfl with (cp_minfl >= cp_maxfl);
-    }
-    // Cross minfl > maxfl 
-    cp_cross_minfl_g_maxfl: cross cp_minfl,cp_maxfl{
-        ignore_bins ignore_gre_eq = cp_cross_minfl_g_maxfl with (cp_minfl <= cp_maxfl);
-    }
-*/
+
     // Cross txpause req and txflow
     cp_cross_ctrl: cross cp_ctrlmoder,cp_txctrl{
         ignore_bins ign_ctrl = binsof(cp_txctrl.time_val_any) || binsof(cp_txctrl.time_val_max) || binsof(cp_txctrl.time_val_min);
+    }
+
+    // Cross timer txpause req and txflow
+    cp_cross_ctrl_timer: cross cp_ctrlmoder,cp_txctrl{
+        ignore_bins ign_0 = binsof(cp_txctrl.tx_pause_req_0) || binsof(cp_txctrl.tx_pause_req_1) || binsof(cp_ctrlmoder.tx_flow_0);
+    }
+
+    // Cross mac address 0, txpause req and txflow
+    cp_cross_ctrl_mac0: cross cp_ctrlmoder,cp_txctrl,cp_mac_addr0{
+        ignore_bins ign_0 = binsof(cp_txctrl.tx_pause_req_0) || binsof(cp_ctrlmoder.tx_flow_0) 
+        ||  binsof(cp_txctrl.time_val_any) || binsof(cp_txctrl.time_val_max) || binsof(cp_txctrl.time_val_min);
+    }
+
+    // Cross mac address 1, txpause req and txflow
+    cp_cross_ctrl_mac1: cross cp_ctrlmoder,cp_txctrl,cp_mac_addr1{
+        ignore_bins ign_0 = binsof(cp_txctrl.tx_pause_req_0) || binsof(cp_ctrlmoder.tx_flow_0)
+        ||  binsof(cp_txctrl.time_val_any) || binsof(cp_txctrl.time_val_max) || binsof(cp_txctrl.time_val_min);
     }
 
     endgroup
@@ -752,7 +763,7 @@ task eth_cov_tx::sample_wb_s_item();
         m_mac_addr0=m_wdata[31:0];
     end 
     if(m_addr=='h11) begin
-        m_mac_addr1=m_wdata[15:0];
+        m_mac_addr1=m_wdata[31:0];
     end    
     if(m_addr=='h14) begin
         m_txctrl=m_wdata[16:0];
