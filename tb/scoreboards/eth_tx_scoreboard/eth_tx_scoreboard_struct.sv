@@ -191,6 +191,7 @@ typedef struct {
 	int unsigned ipgr_cycles;
 	bit          ipgr_valid ;
 	bit          collision_seen;
+    bit          flag_pad;
     // actual frame captured by mii_monitor (populated on MII_TX_FRAME event)
     // INCLUDING any CRC trailer if CRC was appended
     bytes_q      actual_pkt;
