@@ -33,7 +33,9 @@ class eth_v_seq_tx extends eth_v_seq_base;
         for (int i=0; i<seq_num; i++) begin
             `uvm_info(get_name(), $sformatf("Running sequence number %0d",i), UVM_LOW)
             m_wb_s_seq_base.start(m_wb_s_sqr);
-            m_reset_seq.start(m_reset_sqr);
+               // Reset only if another iteration follows
+           if (i != seq_num-1)
+          m_reset_seq.start(m_reset_sqr);
         end  
         
         `uvm_info(get_type_name(), "virtual sequence completed", UVM_LOW)

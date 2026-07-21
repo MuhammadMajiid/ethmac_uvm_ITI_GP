@@ -79,7 +79,7 @@ class mii_tx_monitor_base extends uvm_monitor;
         // Send transaction to agent analysis port
         monitor_tr_a_port.write(m_seq_item);
 
-        `uvm_info("run phase", m_seq_item.convert2string(), UVM_HIGH);
+       // `uvm_info("run phase", m_seq_item.convert2string(), UVM_HIGH);
     endtask
 
 	

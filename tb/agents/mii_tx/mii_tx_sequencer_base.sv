@@ -16,6 +16,8 @@
 class mii_tx_sequencer_base extends uvm_sequencer #(mii_tx_seq_item_base);
 
     `uvm_component_utils(mii_tx_sequencer_base)
+	    virtual mii_tx_if vif;
+
 
     function new(string name = "mii_tx_sequencer_base", uvm_component parent = null);
         super.new(name, parent);

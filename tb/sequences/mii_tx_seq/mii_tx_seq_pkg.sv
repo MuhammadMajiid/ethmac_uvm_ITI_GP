@@ -20,9 +20,11 @@ package mii_tx_seq_pkg;
     import eth_glob_pkg::*;
     // Transaction object package
     import mii_tx_seq_item_pkg::*;
+	import mii_tx_agent_pkg::*;
 
     // Sequences
     `include "mii_tx_seq_base.sv"
+	`include "mii_tx_seq_collision.sv"
 
 endpackage : mii_tx_seq_pkg
 

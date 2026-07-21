@@ -508,7 +508,11 @@ task eth_tx_scoreboard::predictor();
         pred_track_underrun(); 
              begin
                 wait(m_ev_txen.triggered);
+			
                     pred_read_cfg_reg();
+					if(!m_tx_bd_cfg_s.full_duplex)begin
+				    pred_check_jam_retry();	
+					end
                 forever begin
                     if(!m_tx_bd_cfg_s.tx_pause_req || !m_tx_bd_cfg_s.tx_flow) begin
                         //wait(m_tx_pending_s.flag_rd);
@@ -1059,7 +1063,11 @@ task eth_tx_scoreboard::pred_read_cfg_reg();
     //------------------------------------------
     // MODER
     //------------------------------------------
+
+m_regmodel.MODER.mirror(status, UVM_CHECK, UVM_BACKDOOR);
+
     m_regmodel.MODER.mirror(status, UVM_CHECK, UVM_BACKDOOR);
+
 
     m_tx_bd_cfg_s.txen         = m_regmodel.MODER.TXEN.get_mirrored_value();
     m_tx_bd_cfg_s.pad_moder    = m_regmodel.MODER.PAD.get_mirrored_value();
@@ -1908,12 +1916,24 @@ task eth_tx_scoreboard::pred_check_jam_retry();
             //--------------------------------------------------
             m_sem_tx_seq_item.put(1);
             #1ns
+			
+			
+			//--------------------------------------------------
+            // Wait 3 MII outputs before checking JAM
+            //--------------------------------------------------
+             repeat (3) begin
+              m_sem_tx_seq_item.get(1);
+              m_sem_tx_seq_item.put(1);
+              #1ns;
+              end
 
             //--------------------------------------------------
             // Check JAM sequence
             // MColl is ignored here because PHY may deassert
             // it while JAM is still transmitted.
             //--------------------------------------------------
+			
+			
             jam_cnt = 0;
 
             while (jam_cnt < ETH_JAM_NIBBLES)
@@ -1993,15 +2013,21 @@ task eth_tx_scoreboard::pred_check_jam_retry();
             continue;
 
         end
+		
 
         //--------------------------------------------------
         // Successful transmission completed
         // Retry counter belongs to one frame only.
         //--------------------------------------------------
-        if (!m_tx_pending_s.flag_rd)
+      if (!m_tx_pending_s.flag_rd)
         begin
 
             retry_cnt = 0;
+			`uvm_info(get_type_name(),
+                $sformatf(
+                "retry counter reseted (%0d )",
+                retry_cnt),
+                UVM_MEDIUM)
 
         end
 

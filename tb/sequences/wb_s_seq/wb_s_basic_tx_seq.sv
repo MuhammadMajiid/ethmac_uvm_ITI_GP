@@ -1,4 +1,4 @@
-//==============================================================================
+//==============================================================================  
 // Project  : ethmac_uvm_ITI_GP
 // File     : wb_s_basic_tx_seq.sv
 // Author   : Nada
@@ -67,7 +67,10 @@ class wb_s_basic_tx_seq extends wb_s_seq_base;
     bit txc_m =1'b0,
     bit txe_m =1'b0,
     bit pause_req = 1'b0,
-    bit tx_flow  = 1'b0
+    bit tx_flow  = 1'b0,
+	bit [3:0] maxret    = 4'hF,
+    bit [5:0] collvalid = 6'h3F
+
     );
 
     extern task configure_tx_bd(
@@ -152,7 +155,9 @@ task wb_s_basic_tx_seq::configure_tx_registers(
     bit txc_m =1'b0,
     bit txe_m =1'b0,
     bit pause_req = 1'b0,
-    bit tx_flow  = 1'b0
+    bit tx_flow  = 1'b0,
+	bit [3:0] maxret    = 4'hF,
+    bit [5:0] collvalid = 6'h3F
     );
     uvm_status_e status;
 
@@ -214,11 +219,19 @@ task wb_s_basic_tx_seq::configure_tx_registers(
     regmodel.MODER.NOBCKOF.set(nobckof);
     regmodel.MODER.EXDFREN.set(exdf);
     regmodel.MODER.update(status);
-    `uvm_info("TX_CONFIG", 
-        $sformatf("MODER: FULLD=%0d, TXEN=%0d, BDNUM = %0d, NOPRE=%0d, CRCEN=%0d, DCRC=%0d, PAD=%0d, HUGEN=%0d, NOBCKOF=%0d, EXDF=%0d, IPGT = %0d, TXB_M = %0d, TXC_M = %0d, TXE_M = %0d, MAXFL = %0d, MINFL = %0d",
-                  fulld, txen, tx_bd_num, nopre, crcen, dcrc,pad, hugen, nobckof,exdf,ipgt,txb_m,txc_m,txe_m,maxfl,minfl),
-        UVM_MEDIUM)
+	
+	// ── COLLCONF Register ────────────────────────────────
+    regmodel.COLLCONF.MAXRET.set(maxret);
+    regmodel.COLLCONF.COLLVALID.set(collvalid);
+    regmodel.COLLCONF.update(status);
 
+    `uvm_info("TX_CONFIG",
+     $sformatf(
+              "MODER: FULLD=%0d, TXEN=%0d, BDNUM=%0d, NOPRE=%0d, CRCEN=%0d, DCRC=%0d, PAD=%0d, HUGEN=%0d, NOBCKOF=%0d, EXDF=%0d, IPGT=%0d, TXB_M=%0d, TXC_M=%0d, TXE_M=%0d, MAXFL=%0d, MINFL=%0d, MAXRET=%0d, COLLVALID=%0d",
+               fulld, txen, tx_bd_num, nopre, crcen, dcrc, pad, hugen,
+               nobckof, exdf, ipgt, txb_m, txc_m, txe_m,
+               maxfl, minfl, maxret, collvalid),
+               UVM_MEDIUM)
 endtask 
 
 function void wb_s_basic_tx_seq::dma_mem_wr(bit [31:0] tx_ptr,bit [15:0] len,bit [31:0] data);

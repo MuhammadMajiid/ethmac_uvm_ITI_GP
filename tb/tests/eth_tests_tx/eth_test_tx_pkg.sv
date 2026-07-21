@@ -42,7 +42,7 @@ package eth_test_tx_pkg;
   `include "eth_test_tx_interrupts.sv"
   `include "eth_test_tx_ctrl_flow.sv"
   `include "eth_test_tx_bd_num_rand.sv"
-
+  `include "eth_test_tx_coll.sv" 
 endpackage
 
 `endif // ETH_TEST_TX_PKG_SV
