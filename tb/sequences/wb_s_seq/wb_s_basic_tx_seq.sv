@@ -1,4 +1,4 @@
-//==============================================================================  
+//==============================================================================
 // Project  : ethmac_uvm_ITI_GP
 // File     : wb_s_basic_tx_seq.sv
 // Author   : Nada
@@ -70,7 +70,6 @@ class wb_s_basic_tx_seq extends wb_s_seq_base;
     bit tx_flow  = 1'b0,
 	bit [3:0] maxret    = 4'hF,
     bit [5:0] collvalid = 6'h3F
-
     );
 
     extern task configure_tx_bd(
@@ -82,7 +81,7 @@ class wb_s_basic_tx_seq extends wb_s_seq_base;
     bit enable_pad,
     bit enable_crc
     );
-    extern function void dma_mem_wr(bit [31:0] tx_ptr,bit [15:0] len,bit [31:0] data);
+    extern function void dma_mem_wr(bit [31:0] tx_ptr,bit [15:0] len,bit [31:0] data, bit rnd = 0);
     //---------------------------------------------------------
     task body();
 
@@ -101,7 +100,7 @@ class wb_s_basic_tx_seq extends wb_s_seq_base;
         //----------------------------------------------------- 
 
         foreach (tx_ptr[i]) begin
-            dma_mem_wr(tx_ptr[i],PKT_LEN,$random);
+            dma_mem_wr(tx_ptr[i],PKT_LEN,$random,1);
         end
 
         //-----------------------------------------------------
@@ -208,6 +207,11 @@ task wb_s_basic_tx_seq::configure_tx_registers(
     regmodel.TXCTRL.TXPAUSETV.set(pause_timer);
     regmodel.TXCTRL.update(status);
 
+	// ── COLLCONF Register ────────────────────────────────
+    regmodel.COLLCONF.MAXRET.set(maxret);
+    regmodel.COLLCONF.COLLVALID.set(collvalid);
+    regmodel.COLLCONF.update(status);
+
     // ── MODER Register: Control Flags ─────────────────────
     regmodel.MODER.FULLD.set(fulld);
     regmodel.MODER.TXEN.set(txen);
@@ -219,11 +223,6 @@ task wb_s_basic_tx_seq::configure_tx_registers(
     regmodel.MODER.NOBCKOF.set(nobckof);
     regmodel.MODER.EXDFREN.set(exdf);
     regmodel.MODER.update(status);
-	
-	// ── COLLCONF Register ────────────────────────────────
-    regmodel.COLLCONF.MAXRET.set(maxret);
-    regmodel.COLLCONF.COLLVALID.set(collvalid);
-    regmodel.COLLCONF.update(status);
 
     `uvm_info("TX_CONFIG",
      $sformatf(
@@ -231,12 +230,21 @@ task wb_s_basic_tx_seq::configure_tx_registers(
                fulld, txen, tx_bd_num, nopre, crcen, dcrc, pad, hugen,
                nobckof, exdf, ipgt, txb_m, txc_m, txe_m,
                maxfl, minfl, maxret, collvalid),
-               UVM_MEDIUM)
+               UVM_MEDIUM)    
+
 endtask 
 
-function void wb_s_basic_tx_seq::dma_mem_wr(bit [31:0] tx_ptr,bit [15:0] len,bit [31:0] data);
-            for(int j=0; j<$ceil(len/4.0);j++)
-                dma_mem::write(tx_ptr+j*4,data);
+function void wb_s_basic_tx_seq::dma_mem_wr(bit [31:0] tx_ptr,bit [15:0] len,bit [31:0] data, bit rnd =0);
+            if(rnd)
+            begin
+                for(int j=0; j<$ceil(len/4.0);j++) 
+                    dma_mem::write(tx_ptr+j*4,$random);
+            end
+            else
+            begin
+                for(int j=0; j<$ceil(len/4.0);j++) 
+                    dma_mem::write(tx_ptr+j*4,data);
+            end
 endfunction
 
 
