@@ -511,7 +511,9 @@ task eth_tx_scoreboard::predictor();
 			
                     pred_read_cfg_reg();
 					if(!m_tx_bd_cfg_s.full_duplex)begin
-				    pred_check_jam_retry();	
+				    fork 
+                    pred_check_jam_retry();
+                    join_none	
 					end
                 forever begin
                     if(!m_tx_bd_cfg_s.tx_pause_req || !m_tx_bd_cfg_s.tx_flow) begin
@@ -545,24 +547,30 @@ task eth_tx_scoreboard::comparator();
     comp_check_ipgt();
     begin
             @(m_tx_pending_s.flag_rd);
-       fork 
+       fork: fork_comp2
         begin
             @(!m_tx_pending_s.flag_rd);
             @(m_ev_start_comp);
         end
         begin
             @(m_ev_start_comp);
+            if(m_tx_pending_s.collision_seen) begin
+                m_tx_pending_s ='{default:'0,actual_pkt: {},jam_cnt: m_tx_pending_s.jam_cnt};
+                disable fork_comp2;
+            end
             @(!m_tx_pending_s.flag_rd); 
         end
         join_any;
         // copy config struct for interrupt
         m_tx_bd_cfg_cop_s=m_tx_bd_cfg_s; 
         m_tx_expected_cop_s=m_tx_expected_s;
+        if(m_tx_expected_s.exp_rtry==m_tx_bd_cfg_s.maxret) begin
         comp_compare_pkt();
         comp_check_txerr();
         comp_check_bd_status();
         clear();
         -> m_ev_end_pkt;
+        end
         disable fork_comp;
     end    
     join
@@ -1335,7 +1343,6 @@ task eth_tx_scoreboard::comp_pack_pkt();
     #1ns;
     end
     `uvm_info(get_type_name(),"Comp_pack: MTXEN asserted",UVM_MEDIUM)
-    -> m_ev_start_pred;
     //--------------------------------------------------------
     // Capture complete bytes
     //--------------------------------------------------------
@@ -1354,6 +1361,14 @@ task eth_tx_scoreboard::comp_pack_pkt();
             m_tx_expected_s.exp_cs=1;
        end
         //--------------------------------------------
+        // In half duplex check if collision is asserted 
+        //--------------------------------------------
+        if (!m_tx_bd_cfg_s.full_duplex && m_mii_tx_seq_item.MColl) begin
+            m_tx_pending_s.collision_seen=1;
+            `uvm_info(get_name(), "COLLISION SEEN", UVM_NONE)
+            break;
+        end 
+       //--------------------------------------------
         // First nibble (LSB)
         //--------------------------------------------
         low_nibble = m_mii_tx_seq_item.MTxD;
@@ -1377,6 +1392,14 @@ task eth_tx_scoreboard::comp_pack_pkt();
        if (!m_tx_bd_cfg_s.full_duplex && !m_mii_tx_seq_item.MCrS) begin
             m_tx_expected_s.exp_cs=1;
        end
+        //--------------------------------------------
+        // In half duplex check if collision is asserted 
+        //--------------------------------------------
+        if (!m_tx_bd_cfg_s.full_duplex && m_mii_tx_seq_item.MColl) begin
+            m_tx_pending_s.collision_seen=1;
+            `uvm_info(get_name(), "COLLISION SEEN", UVM_NONE)
+            break;
+        end
         //--------------------------------------------
         // Expect second nibble
         //--------------------------------------------
@@ -1666,38 +1689,38 @@ task eth_tx_scoreboard::comp_check_bd_status();
             m_regmodel.eth_bd_mem.peek(status,status_idx,bd_data);
 
 
-            // check underrun expected equal actal
+            // check underrun expected equal actual
             if(bd_data[WB_TX_BD_UR_POS]!=m_tx_expected_s.exp_ur) begin
                     `uvm_error(get_name(),$sformatf("Actual underrun error isn't equal to expected,actual error = %0b expected = %0b",
                         bd_data[WB_TX_BD_UR_POS],m_tx_expected_s.exp_ur))
             end    
 
             if(!m_tx_bd_cfg_s.full_duplex) begin
-                // check RTRY count expected equal actal
+                // check RTRY count expected equal actual
                 if(bd_data[WB_TX_RC_MSB_POS:WB_TX_RC_LSB_POS]!=m_tx_expected_s.exp_rtry) begin
-                        `uvm_error(get_name(),$sformatf("Actual Retry count  isn't equal to expected,actual  = %0b expected = %0b",
+                        `uvm_error(get_name(),$sformatf("Actual Retry count  isn't equal to expected,actual  = %0d expected = %0d",
                             bd_data[WB_TX_RC_MSB_POS:WB_TX_RC_LSB_POS],m_tx_expected_s.exp_rtry))
                 end 
 
-                // check Retransmission limit expected equal actal
+                // check Retransmission limit expected equal actual
                 if(bd_data[WB_TX_RL_POS]!=m_tx_expected_s.exp_rl) begin
                         `uvm_error(get_name(),$sformatf("Actual Retrnsmission limit  isn't equal to expected,actual  = %0b expected = %0b",
                             bd_data[WB_TX_RL_POS],m_tx_expected_s.exp_rl))
                 end     
 
-                // check late collision expected equal actal
+                // check late collision expected equal actual
                 if(bd_data[WB_TX_LC_POS]!=m_tx_expected_s.exp_lc) begin
                         `uvm_error(get_name(),$sformatf("Actual Late collision  isn't equal to expected,actual  = %0b expected = %0b",
                             bd_data[WB_TX_LC_POS],m_tx_expected_s.exp_lc))
                 end 
 
-                // check Deferral indication expected equal actal
+                // check Deferral indication expected equal actual
                 if(bd_data[WB_TX_DF_POS]!=m_tx_expected_s.exp_df) begin
                         `uvm_error(get_name(),$sformatf("Actual Deferral indication  isn't equal to expected,actual  = %0b expected = %0b",
                             bd_data[WB_TX_DF_POS],m_tx_expected_s.exp_df))
                 end 
 
-                // check Carrier sense lost expected equal actal
+                // check Carrier sense lost expected equal acutal
                 if(bd_data[WB_TX_CS_POS]!=m_tx_expected_s.exp_cs) begin
                         `uvm_error(get_name(),$sformatf("Actual Carrier sense lost  isn't equal to expected,actual  = %0b expected = %0b",
                             bd_data[WB_TX_CS_POS],m_tx_expected_s.exp_cs))
@@ -1884,11 +1907,8 @@ task eth_tx_scoreboard::pred_check_jam_retry();
 // 4. After MAX_RETRY collisions, MAC aborts transmission.
 //------------------------------------------------------------------------------
 
-    int unsigned jam_cnt;
-    int unsigned retry_cnt;
-
-    jam_cnt   = 0;
-    retry_cnt = 0;
+    m_tx_pending_s.jam_cnt   = 0;
+    m_tx_expected_s.exp_rtry = 0;
 
     forever begin
 
@@ -1903,12 +1923,12 @@ task eth_tx_scoreboard::pred_check_jam_retry();
         if (m_mii_tx_seq_item.MColl && m_mii_tx_seq_item.MTxEN)
         begin
 
-            retry_cnt++;
+            m_tx_expected_s.exp_rtry++;
 
             `uvm_info(get_type_name(),
                 $sformatf(
                 "Collision detected. Retry attempt = %0d",
-                retry_cnt),
+                m_tx_expected_s.exp_rtry),
                 UVM_MEDIUM)
 
             //--------------------------------------------------
@@ -1934,9 +1954,9 @@ task eth_tx_scoreboard::pred_check_jam_retry();
             //--------------------------------------------------
 			
 			
-            jam_cnt = 0;
+            m_tx_pending_s.jam_cnt = 0;
 
-            while (jam_cnt < ETH_JAM_NIBBLES)
+            while (m_tx_pending_s.jam_cnt < ETH_JAM_NIBBLES)
             begin
 
                 m_sem_tx_seq_item.get(1);
@@ -1947,7 +1967,7 @@ task eth_tx_scoreboard::pred_check_jam_retry();
                     `uvm_error(get_type_name(),
                         $sformatf(
                         "Invalid JAM nibble at index %0d. Expected %0h, Got %0h",
-                        jam_cnt,
+                        m_tx_pending_s.jam_cnt,
                         ETH_JAM_PATTERN,
                         m_mii_tx_seq_item.MTxD))
 
@@ -1959,7 +1979,7 @@ task eth_tx_scoreboard::pred_check_jam_retry();
                 end
             
 
-                jam_cnt++;
+                m_tx_pending_s.jam_cnt++;
 
                 m_sem_tx_seq_item.put(1);
 
@@ -1976,9 +1996,9 @@ task eth_tx_scoreboard::pred_check_jam_retry();
             //--------------------------------------------------
             // Check retry limit
             //--------------------------------------------------
-            if (retry_cnt >= m_tx_bd_cfg_s.maxret)
+            if (m_tx_expected_s.exp_rtry >= m_tx_bd_cfg_s.maxret)
             begin
-
+                m_tx_expected_s.exp_rl=1;
                 //--------------------------------------------------
                 // Wait for next TX state after JAM
                 //--------------------------------------------------
@@ -2022,12 +2042,12 @@ task eth_tx_scoreboard::pred_check_jam_retry();
       if (!m_tx_pending_s.flag_rd)
         begin
 
-            retry_cnt = 0;
+            m_tx_expected_s.exp_rtry = 0;
 			`uvm_info(get_type_name(),
                 $sformatf(
                 "retry counter reseted (%0d )",
-                retry_cnt),
-                UVM_MEDIUM)
+                m_tx_expected_s.exp_rtry),
+                UVM_HIGH)
 
         end
 

@@ -41,7 +41,7 @@ class mii_tx_driver_collision extends mii_tx_driver_base;
     endfunction
 
     virtual task run_phase(uvm_phase phase);
-
+        bit prev_txen;
         super.reset_items();
 
         fork
@@ -50,7 +50,8 @@ class mii_tx_driver_collision extends mii_tx_driver_base;
             //------------------------------------------------------
             forever begin
                 @(vif.cb_mii_tx);
-                vif.cb_mii_tx.MCrS <= vif.MTxEN;
+                vif.cb_mii_tx.MCrS <= vif.MTxEN | prev_txen;
+                prev_txen=vif.MTxEN;
             end
 
             //------------------------------------------------------

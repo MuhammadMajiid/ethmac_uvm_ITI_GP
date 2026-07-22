@@ -21,7 +21,7 @@ package eth_test_tx_pkg;
   import wb_s_seq_pkg::*;
   import reset_seq_pkg::*;
 
-  // import agent package
+  // import tx agent package
   import mii_tx_agent_pkg::*;
 
   // import environment package

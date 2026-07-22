@@ -26,7 +26,6 @@ class wb_s_seq_item_tx #(
   //--------------------------------------------------------------------------
   // MODER register fields
   //--------------------------------------------------------------------------
-  rand bit moder_recsmall;
   rand bit moder_pad;
   rand bit moder_fd;
   rand bit moder_hugen;
@@ -35,6 +34,7 @@ class wb_s_seq_item_tx #(
   rand bit moder_exdf;
   rand bit moder_nobackoff;
   rand bit moder_nopre;
+  randc bit [7:0] moder;
   //--------------------------------------------------------------------------
   // INT_MASK register fields
   //--------------------------------------------------------------------------
