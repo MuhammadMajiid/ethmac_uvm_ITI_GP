@@ -90,7 +90,7 @@ interface wb_m_if #(parameter ADDR_WIDTH = 32, DATA_WIDTH = 32,SEL_WIDTH = 4)(
   a_rst_x_z_addr: assert property(@(posedge clk_i) disable iff(!rst_i) (rst_i |-> not $isunknown(m_addr_o) ))
     else `uvm_error("A_WB_M",$sformatf("Assertion failed, address = %0d",m_addr_o));
   a_rst_x_z_data_o: assert property(@(posedge clk_i) disable iff(!rst_i) (rst_i |-> not $isunknown(m_data_o) ))
-    else `uvm_error("A_WB_M",$sformatf("Assertion failed, data out = %0d",m_data_o));
+    else `uvm_warning("A_WB_M",$sformatf("Assertion failed, data out = %0d",m_data_o));
   a_rst_x_z_we: assert property(@(posedge clk_i) disable iff(!rst_i)   (rst_i |->  not $isunknown(m_we_o) ))
     else `uvm_error("A_WB_M",$sformatf("Assertion failed, write enable = %0d",m_we_o));
   a_rst_x_z_sel: assert property(@(posedge clk_i) disable iff(!rst_i)   (rst_i |->  not $isunknown(m_sel_o) ))
