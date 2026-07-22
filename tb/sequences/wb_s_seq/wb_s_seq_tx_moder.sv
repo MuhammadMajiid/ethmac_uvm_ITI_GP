@@ -31,26 +31,25 @@ class wb_s_seq_tx_moder extends wb_s_basic_tx_seq;
     tx_bd_num==1;
     maxfl==90;
     minfl == 64;
-    /*if(!moder_fd) 
-    {
-       moder_exdf ==0;
-       moder_nobackoff ==0; 
-    }*/
-    moder=={moder_fd,moder_crc,moder_dcrc,moder_exdf,moder_nobackoff,moder_hugen,moder_nopre,moder_pad};
+
     foreach (pkt_len[i]){
         pkt_len[i]<100;
         pkt_len[i]>4;
         pkt_len[i]>minfl;
-        if(moder_hugen && i>rand_tx_bd_idx) 
-            pkt_len[i]>maxfl;
-        else
-            pkt_len[i]<maxfl;
-    
     }
     })   
     else begin
     `uvm_fatal(get_name(), "Failed randomization")
     end
+
+    m_item.moder_fd = m_item.moder[0];
+    m_item.moder_crc = m_item.moder[1];
+    m_item.moder_dcrc = m_item.moder[2];
+    m_item.moder_exdf = m_item.moder[3];
+    m_item.moder_nobackoff = m_item.moder[4];
+    m_item.moder_hugen = m_item.moder[5];
+    m_item.moder_nopre = m_item.moder[6];
+    m_item.moder_pad = m_item.moder[7];
 
     //if it's RTL_002 bug close simulation
     /*for (int i=0; i<m_item.tx_bd_num; i++) begin
