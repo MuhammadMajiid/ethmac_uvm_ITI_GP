@@ -546,17 +546,19 @@ task eth_tx_scoreboard::comparator();
     comp_pack_pkt();
     comp_check_ipgt();
     begin
-            @(m_tx_pending_s.flag_rd);
-       fork: fork_comp2
+            wait(m_tx_pending_s.flag_rd);
+        fork: fork_comp2
         begin
             @(!m_tx_pending_s.flag_rd);
             @(m_ev_start_comp);
+
         end
         begin
             @(m_ev_start_comp);
             if(m_tx_pending_s.collision_seen) begin
-                m_tx_pending_s ='{default:'0,actual_pkt: {},jam_cnt: m_tx_pending_s.jam_cnt};
-                disable fork_comp2;
+                m_tx_pending_s ='{default:'0,actual_pkt: {},flag_rd: m_tx_pending_s.flag_rd, jam_cnt: m_tx_pending_s.jam_cnt};
+                if(m_tx_expected_s.exp_rtry<m_tx_bd_cfg_s.maxret)
+                disable fork_comp;
             end
             @(!m_tx_pending_s.flag_rd); 
         end
@@ -564,12 +566,14 @@ task eth_tx_scoreboard::comparator();
         // copy config struct for interrupt
         m_tx_bd_cfg_cop_s=m_tx_bd_cfg_s; 
         m_tx_expected_cop_s=m_tx_expected_s;
-        if(m_tx_expected_s.exp_rtry==m_tx_bd_cfg_s.maxret) begin
-        comp_compare_pkt();
-        comp_check_txerr();
-        comp_check_bd_status();
-        clear();
-        -> m_ev_end_pkt;
+        if(m_tx_expected_s.exp_rtry==m_tx_bd_cfg_s.maxret || m_tx_expected_s.exp_rtry==0) begin
+            if(m_tx_expected_s.exp_rtry==0) begin
+                comp_compare_pkt();
+                comp_check_txerr();
+            end
+            comp_check_bd_status();
+            clear();
+            -> m_ev_end_pkt;
         end
         disable fork_comp;
     end    
@@ -1366,7 +1370,6 @@ task eth_tx_scoreboard::comp_pack_pkt();
         if (!m_tx_bd_cfg_s.full_duplex && m_mii_tx_seq_item.MColl) begin
             m_tx_pending_s.collision_seen=1;
             `uvm_info(get_name(), "COLLISION SEEN", UVM_NONE)
-            break;
         end 
        //--------------------------------------------
         // First nibble (LSB)
@@ -1398,13 +1401,12 @@ task eth_tx_scoreboard::comp_pack_pkt();
         if (!m_tx_bd_cfg_s.full_duplex && m_mii_tx_seq_item.MColl) begin
             m_tx_pending_s.collision_seen=1;
             `uvm_info(get_name(), "COLLISION SEEN", UVM_NONE)
-            break;
         end
         //--------------------------------------------
         // Expect second nibble
         //--------------------------------------------
         if (!m_mii_tx_seq_item.MTxEN) begin
-            if(!m_tx_pending_s.flag_txerr) begin
+            if(!m_tx_pending_s.flag_txerr && !m_tx_pending_s.collision_seen) begin
             `uvm_error(get_type_name(),
                 "MTxEN deasserted after only one nibble was transmitted")
             end
