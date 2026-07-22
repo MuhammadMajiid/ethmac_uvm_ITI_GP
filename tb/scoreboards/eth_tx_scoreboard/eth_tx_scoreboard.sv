@@ -256,19 +256,11 @@ class eth_tx_scoreboard extends uvm_scoreboard;
     //
     // ------------------------------------------------------------------------- 
     extern task pred_defer();
-    // -------------------------------------------------------------------------
-    //  task : pred_coll
-    // -------------------------------------------------------------------------
-    // Description:
-    //   Predict occurence of late collision 
-    // Arguments: None
-    //
-    // -------------------------------------------------------------------------
-    extern task pred_coll();
-    // -------------------------------------------------------------------------
+
     //  task : pred_check_jam_retry
     // -------------------------------------------------------------------------
     // Description:
+    //   Predict occurence of collision and late collision 
     //   count number of transmitted jam signals to count retry count  
     // Arguments: None
     //
@@ -412,7 +404,6 @@ function void eth_tx_scoreboard::connect_phase(uvm_phase phase);
 endfunction    
 
 
-
 task eth_tx_scoreboard::run_phase(uvm_phase phase);
     super.run_phase(phase);
     fork 
@@ -512,7 +503,7 @@ task eth_tx_scoreboard::predictor();
                     pred_read_cfg_reg();
 					if(!m_tx_bd_cfg_s.full_duplex)begin
 				    fork 
-                    pred_check_jam_retry();
+					pred_check_jam_retry();
                     join_none	
 					end
                 forever begin
@@ -567,7 +558,7 @@ task eth_tx_scoreboard::comparator();
         m_tx_bd_cfg_cop_s=m_tx_bd_cfg_s; 
         m_tx_expected_cop_s=m_tx_expected_s;
         if(m_tx_expected_s.exp_rtry==m_tx_bd_cfg_s.maxret || m_tx_expected_s.exp_rtry==0) begin
-            if(m_tx_expected_s.exp_rtry==0) begin
+            if(m_tx_expected_s.exp_rtry==0 && !m_tx_expected_s.exp_lc) begin
                 comp_compare_pkt();
                 comp_check_txerr();
             end
@@ -580,7 +571,11 @@ task eth_tx_scoreboard::comparator();
     join
     #0.1;
 end 
-endtask
+endtask    
+
+
+
+
 
 
 
@@ -1318,19 +1313,6 @@ task eth_tx_scoreboard::pred_defer();
     end    
 endtask
 
-task eth_tx_scoreboard::pred_coll();
-    forever begin
-        m_sem_tx_seq_item.get(1);
-        if(m_mii_tx_seq_item.MColl) begin
-            #0.1;
-            // check if collision occurs after collsion window
-            if(m_tx_pending_s.actual_pkt.size()>=m_tx_bd_cfg_s.collvalid)
-                m_tx_expected_s.exp_lc=1;
-        end    
-        m_sem_tx_seq_item.put(1);
-        #1;
-    end
-endtask
 
 task eth_tx_scoreboard::comp_pack_pkt();
 
@@ -1453,7 +1435,7 @@ function void eth_tx_scoreboard::comp_compare_pkt();
     //----------------------------------------------------------
     // If underrun occurs return
     //----------------------------------------------------------    
-    if(m_tx_expected_s.exp_ur) begin
+    if(m_tx_expected_s.exp_ur ) begin
         `uvm_info(get_name(), "No packet comparison due to underrun", UVM_MEDIUM)
         return;
     end
@@ -1699,9 +1681,9 @@ task eth_tx_scoreboard::comp_check_bd_status();
 
             if(!m_tx_bd_cfg_s.full_duplex) begin
                 // check RTRY count expected equal actual
-                if(bd_data[WB_TX_RC_MSB_POS:WB_TX_RC_LSB_POS]!=m_tx_expected_s.exp_rtry) begin
+                if(bd_data[WB_TX_RC_MSB_POS:WB_TX_RC_LSB_POS]!=m_tx_pending_s.retry_cnt) begin
                         `uvm_error(get_name(),$sformatf("Actual Retry count  isn't equal to expected,actual  = %0d expected = %0d",
-                            bd_data[WB_TX_RC_MSB_POS:WB_TX_RC_LSB_POS],m_tx_expected_s.exp_rtry))
+                            bd_data[WB_TX_RC_MSB_POS:WB_TX_RC_LSB_POS],m_tx_pending_s.retry_cnt))
                 end 
 
                 // check Retransmission limit expected equal actual
@@ -1922,16 +1904,22 @@ task eth_tx_scoreboard::pred_check_jam_retry();
         //--------------------------------------------------
         // Collision detected while transmitting
         //--------------------------------------------------
-        if (m_mii_tx_seq_item.MColl && m_mii_tx_seq_item.MTxEN)
+        if (m_mii_tx_seq_item.MColl && m_mii_tx_seq_item.MTxEN )
         begin
-
-            m_tx_expected_s.exp_rtry++;
+		   // check if collision occurs after collsion window
+           if (m_tx_pending_s.actual_pkt.size() >= m_tx_bd_cfg_s.collvalid)
+		   begin
+            m_tx_expected_s.exp_lc = 1;
+	       `uvm_info(get_type_name(),"late collision detected",UVM_MEDIUM)
+           end else begin
+             m_tx_expected_s.exp_lc = 0;
+           
+             m_tx_expected_s.exp_rtry++;
 
             `uvm_info(get_type_name(),
-                $sformatf(
-                "Collision detected. Retry attempt = %0d",
-                m_tx_expected_s.exp_rtry),
-                UVM_MEDIUM)
+             $sformatf("Collision detected. Retry attempt = %0d",m_tx_expected_s.exp_rtry),UVM_MEDIUM)
+                
+           end
 
             //--------------------------------------------------
             // Release current collision sample
@@ -1994,6 +1982,19 @@ task eth_tx_scoreboard::pred_check_jam_retry();
                 "Correct JAM sequence detected (%0d nibbles)",
                 ETH_JAM_NIBBLES),
                 UVM_MEDIUM)
+				
+			//--------------------------------------------------
+            // Late collision
+            //--------------------------------------------------
+          if (m_tx_expected_s.exp_lc)
+          begin
+          `uvm_info(get_type_name(),"Late collision: transmission should abort without retry",UVM_MEDIUM)
+
+           // No retry is expected
+           // Retry counter is intentionally not incremented
+ 
+           return;
+          end	
 
             //--------------------------------------------------
             // Check retry limit
@@ -2037,13 +2038,13 @@ task eth_tx_scoreboard::pred_check_jam_retry();
         end
 		
 
-        //--------------------------------------------------
+             //--------------------------------------------------
         // Successful transmission completed
         // Retry counter belongs to one frame only.
         //--------------------------------------------------
       if (!m_tx_pending_s.flag_rd)
         begin
-
+           m_tx_pending_s.retry_cnt= m_tx_expected_s.exp_rtry ;
             m_tx_expected_s.exp_rtry = 0;
 			`uvm_info(get_type_name(),
                 $sformatf(
@@ -2052,6 +2053,7 @@ task eth_tx_scoreboard::pred_check_jam_retry();
                 UVM_HIGH)
 
         end
+       
 
         //--------------------------------------------------
         // Release TX sample

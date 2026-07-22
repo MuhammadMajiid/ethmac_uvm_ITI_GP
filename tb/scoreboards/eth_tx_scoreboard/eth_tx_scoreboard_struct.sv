@@ -181,6 +181,7 @@ typedef struct {
 
     // Collision / error tracking (populated from mii_monitor events)
     int unsigned retry_cnt;         // total MTxEn pulses seen for this BD
+    int unsigned attempt_count;         // total MTxEn pulses seen for this BD
     int unsigned jam_cnt;             // jam patterns (0x99999999) observed
     bit          flag_txerr;           // set when Tx error is asserted 
     bit          flag_rd;
