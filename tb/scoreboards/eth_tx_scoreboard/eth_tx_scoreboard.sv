@@ -57,13 +57,12 @@ class eth_tx_scoreboard extends uvm_scoreboard;
     event m_ev_end_pkt;      // triggered when each packet is compared
     event m_ev_txen;        // triggered when TXEN bit in MODER register changes from 0 -> 1
     event m_ev_start_comp;  // triggered when packet ends to start comparison
-    event m_ev_start_pred;
     event m_ev_end_seqs;
     // =========================================================================
     // Structs
     // ========================================================================= 
     eth_tx_expected_s m_tx_expected_s;
-    eth_tx_expected_s m_tx_expected_cop_s;
+    eth_tx_expected_s m_tx_expected_cop_s;  // copy for interrupt
     eth_tx_bd_cfg_s   m_tx_bd_cfg_s;
     eth_tx_bd_cfg_s   m_tx_bd_cfg_cop_s;    // copy for interrupt
     eth_tx_pending_s  m_tx_pending_s;
@@ -512,8 +511,11 @@ task eth_tx_scoreboard::predictor();
                         `uvm_info(get_name(), "reading bd config", UVM_NONE)
                         pred_read_cfg_bd();
                         if(pred_check_len_4())
-                        pred_construct_data_pkt();                
-                        //dma_mem::print();
+                            pred_construct_data_pkt();                
+                        else begin
+                            clear();
+                            ->m_ev_end_pkt;
+                        end
                     end
                     else begin
                         pred_construct_ctrl_pkt();
@@ -559,8 +561,8 @@ task eth_tx_scoreboard::comparator();
         // copy config struct for interrupt
         m_tx_bd_cfg_cop_s=m_tx_bd_cfg_s; 
         m_tx_expected_cop_s=m_tx_expected_s;
-        if(m_tx_expected_s.exp_rtry>=m_tx_bd_cfg_s.maxret || m_tx_expected_s.exp_rtry==0) begin
-            if(m_tx_expected_s.exp_rtry==0 && !m_tx_expected_s.exp_lc && m_tx_bd_cfg_s.maxret>=0  ) begin
+        if(m_tx_expected_s.exp_rtry==m_tx_bd_cfg_s.maxret || m_tx_expected_s.exp_rtry==0 ) begin
+            if(m_tx_expected_s.exp_rtry==0 && !m_tx_expected_s.exp_lc && m_tx_bd_cfg_s.maxret>=0) begin
                 comp_compare_pkt();
                 comp_check_txerr();
             end
@@ -962,7 +964,7 @@ task eth_tx_scoreboard::pred_track_rd();
         //--------------------------------------------------------
         // DUT completed this BD (RD : 1 -> 0)
         //--------------------------------------------------------
-        else if (!curr_rd) begin
+        if (!curr_rd) begin
             `uvm_info(get_type_name(),
                 $sformatf("TX BD[%0d] completed",
                           m_tx_bd_cfg_s.bd_index),
@@ -978,20 +980,9 @@ task eth_tx_scoreboard::pred_track_rd();
             end
             else
                 m_tx_bd_cfg_s.bd_index++;
-                /*  //----------------------------------------------------
-            // Initialize prev_rd for the new BD
-            //----------------------------------------------------
-            status_idx = m_tx_bd_cfg_s.bd_index * 2;
 
-            m_regmodel.eth_bd_mem.peek(
-                status,
-                status_idx,
-                rtl_data
-            );
-            prev_rd = rtl_data[WB_TX_BD_RD_POS]; 
-            #1ns;*/
         end
-        #1ns;
+        #1;
 
     end
 
@@ -1920,7 +1911,6 @@ task eth_tx_scoreboard::pred_check_jam_retry();
                           $sformatf("Collision detected. Retry attempt = %0d",
                                     m_tx_expected_s.exp_rtry),
                           UVM_MEDIUM)
-							
             end
 
             //--------------------------------------------------
