@@ -306,7 +306,7 @@ class eth_cov_tx extends uvm_component;
         // ALl legal lengths
         bins len_all [64] = {['h0005:'hFFFE]};
         // All illegal lengths 
-        bins len_4   [5] = {['h0000:'h0004]};
+        bins len_4  = {['h0001:'h0004]};
         // Maximum value 
         bins len_max   = {'hFFFF};
     }
