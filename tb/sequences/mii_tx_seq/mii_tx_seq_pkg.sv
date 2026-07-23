@@ -25,6 +25,7 @@ package mii_tx_seq_pkg;
     // Sequences
     `include "mii_tx_seq_base.sv"
 	`include "mii_tx_seq_collision.sv"
+	`include "mii_tx_seq_cs.sv"
 
 endpackage : mii_tx_seq_pkg
 

@@ -36,8 +36,8 @@ class mii_tx_seq_item_base extends uvm_sequence_item;
         super.new(name);
     endfunction
 
-    constraint c_default_idle { MColl == 1'b0;
-                                MCrS  == 1'b0;}
+    constraint c_default_idle { soft MColl == 1'b0;
+                                soft MCrS  == 1'b0;}
                                 
     //constraint c_MCoLL {MCoLL dist{};}
     //constraint c_MCrS {MCrS dist{};}

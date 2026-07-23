@@ -1,6 +1,6 @@
 //==============================================================================
 // Project  : ethmac_uvm_ITI_GP
-// File     : eth_tx_ctrl_flow_seq.sv
+// File     : wb_s_seq_tx_ctrl_flow.sv
 // Author   : Mounir
 // Date     : 2026-07-18
 //------------------------------------------------------------------------------
@@ -12,14 +12,14 @@
 //   All sequences extend wb_s_basic_tx_seq 
 //==============================================================================
 
-`ifndef ETH_TX_CTRL_FLOW_SEQ_SV
-`define ETH_TX_CTRL_FLOW_SEQ_SV
+`ifndef WB_S_TX_SEQ_CTRL_FLOW_SV
+`define WB_S_TX_SEQ_CTRL_FLOW_SV
 
-class eth_tx_ctrl_flow_seq extends wb_s_basic_tx_seq;
+class wb_s_seq_tx_ctrl_flow extends wb_s_basic_tx_seq;
 
-    `uvm_object_utils(eth_tx_ctrl_flow_seq)
+    `uvm_object_utils(wb_s_seq_tx_ctrl_flow)
 
-    function new(string name = "eth_tx_ctrl_flow_seq");
+    function new(string name = "wb_s_seq_tx_ctrl_flow");
         super.new(name);
     endfunction
 
@@ -223,4 +223,4 @@ class eth_fd_cfg06_duplicate_pause_request_seq extends wb_s_basic_tx_seq;
 
 endclass : eth_fd_cfg06_duplicate_pause_request_seq
 */
-`endif // ETH_TX_CTRL_FLOW_SEQ_SV
+`endif // WB_S_TX_SEQ_CTRL_FLOW_SV

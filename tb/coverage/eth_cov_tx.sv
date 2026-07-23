@@ -438,25 +438,23 @@ class eth_cov_tx extends uvm_component;
         
         cp_bd_stat: coverpoint m_bd_stat iff(m_addr>=WB_BD_MEM_BASE_ADDR && m_addr<=WB_BD_MEM_OFFSET_ADDR && m_addr%2==0) {
             // underrun
-            wildcard bins ur_0= {'b0_????};
-            wildcard bins ur_1= {'b1_????};
+            wildcard bins ur [2] = {'b0_????,'b1_????};
             // maximum
-         //   wildcard bins rl  = {'b?_1???};
+            wildcard bins rl  [2] = {'b?_0???,'b?_1???};
             // late collision
-          //  wildcard bins lc  = {'b?_?1??};
+            wildcard bins lc  [2] = {'b?_?0??,'b?_?1??};
             // deferral
-          //  wildcard bins df  = {'b?_??1?};
+            wildcard bins df [2] = {'b?_??0?,'b?_??1?};
+            // deferral
+            wildcard bins cs [2] = {'b?_???0,'b?_???1};
+            bins others = default;
         }
 
-        /*
+        
         cp_bd_retry: coverpoint m_retry_cnt iff(m_addr>=WB_BD_MEM_BASE_ADDR && m_addr<=WB_BD_MEM_OFFSET_ADDR  && m_addr%2==0) {
-            // minimum
-            bins retry_min = {'b0000};
-            // maximum
-            bins retry_max = {'b1111};
-            // other values
+
             bins retry_all [] = {['b0001:'b1110]};
-        }*/
+        }
         // =============================================================================
         //  Cross cover points
         // =============================================================================
@@ -466,11 +464,6 @@ class eth_cov_tx extends uvm_component;
             ignore_bins ign_cross_inta_txc = binsof(cp_int_source.txc) && binsof(cp_inta.inta_0);
             ignore_bins ign_cross_inta_txe = binsof(cp_int_source.txe) && binsof(cp_inta.inta_0);
         }
-        /*
-        cross_retry_stat_cp: cross cp_bd_retry,cp_bd_stat{
-        illegal_bins retry_rl = binsof(cp_bd_retry.retry_max) && binsof(cp_bd_stat.ur);
-        //illegal_bins retry_rl = binsof(cp_bd_retry.retry_max) && binsof(cp_bd_stat.ur);
-        }*/
 
     endgroup
     // =============================================================================
