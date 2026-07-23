@@ -398,16 +398,23 @@ endtask
 task eth_mdio_scoreboard::comp_linkfail();
     bit exp_link_fail;
 
-    // PHY status bit[2] is 1 for Link OK, 0 for Link Fail.
-    // MIISTATUS.LINKFAIL goes high (1) when link fails.
-    exp_link_fail = ~m_mdio_seq_item.data[2];
+    // Only evaluate link fail if the MAC is actively reading the PHY Status Register (Reg 0x01)
+    if (m_cfg_reg_s.reg_addr == 5'h01 && (m_cfg_reg_s.r_stat || m_cfg_reg_s.scan_stat)) begin
 
-    if(m_cfg_reg_s.link_fail != exp_link_fail) begin
-        `uvm_error(get_type_name(),
-            $sformatf("Linkfail mismatch. Expected: %0b, Actual: %0b",
-            exp_link_fail, m_cfg_reg_s.link_fail))
+        // PHY status bit[2] is 1 for Link OK, 0 for Link Fail.
+        // MIISTATUS.LINKFAIL goes high (1) when link fails.
+        exp_link_fail = ~m_mdio_seq_item.data[2];
+
+        if(m_cfg_reg_s.link_fail != exp_link_fail) begin
+            `uvm_error(get_type_name(),
+                $sformatf("Linkfail mismatch. Expected: %0b, Actual: %0b",
+                exp_link_fail, m_cfg_reg_s.link_fail))
+        end else begin
+            `uvm_info(get_type_name(), "Linkfail comparison PASSED", UVM_LOW)
+        end
     end else begin
-        `uvm_info(get_type_name(), "Linkfail comparison PASSED", UVM_LOW)
+        // If not reading reg 0x01, the LINKFAIL bit should hold its previous state.
+        // (Optional: add a check here to ensure it didn't toggle unexpectedly).
     end
 endtask
 
