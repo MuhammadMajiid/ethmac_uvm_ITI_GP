@@ -216,7 +216,7 @@ class eth_cov_tx extends uvm_component;
     }
 
     // Collision valid COLLCONFIG Register (Address 0x1C)
-    cp_collconfig: coverpoint m_wdata iff(m_addr=='h07) {
+    cp_collconfig: coverpoint m_coll_v iff(m_addr=='h07) {
         bins collvalid_min = {'b11_1111};              // Minimum collision window = 0 byte 
         bins collvalid_any [8]= {['b00_0001:'b11_1110]};   // Any collision window between 0 and 63
         bins collvalid_max = {'b11_1111};              // maximum collision window = 63

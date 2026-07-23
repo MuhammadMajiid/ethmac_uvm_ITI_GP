@@ -26,13 +26,42 @@
 class wb_s_seq_tx_collision_cfg extends wb_s_basic_tx_seq;
 
     `uvm_object_utils(wb_s_seq_tx_collision_cfg)
+	
+	randc  bit [3:0] maxret_cfg;
+    rand bit [5:0] collvalid_cfg;
+	
+      uvm_status_e   status;
+	  uvm_reg_data_t bd_status_word;
+	  
+constraint c_maxret {
+    maxret_cfg inside {[0:15]};
+}	  
+	
+
+constraint c_collvalid {
+    collvalid_cfg dist {
+        6'd0  := 5,
+        6'd63 := 10,
+        [1:62] := 1
+    };
+}
 
     function new(string name = "wb_s_seq_tx_collision_cfg");
         super.new(name);
     endfunction
 
     virtual task body();
+      //-----------------------------------------------------
+// Randomize collision configuration
+//-----------------------------------------------------
+assert(randomize(maxret_cfg, collvalid_cfg))
+    else `uvm_fatal(get_type_name(),
+                   "Failed to randomize collision configuration")
 
+`uvm_info(get_type_name(),
+    $sformatf("Randomized COLLCONF: MAXRET=%0d COLLVALID=%0d",
+              maxret_cfg, collvalid_cfg),
+    UVM_LOW)
         //-----------------------------------------------------
         // DMA packet addresses
         //-----------------------------------------------------
@@ -72,8 +101,8 @@ class wb_s_seq_tx_collision_cfg extends wb_s_basic_tx_seq;
             .minfl     (55),
             .maxfl     (80),
             .nobckof   (1),
-            .maxret    (3),
-            .collvalid (7)
+            .maxret    (maxret_cfg),
+			.collvalid (collvalid_cfg)
         );
 
         `uvm_info(get_type_name(),
@@ -85,7 +114,20 @@ class wb_s_seq_tx_collision_cfg extends wb_s_basic_tx_seq;
         //-----------------------------------------------------
         repeat (NUM_TX_BD)
             @(m_ev_end_pkt);
+			
 
+
+for (int bd = 0; bd < NUM_TX_BD; bd++) begin
+
+   regmodel.eth_bd_mem.read(status, bd*2, bd_status_word);
+
+
+    `uvm_info(get_type_name(),
+        $sformatf("BD[%0d] Status = 0x%08h", bd, bd_status_word),
+        UVM_LOW)
+end	
+		
+   
     endtask
 
 endclass

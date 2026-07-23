@@ -559,8 +559,8 @@ task eth_tx_scoreboard::comparator();
         // copy config struct for interrupt
         m_tx_bd_cfg_cop_s=m_tx_bd_cfg_s; 
         m_tx_expected_cop_s=m_tx_expected_s;
-        if(m_tx_expected_s.exp_rtry==m_tx_bd_cfg_s.maxret || m_tx_expected_s.exp_rtry==0) begin
-            if(m_tx_expected_s.exp_rtry==0 && !m_tx_expected_s.exp_lc) begin
+        if(m_tx_expected_s.exp_rtry>=m_tx_bd_cfg_s.maxret || m_tx_expected_s.exp_rtry==0) begin
+            if(m_tx_expected_s.exp_rtry==0 && !m_tx_expected_s.exp_lc && m_tx_bd_cfg_s.maxret>=0  ) begin
                 comp_compare_pkt();
                 comp_check_txerr();
             end
@@ -1920,6 +1920,7 @@ task eth_tx_scoreboard::pred_check_jam_retry();
                           $sformatf("Collision detected. Retry attempt = %0d",
                                     m_tx_expected_s.exp_rtry),
                           UVM_MEDIUM)
+							
             end
 
             //--------------------------------------------------
