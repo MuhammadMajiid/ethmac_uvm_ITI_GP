@@ -547,7 +547,9 @@ task eth_tx_scoreboard::comparator();
         begin
             @(m_ev_start_comp);
             if(m_tx_pending_s.collision_seen) begin
-                m_tx_pending_s ='{default:'0,actual_pkt: {},flag_rd: m_tx_pending_s.flag_rd, jam_cnt: m_tx_pending_s.jam_cnt};
+                m_tx_pending_s ='{default:'0,actual_pkt: {},flag_rd: m_tx_pending_s.flag_rd,
+                jam_cnt: m_tx_pending_s.jam_cnt};
+                m_tx_pending_s.retry_cnt=m_tx_expected_s.exp_rtry;
                 if(m_tx_expected_s.exp_rtry<m_tx_bd_cfg_s.maxret)
                 disable fork_comp;
             end
@@ -1880,16 +1882,16 @@ endtask
 
 task eth_tx_scoreboard::pred_check_jam_retry();
 
-//------------------------------------------------------------------------------
-// Check JAM sequence and retry limit after collision.
-// IEEE802.3/OpenCores JAM = 0x99999999 = 8 nibbles of 0x9.
-//------------------------------------------------------------------------------
-// Collision handling:
-// 1. PHY asserts MColl when collision is detected.
-// 2. MAC transmits JAM pattern 
-// 3. MAC retries after backoff.
-// 4. After MAX_RETRY collisions, MAC aborts transmission.
-//------------------------------------------------------------------------------
+    //------------------------------------------------------------------------------
+    // Check JAM sequence and retry limit after collision.
+    // IEEE802.3/OpenCores JAM = 0x99999999 = 8 nibbles of 0x9.
+    //------------------------------------------------------------------------------
+    // Collision handling:
+    // 1. PHY asserts MColl when collision is detected.
+    // 2. MAC transmits JAM pattern 
+    // 3. MAC retries after backoff.
+    // 4. After MAX_RETRY collisions, MAC aborts transmission.
+    //------------------------------------------------------------------------------
 
     m_tx_pending_s.jam_cnt   = 0;
     m_tx_expected_s.exp_rtry = 0;
@@ -1904,156 +1906,133 @@ task eth_tx_scoreboard::pred_check_jam_retry();
         //--------------------------------------------------
         // Collision detected while transmitting
         //--------------------------------------------------
-        if (m_mii_tx_seq_item.MColl && m_mii_tx_seq_item.MTxEN )
-        begin
-		   // check if collision occurs after collsion window
-           if (m_tx_pending_s.actual_pkt.size() >= m_tx_bd_cfg_s.collvalid)
-		   begin
-            m_tx_expected_s.exp_lc = 1;
-	       `uvm_info(get_type_name(),"late collision detected",UVM_MEDIUM)
-           end else begin
-             m_tx_expected_s.exp_lc = 0;
-           
-             m_tx_expected_s.exp_rtry++;
+        if (m_mii_tx_seq_item.MColl && m_mii_tx_seq_item.MTxEN) begin
+            // check if collision occurs after collsion window
+            if (m_tx_pending_s.actual_pkt.size()  >= m_tx_bd_cfg_s.collvalid + ETH_PREAMBLE_LEN + ETH_SFD_LEN) begin
+                m_tx_expected_s.exp_lc = 1;
+                `uvm_info(get_type_name(), "late collision detected", UVM_MEDIUM)
+            end
+            else begin
+                m_tx_expected_s.exp_lc = 0;
+                m_tx_expected_s.exp_rtry++;
 
-            `uvm_info(get_type_name(),
-             $sformatf("Collision detected. Retry attempt = %0d",m_tx_expected_s.exp_rtry),UVM_MEDIUM)
-                
-           end
+                `uvm_info(get_type_name(),
+                          $sformatf("Collision detected. Retry attempt = %0d",
+                                    m_tx_expected_s.exp_rtry),
+                          UVM_MEDIUM)
+            end
 
             //--------------------------------------------------
             // Release current collision sample
             //--------------------------------------------------
             m_sem_tx_seq_item.put(1);
             #1ns
-			
-			
-			//--------------------------------------------------
+
+            //--------------------------------------------------
             // Wait 3 MII outputs before checking JAM
             //--------------------------------------------------
-             repeat (3) begin
-              m_sem_tx_seq_item.get(1);
-              m_sem_tx_seq_item.put(1);
-              #1ns;
-              end
+            repeat (3) begin
+                m_sem_tx_seq_item.get(1);
+                m_sem_tx_seq_item.put(1);
+                #1ns;
+            end
 
             //--------------------------------------------------
             // Check JAM sequence
             // MColl is ignored here because PHY may deassert
             // it while JAM is still transmitted.
             //--------------------------------------------------
-			
-			
             m_tx_pending_s.jam_cnt = 0;
 
-            while (m_tx_pending_s.jam_cnt < ETH_JAM_NIBBLES)
-            begin
-
+            while (m_tx_pending_s.jam_cnt < ETH_JAM_NIBBLES) begin
                 m_sem_tx_seq_item.get(1);
 
-                if (m_mii_tx_seq_item.MTxD != ETH_JAM_PATTERN)
-                begin
-
+                if (m_mii_tx_seq_item.MTxD != ETH_JAM_PATTERN) begin
                     `uvm_error(get_type_name(),
-                        $sformatf(
-                        "Invalid JAM nibble at index %0d. Expected %0h, Got %0h",
-                        m_tx_pending_s.jam_cnt,
-                        ETH_JAM_PATTERN,
-                        m_mii_tx_seq_item.MTxD))
+                               $sformatf(
+                                   "Invalid JAM nibble at index %0d. Expected %0h, Got %0h",
+                                   m_tx_pending_s.jam_cnt,
+                                   ETH_JAM_PATTERN,
+                                   m_mii_tx_seq_item.MTxD))
 
                     m_sem_tx_seq_item.put(1);
-					#1ns;
+                    #1ns;
 
                     return;
-
                 end
-            
 
                 m_tx_pending_s.jam_cnt++;
 
                 m_sem_tx_seq_item.put(1);
 
                 #1ns;
-
             end
 
             `uvm_info(get_type_name(),
-                $sformatf(
-                "Correct JAM sequence detected (%0d nibbles)",
-                ETH_JAM_NIBBLES),
-                UVM_MEDIUM)
-				
-			//--------------------------------------------------
+                      $sformatf(
+                          "Correct JAM sequence detected (%0d nibbles)",
+                          ETH_JAM_NIBBLES),
+                      UVM_MEDIUM)
+
+            //--------------------------------------------------
             // Late collision
             //--------------------------------------------------
-          if (m_tx_expected_s.exp_lc)
-          begin
-          `uvm_info(get_type_name(),"Late collision: transmission should abort without retry",UVM_MEDIUM)
+            if (m_tx_expected_s.exp_lc) begin
+                `uvm_info(get_type_name(),
+                          "Late collision: transmission should abort without retry",
+                          UVM_MEDIUM)
 
-           // No retry is expected
-           // Retry counter is intentionally not incremented
- 
-           return;
-          end	
+                // No retry is expected
+                // Retry counter is intentionally not incremented
+
+                return;
+            end
 
             //--------------------------------------------------
             // Check retry limit
             //--------------------------------------------------
-            if (m_tx_expected_s.exp_rtry >= m_tx_bd_cfg_s.maxret)
-            begin
-                m_tx_expected_s.exp_rl=1;
+            if (m_tx_expected_s.exp_rtry >= m_tx_bd_cfg_s.maxret) begin
+                m_tx_expected_s.exp_rl = 1;
+
                 //--------------------------------------------------
                 // Wait for next TX state after JAM
                 //--------------------------------------------------
                 m_sem_tx_seq_item.get(1);
 
-                if (m_mii_tx_seq_item.MTxEN)
-                begin
-
+                if (m_mii_tx_seq_item.MTxEN) begin
                     `uvm_error(get_type_name(),
-                        "MAC continued transmitting after retry limit")
-
+                               "MAC continued transmitting after retry limit")
                 end
-                else
-                begin
-
+                else begin
                     `uvm_info(get_type_name(),
-                        "Retry limit reached. Transmission aborted correctly",
-                        UVM_MEDIUM)
-
+                              "Retry limit reached. Transmission aborted correctly",
+                              UVM_MEDIUM)
                 end
 
                 m_sem_tx_seq_item.put(1);
-				#1ns;
+                #1ns;
 
                 return;
-
             end
 
             //--------------------------------------------------
             // Continue monitoring for next retry
             //--------------------------------------------------
             continue;
-
         end
-		
 
-             //--------------------------------------------------
+        //--------------------------------------------------
         // Successful transmission completed
         // Retry counter belongs to one frame only.
         //--------------------------------------------------
-      if (!m_tx_pending_s.flag_rd)
-        begin
-           m_tx_pending_s.retry_cnt= m_tx_expected_s.exp_rtry ;
+        if (!m_tx_pending_s.flag_rd) begin
             m_tx_expected_s.exp_rtry = 0;
-			`uvm_info(get_type_name(),
-                $sformatf(
-                "retry counter reseted (%0d )",
-                m_tx_expected_s.exp_rtry),
-                UVM_HIGH)
-
+            `uvm_info(get_type_name(),
+                      $sformatf(
+                          "retry counter reseted (%0d )",
+                          m_tx_expected_s.exp_rtry),
+                      UVM_HIGH)
         end
-       
 
         //--------------------------------------------------
         // Release TX sample
@@ -2061,7 +2040,6 @@ task eth_tx_scoreboard::pred_check_jam_retry();
         m_sem_tx_seq_item.put(1);
 
         #1ns;
-
     end
 
 endtask

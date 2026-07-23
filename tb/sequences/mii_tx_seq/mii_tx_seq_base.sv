@@ -15,12 +15,14 @@ class mii_tx_seq_base extends uvm_sequence;
 
     `uvm_object_utils(mii_tx_seq_base)
 
+    mii_tx_seq_item_base m_tr_item;
+
     function new(string name="mii_tx_seq_base");
         super.new(name);
+        m_tr_item  = mii_tx_seq_item_base::type_id::create("m_tr_item");
     endfunction
 
     virtual task body();
-        mii_tx_seq_item_base m_tr_item  = mii_tx_seq_item_base::type_id::create("m_tr_item");
         forever
         begin
         start_item(m_tr_item);

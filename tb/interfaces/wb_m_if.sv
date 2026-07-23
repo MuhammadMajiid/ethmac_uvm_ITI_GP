@@ -107,42 +107,48 @@ interface wb_m_if #(parameter ADDR_WIDTH = 32, DATA_WIDTH = 32,SEL_WIDTH = 4)(
   property p_stb_cyc;
     @(posedge clk_i)  disable iff(rst_i) (m_stb_o |-> m_cyc_o);
   endproperty
-  a_stb_cyc: assert property (p_stb_cyc);
+  a_stb_cyc: assert property (p_stb_cyc)
+    else `uvm_error("A_WB_M", "a_stb_cyc");
   c_stb_cyc: cover property (p_stb_cyc);
 
  // WBM_ACK_REQUIRES_STB_CYC: M_ACK_I may only assert when both M_CYC_O and M_STB_O are simultaneously high.
   property p_ack_stb_cyc;
      @(posedge clk_i) disable iff(rst_i) (m_ack_i |-> m_stb_o && m_cyc_o);
   endproperty
-  a_ack_stb_cyc: assert property (p_ack_stb_cyc);
+  a_ack_stb_cyc: assert property (p_ack_stb_cyc)
+    else `uvm_error("A_WB_M", "a_ack_stb_cyc");
   c_ack_stb_cyc: cover property (p_ack_stb_cyc);
 
  // WBM_ERR_REQUIRES_STB_CYC" M_ERR_I may only assert when both M_CYC_O and M_STB_O are high.  
   property p_err_stb_cyc;
      @(posedge clk_i) disable iff(rst_i) (m_err_i |-> m_stb_o && m_cyc_o);
   endproperty
-  a_err_stb_cyc: assert property (p_err_stb_cyc);
+  a_err_stb_cyc: assert property (p_err_stb_cyc)
+    else `uvm_error("A_WB_M", "a_err_stb_cyc");
   c_err_stb_cyc: cover property (p_err_stb_cyc);
 
  // WBM_ACK_ERR_MUTEX M_ACK_I: and M_ERR_I must never be asserted simultaneously. 
   property p_ack_err_cyc;
      @(posedge clk_i) disable iff(rst_i) ($onehot({m_ack_i,m_err_i}) || (!m_ack_i && !m_err_i));
   endproperty
-  a_ack_err_cyc: assert property (p_ack_err_cyc);
+  a_ack_err_cyc: assert property (p_ack_err_cyc)
+    else `uvm_error("A_WB_M", "a_ack_err_cyc");
   c_ack_err_cyc: cover property (p_ack_err_cyc);
 
  // WBM_ACK_ERR_ON_PARTIAL_SEL When M_SEL_O is not 4'hF during a valid bus cycle M_ERR_I must be asserted M_ACK_I must not assert. 
   property p_ack_err_sel;
      @(posedge clk_i) disable iff(rst_i) (m_stb_o && m_cyc_o && !(&m_sel_o)) |=> (m_err_i && !m_ack_i) ;
   endproperty
-  a_ack_err_sel: assert property (p_ack_err_sel);
+  a_ack_err_sel: assert property (p_ack_err_sel)
+    else `uvm_error("A_WB_M", "a_ack_err_sel");
   c_ack_err_sel: cover property (p_ack_err_sel);
 
   // WBM_WE_STABLE DURING_TRANSFER: During transfer WE_O must remain stable. 
   property p_we_ack;
      @(posedge clk_i) disable iff(rst_i) (m_stb_o && m_cyc_o) |-> ($stable(m_we_o));
   endproperty
-  a_we_ack: assert property (p_we_ack);
+  a_we_ack: assert property (p_we_ack)
+    else `uvm_error("A_WB_M", "a_we_ack");
   c_we_ack: cover property (p_we_ack);
 
 

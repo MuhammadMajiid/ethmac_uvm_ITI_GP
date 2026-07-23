@@ -72,7 +72,8 @@ class wb_s_seq_tx_collision_cfg extends wb_s_basic_tx_seq;
             .minfl     (55),
             .maxfl     (80),
             .nobckof   (1),
-            .maxret    (3)
+            .maxret    (3),
+            .collvalid (7)
         );
 
         `uvm_info(get_type_name(),

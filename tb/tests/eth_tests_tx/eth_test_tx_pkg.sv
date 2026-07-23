@@ -19,6 +19,7 @@ package eth_test_tx_pkg;
   // import sequences package
   import wb_m_seq_pkg::*;
   import wb_s_seq_pkg::*;
+  import mii_tx_seq_pkg::*;
   import reset_seq_pkg::*;
 
   // import tx agent package
@@ -43,6 +44,8 @@ package eth_test_tx_pkg;
   `include "eth_test_tx_ctrl_flow.sv"
   `include "eth_test_tx_bd_num_rand.sv"
   `include "eth_test_tx_coll.sv" 
+  `include "eth_test_tx_cs.sv" 
+  
 endpackage
 
 `endif // ETH_TEST_TX_PKG_SV

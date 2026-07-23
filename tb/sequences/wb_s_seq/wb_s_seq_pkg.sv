@@ -27,7 +27,6 @@ package wb_s_seq_pkg;
     // Sequences
     `include "wb_s_seq_base.sv"
     `include "wb_s_basic_tx_seq.sv"
-    `include "wb_s_seq_tx_ctrl_frame.sv"
     `include "wb_s_seq_tx_no_pre.sv"
     `include "wb_s_seq_tx_hugen.sv"
     `include "wb_s_seq_tx_dcrc.sv"
@@ -41,13 +40,16 @@ package wb_s_seq_pkg;
     `include "wb_s_seq_tx_interrupts.sv"
 	`include "wb_s_seq_tx_bd_num_rand.sv"
 	`include "wb_s_seq_tx_collision_cfg.sv"
+    `include "wb_s_seq_tx_cs.sv"
+    `include "wb_s_seq_tx_ctrl_flow.sv"
     `include "eth_tx_bd_num_bit_bash_seq.sv"
 	`include "eth_max_value_seq.sv"
 	`include "eth_rw_pattern_seq.sv"
 	`include "eth_bd_mem_walk_seq.sv"
 	`include "eth_bd_mem_alternating_seq.sv"
 	`include "eth_bd_wr_seq.sv"
-    `include "eth_tx_ctrl_flow_seq.sv"
+
+
     
    
 

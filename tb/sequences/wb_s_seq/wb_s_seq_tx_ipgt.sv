@@ -29,6 +29,8 @@ class wb_s_seq_tx_ipgt extends wb_s_basic_tx_seq;
     assert(m_item.randomize() with {
     tx_bd_num==4;
     ipgt inside {'h0000_0000,'h0000_0020,'h0000_007F};
+    ipgr1 inside {'h0000_0000,'h0000_0020,'h0000_007F};
+    ipgr2 inside {'h0000_0000,'h0000_0020,'h0000_007F};
     foreach (pkt_len[i]){
         pkt_len[i]<100;
         pkt_len[i]>4;
@@ -51,7 +53,8 @@ class wb_s_seq_tx_ipgt extends wb_s_basic_tx_seq;
     //-----------------------------------------------------
     // Configure registers
     //-----------------------------------------------------
-    configure_tx_registers(.tx_bd_num(m_item.tx_bd_num),.fulld(m_item.moder_fd),.txen(1),.ipgt(m_item.ipgt));
+    configure_tx_registers(.tx_bd_num(m_item.tx_bd_num),.fulld(m_item.moder_fd),.txen(1),
+                            .ipgt(m_item.ipgt),.ipgr1(m_item.ipgr1),.ipgr2(m_item.ipgr2));
 
 
     `uvm_info(get_type_name(),

@@ -17,7 +17,7 @@ class eth_test_tx_ctrl_flow extends eth_test_tx_base;
         );
         factory.set_type_override_by_type(
             wb_s_seq_base::get_type(),
-            eth_tx_ctrl_flow_seq::get_type()
+            wb_s_seq_tx_ctrl_flow::get_type()
         );
 
         super.build_phase(phase);

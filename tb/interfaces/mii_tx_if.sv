@@ -95,14 +95,16 @@ interface mii_tx_if #(parameter PHY_NIBBLE_WIDTH = 4)(
   property p_en_data;
     @(posedge MTxCLK)  disable iff(rst) ($changed(MTxD) |-> MTxEN || $rose(MTxEN) || $fell(MTxEN));
   endproperty
-  a_en_data: assert property (p_en_data);
+  a_en_data: assert property (p_en_data)
+    else `uvm_error("A_MII_TX", "a_en_data");
   c_en_data: cover property (p_en_data);
   
   // TX_ERR_REQUIRES_TXEN MTxERR must only assert when MTxEN is also asserted. 
   property p_en_err;
     @(posedge MTxCLK)  disable iff(rst) (MTxERR |-> MTxEN);
   endproperty
-  a_en_err: assert property (p_en_err);
+  a_en_err: assert property (p_en_err)
+    else `uvm_error("A_MII_TX", "a_en_err");
   c_en_err: cover property (p_en_err);
 
   // TX_CLK_FREQ: Check that  MTxClk frequency is 25 MHz or 2.5 MHz with half duty cycle.
