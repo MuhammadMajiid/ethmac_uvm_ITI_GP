@@ -62,6 +62,8 @@ class mii_tx_agent extends uvm_agent;
         if(m_config.is_active == UVM_ACTIVE) begin
             // Assign driver vif handle to that in config object
             m_driver.vif = m_config.vif;
+            // Assign sequencer vif handle to that in config object
+            m_sequencer.vif = m_config.vif;
             // Connect driver port to sequencer Export
             m_driver.seq_item_port.connect(m_sequencer.seq_item_export);
         end else begin
@@ -70,7 +72,7 @@ class mii_tx_agent extends uvm_agent;
 
         // Assign monitor vif handle to that in config object
         m_monitor.vif = m_config.vif;
-       m_sequencer.vif = m_config.vif;
+
         // Connect transaction analysis port of monitor to analysis port of agent
         m_monitor.monitor_tr_a_port.connect(agent_a_port);
     endfunction

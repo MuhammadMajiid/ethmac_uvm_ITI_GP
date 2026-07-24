@@ -34,6 +34,9 @@ class eth_base_test extends uvm_test;
             this, "", "reset_if", m_config.m_rst_config.vif))
       `uvm_fatal(get_type_name(),"reset_if not found")
 
+    // Set scoreboard to passive
+    m_config.m_tx_sb_config.is_active=UVM_PASSIVE;
+
     // Pass configuration to environment
     uvm_config_db#(eth_env_config_obj)::set(
         this,
@@ -45,7 +48,11 @@ class eth_base_test extends uvm_test;
     m_env = eth_env_tx::type_id::create("m_env", this);
 
   endfunction
-
- 
-
+  
+  task run_phase(uvm_phase phase);
+      m_env.m_cov_tx.m_wr_cfg_cov.stop();
+      m_env.m_cov_tx.m_rd_cfg_cov.stop();
+      m_env.m_cov_tx.m_wb_m_cov.stop();
+      m_env.m_cov_tx.m_mii_cov_tx.stop();
+  endtask
 endclass

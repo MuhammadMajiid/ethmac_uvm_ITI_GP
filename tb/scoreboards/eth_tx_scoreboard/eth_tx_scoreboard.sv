@@ -1241,7 +1241,7 @@ task eth_tx_scoreboard::pred_read_cfg_bd();
     //------------------------------------------
     `uvm_info(get_type_name(),
         $sformatf(
-        "TX BD[%0d] LEN=%0d RD=%0b IRQ=%0b WR=%0b PAD=%0b CRC=%0b PTR=0x%08h",
+        "TX BD[%0d] LEN=%0d RD=%0b IRQ=%0b WR=%0b EFF PAD=%0b EFF CRC=%0b PTR=0x%08h",
         m_tx_bd_cfg_s.bd_index,
         m_tx_bd_cfg_s.len,
         m_tx_bd_cfg_s.rd,

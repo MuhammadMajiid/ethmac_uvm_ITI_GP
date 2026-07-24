@@ -15,7 +15,7 @@ Branch Coverage for instance /dut/miim1/clkgen
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_clockgen.v
+  File repo/rtl/eth_clockgen.v
 ------------------------------------IF Branch------------------------------------
     89                                         1     Count coming in to IF
     89              1                    ***0***     assign TempDivider[7:0]   = (Divider[7:0]<2)? 8'h02 : Divider[7:0]; // If smaller than 2
@@ -56,7 +56,7 @@ Condition Coverage:
 
 Condition Coverage for instance /dut/miim1/clkgen --
 
-  File rtl/eth_clockgen.v
+  File repo/rtl/eth_clockgen.v
 ----------------Focused Condition View-------------------
 Line       89 Item    1  (Divider < 2)
 Condition totals: 0 of 1 input term covered = 0.00%
@@ -80,7 +80,7 @@ Expression Coverage:
 
 Expression Coverage for instance /dut/miim1/clkgen --
 
-  File rtl/eth_clockgen.v
+  File repo/rtl/eth_clockgen.v
 ----------------Focused Expression View-----------------
 Line       123 Item    1  (Counter == 0)
 Expression totals: 1 of 1 input term covered = 100.00%
@@ -138,7 +138,7 @@ Statement Coverage for instance /dut/miim1/clkgen --
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_clockgen.v
+  File repo/rtl/eth_clockgen.v
     71                                               module eth_clockgen(Clk, Reset, Divider, MdcEn, MdcEn_n, Mdc);
     72                                               
     73                                               input       Clk;              // Input clock (Host clock)
@@ -239,7 +239,7 @@ Branch Coverage for instance /dut/miim1/shftrg
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_shiftreg.v
+  File repo/rtl/eth_shiftreg.v
 ------------------------------------IF Branch------------------------------------
     107                                      126     Count coming in to IF
     107             1                          2       if(Reset)
@@ -294,7 +294,7 @@ Condition Coverage:
 
 Condition Coverage for instance /dut/miim1/shftrg --
 
-  File rtl/eth_shiftreg.v
+  File repo/rtl/eth_shiftreg.v
 ----------------Focused Condition View-------------------
 Line       132 Item    1  (Rgad == 1)
 Condition totals: 0 of 1 input term covered = 0.00%
@@ -320,7 +320,7 @@ Statement Coverage for instance /dut/miim1/shftrg --
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_shiftreg.v
+  File repo/rtl/eth_shiftreg.v
     78                                               module eth_shiftreg(Clk, Reset, MdcEn_n, Mdi, Fiad, Rgad, CtrlData, WriteOp, ByteSelect, 
     79                                                                   LatchByte, ShiftedBit, Prsd, LinkFail);
     80                                               
@@ -430,7 +430,7 @@ Branch Coverage for instance /dut/miim1/outctrl
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_outputcontrol.v
+  File repo/rtl/eth_outputcontrol.v
 ------------------------------------IF Branch------------------------------------
     105                                      126     Count coming in to IF
     105             1                          2       if(Reset)
@@ -465,7 +465,7 @@ Expression Coverage:
 
 Expression Coverage for instance /dut/miim1/outctrl --
 
-  File rtl/eth_outputcontrol.v
+  File repo/rtl/eth_outputcontrol.v
 -----------Focused Expression View (Bimodal)------------
 Line       98 Item    1  (((WriteOp & InProgress) & ((BitCounter > 31) | ((BitCounter == 0) & NoPre))) | ((~WriteOp & InProgress) & (((BitCounter > 31) & (BitCounter < 46)) | ((BitCounter == 0) & NoPre))))
 Expression totals: 0 of 6 input terms covered = 0.00%
@@ -558,7 +558,7 @@ Statement Coverage for instance /dut/miim1/outctrl --
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_outputcontrol.v
+  File repo/rtl/eth_outputcontrol.v
     71                                               module eth_outputcontrol(Clk, Reset, InProgress, ShiftedBit, BitCounter, WriteOp, NoPre, MdcEn_n, Mdo, MdoEn);
     72                                               
     73                                               input         Clk;                // Host Clock
@@ -676,7 +676,7 @@ Branch Coverage for instance /dut/miim1
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_miim.v
+  File repo/rtl/eth_miim.v
 ------------------------------------IF Branch------------------------------------
     197                                        3     Count coming in to IF
     197             1                          2       if(Reset)
@@ -820,7 +820,7 @@ Condition Coverage:
 
 Condition Coverage for instance /dut/miim1 --
 
-  File rtl/eth_miim.v
+  File repo/rtl/eth_miim.v
 ----------------Focused Condition View-------------------
 Line       216 Item    1  (EndBusy & ~WCtrlDataStart_q)
 Condition totals: 0 of 2 input terms covered = 0.00%
@@ -927,7 +927,7 @@ Expression Coverage:
 
 Expression Coverage for instance /dut/miim1 --
 
-  File rtl/eth_miim.v
+  File repo/rtl/eth_miim.v
 ----------------Focused Expression View-----------------
 Line       204 Item    1  (~InProgress_q2 & InProgress_q3)
 Expression totals: 0 of 2 input terms covered = 0.00%
@@ -1194,7 +1194,7 @@ Statement Coverage for instance /dut/miim1 --
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_miim.v
+  File repo/rtl/eth_miim.v
     86                                               module eth_miim
     87                                               (
     88                                                 Clk,
@@ -1628,7 +1628,7 @@ Branch Coverage for instance /dut/ethreg1/MODER_0
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
 ------------------------------------IF Branch------------------------------------
     96                                       261     Count coming in to IF
     96              1                          3       if(Reset)
@@ -1649,7 +1649,7 @@ Statement Coverage for instance /dut/ethreg1/MODER_0 --
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
     77                                               module eth_register(DataIn, DataOut, Write, Clk, Reset, SyncReset);
     78                                               
     79                                               parameter WIDTH = 8; // default parameter of the register width
@@ -1717,7 +1717,7 @@ Branch Coverage for instance /dut/ethreg1/MODER_1
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
 ------------------------------------IF Branch------------------------------------
     96                                         5     Count coming in to IF
     96              1                          3       if(Reset)
@@ -1738,7 +1738,7 @@ Statement Coverage for instance /dut/ethreg1/MODER_1 --
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
     77                                               module eth_register(DataIn, DataOut, Write, Clk, Reset, SyncReset);
     78                                               
     79                                               parameter WIDTH = 8; // default parameter of the register width
@@ -1806,7 +1806,7 @@ Branch Coverage for instance /dut/ethreg1/MODER_2
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
 ------------------------------------IF Branch------------------------------------
     96                                         6     Count coming in to IF
     96              1                          3       if(Reset)
@@ -1827,7 +1827,7 @@ Statement Coverage for instance /dut/ethreg1/MODER_2 --
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
     77                                               module eth_register(DataIn, DataOut, Write, Clk, Reset, SyncReset);
     78                                               
     79                                               parameter WIDTH = 8; // default parameter of the register width
@@ -1895,7 +1895,7 @@ Branch Coverage for instance /dut/ethreg1/INT_MASK_0
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
 ------------------------------------IF Branch------------------------------------
     96                                       260     Count coming in to IF
     96              1                          3       if(Reset)
@@ -1916,7 +1916,7 @@ Statement Coverage for instance /dut/ethreg1/INT_MASK_0 --
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
     77                                               module eth_register(DataIn, DataOut, Write, Clk, Reset, SyncReset);
     78                                               
     79                                               parameter WIDTH = 8; // default parameter of the register width
@@ -1984,7 +1984,7 @@ Branch Coverage for instance /dut/ethreg1/IPGT_0
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
 ------------------------------------IF Branch------------------------------------
     96                                       260     Count coming in to IF
     96              1                          3       if(Reset)
@@ -2005,7 +2005,7 @@ Statement Coverage for instance /dut/ethreg1/IPGT_0 --
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
     77                                               module eth_register(DataIn, DataOut, Write, Clk, Reset, SyncReset);
     78                                               
     79                                               parameter WIDTH = 8; // default parameter of the register width
@@ -2073,7 +2073,7 @@ Branch Coverage for instance /dut/ethreg1/IPGR1_0
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
 ------------------------------------IF Branch------------------------------------
     96                                       260     Count coming in to IF
     96              1                          3       if(Reset)
@@ -2094,7 +2094,7 @@ Statement Coverage for instance /dut/ethreg1/IPGR1_0 --
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
     77                                               module eth_register(DataIn, DataOut, Write, Clk, Reset, SyncReset);
     78                                               
     79                                               parameter WIDTH = 8; // default parameter of the register width
@@ -2162,7 +2162,7 @@ Branch Coverage for instance /dut/ethreg1/IPGR2_0
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
 ------------------------------------IF Branch------------------------------------
     96                                       260     Count coming in to IF
     96              1                          3       if(Reset)
@@ -2183,7 +2183,7 @@ Statement Coverage for instance /dut/ethreg1/IPGR2_0 --
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
     77                                               module eth_register(DataIn, DataOut, Write, Clk, Reset, SyncReset);
     78                                               
     79                                               parameter WIDTH = 8; // default parameter of the register width
@@ -2251,7 +2251,7 @@ Branch Coverage for instance /dut/ethreg1/PACKETLEN_0
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
 ------------------------------------IF Branch------------------------------------
     96                                       261     Count coming in to IF
     96              1                          3       if(Reset)
@@ -2272,7 +2272,7 @@ Statement Coverage for instance /dut/ethreg1/PACKETLEN_0 --
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
     77                                               module eth_register(DataIn, DataOut, Write, Clk, Reset, SyncReset);
     78                                               
     79                                               parameter WIDTH = 8; // default parameter of the register width
@@ -2340,7 +2340,7 @@ Branch Coverage for instance /dut/ethreg1/PACKETLEN_1
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
 ------------------------------------IF Branch------------------------------------
     96                                         4     Count coming in to IF
     96              1                          3       if(Reset)
@@ -2361,7 +2361,7 @@ Statement Coverage for instance /dut/ethreg1/PACKETLEN_1 --
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
     77                                               module eth_register(DataIn, DataOut, Write, Clk, Reset, SyncReset);
     78                                               
     79                                               parameter WIDTH = 8; // default parameter of the register width
@@ -2429,7 +2429,7 @@ Branch Coverage for instance /dut/ethreg1/PACKETLEN_2
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
 ------------------------------------IF Branch------------------------------------
     96                                         6     Count coming in to IF
     96              1                          3       if(Reset)
@@ -2450,7 +2450,7 @@ Statement Coverage for instance /dut/ethreg1/PACKETLEN_2 --
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
     77                                               module eth_register(DataIn, DataOut, Write, Clk, Reset, SyncReset);
     78                                               
     79                                               parameter WIDTH = 8; // default parameter of the register width
@@ -2524,7 +2524,7 @@ Branch Coverage for instance /dut/ethreg1/PACKETLEN_3
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
 ------------------------------------IF Branch------------------------------------
     96                                         6     Count coming in to IF
     96              1                          3       if(Reset)
@@ -2545,7 +2545,7 @@ Statement Coverage for instance /dut/ethreg1/PACKETLEN_3 --
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
     77                                               module eth_register(DataIn, DataOut, Write, Clk, Reset, SyncReset);
     78                                               
     79                                               parameter WIDTH = 8; // default parameter of the register width
@@ -2619,7 +2619,7 @@ Branch Coverage for instance /dut/ethreg1/COLLCONF_0
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
 ------------------------------------IF Branch------------------------------------
     96                                       260     Count coming in to IF
     96              1                          3       if(Reset)
@@ -2640,7 +2640,7 @@ Statement Coverage for instance /dut/ethreg1/COLLCONF_0 --
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
     77                                               module eth_register(DataIn, DataOut, Write, Clk, Reset, SyncReset);
     78                                               
     79                                               parameter WIDTH = 8; // default parameter of the register width
@@ -2708,7 +2708,7 @@ Branch Coverage for instance /dut/ethreg1/COLLCONF_2
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
 ------------------------------------IF Branch------------------------------------
     96                                         6     Count coming in to IF
     96              1                          3       if(Reset)
@@ -2729,7 +2729,7 @@ Statement Coverage for instance /dut/ethreg1/COLLCONF_2 --
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
     77                                               module eth_register(DataIn, DataOut, Write, Clk, Reset, SyncReset);
     78                                               
     79                                               parameter WIDTH = 8; // default parameter of the register width
@@ -2800,7 +2800,7 @@ Branch Coverage for instance /dut/ethreg1/TX_BD_NUM_0
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
 ------------------------------------IF Branch------------------------------------
     96                                       263     Count coming in to IF
     96              1                          3       if(Reset)
@@ -2821,7 +2821,7 @@ Statement Coverage for instance /dut/ethreg1/TX_BD_NUM_0 --
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
     77                                               module eth_register(DataIn, DataOut, Write, Clk, Reset, SyncReset);
     78                                               
     79                                               parameter WIDTH = 8; // default parameter of the register width
@@ -2891,7 +2891,7 @@ Branch Coverage for instance /dut/ethreg1/CTRLMODER_0
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
 ------------------------------------IF Branch------------------------------------
     96                                       260     Count coming in to IF
     96              1                          3       if(Reset)
@@ -2912,7 +2912,7 @@ Statement Coverage for instance /dut/ethreg1/CTRLMODER_0 --
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
     77                                               module eth_register(DataIn, DataOut, Write, Clk, Reset, SyncReset);
     78                                               
     79                                               parameter WIDTH = 8; // default parameter of the register width
@@ -2980,7 +2980,7 @@ Branch Coverage for instance /dut/ethreg1/MIIMODER_0
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
 ------------------------------------IF Branch------------------------------------
     96                                       261     Count coming in to IF
     96              1                          3       if(Reset)
@@ -3001,7 +3001,7 @@ Statement Coverage for instance /dut/ethreg1/MIIMODER_0 --
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
     77                                               module eth_register(DataIn, DataOut, Write, Clk, Reset, SyncReset);
     78                                               
     79                                               parameter WIDTH = 8; // default parameter of the register width
@@ -3069,7 +3069,7 @@ Branch Coverage for instance /dut/ethreg1/MIIMODER_1
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
 ------------------------------------IF Branch------------------------------------
     96                                         4     Count coming in to IF
     96              1                          3       if(Reset)
@@ -3090,7 +3090,7 @@ Statement Coverage for instance /dut/ethreg1/MIIMODER_1 --
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
     77                                               module eth_register(DataIn, DataOut, Write, Clk, Reset, SyncReset);
     78                                               
     79                                               parameter WIDTH = 8; // default parameter of the register width
@@ -3158,7 +3158,7 @@ Branch Coverage for instance /dut/ethreg1/MIICOMMAND0
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
 ------------------------------------IF Branch------------------------------------
     96                                       260     Count coming in to IF
     96              1                          3       if(Reset)
@@ -3179,7 +3179,7 @@ Statement Coverage for instance /dut/ethreg1/MIICOMMAND0 --
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
     77                                               module eth_register(DataIn, DataOut, Write, Clk, Reset, SyncReset);
     78                                               
     79                                               parameter WIDTH = 8; // default parameter of the register width
@@ -3247,7 +3247,7 @@ Branch Coverage for instance /dut/ethreg1/MIICOMMAND1
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
 ------------------------------------IF Branch------------------------------------
     96                                       132     Count coming in to IF
     96              1                          3       if(Reset)
@@ -3268,7 +3268,7 @@ Statement Coverage for instance /dut/ethreg1/MIICOMMAND1 --
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
     77                                               module eth_register(DataIn, DataOut, Write, Clk, Reset, SyncReset);
     78                                               
     79                                               parameter WIDTH = 8; // default parameter of the register width
@@ -3336,7 +3336,7 @@ Branch Coverage for instance /dut/ethreg1/MIICOMMAND2
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
 ------------------------------------IF Branch------------------------------------
     96                                        68     Count coming in to IF
     96              1                          3       if(Reset)
@@ -3357,7 +3357,7 @@ Statement Coverage for instance /dut/ethreg1/MIICOMMAND2 --
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
     77                                               module eth_register(DataIn, DataOut, Write, Clk, Reset, SyncReset);
     78                                               
     79                                               parameter WIDTH = 8; // default parameter of the register width
@@ -3425,7 +3425,7 @@ Branch Coverage for instance /dut/ethreg1/MIIADDRESS_0
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
 ------------------------------------IF Branch------------------------------------
     96                                       260     Count coming in to IF
     96              1                          3       if(Reset)
@@ -3446,7 +3446,7 @@ Statement Coverage for instance /dut/ethreg1/MIIADDRESS_0 --
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
     77                                               module eth_register(DataIn, DataOut, Write, Clk, Reset, SyncReset);
     78                                               
     79                                               parameter WIDTH = 8; // default parameter of the register width
@@ -3514,7 +3514,7 @@ Branch Coverage for instance /dut/ethreg1/MIIADDRESS_1
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
 ------------------------------------IF Branch------------------------------------
     96                                         4     Count coming in to IF
     96              1                          3       if(Reset)
@@ -3535,7 +3535,7 @@ Statement Coverage for instance /dut/ethreg1/MIIADDRESS_1 --
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
     77                                               module eth_register(DataIn, DataOut, Write, Clk, Reset, SyncReset);
     78                                               
     79                                               parameter WIDTH = 8; // default parameter of the register width
@@ -3603,7 +3603,7 @@ Branch Coverage for instance /dut/ethreg1/MIITX_DATA_0
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
 ------------------------------------IF Branch------------------------------------
     96                                       261     Count coming in to IF
     96              1                          3       if(Reset)
@@ -3624,7 +3624,7 @@ Statement Coverage for instance /dut/ethreg1/MIITX_DATA_0 --
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
     77                                               module eth_register(DataIn, DataOut, Write, Clk, Reset, SyncReset);
     78                                               
     79                                               parameter WIDTH = 8; // default parameter of the register width
@@ -3692,7 +3692,7 @@ Branch Coverage for instance /dut/ethreg1/MIITX_DATA_1
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
 ------------------------------------IF Branch------------------------------------
     96                                         4     Count coming in to IF
     96              1                          3       if(Reset)
@@ -3713,7 +3713,7 @@ Statement Coverage for instance /dut/ethreg1/MIITX_DATA_1 --
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
     77                                               module eth_register(DataIn, DataOut, Write, Clk, Reset, SyncReset);
     78                                               
     79                                               parameter WIDTH = 8; // default parameter of the register width
@@ -3781,7 +3781,7 @@ Branch Coverage for instance /dut/ethreg1/MIIRX_DATA
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
 ------------------------------------IF Branch------------------------------------
     96                                         3     Count coming in to IF
     96              1                          2       if(Reset)
@@ -3802,7 +3802,7 @@ Statement Coverage for instance /dut/ethreg1/MIIRX_DATA --
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
     77                                               module eth_register(DataIn, DataOut, Write, Clk, Reset, SyncReset);
     78                                               
     79                                               parameter WIDTH = 8; // default parameter of the register width
@@ -3870,7 +3870,7 @@ Branch Coverage for instance /dut/ethreg1/MAC_ADDR0_0
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
 ------------------------------------IF Branch------------------------------------
     96                                       261     Count coming in to IF
     96              1                          3       if(Reset)
@@ -3891,7 +3891,7 @@ Statement Coverage for instance /dut/ethreg1/MAC_ADDR0_0 --
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
     77                                               module eth_register(DataIn, DataOut, Write, Clk, Reset, SyncReset);
     78                                               
     79                                               parameter WIDTH = 8; // default parameter of the register width
@@ -3959,7 +3959,7 @@ Branch Coverage for instance /dut/ethreg1/MAC_ADDR0_1
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
 ------------------------------------IF Branch------------------------------------
     96                                         4     Count coming in to IF
     96              1                          3       if(Reset)
@@ -3980,7 +3980,7 @@ Statement Coverage for instance /dut/ethreg1/MAC_ADDR0_1 --
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
     77                                               module eth_register(DataIn, DataOut, Write, Clk, Reset, SyncReset);
     78                                               
     79                                               parameter WIDTH = 8; // default parameter of the register width
@@ -4048,7 +4048,7 @@ Branch Coverage for instance /dut/ethreg1/MAC_ADDR0_2
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
 ------------------------------------IF Branch------------------------------------
     96                                         6     Count coming in to IF
     96              1                          3       if(Reset)
@@ -4069,7 +4069,7 @@ Statement Coverage for instance /dut/ethreg1/MAC_ADDR0_2 --
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
     77                                               module eth_register(DataIn, DataOut, Write, Clk, Reset, SyncReset);
     78                                               
     79                                               parameter WIDTH = 8; // default parameter of the register width
@@ -4143,7 +4143,7 @@ Branch Coverage for instance /dut/ethreg1/MAC_ADDR0_3
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
 ------------------------------------IF Branch------------------------------------
     96                                         6     Count coming in to IF
     96              1                          3       if(Reset)
@@ -4164,7 +4164,7 @@ Statement Coverage for instance /dut/ethreg1/MAC_ADDR0_3 --
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
     77                                               module eth_register(DataIn, DataOut, Write, Clk, Reset, SyncReset);
     78                                               
     79                                               parameter WIDTH = 8; // default parameter of the register width
@@ -4238,7 +4238,7 @@ Branch Coverage for instance /dut/ethreg1/MAC_ADDR1_0
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
 ------------------------------------IF Branch------------------------------------
     96                                       261     Count coming in to IF
     96              1                          3       if(Reset)
@@ -4259,7 +4259,7 @@ Statement Coverage for instance /dut/ethreg1/MAC_ADDR1_0 --
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
     77                                               module eth_register(DataIn, DataOut, Write, Clk, Reset, SyncReset);
     78                                               
     79                                               parameter WIDTH = 8; // default parameter of the register width
@@ -4327,7 +4327,7 @@ Branch Coverage for instance /dut/ethreg1/MAC_ADDR1_1
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
 ------------------------------------IF Branch------------------------------------
     96                                         4     Count coming in to IF
     96              1                          3       if(Reset)
@@ -4348,7 +4348,7 @@ Statement Coverage for instance /dut/ethreg1/MAC_ADDR1_1 --
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
     77                                               module eth_register(DataIn, DataOut, Write, Clk, Reset, SyncReset);
     78                                               
     79                                               parameter WIDTH = 8; // default parameter of the register width
@@ -4416,7 +4416,7 @@ Branch Coverage for instance /dut/ethreg1/RXHASH0_0
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
 ------------------------------------IF Branch------------------------------------
     96                                       261     Count coming in to IF
     96              1                          3       if(Reset)
@@ -4437,7 +4437,7 @@ Statement Coverage for instance /dut/ethreg1/RXHASH0_0 --
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
     77                                               module eth_register(DataIn, DataOut, Write, Clk, Reset, SyncReset);
     78                                               
     79                                               parameter WIDTH = 8; // default parameter of the register width
@@ -4505,7 +4505,7 @@ Branch Coverage for instance /dut/ethreg1/RXHASH0_1
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
 ------------------------------------IF Branch------------------------------------
     96                                         4     Count coming in to IF
     96              1                          3       if(Reset)
@@ -4526,7 +4526,7 @@ Statement Coverage for instance /dut/ethreg1/RXHASH0_1 --
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
     77                                               module eth_register(DataIn, DataOut, Write, Clk, Reset, SyncReset);
     78                                               
     79                                               parameter WIDTH = 8; // default parameter of the register width
@@ -4594,7 +4594,7 @@ Branch Coverage for instance /dut/ethreg1/RXHASH0_2
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
 ------------------------------------IF Branch------------------------------------
     96                                         6     Count coming in to IF
     96              1                          3       if(Reset)
@@ -4615,7 +4615,7 @@ Statement Coverage for instance /dut/ethreg1/RXHASH0_2 --
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
     77                                               module eth_register(DataIn, DataOut, Write, Clk, Reset, SyncReset);
     78                                               
     79                                               parameter WIDTH = 8; // default parameter of the register width
@@ -4689,7 +4689,7 @@ Branch Coverage for instance /dut/ethreg1/RXHASH0_3
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
 ------------------------------------IF Branch------------------------------------
     96                                         6     Count coming in to IF
     96              1                          3       if(Reset)
@@ -4710,7 +4710,7 @@ Statement Coverage for instance /dut/ethreg1/RXHASH0_3 --
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
     77                                               module eth_register(DataIn, DataOut, Write, Clk, Reset, SyncReset);
     78                                               
     79                                               parameter WIDTH = 8; // default parameter of the register width
@@ -4784,7 +4784,7 @@ Branch Coverage for instance /dut/ethreg1/RXHASH1_0
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
 ------------------------------------IF Branch------------------------------------
     96                                       261     Count coming in to IF
     96              1                          3       if(Reset)
@@ -4805,7 +4805,7 @@ Statement Coverage for instance /dut/ethreg1/RXHASH1_0 --
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
     77                                               module eth_register(DataIn, DataOut, Write, Clk, Reset, SyncReset);
     78                                               
     79                                               parameter WIDTH = 8; // default parameter of the register width
@@ -4873,7 +4873,7 @@ Branch Coverage for instance /dut/ethreg1/RXHASH1_1
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
 ------------------------------------IF Branch------------------------------------
     96                                         4     Count coming in to IF
     96              1                          3       if(Reset)
@@ -4894,7 +4894,7 @@ Statement Coverage for instance /dut/ethreg1/RXHASH1_1 --
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
     77                                               module eth_register(DataIn, DataOut, Write, Clk, Reset, SyncReset);
     78                                               
     79                                               parameter WIDTH = 8; // default parameter of the register width
@@ -4962,7 +4962,7 @@ Branch Coverage for instance /dut/ethreg1/RXHASH1_2
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
 ------------------------------------IF Branch------------------------------------
     96                                         6     Count coming in to IF
     96              1                          3       if(Reset)
@@ -4983,7 +4983,7 @@ Statement Coverage for instance /dut/ethreg1/RXHASH1_2 --
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
     77                                               module eth_register(DataIn, DataOut, Write, Clk, Reset, SyncReset);
     78                                               
     79                                               parameter WIDTH = 8; // default parameter of the register width
@@ -5057,7 +5057,7 @@ Branch Coverage for instance /dut/ethreg1/RXHASH1_3
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
 ------------------------------------IF Branch------------------------------------
     96                                         6     Count coming in to IF
     96              1                          3       if(Reset)
@@ -5078,7 +5078,7 @@ Statement Coverage for instance /dut/ethreg1/RXHASH1_3 --
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
     77                                               module eth_register(DataIn, DataOut, Write, Clk, Reset, SyncReset);
     78                                               
     79                                               parameter WIDTH = 8; // default parameter of the register width
@@ -5152,7 +5152,7 @@ Branch Coverage for instance /dut/ethreg1/TXCTRL_0
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
 ------------------------------------IF Branch------------------------------------
     96                                       261     Count coming in to IF
     96              1                          3       if(Reset)
@@ -5173,7 +5173,7 @@ Statement Coverage for instance /dut/ethreg1/TXCTRL_0 --
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
     77                                               module eth_register(DataIn, DataOut, Write, Clk, Reset, SyncReset);
     78                                               
     79                                               parameter WIDTH = 8; // default parameter of the register width
@@ -5241,7 +5241,7 @@ Branch Coverage for instance /dut/ethreg1/TXCTRL_1
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
 ------------------------------------IF Branch------------------------------------
     96                                         4     Count coming in to IF
     96              1                          3       if(Reset)
@@ -5262,7 +5262,7 @@ Statement Coverage for instance /dut/ethreg1/TXCTRL_1 --
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
     77                                               module eth_register(DataIn, DataOut, Write, Clk, Reset, SyncReset);
     78                                               
     79                                               parameter WIDTH = 8; // default parameter of the register width
@@ -5330,7 +5330,7 @@ Branch Coverage for instance /dut/ethreg1/TXCTRL_2
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
 ------------------------------------IF Branch------------------------------------
     96                                         6     Count coming in to IF
     96              1                          3       if(Reset)
@@ -5351,7 +5351,7 @@ Statement Coverage for instance /dut/ethreg1/TXCTRL_2 --
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_register.v
+  File repo/rtl/eth_register.v
     77                                               module eth_register(DataIn, DataOut, Write, Clk, Reset, SyncReset);
     78                                               
     79                                               parameter WIDTH = 8; // default parameter of the register width
@@ -5419,7 +5419,7 @@ Branch Coverage for instance /dut/ethreg1
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_registers.v
+  File repo/rtl/eth_registers.v
 ------------------------------------IF Branch------------------------------------
     850                                      517     Count coming in to IF
     850             1                    ***0***       if(Read)  // read
@@ -5612,7 +5612,7 @@ Condition Coverage:
 
 Condition Coverage for instance /dut/ethreg1 --
 
-  File rtl/eth_registers.v
+  File repo/rtl/eth_registers.v
 ----------------Focused Condition View-------------------
 Line       951 Item    1  ((TxCtrlEndFrm & StartTxDone) & r_TxFlow)
 Condition totals: 0 of 3 input terms covered = 0.00%
@@ -5786,7 +5786,7 @@ Expression Coverage:
 
 Expression Coverage for instance /dut/ethreg1 --
 
-  File rtl/eth_registers.v
+  File repo/rtl/eth_registers.v
 ----------------Focused Expression View-----------------
 Line       292 Item    1  (|Cs & ~Rw)
 Expression totals: 0 of 2 input terms covered = 0.00%
@@ -6834,7 +6834,7 @@ Statement Coverage for instance /dut/ethreg1 --
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_registers.v
+  File repo/rtl/eth_registers.v
     169                                              module eth_registers( DataIn, Address, Rw, Cs, Clk, Reset, DataOut, 
     170                                                                    r_RecSmall, r_Pad, r_HugEn, r_CrcEn, r_DlyCrcEn, 
     171                                                                    r_FullD, r_ExDfrEn, r_NoBckof, r_LoopBck, r_IFG, 
@@ -8046,7 +8046,7 @@ Branch Coverage for instance /dut/maccontrol1/receivecontrol1
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_receivecontrol.v
+  File repo/rtl/eth_receivecontrol.v
 ------------------------------------IF Branch------------------------------------
     165                                        1     Count coming in to IF
     165             1                          1       if(RxReset)
@@ -8201,7 +8201,7 @@ Condition Coverage:
 
 Condition Coverage for instance /dut/maccontrol1/receivecontrol1 --
 
-  File rtl/eth_receivecontrol.v
+  File repo/rtl/eth_receivecontrol.v
 ----------------Focused Condition View-------------------
 Line       168 Item    1  (DetectionWindow & ByteCntEq0)
 Condition totals: 0 of 2 input terms covered = 0.00%
@@ -8557,7 +8557,7 @@ Expression Coverage:
 
 Expression Coverage for instance /dut/maccontrol1/receivecontrol1 --
 
-  File rtl/eth_receivecontrol.v
+  File repo/rtl/eth_receivecontrol.v
 ----------------Focused Expression View-----------------
 Line       169 Item    1  ((RxData == ReservedMulticast[47:40]) | (RxData == MAC[47:40]))
 Expression totals: 0 of 2 input terms covered = 0.00%
@@ -9080,7 +9080,7 @@ Statement Coverage for instance /dut/maccontrol1/receivecontrol1 --
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_receivecontrol.v
+  File repo/rtl/eth_receivecontrol.v
     80                                               module eth_receivecontrol (MTxClk, MRxClk, TxReset, RxReset, RxData, RxValid, RxStartFrm, 
     81                                                                          RxEndFrm, RxFlow, ReceiveEnd, MAC, DlyCrcEn, TxDoneIn, 
     82                                                                          TxAbortIn, TxStartFrmOut, ReceivedLengthOK, ReceivedPacketGood, 
@@ -9525,7 +9525,7 @@ Branch Coverage for instance /dut/maccontrol1/transmitcontrol1
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_transmitcontrol.v
+  File repo/rtl/eth_transmitcontrol.v
 ------------------------------------IF Branch------------------------------------
     139                                        3     Count coming in to IF
     139             1                          2       if(TxReset)
@@ -9642,7 +9642,7 @@ Condition Coverage:
 
 Condition Coverage for instance /dut/maccontrol1/transmitcontrol1 --
 
-  File rtl/eth_transmitcontrol.v
+  File repo/rtl/eth_transmitcontrol.v
 ----------------Focused Condition View-------------------
 Line       142 Item    1  (TxCtrlEndFrm & CtrlMux)
 Condition totals: 0 of 2 input terms covered = 0.00%
@@ -9826,7 +9826,7 @@ Expression Coverage:
 
 Expression Coverage for instance /dut/maccontrol1/transmitcontrol1 --
 
-  File rtl/eth_transmitcontrol.v
+  File repo/rtl/eth_transmitcontrol.v
 ----------------Focused Expression View-----------------
 Line       240 Item    1  ((~DlyCrcCnt[2] & CtrlMux) & TxUsedDataIn)
 Expression totals: 0 of 3 input terms covered = 0.00%
@@ -9958,7 +9958,7 @@ Statement Coverage for instance /dut/maccontrol1/transmitcontrol1 --
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_transmitcontrol.v
+  File repo/rtl/eth_transmitcontrol.v
     85                                               module eth_transmitcontrol (MTxClk, TxReset, TxUsedDataIn, TxUsedDataOut, TxDoneIn, TxAbortIn, 
     86                                                                           TxStartFrmIn, TPauseRq, TxUsedDataOutDetected, TxFlow, DlyCrcEn, 
     87                                                                           TxPauseTV, MAC, TxCtrlStartFrm, TxCtrlEndFrm, SendingCtrlFrm, CtrlMux, 
@@ -10261,7 +10261,7 @@ Branch Coverage for instance /dut/maccontrol1
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_maccontrol.v
+  File repo/rtl/eth_maccontrol.v
 ------------------------------------IF Branch------------------------------------
     157                                        3     Count coming in to IF
     157             1                          2       if(TxReset)
@@ -10332,7 +10332,7 @@ Condition Coverage:
 
 Condition Coverage for instance /dut/maccontrol1 --
 
-  File rtl/eth_maccontrol.v
+  File repo/rtl/eth_maccontrol.v
 ----------------Focused Condition View-------------------
 Line       160 Item    1  (TxDoneIn | TxAbortIn)
 Condition totals: 0 of 2 input terms covered = 0.00%
@@ -10397,7 +10397,7 @@ Expression Coverage:
 
 Expression Coverage for instance /dut/maccontrol1 --
 
-  File rtl/eth_maccontrol.v
+  File repo/rtl/eth_maccontrol.v
 -----------Focused Expression View (Bimodal)------------
 Line       214 Item    1  (CtrlMux? ((TxStartFrmIn ~| BlockTxDone) & MuxedDone): ((TxStartFrmIn ~| BlockTxDone) & TxDoneIn))
 Expression totals: 0 of 5 input terms covered = 0.00%
@@ -10553,7 +10553,7 @@ Statement Coverage for instance /dut/maccontrol1 --
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_maccontrol.v
+  File repo/rtl/eth_maccontrol.v
     88                                               module eth_maccontrol (MTxClk, MRxClk, TxReset, RxReset, TPauseRq, TxDataIn, TxStartFrmIn, TxUsedDataIn, 
     89                                                                      TxEndFrmIn, TxDoneIn, TxAbortIn, RxData, RxValid, RxStartFrm, RxEndFrm, ReceiveEnd, 
     90                                                                      ReceivedPacketGood, ReceivedLengthOK, TxFlow, RxFlow, DlyCrcEn, TxPauseTV, 
@@ -10794,7 +10794,7 @@ Branch Coverage for instance /dut/txethmac1/txcounters1
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_txcounters.v
+  File repo/rtl/eth_txcounters.v
 ------------------------------------IF Branch------------------------------------
     152                                       24     Count coming in to IF
     152             1                          2       if(Reset)
@@ -10844,7 +10844,7 @@ Condition Coverage:
 
 Condition Coverage for instance /dut/txethmac1/txcounters1 --
 
-  File rtl/eth_txcounters.v
+  File repo/rtl/eth_txcounters.v
 ----------------Focused Condition View-------------------
 Line       209 Item    1  (((StateData[1] & (DlyCrcCnt == 4)) | StartJam) | PacketFinished_q)
 Condition totals: 0 of 4 input terms covered = 0.00%
@@ -10893,13 +10893,13 @@ Condition totals: 0 of 4 input terms covered = 0.00%
 Expression Coverage:
     Enabled Coverage              Bins   Covered    Misses  Coverage
     ----------------              ----      ----    ------  --------
-    Expressions                     39         2        37     5.12%
+    Expressions                     39         3        36     7.69%
 
 ================================Expression Details================================
 
 Expression Coverage for instance /dut/txethmac1/txcounters1 --
 
-  File rtl/eth_txcounters.v
+  File repo/rtl/eth_txcounters.v
 ----------------Focused Expression View-----------------
 Line       142 Item    1  (((((((StateIPG | StatePreamble) | |StateData) | StatePAD) | StateFCS) | StateJam) | StateBackOff) | ((~ExcessiveDefer & StateDefer) & TxStartFrm))
 Expression totals: 1 of 10 input terms covered = 10.00%
@@ -10942,7 +10942,7 @@ Expression totals: 1 of 10 input terms covered = 10.00%
 
 ----------------Focused Expression View-----------------
 Line       146 Item    1  (((((((((~TxStartFrm & StateDefer) & ExcessiveDefer) | (StatePreamble & NibCntEq15)) | (StateJam & NibCntEq7)) | StateIdle) | StartDefer) | StartIPG) | StartFCS) | StartJam)
-Expression totals: 1 of 12 input terms covered = 8.33%
+Expression totals: 2 of 12 input terms covered = 16.66%
 
       Input Term   Covered  Reason for no coverage   Hint
      -----------  --------  -----------------------  --------------
@@ -10953,7 +10953,7 @@ Expression totals: 1 of 12 input terms covered = 8.33%
       NibCntEq15         N  No hits                  Hit '_0' and '_1'
         StateJam         N  '_1' not hit             Hit '_1'
        NibCntEq7         N  No hits                  Hit '_0' and '_1'
-       StateIdle         N  '_1' not hit             Hit '_1'
+       StateIdle         Y
       StartDefer         N  '_1' not hit             Hit '_1'
         StartIPG         Y
         StartFCS         N  '_1' not hit             Hit '_1'
@@ -10976,7 +10976,7 @@ Expression totals: 1 of 12 input terms covered = 8.33%
  Row   13:    ***0***  NibCntEq7_0           (~StartJam && ~StartFCS && ~StartIPG && ~StartDefer && ~StateIdle && ~(((~TxStartFrm & StateDefer) & ExcessiveDefer) | (StatePreamble & NibCntEq15)) && StateJam)
  Row   14:    ***0***  NibCntEq7_1           (~StartJam && ~StartFCS && ~StartIPG && ~StartDefer && ~StateIdle && ~(((~TxStartFrm & StateDefer) & ExcessiveDefer) | (StatePreamble & NibCntEq15)) && StateJam)
  Row   15:          1  StateIdle_0           (~StartJam && ~StartFCS && ~StartIPG && ~StartDefer && ~((((~TxStartFrm & StateDefer) & ExcessiveDefer) | (StatePreamble & NibCntEq15)) | (StateJam & NibCntEq7)))
- Row   16:    ***0***  StateIdle_1           (~StartJam && ~StartFCS && ~StartIPG && ~StartDefer && ~((((~TxStartFrm & StateDefer) & ExcessiveDefer) | (StatePreamble & NibCntEq15)) | (StateJam & NibCntEq7)))
+ Row   16:          1  StateIdle_1           (~StartJam && ~StartFCS && ~StartIPG && ~StartDefer && ~((((~TxStartFrm & StateDefer) & ExcessiveDefer) | (StatePreamble & NibCntEq15)) | (StateJam & NibCntEq7)))
  Row   17:          1  StartDefer_0          (~StartJam && ~StartFCS && ~StartIPG && ~(((((~TxStartFrm & StateDefer) & ExcessiveDefer) | (StatePreamble & NibCntEq15)) | (StateJam & NibCntEq7)) | StateIdle))
  Row   18:    ***0***  StartDefer_1          (~StartJam && ~StartFCS && ~StartIPG && ~(((((~TxStartFrm & StateDefer) & ExcessiveDefer) | (StatePreamble & NibCntEq15)) | (StateJam & NibCntEq7)) | StateIdle))
  Row   19:          1  StartIPG_0            (~StartJam && ~StartFCS && ~((((((~TxStartFrm & StateDefer) & ExcessiveDefer) | (StatePreamble & NibCntEq15)) | (StateJam & NibCntEq7)) | StateIdle) | StartDefer))
@@ -11109,7 +11109,7 @@ Statement Coverage for instance /dut/txethmac1/txcounters1 --
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_txcounters.v
+  File repo/rtl/eth_txcounters.v
     88                                               module eth_txcounters (StatePreamble, StateIPG, StateData, StatePAD, StateFCS, StateJam, 
     89                                                                      StateBackOff, StateDefer, StateIdle, StartDefer, StartIPG, StartFCS, 
     90                                                                      StartJam, StartBackoff, TxStartFrm, MTxClk, Reset, MinFL, MaxFL, HugEn, 
@@ -11168,7 +11168,7 @@ Statement Coverage for instance /dut/txethmac1/txcounters1 --
     143                                                                     | StateFCS | StateJam | StateBackOff | StateDefer & ~ExcessiveDefer & TxStartFrm;
     144                                              
     145                                              
-    146             1                         15     assign ResetNibCnt = StateDefer & ExcessiveDefer & ~TxStartFrm | StatePreamble & NibCntEq15 
+    146             1                         13     assign ResetNibCnt = StateDefer & ExcessiveDefer & ~TxStartFrm | StatePreamble & NibCntEq15 
     147                                                                 | StateJam & NibCntEq7 | StateIdle | StartDefer | StartIPG | StartFCS | StartJam;
     148                                              
     149                                              // Nibble Counter
@@ -11309,67 +11309,67 @@ Branch Coverage for instance /dut/txethmac1/txstatem1
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_txstatem.v
+  File repo/rtl/eth_txstatem.v
 ------------------------------------IF Branch------------------------------------
-    196                                        8     Count coming in to IF
+    196                                        6     Count coming in to IF
     196             1                          2       if(Reset)
-    209             1                          6       else
+    209             1                          4       else
 Branch totals: 2 hits of 2 branches = 100.00%
 
 ------------------------------------IF Branch------------------------------------
-    214                                        6     Count coming in to IF
+    214                                        4     Count coming in to IF
     214             1                          1           if(StartDefer | StartIdle)
     217             1                          1           if(StartIPG)
-                                               4     All False Count
+                                               2     All False Count
 Branch totals: 3 hits of 3 branches = 100.00%
 
 ------------------------------------IF Branch------------------------------------
-    220                                        6     Count coming in to IF
+    220                                        4     Count coming in to IF
     220             1                    ***0***           if(StartDefer | StartPreamble)
     223             1                          1           if(StartIdle)
-                                               5     All False Count
+                                               3     All False Count
 Branch totals: 2 hits of 3 branches = 66.66%
 
 ------------------------------------IF Branch------------------------------------
-    226                                        6     Count coming in to IF
+    226                                        4     Count coming in to IF
     226             1                    ***0***           if(StartData[0] | StartJam)
     229             1                    ***0***           if(StartPreamble)
-                                               6     All False Count
+                                               4     All False Count
 Branch totals: 1 hit of 3 branches = 33.33%
 
 ------------------------------------IF Branch------------------------------------
-    232                                        6     Count coming in to IF
+    232                                        4     Count coming in to IF
     232             1                    ***0***           if(StartFCS | StartJam)
     235             1                    ***0***           if(StartPAD)
-                                               6     All False Count
+                                               4     All False Count
 Branch totals: 1 hit of 3 branches = 33.33%
 
 ------------------------------------IF Branch------------------------------------
-    238                                        6     Count coming in to IF
+    238                                        4     Count coming in to IF
     238             1                    ***0***           if(StartJam | StartDefer)
     241             1                    ***0***           if(StartFCS)
-                                               6     All False Count
+                                               4     All False Count
 Branch totals: 1 hit of 3 branches = 33.33%
 
 ------------------------------------IF Branch------------------------------------
-    244                                        6     Count coming in to IF
+    244                                        4     Count coming in to IF
     244             1                    ***0***           if(StartBackoff | StartDefer)
     247             1                    ***0***           if(StartJam)
-                                               6     All False Count
+                                               4     All False Count
 Branch totals: 1 hit of 3 branches = 33.33%
 
 ------------------------------------IF Branch------------------------------------
-    250                                        6     Count coming in to IF
+    250                                        4     Count coming in to IF
     250             1                    ***0***           if(StartDefer)
     253             1                    ***0***           if(StartBackoff)
-                                               6     All False Count
+                                               4     All False Count
 Branch totals: 1 hit of 3 branches = 33.33%
 
 ------------------------------------IF Branch------------------------------------
-    256                                        6     Count coming in to IF
+    256                                        4     Count coming in to IF
     256             1                          1           if(StartIPG)
     259             1                    ***0***           if(StartDefer)
-                                               5     All False Count
+                                               3     All False Count
 Branch totals: 2 hits of 3 branches = 66.66%
 
 ------------------------------------IF Branch------------------------------------
@@ -11395,7 +11395,7 @@ Condition Coverage:
 
 Condition Coverage for instance /dut/txethmac1/txstatem1 --
 
-  File rtl/eth_txstatem.v
+  File repo/rtl/eth_txstatem.v
 ----------------Focused Condition View-------------------
 Line       214 Item    1  (StartDefer | StartIdle)
 Condition totals: 1 of 2 input terms covered = 50.00%
@@ -11534,7 +11534,7 @@ Expression Coverage:
 
 Expression Coverage for instance /dut/txethmac1/txstatem1 --
 
-  File rtl/eth_txstatem.v
+  File repo/rtl/eth_txstatem.v
 ----------------Focused Expression View-----------------
 Line       166 Item    1  ((ExcessiveDefer ~| CarrierSense) & StateDefer)
 Expression totals: 1 of 3 input terms covered = 33.33%
@@ -11585,7 +11585,7 @@ Expression totals: 0 of 3 input terms covered = 0.00%
    -----------  --------  -----------------------  --------------
   CarrierSense         N  No hits                  Hit '_0' and '_1'
      StateIdle         N  No hits                  Hit '_0' and '_1'
-    TxStartFrm         N  No hits                  Hit '_0' and '_1'
+    TxStartFrm         N  '_1' not hit             Hit '_1'
 
      Rows:       Hits  FEC Target            Non-masking condition(s)      
  ---------  ---------  --------------------  -------------------------     
@@ -11593,7 +11593,7 @@ Expression totals: 0 of 3 input terms covered = 0.00%
   Row   2:    ***0***  CarrierSense_1        (TxStartFrm && StateIdle)     
   Row   3:    ***0***  StateIdle_0           (TxStartFrm && ~CarrierSense) 
   Row   4:    ***0***  StateIdle_1           (TxStartFrm && ~CarrierSense) 
-  Row   5:    ***0***  TxStartFrm_0          (~CarrierSense & StateIdle)   
+  Row   5:          1  TxStartFrm_0          (~CarrierSense & StateIdle)   
   Row   6:    ***0***  TxStartFrm_1          (~CarrierSense & StateIdle)   
 
 ----------------Focused Expression View-----------------
@@ -11827,13 +11827,13 @@ Expression totals: 0 of 2 input terms covered = 0.00%
     Input Term   Covered  Reason for no coverage   Hint
    -----------  --------  -----------------------  --------------
      StateIdle         N  No hits                  Hit '_0' and '_1'
-  CarrierSense         N  No hits                  Hit '_0' and '_1'
+  CarrierSense         N  '_1' not hit             Hit '_1'
 
      Rows:       Hits  FEC Target            Non-masking condition(s)      
  ---------  ---------  --------------------  -------------------------     
   Row   1:    ***0***  StateIdle_0           CarrierSense                  
   Row   2:    ***0***  StateIdle_1           CarrierSense                  
-  Row   3:    ***0***  CarrierSense_0        StateIdle                     
+  Row   3:          1  CarrierSense_0        StateIdle                     
   Row   4:    ***0***  CarrierSense_1        StateIdle                     
 
 
@@ -11848,7 +11848,7 @@ Statement Coverage for instance /dut/txethmac1/txstatem1 --
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_txstatem.v
+  File repo/rtl/eth_txstatem.v
     90                                               module eth_txstatem  (MTxClk, Reset, ExcessiveDefer, CarrierSense, NibCnt, IPGT, IPGR1, 
     91                                                                     IPGR2, FullD, TxStartFrm, TxEndFrm, TxUnderRun, Collision, UnderRun, 
     92                                                                     StartTxDone, TooBig, NibCntEq7, NibCntEq15, MaxFrame, Pad, CrcEn, 
@@ -11925,11 +11925,11 @@ Statement Coverage for instance /dut/txethmac1/txstatem1 --
     163                                              
     164                                              
     165                                              // Defining the next state
-    166             1                          5     assign StartIPG = StateDefer & ~ExcessiveDefer & ~CarrierSense;
+    166             1                          4     assign StartIPG = StateDefer & ~ExcessiveDefer & ~CarrierSense;
     167                                              
     168             1                         26     assign StartIdle = StateIPG & (Rule1 & NibCnt[6:0] >= IPGT | ~Rule1 & NibCnt[6:0] >= IPGR2);
     169                                              
-    170             1                          6     assign StartPreamble = StateIdle & TxStartFrm & ~CarrierSense;
+    170             1                          5     assign StartPreamble = StateIdle & TxStartFrm & ~CarrierSense;
     171                                              
     172             1                          7     assign StartData[0] = ~Collision & (StatePreamble & NibCntEq15 | StateData[1] & ~TxEndFrm);
     173                                              
@@ -11950,10 +11950,10 @@ Statement Coverage for instance /dut/txethmac1/txstatem1 --
     188                                                                | StateBackOff & (TxUnderRun | RandomEqByteCnt)
     189                                                                | StartTxDone | TooBig;
     190                                              
-    191             1                          5     assign DeferIndication = StateIdle & CarrierSense;
+    191             1                          4     assign DeferIndication = StateIdle & CarrierSense;
     192                                              
     193                                              // Tx State Machine
-    194             1                          8     always @ (posedge MTxClk or posedge Reset)
+    194             1                          6     always @ (posedge MTxClk or posedge Reset)
     195                                              begin
     196                                                if(Reset)
     197                                                  begin
@@ -11970,8 +11970,8 @@ Statement Coverage for instance /dut/txethmac1/txstatem1 --
     208                                                  end
     209                                                else
     210                                                  begin
-    211             1                          6           StateData[1:0] <=  StartData[1:0];
-    212             1                          6           StateJam_q <=  StateJam;
+    211             1                          4           StateData[1:0] <=  StartData[1:0];
+    212             1                          4           StateJam_q <=  StateJam;
     213                                              
     214                                                    if(StartDefer | StartIdle)
     215             1                          1             StateIPG <=  1'b0;
@@ -12119,7 +12119,7 @@ Branch Coverage for instance /dut/txethmac1/txcrc
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_crc.v
+  File repo/rtl/eth_crc.v
 ------------------------------------IF Branch------------------------------------
     132                                       24     Count coming in to IF
     132             1                          2       if (Reset)
@@ -12137,7 +12137,7 @@ Expression Coverage:
 
 Expression Coverage for instance /dut/txethmac1/txcrc --
 
-  File rtl/eth_crc.v
+  File repo/rtl/eth_crc.v
 -----------Focused Expression View (Bimodal)------------
 Line       96 Item    1  (Enable & (Data[0] ^ Crc[28]))
 Expression totals: 1 of 3 input terms covered = 33.33%
@@ -12963,7 +12963,7 @@ Statement Coverage for instance /dut/txethmac1/txcrc --
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_crc.v
+  File repo/rtl/eth_crc.v
     79                                               module eth_crc (Clk, Reset, Data, Enable, Initialize, Crc, CrcError);
     80                                               
     81                                               
@@ -13069,7 +13069,7 @@ Branch Coverage for instance /dut/txethmac1/random1
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_random.v
+  File repo/rtl/eth_random.v
 ------------------------------------IF Branch------------------------------------
     103                                      514     Count coming in to IF
     103             1                          2       if(Reset)
@@ -13152,7 +13152,7 @@ Condition Coverage:
 
 Condition Coverage for instance /dut/txethmac1/random1 --
 
-  File rtl/eth_random.v
+  File repo/rtl/eth_random.v
 ----------------Focused Condition View-------------------
 Line       129 Item    1  (StateJam & StateJam_q)
 Condition totals: 0 of 2 input terms covered = 0.00%
@@ -13179,7 +13179,7 @@ Expression Coverage:
 
 Expression Coverage for instance /dut/txethmac1/random1 --
 
-  File rtl/eth_random.v
+  File repo/rtl/eth_random.v
 -----------Focused Expression View (Bimodal)------------
 Line       109 Item    1  (x[2] ~^ x[9])
 Expression totals: 2 of 2 input terms covered = 100.00%
@@ -13382,7 +13382,7 @@ Statement Coverage for instance /dut/txethmac1/random1 --
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_random.v
+  File repo/rtl/eth_random.v
     82                                               module eth_random (MTxClk, Reset, StateJam, StateJam_q, RetryCnt, NibCnt, ByteCnt, 
     83                                                                  RandomEq0, RandomEqByteCnt);
     84                                               
@@ -13488,7 +13488,7 @@ Branch Coverage for instance /dut/txethmac1
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_txethmac.v
+  File repo/rtl/eth_txethmac.v
 ------------------------------------IF Branch------------------------------------
     227                                        3     Count coming in to IF
     227             1                          2       if(Reset)
@@ -13690,7 +13690,7 @@ Condition Coverage:
 
 Condition Coverage for instance /dut/txethmac1 --
 
-  File rtl/eth_txethmac.v
+  File repo/rtl/eth_txethmac.v
 ----------------Focused Condition View-------------------
 Line       247 Item    1  ((~Collision & (ByteCnt[5:0] == CollValid)) & ((StateData[1] | (StatePAD & NibCnt[0])) | (StateFCS & NibCnt[0])))
 Condition totals: 0 of 6 input terms covered = 0.00%
@@ -13880,7 +13880,7 @@ Expression Coverage:
 
 Expression Coverage for instance /dut/txethmac1 --
 
-  File rtl/eth_txethmac.v
+  File repo/rtl/eth_txethmac.v
 ----------------Focused Expression View-----------------
 Line       202 Item    1  (((StatePreamble | |StateData) | StatePAD) ~| StateFCS)
 Expression totals: 0 of 4 input terms covered = 0.00%
@@ -14338,7 +14338,7 @@ Statement Coverage for instance /dut/txethmac1 --
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_txethmac.v
+  File repo/rtl/eth_txethmac.v
     97                                               module eth_txethmac (MTxClk, Reset, TxStartFrm, TxEndFrm, TxUnderRun, TxData, CarrierSense, 
     98                                                                    Collision, Pad, CrcEn, FullD, HugEn, DlyCrcEn, MinFL, MaxFL, IPGT, 
     99                                                                    IPGR1, IPGR2, CollValid, MaxRet, NoBckof, ExDfrEn, 
@@ -14834,7 +14834,7 @@ Branch Coverage for instance /dut/rxethmac1/rxstatem1
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_rxstatem.v
+  File repo/rtl/eth_rxstatem.v
 ------------------------------------IF Branch------------------------------------
     143                                        1     Count coming in to IF
     143             1                          1       if(Reset)
@@ -14893,7 +14893,7 @@ Condition Coverage:
 
 Condition Coverage for instance /dut/rxethmac1/rxstatem1 --
 
-  File rtl/eth_rxstatem.v
+  File repo/rtl/eth_rxstatem.v
 ----------------Focused Condition View-------------------
 Line       154 Item    1  ((StartPreamble | StartSFD) | StartDrop)
 Condition totals: 0 of 3 input terms covered = 0.00%
@@ -15002,7 +15002,7 @@ Expression Coverage:
 
 Expression Coverage for instance /dut/rxethmac1/rxstatem1 --
 
-  File rtl/eth_rxstatem.v
+  File repo/rtl/eth_rxstatem.v
 ----------------Focused Expression View-----------------
 Line       126 Item    1  (~MRxDV & (((StateDrop | StatePreamble) | StateSFD) | |StateData))
 Expression totals: 0 of 5 input terms covered = 0.00%
@@ -15165,7 +15165,7 @@ Statement Coverage for instance /dut/rxethmac1/rxstatem1 --
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_rxstatem.v
+  File repo/rtl/eth_rxstatem.v
     88                                               module eth_rxstatem (MRxClk, Reset, MRxDV, ByteCntEq0, ByteCntGreat2, Transmitting, MRxDEq5, MRxDEqD, 
     89                                                                    IFGCounterEq24, ByteCntMaxFrame, StateData, StateIdle, StatePreamble, StateSFD, 
     90                                                                    StateDrop
@@ -15328,7 +15328,7 @@ Branch Coverage for instance /dut/rxethmac1/rxcounters1
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_rxcounters.v
+  File repo/rtl/eth_rxcounters.v
 ------------------------------------IF Branch------------------------------------
     146                                        1     Count coming in to IF
     146             1                          1       if(Reset)
@@ -15385,7 +15385,7 @@ Condition Coverage:
 
 Condition Coverage for instance /dut/rxethmac1/rxcounters1 --
 
-  File rtl/eth_rxcounters.v
+  File repo/rtl/eth_rxcounters.v
 ----------------Focused Condition View-------------------
 Line       204 Item    1  (DlyCrcCnt == 9)
 Condition totals: 0 of 1 input term covered = 0.00%
@@ -15441,7 +15441,7 @@ Expression Coverage:
 
 Expression Coverage for instance /dut/rxethmac1/rxcounters1 --
 
-  File rtl/eth_rxcounters.v
+  File repo/rtl/eth_rxcounters.v
 ----------------Focused Expression View-----------------
 Line       136 Item    1  (MRxDV & ((StateSFD & MRxDEqD) | (StateData[0] & ByteCntMaxFrame)))
 Expression totals: 0 of 5 input terms covered = 0.00%
@@ -15744,7 +15744,7 @@ Statement Coverage for instance /dut/rxethmac1/rxcounters1 --
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_rxcounters.v
+  File repo/rtl/eth_rxcounters.v
     86                                               module eth_rxcounters (MRxClk, Reset, MRxDV, StateIdle, StateSFD, StateData, StateDrop, StatePreamble, 
     87                                                                      MRxDEqD, DlyCrcEn, DlyCrcCnt, Transmitting, MaxFL, r_IFG, HugEn, IFGCounterEq24, 
     88                                                                      ByteCntEq0, ByteCntEq1, ByteCntEq2,ByteCntEq3,ByteCntEq4,ByteCntEq5, ByteCntEq6,
@@ -15941,7 +15941,7 @@ Branch Coverage for instance /dut/rxethmac1/rxaddrcheck1
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_rxaddrcheck.v
+  File repo/rtl/eth_rxaddrcheck.v
 ------------------------------------IF Branch------------------------------------
     139                                        1     Count coming in to IF
     139             1                          1       if(Reset)
@@ -16003,7 +16003,7 @@ Condition Coverage:
 
 Condition Coverage for instance /dut/rxethmac1/rxaddrcheck1 --
 
-  File rtl/eth_rxaddrcheck.v
+  File repo/rtl/eth_rxaddrcheck.v
 ----------------Focused Condition View-------------------
 Line       141 Item    1  ((RxAddressInvalid & ByteCntEq7) & RxCheckEn)
 Condition totals: 0 of 3 input terms covered = 0.00%
@@ -16193,7 +16193,7 @@ Expression Coverage:
 
 Expression Coverage for instance /dut/rxethmac1/rxaddrcheck1 --
 
-  File rtl/eth_rxaddrcheck.v
+  File repo/rtl/eth_rxaddrcheck.v
 ----------------Focused Expression View-----------------
 Line       128 Item    1  (((UnicastOK | BroadcastOK) | MulticastOK) ~| r_Pro)
 Expression totals: 0 of 4 input terms covered = 0.00%
@@ -16362,7 +16362,7 @@ Statement Coverage for instance /dut/rxethmac1/rxaddrcheck1 --
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_rxaddrcheck.v
+  File repo/rtl/eth_rxaddrcheck.v
     77                                               module eth_rxaddrcheck(MRxClk,  Reset, RxData, Broadcast ,r_Bro ,r_Pro,
     78                                                                      ByteCntEq2, ByteCntEq3, ByteCntEq4, ByteCntEq5,
     79                                                                      ByteCntEq6, ByteCntEq7, HASH0, HASH1, ByteCntEq0,
@@ -16567,7 +16567,7 @@ Branch Coverage for instance /dut/rxethmac1/crcrx
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_crc.v
+  File repo/rtl/eth_crc.v
 ------------------------------------IF Branch------------------------------------
     132                                        1     Count coming in to IF
     132             1                          1       if (Reset)
@@ -16585,7 +16585,7 @@ Expression Coverage:
 
 Expression Coverage for instance /dut/rxethmac1/crcrx --
 
-  File rtl/eth_crc.v
+  File repo/rtl/eth_crc.v
 -----------Focused Expression View (Bimodal)------------
 Line       96 Item    1  (Enable & (Data[0] ^ Crc[28]))
 Expression totals: 0 of 3 input terms covered = 0.00%
@@ -17411,7 +17411,7 @@ Statement Coverage for instance /dut/rxethmac1/crcrx --
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_crc.v
+  File repo/rtl/eth_crc.v
     79                                               module eth_crc (Clk, Reset, Data, Enable, Initialize, Crc, CrcError);
     80                                               
     81                                               
@@ -17517,7 +17517,7 @@ Branch Coverage for instance /dut/rxethmac1
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_rxethmac.v
+  File repo/rtl/eth_rxethmac.v
 ------------------------------------IF Branch------------------------------------
     264                                  ***0***     Count coming in to IF
     264             1                    ***0***       if(Reset | StateIdle)
@@ -17593,7 +17593,7 @@ Condition Coverage:
 
 Condition Coverage for instance /dut/rxethmac1 --
 
-  File rtl/eth_rxethmac.v
+  File repo/rtl/eth_rxethmac.v
 ----------------Focused Condition View-------------------
 Line       264 Item    1  (Reset | StateIdle)
 Condition totals: 0 of 2 input terms covered = 0.00%
@@ -17725,7 +17725,7 @@ Expression Coverage:
 
 Expression Coverage for instance /dut/rxethmac1 --
 
-  File rtl/eth_rxethmac.v
+  File repo/rtl/eth_rxethmac.v
 ----------------Focused Expression View-----------------
 Line       194 Item    1  (MRxD == 13)
 Expression totals: 0 of 1 input term covered = 0.00%
@@ -17920,7 +17920,7 @@ Statement Coverage for instance /dut/rxethmac1 --
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_rxethmac.v
+  File repo/rtl/eth_rxethmac.v
     116                                              module eth_rxethmac (MRxClk, MRxDV, MRxD, Reset, Transmitting, MaxFL, r_IFG, HugEn, DlyCrcEn, 
     117                                                                   RxData, RxValid, RxStartFrm, RxEndFrm, ByteCnt, ByteCntEq0, ByteCntGreat2, 
     118                                                                   ByteCntMaxFrame, CrcError, StateIdle, StatePreamble, StateSFD, StateData,
@@ -18281,7 +18281,7 @@ Branch Coverage for instance /dut/wishbone/bd_ram
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_spram_256x32.v
+  File repo/rtl/eth_spram_256x32.v
 ------------------------------------IF Branch------------------------------------
     266                                     1793     Count coming in to IF
     266             1                        768     	assign do_o = (oe & ce) ? q : {32{1'bz}};
@@ -18334,7 +18334,7 @@ Condition Coverage:
 
 Condition Coverage for instance /dut/wishbone/bd_ram --
 
-  File rtl/eth_spram_256x32.v
+  File repo/rtl/eth_spram_256x32.v
 ----------------Focused Condition View-------------------
 Line       266 Item    1  (oe & ce)
 Condition totals: 1 of 2 input terms covered = 50.00%
@@ -18427,7 +18427,7 @@ Statement Coverage for instance /dut/wishbone/bd_ram --
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_spram_256x32.v
+  File repo/rtl/eth_spram_256x32.v
     77                                               module eth_spram_256x32(
     78                                               	// Generic synchronous single-port RAM interface
     79                                               	clk, rst, ce, we, oe, addr, di, do_o
@@ -18739,7 +18739,7 @@ Branch Coverage for instance /dut/wishbone/tx_fifo
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_fifo.v
+  File repo/rtl/eth_fifo.v
 ------------------------------------IF Branch------------------------------------
     98                                         3     Count coming in to IF
     98              1                          2       if(reset)
@@ -18771,10 +18771,10 @@ Branch totals: 2 hits of 4 branches = 50.00%
 Branch totals: 2 hits of 4 branches = 50.00%
 
 ------------------------------------IF Branch------------------------------------
-    165                                        1     Count coming in to IF
+    165                                        2     Count coming in to IF
     165             1                    ***0***         if(write & clear)
     168             1                    ***0***        if(write & ~full)
-                                               1     All False Count
+                                               2     All False Count
 Branch totals: 1 hit of 3 branches = 33.33%
 
 ------------------------------------IF Branch------------------------------------
@@ -18793,7 +18793,7 @@ Condition Coverage:
 
 Condition Coverage for instance /dut/wishbone/tx_fifo --
 
-  File rtl/eth_fifo.v
+  File repo/rtl/eth_fifo.v
 -----------Focused Condition View (Bimodal)--------------
 Line       104 Item    1  (read ^ write)
 Condition totals: 0 of 2 input terms covered = 0.00%
@@ -18885,7 +18885,7 @@ Expression Coverage:
 
 Expression Coverage for instance /dut/wishbone/tx_fifo --
 
-  File rtl/eth_fifo.v
+  File repo/rtl/eth_fifo.v
 ----------------Focused Expression View-----------------
 Line       136 Item    1  (cnt == 1)
 Expression totals: 0 of 1 input term covered = 0.00%
@@ -18924,7 +18924,7 @@ Statement Coverage for instance /dut/wishbone/tx_fifo --
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_fifo.v
+  File repo/rtl/eth_fifo.v
     62                                               module eth_fifo (data_in, data_out, clk, reset, write, read, clear, almost_full, full, almost_empty, empty, cnt);
     63                                               
     64                                               parameter DATA_WIDTH    = 32;
@@ -19026,7 +19026,7 @@ Statement Coverage for instance /dut/wishbone/tx_fifo --
     160                                                	.q                (data_out)
     161                                                );  //exemplar attribute altera_dpram_16x32_inst NOOPT TRUE
     162                                              `else   // !ETH_ALTERA_ALTSYNCRAM
-    163             1                          1       always @ (posedge clk)
+    163             1                          2       always @ (posedge clk)
     164                                                begin
     165                                                  if(write & clear)
     166             1                    ***0***           fifo[0] <= data_in;
@@ -19090,7 +19090,7 @@ Branch Coverage for instance /dut/wishbone/rx_fifo
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_fifo.v
+  File repo/rtl/eth_fifo.v
 ------------------------------------IF Branch------------------------------------
     98                                         3     Count coming in to IF
     98              1                          2       if(reset)
@@ -19144,7 +19144,7 @@ Condition Coverage:
 
 Condition Coverage for instance /dut/wishbone/rx_fifo --
 
-  File rtl/eth_fifo.v
+  File repo/rtl/eth_fifo.v
 -----------Focused Condition View (Bimodal)--------------
 Line       104 Item    1  (read ^ write)
 Condition totals: 0 of 2 input terms covered = 0.00%
@@ -19236,7 +19236,7 @@ Expression Coverage:
 
 Expression Coverage for instance /dut/wishbone/rx_fifo --
 
-  File rtl/eth_fifo.v
+  File repo/rtl/eth_fifo.v
 ----------------Focused Expression View-----------------
 Line       136 Item    1  (cnt == 1)
 Expression totals: 0 of 1 input term covered = 0.00%
@@ -19275,7 +19275,7 @@ Statement Coverage for instance /dut/wishbone/rx_fifo --
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_fifo.v
+  File repo/rtl/eth_fifo.v
     62                                               module eth_fifo (data_in, data_out, clk, reset, write, read, clear, almost_full, full, almost_empty, empty, cnt);
     63                                               
     64                                               parameter DATA_WIDTH    = 32;
@@ -19433,7 +19433,7 @@ Toggle Coverage      =       1.74% (3 of 172 bins)
 Branch Coverage:
     Enabled Coverage              Bins      Hits    Misses  Coverage
     ----------------              ----      ----    ------  --------
-    Branches                       472       217       255    45.97%
+    Branches                       472       216       256    45.76%
 
 ================================Branch Details================================
 
@@ -19441,7 +19441,7 @@ Branch Coverage for instance /dut/wishbone
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_wishbone.v
+  File repo/rtl/eth_wishbone.v
 ------------------------------------IF Branch------------------------------------
     582                                     4103     Count coming in to IF
     582             1                          2       if(Reset)
@@ -19554,8 +19554,8 @@ Branch totals: 2 hits of 4 branches = 50.00%
 Branch totals: 2 hits of 3 branches = 66.66%
 
 ------------------------------------IF Branch------------------------------------
-    862                                     1025     Count coming in to IF
-    862             1                          2       if(Reset)
+    862                                     1026     Count coming in to IF
+    862             1                          3       if(Reset)
     865             1                    ***0***       if(TxEn & TxEn_q & TxBDRead)
     868             1                    ***0***       if(MasterWbTX & m_wb_ack_i)
                                             1023     All False Count
@@ -19594,16 +19594,16 @@ Branch totals: 2 hits of 4 branches = 50.00%
 Branch totals: 2 hits of 3 branches = 66.66%
 
 ------------------------------------IF Branch------------------------------------
-    941                                     1025     Count coming in to IF
-    941             1                          2       if(Reset)
+    941                                     1026     Count coming in to IF
+    941             1                          3       if(Reset)
     944             1                    ***0***       if(TxEn & TxEn_q & TxPointerRead)
     947             1                    ***0***       if(MasterWbTX & m_wb_ack_i)                 // After first access pointer is word alligned
                                             1023     All False Count
 Branch totals: 2 hits of 4 branches = 50.00%
 
 ------------------------------------IF Branch------------------------------------
-    958                                        3     Count coming in to IF
-    958             1                          2       if(Reset)
+    958                                        4     Count coming in to IF
+    958             1                          3       if(Reset)
     961             1                    ***0***       if(MasterAccessFinished)
     964             1                    ***0***       if(IncrTxPointer)
                                                1     All False Count
@@ -19626,13 +19626,13 @@ Branch totals: 2 hits of 4 branches = 50.00%
 Branch totals: 2 hits of 4 branches = 50.00%
 
 ------------------------------------IF Branch------------------------------------
-    1026                                       3     Count coming in to IF
-    1026            1                          2       if(Reset)
-    1044            1                          1       else
+    1026                                       5     Count coming in to IF
+    1026            1                          3       if(Reset)
+    1044            1                          2       else
 Branch totals: 2 hits of 2 branches = 100.00%
 
 ------------------------------------CASE Branch------------------------------------
-    1047                                       1     Count coming in to CASE
+    1047                                       2     Count coming in to CASE
     1048            1                    ***0***             8'b00_10_00_10,             // Idle and MRB needed
     1049            1                    ***0***             8'b10_1x_10_1x,             // MRB continues
     1050            1                    ***0***             8'b10_10_01_10,             // Clear (previously MR) and MRB needed
@@ -19651,9 +19651,9 @@ Branch totals: 2 hits of 2 branches = 100.00%
     1158            1                    ***0***             8'b01_1x_10_x0,             // MW and MW or MR or MRB needed (cycle is cleared between previous and next access)
     1159            1                    ***0***             8'b10_10_10_00,             // MR and MR needed (cycle is cleared between previous and next access)
     1160            1                    ***0***             8'b10_x1_10_0x :            // MR and MR or MW or MWB (cycle is cleared between previous and next access)
-    1173            1                          1             8'bxx_00_10_00,             // whatever and no master read or write is needed (ack or err comes finishing previous access)
+    1173            1                    ***0***             8'bxx_00_10_00,             // whatever and no master read or write is needed (ack or err comes finishing previous access)
     1174            1                    ***0***             8'bxx_00_01_00 :            // Between cyc_cleared request was cleared
-    1187            1                    ***0***             8'b00_00_00_00:             // whatever and no master read or write is needed (ack or err comes finishing previous access)
+    1187            1                          2             8'b00_00_00_00:             // whatever and no master read or write is needed (ack or err comes finishing previous access)
     1192            1                    ***0***             default:                    // Don't touch
 Branch totals: 1 hit of 22 branches = 4.54%
 
@@ -19688,10 +19688,10 @@ Branch totals: 0 hits of 2 branches = 0.00%
 Branch totals: 0 hits of 2 branches = 0.00%
 
 ------------------------------------IF Branch------------------------------------
-    1182                                       1     Count coming in to IF
+    1182                                 ***0***     Count coming in to IF
     1182            1                    ***0***                 rx_burst_en<= MasterWbRX ? enough_data_in_rxfifo_for_burst_plus1 : enough_data_in_rxfifo_for_burst;  // Counter is not decremented, yet, so plus1 is used.
-    1182            2                          1                 rx_burst_en<= MasterWbRX ? enough_data_in_rxfifo_for_burst_plus1 : enough_data_in_rxfifo_for_burst;  // Counter is not decremented, yet, so plus1 is used.
-Branch totals: 1 hit of 2 branches = 50.00%
+    1182            2                    ***0***                 rx_burst_en<= MasterWbRX ? enough_data_in_rxfifo_for_burst_plus1 : enough_data_in_rxfifo_for_burst;  // Counter is not decremented, yet, so plus1 is used.
+Branch totals: 0 hits of 2 branches = 0.00%
 
 ------------------------------------IF Branch------------------------------------
     1232                                       3     Count coming in to IF
@@ -19805,18 +19805,18 @@ Branch totals: 2 hits of 2 branches = 100.00%
 Branch totals: 2 hits of 2 branches = 100.00%
 
 ------------------------------------IF Branch------------------------------------
-    1446                                       3     Count coming in to IF
-    1446            1                          2       if(Reset)
+    1446                                       5     Count coming in to IF
+    1446            1                          3       if(Reset)
     1449            1                    ***0***       if(TxAbort_wb & (~tx_burst_en) & MasterWbTX & MasterAccessFinished & (~TxAbortPacketBlocked) |
-    1452            1                          1       else
+    1452            1                          2       else
 Branch totals: 2 hits of 3 branches = 66.66%
 
 ------------------------------------IF Branch------------------------------------
-    1459                                       3     Count coming in to IF
-    1459            1                          2       if(Reset)
+    1459                                       5     Count coming in to IF
+    1459            1                          3       if(Reset)
     1462            1                    ***0***       if(TxEn & TxEn_q & TxAbortPacket_NotCleared)
     1465            1                    ***0***       if(TxAbort_wb & (~tx_burst_en) & MasterWbTX & MasterAccessFinished & (~TxAbortPacketBlocked) |
-                                               1     All False Count
+                                               2     All False Count
 Branch totals: 2 hits of 4 branches = 50.00%
 
 ------------------------------------IF Branch------------------------------------
@@ -19828,18 +19828,18 @@ Branch totals: 2 hits of 4 branches = 50.00%
 Branch totals: 2 hits of 4 branches = 50.00%
 
 ------------------------------------IF Branch------------------------------------
-    1487                                       3     Count coming in to IF
-    1487            1                          2       if(Reset)
+    1487                                       5     Count coming in to IF
+    1487            1                          3       if(Reset)
     1490            1                    ***0***       if(TxRetry_wb & !tx_burst_en & MasterWbTX & MasterAccessFinished & !TxRetryPacketBlocked | 
-    1493            1                          1       else
+    1493            1                          2       else
 Branch totals: 2 hits of 3 branches = 66.66%
 
 ------------------------------------IF Branch------------------------------------
-    1500                                       3     Count coming in to IF
-    1500            1                          2       if(Reset)
+    1500                                       5     Count coming in to IF
+    1500            1                          3       if(Reset)
     1503            1                    ***0***       if(StartTxBDRead)
     1506            1                    ***0***       if(TxRetry_wb & !tx_burst_en & MasterWbTX & MasterAccessFinished & !TxRetryPacketBlocked | 
-                                               1     All False Count
+                                               2     All False Count
 Branch totals: 2 hits of 4 branches = 50.00%
 
 ------------------------------------IF Branch------------------------------------
@@ -19851,18 +19851,18 @@ Branch totals: 2 hits of 4 branches = 50.00%
 Branch totals: 2 hits of 4 branches = 50.00%
 
 ------------------------------------IF Branch------------------------------------
-    1528                                       3     Count coming in to IF
-    1528            1                          2       if(Reset)
+    1528                                       5     Count coming in to IF
+    1528            1                          3       if(Reset)
     1531            1                    ***0***       if(TxDone_wb & !tx_burst_en & MasterWbTX & MasterAccessFinished & !TxDonePacketBlocked | 
-    1534            1                          1       else
+    1534            1                          2       else
 Branch totals: 2 hits of 3 branches = 66.66%
 
 ------------------------------------IF Branch------------------------------------
-    1541                                       3     Count coming in to IF
-    1541            1                          2       if(Reset)
+    1541                                       5     Count coming in to IF
+    1541            1                          3       if(Reset)
     1544            1                    ***0***       if(TxEn & TxEn_q & TxDonePacket_NotCleared)
     1547            1                    ***0***       if(TxDone_wb & !tx_burst_en & MasterWbTX & MasterAccessFinished & (~TxDonePacketBlocked) | 
-                                               1     All False Count
+                                               2     All False Count
 Branch totals: 2 hits of 4 branches = 50.00%
 
 ------------------------------------IF Branch------------------------------------
@@ -20094,16 +20094,16 @@ Branch totals: 2 hits of 4 branches = 50.00%
 Branch totals: 2 hits of 4 branches = 50.00%
 
 ------------------------------------IF Branch------------------------------------
-    1921                                    1025     Count coming in to IF
-    1921            1                          2       if(Reset)
+    1921                                    1026     Count coming in to IF
+    1921            1                          3       if(Reset)
     1924            1                    ***0***       if(RxEn & RxEn_q & RxPointerRead)
     1927            1                    ***0***       if(MasterWbRX & m_wb_ack_i)
                                             1023     All False Count
 Branch totals: 2 hits of 4 branches = 50.00%
 
 ------------------------------------IF Branch------------------------------------
-    1935                                    1025     Count coming in to IF
-    1935            1                          2       if(Reset)
+    1935                                    1026     Count coming in to IF
+    1935            1                          3       if(Reset)
     1938            1                    ***0***       if(MasterWbRX & m_wb_ack_i)                 // After first write all RxByteSel are active
     1941            1                    ***0***       if(RxEn & RxEn_q & RxPointerRead)
                                             1023     All False Count
@@ -20309,8 +20309,8 @@ Branch totals: 2 hits of 2 branches = 100.00%
 Branch totals: 2 hits of 4 branches = 50.00%
 
 ------------------------------------IF Branch------------------------------------
-    2267                                       3     Count coming in to IF
-    2267            1                          2       if(Reset)
+    2267                                       4     Count coming in to IF
+    2267            1                          3       if(Reset)
     2270            1                    ***0***       if(ShiftEndedSync3 & MasterWbRX & m_wb_ack_i & RxBufferAlmostEmpty & ~ShiftEnded)
     2273            1                    ***0***       if(RxStatusWrite)
                                                1     All False Count
@@ -20468,7 +20468,7 @@ Condition Coverage:
 
 Condition Coverage for instance /dut/wishbone --
 
-  File rtl/eth_wishbone.v
+  File repo/rtl/eth_wishbone.v
 ----------------Focused Condition View-------------------
 Line       585 Item    1  (((TxBDReady ~| WbEn_q) & r_TxEn) & WbEn)
 Condition totals: 0 of 4 input terms covered = 0.00%
@@ -22305,7 +22305,7 @@ Expression Coverage:
 
 Expression Coverage for instance /dut/wishbone --
 
-  File rtl/eth_wishbone.v
+  File repo/rtl/eth_wishbone.v
 -----------Focused Expression View (Bimodal)------------
 Line       559 Item    1  (((|BDWrite & WbEn) & WbEn_q) | ((~WbEn_q & BDRead) & WbEn))
 Expression totals: 4 of 4 input terms covered = 100.00%
@@ -22617,14 +22617,14 @@ Expression totals: 0 of 2 input terms covered = 0.00%
 
   Input Term   Covered  Reason for no coverage   Hint
  -----------  --------  -----------------------  --------------
-  m_wb_ack_i         N  No hits                  Hit '_0' and '_1'
-  m_wb_err_i         N  No hits                  Hit '_0' and '_1'
+  m_wb_ack_i         N  '_1' not hit             Hit '_1'
+  m_wb_err_i         N  '_1' not hit             Hit '_1'
 
      Rows:       Hits  FEC Target            Non-masking condition(s)      
  ---------  ---------  --------------------  -------------------------     
-  Row   1:    ***0***  m_wb_ack_i_0          ~m_wb_err_i                   
+  Row   1:          1  m_wb_ack_i_0          ~m_wb_err_i                   
   Row   2:    ***0***  m_wb_ack_i_1          ~m_wb_err_i                   
-  Row   3:    ***0***  m_wb_err_i_0          ~m_wb_ack_i                   
+  Row   3:          1  m_wb_err_i_0          ~m_wb_ack_i                   
   Row   4:    ***0***  m_wb_err_i_1          ~m_wb_ack_i                   
 
 ----------------Focused Expression View-----------------
@@ -22669,18 +22669,18 @@ Expression totals: 0 of 3 input terms covered = 0.00%
 
                                Input Term   Covered  Reason for no coverage                  Hint
                               -----------  --------  --------------------------------------  --------------
-                               MasterWbRX         N  '_0' hit but '_1' is not hit           Hit '_1' for output ->1
+                               MasterWbRX         N  No hits                                Hit '_0' and '_1' for different outputs
     enough_data_in_rxfifo_for_burst_plus1         N  No hits                                Hit '_0' and '_1' for different outputs
-          enough_data_in_rxfifo_for_burst         N  '_0' hit but '_1' is not hit           Hit '_1' for output ->1
+          enough_data_in_rxfifo_for_burst         N  No hits                                Hit '_0' and '_1' for different outputs
 
     Rows:   Hits(->0)   Hits(->1)  FEC Target                                 Non-masking condition(s)           
 
 ---------  ----------  ----------  --------------------                       -------------------------          
- Row   1:           1           0  MasterWbRX_0                               -                                  
+ Row   1:           0           0  MasterWbRX_0                               -                                  
  Row   2:           0           0  MasterWbRX_1                               -                                  
  Row   3:           0           0  enough_data_in_rxfifo_for_burst_plus1_0    MasterWbRX                         
  Row   4:           0           0  enough_data_in_rxfifo_for_burst_plus1_1    MasterWbRX                         
- Row   5:           1           0  enough_data_in_rxfifo_for_burst_0          ~MasterWbRX                        
+ Row   5:           0           0  enough_data_in_rxfifo_for_burst_0          ~MasterWbRX                        
  Row   6:           0           0  enough_data_in_rxfifo_for_burst_1          ~MasterWbRX                        
 
 ----------------Focused Expression View-----------------
@@ -22690,13 +22690,13 @@ Expression totals: 0 of 2 input terms covered = 0.00%
                   Input Term   Covered  Reason for no coverage   Hint
                  -----------  --------  -----------------------  --------------
      (txfifo_cnt < (16 - 4))         N  No hits                  Hit '_0' and '_1'
-  (TxLength > ((4 * 4) + 4))         N  No hits                  Hit '_0' and '_1'
+  (TxLength > ((4 * 4) + 4))         N  '_1' not hit             Hit '_1'
 
      Rows:       Hits  FEC Target                    Non-masking condition(s)      
  ---------  ---------  --------------------          -------------------------     
   Row   1:    ***0***  (txfifo_cnt < (16 - 4))_0     (TxLength > ((4 * 4) + 4))    
   Row   2:    ***0***  (txfifo_cnt < (16 - 4))_1     (TxLength > ((4 * 4) + 4))    
-  Row   3:    ***0***  (TxLength > ((4 * 4) + 4))_0  (txfifo_cnt < (16 - 4))       
+  Row   3:          1  (TxLength > ((4 * 4) + 4))_0  (txfifo_cnt < (16 - 4))       
   Row   4:    ***0***  (TxLength > ((4 * 4) + 4))_1  (txfifo_cnt < (16 - 4))       
 
 ----------------Focused Expression View-----------------
@@ -23147,7 +23147,7 @@ Expression totals: 0 of 2 input terms covered = 0.00%
 Statement Coverage:
     Enabled Coverage              Bins      Hits    Misses  Coverage
     ----------------              ----      ----    ------  --------
-    Statements                     644       374       270    58.07%
+    Statements                     644       369       275    57.29%
 
 ================================Statement Details================================
 
@@ -23155,7 +23155,7 @@ Statement Coverage for instance /dut/wishbone --
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_wishbone.v
+  File repo/rtl/eth_wishbone.v
     254                                              module eth_wishbone
     255                                                 (
     256                                              
@@ -23762,10 +23762,10 @@ Statement Coverage for instance /dut/wishbone --
     857                                              wire RxByteAcc;
     858                                              
     859                                              //Latching length from the buffer descriptor;
-    860             1                       1025     always @ (posedge WB_CLK_I or posedge Reset)
+    860             1                       1026     always @ (posedge WB_CLK_I or posedge Reset)
     861                                              begin
     862                                                if(Reset)
-    863             1                          2         TxLength <= 16'h0;
+    863             1                          3         TxLength <= 16'h0;
     864                                                else
     865                                                if(TxEn & TxEn_q & TxBDRead)
     866             1                    ***0***         TxLength <= ram_do[31:16];
@@ -23841,10 +23841,10 @@ Statement Coverage for instance /dut/wishbone --
     936                                              // After the read access, TxLength needs to be decremented for the number of the valid
     937                                              // bytes (1 to 4 bytes are valid in the first word). After the first read all bytes are 
     938                                              // valid so this two bits are reset to zero. 
-    939             1                       1025     always @ (posedge WB_CLK_I or posedge Reset)
+    939             1                       1026     always @ (posedge WB_CLK_I or posedge Reset)
     940                                              begin
     941                                                if(Reset)
-    942             1                          2         TxPointerLSB_rst[1:0] <= 0;
+    942             1                          3         TxPointerLSB_rst[1:0] <= 0;
     943                                                else
     944                                                if(TxEn & TxEn_q & TxPointerRead)
     945             1                    ***0***         TxPointerLSB_rst[1:0] <= ram_do[1:0];
@@ -23858,10 +23858,10 @@ Statement Coverage for instance /dut/wishbone --
     953                                              wire MasterAccessFinished;
     954                                              
     955                                              
-    956             1                          3     always @ (posedge WB_CLK_I or posedge Reset)
+    956             1                          4     always @ (posedge WB_CLK_I or posedge Reset)
     957                                              begin
     958                                                if(Reset)
-    959             1                          2         BlockingIncrementTxPointer <= 0;
+    959             1                          3         BlockingIncrementTxPointer <= 0;
     960                                                else
     961                                                if(MasterAccessFinished)
     962             1                    ***0***         BlockingIncrementTxPointer <= 0;
@@ -23897,7 +23897,7 @@ Statement Coverage for instance /dut/wishbone --
     992                                              reg rx_burst_en;
     993                                              
     994             1                          2     wire ReadTxDataFromMemory_2 = ReadTxDataFromMemory & ~BlockReadTxDataFromMemory;
-    995             1                          3     wire tx_burst = ReadTxDataFromMemory_2 & tx_burst_en;
+    995             1                          4     wire tx_burst = ReadTxDataFromMemory_2 & tx_burst_en;
     996                                              
     997                                              wire [31:0] TxData_wb;
     998                                              wire ReadTxDataFromFifo_wb;
@@ -23915,7 +23915,7 @@ Statement Coverage for instance /dut/wishbone --
     1010                                             end
     1011                                             
     1012                                             
-    1013            1                          1     assign MasterAccessFinished = m_wb_ack_i | m_wb_err_i;
+    1013            1                          2     assign MasterAccessFinished = m_wb_ack_i | m_wb_err_i;
     1014                                             wire [TX_FIFO_CNT_WIDTH-1:0] txfifo_cnt;
     1015                                             wire [RX_FIFO_CNT_WIDTH-1:0] rxfifo_cnt;
     1016                                             reg  [`ETH_BURST_CNT_WIDTH-1:0] tx_burst_cnt;
@@ -23926,22 +23926,22 @@ Statement Coverage for instance /dut/wishbone --
     1021                                             wire enough_data_in_rxfifo_for_burst_plus1;
     1022                                             
     1023                                             // Enabling master wishbone access to the memory for two devices TX and RX.
-    1024            1                          3     always @ (posedge WB_CLK_I or posedge Reset)
+    1024            1                          5     always @ (posedge WB_CLK_I or posedge Reset)
     1025                                             begin
     1026                                               if(Reset)
     1027                                                 begin
-    1028            1                          2           MasterWbTX <= 1'b0;
-    1029            1                          2           MasterWbRX <= 1'b0;
-    1030            1                          2           m_wb_adr_o <= 30'h0;
-    1031            1                          2           m_wb_cyc_o <= 1'b0;
-    1032            1                          2           m_wb_we_o  <= 1'b0;
-    1033            1                          2           m_wb_sel_o <= 4'h0;
-    1034            1                          2           cyc_cleared<= 1'b0;
-    1035            1                          2           tx_burst_cnt<= 0;
-    1036            1                          2           rx_burst_cnt<= 0;
-    1037            1                          2           IncrTxPointer<= 1'b0;
-    1038            1                          2           tx_burst_en<= 1'b1;
-    1039            1                          2           rx_burst_en<= 1'b0;
+    1028            1                          3           MasterWbTX <= 1'b0;
+    1029            1                          3           MasterWbRX <= 1'b0;
+    1030            1                          3           m_wb_adr_o <= 30'h0;
+    1031            1                          3           m_wb_cyc_o <= 1'b0;
+    1032            1                          3           m_wb_we_o  <= 1'b0;
+    1033            1                          3           m_wb_sel_o <= 4'h0;
+    1034            1                          3           cyc_cleared<= 1'b0;
+    1035            1                          3           tx_burst_cnt<= 0;
+    1036            1                          3           rx_burst_cnt<= 0;
+    1037            1                          3           IncrTxPointer<= 1'b0;
+    1038            1                          3           tx_burst_en<= 1'b1;
+    1039            1                          3           rx_burst_en<= 1'b0;
     1040                                                   `ifdef ETH_WISHBONE_B3
     1041                                                     m_wb_cti_o <= 3'b0;
     1042                                                   `endif
@@ -24078,21 +24078,21 @@ Statement Coverage for instance /dut/wishbone --
     1173                                                     8'bxx_00_10_00,             // whatever and no master read or write is needed (ack or err comes finishing previous access)
     1174                                                     8'bxx_00_01_00 :            // Between cyc_cleared request was cleared
     1175                                                       begin
-    1176            1                          1                 MasterWbTX <= 1'b0;
-    1177            1                          1                 MasterWbRX <= 1'b0;
-    1178            1                          1                 m_wb_cyc_o <= 1'b0;
-    1179            1                          1                 cyc_cleared<= 1'b0;
-    1180            1                          1                 IncrTxPointer<= 1'b0;
-    1181            1                          1                 rx_burst_cnt<= 0;
-    1182            1                          1                 rx_burst_en<= MasterWbRX ? enough_data_in_rxfifo_for_burst_plus1 : enough_data_in_rxfifo_for_burst;  // Counter is not decremented, yet, so plus1 is used.
+    1176            1                    ***0***                 MasterWbTX <= 1'b0;
+    1177            1                    ***0***                 MasterWbRX <= 1'b0;
+    1178            1                    ***0***                 m_wb_cyc_o <= 1'b0;
+    1179            1                    ***0***                 cyc_cleared<= 1'b0;
+    1180            1                    ***0***                 IncrTxPointer<= 1'b0;
+    1181            1                    ***0***                 rx_burst_cnt<= 0;
+    1182            1                    ***0***                 rx_burst_en<= MasterWbRX ? enough_data_in_rxfifo_for_burst_plus1 : enough_data_in_rxfifo_for_burst;  // Counter is not decremented, yet, so plus1 is used.
     1183                                                         `ifdef ETH_WISHBONE_B3
     1184                                                           m_wb_cti_o <= 3'b0;
     1185                                                         `endif
     1186                                                       end
     1187                                                     8'b00_00_00_00:             // whatever and no master read or write is needed (ack or err comes finishing previous access)
     1188                                                       begin
-    1189            1                    ***0***                 tx_burst_cnt<= 0;
-    1190            1                    ***0***                 tx_burst_en<= txfifo_cnt<(TX_FIFO_DEPTH-`ETH_BURST_LENGTH) & (TxLength>(`ETH_BURST_LENGTH*4+4));
+    1189            1                          2                 tx_burst_cnt<= 0;
+    1190            1                          2                 tx_burst_en<= txfifo_cnt<(TX_FIFO_DEPTH-`ETH_BURST_LENGTH) & (TxLength>(`ETH_BURST_LENGTH*4+4));
     1191                                                       end
     1192                                                     default:                    // Don't touch
     1193                                                       begin
@@ -24346,23 +24346,23 @@ Statement Coverage for instance /dut/wishbone --
     1441                                             
     1442                                             
     1443                                             reg TxAbortPacketBlocked;
-    1444            1                          3     always @ (posedge WB_CLK_I or posedge Reset)
+    1444            1                          5     always @ (posedge WB_CLK_I or posedge Reset)
     1445                                             begin
     1446                                               if(Reset)
-    1447            1                          2         TxAbortPacket <= 1'b0;
+    1447            1                          3         TxAbortPacket <= 1'b0;
     1448                                               else
     1449                                               if(TxAbort_wb & (~tx_burst_en) & MasterWbTX & MasterAccessFinished & (~TxAbortPacketBlocked) |
     1450                                                  TxAbort_wb & (~MasterWbTX) & (~TxAbortPacketBlocked))
     1451            1                    ***0***         TxAbortPacket <= 1'b1;
     1452                                               else
-    1453            1                          1         TxAbortPacket <= 1'b0;
+    1453            1                          2         TxAbortPacket <= 1'b0;
     1454                                             end
     1455                                             
     1456                                             
-    1457            1                          3     always @ (posedge WB_CLK_I or posedge Reset)
+    1457            1                          5     always @ (posedge WB_CLK_I or posedge Reset)
     1458                                             begin
     1459                                               if(Reset)
-    1460            1                          2         TxAbortPacket_NotCleared <= 1'b0;
+    1460            1                          3         TxAbortPacket_NotCleared <= 1'b0;
     1461                                               else
     1462                                               if(TxEn & TxEn_q & TxAbortPacket_NotCleared)
     1463            1                    ***0***         TxAbortPacket_NotCleared <= 1'b0;
@@ -24387,23 +24387,23 @@ Statement Coverage for instance /dut/wishbone --
     1482                                             
     1483                                             
     1484                                             reg TxRetryPacketBlocked;
-    1485            1                          3     always @ (posedge WB_CLK_I or posedge Reset)
+    1485            1                          5     always @ (posedge WB_CLK_I or posedge Reset)
     1486                                             begin
     1487                                               if(Reset)
-    1488            1                          2         TxRetryPacket <= 1'b0;
+    1488            1                          3         TxRetryPacket <= 1'b0;
     1489                                               else
     1490                                               if(TxRetry_wb & !tx_burst_en & MasterWbTX & MasterAccessFinished & !TxRetryPacketBlocked | 
     1491                                                  TxRetry_wb & !MasterWbTX & !TxRetryPacketBlocked)
     1492            1                    ***0***         TxRetryPacket <= 1'b1;
     1493                                               else
-    1494            1                          1         TxRetryPacket <= 1'b0;
+    1494            1                          2         TxRetryPacket <= 1'b0;
     1495                                             end
     1496                                             
     1497                                             
-    1498            1                          3     always @ (posedge WB_CLK_I or posedge Reset)
+    1498            1                          5     always @ (posedge WB_CLK_I or posedge Reset)
     1499                                             begin
     1500                                               if(Reset)
-    1501            1                          2         TxRetryPacket_NotCleared <= 1'b0;
+    1501            1                          3         TxRetryPacket_NotCleared <= 1'b0;
     1502                                               else
     1503                                               if(StartTxBDRead)
     1504            1                    ***0***         TxRetryPacket_NotCleared <= 1'b0;
@@ -24428,23 +24428,23 @@ Statement Coverage for instance /dut/wishbone --
     1523                                             
     1524                                             
     1525                                             reg TxDonePacketBlocked;
-    1526            1                          3     always @ (posedge WB_CLK_I or posedge Reset)
+    1526            1                          5     always @ (posedge WB_CLK_I or posedge Reset)
     1527                                             begin
     1528                                               if(Reset)
-    1529            1                          2         TxDonePacket <= 1'b0;
+    1529            1                          3         TxDonePacket <= 1'b0;
     1530                                               else
     1531                                               if(TxDone_wb & !tx_burst_en & MasterWbTX & MasterAccessFinished & !TxDonePacketBlocked | 
     1532                                                  TxDone_wb & !MasterWbTX & !TxDonePacketBlocked)
     1533            1                    ***0***         TxDonePacket <= 1'b1;
     1534                                               else
-    1535            1                          1         TxDonePacket <= 1'b0;
+    1535            1                          2         TxDonePacket <= 1'b0;
     1536                                             end
     1537                                             
     1538                                             
-    1539            1                          3     always @ (posedge WB_CLK_I or posedge Reset)
+    1539            1                          5     always @ (posedge WB_CLK_I or posedge Reset)
     1540                                             begin
     1541                                               if(Reset)
-    1542            1                          2         TxDonePacket_NotCleared <= 1'b0;
+    1542            1                          3         TxDonePacket_NotCleared <= 1'b0;
     1543                                               else
     1544                                               if(TxEn & TxEn_q & TxDonePacket_NotCleared)
     1545            1                    ***0***         TxDonePacket_NotCleared <= 1'b0;
@@ -24821,10 +24821,10 @@ Statement Coverage for instance /dut/wishbone --
     1916                                             
     1917                                             
     1918                                             //Latching Rx buffer pointer from buffer descriptor;
-    1919            1                       1025     always @ (posedge WB_CLK_I or posedge Reset)
+    1919            1                       1026     always @ (posedge WB_CLK_I or posedge Reset)
     1920                                             begin
     1921                                               if(Reset)
-    1922            1                          2         RxPointerMSB <= 30'h0;
+    1922            1                          3         RxPointerMSB <= 30'h0;
     1923                                               else
     1924                                               if(RxEn & RxEn_q & RxPointerRead)
     1925            1                    ***0***         RxPointerMSB <= ram_do[31:2];
@@ -24835,10 +24835,10 @@ Statement Coverage for instance /dut/wishbone --
     1930                                             
     1931                                             
     1932                                             //Latching last addresses from buffer descriptor (used as byte-half-word indicator);
-    1933            1                       1025     always @ (posedge WB_CLK_I or posedge Reset)
+    1933            1                       1026     always @ (posedge WB_CLK_I or posedge Reset)
     1934                                             begin
     1935                                               if(Reset)
-    1936            1                          2         RxPointerLSB_rst[1:0] <= 0;
+    1936            1                          3         RxPointerLSB_rst[1:0] <= 0;
     1937                                               else
     1938                                               if(MasterWbRX & m_wb_ack_i)                 // After first write all RxByteSel are active
     1939            1                    ***0***         RxPointerLSB_rst[1:0] <= 0;
@@ -25167,10 +25167,10 @@ Statement Coverage for instance /dut/wishbone --
     2262                                             end
     2263                                             
     2264                                             // Generation of the end-of-frame signal
-    2265            1                          3     always @ (posedge WB_CLK_I or posedge Reset)
+    2265            1                          4     always @ (posedge WB_CLK_I or posedge Reset)
     2266                                             begin
     2267                                               if(Reset)
-    2268            1                          2         ShiftEnded <= 1'b0;
+    2268            1                          3         ShiftEnded <= 1'b0;
     2269                                               else
     2270                                               if(ShiftEndedSync3 & MasterWbRX & m_wb_ack_i & RxBufferAlmostEmpty & ~ShiftEnded)
     2271            1                    ***0***         ShiftEnded <= 1'b1;
@@ -25465,7 +25465,7 @@ Statement Coverage for instance /dut/wishbone --
 Toggle Coverage:
     Enabled Coverage              Bins      Hits    Misses  Coverage
     ----------------              ----      ----    ------  --------
-    Toggles                       1780       218      1562    12.24%
+    Toggles                       1780       219      1561    12.30%
 
 ================================Toggle Details================================
 
@@ -25783,14 +25783,14 @@ Toggle Coverage for instance /dut/wishbone --
                                    rxfifo_cnt[0-4]           0           0        0.00 
                                           tx_burst           0           0        0.00 
                                  tx_burst_cnt[2-0]           0           0        0.00 
-                                       tx_burst_en           0           0        0.00 
+                                       tx_burst_en           1           0       50.00 
                                    txfifo_cnt[0-4]           0           0        0.00 
 
 Total Node Count     =        890 
 Toggled Node Count   =         83 
 Untoggled Node Count =        807 
 
-Toggle Coverage      =      12.24% (218 of 1780 bins)
+Toggle Coverage      =      12.30% (219 of 1780 bins)
 
 =================================================================================
 === Instance: /dut/macstatus1
@@ -25807,7 +25807,7 @@ Branch Coverage for instance /dut/macstatus1
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_macstatus.v
+  File repo/rtl/eth_macstatus.v
 ------------------------------------IF Branch------------------------------------
     205                                        1     Count coming in to IF
     205             1                          1       if(Reset)
@@ -25905,19 +25905,19 @@ Branch totals: 2 hits of 3 branches = 66.66%
 Branch totals: 2 hits of 3 branches = 66.66%
 
 ------------------------------------IF Branch------------------------------------
-    398                                        4     Count coming in to IF
+    398                                        3     Count coming in to IF
     398             1                          2       if(Reset)
     401             1                    ***0***       if(DeferIndication)
     404             1                    ***0***       if(RstDeferLatched)
-                                               2     All False Count
+                                               1     All False Count
 Branch totals: 2 hits of 4 branches = 50.00%
 
 ------------------------------------IF Branch------------------------------------
-    412                                        4     Count coming in to IF
+    412                                        3     Count coming in to IF
     412             1                          2       if(Reset)
     415             1                    ***0***       if((StatePreamble | (|StateData)) & ~CarrierSense & ~Loopback & ~Collision & ~r_FullD)
     418             1                    ***0***       if(TxStartFrm)
-                                               2     All False Count
+                                               1     All False Count
 Branch totals: 2 hits of 4 branches = 50.00%
 
 
@@ -25930,7 +25930,7 @@ Condition Coverage:
 
 Condition Coverage for instance /dut/macstatus1 --
 
-  File rtl/eth_macstatus.v
+  File repo/rtl/eth_macstatus.v
 ----------------Focused Condition View-------------------
 Line       222 Item    1  ((MRxErr & MRxDV) & (((RxStatePreamble | RxStateSFD) | |RxStateData) | (RxStateIdle & ~Transmitting)))
 Condition totals: 0 of 7 input terms covered = 0.00%
@@ -26093,8 +26093,8 @@ Condition totals: 0 of 6 input terms covered = 0.00%
        Loopback         N  No hits                  Hit '_0' and '_1'
       Collision         N  No hits                  Hit '_0' and '_1'
         r_FullD         N  No hits                  Hit '_0' and '_1'
-  StatePreamble         N  No hits                  Hit '_0' and '_1'
-     |StateData         N  No hits                  Hit '_0' and '_1'
+  StatePreamble         N  '_1' not hit             Hit '_1'
+     |StateData         N  '_1' not hit             Hit '_1'
 
      Rows:       Hits  FEC Target            Non-masking condition(s)      
  ---------  ---------  --------------------  -------------------------     
@@ -26106,9 +26106,9 @@ Condition totals: 0 of 6 input terms covered = 0.00%
   Row   6:    ***0***  Collision_1           ((StatePreamble | |StateData) && ~r_FullD && ~(CarrierSense | Loopback))
   Row   7:    ***0***  r_FullD_0             ((StatePreamble | |StateData) && ~((CarrierSense | Loopback) | Collision))
   Row   8:    ***0***  r_FullD_1             ((StatePreamble | |StateData) && ~((CarrierSense | Loopback) | Collision))
-  Row   9:    ***0***  StatePreamble_0       ((((CarrierSense | Loopback) | Collision) ~| r_FullD) && ~|StateData)
+  Row   9:          1  StatePreamble_0       ((((CarrierSense | Loopback) | Collision) ~| r_FullD) && ~|StateData)
  Row   10:    ***0***  StatePreamble_1       ((((CarrierSense | Loopback) | Collision) ~| r_FullD) && ~|StateData)
- Row   11:    ***0***  |StateData_0          ((((CarrierSense | Loopback) | Collision) ~| r_FullD) && ~StatePreamble)
+ Row   11:          1  |StateData_0          ((((CarrierSense | Loopback) | Collision) ~| r_FullD) && ~StatePreamble)
  Row   12:    ***0***  |StateData_1          ((((CarrierSense | Loopback) | Collision) ~| r_FullD) && ~StatePreamble)
 
 
@@ -26121,7 +26121,7 @@ Expression Coverage:
 
 Expression Coverage for instance /dut/macstatus1 --
 
-  File rtl/eth_macstatus.v
+  File repo/rtl/eth_macstatus.v
 ----------------Focused Expression View-----------------
 Line       212 Item    1  (RxCrcError & ~RxByteCntEq0)
 Expression totals: 0 of 2 input terms covered = 0.00%
@@ -26237,7 +26237,7 @@ Statement Coverage for instance /dut/macstatus1 --
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_macstatus.v
+  File repo/rtl/eth_macstatus.v
     115                                              module eth_macstatus(
     116                                                                    MRxClk, Reset, ReceivedLengthOK, ReceiveEnd, ReceivedPacketGood, RxCrcError, 
     117                                                                    MRxErr, MRxDV, RxStateSFD, RxStateData, RxStatePreamble, RxStateIdle, Transmitting, 
@@ -26519,7 +26519,7 @@ Statement Coverage for instance /dut/macstatus1 --
     393                                              
     394                                              
     395                                              // Latched Defer state
-    396             1                          4     always @ (posedge MTxClk or posedge Reset)
+    396             1                          3     always @ (posedge MTxClk or posedge Reset)
     397                                              begin
     398                                                if(Reset)
     399             1                          2         DeferLatched <= 1'b0;
@@ -26533,7 +26533,7 @@ Statement Coverage for instance /dut/macstatus1 --
     407                                              
     408                                              
     409                                              // CarrierSenseLost
-    410             1                          4     always @ (posedge MTxClk or posedge Reset)
+    410             1                          3     always @ (posedge MTxClk or posedge Reset)
     411                                              begin
     412                                                if(Reset)
     413             1                          2         CarrierSenseLost <= 1'b0;
@@ -26632,7 +26632,7 @@ Branch Coverage for instance /dut
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_top.v
+  File repo/rtl/eth_top.v
 ------------------------------------IF Branch------------------------------------
     506                                     1286     Count coming in to IF
     506             1                    ***0***     assign temp_wb_dat_o = ((|RegCs) & ~wb_we_i)? RegDataOut : BD_WB_DAT_O;
@@ -26664,20 +26664,20 @@ Branch totals: 1 hit of 2 branches = 50.00%
 Branch totals: 1 hit of 2 branches = 50.00%
 
 ------------------------------------IF Branch------------------------------------
-    713                                        5     Count coming in to IF
+    713                                        3     Count coming in to IF
     713             1                          2       if(wb_rst_i)
-    718             1                          3       else
+    718             1                          1       else
 Branch totals: 2 hits of 2 branches = 100.00%
 
 ------------------------------------IF Branch------------------------------------
-    731                                        4     Count coming in to IF
+    731                                        3     Count coming in to IF
     731             1                          2       if(wb_rst_i)
-    736             1                          2       else
+    736             1                          1       else
 Branch totals: 2 hits of 2 branches = 100.00%
 
 ------------------------------------IF Branch------------------------------------
-    739                                        2     Count coming in to IF
-    739             1                          2           if(ResetCollision)
+    739                                        1     Count coming in to IF
+    739             1                          1           if(ResetCollision)
     742             1                    ***0***           if(Collision_Tx1)
                                          ***0***     All False Count
 Branch totals: 1 hit of 3 branches = 33.33%
@@ -26755,7 +26755,7 @@ Condition Coverage:
 
 Condition Coverage for instance /dut --
 
-  File rtl/eth_top.v
+  File repo/rtl/eth_top.v
 ----------------Focused Condition View-------------------
 Line       506 Item    1  (|RegCs & ~wb_we_i)
 Condition totals: 0 of 2 input terms covered = 0.00%
@@ -26813,7 +26813,7 @@ Expression Coverage:
 
 Expression Coverage for instance /dut --
 
-  File rtl/eth_top.v
+  File repo/rtl/eth_top.v
 ----------------Focused Expression View-----------------
 Line       497 Item    1  (((((wb_adr_i[11] ~| wb_adr_i[10]) & wb_stb_i) & wb_cyc_i) & ByteSelected) & wb_sel_i[3])
 Expression totals: 1 of 6 input terms covered = 16.66%
@@ -27316,7 +27316,7 @@ Statement Coverage for instance /dut --
 
     Line         Item                      Count     Source 
     ----         ----                      -----     ------ 
-  File rtl/eth_top.v
+  File repo/rtl/eth_top.v
     241                                              module eth_top
     242                                              (
     243                                                // WISHBONE common
@@ -27787,7 +27787,7 @@ Statement Coverage for instance /dut --
     708                                              
     709                                              
     710                                              // MII Carrier Sense Synchronization
-    711             1                          5     always @ (posedge mtx_clk_pad_i or posedge wb_rst_i)
+    711             1                          3     always @ (posedge mtx_clk_pad_i or posedge wb_rst_i)
     712                                              begin
     713                                                if(wb_rst_i)
     714                                                  begin
@@ -27796,16 +27796,16 @@ Statement Coverage for instance /dut --
     717                                                  end
     718                                                else
     719                                                  begin
-    720             1                          3           CarrierSense_Tx1 <=  mcrs_pad_i;
-    721             1                          3           CarrierSense_Tx2 <=  CarrierSense_Tx1;
+    720             1                          1           CarrierSense_Tx1 <=  mcrs_pad_i;
+    721             1                          1           CarrierSense_Tx2 <=  CarrierSense_Tx1;
     722                                                  end
     723                                              end
     724                                              
-    725             1                          4     assign TxCarrierSense = ~r_FullD & CarrierSense_Tx2;
+    725             1                          3     assign TxCarrierSense = ~r_FullD & CarrierSense_Tx2;
     726                                              
     727                                              
     728                                              // MII Collision Synchronization
-    729             1                          4     always @ (posedge mtx_clk_pad_i or posedge wb_rst_i)
+    729             1                          3     always @ (posedge mtx_clk_pad_i or posedge wb_rst_i)
     730                                              begin
     731                                                if(wb_rst_i)
     732                                                  begin
@@ -27814,9 +27814,9 @@ Statement Coverage for instance /dut --
     735                                                  end
     736                                                else
     737                                                  begin
-    738             1                          2           Collision_Tx1 <=  mcoll_pad_i;
+    738             1                          1           Collision_Tx1 <=  mcoll_pad_i;
     739                                                    if(ResetCollision)
-    740             1                          2             Collision_Tx2 <=  1'b0;
+    740             1                          1             Collision_Tx2 <=  1'b0;
     741                                                    else
     742                                                    if(Collision_Tx1)
     743             1                    ***0***             Collision_Tx2 <=  1'b1;
@@ -28315,5 +28315,5 @@ Untoggled Node Count =        732
 Toggle Coverage      =      15.75% (254 of 1612 bins)
 
 
-Total Coverage By Instance (filtered view): 27.41%
+Total Coverage By Instance (filtered view): 27.36%
 

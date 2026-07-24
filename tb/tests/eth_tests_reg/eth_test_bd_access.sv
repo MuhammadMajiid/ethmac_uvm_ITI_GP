@@ -20,7 +20,8 @@ class eth_test_bd_access extends eth_base_test;
   task run_phase(uvm_phase phase);
 
   eth_v_seq_bd vseq;
-
+  super.run_phase(phase);
+  
   phase.raise_objection(this);
 
   vseq = eth_v_seq_bd::type_id::create("vseq");

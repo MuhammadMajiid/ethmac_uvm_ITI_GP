@@ -22,7 +22,7 @@ class eth_test_reg_access extends eth_base_test;
   task run_phase(uvm_phase phase);
 
   eth_v_seq_reg vseq;
-
+  super.run_phase(phase);
   phase.raise_objection(this);
 
   vseq = eth_v_seq_reg::type_id::create("vseq");
