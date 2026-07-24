@@ -1,10 +1,10 @@
 
-`ifndef ETH_TEST_TX_CS_SV
-`define ETH_TEST_TX_CS_SV
+`ifndef ETH_TEST_TX_LEN_SV
+`define ETH_TEST_TX_LEN_SV
 
 
-class eth_test_tx_cs extends eth_test_tx_base;
-  `uvm_component_utils(eth_test_tx_cs)
+class eth_test_tx_len extends eth_test_tx_base;
+  `uvm_component_utils(eth_test_tx_len)
 
   function new(string name, uvm_component parent);
     super.new(name, parent);
@@ -19,32 +19,19 @@ class eth_test_tx_cs extends eth_test_tx_base;
   );
       factory.set_type_override_by_type(
       wb_s_seq_base::get_type(),
-      wb_s_seq_tx_cs::get_type()
+      wb_s_seq_tx_len::get_type()
   );
-
-    factory.set_type_override_by_type(
-      mii_tx_driver_base::get_type(),
-      mii_tx_driver_cs::get_type()
-  );
-  
-    factory.set_type_override_by_type(
-      eth_v_seq_tx::get_type(),
-      eth_v_seq_tx_active::get_type()
-  );
-    factory.set_type_override_by_type(
-      mii_tx_seq_base::get_type(),
-      mii_tx_seq_cs::get_type()
-  );
+ 
   
     super.build_phase(phase);
 
     // set wishnbone master & slave agents to active
     m_config.m_wb_m_config.is_active=UVM_ACTIVE;
     m_config.m_wb_s_config.is_active=UVM_ACTIVE;
-	   m_config.m_rst_config.is_active=UVM_ACTIVE;
+	m_config.m_rst_config.is_active=UVM_ACTIVE;
 
     // set mii tx agent to passive
-    m_config.m_mii_tx_config.is_active=UVM_ACTIVE;
+    m_config.m_mii_tx_config.is_active=UVM_PASSIVE;
 	
 
   endfunction

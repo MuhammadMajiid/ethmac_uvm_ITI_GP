@@ -1,20 +1,19 @@
 //==============================================================================
 // Project  : ethmac_uvm_ITI_GP
-// File     : wb_s_seq_tx_cs.sv
+// File     : wb_s_seq_tx_len.sv
 // Author   : Wael
 // Date     : 2026-07-23
 //------------------------------------------------------------------------------
 // Description:
-// Used for testing carrier sense lost during transmission.
+// Used for testing different packet lengths.
 //==============================================================================
-`ifndef WB_S_SEQ_TX_CS
-`define WB_S_SEQ_TX_CS
-class wb_s_seq_tx_cs extends wb_s_basic_tx_seq;
+`ifndef WB_S_SEQ_TX_LEN
+`define WB_S_SEQ_TX_LEN
+class wb_s_seq_tx_len extends wb_s_basic_tx_seq;
 
-    `uvm_object_utils(wb_s_seq_tx_cs)
-    uvm_reg_data_t rd_data;
+    `uvm_object_utils(wb_s_seq_tx_len)
 
-    function new(string name="wb_s_seq_tx_cs");
+    function new(string name="wb_s_seq_tx_len");
         super.new(name);
     endfunction
 
@@ -24,12 +23,14 @@ class wb_s_seq_tx_cs extends wb_s_basic_tx_seq;
     // Randomize transaction
     //-----------------------------------------------------
     assert(m_item.randomize() with {
+    pkt_data dist{'hFFFF_FFFF:=5, 'h0000_0000 := 5,['h0000_0001:'hFFFF_FFFE] :/ 95};
     tx_bd_num inside{1,2};
-    moder_fd dist {1 := 30, 0:= 70};
     foreach (pkt_len[i]){
-        pkt_len[i]<100;
-        pkt_len[i]>4;
+        pkt_len[i] dist {'hFFFF:=8, ['h0001:'h0004] := 2,['h0005:'hFFFE] :/ 95}; 
+        if(tx_bd_num==2)
+            pkt_len[i] >4;
     }
+    maxfl==100;
     })   
     else begin
     `uvm_fatal(get_name(), "Failed randomization")
@@ -39,7 +40,7 @@ class wb_s_seq_tx_cs extends wb_s_basic_tx_seq;
     // Write dma memory & program buffer descriptors
     //-----------------------------------------------------
     for(int bd=0; bd<m_item.tx_bd_num; bd++) begin
-        dma_mem_wr(m_item.tx_pnt[bd],m_item.pkt_len[bd],0,1);
+        dma_mem_wr(m_item.tx_pnt[bd],m_item.pkt_len[bd],m_item.pkt_data);
 
         configure_tx_bd(.bd_index(bd),.frame_length(m_item.pkt_len[bd]),.frame_ptr(m_item.tx_pnt[bd]),.enable_irq(0),
         .is_wrap(bd == m_item.tx_bd_num-1),.enable_pad(m_item.bd_pad[bd]),.enable_crc(m_item.bd_crc[bd]));
@@ -48,25 +49,15 @@ class wb_s_seq_tx_cs extends wb_s_basic_tx_seq;
     //-----------------------------------------------------
     // Configure registers
     //-----------------------------------------------------
-    configure_tx_registers(.tx_bd_num(m_item.tx_bd_num),.fulld(m_item.moder_fd),.txen(1));
+    configure_tx_registers(.tx_bd_num(m_item.tx_bd_num),.maxfl(m_item.maxfl),.txen(1));
 
 
     `uvm_info(get_type_name(),
-                "CS TX configuration completed",
+                "Packet length TX configuration completed",
                 UVM_LOW)
 
-    // Read carrier sense lost for coverage
-    for(int i=0; i<m_item.tx_bd_num; i++) begin
+    repeat(m_item.tx_bd_num) begin
         @(m_ev_end_pkt);
-        `uvm_info(get_name(), "Reading carrier sense lost", UVM_MEDIUM)
-        // Read bd
-        regmodel.eth_bd_mem.read(status,i*2,rd_data, UVM_FRONTDOOR);
-        // if carrier sense is asserted clear it
-        if(rd_data[0]) begin
-        `uvm_info(get_name(),$sformatf("Carrier sense lost bit = %0b",rd_data[0]),UVM_MEDIUM)
-        rd_data = rd_data ^ (1'b1);
-        regmodel.eth_bd_mem.write(status,i*2,rd_data, UVM_BACKDOOR);
-    end
     end 
 
     endtask

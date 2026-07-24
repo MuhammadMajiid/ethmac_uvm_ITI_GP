@@ -71,6 +71,7 @@ endfunction
 
       m_env.m_cov_tx.m_reserved_bit_cov.stop();
       m_env.m_cov_tx.m_rw_bit_cov.stop();
+      m_env.m_cov_tx.m_bd_wr_rd_cov.stop();
       
       // create virtual sequence
       m_v_seq_tx = eth_v_seq_tx::type_id::create("m_v_seq_tx");

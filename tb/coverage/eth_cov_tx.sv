@@ -304,7 +304,7 @@ class eth_cov_tx extends uvm_component;
 
     cp_bd_len: coverpoint m_bd_len {
         // ALl legal lengths
-        bins len_all [64] = {['h0005:'hFFFE]};
+        bins len_all [32] = {['h0005:'hFFFE]};
         // All illegal lengths 
         bins len_4  = {['h0001:'h0004]};
         // Maximum value 
@@ -408,13 +408,6 @@ class eth_cov_tx extends uvm_component;
     // =============================================================================
     covergroup m_rd_cfg_cov;
         
-        // Addresses
-        cp_addr: coverpoint m_addr{
-            bins tx_int = {'h01};
-            bins tx_bd   [] = {[WB_BD_MEM_BASE_ADDR:WB_BD_MEM_OFFSET_ADDR]};
-            illegal_bins ill_addr = {[ETH_REG_OFFSET_ADDR+1:WB_BD_MEM_BASE_ADDR-1],[WB_BD_MEM_OFFSET_ADDR+1:'h3FF]};
-            bins others = default;
-        }
 
         // INT_SOURCE Register (Address 0x04)
         cp_int_source: coverpoint m_rdata iff(m_addr=='h01) {
@@ -625,19 +618,33 @@ class eth_cov_tx extends uvm_component;
 
     endgroup 
 
+    covergroup m_bd_wr_rd_cov;
+    // Write
+    cp_addr_wr: coverpoint m_addr iff(m_wb_s_seq_item.m_dir==WB_WRITE){
+        bins tx_bd   [] = {[WB_BD_MEM_BASE_ADDR:WB_BD_MEM_OFFSET_ADDR]};
+        illegal_bins ill_addr = {[ETH_REG_OFFSET_ADDR+1:WB_BD_MEM_BASE_ADDR-1],[WB_BD_MEM_OFFSET_ADDR+1:'h3FF]};
+        bins others = default;
+    }
+    // Read
+    cp_addr_rd: coverpoint m_addr  iff(m_wb_s_seq_item.m_dir==WB_READ){
+        bins tx_bd   [] = {[WB_BD_MEM_BASE_ADDR:WB_BD_MEM_OFFSET_ADDR]};
+        illegal_bins ill_addr = {[ETH_REG_OFFSET_ADDR+1:WB_BD_MEM_BASE_ADDR-1],[WB_BD_MEM_OFFSET_ADDR+1:'h3FF]};
+        bins others = default;
+    }
+    endgroup
     // =============================================================================
-    //  Register bit read coverage
+    //  Register bit & BD read coverage
     // =============================================================================
 
     covergroup m_rw_bit_cov;
 
-    cp_reg : coverpoint m_current_reg_id {
+        cp_reg : coverpoint m_current_reg_id {
 
-        bins regs[21] = {[0:20]};
+            bins regs[21] = {[0:20]};
 
-        ignore_bins ro_regs = {14,15};
+            ignore_bins ro_regs = {14,15};
 
-    }
+        }
 
 
         // Every bit in register
@@ -691,6 +698,7 @@ function eth_cov_tx::new(string name, uvm_component parent);
     m_rd_cfg_cov=new();
     m_mii_cov_tx=new();
     m_wb_m_cov=new();
+    m_bd_wr_rd_cov =new();
     m_rw_bit_cov     = new();
     m_reserved_bit_cov = new();
 endfunction
@@ -776,6 +784,8 @@ task eth_cov_tx::sample_wb_s_item();
     if(!(&m_wb_s_seq_item.m_sel))
         return;
     
+    m_bd_wr_rd_cov.sample();
+
     // if write transaction cover config_group
     if(m_wb_s_seq_item.m_dir==WB_WRITE) begin
         m_wr_cfg_cov.sample();

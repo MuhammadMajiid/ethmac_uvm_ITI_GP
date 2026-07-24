@@ -41,6 +41,7 @@ class eth_v_seq_reg extends eth_v_seq_base;
     // Reset DUT
     //-----------------------------------
     rst_seq = reset_seq::type_id::create("rst_seq");
+    rst_seq.m_regmodel = p_sequencer.regmodel;
     rst_seq.start(m_reset_sqr);
 
     //-----------------------------------
@@ -61,6 +62,7 @@ class eth_v_seq_reg extends eth_v_seq_base;
     // Reset again
     //-----------------------------------
     rst_seq = reset_seq::type_id::create("rst_seq_after_max");
+    rst_seq.m_regmodel = p_sequencer.regmodel;
     rst_seq.start(m_reset_sqr);
 
     //-----------------------------------

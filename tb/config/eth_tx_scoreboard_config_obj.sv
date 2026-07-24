@@ -15,6 +15,9 @@
 class eth_tx_scoreboard_config_obj extends uvm_object;
   `uvm_object_utils(eth_tx_scoreboard_config_obj)
 
+ 
+  uvm_active_passive_enum is_active = UVM_ACTIVE;
+
   eth_reg_block         m_regmodel;       // RAL model
   event                 m_ev_end_seqs;    // triggerd when sequences finish
   event                 m_ev_end_pkt;
