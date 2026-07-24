@@ -32,7 +32,7 @@ class wb_s_basic_tx_seq extends wb_s_seq_base;
 	
 	parameter int NUM_TX_BD = 1;
     parameter int unsigned        PKT_LEN    = 78;
-	bit [31:0] tx_ptr[NUM_TX_BD];
+	bit [31:0] tx_ptr[];
 
     //---------------------------------------------------------
     function new(string name="wb_s_basic_tx_seq");
@@ -86,7 +86,7 @@ class wb_s_basic_tx_seq extends wb_s_seq_base;
     task body();
 
   
-
+    tx_ptr=new[NUM_TX_BD];
     //-----------------------------------------------------
     // DMA packet addresses for the basic test
     //-----------------------------------------------------

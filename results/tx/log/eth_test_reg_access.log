@@ -1,13 +1,13 @@
-# End time: 05:06:11 on Jul 24,2026, Elapsed time: 0:00:31
-# Errors: 0, Warnings: 16
-# vsim -c -voptargs="+acc" work.eth_tb -coverage -classdebug -sv_seed random -uvmcontrol=all "+uvm_set_verbosity=uvm_test_top.m_env.*,_ALL_,UVM_MEDIUM,time,0" "+seq_num=1" "+coll_num=1" "+UVM_TESTNAME=eth_test_reg_access" -onfinish stop -do "
+# End time: 16:15:19 on Jul 24,2026, Elapsed time: 0:00:26
+# Errors: 0, Warnings: 6
+# vsim -c work.eth_tb -coverage -sv_seed random "+uvm_set_verbosity=uvm_test_top.m_env.*,_ALL_,UVM_NONE,time,0" "+seq_num=1" "+coll_num=1" "+UVM_TESTNAME=eth_test_reg_access" -onfinish stop -do "
 #     run -all; 
 #     coverage save $CODE_UCDB -codeAll -instance eth_tb.dut
 #     coverage save $FUNC_UCDB -cvg -directive -assert
 #     transcript file ""
 #     " 
-# Start time: 05:06:11 on Jul 24,2026
-# ** Note: (vsim-8009) Loading existing optimized design _opt4
+# Start time: 16:15:19 on Jul 24,2026
+# ** Note: (vsim-8009) Loading existing optimized design _opt6
 # Loading sv_std.std
 # Loading work.wb_m_if(fast)
 # Loading work.wb_s_if(fast)
@@ -42,54 +42,14 @@
 # Loading work.eth_test_reg_pkg(fast)
 # Loading mtiUvm.questa_uvm_pkg(fast)
 # Loading work.eth_tb(fast)
-# Loading work.reset_if(fast__2)
 # Loading work.wb_s_if_sv_unit(fast)
 # Loading work.wb_s_if(fast__2)
 # Loading work.wb_m_if_sv_unit(fast)
 # Loading work.wb_m_if(fast__2)
 # Loading work.mii_tx_if_sv_unit(fast)
 # Loading work.mii_tx_if(fast__2)
-# Loading work.mii_rx_if(fast__2)
-# Loading work.eth_top(fast)
-# Loading work.eth_miim(fast)
-# Loading work.eth_clockgen(fast)
-# Loading work.eth_shiftreg(fast)
-# Loading work.eth_outputcontrol(fast)
-# Loading work.eth_registers(fast)
-# Loading work.eth_register(fast)
-# Loading work.eth_register(fast__1)
-# Loading work.eth_register(fast__2)
-# Loading work.eth_register(fast__3)
-# Loading work.eth_register(fast__4)
-# Loading work.eth_register(fast__5)
-# Loading work.eth_register(fast__6)
-# Loading work.eth_register(fast__7)
-# Loading work.eth_register(fast__8)
-# Loading work.eth_register(fast__9)
-# Loading work.eth_register(fast__10)
-# Loading work.eth_register(fast__11)
-# Loading work.eth_register(fast__12)
-# Loading work.eth_register(fast__13)
-# Loading work.eth_register(fast__14)
-# Loading work.eth_maccontrol(fast)
-# Loading work.eth_receivecontrol(fast)
-# Loading work.eth_transmitcontrol(fast)
-# Loading work.eth_txethmac(fast)
-# Loading work.eth_txcounters(fast)
-# Loading work.eth_txstatem(fast)
-# Loading work.eth_crc(fast)
-# Loading work.eth_random(fast)
-# Loading work.eth_rxethmac(fast)
-# Loading work.eth_rxstatem(fast)
-# Loading work.eth_rxcounters(fast)
-# Loading work.eth_rxaddrcheck(fast)
-# Loading work.eth_crc(fast__1)
-# Loading work.eth_wishbone(fast)
-# Loading work.eth_spram_256x32(fast)
-# Loading work.eth_fifo(fast)
-# Loading work.eth_macstatus(fast)
 # Loading D:/B/qsim_2021_1/uvm-1.1d\win64\uvm_dpi.dll
-# Sv_Seed = 1190744841
+# Sv_Seed = 275570817
 # 
 #     run -all
 # ----------------------------------------------------------------
@@ -113,6 +73,180 @@
 #       (Specify +UVM_NO_RELNOTES to turn off this notice)
 # 
 # UVM_INFO verilog_src/questa_uvm_pkg-1.2/src/questa_uvm_pkg.sv(277) @ 0: reporter [Questa UVM] QUESTA_UVM-1.2.3
-# UVM_INFO verilog_src/questa_uvm_pkg-1.2/src/questa_uvm_pkg.sv(278) @ 0: reporter [Questa UVM]  questa_uvm::init(all)
+# UVM_INFO verilog_src/questa_uvm_pkg-1.2/src/questa_uvm_pkg.sv(278) @ 0: reporter [Questa UVM]  questa_uvm::init(+struct)
 # UVM_INFO @ 0: reporter [RNTST] Running test eth_test_reg_access...
-# Break key hit
+# ** Warning: (vsim-8547) After dropping the illegal, ignore or invalid values, the values list associated with fixed-size array sub bin 'regs[14]' in Coverpoint 'cp_reg' of Covergroup instance '\/eth_cov_pkg::eth_cov_tx::m_rw_bit_cov ' has converged to empty list. The sub bin will be taken out of coverage calculation.
+#    Time: 0 ps  Iteration: 7  Region: /uvm_pkg::uvm_phase::m_run_phases
+# ** Warning: (vsim-8547) After dropping the illegal, ignore or invalid values, the values list associated with fixed-size array sub bin 'regs[15]' in Coverpoint 'cp_reg' of Covergroup instance '\/eth_cov_pkg::eth_cov_tx::m_rw_bit_cov ' has converged to empty list. The sub bin will be taken out of coverage calculation.
+#    Time: 0 ps  Iteration: 7  Region: /uvm_pkg::uvm_phase::m_run_phases
+# ** Warning: (vsim-8547) After dropping the illegal, ignore or invalid values, the values list associated with fixed-size array sub bin 'regs[6]' in Coverpoint 'cp_reg' of Covergroup instance '\/eth_cov_pkg::eth_cov_tx::m_reserved_bit_cov ' has converged to empty list. The sub bin will be taken out of coverage calculation.
+#    Time: 0 ps  Iteration: 7  Region: /uvm_pkg::uvm_phase::m_run_phases
+# ** Warning: (vsim-8547) After dropping the illegal, ignore or invalid values, the values list associated with fixed-size array sub bin 'regs[16]' in Coverpoint 'cp_reg' of Covergroup instance '\/eth_cov_pkg::eth_cov_tx::m_reserved_bit_cov ' has converged to empty list. The sub bin will be taken out of coverage calculation.
+#    Time: 0 ps  Iteration: 7  Region: /uvm_pkg::uvm_phase::m_run_phases
+# ** Warning: (vsim-8547) After dropping the illegal, ignore or invalid values, the values list associated with fixed-size array sub bin 'regs[18]' in Coverpoint 'cp_reg' of Covergroup instance '\/eth_cov_pkg::eth_cov_tx::m_reserved_bit_cov ' has converged to empty list. The sub bin will be taken out of coverage calculation.
+#    Time: 0 ps  Iteration: 7  Region: /uvm_pkg::uvm_phase::m_run_phases
+# ** Warning: (vsim-8547) After dropping the illegal, ignore or invalid values, the values list associated with fixed-size array sub bin 'regs[19]' in Coverpoint 'cp_reg' of Covergroup instance '\/eth_cov_pkg::eth_cov_tx::m_reserved_bit_cov ' has converged to empty list. The sub bin will be taken out of coverage calculation.
+#    Time: 0 ps  Iteration: 7  Region: /uvm_pkg::uvm_phase::m_run_phases
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 2500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 7500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 12500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 17500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_INFO @ 22500: reporter@@hw_reset_seq [STARTING_SEQ] 
+# 
+# Starting hw_reset_seq sequence...
+# 
+# UVM_INFO verilog_src/uvm-1.1d/src/reg/sequences/uvm_reg_hw_reset_seq.svh(113) @ 22500: reporter@@hw_reset_seq [uvm_reg_hw_reset_seq] Verifying reset value of register m_regmodel.TXCTRL in map "m_regmodel.reg_map"...
+# UVM_INFO verilog_src/uvm-1.1d/src/reg/sequences/uvm_reg_hw_reset_seq.svh(113) @ 42500: reporter@@hw_reset_seq [uvm_reg_hw_reset_seq] Verifying reset value of register m_regmodel.HASH1 in map "m_regmodel.reg_map"...
+# UVM_INFO verilog_src/uvm-1.1d/src/reg/sequences/uvm_reg_hw_reset_seq.svh(113) @ 67500: reporter@@hw_reset_seq [uvm_reg_hw_reset_seq] Verifying reset value of register m_regmodel.HASH0 in map "m_regmodel.reg_map"...
+# UVM_INFO verilog_src/uvm-1.1d/src/reg/sequences/uvm_reg_hw_reset_seq.svh(113) @ 92500: reporter@@hw_reset_seq [uvm_reg_hw_reset_seq] Verifying reset value of register m_regmodel.MAC_ADDR1 in map "m_regmodel.reg_map"...
+# UVM_INFO verilog_src/uvm-1.1d/src/reg/sequences/uvm_reg_hw_reset_seq.svh(113) @ 117500: reporter@@hw_reset_seq [uvm_reg_hw_reset_seq] Verifying reset value of register m_regmodel.MAC_ADDR0 in map "m_regmodel.reg_map"...
+# UVM_INFO verilog_src/uvm-1.1d/src/reg/sequences/uvm_reg_hw_reset_seq.svh(113) @ 142500: reporter@@hw_reset_seq [uvm_reg_hw_reset_seq] Verifying reset value of register m_regmodel.MIISTATUS in map "m_regmodel.reg_map"...
+# UVM_INFO verilog_src/uvm-1.1d/src/reg/sequences/uvm_reg_hw_reset_seq.svh(113) @ 167500: reporter@@hw_reset_seq [uvm_reg_hw_reset_seq] Verifying reset value of register m_regmodel.MIIRX_DATA in map "m_regmodel.reg_map"...
+# UVM_INFO verilog_src/uvm-1.1d/src/reg/sequences/uvm_reg_hw_reset_seq.svh(113) @ 192500: reporter@@hw_reset_seq [uvm_reg_hw_reset_seq] Verifying reset value of register m_regmodel.MIITX_DATA in map "m_regmodel.reg_map"...
+# UVM_INFO verilog_src/uvm-1.1d/src/reg/sequences/uvm_reg_hw_reset_seq.svh(113) @ 217500: reporter@@hw_reset_seq [uvm_reg_hw_reset_seq] Verifying reset value of register m_regmodel.MIIADDRESS in map "m_regmodel.reg_map"...
+# UVM_INFO verilog_src/uvm-1.1d/src/reg/sequences/uvm_reg_hw_reset_seq.svh(113) @ 242500: reporter@@hw_reset_seq [uvm_reg_hw_reset_seq] Verifying reset value of register m_regmodel.MIICOMMAND in map "m_regmodel.reg_map"...
+# UVM_INFO verilog_src/uvm-1.1d/src/reg/sequences/uvm_reg_hw_reset_seq.svh(113) @ 262500: reporter@@hw_reset_seq [uvm_reg_hw_reset_seq] Verifying reset value of register m_regmodel.MIIMODER in map "m_regmodel.reg_map"...
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 267500: reporter [A_WB_S] a_ack_stb_cyc
+# UVM_INFO verilog_src/uvm-1.1d/src/reg/sequences/uvm_reg_hw_reset_seq.svh(113) @ 287500: reporter@@hw_reset_seq [uvm_reg_hw_reset_seq] Verifying reset value of register m_regmodel.CTRLMODER in map "m_regmodel.reg_map"...
+# UVM_INFO verilog_src/uvm-1.1d/src/reg/sequences/uvm_reg_hw_reset_seq.svh(113) @ 312500: reporter@@hw_reset_seq [uvm_reg_hw_reset_seq] Verifying reset value of register m_regmodel.TX_BD_NUM in map "m_regmodel.reg_map"...
+# UVM_INFO verilog_src/uvm-1.1d/src/reg/sequences/uvm_reg_hw_reset_seq.svh(113) @ 337500: reporter@@hw_reset_seq [uvm_reg_hw_reset_seq] Verifying reset value of register m_regmodel.COLLCONF in map "m_regmodel.reg_map"...
+# UVM_INFO verilog_src/uvm-1.1d/src/reg/sequences/uvm_reg_hw_reset_seq.svh(113) @ 362500: reporter@@hw_reset_seq [uvm_reg_hw_reset_seq] Verifying reset value of register m_regmodel.PACKETLEN in map "m_regmodel.reg_map"...
+# UVM_INFO verilog_src/uvm-1.1d/src/reg/sequences/uvm_reg_hw_reset_seq.svh(113) @ 387500: reporter@@hw_reset_seq [uvm_reg_hw_reset_seq] Verifying reset value of register m_regmodel.IPGR2 in map "m_regmodel.reg_map"...
+# UVM_INFO verilog_src/uvm-1.1d/src/reg/sequences/uvm_reg_hw_reset_seq.svh(113) @ 412500: reporter@@hw_reset_seq [uvm_reg_hw_reset_seq] Verifying reset value of register m_regmodel.IPGR1 in map "m_regmodel.reg_map"...
+# UVM_INFO verilog_src/uvm-1.1d/src/reg/sequences/uvm_reg_hw_reset_seq.svh(113) @ 437500: reporter@@hw_reset_seq [uvm_reg_hw_reset_seq] Verifying reset value of register m_regmodel.IPGT in map "m_regmodel.reg_map"...
+# UVM_INFO verilog_src/uvm-1.1d/src/reg/sequences/uvm_reg_hw_reset_seq.svh(113) @ 462500: reporter@@hw_reset_seq [uvm_reg_hw_reset_seq] Verifying reset value of register m_regmodel.INT_MASK in map "m_regmodel.reg_map"...
+# UVM_INFO verilog_src/uvm-1.1d/src/reg/sequences/uvm_reg_hw_reset_seq.svh(113) @ 487500: reporter@@hw_reset_seq [uvm_reg_hw_reset_seq] Verifying reset value of register m_regmodel.INT_SOURCE in map "m_regmodel.reg_map"...
+# UVM_INFO verilog_src/uvm-1.1d/src/reg/sequences/uvm_reg_hw_reset_seq.svh(113) @ 512500: reporter@@hw_reset_seq [uvm_reg_hw_reset_seq] Verifying reset value of register m_regmodel.MODER in map "m_regmodel.reg_map"...
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 737500: reporter [A_WB_S] a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 1232500: reporter [A_WB_S] a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 1677500: reporter [A_WB_S] a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 2172500: reporter [A_WB_S] a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 2617500: reporter [A_WB_S] a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 3112500: reporter [A_WB_S] a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 3557500: reporter [A_WB_S] a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 4052500: reporter [A_WB_S] a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 4497500: reporter [A_WB_S] a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 4992500: reporter [A_WB_S] a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 5437500: reporter [A_WB_S] a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 5932500: reporter [A_WB_S] a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 6377500: reporter [A_WB_S] a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 6872500: reporter [A_WB_S] a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 7317500: reporter [A_WB_S] a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 7812500: reporter [A_WB_S] a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 8257500: reporter [A_WB_S] a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 8752500: reporter [A_WB_S] a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 9197500: reporter [A_WB_S] a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 9692500: reporter [A_WB_S] a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 10412500: reporter [A_WB_S] a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 10432500: reporter [A_WB_S] a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 11052500: reporter [A_WB_S] a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 11547500: reporter [A_WB_S] a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 11992500: reporter [A_WB_S] a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 12487500: reporter [A_WB_S] a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 12932500: reporter [A_WB_S] a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 13427500: reporter [A_WB_S] a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 13872500: reporter [A_WB_S] a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 14367500: reporter [A_WB_S] a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 14812500: reporter [A_WB_S] a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 15307500: reporter [A_WB_S] a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 15752500: reporter [A_WB_S] a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 16247500: reporter [A_WB_S] a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 16692500: reporter [A_WB_S] a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 17187500: reporter [A_WB_S] a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 17462500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 17467500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 17472500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 17477500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_INFO @ 17482500: reporter@@hw_reset_seq2 [STARTING_SEQ] 
+# 
+# Starting hw_reset_seq2 sequence...
+# 
+# UVM_INFO verilog_src/uvm-1.1d/src/reg/sequences/uvm_reg_hw_reset_seq.svh(113) @ 17482500: reporter@@hw_reset_seq2 [uvm_reg_hw_reset_seq] Verifying reset value of register m_regmodel.TXCTRL in map "m_regmodel.reg_map"...
+# UVM_INFO verilog_src/uvm-1.1d/src/reg/sequences/uvm_reg_hw_reset_seq.svh(113) @ 17502500: reporter@@hw_reset_seq2 [uvm_reg_hw_reset_seq] Verifying reset value of register m_regmodel.HASH1 in map "m_regmodel.reg_map"...
+# UVM_INFO verilog_src/uvm-1.1d/src/reg/sequences/uvm_reg_hw_reset_seq.svh(113) @ 17527500: reporter@@hw_reset_seq2 [uvm_reg_hw_reset_seq] Verifying reset value of register m_regmodel.HASH0 in map "m_regmodel.reg_map"...
+# UVM_INFO verilog_src/uvm-1.1d/src/reg/sequences/uvm_reg_hw_reset_seq.svh(113) @ 17552500: reporter@@hw_reset_seq2 [uvm_reg_hw_reset_seq] Verifying reset value of register m_regmodel.MAC_ADDR1 in map "m_regmodel.reg_map"...
+# UVM_INFO verilog_src/uvm-1.1d/src/reg/sequences/uvm_reg_hw_reset_seq.svh(113) @ 17577500: reporter@@hw_reset_seq2 [uvm_reg_hw_reset_seq] Verifying reset value of register m_regmodel.MAC_ADDR0 in map "m_regmodel.reg_map"...
+# UVM_INFO verilog_src/uvm-1.1d/src/reg/sequences/uvm_reg_hw_reset_seq.svh(113) @ 17602500: reporter@@hw_reset_seq2 [uvm_reg_hw_reset_seq] Verifying reset value of register m_regmodel.MIISTATUS in map "m_regmodel.reg_map"...
+# UVM_INFO verilog_src/uvm-1.1d/src/reg/sequences/uvm_reg_hw_reset_seq.svh(113) @ 17627500: reporter@@hw_reset_seq2 [uvm_reg_hw_reset_seq] Verifying reset value of register m_regmodel.MIIRX_DATA in map "m_regmodel.reg_map"...
+# UVM_INFO verilog_src/uvm-1.1d/src/reg/sequences/uvm_reg_hw_reset_seq.svh(113) @ 17652500: reporter@@hw_reset_seq2 [uvm_reg_hw_reset_seq] Verifying reset value of register m_regmodel.MIITX_DATA in map "m_regmodel.reg_map"...
+# UVM_INFO verilog_src/uvm-1.1d/src/reg/sequences/uvm_reg_hw_reset_seq.svh(113) @ 17677500: reporter@@hw_reset_seq2 [uvm_reg_hw_reset_seq] Verifying reset value of register m_regmodel.MIIADDRESS in map "m_regmodel.reg_map"...
+# UVM_INFO verilog_src/uvm-1.1d/src/reg/sequences/uvm_reg_hw_reset_seq.svh(113) @ 17702500: reporter@@hw_reset_seq2 [uvm_reg_hw_reset_seq] Verifying reset value of register m_regmodel.MIICOMMAND in map "m_regmodel.reg_map"...
+# UVM_INFO verilog_src/uvm-1.1d/src/reg/sequences/uvm_reg_hw_reset_seq.svh(113) @ 17722500: reporter@@hw_reset_seq2 [uvm_reg_hw_reset_seq] Verifying reset value of register m_regmodel.MIIMODER in map "m_regmodel.reg_map"...
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 17727500: reporter [A_WB_S] a_ack_stb_cyc
+# UVM_INFO verilog_src/uvm-1.1d/src/reg/sequences/uvm_reg_hw_reset_seq.svh(113) @ 17747500: reporter@@hw_reset_seq2 [uvm_reg_hw_reset_seq] Verifying reset value of register m_regmodel.CTRLMODER in map "m_regmodel.reg_map"...
+# UVM_INFO verilog_src/uvm-1.1d/src/reg/sequences/uvm_reg_hw_reset_seq.svh(113) @ 17772500: reporter@@hw_reset_seq2 [uvm_reg_hw_reset_seq] Verifying reset value of register m_regmodel.TX_BD_NUM in map "m_regmodel.reg_map"...
+# UVM_INFO verilog_src/uvm-1.1d/src/reg/sequences/uvm_reg_hw_reset_seq.svh(113) @ 17797500: reporter@@hw_reset_seq2 [uvm_reg_hw_reset_seq] Verifying reset value of register m_regmodel.COLLCONF in map "m_regmodel.reg_map"...
+# UVM_INFO verilog_src/uvm-1.1d/src/reg/sequences/uvm_reg_hw_reset_seq.svh(113) @ 17822500: reporter@@hw_reset_seq2 [uvm_reg_hw_reset_seq] Verifying reset value of register m_regmodel.PACKETLEN in map "m_regmodel.reg_map"...
+# UVM_INFO verilog_src/uvm-1.1d/src/reg/sequences/uvm_reg_hw_reset_seq.svh(113) @ 17847500: reporter@@hw_reset_seq2 [uvm_reg_hw_reset_seq] Verifying reset value of register m_regmodel.IPGR2 in map "m_regmodel.reg_map"...
+# UVM_INFO verilog_src/uvm-1.1d/src/reg/sequences/uvm_reg_hw_reset_seq.svh(113) @ 17872500: reporter@@hw_reset_seq2 [uvm_reg_hw_reset_seq] Verifying reset value of register m_regmodel.IPGR1 in map "m_regmodel.reg_map"...
+# UVM_INFO verilog_src/uvm-1.1d/src/reg/sequences/uvm_reg_hw_reset_seq.svh(113) @ 17897500: reporter@@hw_reset_seq2 [uvm_reg_hw_reset_seq] Verifying reset value of register m_regmodel.IPGT in map "m_regmodel.reg_map"...
+# UVM_INFO verilog_src/uvm-1.1d/src/reg/sequences/uvm_reg_hw_reset_seq.svh(113) @ 17922500: reporter@@hw_reset_seq2 [uvm_reg_hw_reset_seq] Verifying reset value of register m_regmodel.INT_MASK in map "m_regmodel.reg_map"...
+# UVM_INFO verilog_src/uvm-1.1d/src/reg/sequences/uvm_reg_hw_reset_seq.svh(113) @ 17947500: reporter@@hw_reset_seq2 [uvm_reg_hw_reset_seq] Verifying reset value of register m_regmodel.INT_SOURCE in map "m_regmodel.reg_map"...
+# UVM_INFO verilog_src/uvm-1.1d/src/reg/sequences/uvm_reg_hw_reset_seq.svh(113) @ 17972500: reporter@@hw_reset_seq2 [uvm_reg_hw_reset_seq] Verifying reset value of register m_regmodel.MODER in map "m_regmodel.reg_map"...
+# UVM_INFO repo/tb/sequences/wb_s_seq/eth_rw_pattern_seq.sv(115) @ 18047500: reporter@@pattern_seq [eth_rw_pattern_seq] TXCTRL PASSED Pattern 0xaaaaaaaa
+# UVM_INFO repo/tb/sequences/wb_s_seq/eth_rw_pattern_seq.sv(115) @ 18097500: reporter@@pattern_seq [eth_rw_pattern_seq] TXCTRL PASSED Pattern 0x55555555
+# UVM_INFO repo/tb/sequences/wb_s_seq/eth_rw_pattern_seq.sv(115) @ 18147500: reporter@@pattern_seq [eth_rw_pattern_seq] HASH1 PASSED Pattern 0xaaaaaaaa
+# UVM_INFO repo/tb/sequences/wb_s_seq/eth_rw_pattern_seq.sv(115) @ 18197500: reporter@@pattern_seq [eth_rw_pattern_seq] HASH1 PASSED Pattern 0x55555555
+# UVM_INFO repo/tb/sequences/wb_s_seq/eth_rw_pattern_seq.sv(115) @ 18247500: reporter@@pattern_seq [eth_rw_pattern_seq] HASH0 PASSED Pattern 0xaaaaaaaa
+# UVM_INFO repo/tb/sequences/wb_s_seq/eth_rw_pattern_seq.sv(115) @ 18297500: reporter@@pattern_seq [eth_rw_pattern_seq] HASH0 PASSED Pattern 0x55555555
+# UVM_INFO repo/tb/sequences/wb_s_seq/eth_rw_pattern_seq.sv(115) @ 18347500: reporter@@pattern_seq [eth_rw_pattern_seq] MAC_ADDR1 PASSED Pattern 0xaaaaaaaa
+# UVM_INFO repo/tb/sequences/wb_s_seq/eth_rw_pattern_seq.sv(115) @ 18397500: reporter@@pattern_seq [eth_rw_pattern_seq] MAC_ADDR1 PASSED Pattern 0x55555555
+# UVM_INFO repo/tb/sequences/wb_s_seq/eth_rw_pattern_seq.sv(115) @ 18447500: reporter@@pattern_seq [eth_rw_pattern_seq] MAC_ADDR0 PASSED Pattern 0xaaaaaaaa
+# UVM_INFO repo/tb/sequences/wb_s_seq/eth_rw_pattern_seq.sv(115) @ 18497500: reporter@@pattern_seq [eth_rw_pattern_seq] MAC_ADDR0 PASSED Pattern 0x55555555
+# UVM_INFO repo/tb/sequences/wb_s_seq/eth_rw_pattern_seq.sv(115) @ 18547500: reporter@@pattern_seq [eth_rw_pattern_seq] MIITX_DATA PASSED Pattern 0xaaaaaaaa
+# UVM_INFO repo/tb/sequences/wb_s_seq/eth_rw_pattern_seq.sv(115) @ 18597500: reporter@@pattern_seq [eth_rw_pattern_seq] MIITX_DATA PASSED Pattern 0x55555555
+# UVM_INFO repo/tb/sequences/wb_s_seq/eth_rw_pattern_seq.sv(115) @ 18647500: reporter@@pattern_seq [eth_rw_pattern_seq] MIIADDRESS PASSED Pattern 0xaaaaaaaa
+# UVM_INFO repo/tb/sequences/wb_s_seq/eth_rw_pattern_seq.sv(115) @ 18697500: reporter@@pattern_seq [eth_rw_pattern_seq] MIIADDRESS PASSED Pattern 0x55555555
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 18722500: reporter [A_WB_S] a_ack_stb_cyc
+# UVM_INFO repo/tb/sequences/wb_s_seq/eth_rw_pattern_seq.sv(115) @ 18737500: reporter@@pattern_seq [eth_rw_pattern_seq] MIICOMMAND PASSED Pattern 0xaaaaaaaa
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 18742500: reporter [A_WB_S] a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 18762500: reporter [A_WB_S] a_ack_stb_cyc
+# UVM_INFO repo/tb/sequences/wb_s_seq/eth_rw_pattern_seq.sv(115) @ 18777500: reporter@@pattern_seq [eth_rw_pattern_seq] MIICOMMAND PASSED Pattern 0x55555555
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 18782500: reporter [A_WB_S] a_ack_stb_cyc
+# UVM_INFO repo/tb/sequences/wb_s_seq/eth_rw_pattern_seq.sv(115) @ 18827500: reporter@@pattern_seq [eth_rw_pattern_seq] MIIMODER PASSED Pattern 0xaaaaaaaa
+# UVM_INFO repo/tb/sequences/wb_s_seq/eth_rw_pattern_seq.sv(115) @ 18877500: reporter@@pattern_seq [eth_rw_pattern_seq] MIIMODER PASSED Pattern 0x55555555
+# UVM_INFO repo/tb/sequences/wb_s_seq/eth_rw_pattern_seq.sv(115) @ 18927500: reporter@@pattern_seq [eth_rw_pattern_seq] CTRLMODER PASSED Pattern 0xaaaaaaaa
+# UVM_INFO repo/tb/sequences/wb_s_seq/eth_rw_pattern_seq.sv(115) @ 18977500: reporter@@pattern_seq [eth_rw_pattern_seq] CTRLMODER PASSED Pattern 0x55555555
+# UVM_INFO repo/tb/sequences/wb_s_seq/eth_rw_pattern_seq.sv(115) @ 19027500: reporter@@pattern_seq [eth_rw_pattern_seq] TX_BD_NUM PASSED Pattern 0x0000002a
+# UVM_INFO repo/tb/sequences/wb_s_seq/eth_rw_pattern_seq.sv(115) @ 19077500: reporter@@pattern_seq [eth_rw_pattern_seq] TX_BD_NUM PASSED Pattern 0x00000015
+# UVM_INFO repo/tb/sequences/wb_s_seq/eth_rw_pattern_seq.sv(115) @ 19127500: reporter@@pattern_seq [eth_rw_pattern_seq] COLLCONF PASSED Pattern 0xaaaaaaaa
+# UVM_INFO repo/tb/sequences/wb_s_seq/eth_rw_pattern_seq.sv(115) @ 19177500: reporter@@pattern_seq [eth_rw_pattern_seq] COLLCONF PASSED Pattern 0x55555555
+# UVM_INFO repo/tb/sequences/wb_s_seq/eth_rw_pattern_seq.sv(115) @ 19227500: reporter@@pattern_seq [eth_rw_pattern_seq] PACKETLEN PASSED Pattern 0xaaaaaaaa
+# UVM_INFO repo/tb/sequences/wb_s_seq/eth_rw_pattern_seq.sv(115) @ 19277500: reporter@@pattern_seq [eth_rw_pattern_seq] PACKETLEN PASSED Pattern 0x55555555
+# UVM_INFO repo/tb/sequences/wb_s_seq/eth_rw_pattern_seq.sv(115) @ 19327500: reporter@@pattern_seq [eth_rw_pattern_seq] IPGR2 PASSED Pattern 0xaaaaaaaa
+# UVM_INFO repo/tb/sequences/wb_s_seq/eth_rw_pattern_seq.sv(115) @ 19377500: reporter@@pattern_seq [eth_rw_pattern_seq] IPGR2 PASSED Pattern 0x55555555
+# UVM_INFO repo/tb/sequences/wb_s_seq/eth_rw_pattern_seq.sv(115) @ 19427500: reporter@@pattern_seq [eth_rw_pattern_seq] IPGR1 PASSED Pattern 0xaaaaaaaa
+# UVM_INFO repo/tb/sequences/wb_s_seq/eth_rw_pattern_seq.sv(115) @ 19477500: reporter@@pattern_seq [eth_rw_pattern_seq] IPGR1 PASSED Pattern 0x55555555
+# UVM_INFO repo/tb/sequences/wb_s_seq/eth_rw_pattern_seq.sv(115) @ 19527500: reporter@@pattern_seq [eth_rw_pattern_seq] IPGT PASSED Pattern 0xaaaaaaaa
+# UVM_INFO repo/tb/sequences/wb_s_seq/eth_rw_pattern_seq.sv(115) @ 19577500: reporter@@pattern_seq [eth_rw_pattern_seq] IPGT PASSED Pattern 0x55555555
+# UVM_INFO repo/tb/sequences/wb_s_seq/eth_rw_pattern_seq.sv(115) @ 19627500: reporter@@pattern_seq [eth_rw_pattern_seq] INT_MASK PASSED Pattern 0xaaaaaaaa
+# UVM_INFO repo/tb/sequences/wb_s_seq/eth_rw_pattern_seq.sv(115) @ 19677500: reporter@@pattern_seq [eth_rw_pattern_seq] INT_MASK PASSED Pattern 0x55555555
+# UVM_INFO repo/tb/sequences/wb_s_seq/eth_rw_pattern_seq.sv(115) @ 19727500: reporter@@pattern_seq [eth_rw_pattern_seq] MODER PASSED Pattern 0xaaaaaaaa
+# UVM_INFO repo/tb/sequences/wb_s_seq/eth_rw_pattern_seq.sv(115) @ 19777500: reporter@@pattern_seq [eth_rw_pattern_seq] MODER PASSED Pattern 0x55555555
+# UVM_INFO verilog_src/uvm-1.1d/src/base/uvm_objection.svh(1267) @ 19777500: reporter [TEST_DONE] 'run' phase is ready to proceed to the 'extract' phase
+# 
+# --- UVM Report Summary ---
+# 
+# ** Report counts by severity
+# UVM_INFO :   84
+# UVM_WARNING :   50
+# UVM_ERROR :    0
+# UVM_FATAL :    0
+# ** Report counts by id
+# [A_WB_M]     8
+# [A_WB_S]    42
+# [Questa UVM]     2
+# [RNTST]     1
+# [STARTING_SEQ]     2
+# [TEST_DONE]     1
+# [eth_rw_pattern_seq]    36
+# [uvm_reg_hw_reset_seq]    42
+# ** Note: $finish    : D:/B/qsim_2021_1/win64/../verilog_src/uvm-1.1d/src/base/uvm_root.svh(430)
+#    Time: 19777500 ps  Iteration: 68  Instance: /eth_tb
+# Break in Task uvm_pkg/uvm_root::run_test at D:/B/qsim_2021_1/win64/../verilog_src/uvm-1.1d/src/base/uvm_root.svh line 430
+# Stopped at D:/B/qsim_2021_1/win64/../verilog_src/uvm-1.1d/src/base/uvm_root.svh line 430
+#  
+#     coverage save $CODE_UCDB -codeAll -instance eth_tb.dut
+#     coverage save $FUNC_UCDB -cvg -directive -assert
+#     transcript file ""
+#     

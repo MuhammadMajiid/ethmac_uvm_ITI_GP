@@ -27,11 +27,11 @@ class eth_v_seq_tx extends eth_v_seq_base;
         if (!$value$plusargs("seq_num=%0d", seq_num))
             seq_num = 1;
 
-        `uvm_info(get_name(), $sformatf("Running %0d sequence",seq_num), UVM_LOW)
+        `uvm_info(get_name(), $sformatf("Running %0d sequence",seq_num), UVM_NONE)
         
         // Run wishbone slave sequence
         for (int i=0; i<seq_num; i++) begin
-            `uvm_info(get_name(), $sformatf("Running sequence number %0d",i), UVM_LOW)
+            `uvm_info(get_name(), $sformatf("Running sequence number %0d",i), UVM_NONE)
             m_wb_s_seq_base.start(m_wb_s_sqr);
                // Reset only if another iteration follows
            if (i != seq_num-1)

@@ -29,14 +29,18 @@ class wb_s_seq_tx_collision_cfg extends wb_s_basic_tx_seq;
 	
 	randc  bit [3:0] maxret_cfg;
     rand bit [5:0] collvalid_cfg;
-	
-      uvm_status_e   status;
-	  uvm_reg_data_t bd_status_word;
+	rand bit nobackoff;
+
+    uvm_status_e   status;
+	uvm_reg_data_t bd_status_word;
 	  
 constraint c_maxret {
     maxret_cfg inside {[0:15]};
 }	  
 	
+constraint c_nobackoff {
+    nobackoff dist {1:=97, 0:=3};
+}	 
 
 constraint c_collvalid {
     collvalid_cfg dist {
@@ -54,7 +58,7 @@ constraint c_collvalid {
       //-----------------------------------------------------
 // Randomize collision configuration
 //-----------------------------------------------------
-assert(randomize(maxret_cfg, collvalid_cfg))
+assert(randomize(maxret_cfg, collvalid_cfg,nobackoff))
     else `uvm_fatal(get_type_name(),
                    "Failed to randomize collision configuration")
 
@@ -100,7 +104,7 @@ assert(randomize(maxret_cfg, collvalid_cfg))
             .fulld     (0),
             .minfl     (55),
             .maxfl     (80),
-            .nobckof   (1),
+            .nobckof   (nobackoff),
             .maxret    (maxret_cfg),
 			.collvalid (collvalid_cfg)
         );
