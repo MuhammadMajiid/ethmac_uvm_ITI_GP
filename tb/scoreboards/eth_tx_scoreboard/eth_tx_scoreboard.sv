@@ -507,8 +507,6 @@ task eth_tx_scoreboard::predictor();
 					end
                 forever begin
                     if(!m_tx_bd_cfg_s.tx_pause_req || !m_tx_bd_cfg_s.tx_flow) begin
-                        //wait(m_tx_pending_s.flag_rd);
-                        `uvm_info(get_name(), "reading bd config", UVM_NONE)
                         pred_read_cfg_bd();
                         if(pred_check_len_4())
                             pred_construct_data_pkt();                
@@ -561,8 +559,8 @@ task eth_tx_scoreboard::comparator();
         // copy config struct for interrupt
         m_tx_bd_cfg_cop_s=m_tx_bd_cfg_s; 
         m_tx_expected_cop_s=m_tx_expected_s;
-        if(m_tx_expected_s.exp_rtry==m_tx_bd_cfg_s.maxret || m_tx_expected_s.exp_rtry==0 ) begin
-            if(m_tx_expected_s.exp_rtry==0 && !m_tx_expected_s.exp_lc && m_tx_bd_cfg_s.maxret>=0) begin
+        if(m_tx_expected_s.exp_rtry>=m_tx_bd_cfg_s.maxret || m_tx_expected_s.exp_rtry==0 ) begin
+            if(m_tx_expected_s.exp_rtry==0 && !m_tx_expected_s.exp_lc) begin
                 comp_compare_pkt();
                 comp_check_txerr();
             end
@@ -1344,7 +1342,7 @@ task eth_tx_scoreboard::comp_pack_pkt();
         //--------------------------------------------
         if (!m_tx_bd_cfg_s.full_duplex && m_mii_tx_seq_item.MColl) begin
             m_tx_pending_s.collision_seen=1;
-            `uvm_info(get_name(), "COLLISION SEEN", UVM_NONE)
+            `uvm_info(get_name(), "COLLISION SEEN", UVM_MEDIUM)
         end 
        //--------------------------------------------
         // First nibble (LSB)

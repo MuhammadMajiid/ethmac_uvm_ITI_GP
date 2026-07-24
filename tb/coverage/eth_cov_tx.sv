@@ -103,7 +103,6 @@ class eth_cov_tx extends uvm_component;
             bins tx_reg1 []= {[10'h02:10'h08]} ;
             bins tx_reg2 []= {['h10:'h11]}; 
             bins tx_reg3   = {'h14};
-            bins tx_bd   [] = {[WB_BD_MEM_BASE_ADDR:WB_BD_MEM_OFFSET_ADDR]};
             illegal_bins ill_addr = {[ETH_REG_OFFSET_ADDR+1:WB_BD_MEM_BASE_ADDR-1],[WB_BD_MEM_OFFSET_ADDR+1:'h3FF]};
             bins others = default;
         }
@@ -357,18 +356,35 @@ class eth_cov_tx extends uvm_component;
         || binsof(cp_moder.reg_crc) || binsof(cp_moder.reg_hugen) || binsof(cp_moder.reg_config);
     }
 
-    // Cross maxfl and hugen
-    cp_cross_maxfl_hugen: cross cp_moder,cp_maxfl{
+    // Cross maxfl and hugen when length > maxfl
+    cp_cross_len_g_maxfl_hugen: cross cp_moder,cp_maxfl iff(m_bd_len > m_maxfl){
         ignore_bins ign_max_hugen = binsof(cp_moder.reg_d_crc)  || binsof(cp_moder.reg_crc) || binsof(cp_moder.reg_pad)
         || binsof(cp_moder.reg_config) ;
+        ignore_bins ign_len_max = cp_cross_len_g_maxfl_hugen with (cp_maxfl >128);
     }
 
-    // Cross minfl, reg pad and bd pad
-    cp_cross_minfl_pad: cross cp_moder,cp_minfl,cp_bd_cfg{
+    // Cross maxfl and hugen when length < maxfl
+    cp_cross_len_s_maxfl_hugen: cross cp_moder,cp_maxfl iff(m_bd_len < m_maxfl){
+        ignore_bins ign_max_hugen = binsof(cp_moder.reg_d_crc)  || binsof(cp_moder.reg_crc) || binsof(cp_moder.reg_pad)
+        || binsof(cp_moder.reg_config) ;
+        ignore_bins ign_len_max = binsof(cp_maxfl.maxfl_4);
+    }
+
+    // Cross minfl, reg pad and bd pad when length > minfl
+    cp_cross_len_g_minfl_pad: cross cp_moder,cp_minfl,cp_bd_cfg iff(m_bd_len > m_minfl) {
         ignore_bins ign_min_f_pad = binsof(cp_moder.reg_d_crc)  || binsof(cp_moder.reg_crc) || binsof(cp_moder.reg_hugen)
         || binsof(cp_moder.reg_config) || binsof(cp_bd_cfg.bd_crc) || binsof(cp_bd_cfg.bd_config);
         ignore_bins ign_minfl_max = binsof (cp_minfl.minfl_max);
     }
+
+
+    // Cross minfl, reg pad and bd pad when length < minfl
+    cp_cross_len_s_minfl_pad: cross cp_moder,cp_minfl,cp_bd_cfg iff(m_bd_len < m_minfl) {
+        ignore_bins ign_min_f_pad = binsof(cp_moder.reg_d_crc)  || binsof(cp_moder.reg_crc) || binsof(cp_moder.reg_hugen)
+        || binsof(cp_moder.reg_config) || binsof(cp_bd_cfg.bd_crc) || binsof(cp_bd_cfg.bd_config);
+        ignore_bins ign_minfl_max = binsof (cp_minfl.minfl_max);
+    }
+
     cp_minfl_g_maxfl: coverpoint (m_minfl > m_maxfl && m_maxfl!=0) {
     bins minfl_g_maxfl = {1};
     }
@@ -431,15 +447,15 @@ class eth_cov_tx extends uvm_component;
         
         cp_bd_stat: coverpoint m_bd_stat iff(m_addr>=WB_BD_MEM_BASE_ADDR && m_addr<=WB_BD_MEM_OFFSET_ADDR && m_addr%2==0) {
             // underrun
-            wildcard bins ur [2] = {'b0_????,'b1_????};
+            wildcard bins ur [2] = {5'b0_????,5'b1_????};
             // maximum
-            wildcard bins rl  [2] = {'b?_0???,'b?_1???};
+            wildcard bins rl  [2] = {5'b?_0???,5'b?_1???};
             // late collision
-            wildcard bins lc  [2] = {'b?_?0??,'b?_?1??};
+            wildcard bins lc  [2] = {5'b?_?0??,5'b?_?1??};
             // deferral
-            wildcard bins df [2] = {'b?_??0?,'b?_??1?};
+            wildcard bins df [2] = {5'b?_??0?,5'b?_??1?};
             // deferral
-            wildcard bins cs [2] = {'b?_???0,'b?_???1};
+            wildcard bins cs [2] = {5'b?_???0,5'b?_???1};
             bins others = default;
         }
 
@@ -507,11 +523,6 @@ class eth_cov_tx extends uvm_component;
         };
 
     }
-        // -------------------------------------------------------------------------
-        // Address alignment vs data
-        // -------------------------------------------------------------------------
-        cross_addr_data:
-            cross cp_mem_addr, cp_mem_data;
     endgroup  
 
     // =============================================================================
@@ -531,9 +542,7 @@ class eth_cov_tx extends uvm_component;
         // TX Data Nibble Coverage
         // Only meaningful when TX is active
         // -------------------------------------------------------------------------
-        cp_tx_data: coverpoint m_txd
-            iff(m_txen) {
-
+        cp_tx_data: coverpoint m_txd{
 
             // Minimum value
             bins data_min = {4'h0};
@@ -544,13 +553,11 @@ class eth_cov_tx extends uvm_component;
 
 
             // All possible nibbles
-            bins data_all[16] = {
-                [4'h0:4'hF]
+            bins data_all[14] = {
+                [4'h1:4'hE]
             };
 
         }
-
-
 
         // -------------------------------------------------------------------------
         // TX Coding Error Coverage
@@ -597,8 +604,9 @@ class eth_cov_tx extends uvm_component;
 
 
         // Check errors during active transmission
-        cross_tx_error:
-            cross cp_tx_enable, cp_tx_error;
+        cross_tx_error: cross cp_tx_enable, cp_tx_error{
+            illegal_bins ill_err = binsof(cp_tx_enable.tx_idle) &&  binsof(cp_tx_error.error);
+        }
 
 
         // Collision while transmitting
@@ -612,8 +620,10 @@ class eth_cov_tx extends uvm_component;
 
 
         // Data values during transmission
-        cross_tx_data_enable:
-            cross cp_tx_enable, cp_tx_data;
+        cross_tx_data_enable: cross cp_tx_enable, cp_tx_data{
+            illegal_bins ill_data = binsof(cp_tx_enable.tx_idle) && ( binsof(cp_tx_data.data_max) 
+            || binsof(cp_tx_data.data_all) );
+        }
 
 
     endgroup 

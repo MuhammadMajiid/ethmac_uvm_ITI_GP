@@ -30,7 +30,7 @@ class wb_s_seq_tx_minfl extends wb_s_basic_tx_seq;
     assert(m_item.randomize() with {
     tx_bd_num==1;
     maxfl == 'd1000;
-    minfl dist { ['h0005:'h003F] :/ 40, 'h0040 :/ 20, ['h00041:'h000FF] :/ 20,'hFFFF :/ 20};
+    minfl dist { ['h0005:'h003F] :/ 35, 'h0040 :/ 20, ['h00041:'h000FF] :/ 25,'hFFFF :/ 20};
     if(minfl == 'hFFFF){
         moder_pad==0;
         }   
