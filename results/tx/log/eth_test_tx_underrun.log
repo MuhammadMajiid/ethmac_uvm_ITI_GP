@@ -1,4 +1,4 @@
-# End time: 16:30:57 on Jul 24,2026, Elapsed time: 0:04:02
+# End time: 02:37:35 on Jul 25,2026, Elapsed time: 0:00:28
 # Errors: 0, Warnings: 6
 # vsim -c work.eth_tb -coverage -sv_seed random "+uvm_set_verbosity=uvm_test_top.m_env.*,_ALL_,UVM_NONE,time,0" "+seq_num=2" "+coll_num=1" "+UVM_TESTNAME=eth_test_tx_underrun" -onfinish stop -do "
 #     run -all; 
@@ -6,8 +6,8 @@
 #     coverage save $FUNC_UCDB -cvg -directive -assert
 #     transcript file ""
 #     " 
-# Start time: 16:30:58 on Jul 24,2026
-# ** Note: (vsim-8009) Loading existing optimized design _opt6
+# Start time: 02:37:35 on Jul 25,2026
+# ** Note: (vsim-8009) Loading existing optimized design _opt8
 # Loading sv_std.std
 # Loading work.wb_m_if(fast)
 # Loading work.wb_s_if(fast)
@@ -49,7 +49,7 @@
 # Loading work.mii_tx_if_sv_unit(fast)
 # Loading work.mii_tx_if(fast__2)
 # Loading D:/B/qsim_2021_1/uvm-1.1d\win64\uvm_dpi.dll
-# Sv_Seed = 1928150721
+# Sv_Seed = 1245642605
 # 
 #     run -all
 # ----------------------------------------------------------------
@@ -219,7 +219,7 @@
 #   mii_tx_driver_base  mii_tx_driver_hd
 #   eth_v_seq_tx        eth_v_seq_tx_active
 # 
-# All types registered with the factory: 170 total
+# All types registered with the factory: 168 total
 # (types without type names will not be printed)
 # 
 #   Type Name
@@ -262,7 +262,6 @@
 #   eth_test_reg_access
 #   eth_test_tx_base
 #   eth_test_tx_bd_num
-#   eth_test_tx_bd_num_rand
 #   eth_test_tx_coll
 #   eth_test_tx_cs
 #   eth_test_tx_ctrl_flow
@@ -334,7 +333,6 @@
 #   wb_s_monitor_base
 #   wb_s_seq_base
 #   wb_s_seq_tx_bd_num
-#   wb_s_seq_tx_bd_num_rand
 #   wb_s_seq_tx_collision_cfg
 #   wb_s_seq_tx_cs
 #   wb_s_seq_tx_ctrl_flow
@@ -358,39 +356,42 @@
 # UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 7500: reporter [A_WB_M] Assertion failed, data out = x
 # UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 12500: reporter [A_WB_M] Assertion failed, data out = x
 # UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 17500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 35177500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_ERROR verilog_src/uvm-1.1d/src/reg/uvm_reg.svh(2889) @ 70588500: reporter [RegModel] Register "m_regmodel.INT_SOURCE" value read from DUT (0x0000000000000000) does not match mirrored value (0x0000000000000002)
-# UVM_INFO verilog_src/uvm-1.1d/src/reg/uvm_reg.svh(2902) @ 70588500: reporter [RegModel] Field TXE (m_regmodel.INT_SOURCE[1:1]) mismatch read=1'h0 mirrored=1'h1 
-# UVM_ERROR verilog_src/uvm-1.1d/src/reg/uvm_reg.svh(2889) @ 105225000: reporter [RegModel] Register "m_regmodel.INT_SOURCE" value read from DUT (0x0000000000000000) does not match mirrored value (0x0000000000000002)
-# UVM_INFO verilog_src/uvm-1.1d/src/reg/uvm_reg.svh(2902) @ 105225000: reporter [RegModel] Field TXE (m_regmodel.INT_SOURCE[1:1]) mismatch read=1'h0 mirrored=1'h1 
-# UVM_ERROR verilog_src/uvm-1.1d/src/reg/uvm_reg.svh(2889) @ 137905000: reporter [RegModel] Register "m_regmodel.INT_SOURCE" value read from DUT (0x0000000000000000) does not match mirrored value (0x0000000000000002)
-# UVM_INFO verilog_src/uvm-1.1d/src/reg/uvm_reg.svh(2902) @ 137905000: reporter [RegModel] Field TXE (m_regmodel.INT_SOURCE[1:1]) mismatch read=1'h0 mirrored=1'h1 
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 137937500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 137942500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 137947500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 137952500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_ERROR verilog_src/uvm-1.1d/src/reg/uvm_reg.svh(2889) @ 206603500: reporter [RegModel] Register "m_regmodel.INT_SOURCE" value read from DUT (0x0000000000000003) does not match mirrored value (0x0000000000000002)
-# UVM_INFO verilog_src/uvm-1.1d/src/reg/uvm_reg.svh(2902) @ 206603500: reporter [RegModel] Field TXB (m_regmodel.INT_SOURCE[0:0]) mismatch read=1'h1 mirrored=1'h0 
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 206692500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_INFO verilog_src/uvm-1.1d/src/base/uvm_objection.svh(1267) @ 239852500: reporter [TEST_DONE] 'run' phase is ready to proceed to the 'extract' phase
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(30) @ 22500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running 2 sequence
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 22500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 0
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 34697500: reporter [A_WB_S] a_ack_stb_cyc
+# UVM_ERROR verilog_src/uvm-1.1d/src/reg/uvm_reg.svh(2889) @ 68428500: reporter [RegModel] Register "m_regmodel.INT_SOURCE" value read from DUT (0x0000000000000000) does not match mirrored value (0x0000000000000002)
+# UVM_INFO verilog_src/uvm-1.1d/src/reg/uvm_reg.svh(2902) @ 68428500: reporter [RegModel] Field TXE (m_regmodel.INT_SOURCE[1:1]) mismatch read=1'h0 mirrored=1'h1 
+# UVM_ERROR verilog_src/uvm-1.1d/src/reg/uvm_reg.svh(2889) @ 101185000: reporter [RegModel] Register "m_regmodel.INT_SOURCE" value read from DUT (0x0000000000000000) does not match mirrored value (0x0000000000000002)
+# UVM_INFO verilog_src/uvm-1.1d/src/reg/uvm_reg.svh(2902) @ 101185000: reporter [RegModel] Field TXE (m_regmodel.INT_SOURCE[1:1]) mismatch read=1'h0 mirrored=1'h1 
+# UVM_ERROR verilog_src/uvm-1.1d/src/reg/uvm_reg.svh(2889) @ 135585000: reporter [RegModel] Register "m_regmodel.INT_SOURCE" value read from DUT (0x0000000000000000) does not match mirrored value (0x0000000000000002)
+# UVM_INFO verilog_src/uvm-1.1d/src/reg/uvm_reg.svh(2902) @ 135585000: reporter [RegModel] Field TXE (m_regmodel.INT_SOURCE[1:1]) mismatch read=1'h0 mirrored=1'h1 
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 135617500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 135622500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 135627500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 135632500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 135637500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 1
+# UVM_ERROR verilog_src/uvm-1.1d/src/reg/uvm_reg.svh(2889) @ 203443500: reporter [RegModel] Register "m_regmodel.INT_SOURCE" value read from DUT (0x0000000000000003) does not match mirrored value (0x0000000000000002)
+# UVM_INFO verilog_src/uvm-1.1d/src/reg/uvm_reg.svh(2902) @ 203443500: reporter [RegModel] Field TXB (m_regmodel.INT_SOURCE[0:0]) mismatch read=1'h1 mirrored=1'h0 
+# UVM_INFO verilog_src/uvm-1.1d/src/base/uvm_objection.svh(1267) @ 203522500: reporter [TEST_DONE] 'run' phase is ready to proceed to the 'extract' phase
 # 
 # --- UVM Report Summary ---
 # 
 # ** Report counts by severity
-# UVM_INFO :   10
-# UVM_WARNING :   10
+# UVM_INFO :   13
+# UVM_WARNING :    9
 # UVM_ERROR :    4
 # UVM_FATAL :    0
 # ** Report counts by id
 # [A_WB_M]     8
-# [A_WB_S]     2
+# [A_WB_S]     1
 # [Questa UVM]     2
 # [RNTST]     1
 # [RegModel]     8
 # [TEST_DONE]     1
 # [eth_test_tx_underrun]     2
+# [m_v_seq_tx]     3
 # ** Note: $finish    : D:/B/qsim_2021_1/win64/../verilog_src/uvm-1.1d/src/base/uvm_root.svh(430)
-#    Time: 239852500 ps  Iteration: 68  Instance: /eth_tb
+#    Time: 203522500 ps  Iteration: 68  Instance: /eth_tb
 # Break in Task uvm_pkg/uvm_root::run_test at D:/B/qsim_2021_1/win64/../verilog_src/uvm-1.1d/src/base/uvm_root.svh line 430
 # Stopped at D:/B/qsim_2021_1/win64/../verilog_src/uvm-1.1d/src/base/uvm_root.svh line 430
 #  

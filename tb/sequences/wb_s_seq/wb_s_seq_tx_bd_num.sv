@@ -30,16 +30,6 @@ constraint c_tx_bd_num { tx_bd_num inside {[0:8'd128]}; }
   
   virtual task body();
 
-    //-----------------------------------------------------
-    // Randomize transaction
-    //-----------------------------------------------------
-    assert(m_item.randomize() with {
-    foreach (pkt_len[i]){
-        pkt_len[i]<100;
-        pkt_len[i]>4;
-    }
-    }) 
-
     case (iter_cnt)
 
         0  : tx_bd_num = 8'd0;                          // min
@@ -66,6 +56,17 @@ constraint c_tx_bd_num { tx_bd_num inside {[0:8'd128]}; }
 
     endcase
     tx_ptr=new[tx_bd_num];
+    //-----------------------------------------------------
+    // Randomize transaction
+    //-----------------------------------------------------
+    assert(m_item.randomize() with {
+    tx_bd_num==local::tx_bd_num;
+    foreach (pkt_len[i]){
+        pkt_len[i]<100;
+        pkt_len[i]>4;
+    }
+    }) 
+    
     iter_cnt++;
 	
 	`uvm_info(get_type_name(),
