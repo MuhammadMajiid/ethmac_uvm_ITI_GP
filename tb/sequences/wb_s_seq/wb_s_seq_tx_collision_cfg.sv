@@ -55,17 +55,29 @@ constraint c_collvalid {
     endfunction
 
     virtual task body();
-      //-----------------------------------------------------
-// Randomize collision configuration
-//-----------------------------------------------------
-assert(randomize(maxret_cfg, collvalid_cfg,nobackoff))
-    else `uvm_fatal(get_type_name(),
-                   "Failed to randomize collision configuration")
+    //-----------------------------------------------------
+    // Randomize collision configuration
+    //-----------------------------------------------------
+    assert(randomize(maxret_cfg, collvalid_cfg,nobackoff))
+        else `uvm_fatal(get_type_name(),
+                    "Failed to randomize collision configuration")
 
-`uvm_info(get_type_name(),
-    $sformatf("Randomized COLLCONF: MAXRET=%0d COLLVALID=%0d",
-              maxret_cfg, collvalid_cfg),
-    UVM_LOW)
+    `uvm_info(get_type_name(),
+        $sformatf("Randomized COLLCONF: MAXRET=%0d COLLVALID=%0d",
+                maxret_cfg, collvalid_cfg),
+        UVM_LOW)
+        //-----------------------------------------------------
+        // Randomize transaction
+        //-----------------------------------------------------
+        assert(m_item.randomize() with {
+        tx_bd_num==4;
+        foreach (pkt_len[i]){
+            pkt_len[i]<100;
+            pkt_len[i]>4;
+        }
+        })   
+        tx_ptr=new[m_item.tx_bd_num];
+        
         //-----------------------------------------------------
         // DMA packet addresses
         //-----------------------------------------------------
@@ -78,18 +90,18 @@ assert(randomize(maxret_cfg, collvalid_cfg,nobackoff))
         // Fill DMA memory
         //-----------------------------------------------------
         foreach (tx_ptr[i])
-            dma_mem_wr(tx_ptr[i], PKT_LEN, $random);
+            dma_mem_wr(tx_ptr[i],m_item.pkt_len[i], $random,1);
 
         //-----------------------------------------------------
         // Program Buffer Descriptors
         //-----------------------------------------------------
-        for (int bd = 0; bd < NUM_TX_BD; bd++) begin
+        for (int bd = 0; bd <m_item.tx_bd_num; bd++) begin
             configure_tx_bd(
                 .bd_index   (bd),
-                .frame_length(PKT_LEN),
+                .frame_length(m_item.pkt_len[bd]),
                 .frame_ptr  (tx_ptr[bd]),
                 .enable_irq (0),
-                .is_wrap    (bd == NUM_TX_BD-1),
+                .is_wrap    (bd == m_item.tx_bd_num-1),
                 .enable_pad (1),
                 .enable_crc (1)
             );
@@ -99,7 +111,7 @@ assert(randomize(maxret_cfg, collvalid_cfg,nobackoff))
         // Configure registers for collision testing
         //-----------------------------------------------------
         configure_tx_registers(
-            .tx_bd_num (NUM_TX_BD),
+            .tx_bd_num (m_item.tx_bd_num),
             .txen      (1),
             .fulld     (0),
             .minfl     (55),
@@ -116,12 +128,12 @@ assert(randomize(maxret_cfg, collvalid_cfg,nobackoff))
         //-----------------------------------------------------
         // Wait until all frames complete
         //-----------------------------------------------------
-        repeat (NUM_TX_BD)
+        repeat (m_item.tx_bd_num)
             @(m_ev_end_pkt);
 			
 
 
-for (int bd = 0; bd < NUM_TX_BD; bd++) begin
+for (int bd = 0; bd < m_item.tx_bd_num; bd++) begin
 
    regmodel.eth_bd_mem.read(status, bd*2, bd_status_word);
 

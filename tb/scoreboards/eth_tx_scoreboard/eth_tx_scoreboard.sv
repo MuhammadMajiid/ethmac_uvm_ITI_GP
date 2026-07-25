@@ -521,6 +521,11 @@ task eth_tx_scoreboard::predictor();
                     wait(m_ev_end_pkt.triggered);
 
                     pred_read_cfg_reg();
+					if(!m_tx_bd_cfg_s.full_duplex)begin
+				    fork 
+					pred_check_jam_retry();
+                    join_none	
+					end
                     #1;
                 end    
             end        
@@ -537,7 +542,8 @@ task eth_tx_scoreboard::comparator();
     comp_pack_pkt();
     comp_check_ipgt();
     begin
-            wait(m_tx_pending_s.flag_rd);
+        wait(m_tx_pending_s.flag_rd);
+        //`uvm_info(get_name(), "message", UVM_NONE)
         fork: fork_comp2
         begin
             @(!m_tx_pending_s.flag_rd);
@@ -550,6 +556,8 @@ task eth_tx_scoreboard::comparator();
                 m_tx_pending_s ='{default:'0,actual_pkt: {},flag_rd: m_tx_pending_s.flag_rd,
                 jam_cnt: m_tx_pending_s.jam_cnt};
                 m_tx_pending_s.retry_cnt=m_tx_expected_s.exp_rtry;
+                `uvm_info(get_name(),$sformatf("Retry = %0d", m_tx_pending_s.retry_cnt), UVM_MEDIUM)
+                
                 if(m_tx_expected_s.exp_rtry<m_tx_bd_cfg_s.maxret)
                 disable fork_comp;
             end
@@ -1308,7 +1316,7 @@ endtask
 task eth_tx_scoreboard::comp_pack_pkt();
 
     bit [3:0] low_nibble;
-
+    `uvm_info(get_name(),"Entered pack packet", UVM_MEDIUM)
     //--------------------------------------------------------
     // Wait for start of frame
     //--------------------------------------------------------
