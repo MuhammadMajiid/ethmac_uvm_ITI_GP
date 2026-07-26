@@ -1,18 +1,20 @@
-# vsim -c work.eth_tb -coverage -sv_seed 1975825181 "+uvm_set_verbosity=uvm_test_top.m_env.*,_ALL_,UVM_MEDIUM,time,0" "+seq_num=45" "+coll_num=350" "+UVM_TESTNAME=eth_test_tx_coll" -onfinish stop -do "
+# vsim -c work.eth_tb -coverage -sv_seed random "+uvm_set_verbosity=uvm_test_top.m_env.*,_ALL_,UVM_NONE,time,0" "+seq_num=55" "+coll_num=400" "+UVM_TESTNAME=eth_test_tx_coll" -onfinish stop -do "
 #     run -all; 
 #     coverage save $CODE_UCDB -codeAll -instance eth_tb.dut
 #     coverage save $FUNC_UCDB -cvg -directive -assert
 #     transcript file ""
 #     " 
-# Start time: 19:45:29 on Jul 25,2026
+# Start time: 03:14:42 on Jul 26,2026
 # ** Note: (vsim-3813) Design is being optimized due to module recompilation...
 # ** Warning: (vopt-13408) Code coverage will be disabled for some DUs/packages/classes and source files.
-# ** Warning: repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1626): (vopt-2240) Treating stand-alone use of function 'predict' as an implicit VOID cast.
-# ** Warning: repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1641): (vopt-2240) Treating stand-alone use of function 'predict' as an implicit VOID cast.
-# ** Warning: repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1651): (vopt-2240) Treating stand-alone use of function 'predict' as an implicit VOID cast.
-# ** Warning: repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(637): (vopt-2240) Treating stand-alone use of function 'pop_front' as an implicit VOID cast.
-# ** Warning: repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(810): (vopt-2240) Treating stand-alone use of function 'pop_back' as an implicit VOID cast.
-# ** Warning: repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1715): (vopt-2240) Treating stand-alone use of function 'predict' as an implicit VOID cast.
+# ** Warning: repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(241): (vopt-2240) Treating stand-alone use of function 'write' as an implicit VOID cast.
+# ** Warning: repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(246): (vopt-2240) Treating stand-alone use of function 'write' as an implicit VOID cast.
+# ** Warning: repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1633): (vopt-2240) Treating stand-alone use of function 'predict' as an implicit VOID cast.
+# ** Warning: repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1648): (vopt-2240) Treating stand-alone use of function 'predict' as an implicit VOID cast.
+# ** Warning: repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1658): (vopt-2240) Treating stand-alone use of function 'predict' as an implicit VOID cast.
+# ** Warning: repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(644): (vopt-2240) Treating stand-alone use of function 'pop_front' as an implicit VOID cast.
+# ** Warning: repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(817): (vopt-2240) Treating stand-alone use of function 'pop_back' as an implicit VOID cast.
+# ** Warning: repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1723): (vopt-2240) Treating stand-alone use of function 'predict' as an implicit VOID cast.
 # ** Warning: repo/tb/top/eth_tb.sv(68): (vopt-2685) [TFMPC] - Too few port connections for 'dut'.  Expected 35, found 27.
 # ** Warning: repo/tb/top/eth_tb.sv(68): (vopt-2718) [TFMPC] - Missing connection for port 'md_padoe_o'.
 # ** Warning: repo/tb/top/eth_tb.sv(68): (vopt-2718) [TFMPC] - Missing connection for port 'md_pad_o'.
@@ -22,7 +24,7 @@
 # ** Warning: repo/tb/top/eth_tb.sv(68): (vopt-2718) [TFMPC] - Missing connection for port 'mrxdv_pad_i'.
 # ** Warning: repo/tb/top/eth_tb.sv(68): (vopt-2718) [TFMPC] - Missing connection for port 'mrxd_pad_i'.
 # ** Warning: repo/tb/top/eth_tb.sv(68): (vopt-2718) [TFMPC] - Missing connection for port 'mrx_clk_pad_i'.
-# ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=0, Warnings=16.
+# ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=0, Warnings=18.
 # //  Questa Sim-64
 # //  Version 2021.1 win64 Jan 19 2021
 # //
@@ -78,6 +80,7 @@
 # Loading work.mii_tx_if_sv_unit(fast)
 # Loading work.mii_tx_if(fast__2)
 # Loading D:/B/qsim_2021_1/uvm-1.1d\win64\uvm_dpi.dll
+# Sv_Seed = 472547065
 # 
 #     run -all
 # ----------------------------------------------------------------
@@ -380,759 +383,311 @@
 # 
 ####
 # 
-# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx_collision.sv(19) @ 0: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [eth_v_seq_tx_collision] Executing collision virtual sequence
-# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(18) @ 0: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [eth_v_seq_tx_collision] Executing virtual sequence
 # UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 2500: reporter [A_WB_M] Assertion failed, data out = x
 # UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 7500: reporter [A_WB_M] Assertion failed, data out = x
 # UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 12500: reporter [A_WB_M] Assertion failed, data out = x
 # UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 17500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(30) @ 22500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running 45 sequence
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(30) @ 22500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running 55 sequence
 # UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 22500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 0
-# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_seq_tx_collision_cfg.sv(65) @ 22500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [wb_s_seq_tx_collision_cfg] Randomized COLLCONF: MAXRET=2 COLLVALID=12
-# UVM_INFO repo/tb/agents/wb_m/wb_m_monitor_base.sv(101) @ 22500: uvm_test_top.m_env.m_wb_m_agent.m_monitor [wb_m_monitor_base] Begin monitoring after reset deassertion
-# UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(58) @ 22500: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [mii_tx_monitor_base] Begin monitoring after reset deassertion
-# UVM_INFO repo/tb/agents/mii_tx/mii_tx_driver_base.sv(56) @ 60000: uvm_test_top.m_env.m_mii_tx_agent.m_driver [DRIVER] Reset deasserted — starting stimulus
-# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(285) @ 92500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[0] - LEN=52, PTR=0x00001000, IRQ=0, WR=0, PAD=1, CRC=1
-# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(285) @ 172500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[1] - LEN=46, PTR=0x0000003c, IRQ=0, WR=0, PAD=1, CRC=1
-# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(285) @ 252500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[2] - LEN=19, PTR=0x00000078, IRQ=0, WR=0, PAD=1, CRC=1
-# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(285) @ 332500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[3] - LEN=14, PTR=0x000000b4, IRQ=0, WR=1, PAD=1, CRC=1
-# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(163) @ 332500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG] Configuring TX registers
-# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(227) @ 512500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG] MODER: FULLD=0, TXEN=1, BDNUM=4, NOPRE=0, CRCEN=1, DCRC=0, PAD=1, HUGEN=0, NOBCKOF=1, EXDF=0, IPGT=18, TXB_M=0, TXC_M=0, TXE_M=0, MAXFL=80, MINFL=55, MAXRET=2, COLLVALID=12
-# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_seq_tx_collision_cfg.sv(124) @ 512500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [wb_s_seq_tx_collision_cfg] Collision TX configuration completed
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(892) @ 512500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TXEN asserted
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1318) @ 512500: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Entered pack packet
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1247) @ 512500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[0] LEN=52 RD=1 IRQ=0 WR=0 EFF PAD=1 EFF CRC=1 PTR=0x00001000
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1329) @ 940000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1383) @ 2180000: uvm_test_top.m_env.m_tx_sb [m_tx_sb] COLLISION SEEN
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 2180000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 1
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 2621000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 2660000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1416) @ 2660000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 21 bytes from MII
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(558) @ 2660000: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Retry = 1
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1318) @ 2660100: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Entered pack packet
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1329) @ 3660000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 3660000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 3660000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1383) @ 4900000: uvm_test_top.m_env.m_tx_sb [m_tx_sb] COLLISION SEEN
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 4900000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 2
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 5341000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 5380000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1416) @ 5380000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 21 bytes from MII
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(2003) @ 5380000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Retry limit reached. Transmission aborted correctly
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(558) @ 5380000: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Retry = 2
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 6380000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 6380000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(973) @ 7743500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[0] completed
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1318) @ 7743600: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Entered pack packet
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1247) @ 7744500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[1] LEN=46 RD=1 IRQ=0 WR=0 EFF PAD=1 EFF CRC=1 PTR=0x0000003c
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(739) @ 7744500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Added 5 padding bytes (frame length = 51)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1329) @ 7780000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 8100000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1416) @ 8100000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 4 bytes from MII
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 9100000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 9100000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 10340000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 1
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 10781000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 10820000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 11820000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 11820000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 13060000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 2
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 13501000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 13540000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(2003) @ 13540000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Retry limit reached. Transmission aborted correctly
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 14540000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 14540000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(973) @ 15903500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[1] completed
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1683) @ 15903500: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Actual Retry count  isn't equal to expected,actual  = 2 expected = 0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1318) @ 15903600: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Entered pack packet
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1247) @ 15904500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[2] LEN=19 RD=1 IRQ=0 WR=0 EFF PAD=1 EFF CRC=1 PTR=0x00000078
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(739) @ 15904500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Added 32 padding bytes (frame length = 51)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1329) @ 15940000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 16260000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1416) @ 16260000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 4 bytes from MII
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 17260000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 17260000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 18500000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 1
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 18941000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 18980000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 19980000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 19980000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 21220000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 2
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 21661000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 21700000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(2003) @ 21700000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Retry limit reached. Transmission aborted correctly
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 22700000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 22700000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(973) @ 24063500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[2] completed
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1683) @ 24063500: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Actual Retry count  isn't equal to expected,actual  = 2 expected = 0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1318) @ 24063600: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Entered pack packet
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1247) @ 24064500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[3] LEN=14 RD=1 IRQ=0 WR=1 EFF PAD=1 EFF CRC=1 PTR=0x000000b4
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(739) @ 24064500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Added 37 padding bytes (frame length = 51)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1329) @ 24100000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 24420000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1416) @ 24420000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 4 bytes from MII
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 25420000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 25420000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 26660000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 1
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 27101000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 27140000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 28140000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 28140000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 29380000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 2
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 29821000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 29860000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(2003) @ 29860000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Retry limit reached. Transmission aborted correctly
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 30860000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 30860000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(973) @ 32223500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[3] completed
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(983) @ 32223500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] WRAP
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1683) @ 32223500: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Actual Retry count  isn't equal to expected,actual  = 2 expected = 0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1318) @ 32223600: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Entered pack packet
-# UVM_INFO repo/tb/agents/wb_s/wb_s_driver_base.sv(127) @ 32257500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00341828 ADDR=00000100
-# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_seq_tx_collision_cfg.sv(141) @ 32267500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [wb_s_seq_tx_collision_cfg] BD[0] Status = 0x00341828
-# UVM_INFO repo/tb/agents/wb_s/wb_s_driver_base.sv(127) @ 32297500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=002e1828 ADDR=00000102
-# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_seq_tx_collision_cfg.sv(141) @ 32307500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [wb_s_seq_tx_collision_cfg] BD[1] Status = 0x002e1828
-# UVM_INFO repo/tb/agents/wb_s/wb_s_driver_base.sv(127) @ 32337500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00131828 ADDR=00000104
-# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_seq_tx_collision_cfg.sv(141) @ 32347500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [wb_s_seq_tx_collision_cfg] BD[2] Status = 0x00131828
-# UVM_INFO repo/tb/agents/wb_s/wb_s_driver_base.sv(127) @ 32377500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=000e3828 ADDR=00000106
-# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_seq_tx_collision_cfg.sv(141) @ 32387500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [wb_s_seq_tx_collision_cfg] BD[3] Status = 0x000e3828
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 32392500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 32397500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 32402500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 32407500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 32412500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 1
-# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_seq_tx_collision_cfg.sv(65) @ 32412500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [wb_s_seq_tx_collision_cfg] Randomized COLLCONF: MAXRET=11 COLLVALID=16
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 32420000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(285) @ 32482500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[0] - LEN=71, PTR=0x00001000, IRQ=0, WR=0, PAD=1, CRC=1
-# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(285) @ 32562500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[1] - LEN=15, PTR=0x0000003c, IRQ=0, WR=0, PAD=1, CRC=1
-# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(285) @ 32642500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[2] - LEN=73, PTR=0x00000078, IRQ=0, WR=0, PAD=1, CRC=1
-# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(285) @ 32722500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[3] - LEN=27, PTR=0x000000b4, IRQ=0, WR=1, PAD=1, CRC=1
-# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(163) @ 32722500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG] Configuring TX registers
-# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(227) @ 32902500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG] MODER: FULLD=0, TXEN=1, BDNUM=4, NOPRE=0, CRCEN=1, DCRC=0, PAD=1, HUGEN=0, NOBCKOF=1, EXDF=0, IPGT=18, TXB_M=0, TXC_M=0, TXE_M=0, MAXFL=80, MINFL=55, MAXRET=11, COLLVALID=16
-# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_seq_tx_collision_cfg.sv(124) @ 32902500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [wb_s_seq_tx_collision_cfg] Collision TX configuration completed
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(892) @ 32902500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TXEN asserted
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1318) @ 32902500: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Entered pack packet
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1247) @ 32902500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[0] LEN=71 RD=1 IRQ=0 WR=0 EFF PAD=1 EFF CRC=1 PTR=0x00001000
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1329) @ 33460000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1383) @ 34700000: uvm_test_top.m_env.m_tx_sb [m_tx_sb] COLLISION SEEN
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 34700000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 1
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 35141000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 35180000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1416) @ 35180000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 21 bytes from MII
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(558) @ 35180000: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Retry = 1
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1318) @ 35180100: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Entered pack packet
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1329) @ 36180000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 36180000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 36180000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1383) @ 37420000: uvm_test_top.m_env.m_tx_sb [m_tx_sb] COLLISION SEEN
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 37420000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 2
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 37861000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 37900000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1416) @ 37900000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 21 bytes from MII
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(558) @ 37900000: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Retry = 2
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1318) @ 37900100: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Entered pack packet
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1329) @ 38900000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 38900000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 38900000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1383) @ 40140000: uvm_test_top.m_env.m_tx_sb [m_tx_sb] COLLISION SEEN
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 40140000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 3
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 40581000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 40620000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1416) @ 40620000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 21 bytes from MII
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(558) @ 40620000: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Retry = 3
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1318) @ 40620100: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Entered pack packet
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1329) @ 41620000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 41620000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 41620000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1383) @ 42860000: uvm_test_top.m_env.m_tx_sb [m_tx_sb] COLLISION SEEN
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 42860000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 4
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 43301000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 43340000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1416) @ 43340000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 21 bytes from MII
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(558) @ 43340000: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Retry = 4
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1318) @ 43340100: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Entered pack packet
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1329) @ 44340000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 44340000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 44340000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1383) @ 45580000: uvm_test_top.m_env.m_tx_sb [m_tx_sb] COLLISION SEEN
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 45580000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 5
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 46021000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 46060000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1416) @ 46060000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 21 bytes from MII
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(558) @ 46060000: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Retry = 5
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1318) @ 46060100: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Entered pack packet
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1329) @ 47060000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 47060000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 47060000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1383) @ 48300000: uvm_test_top.m_env.m_tx_sb [m_tx_sb] COLLISION SEEN
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 48300000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 6
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 48741000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 48780000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1416) @ 48780000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 21 bytes from MII
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(558) @ 48780000: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Retry = 6
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1318) @ 48780100: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Entered pack packet
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1329) @ 49780000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 49780000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 49780000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1383) @ 51020000: uvm_test_top.m_env.m_tx_sb [m_tx_sb] COLLISION SEEN
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 51020000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 7
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 51461000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 51500000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1416) @ 51500000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 21 bytes from MII
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(558) @ 51500000: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Retry = 7
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1318) @ 51500100: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Entered pack packet
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1329) @ 52500000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 52500000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 52500000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1383) @ 53740000: uvm_test_top.m_env.m_tx_sb [m_tx_sb] COLLISION SEEN
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 53740000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 8
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 54181000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 54220000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1416) @ 54220000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 21 bytes from MII
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(558) @ 54220000: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Retry = 8
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1318) @ 54220100: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Entered pack packet
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1329) @ 55220000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 55220000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 55220000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1383) @ 56460000: uvm_test_top.m_env.m_tx_sb [m_tx_sb] COLLISION SEEN
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 56460000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 9
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 56901000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 56940000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1416) @ 56940000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 21 bytes from MII
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(558) @ 56940000: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Retry = 9
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1318) @ 56940100: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Entered pack packet
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1329) @ 57940000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 57940000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 57940000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1383) @ 59180000: uvm_test_top.m_env.m_tx_sb [m_tx_sb] COLLISION SEEN
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 59180000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 10
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 59621000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 59660000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1416) @ 59660000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 21 bytes from MII
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(558) @ 59660000: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Retry = 10
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1318) @ 59660100: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Entered pack packet
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1329) @ 60660000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 60660000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 60660000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1383) @ 61900000: uvm_test_top.m_env.m_tx_sb [m_tx_sb] COLLISION SEEN
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 61900000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 11
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 62341000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 62380000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1416) @ 62380000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 21 bytes from MII
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(2003) @ 62380000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Retry limit reached. Transmission aborted correctly
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(558) @ 62380000: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Retry = 11
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 63380000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 63380000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(973) @ 64733500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[0] completed
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1318) @ 64733600: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Entered pack packet
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1247) @ 64734500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[1] LEN=15 RD=1 IRQ=0 WR=0 EFF PAD=1 EFF CRC=1 PTR=0x0000003c
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(739) @ 64734500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Added 36 padding bytes (frame length = 51)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1329) @ 64740000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 65100000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1390) @ 65100000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MTxEN deasserted after only one nibble was transmitted
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1416) @ 65100000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 4 bytes from MII
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 66100000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 66100000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 67340000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 1
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 67781000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 67820000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 68820000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 68820000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 70060000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 2
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 70501000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 70540000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 71540000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 71540000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 72780000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 3
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 73221000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 73260000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 74260000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 74260000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 75500000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 4
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 75941000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 75980000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 76980000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 76980000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 78220000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 5
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 78661000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 78700000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 79700000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 79700000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 80940000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 6
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 81381000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 81420000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 82420000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 82420000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 83660000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 7
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 84101000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 84140000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 85140000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 85140000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 86380000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 8
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 86821000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 86860000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 87860000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 87860000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 89100000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 9
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 89541000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 89580000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 90580000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 90580000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 91820000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 10
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 92261000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 92300000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 93300000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 93300000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 94540000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 11
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 94981000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 95020000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(2003) @ 95020000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Retry limit reached. Transmission aborted correctly
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 96020000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 96020000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(973) @ 97373500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[1] completed
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1683) @ 97373500: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Actual Retry count  isn't equal to expected,actual  = 11 expected = 0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1318) @ 97373600: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Entered pack packet
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1247) @ 97374500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[2] LEN=73 RD=1 IRQ=0 WR=0 EFF PAD=1 EFF CRC=1 PTR=0x00000078
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1329) @ 97380000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 97740000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1390) @ 97740000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MTxEN deasserted after only one nibble was transmitted
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1416) @ 97740000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 4 bytes from MII
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 98740000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 98740000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 99980000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 1
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 100421000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 100460000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 101460000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 101460000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 102700000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 2
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 103141000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 103180000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 104180000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 104180000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 105420000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 3
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 105861000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 105900000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 106900000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 106900000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 108140000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 4
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 108581000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 108620000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 109620000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 109620000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 110860000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 5
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 111301000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 111340000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 112340000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 112340000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 113580000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 6
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 114021000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 114060000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 115060000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 115060000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 116300000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 7
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 116741000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 116780000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 117780000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 117780000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 119020000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 8
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 119461000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 119500000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 120500000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 120500000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 121740000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 9
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 122181000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 122220000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 123220000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 123220000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 124460000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 10
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 124901000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 124940000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 125940000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 125940000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 127180000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 11
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 127621000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 127660000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(2003) @ 127660000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Retry limit reached. Transmission aborted correctly
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 128660000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 128660000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(973) @ 130013500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[2] completed
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1683) @ 130013500: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Actual Retry count  isn't equal to expected,actual  = 11 expected = 0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1318) @ 130013600: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Entered pack packet
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1247) @ 130014500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[3] LEN=27 RD=1 IRQ=0 WR=1 EFF PAD=1 EFF CRC=1 PTR=0x000000b4
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(739) @ 130014500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Added 24 padding bytes (frame length = 51)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1329) @ 130020000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 130380000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1390) @ 130380000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MTxEN deasserted after only one nibble was transmitted
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1416) @ 130380000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 4 bytes from MII
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 131380000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 131380000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 132620000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 1
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 133061000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 133100000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 134100000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 134100000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 135340000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 2
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 135781000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 135820000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 136820000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 136820000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 138060000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 3
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 138501000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 138540000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 139540000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 139540000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 140780000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 4
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 141221000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 141260000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 142260000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 142260000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 143500000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 5
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 143941000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 143980000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 144980000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 144980000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 146220000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 6
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 146661000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 146700000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 147700000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 147700000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 148940000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 7
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 149381000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 149420000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 150420000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 150420000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 151660000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 8
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 152101000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 152140000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 153140000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 153140000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 154380000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 9
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 154821000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 154860000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 155860000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 155860000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 157100000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 10
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 157541000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 157580000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 158580000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 158580000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 159820000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 11
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 160261000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 160300000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(2003) @ 160300000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Retry limit reached. Transmission aborted correctly
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 161300000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 161300000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(973) @ 162653500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[3] completed
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(983) @ 162653500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] WRAP
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1683) @ 162653500: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Actual Retry count  isn't equal to expected,actual  = 11 expected = 0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1318) @ 162653600: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Entered pack packet
-# UVM_INFO repo/tb/agents/wb_s/wb_s_driver_base.sv(127) @ 162687500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=004718b8 ADDR=00000100
-# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_seq_tx_collision_cfg.sv(141) @ 162697500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [wb_s_seq_tx_collision_cfg] BD[0] Status = 0x004718b8
-# UVM_INFO repo/tb/agents/wb_s/wb_s_driver_base.sv(127) @ 162727500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=000f18b8 ADDR=00000102
-# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_seq_tx_collision_cfg.sv(141) @ 162737500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [wb_s_seq_tx_collision_cfg] BD[1] Status = 0x000f18b8
-# UVM_INFO repo/tb/agents/wb_s/wb_s_driver_base.sv(127) @ 162767500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=004918b8 ADDR=00000104
-# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_seq_tx_collision_cfg.sv(141) @ 162777500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [wb_s_seq_tx_collision_cfg] BD[2] Status = 0x004918b8
-# UVM_INFO repo/tb/agents/wb_s/wb_s_driver_base.sv(127) @ 162807500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=001b38b8 ADDR=00000106
-# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_seq_tx_collision_cfg.sv(141) @ 162817500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [wb_s_seq_tx_collision_cfg] BD[3] Status = 0x001b38b8
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 162820000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 162822500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 162827500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 162832500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 162837500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 162842500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 2
-# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_seq_tx_collision_cfg.sv(65) @ 162842500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [wb_s_seq_tx_collision_cfg] Randomized COLLCONF: MAXRET=5 COLLVALID=22
-# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(285) @ 162912500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[0] - LEN=13, PTR=0x00001000, IRQ=0, WR=0, PAD=1, CRC=1
-# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(285) @ 162992500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[1] - LEN=47, PTR=0x0000003c, IRQ=0, WR=0, PAD=1, CRC=1
-# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(285) @ 163072500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[2] - LEN=58, PTR=0x00000078, IRQ=0, WR=0, PAD=1, CRC=1
-# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(285) @ 163152500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[3] - LEN=64, PTR=0x000000b4, IRQ=0, WR=1, PAD=1, CRC=1
-# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(163) @ 163152500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG] Configuring TX registers
-# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(227) @ 163332500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG] MODER: FULLD=0, TXEN=1, BDNUM=4, NOPRE=0, CRCEN=1, DCRC=0, PAD=1, HUGEN=0, NOBCKOF=1, EXDF=0, IPGT=18, TXB_M=0, TXC_M=0, TXE_M=0, MAXFL=80, MINFL=55, MAXRET=5, COLLVALID=22
-# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_seq_tx_collision_cfg.sv(124) @ 163332500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [wb_s_seq_tx_collision_cfg] Collision TX configuration completed
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(892) @ 163332500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TXEN asserted
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1318) @ 163332500: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Entered pack packet
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1247) @ 163332500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[0] LEN=13 RD=1 IRQ=0 WR=0 EFF PAD=1 EFF CRC=1 PTR=0x00001000
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(739) @ 163332500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Added 38 padding bytes (frame length = 51)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1329) @ 163860000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1383) @ 165100000: uvm_test_top.m_env.m_tx_sb [m_tx_sb] COLLISION SEEN
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 165100000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 1
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 165541000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 165580000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1416) @ 165580000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 21 bytes from MII
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(558) @ 165580000: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Retry = 1
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1318) @ 165580100: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Entered pack packet
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1329) @ 166580000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 166580000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 166580000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1383) @ 167820000: uvm_test_top.m_env.m_tx_sb [m_tx_sb] COLLISION SEEN
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 167820000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 2
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 168261000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 168300000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1416) @ 168300000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 21 bytes from MII
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(558) @ 168300000: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Retry = 2
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1318) @ 168300100: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Entered pack packet
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1329) @ 169300000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 169300000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 169300000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1383) @ 170540000: uvm_test_top.m_env.m_tx_sb [m_tx_sb] COLLISION SEEN
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 170540000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 3
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 170981000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 171020000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1416) @ 171020000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 21 bytes from MII
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(558) @ 171020000: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Retry = 3
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1318) @ 171020100: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Entered pack packet
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1329) @ 172020000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 172020000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 172020000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1383) @ 173260000: uvm_test_top.m_env.m_tx_sb [m_tx_sb] COLLISION SEEN
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 173260000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 4
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 173701000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 173740000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1416) @ 173740000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 21 bytes from MII
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(558) @ 173740000: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Retry = 4
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1318) @ 173740100: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Entered pack packet
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1329) @ 174740000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 174740000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 174740000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1383) @ 175980000: uvm_test_top.m_env.m_tx_sb [m_tx_sb] COLLISION SEEN
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 175980000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 5
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 176421000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 176460000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1416) @ 176460000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 21 bytes from MII
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(2003) @ 176460000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Retry limit reached. Transmission aborted correctly
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(558) @ 176460000: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Retry = 5
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 177460000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 177460000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(973) @ 178823500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[0] completed
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1318) @ 178823600: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Entered pack packet
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1247) @ 178824500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[1] LEN=47 RD=1 IRQ=0 WR=0 EFF PAD=1 EFF CRC=1 PTR=0x0000003c
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(739) @ 178824500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Added 4 padding bytes (frame length = 51)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1329) @ 178860000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 179180000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1416) @ 179180000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 4 bytes from MII
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 180180000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 180180000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 181420000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 1
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 181861000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 181900000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 182900000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 182900000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 184140000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 2
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 184581000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 184620000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 185620000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 185620000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 186860000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 3
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 187301000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 187340000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 188340000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 188340000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 189580000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 4
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 190021000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 190060000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 191060000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 191060000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 192300000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 5
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 192741000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 192780000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(2003) @ 192780000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Retry limit reached. Transmission aborted correctly
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 193780000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 193780000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(973) @ 195143500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[1] completed
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1683) @ 195143500: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Actual Retry count  isn't equal to expected,actual  = 5 expected = 0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1318) @ 195143600: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Entered pack packet
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1247) @ 195144500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[2] LEN=58 RD=1 IRQ=0 WR=0 EFF PAD=1 EFF CRC=1 PTR=0x00000078
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1329) @ 195180000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 195500000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1416) @ 195500000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 4 bytes from MII
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 196500000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 196500000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 197740000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 1
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 198181000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 198220000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 199220000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 199220000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 200460000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 2
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 200901000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 200940000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 201940000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 201940000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 203180000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 3
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 203621000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 203660000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 204660000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 204660000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 205900000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 4
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 206341000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 206380000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 207380000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 207380000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 208620000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 5
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 209061000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 209100000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(2003) @ 209100000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Retry limit reached. Transmission aborted correctly
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 210100000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 210100000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(973) @ 211463500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[2] completed
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1683) @ 211463500: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Actual Retry count  isn't equal to expected,actual  = 5 expected = 0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1318) @ 211463600: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Entered pack packet
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1247) @ 211464500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[3] LEN=64 RD=1 IRQ=0 WR=1 EFF PAD=1 EFF CRC=1 PTR=0x000000b4
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1329) @ 211500000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 211820000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1416) @ 211820000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 4 bytes from MII
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 212820000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 212820000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 214060000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 1
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 214501000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 214540000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 215540000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 215540000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 216780000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 2
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 217221000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 217260000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 218260000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 218260000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 219500000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 3
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 219941000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 219980000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 220980000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 220980000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 222220000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 4
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 222661000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 222700000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 223700000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 223700000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 224940000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 5
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 225381000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 225420000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(2003) @ 225420000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Retry limit reached. Transmission aborted correctly
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 226420000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 226420000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(973) @ 227783500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[3] completed
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(983) @ 227783500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] WRAP
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1683) @ 227783500: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Actual Retry count  isn't equal to expected,actual  = 5 expected = 0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1318) @ 227783600: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Entered pack packet
-# UVM_INFO repo/tb/agents/wb_s/wb_s_driver_base.sv(127) @ 227817500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=000d1858 ADDR=00000100
-# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_seq_tx_collision_cfg.sv(141) @ 227827500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [wb_s_seq_tx_collision_cfg] BD[0] Status = 0x000d1858
-# UVM_INFO repo/tb/agents/wb_s/wb_s_driver_base.sv(127) @ 227857500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=002f1858 ADDR=00000102
-# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_seq_tx_collision_cfg.sv(141) @ 227867500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [wb_s_seq_tx_collision_cfg] BD[1] Status = 0x002f1858
-# UVM_INFO repo/tb/agents/wb_s/wb_s_driver_base.sv(127) @ 227897500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=003a1858 ADDR=00000104
-# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_seq_tx_collision_cfg.sv(141) @ 227907500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [wb_s_seq_tx_collision_cfg] BD[2] Status = 0x003a1858
-# UVM_INFO repo/tb/agents/wb_s/wb_s_driver_base.sv(127) @ 227937500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00403858 ADDR=00000106
-# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_seq_tx_collision_cfg.sv(141) @ 227947500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [wb_s_seq_tx_collision_cfg] BD[3] Status = 0x00403858
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 227952500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 227957500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 227962500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 227967500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 227972500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 3
-# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_seq_tx_collision_cfg.sv(65) @ 227972500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [wb_s_seq_tx_collision_cfg] Randomized COLLCONF: MAXRET=12 COLLVALID=36
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 227980000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(285) @ 228042500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[0] - LEN=30, PTR=0x00001000, IRQ=0, WR=0, PAD=1, CRC=1
-# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(285) @ 228122500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[1] - LEN=74, PTR=0x0000003c, IRQ=0, WR=0, PAD=1, CRC=1
-# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(285) @ 228202500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[2] - LEN=98, PTR=0x00000078, IRQ=0, WR=0, PAD=1, CRC=1
-# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(285) @ 228282500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[3] - LEN=92, PTR=0x000000b4, IRQ=0, WR=1, PAD=1, CRC=1
-# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(163) @ 228282500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG] Configuring TX registers
-# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(227) @ 228462500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG] MODER: FULLD=0, TXEN=1, BDNUM=4, NOPRE=0, CRCEN=1, DCRC=0, PAD=1, HUGEN=0, NOBCKOF=0, EXDF=0, IPGT=18, TXB_M=0, TXC_M=0, TXE_M=0, MAXFL=80, MINFL=55, MAXRET=12, COLLVALID=36
-# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_seq_tx_collision_cfg.sv(124) @ 228462500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [wb_s_seq_tx_collision_cfg] Collision TX configuration completed
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(892) @ 228462500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TXEN asserted
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1318) @ 228462500: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Entered pack packet
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1247) @ 228462500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[0] LEN=30 RD=1 IRQ=0 WR=0 EFF PAD=1 EFF CRC=1 PTR=0x00001000
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(739) @ 228462500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Added 21 padding bytes (frame length = 51)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1329) @ 229020000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1383) @ 230260000: uvm_test_top.m_env.m_tx_sb [m_tx_sb] COLLISION SEEN
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 230260000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 1
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 230701000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 230740000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1416) @ 230740000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 21 bytes from MII
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(558) @ 230740000: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Retry = 1
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1318) @ 230740100: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Entered pack packet
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1329) @ 231740000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 231740000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 231740000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1383) @ 232980000: uvm_test_top.m_env.m_tx_sb [m_tx_sb] COLLISION SEEN
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 232980000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 2
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 233421000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 233460000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1416) @ 233460000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 21 bytes from MII
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(558) @ 233460000: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Retry = 2
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1318) @ 233460100: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Entered pack packet
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1329) @ 234460000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 234460000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 234460000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1383) @ 235700000: uvm_test_top.m_env.m_tx_sb [m_tx_sb] COLLISION SEEN
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 235700000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 3
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 236141000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 236180000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1416) @ 236180000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 21 bytes from MII
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(558) @ 236180000: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Retry = 3
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1318) @ 236180100: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Entered pack packet
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1329) @ 252380000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 252380000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 405 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 252380000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1383) @ 253620000: uvm_test_top.m_env.m_tx_sb [m_tx_sb] COLLISION SEEN
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 253620000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 4
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 254061000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 254100000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1416) @ 254100000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 21 bytes from MII
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(558) @ 254100000: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Retry = 4
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1318) @ 254100100: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Entered pack packet
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1329) @ 290780000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 290780000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 917 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 290780000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1383) @ 292020000: uvm_test_top.m_env.m_tx_sb [m_tx_sb] COLLISION SEEN
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 292020000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 5
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 292461000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 292500000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1416) @ 292500000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 21 bytes from MII
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(558) @ 292500000: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Retry = 5
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1318) @ 292500100: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Entered pack packet
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1329) @ 293500000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 293500000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 25 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 293500000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1383) @ 294740000: uvm_test_top.m_env.m_tx_sb [m_tx_sb] COLLISION SEEN
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 294740000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 6
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 295181000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 295220000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1416) @ 295220000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 21 bytes from MII
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(558) @ 295220000: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Retry = 6
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1318) @ 295220100: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Entered pack packet
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1329) @ 316540000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 316540000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 533 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 316540000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1383) @ 317780000: uvm_test_top.m_env.m_tx_sb [m_tx_sb] COLLISION SEEN
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 317780000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 7
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 318221000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 318260000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1416) @ 318260000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 21 bytes from MII
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(558) @ 318260000: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Retry = 7
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1318) @ 318260100: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Entered pack packet
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1329) @ 375420000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 375420000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 1429 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 375420000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1383) @ 376660000: uvm_test_top.m_env.m_tx_sb [m_tx_sb] COLLISION SEEN
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 376660000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 8
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 377101000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 377140000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1416) @ 377140000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 21 bytes from MII
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(558) @ 377140000: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Retry = 8
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1318) @ 377140100: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Entered pack packet
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1329) @ 444540000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 444540000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 1685 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 444540000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1383) @ 445780000: uvm_test_top.m_env.m_tx_sb [m_tx_sb] COLLISION SEEN
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 445780000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 9
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 446221000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 446260000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1416) @ 446260000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 21 bytes from MII
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(558) @ 446260000: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Retry = 9
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1318) @ 446260100: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Entered pack packet
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1329) @ 1373820000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1816) @ 1373820000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Measured IPGT = 23189 MII clock cycles
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1853) @ 1373820000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1383) @ 1375060000: uvm_test_top.m_env.m_tx_sb [m_tx_sb] COLLISION SEEN
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1915) @ 1375060000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 10
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1967) @ 1375501000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision.sv(49) @ 1375540000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision] Asserting collision while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1416) @ 1375540000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 21 bytes from MII
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(558) @ 1375540000: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Retry = 10
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1318) @ 1375540100: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Entered pack packet
-# Break key hit
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 24472500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 24477500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 24482500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 24487500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 24492500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 1
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 27142500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 27147500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 27152500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 27157500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 27162500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 2
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 46152500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 46157500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 46162500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 46167500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 46172500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 3
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 54262500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 54267500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 54272500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 54277500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 54282500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 4
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 62392500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 62397500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 62402500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 62407500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 62412500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 5
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 65062500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 65067500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 65072500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 65077500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 65082500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 6
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 108552500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 108557500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 108562500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 108567500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 108572500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 7
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 116662500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 116667500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 116672500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 116677500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 116682500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 8
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 119352500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 119357500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 119362500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 119367500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 119372500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 9
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 154662500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 154667500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 154672500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 154677500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 154682500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 10
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 192712500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 192717500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 192722500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 192727500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 192732500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 11
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 211702500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 211707500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 211712500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 211717500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 211722500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 12
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 217152500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 217157500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 217162500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 217167500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 217172500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 13
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 244302500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 244307500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 244312500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 244317500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 244322500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 14
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 276912500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 276917500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 276922500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 276927500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 276932500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 15
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 282302500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 282307500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 282312500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 282317500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 282322500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 16
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 301312500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 301317500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 301322500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 301327500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 301332500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 17
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 331182500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 331187500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 331192500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 331197500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 331202500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 18
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 371952500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 371957500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 371962500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 371967500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 371972500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 19
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 387742500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 387747500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 387752500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 387757500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 387762500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 20
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 393192500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 393197500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 393202500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 393207500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 393212500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 21
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 406742500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 406747500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 406752500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 406757500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 406762500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 22
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 433912500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 433917500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 433922500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 433927500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 433932500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 23
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1454) @ 439260000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet size mismatch Expected=69 Actual=21
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1703) @ 439260000: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Actual Late collision  isn't equal to expected,actual  = 1 expected = 0
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 439342500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 439347500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 439352500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 439357500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 439362500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 24
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(2007) @ 458140000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MAC continued transmitting after retry limit
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(2007) @ 458140000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] MAC continued transmitting after retry limit
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1691) @ 474263500: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Actual Retry count  isn't equal to expected,actual  = 12 expected = 13
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 474312500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 474317500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 474322500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 474327500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 474332500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 25
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 479902500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 479907500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 479912500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 479917500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 479922500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 26
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 482592500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 482597500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 482602500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 482607500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 482612500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 27
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 504302500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 504307500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 504312500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 504317500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 504322500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 28
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 558712500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 558717500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 558722500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 558727500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 558732500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 29
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 564102500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 564107500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 564112500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 564117500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 564122500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 30
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 566792500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 566797500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 566802500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 566807500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 566812500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 31
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 599382500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 599387500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 599392500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 599397500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 599402500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 32
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 612952500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 612957500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 612962500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 612967500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 612972500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 33
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 648262500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 648267500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 648272500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 648277500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 648282500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 34
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 650952500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 650957500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 650962500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 650967500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 650972500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 35
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 691702500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 691707500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 691712500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 691717500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 691722500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 36
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 705272500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 705277500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 705282500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 705287500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 705292500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 37
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 724262500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 724267500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 724272500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 724277500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 724282500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 38
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 735112500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 735117500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 735122500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 735127500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 735132500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 39
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 775862500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 775867500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 775872500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 775877500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 775882500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 40
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 800312500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 800317500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 800322500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 800327500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 800332500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 41
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 816582500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 816587500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 816592500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 816597500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 816602500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 42
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 827432500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 827437500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 827442500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 827447500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 827452500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 43
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 830102500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 830107500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 830112500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 830117500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 830122500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 44
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 843672500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 843677500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 843682500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 843687500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 843692500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 45
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 846342500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 846347500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 846352500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 846357500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 846362500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 46
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 868072500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 868077500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 868082500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 868087500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 868092500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 47
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 889782500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 889787500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 889792500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 889797500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 889802500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 48
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 906072500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 906077500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 906082500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 906087500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 906092500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 49
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 908742500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 908747500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 908752500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 908757500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 908762500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 50
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 927752500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 927757500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 927762500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 927767500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 927772500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 51
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 968502500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 968507500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 968512500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 968517500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 968522500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 52
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 992952500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 992957500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 992962500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 992967500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 992972500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 53
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 1020102500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 1020107500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 1020112500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 1020117500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 1020122500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 54
+# UVM_INFO verilog_src/uvm-1.1d/src/base/uvm_objection.svh(1267) @ 1047307500: reporter [TEST_DONE] 'run' phase is ready to proceed to the 'extract' phase
+# 
+# --- UVM Report Summary ---
+# 
+# ** Report counts by severity
+# UVM_INFO :   62
+# UVM_WARNING :  220
+# UVM_ERROR :    5
+# UVM_FATAL :    0
+# ** Report counts by id
+# [A_WB_M]   220
+# [Questa UVM]     2
+# [RNTST]     1
+# [TEST_DONE]     1
+# [eth_test_tx_coll]     2
+# [eth_tx_scoreboard]     3
+# [m_tx_sb]     2
+# [m_v_seq_tx]    56
+# ** Note: $finish    : D:/B/qsim_2021_1/win64/../verilog_src/uvm-1.1d/src/base/uvm_root.svh(430)
+#    Time: 1047307500 ps  Iteration: 68  Instance: /eth_tb
+# Break in Task uvm_pkg/uvm_root::run_test at D:/B/qsim_2021_1/win64/../verilog_src/uvm-1.1d/src/base/uvm_root.svh line 430
+# Stopped at D:/B/qsim_2021_1/win64/../verilog_src/uvm-1.1d/src/base/uvm_root.svh line 430
+#  
+#     coverage save $CODE_UCDB -codeAll -instance eth_tb.dut
+#     coverage save $FUNC_UCDB -cvg -directive -assert
+#     transcript file ""
+#     

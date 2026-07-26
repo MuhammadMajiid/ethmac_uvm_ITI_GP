@@ -398,6 +398,7 @@ class eth_cov_tx extends uvm_component;
     // Cross txpause req and txflow
     cp_cross_ctrl: cross cp_ctrlmoder,cp_txctrl{
         ignore_bins ign_ctrl = binsof(cp_txctrl.time_val_any) || binsof(cp_txctrl.time_val_max) || binsof(cp_txctrl.time_val_min);
+        ignore_bins ign_ctrl_00 = binsof(cp_txctrl.tx_pause_req_0) && binsof(cp_ctrlmoder.tx_flow_0);
     }
 
     // Cross timer txpause req and txflow

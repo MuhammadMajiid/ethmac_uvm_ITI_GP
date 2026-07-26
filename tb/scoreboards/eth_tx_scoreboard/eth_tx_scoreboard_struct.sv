@@ -81,7 +81,7 @@ typedef struct {
     bit [15:0] maxfl;         // [15:0]    – maximum frame length
 
     // COLLCONF (0x1C)
-    bit [3:0]  maxret;        // [19:16]   – maximum retry count
+    bit [4:0]  maxret;        // [19:16]   – maximum retry count
     bit [5:0]  collvalid;     // [5:0]     – collision valid window (bytes)
 
     // TX_BD_NUM (0x20)
