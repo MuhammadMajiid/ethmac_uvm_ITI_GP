@@ -6,9 +6,17 @@
 #     coverage save $FUNC_UCDB -cvg -directive -assert
 #     transcript file ""
 #     " 
-# Start time: 02:03:47 on Jul 25,2026
+# Start time: 03:22:27 on Jul 26,2026
 # ** Note: (vsim-3813) Design is being optimized due to module recompilation...
 # ** Warning: (vopt-13408) Code coverage will be disabled for some DUs/packages/classes and source files.
+# ** Warning: repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(241): (vopt-2240) Treating stand-alone use of function 'write' as an implicit VOID cast.
+# ** Warning: repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(246): (vopt-2240) Treating stand-alone use of function 'write' as an implicit VOID cast.
+# ** Warning: repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1633): (vopt-2240) Treating stand-alone use of function 'predict' as an implicit VOID cast.
+# ** Warning: repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1648): (vopt-2240) Treating stand-alone use of function 'predict' as an implicit VOID cast.
+# ** Warning: repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1658): (vopt-2240) Treating stand-alone use of function 'predict' as an implicit VOID cast.
+# ** Warning: repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(644): (vopt-2240) Treating stand-alone use of function 'pop_front' as an implicit VOID cast.
+# ** Warning: repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(817): (vopt-2240) Treating stand-alone use of function 'pop_back' as an implicit VOID cast.
+# ** Warning: repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1723): (vopt-2240) Treating stand-alone use of function 'predict' as an implicit VOID cast.
 # ** Warning: repo/tb/top/eth_tb.sv(68): (vopt-2685) [TFMPC] - Too few port connections for 'dut'.  Expected 35, found 27.
 # ** Warning: repo/tb/top/eth_tb.sv(68): (vopt-2718) [TFMPC] - Missing connection for port 'md_padoe_o'.
 # ** Warning: repo/tb/top/eth_tb.sv(68): (vopt-2718) [TFMPC] - Missing connection for port 'md_pad_o'.
@@ -18,7 +26,7 @@
 # ** Warning: repo/tb/top/eth_tb.sv(68): (vopt-2718) [TFMPC] - Missing connection for port 'mrxdv_pad_i'.
 # ** Warning: repo/tb/top/eth_tb.sv(68): (vopt-2718) [TFMPC] - Missing connection for port 'mrxd_pad_i'.
 # ** Warning: repo/tb/top/eth_tb.sv(68): (vopt-2718) [TFMPC] - Missing connection for port 'mrx_clk_pad_i'.
-# ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=0, Warnings=10.
+# ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=0, Warnings=18.
 # //  Questa Sim-64
 # //  Version 2021.1 win64 Jan 19 2021
 # //
@@ -74,7 +82,7 @@
 # Loading work.mii_tx_if_sv_unit(fast)
 # Loading work.mii_tx_if(fast__2)
 # Loading D:/B/qsim_2021_1/uvm-1.1d\win64\uvm_dpi.dll
-# Sv_Seed = 1734205297
+# Sv_Seed = 673864585
 # 
 #     run -all
 # ----------------------------------------------------------------
@@ -244,7 +252,7 @@
 #   mii_tx_driver_base  mii_tx_driver_hd
 #   eth_v_seq_tx        eth_v_seq_tx_active
 # 
-# All types registered with the factory: 170 total
+# All types registered with the factory: 168 total
 # (types without type names will not be printed)
 # 
 #   Type Name
@@ -287,7 +295,6 @@
 #   eth_test_reg_access
 #   eth_test_tx_base
 #   eth_test_tx_bd_num
-#   eth_test_tx_bd_num_rand
 #   eth_test_tx_coll
 #   eth_test_tx_cs
 #   eth_test_tx_ctrl_flow
@@ -359,7 +366,6 @@
 #   wb_s_monitor_base
 #   wb_s_seq_base
 #   wb_s_seq_tx_bd_num
-#   wb_s_seq_tx_bd_num_rand
 #   wb_s_seq_tx_collision_cfg
 #   wb_s_seq_tx_cs
 #   wb_s_seq_tx_ctrl_flow
@@ -394,14 +400,17 @@
 # UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(163) @ 92500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG] Configuring TX registers
 # UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(227) @ 247500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG] MODER: FULLD=1, TXEN=1, BDNUM=1, NOPRE=0, CRCEN=1, DCRC=0, PAD=1, HUGEN=0, NOBCKOF=0, EXDF=0, IPGT=18, TXB_M=0, TXC_M=0, TXE_M=0, MAXFL=80, MINFL=55, MAXRET=15, COLLVALID=63
 # UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(121) @ 247500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [wb_s_basic_tx_seq] Basic TX configuration completed
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(885) @ 247500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TXEN asserted
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1240) @ 247500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[0] LEN=78 RD=1 IRQ=0 WR=1 EFF PAD=1 EFF CRC=1 PTR=0x00001000
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1322) @ 940000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1332) @ 7980000: uvm_test_top.m_env.m_tx_sb [m_tx_sb] MtxErr asserted
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(966) @ 7983500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[0] completed
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(976) @ 7983500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] WRAP
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1409) @ 8020000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 88 bytes from MII
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1583) @ 8020000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison PASSED (88 bytes)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(899) @ 247500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TXEN asserted
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1325) @ 247500: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Entered pack packet
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(545) @ 247500: uvm_test_top.m_env.m_tx_sb [m_tx_sb] pending rd = 0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1254) @ 247500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[0] LEN=78 RD=1 IRQ=0 WR=1 EFF PAD=1 EFF CRC=1 PTR=0x00001000
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(547) @ 247500: uvm_test_top.m_env.m_tx_sb [m_tx_sb] pending rd = 1
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1336) @ 940000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1346) @ 7980000: uvm_test_top.m_env.m_tx_sb [m_tx_sb] MtxErr asserted
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(980) @ 7983500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[0] completed
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(990) @ 7983500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] WRAP
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1423) @ 8020000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 88 bytes from MII
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1597) @ 8020000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison PASSED (88 bytes)
 # UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(41) @ 8020000: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [eth_v_seq_tx_active] virtual sequence completed
 # UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx_active.sv(19) @ 8020000: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [eth_v_seq_tx_active] virtual sequence completed
 # UVM_INFO verilog_src/uvm-1.1d/src/base/uvm_objection.svh(1267) @ 8020000: reporter [TEST_DONE] 'run' phase is ready to proceed to the 'extract' phase
@@ -411,7 +420,7 @@
 # --- UVM Report Summary ---
 # 
 # ** Report counts by severity
-# UVM_INFO :   29
+# UVM_INFO :   32
 # UVM_WARNING :    4
 # UVM_ERROR :    0
 # UVM_FATAL :    0
@@ -425,7 +434,7 @@
 # [eth_test_tx_smoke]     2
 # [eth_tx_scoreboard]     7
 # [eth_v_seq_tx_active]     4
-# [m_tx_sb]     1
+# [m_tx_sb]     4
 # [m_v_seq_tx]     2
 # [mii_tx_monitor_base]     1
 # [wb_m_driver_base]     1

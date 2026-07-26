@@ -27,7 +27,7 @@ class wb_s_seq_tx_collision_cfg extends wb_s_basic_tx_seq;
 
     `uvm_object_utils(wb_s_seq_tx_collision_cfg)
 	
-	randc  bit [3:0] maxret_cfg;
+	rand  bit [3:0] maxret_cfg;
     rand bit [5:0] collvalid_cfg;
 	rand bit nobackoff;
 
@@ -37,9 +37,15 @@ class wb_s_seq_tx_collision_cfg extends wb_s_basic_tx_seq;
 constraint c_maxret {
     maxret_cfg inside {[0:15]};
 }	  
-	
+
+constraint c_solve {
+    solve maxret_cfg before nobackoff;
+}
+
 constraint c_nobackoff {
-    nobackoff dist {1:=97, 0:=3};
+    nobackoff dist {1:=80, 0:=20};
+    if(maxret_cfg>4)
+        nobackoff==1;
 }	 
 
 constraint c_collvalid {
@@ -70,7 +76,7 @@ constraint c_collvalid {
         // Randomize transaction
         //-----------------------------------------------------
         assert(m_item.randomize() with {
-        tx_bd_num==4;
+        tx_bd_num dist {1:=90,2:=10};
         foreach (pkt_len[i]){
             pkt_len[i]<100;
             pkt_len[i]>4;

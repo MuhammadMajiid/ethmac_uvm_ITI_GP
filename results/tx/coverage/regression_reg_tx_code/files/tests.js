@@ -1,0 +1,2 @@
+var g_data = {"0":"eth_test_bd_access_code_cov","1":"eth_test_reg_access_code_cov","12":"eth_test_tx_bd_num_code_cov","10":"eth_test_tx_coll_code_cov","4":"eth_test_tx_cs_code_cov","9":"eth_test_tx_ctrl_flow_code_cov","5":"eth_test_tx_interrupts_code_cov","3":"eth_test_tx_ipgt_code_cov","7":"eth_test_tx_len_code_cov","6":"eth_test_tx_maxfl_code_cov","8":"eth_test_tx_minfl_code_cov","11":"eth_test_tx_moder_code_cov","2":"eth_test_tx_underrun_code_cov"};
+processTestsData(g_data);
