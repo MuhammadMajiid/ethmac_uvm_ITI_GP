@@ -46,6 +46,10 @@ module eth_tb;
   //--------------------------------------------------------------------------
   mii_rx_if mii_rx_interface();
   //--------------------------------------------------------------------------
+  // MDIO Interface
+  //--------------------------------------------------------------------------
+  mdio_if m_mdio_if();
+  //--------------------------------------------------------------------------
   // wishbone Clock Generation 
   //--------------------------------------------------------------------------
   initial begin
@@ -101,7 +105,13 @@ module eth_tb;
       .mtxen_pad_o     (m_mii_tx_if.MTxEN),
       .mtxerr_pad_o    (m_mii_tx_if.MTxERR),
       .mcoll_pad_i      (m_mii_tx_if.MColl),
-      .mcrs_pad_i       (m_mii_tx_if.MCrS)
+      .mcrs_pad_i       (m_mii_tx_if.MCrS),
+
+      // MDIO
+      .mdc_pad_o  (m_mdio_if.mdc),
+      .md_pad_i   (m_mdio_if.mdio_in),
+      .md_pad_o   (m_mdio_if.mdio_out),
+      .md_padoe_o (m_mdio_if.mdio_en)
 
   );
 

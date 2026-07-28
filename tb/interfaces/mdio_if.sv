@@ -10,7 +10,7 @@
 
 `ifndef MDIO_IF_SV
 `define MDIO_IF_SV
-
+`timescale 1ns/1ps
 interface mdio_if;
   logic mdc;       // Management Data Clock (Driven by DUT)
   logic mdio_in;      // Bidirectional Management Data Line

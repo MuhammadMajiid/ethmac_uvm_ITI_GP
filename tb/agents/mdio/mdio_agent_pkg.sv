@@ -25,7 +25,7 @@ package mdio_agent_pkg;
  import eth_config_pkg::*;
   
   // The transaction item must be compiled first because everything else uses it.
-  `include "../../seq_items/mdio/mdio_seq_item_base.sv"
+  import mdio_seq_item_pkg::*;
 
   // The components that use the transaction item
   `include "mdio_sequencer_base.sv"
