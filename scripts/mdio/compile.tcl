@@ -1,9 +1,5 @@
 onerror { quit -f -code 1 }
-vlog -work work \
-    +incdir+tb/global \
-    +incdir+tb/env \
-    +incdir+tb/agents/mdio \
-    +incdir+tb/sequences/mdio_seq \
+vlog  \
     tb/global/eth_glob_pkg.sv \
     tb/interfaces/*.sv \
     tb/config/eth_config_pkg.sv \
