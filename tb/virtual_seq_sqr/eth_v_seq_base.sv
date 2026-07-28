@@ -20,6 +20,7 @@
         mii_tx_sequencer_base m_mii_tx_sqr;
         mii_rx_sequencer_base m_mii_rx_sqr;
 		reset_sequencer       m_reset_sqr;
+        mdio_sequencer_base   m_mdio_sqr;
 
         function new(string name ="eth_v_seq_base");
             super.new(name);
@@ -31,6 +32,7 @@
             m_mii_tx_sqr = p_sequencer.m_mii_tx_sqr;
             m_mii_rx_sqr = p_sequencer.m_mii_rx_sqr;
 			m_reset_sqr  = p_sequencer.m_reset_sqr;
+            m_mdio_sqr   = p_sequencer.m_mdio_sqr;
         endtask
     endclass
 `endif

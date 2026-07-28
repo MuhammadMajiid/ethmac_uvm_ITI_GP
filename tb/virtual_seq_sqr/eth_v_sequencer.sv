@@ -17,6 +17,11 @@ class eth_v_sequencer extends uvm_sequencer;
   mii_tx_sequencer_base m_mii_tx_sqr;
   mii_rx_sequencer_base m_mii_rx_sqr;
   reset_sequencer m_reset_sqr;
+  mdio_sequencer_base   m_mdio_sqr;
+  // Handle to the always-running PHY responder started by eth_env_mdio's
+  // run_phase. Virtual sequences reach it via p_sequencer.m_mdio_phy_rsp to
+  // update phy_data live (e.g. drive bit[2]=0 to simulate link-down).
+  mdio_seq_phy_responder m_mdio_phy_rsp;
   eth_reg_block         regmodel;
 
  function new(string name, uvm_component parent);

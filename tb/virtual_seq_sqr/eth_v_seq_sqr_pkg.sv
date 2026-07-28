@@ -27,12 +27,14 @@ package  eth_v_seq_sqr_pkg;
   import mii_tx_agent_pkg::mii_tx_sequencer_base;
   import mii_rx_agent_pkg::mii_rx_sequencer_base;
   import reset_agent_pkg::reset_sequencer;
+  import mdio_agent_pkg::mdio_sequencer_base;
 
   // import sequences package
   import wb_m_seq_pkg::*;
   import wb_s_seq_pkg::*;
   import mii_tx_seq_pkg::*;
   import reset_seq_pkg::*;
+  import mdio_seq_pkg::*;
 
   
   

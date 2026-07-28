@@ -22,7 +22,7 @@ package eth_config_pkg;
 
     // Config abject files
     `include "eth_tx_scoreboard_config_obj.sv"
-    `include "mdio_config_obj.sv"
+    `include "eth_mdio_config_obj.sv"
     `include "mii_tx_config_obj.sv"
     `include "mii_rx_config_obj.sv"
     `include "wb_m_config_obj.sv"

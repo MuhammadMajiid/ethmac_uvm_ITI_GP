@@ -15,6 +15,12 @@ package mdio_agent_pkg;
   `include "uvm_macros.svh"
   import uvm_pkg::*;
 
+  // Global package (op_code_e used by mdio_seq_item_base.sv, ETH_CTRL_*
+  // parameters used by mdio_monitor_base.sv). Imported directly because
+  // wildcard imports are not transitively re-exported through
+  // eth_config_pkg::* even though eth_config_pkg itself imports it.
+  import eth_glob_pkg::*;
+
   // import config package
   import eth_config_pkg::*;
   
