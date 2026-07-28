@@ -42,6 +42,7 @@ package wb_s_seq_pkg;
     `include "wb_s_seq_tx_cs.sv"
     `include "wb_s_seq_tx_ctrl_flow.sv"
     `include "wb_s_seq_tx_len.sv"
+    `include "wb_s_seq_tx_df.sv"
     `include "eth_tx_bd_num_bit_bash_seq.sv"
 	`include "eth_max_value_seq.sv"
 	`include "eth_rw_pattern_seq.sv"

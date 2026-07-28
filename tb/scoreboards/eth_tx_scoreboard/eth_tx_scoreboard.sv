@@ -551,19 +551,16 @@ task eth_tx_scoreboard::comparator();
             @(m_ev_start_comp);
             if(m_tx_pending_s.collision_seen) begin
                 m_tx_expected_s.exp_ur=0;
-                m_tx_pending_s.retry_cnt=m_tx_expected_s.exp_rtry;
                 `uvm_info(get_name(),$sformatf("Retry = %0d", m_tx_pending_s.retry_cnt), UVM_MEDIUM)
-                
             end
         end
         begin
             @(m_ev_start_comp);
             if(m_tx_pending_s.collision_seen) begin
                 m_tx_pending_s ='{default:'0,actual_pkt: {},flag_rd: m_tx_pending_s.flag_rd,
-                jam_cnt: m_tx_pending_s.jam_cnt};
-                m_tx_pending_s.retry_cnt=m_tx_expected_s.exp_rtry;
-                `uvm_info(get_name(),$sformatf("Retry = %0d", m_tx_pending_s.retry_cnt), UVM_MEDIUM)
-                
+                jam_cnt: m_tx_pending_s.jam_cnt,retry_cnt: m_tx_pending_s.retry_cnt};
+                `uvm_info(get_name(),$sformatf("Retry = %0d", m_tx_pending_s.retry_cnt), UVM_MEDIUM) 
+                m_tx_expected_s.exp_ur=0;
                 if(m_tx_expected_s.exp_rtry<m_tx_bd_cfg_s.maxret) 
                 disable fork_comp;
             end
@@ -732,7 +729,7 @@ function void eth_tx_scoreboard::pred_add_pad();
     if(target_len<0)
         target_len=0;
 
-    if(m_tx_bd_cfg_s.len> m_tx_bd_cfg_s.maxfl && m_tx_bd_cfg_s.len<m_tx_bd_cfg_s.minfl)
+    if(m_tx_bd_cfg_s.len> m_tx_bd_cfg_s.maxfl && m_tx_bd_cfg_s.len<m_tx_bd_cfg_s.minfl && !m_tx_bd_cfg_s.hugen)
         return;    
 
     if (m_tx_expected_s.exp_pkt.size() >= target_len)
@@ -793,14 +790,14 @@ endfunction
 
 
 function void eth_tx_scoreboard::pred_check_huge();
-    longint total_len;
+    int crc_len=(m_tx_bd_cfg_s.eff_crc)?ETH_CRC_LEN:0;
     // if Huge enable = 1 , send packet regardless of it's size
     if(m_tx_bd_cfg_s.hugen)
         return;
 
     // This is special condition when minfl > maxfl and padding occurs
     if(m_tx_bd_cfg_s.len<= m_tx_bd_cfg_s.maxfl && m_tx_bd_cfg_s.len<m_tx_bd_cfg_s.minfl && 
-       m_tx_bd_cfg_s.maxfl<m_tx_bd_cfg_s.minfl)
+       m_tx_bd_cfg_s.maxfl+crc_len<m_tx_bd_cfg_s.minfl)
     return;   
     
     // if packet length is smaller than maximum packet size, send packet
@@ -1685,7 +1682,8 @@ task eth_tx_scoreboard::comp_check_bd_status();
             end    
 
             if(!m_tx_bd_cfg_s.full_duplex) begin
-                m_tx_pending_s.retry_cnt=(m_tx_pending_s.retry_cnt==0)?m_tx_pending_s.retry_cnt:m_tx_pending_s.retry_cnt-1;
+                m_tx_pending_s.retry_cnt=(m_tx_pending_s.retry_cnt==0 || !m_tx_expected_s.exp_rl)?
+                m_tx_pending_s.retry_cnt:m_tx_pending_s.retry_cnt-1;
                 // check RTRY count expected equal actual
                 if(bd_data[WB_TX_RC_MSB_POS:WB_TX_RC_LSB_POS]!=m_tx_pending_s.retry_cnt) begin
                         `uvm_error(get_name(),$sformatf("Actual Retry count  isn't equal to expected,actual  = %0d expected = %0d",
@@ -1919,6 +1917,7 @@ task eth_tx_scoreboard::pred_check_jam_retry();
             else begin
                 m_tx_expected_s.exp_lc = 0;
                 m_tx_expected_s.exp_rtry++;
+                m_tx_pending_s.retry_cnt=m_tx_expected_s.exp_rtry;
 
                 `uvm_info(get_type_name(),
                           $sformatf("Collision detected. Retry attempt = %0d",

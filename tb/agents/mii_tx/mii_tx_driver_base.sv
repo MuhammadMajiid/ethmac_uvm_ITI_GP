@@ -57,8 +57,7 @@ class mii_tx_driver_base extends uvm_driver #(mii_tx_seq_item_base);
     endtask
 
     // Task: drive_items
-    task drive_items(mii_tx_seq_item_base m_seq_item);
-
+    virtual task drive_items(mii_tx_seq_item_base m_seq_item);
         // Drive pin level DUT signals
         vif.cb_mii_tx.MColl <= m_seq_item.MColl ;
         vif.cb_mii_tx.MCrS <= m_seq_item.MCrS ;

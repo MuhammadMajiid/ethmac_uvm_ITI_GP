@@ -6,7 +6,7 @@ Coverage Report by instance with details
 =================================================================================
 
 Assertion Coverage:
-    Assertions                      15        12         3    80.00%
+    Assertions                      15        13         2    86.66%
 --------------------------------------------------------------------
 Name                 File(Line)                   Failure      Pass 
                                                   Count        Count
@@ -34,7 +34,7 @@ Name                 File(Line)                   Failure      Pass
                                                         0          1
 /eth_tb/m_wb_s_if/a_ack_stb_cyc
                      repo/tb/interfaces/wb_s_if.sv(114)
-                                                        1          1
+                                                        0          1
 /eth_tb/m_wb_s_if/a_err_stb_cyc
                      repo/tb/interfaces/wb_s_if.sv(122)
                                                         0          0
@@ -66,23 +66,23 @@ Name                                     Design Design   Lang File(Line)      Hi
                                          Unit   UnitType                                     
 --------------------------------------------------------------------------------------------
 /eth_tb/m_wb_s_if/c_stb_cyc              wb_s_if Verilog  SVA  repo/tb/interfaces/wb_s_if.sv(108)
-                                                                               174 Covered   
+                                                                               135 Covered   
 /eth_tb/m_wb_s_if/c_ack_stb_cyc          wb_s_if Verilog  SVA  repo/tb/interfaces/wb_s_if.sv(116)
-                                                                                62 Covered   
+                                                                                50 Covered   
 /eth_tb/m_wb_s_if/c_err_stb_cyc          wb_s_if Verilog  SVA  repo/tb/interfaces/wb_s_if.sv(124)
                                                                                  0 ZERO      
 /eth_tb/m_wb_s_if/c_ack_err_cyc          wb_s_if Verilog  SVA  repo/tb/interfaces/wb_s_if.sv(132)
-                                                                              40697 Covered   
+                                                                              27280 Covered   
 /eth_tb/m_wb_s_if/c_ack_err_sel          wb_s_if Verilog  SVA  repo/tb/interfaces/wb_s_if.sv(140)
                                                                                  0 ZERO      
 /eth_tb/m_wb_s_if/c_addr_ack             wb_s_if Verilog  SVA  repo/tb/interfaces/wb_s_if.sv(148)
-                                                                                32 Covered   
+                                                                                26 Covered   
 /eth_tb/m_wb_s_if/c_we_ack               wb_s_if Verilog  SVA  repo/tb/interfaces/wb_s_if.sv(156)
-                                                                                32 Covered   
+                                                                                26 Covered   
 /eth_tb/m_wb_s_if/c_sel_ack              wb_s_if Verilog  SVA  repo/tb/interfaces/wb_s_if.sv(164)
-                                                                                32 Covered   
+                                                                                26 Covered   
 /eth_tb/m_wb_s_if/c_wdata_ack            wb_s_if Verilog  SVA  repo/tb/interfaces/wb_s_if.sv(172)
-                                                                                24 Covered   
+                                                                                20 Covered   
 
 =================================================================================
 === Instance: /eth_tb/m_wb_m_if
@@ -141,17 +141,17 @@ Name                                     Design Design   Lang File(Line)      Hi
                                          Unit   UnitType                                     
 --------------------------------------------------------------------------------------------
 /eth_tb/m_wb_m_if/c_stb_cyc              wb_m_if Verilog  SVA  repo/tb/interfaces/wb_m_if.sv(112)
-                                                                              39707 Covered   
+                                                                              26010 Covered   
 /eth_tb/m_wb_m_if/c_ack_stb_cyc          wb_m_if Verilog  SVA  repo/tb/interfaces/wb_m_if.sv(120)
-                                                                               122 Covered   
+                                                                                78 Covered   
 /eth_tb/m_wb_m_if/c_err_stb_cyc          wb_m_if Verilog  SVA  repo/tb/interfaces/wb_m_if.sv(128)
                                                                                  0 ZERO      
 /eth_tb/m_wb_m_if/c_ack_err_cyc          wb_m_if Verilog  SVA  repo/tb/interfaces/wb_m_if.sv(136)
-                                                                              40697 Covered   
+                                                                              27280 Covered   
 /eth_tb/m_wb_m_if/c_ack_err_sel          wb_m_if Verilog  SVA  repo/tb/interfaces/wb_m_if.sv(144)
                                                                                  0 ZERO      
 /eth_tb/m_wb_m_if/c_we_ack               wb_m_if Verilog  SVA  repo/tb/interfaces/wb_m_if.sv(152)
-                                                                              39707 Covered   
+                                                                              26010 Covered   
 
 =================================================================================
 === Instance: /eth_tb/m_mii_tx_if
@@ -195,9 +195,9 @@ Name                                     Design Design   Lang File(Line)      Hi
                                          Unit   UnitType                                     
 --------------------------------------------------------------------------------------------
 /eth_tb/m_mii_tx_if/c_en_data            mii_tx_if Verilog  SVA  repo/tb/interfaces/mii_tx_if.sv(100)
-                                                                               914 Covered   
+                                                                               622 Covered   
 /eth_tb/m_mii_tx_if/c_en_err             mii_tx_if Verilog  SVA  repo/tb/interfaces/mii_tx_if.sv(108)
-                                                                                 5 Covered   
+                                                                                 2 Covered   
 
 =================================================================================
 === Instance: /eth_cov_pkg
@@ -205,17 +205,17 @@ Name                                     Design Design   Lang File(Line)      Hi
 =================================================================================
 
 Covergroup Coverage:
-    Covergroups                      7        na        na    23.68%
+    Covergroups                      7        na        na    22.39%
         Coverpoints/Crosses         58        na        na        na
-            Covergroup Bins       1538       109      1429     7.08%
+            Covergroup Bins       1537       101      1436     6.57%
 ----------------------------------------------------------------------------------------------------------
 Covergroup                                             Metric       Goal       Bins    Status               
                                                                                                          
 ----------------------------------------------------------------------------------------------------------
- TYPE /eth_cov_pkg/eth_cov_tx/m_wr_cfg_cov             11.04%        100          -    Uncovered            
-    covered/total bins:                                    37        670          -                      
-    missing/total bins:                                   633        670          -                      
-    % Hit:                                              5.52%        100          -                      
+ TYPE /eth_cov_pkg/eth_cov_tx/m_wr_cfg_cov              9.27%        100          -    Uncovered            
+    covered/total bins:                                    33        669          -                      
+    missing/total bins:                                   636        669          -                      
+    % Hit:                                              4.93%        100          -                      
     Coverpoint cp_addr                                 54.54%        100          -    Uncovered            
         covered/total bins:                                 6         11          -                      
         missing/total bins:                                 5         11          -                      
@@ -232,7 +232,7 @@ Covergroup                                             Metric       Goal       B
         bin tx_reg2[16]                                     0          1          -    ZERO                 
         bin tx_reg2[17]                                     0          1          -    ZERO                 
         bin tx_reg3                                         0          1          -    ZERO                 
-        default bin others                                 24                     -    Occurred             
+        default bin others                                 15                     -    Occurred             
     Coverpoint cp_moder                                 1.89%        100          -    Uncovered            
         covered/total bins:                                 5        264          -                      
         missing/total bins:                               259        264          -                      
@@ -277,7 +277,7 @@ Covergroup                                             Metric       Goal       B
         bin reg_config[293]                                 0          1          -    ZERO                 
         bin reg_config[294]                                 0          1          -    ZERO                 
         bin reg_config[295]                                 0          1          -    ZERO                 
-        bin reg_config[296]                                 4          1          -    Covered              
+        bin reg_config[296]                                 0          1          -    ZERO                 
         bin reg_config[297]                                 0          1          -    ZERO                 
         bin reg_config[298]                                 0          1          -    ZERO                 
         bin reg_config[299]                                 0          1          -    ZERO                 
@@ -405,7 +405,7 @@ Covergroup                                             Metric       Goal       B
         bin reg_config[421]                                 0          1          -    ZERO                 
         bin reg_config[422]                                 0          1          -    ZERO                 
         bin reg_config[423]                                 0          1          -    ZERO                 
-        bin reg_config[424]                                 0          1          -    ZERO                 
+        bin reg_config[424]                                 4          1          -    Covered              
         bin reg_config[425]                                 0          1          -    ZERO                 
         bin reg_config[426]                                 0          1          -    ZERO                 
         bin reg_config[427]                                 0          1          -    ZERO                 
@@ -493,20 +493,20 @@ Covergroup                                             Metric       Goal       B
         bin reg_config[509]                                 0          1          -    ZERO                 
         bin reg_config[510]                                 0          1          -    ZERO                 
         bin reg_config[511]                                 0          1          -    ZERO                 
-        bin reg_pad[0]                                      0          1          -    ZERO                 
-        bin reg_pad[1]                                      4          1          -    Covered              
+        bin reg_pad[0]                                      4          1          -    Covered              
+        bin reg_pad[1]                                      0          1          -    ZERO                 
         bin reg_crc[0]                                      0          1          -    ZERO                 
         bin reg_crc[1]                                      4          1          -    Covered              
         bin reg_d_crc[0]                                    4          1          -    Covered              
         bin reg_d_crc[1]                                    0          1          -    ZERO                 
         bin reg_hugen[0]                                    4          1          -    Covered              
         bin reg_hugen[1]                                    0          1          -    ZERO                 
-        default bin others                                 44                     -    Occurred             
+        default bin others                                 35                     -    Occurred             
     Coverpoint cp_int_mask                             25.00%        100          -    Uncovered            
         covered/total bins:                                 2          8          -                      
         missing/total bins:                                 6          8          -                      
         % Hit:                                         25.00%        100          -                      
-        bin no_mask                                        26          1          -    Covered              
+        bin no_mask                                        17          1          -    Covered              
         bin txb_m                                           0          1          -    ZERO                 
         bin txe_m                                          22          1          -    Covered              
         bin txc_m                                           0          1          -    ZERO                 
@@ -548,7 +548,7 @@ Covergroup                                             Metric       Goal       B
         bin maxfl_more_64                                   0          1          -    ZERO                 
         bin maxfl_std                                       0          1          -    ZERO                 
         bin maxfl_max                                       0          1          -    ZERO                 
-        default bin others                                 48                     -    Occurred             
+        default bin others                                 39                     -    Occurred             
     Coverpoint cp_minfl                                 0.00%        100          -    ZERO                 
         covered/total bins:                                 0          4          -                      
         missing/total bins:                                 4          4          -                      
@@ -557,7 +557,7 @@ Covergroup                                             Metric       Goal       B
         bin minfl_std                                       0          1          -    ZERO                 
         bin minfl_more_64                                   0          1          -    ZERO                 
         bin minfl_max                                       0          1          -    ZERO                 
-        default bin others                                 48                     -    Occurred             
+        default bin others                                 39                     -    Occurred             
     Coverpoint cp_retry                                 0.00%        100          -    ZERO                 
         covered/total bins:                                 0         16          -                      
         missing/total bins:                                16         16          -                      
@@ -621,13 +621,13 @@ Covergroup                                             Metric       Goal       B
         covered/total bins:                                 1          2          -                      
         missing/total bins:                                 1          2          -                      
         % Hit:                                         50.00%        100          -                      
-        bin tx_flow_0                                      48          1          -    Covered              
+        bin tx_flow_0                                      39          1          -    Covered              
         bin tx_flow_1                                       0          1          -    ZERO                 
     Coverpoint cp_mac_addr0                             3.12%        100          -    Uncovered            
         covered/total bins:                                 1         32          -                      
         missing/total bins:                                31         32          -                      
         % Hit:                                          3.12%        100          -                      
-        bin mac_addr0_all[0]                               48          1          -    Covered              
+        bin mac_addr0_all[0]                               39          1          -    Covered              
         bin mac_addr0_all[1]                                0          1          -    ZERO                 
         bin mac_addr0_all[2]                                0          1          -    ZERO                 
         bin mac_addr0_all[3]                                0          1          -    ZERO                 
@@ -664,7 +664,7 @@ Covergroup                                             Metric       Goal       B
         covered/total bins:                                 1          8          -                      
         missing/total bins:                                 7          8          -                      
         % Hit:                                         12.50%        100          -                      
-        bin mac_addr1_all[0]                               48          1          -    Covered              
+        bin mac_addr1_all[0]                               39          1          -    Covered              
         bin mac_addr1_all[1]                                0          1          -    ZERO                 
         bin mac_addr1_all[2]                                0          1          -    ZERO                 
         bin mac_addr1_all[3]                                0          1          -    ZERO                 
@@ -718,7 +718,7 @@ Covergroup                                             Metric       Goal       B
         covered/total bins:                                 1         34          -                      
         missing/total bins:                                33         34          -                      
         % Hit:                                          2.94%        100          -                      
-        bin len_all[0]                                     46          1          -    Covered              
+        bin len_all[0]                                     37          1          -    Covered              
         bin len_all[1]                                      0          1          -    ZERO                 
         bin len_all[2]                                      0          1          -    ZERO                 
         bin len_all[3]                                      0          1          -    ZERO                 
@@ -752,10 +752,10 @@ Covergroup                                             Metric       Goal       B
         bin len_all[31]                                     0          1          -    ZERO                 
         bin len_4                                           0          1          -    ZERO                 
         bin len_max                                         0          1          -    ZERO                 
-    Coverpoint cp_bd_cfg                               40.00%        100          -    Uncovered            
-        covered/total bins:                                 8         20          -                      
-        missing/total bins:                                12         20          -                      
-        % Hit:                                         40.00%        100          -                      
+    Coverpoint cp_bd_cfg                               35.00%        100          -    Uncovered            
+        covered/total bins:                                 7         20          -                      
+        missing/total bins:                                13         20          -                      
+        % Hit:                                         35.00%        100          -                      
         bin bd_config[16]                                   0          1          -    ZERO                 
         bin bd_config[17]                                   0          1          -    ZERO                 
         bin bd_config[18]                                   0          1          -    ZERO                 
@@ -764,38 +764,38 @@ Covergroup                                             Metric       Goal       B
         bin bd_config[21]                                   0          1          -    ZERO                 
         bin bd_config[22]                                   0          1          -    ZERO                 
         bin bd_config[23]                                   0          1          -    ZERO                 
-        bin bd_config[24]                                   4          1          -    Covered              
+        bin bd_config[24]                                   0          1          -    ZERO                 
         bin bd_config[25]                                   0          1          -    ZERO                 
         bin bd_config[26]                                   0          1          -    ZERO                 
-        bin bd_config[27]                                  12          1          -    Covered              
-        bin bd_config[28]                                   0          1          -    ZERO                 
-        bin bd_config[29]                                  15          1          -    Covered              
-        bin bd_config[30]                                   0          1          -    ZERO                 
-        bin bd_config[31]                                  15          1          -    Covered              
-        bin bd_pad[0]                                      21          1          -    Covered              
-        bin bd_pad[1]                                      27          1          -    Covered              
-        bin bd_crc[0]                                       6          1          -    Covered              
-        bin bd_crc[1]                                      42          1          -    Covered              
+        bin bd_config[27]                                   7          1          -    Covered              
+        bin bd_config[28]                                  15          1          -    Covered              
+        bin bd_config[29]                                   0          1          -    ZERO                 
+        bin bd_config[30]                                  15          1          -    Covered              
+        bin bd_config[31]                                   0          1          -    ZERO                 
+        bin bd_pad[0]                                      17          1          -    Covered              
+        bin bd_pad[1]                                      22          1          -    Covered              
+        bin bd_crc[0]                                      32          1          -    Covered              
+        bin bd_crc[1]                                       7          1          -    Covered              
         default bin others                                  0                     -    ZERO                 
-    Coverpoint cp_txpnt                                 7.81%        100          -    Uncovered            
-        covered/total bins:                                 5         64          -                      
-        missing/total bins:                                59         64          -                      
-        % Hit:                                          7.81%        100          -                      
+    Coverpoint cp_txpnt                                 6.25%        100          -    Uncovered            
+        covered/total bins:                                 4         64          -                      
+        missing/total bins:                                60         64          -                      
+        % Hit:                                          6.25%        100          -                      
         illegal_bin txpnt_not_div4_mod1                     0                     -    ZERO                 
         illegal_bin txpnt_not_div4_mod2                     0                     -    ZERO                 
         illegal_bin txpnt_not_div4_mod3                     0                     -    ZERO                 
-        bin txpnt_all[0]                                    2          1          -    Covered              
-        bin txpnt_all[1]                                    2          1          -    Covered              
+        bin txpnt_all[0]                                    0          1          -    ZERO                 
+        bin txpnt_all[1]                                    0          1          -    ZERO                 
         bin txpnt_all[2]                                    0          1          -    ZERO                 
         bin txpnt_all[3]                                    0          1          -    ZERO                 
-        bin txpnt_all[4]                                    0          1          -    ZERO                 
+        bin txpnt_all[4]                                    2          1          -    Covered              
         bin txpnt_all[5]                                    0          1          -    ZERO                 
         bin txpnt_all[6]                                    0          1          -    ZERO                 
         bin txpnt_all[7]                                    0          1          -    ZERO                 
-        bin txpnt_all[8]                                    0          1          -    ZERO                 
-        bin txpnt_all[9]                                    0          1          -    ZERO                 
+        bin txpnt_all[8]                                    2          1          -    Covered              
+        bin txpnt_all[9]                                    2          1          -    Covered              
         bin txpnt_all[10]                                   0          1          -    ZERO                 
-        bin txpnt_all[11]                                   2          1          -    Covered              
+        bin txpnt_all[11]                                   0          1          -    ZERO                 
         bin txpnt_all[12]                                   0          1          -    ZERO                 
         bin txpnt_all[13]                                   0          1          -    ZERO                 
         bin txpnt_all[14]                                   0          1          -    ZERO                 
@@ -814,7 +814,7 @@ Covergroup                                             Metric       Goal       B
         bin txpnt_all[27]                                   0          1          -    ZERO                 
         bin txpnt_all[28]                                   0          1          -    ZERO                 
         bin txpnt_all[29]                                   0          1          -    ZERO                 
-        bin txpnt_all[30]                                   2          1          -    Covered              
+        bin txpnt_all[30]                                   0          1          -    ZERO                 
         bin txpnt_all[31]                                   0          1          -    ZERO                 
         bin txpnt_all[32]                                   0          1          -    ZERO                 
         bin txpnt_all[33]                                   0          1          -    ZERO                 
@@ -835,7 +835,7 @@ Covergroup                                             Metric       Goal       B
         bin txpnt_all[48]                                   0          1          -    ZERO                 
         bin txpnt_all[49]                                   0          1          -    ZERO                 
         bin txpnt_all[50]                                   0          1          -    ZERO                 
-        bin txpnt_all[51]                                   0          1          -    ZERO                 
+        bin txpnt_all[51]                                   2          1          -    Covered              
         bin txpnt_all[52]                                   0          1          -    ZERO                 
         bin txpnt_all[53]                                   0          1          -    ZERO                 
         bin txpnt_all[54]                                   0          1          -    ZERO                 
@@ -847,7 +847,7 @@ Covergroup                                             Metric       Goal       B
         bin txpnt_all[60]                                   0          1          -    ZERO                 
         bin txpnt_all[61]                                   0          1          -    ZERO                 
         bin txpnt_all[62]                                   0          1          -    ZERO                 
-        bin txpnt_all[63]                                   4          1          -    Covered              
+        bin txpnt_all[63]                                   0          1          -    ZERO                 
     Coverpoint cp_minfl_g_maxfl                         0.00%        100          -    ZERO                 
         covered/total bins:                                 0          1          -                      
         missing/total bins:                                 1          1          -                      
@@ -868,29 +868,29 @@ Covergroup                                             Metric       Goal       B
         missing/total bins:                                 2          4          -                      
         % Hit:                                         50.00%        100          -                      
         Auto, Default and User Defined Bins:
-            bin <reg_pad[1],bd_pad[1]>                      1          1          -    Covered              
-            bin <reg_pad[1],bd_pad[0]>                      3          1          -    Covered              
-            bin <reg_pad[0],*>                              0          1          2    ZERO                 
+            bin <reg_pad[0],bd_pad[1]>                      1          1          -    Covered              
+            bin <reg_pad[0],bd_pad[0]>                      3          1          -    Covered              
+            bin <reg_pad[1],*>                              0          1          2    ZERO                 
         Illegal and Ignore Bins:
             ignore_bin ign_pad                              4                     -    Occurred             
-    Cross cp_cross_crc                                 50.00%        100          -    Uncovered            
-        covered/total bins:                                 2          4          -                      
-        missing/total bins:                                 2          4          -                      
-        % Hit:                                         50.00%        100          -                      
+    Cross cp_cross_crc                                 25.00%        100          -    Uncovered            
+        covered/total bins:                                 1          4          -                      
+        missing/total bins:                                 3          4          -                      
+        % Hit:                                         25.00%        100          -                      
         Auto, Default and User Defined Bins:
-            bin <reg_crc[1],bd_crc[1]>                      2          1          -    Covered              
-            bin <reg_crc[1],bd_crc[0]>                      2          1          -    Covered              
+            bin <reg_crc[1],bd_crc[0]>                      4          1          -    Covered              
             bin <reg_crc[0],*>                              0          1          2    ZERO                 
+            bin <*,bd_crc[1]>                               0          1          2    ZERO                 
         Illegal and Ignore Bins:
             ignore_bin ign_crc                              4                     -    Occurred             
-    Cross cp_cross_d_crc                               50.00%        100          -    Uncovered            
-        covered/total bins:                                 2          4          -                      
-        missing/total bins:                                 2          4          -                      
-        % Hit:                                         50.00%        100          -                      
+    Cross cp_cross_d_crc                               25.00%        100          -    Uncovered            
+        covered/total bins:                                 1          4          -                      
+        missing/total bins:                                 3          4          -                      
+        % Hit:                                         25.00%        100          -                      
         Auto, Default and User Defined Bins:
-            bin <reg_d_crc[0],bd_crc[1]>                    2          1          -    Covered              
-            bin <reg_d_crc[0],bd_crc[0]>                    2          1          -    Covered              
+            bin <reg_d_crc[0],bd_crc[0]>                    4          1          -    Covered              
             bin <reg_d_crc[1],*>                            0          1          2    ZERO                 
+            bin <*,bd_crc[1]>                               0          1          2    ZERO                 
         Illegal and Ignore Bins:
             ignore_bin ign_d_crc                            4                     -    Occurred             
     Cross cp_cross_len_g_maxfl_hugen                    0.00%        100          -    ZERO                 
@@ -930,12 +930,13 @@ Covergroup                                             Metric       Goal       B
             ignore_bin ign_minfl_max                        0                     -    ZERO                 
             ignore_bin ign_min_f_pad                        0                     -    ZERO                 
     Cross cp_cross_ctrl                                 0.00%        100          -    ZERO                 
-        covered/total bins:                                 0          4          -                      
-        missing/total bins:                                 4          4          -                      
+        covered/total bins:                                 0          3          -                      
+        missing/total bins:                                 3          3          -                      
         % Hit:                                          0.00%        100          -                      
         Auto, Default and User Defined Bins:
             bin <*,*>                                       0          1          4    ZERO                 
         Illegal and Ignore Bins:
+            ignore_bin ign_ctrl_00                          0                     -    ZERO                 
             ignore_bin ign_ctrl                             0                     -    ZERO                 
     Cross cp_cross_ctrl_timer                           0.00%        100          -    ZERO                 
         covered/total bins:                                 0         34          -                      
@@ -961,16 +962,16 @@ Covergroup                                             Metric       Goal       B
             bin <*,*,*>                                     0          1          8    ZERO                 
         Illegal and Ignore Bins:
             ignore_bin ign_0                                0                     -    ZERO                 
- TYPE /eth_cov_pkg/eth_cov_tx/m_rd_cfg_cov             60.33%        100          -    Uncovered            
-    covered/total bins:                                    13         33          -                      
-    missing/total bins:                                    20         33          -                      
-    % Hit:                                             39.39%        100          -                      
-    Coverpoint cp_int_source                           75.00%        100          -    Uncovered            
-        covered/total bins:                                 3          4          -                      
-        missing/total bins:                                 1          4          -                      
-        % Hit:                                         75.00%        100          -                      
-        bin no_int                                          6          1          -    Covered              
-        bin txb                                             4          1          -    Covered              
+ TYPE /eth_cov_pkg/eth_cov_tx/m_rd_cfg_cov             55.33%        100          -    Uncovered            
+    covered/total bins:                                    12         33          -                      
+    missing/total bins:                                    21         33          -                      
+    % Hit:                                             36.36%        100          -                      
+    Coverpoint cp_int_source                           50.00%        100          -    Uncovered            
+        covered/total bins:                                 2          4          -                      
+        missing/total bins:                                 2          4          -                      
+        % Hit:                                         50.00%        100          -                      
+        bin no_int                                          0          1          -    ZERO                 
+        bin txb                                             8          1          -    Covered              
         bin txe                                             4          1          -    Covered              
         bin txc                                             0          1          -    ZERO                 
         default bin others                                  0                     -    ZERO                 
@@ -978,8 +979,8 @@ Covergroup                                             Metric       Goal       B
         covered/total bins:                                 2          2          -                      
         missing/total bins:                                 0          2          -                      
         % Hit:                                        100.00%        100          -                      
-        bin inta_1                                         13          1          -    Covered              
-        bin inta_0                                          2          1          -    Covered              
+        bin inta_1                                          6          1          -    Covered              
+        bin inta_0                                          5          1          -    Covered              
     Coverpoint cp_bd_stat                              60.00%        100          -    Uncovered            
         covered/total bins:                                 6         10          -                      
         missing/total bins:                                 4         10          -                      
@@ -1019,35 +1020,35 @@ Covergroup                                             Metric       Goal       B
         % Hit:                                         66.66%        100          -                      
         Auto, Default and User Defined Bins:
             bin <txe,inta_1>                                4          1          -    Covered              
-            bin <txb,inta_1>                                2          1          -    Covered              
+            bin <txb,inta_1>                                4          1          -    Covered              
             bin <txc,*>                                     0          1          1    ZERO                 
         Illegal and Ignore Bins:
             ignore_bin ign_cross_inta_txe                   0                     -    ZERO                 
             ignore_bin ign_cross_inta_txc                   0                     -    ZERO                 
-            ignore_bin ign_cross_inta_txb                   2                     -    Occurred             
-            ignore_bin ign_cross_no_int                     6                     -    Occurred             
- TYPE /eth_cov_pkg/eth_cov_tx/m_wb_m_cov                9.63%        100          -    Uncovered            
-    covered/total bins:                                    13        136          -                      
-    missing/total bins:                                   123        136          -                      
-    % Hit:                                              9.55%        100          -                      
-    Coverpoint cp_mem_addr                              7.14%        100          -    Uncovered            
-        covered/total bins:                                 5         70          -                      
-        missing/total bins:                                65         70          -                      
-        % Hit:                                          7.14%        100          -                      
+            ignore_bin ign_cross_inta_txb                   4                     -    Occurred             
+            ignore_bin ign_cross_no_int                     0                     -    ZERO                 
+ TYPE /eth_cov_pkg/eth_cov_tx/m_wb_m_cov                7.40%        100          -    Uncovered            
+    covered/total bins:                                    10        136          -                      
+    missing/total bins:                                   126        136          -                      
+    % Hit:                                              7.35%        100          -                      
+    Coverpoint cp_mem_addr                              5.71%        100          -    Uncovered            
+        covered/total bins:                                 4         70          -                      
+        missing/total bins:                                66         70          -                      
+        % Hit:                                          5.71%        100          -                      
         bin addr_min                                        0          1          -    ZERO                 
         bin addr_max                                        0          1          -    ZERO                 
-        bin addr_range[0]                                6824          1          -    Covered              
-        bin addr_range[1]                                6764          1          -    Covered              
+        bin addr_range[0]                                   0          1          -    ZERO                 
+        bin addr_range[1]                                   0          1          -    ZERO                 
         bin addr_range[2]                                   0          1          -    ZERO                 
         bin addr_range[3]                                   0          1          -    ZERO                 
-        bin addr_range[4]                                   0          1          -    ZERO                 
+        bin addr_range[4]                                6716          1          -    Covered              
         bin addr_range[5]                                   0          1          -    ZERO                 
         bin addr_range[6]                                   0          1          -    ZERO                 
         bin addr_range[7]                                   0          1          -    ZERO                 
-        bin addr_range[8]                                   0          1          -    ZERO                 
-        bin addr_range[9]                                   0          1          -    ZERO                 
+        bin addr_range[8]                                7020          1          -    Covered              
+        bin addr_range[9]                                6856          1          -    Covered              
         bin addr_range[10]                                  0          1          -    ZERO                 
-        bin addr_range[11]                               6704          1          -    Covered              
+        bin addr_range[11]                                  0          1          -    ZERO                 
         bin addr_range[12]                                  0          1          -    ZERO                 
         bin addr_range[13]                                  0          1          -    ZERO                 
         bin addr_range[14]                                  0          1          -    ZERO                 
@@ -1066,7 +1067,7 @@ Covergroup                                             Metric       Goal       B
         bin addr_range[27]                                  0          1          -    ZERO                 
         bin addr_range[28]                                  0          1          -    ZERO                 
         bin addr_range[29]                                  0          1          -    ZERO                 
-        bin addr_range[30]                               6804          1          -    Covered              
+        bin addr_range[30]                                  0          1          -    ZERO                 
         bin addr_range[31]                                  0          1          -    ZERO                 
         bin addr_range[32]                                  0          1          -    ZERO                 
         bin addr_range[33]                                  0          1          -    ZERO                 
@@ -1087,7 +1088,7 @@ Covergroup                                             Metric       Goal       B
         bin addr_range[48]                                  0          1          -    ZERO                 
         bin addr_range[49]                                  0          1          -    ZERO                 
         bin addr_range[50]                                  0          1          -    ZERO                 
-        bin addr_range[51]                                  0          1          -    ZERO                 
+        bin addr_range[51]                               6548          1          -    Covered              
         bin addr_range[52]                                  0          1          -    ZERO                 
         bin addr_range[53]                                  0          1          -    ZERO                 
         bin addr_range[54]                                  0          1          -    ZERO                 
@@ -1099,22 +1100,22 @@ Covergroup                                             Metric       Goal       B
         bin addr_range[60]                                  0          1          -    ZERO                 
         bin addr_range[61]                                  0          1          -    ZERO                 
         bin addr_range[62]                                  0          1          -    ZERO                 
-        bin addr_range[63]                              13429          1          -    Covered              
+        bin addr_range[63]                                  0          1          -    ZERO                 
         bin aligned                                         0          1          -    ZERO                 
         bin non_aligned[1]                                  0          1          -    ZERO                 
         bin non_aligned[2]                                  0          1          -    ZERO                 
         bin non_aligned[3]                                  0          1          -    ZERO                 
-    Coverpoint cp_mem_data                             12.12%        100          -    Uncovered            
-        covered/total bins:                                 8         66          -                      
-        missing/total bins:                                58         66          -                      
-        % Hit:                                         12.12%        100          -                      
-        bin data_min                                    40403          1          -    Covered              
+    Coverpoint cp_mem_data                              9.09%        100          -    Uncovered            
+        covered/total bins:                                 6         66          -                      
+        missing/total bins:                                60         66          -                      
+        % Hit:                                          9.09%        100          -                      
+        bin data_min                                    27062          1          -    Covered              
         bin data_max                                        0          1          -    ZERO                 
-        bin data_all[0]                                 40403          1          -    Covered              
-        bin data_all[1]                                    19          1          -    Covered              
+        bin data_all[0]                                 27062          1          -    Covered              
+        bin data_all[1]                                     0          1          -    ZERO                 
         bin data_all[2]                                     0          1          -    ZERO                 
         bin data_all[3]                                     0          1          -    ZERO                 
-        bin data_all[4]                                    21          1          -    Covered              
+        bin data_all[4]                                    18          1          -    Covered              
         bin data_all[5]                                     0          1          -    ZERO                 
         bin data_all[6]                                     0          1          -    ZERO                 
         bin data_all[7]                                     0          1          -    ZERO                 
@@ -1127,7 +1128,7 @@ Covergroup                                             Metric       Goal       B
         bin data_all[14]                                    0          1          -    ZERO                 
         bin data_all[15]                                    0          1          -    ZERO                 
         bin data_all[16]                                    0          1          -    ZERO                 
-        bin data_all[17]                                   20          1          -    Covered              
+        bin data_all[17]                                    0          1          -    ZERO                 
         bin data_all[18]                                    0          1          -    ZERO                 
         bin data_all[19]                                    0          1          -    ZERO                 
         bin data_all[20]                                    0          1          -    ZERO                 
@@ -1154,11 +1155,11 @@ Covergroup                                             Metric       Goal       B
         bin data_all[41]                                    0          1          -    ZERO                 
         bin data_all[42]                                    0          1          -    ZERO                 
         bin data_all[43]                                    0          1          -    ZERO                 
-        bin data_all[44]                                   21          1          -    Covered              
+        bin data_all[44]                                   20          1          -    Covered              
         bin data_all[45]                                    0          1          -    ZERO                 
         bin data_all[46]                                    0          1          -    ZERO                 
         bin data_all[47]                                    0          1          -    ZERO                 
-        bin data_all[48]                                   21          1          -    Covered              
+        bin data_all[48]                                   20          1          -    Covered              
         bin data_all[49]                                    0          1          -    ZERO                 
         bin data_all[50]                                    0          1          -    ZERO                 
         bin data_all[51]                                    0          1          -    ZERO                 
@@ -1182,54 +1183,54 @@ Covergroup                                             Metric       Goal       B
         covered/total bins:                                 2          2          -                      
         missing/total bins:                                 0          2          -                      
         % Hit:                                        100.00%        100          -                      
-        bin tx_active                                    1085          1          -    Covered              
-        bin tx_idle                                      4002          1          -    Covered              
+        bin tx_active                                     706          1          -    Covered              
+        bin tx_idle                                      2704          1          -    Covered              
     Coverpoint cp_tx_data                              93.75%        100          -    Uncovered            
         covered/total bins:                                15         16          -                      
         missing/total bins:                                 1         16          -                      
         % Hit:                                         93.75%        100          -                      
-        bin data_min                                     4100          1          -    Covered              
-        bin data_max                                       39          1          -    Covered              
-        bin data_all[0]                                    81          1          -    Covered              
-        bin data_all[1]                                    42          1          -    Covered              
-        bin data_all[2]                                    41          1          -    Covered              
-        bin data_all[3]                                    79          1          -    Covered              
-        bin data_all[4]                                   171          1          -    Covered              
-        bin data_all[5]                                    98          1          -    Covered              
-        bin data_all[6]                                    19          1          -    Covered              
-        bin data_all[7]                                    98          1          -    Covered              
-        bin data_all[8]                                   137          1          -    Covered              
+        bin data_min                                     2765          1          -    Covered              
+        bin data_max                                       20          1          -    Covered              
+        bin data_all[0]                                    75          1          -    Covered              
+        bin data_all[1]                                    36          1          -    Covered              
+        bin data_all[2]                                    38          1          -    Covered              
+        bin data_all[3]                                    59          1          -    Covered              
+        bin data_all[4]                                   134          1          -    Covered              
+        bin data_all[5]                                    60          1          -    Covered              
+        bin data_all[6]                                     2          1          -    Covered              
+        bin data_all[7]                                    78          1          -    Covered              
+        bin data_all[8]                                    55          1          -    Covered              
         bin data_all[9]                                     0          1          -    ZERO                 
-        bin data_all[10]                                   58          1          -    Covered              
+        bin data_all[10]                                   20          1          -    Covered              
         bin data_all[11]                                   21          1          -    Covered              
-        bin data_all[12]                                   82          1          -    Covered              
+        bin data_all[12]                                   26          1          -    Covered              
         bin data_all[13]                                   21          1          -    Covered              
     Coverpoint cp_tx_error                            100.00%        100          -    Covered              
         covered/total bins:                                 2          2          -                      
         missing/total bins:                                 0          2          -                      
         % Hit:                                        100.00%        100          -                      
-        bin no_error                                     5082          1          -    Covered              
-        bin error                                           5          1          -    Covered              
+        bin no_error                                     3408          1          -    Covered              
+        bin error                                           2          1          -    Covered              
     Coverpoint cp_collision                            50.00%        100          -    Uncovered            
         covered/total bins:                                 1          2          -                      
         missing/total bins:                                 1          2          -                      
         % Hit:                                         50.00%        100          -                      
-        bin no_collision                                 5087          1          -    Covered              
+        bin no_collision                                 3410          1          -    Covered              
         bin collision                                       0          1          -    ZERO                 
     Coverpoint cp_carrier                             100.00%        100          -    Covered              
         covered/total bins:                                 2          2          -                      
         missing/total bins:                                 0          2          -                      
         % Hit:                                        100.00%        100          -                      
-        bin idle_medium                                  3996          1          -    Covered              
-        bin busy_medium                                  1091          1          -    Covered              
+        bin idle_medium                                  2700          1          -    Covered              
+        bin busy_medium                                   710          1          -    Covered              
     Cross cross_tx_error                              100.00%        100          -    Covered              
         covered/total bins:                                 3          3          -                      
         missing/total bins:                                 0          3          -                      
         % Hit:                                        100.00%        100          -                      
         Auto, Default and User Defined Bins:
-            bin <tx_active,error>                           5          1          -    Covered              
-            bin <tx_idle,no_error>                       4002          1          -    Covered              
-            bin <tx_active,no_error>                     1080          1          -    Covered              
+            bin <tx_active,error>                           2          1          -    Covered              
+            bin <tx_idle,no_error>                       2704          1          -    Covered              
+            bin <tx_active,no_error>                      704          1          -    Covered              
         Illegal and Ignore Bins:
             illegal_bin ill_err                             0                     -    ZERO                 
     Cross cross_tx_collision                           50.00%        100          -    Uncovered            
@@ -1237,39 +1238,39 @@ Covergroup                                             Metric       Goal       B
         missing/total bins:                                 2          4          -                      
         % Hit:                                         50.00%        100          -                      
         Auto, Default and User Defined Bins:
-            bin <tx_idle,no_collision>                   4002          1          -    Covered              
-            bin <tx_active,no_collision>                 1085          1          -    Covered              
+            bin <tx_idle,no_collision>                   2704          1          -    Covered              
+            bin <tx_active,no_collision>                  706          1          -    Covered              
             bin <*,collision>                               0          1          2    ZERO                 
     Cross cross_tx_carrier                             75.00%        100          -    Uncovered            
         covered/total bins:                                 3          4          -                      
         missing/total bins:                                 1          4          -                      
         % Hit:                                         75.00%        100          -                      
         Auto, Default and User Defined Bins:
-            bin <tx_idle,busy_medium>                       6          1          -    Covered              
-            bin <tx_active,busy_medium>                  1085          1          -    Covered              
-            bin <tx_idle,idle_medium>                    3996          1          -    Covered              
+            bin <tx_idle,busy_medium>                       4          1          -    Covered              
+            bin <tx_active,busy_medium>                   706          1          -    Covered              
+            bin <tx_idle,idle_medium>                    2700          1          -    Covered              
             bin <tx_active,idle_medium>                     0          1          1    ZERO                 
     Cross cross_tx_data_enable                         94.11%        100          -    Uncovered            
         covered/total bins:                                16         17          -                      
         missing/total bins:                                 1         17          -                      
         % Hit:                                         94.11%        100          -                      
         Auto, Default and User Defined Bins:
-            bin <tx_idle,data_min>                       4002          1          -    Covered              
+            bin <tx_idle,data_min>                       2704          1          -    Covered              
             bin <tx_active,data_all[13]>                   21          1          -    Covered              
-            bin <tx_active,data_all[12]>                   82          1          -    Covered              
+            bin <tx_active,data_all[12]>                   26          1          -    Covered              
             bin <tx_active,data_all[11]>                   21          1          -    Covered              
-            bin <tx_active,data_all[10]>                   58          1          -    Covered              
-            bin <tx_active,data_all[8]>                   137          1          -    Covered              
-            bin <tx_active,data_all[7]>                    98          1          -    Covered              
-            bin <tx_active,data_all[3]>                    79          1          -    Covered              
-            bin <tx_active,data_all[5]>                    98          1          -    Covered              
-            bin <tx_active,data_all[1]>                    42          1          -    Covered              
-            bin <tx_active,data_all[6]>                    19          1          -    Covered              
-            bin <tx_active,data_all[2]>                    41          1          -    Covered              
-            bin <tx_active,data_all[4]>                   171          1          -    Covered              
-            bin <tx_active,data_all[0]>                    81          1          -    Covered              
-            bin <tx_active,data_max>                       39          1          -    Covered              
-            bin <tx_active,data_min>                       98          1          -    Covered              
+            bin <tx_active,data_all[10]>                   20          1          -    Covered              
+            bin <tx_active,data_all[8]>                    55          1          -    Covered              
+            bin <tx_active,data_all[7]>                    78          1          -    Covered              
+            bin <tx_active,data_all[3]>                    59          1          -    Covered              
+            bin <tx_active,data_all[5]>                    60          1          -    Covered              
+            bin <tx_active,data_all[1]>                    36          1          -    Covered              
+            bin <tx_active,data_all[6]>                     2          1          -    Covered              
+            bin <tx_active,data_all[2]>                    38          1          -    Covered              
+            bin <tx_active,data_all[4]>                   134          1          -    Covered              
+            bin <tx_active,data_all[0]>                    75          1          -    Covered              
+            bin <tx_active,data_max>                       20          1          -    Covered              
+            bin <tx_active,data_min>                       61          1          -    Covered              
             bin <*,data_all[9]>                             0          1          1    ZERO                 
         Illegal and Ignore Bins:
             illegal_bin ill_data                            0                     -    ZERO                 
@@ -1953,10 +1954,10 @@ COVERGROUP COVERAGE:
 Covergroup                                             Metric       Goal       Bins    Status               
                                                                                                          
 ----------------------------------------------------------------------------------------------------------
- TYPE /eth_cov_pkg/eth_cov_tx/m_wr_cfg_cov             11.04%        100          -    Uncovered            
-    covered/total bins:                                    37        670          -                      
-    missing/total bins:                                   633        670          -                      
-    % Hit:                                              5.52%        100          -                      
+ TYPE /eth_cov_pkg/eth_cov_tx/m_wr_cfg_cov              9.27%        100          -    Uncovered            
+    covered/total bins:                                    33        669          -                      
+    missing/total bins:                                   636        669          -                      
+    % Hit:                                              4.93%        100          -                      
     Coverpoint cp_addr                                 54.54%        100          -    Uncovered            
         covered/total bins:                                 6         11          -                      
         missing/total bins:                                 5         11          -                      
@@ -1973,7 +1974,7 @@ Covergroup                                             Metric       Goal       B
         bin tx_reg2[16]                                     0          1          -    ZERO                 
         bin tx_reg2[17]                                     0          1          -    ZERO                 
         bin tx_reg3                                         0          1          -    ZERO                 
-        default bin others                                 24                     -    Occurred             
+        default bin others                                 15                     -    Occurred             
     Coverpoint cp_moder                                 1.89%        100          -    Uncovered            
         covered/total bins:                                 5        264          -                      
         missing/total bins:                               259        264          -                      
@@ -2018,7 +2019,7 @@ Covergroup                                             Metric       Goal       B
         bin reg_config[293]                                 0          1          -    ZERO                 
         bin reg_config[294]                                 0          1          -    ZERO                 
         bin reg_config[295]                                 0          1          -    ZERO                 
-        bin reg_config[296]                                 4          1          -    Covered              
+        bin reg_config[296]                                 0          1          -    ZERO                 
         bin reg_config[297]                                 0          1          -    ZERO                 
         bin reg_config[298]                                 0          1          -    ZERO                 
         bin reg_config[299]                                 0          1          -    ZERO                 
@@ -2146,7 +2147,7 @@ Covergroup                                             Metric       Goal       B
         bin reg_config[421]                                 0          1          -    ZERO                 
         bin reg_config[422]                                 0          1          -    ZERO                 
         bin reg_config[423]                                 0          1          -    ZERO                 
-        bin reg_config[424]                                 0          1          -    ZERO                 
+        bin reg_config[424]                                 4          1          -    Covered              
         bin reg_config[425]                                 0          1          -    ZERO                 
         bin reg_config[426]                                 0          1          -    ZERO                 
         bin reg_config[427]                                 0          1          -    ZERO                 
@@ -2234,20 +2235,20 @@ Covergroup                                             Metric       Goal       B
         bin reg_config[509]                                 0          1          -    ZERO                 
         bin reg_config[510]                                 0          1          -    ZERO                 
         bin reg_config[511]                                 0          1          -    ZERO                 
-        bin reg_pad[0]                                      0          1          -    ZERO                 
-        bin reg_pad[1]                                      4          1          -    Covered              
+        bin reg_pad[0]                                      4          1          -    Covered              
+        bin reg_pad[1]                                      0          1          -    ZERO                 
         bin reg_crc[0]                                      0          1          -    ZERO                 
         bin reg_crc[1]                                      4          1          -    Covered              
         bin reg_d_crc[0]                                    4          1          -    Covered              
         bin reg_d_crc[1]                                    0          1          -    ZERO                 
         bin reg_hugen[0]                                    4          1          -    Covered              
         bin reg_hugen[1]                                    0          1          -    ZERO                 
-        default bin others                                 44                     -    Occurred             
+        default bin others                                 35                     -    Occurred             
     Coverpoint cp_int_mask                             25.00%        100          -    Uncovered            
         covered/total bins:                                 2          8          -                      
         missing/total bins:                                 6          8          -                      
         % Hit:                                         25.00%        100          -                      
-        bin no_mask                                        26          1          -    Covered              
+        bin no_mask                                        17          1          -    Covered              
         bin txb_m                                           0          1          -    ZERO                 
         bin txe_m                                          22          1          -    Covered              
         bin txc_m                                           0          1          -    ZERO                 
@@ -2289,7 +2290,7 @@ Covergroup                                             Metric       Goal       B
         bin maxfl_more_64                                   0          1          -    ZERO                 
         bin maxfl_std                                       0          1          -    ZERO                 
         bin maxfl_max                                       0          1          -    ZERO                 
-        default bin others                                 48                     -    Occurred             
+        default bin others                                 39                     -    Occurred             
     Coverpoint cp_minfl                                 0.00%        100          -    ZERO                 
         covered/total bins:                                 0          4          -                      
         missing/total bins:                                 4          4          -                      
@@ -2298,7 +2299,7 @@ Covergroup                                             Metric       Goal       B
         bin minfl_std                                       0          1          -    ZERO                 
         bin minfl_more_64                                   0          1          -    ZERO                 
         bin minfl_max                                       0          1          -    ZERO                 
-        default bin others                                 48                     -    Occurred             
+        default bin others                                 39                     -    Occurred             
     Coverpoint cp_retry                                 0.00%        100          -    ZERO                 
         covered/total bins:                                 0         16          -                      
         missing/total bins:                                16         16          -                      
@@ -2362,13 +2363,13 @@ Covergroup                                             Metric       Goal       B
         covered/total bins:                                 1          2          -                      
         missing/total bins:                                 1          2          -                      
         % Hit:                                         50.00%        100          -                      
-        bin tx_flow_0                                      48          1          -    Covered              
+        bin tx_flow_0                                      39          1          -    Covered              
         bin tx_flow_1                                       0          1          -    ZERO                 
     Coverpoint cp_mac_addr0                             3.12%        100          -    Uncovered            
         covered/total bins:                                 1         32          -                      
         missing/total bins:                                31         32          -                      
         % Hit:                                          3.12%        100          -                      
-        bin mac_addr0_all[0]                               48          1          -    Covered              
+        bin mac_addr0_all[0]                               39          1          -    Covered              
         bin mac_addr0_all[1]                                0          1          -    ZERO                 
         bin mac_addr0_all[2]                                0          1          -    ZERO                 
         bin mac_addr0_all[3]                                0          1          -    ZERO                 
@@ -2405,7 +2406,7 @@ Covergroup                                             Metric       Goal       B
         covered/total bins:                                 1          8          -                      
         missing/total bins:                                 7          8          -                      
         % Hit:                                         12.50%        100          -                      
-        bin mac_addr1_all[0]                               48          1          -    Covered              
+        bin mac_addr1_all[0]                               39          1          -    Covered              
         bin mac_addr1_all[1]                                0          1          -    ZERO                 
         bin mac_addr1_all[2]                                0          1          -    ZERO                 
         bin mac_addr1_all[3]                                0          1          -    ZERO                 
@@ -2459,7 +2460,7 @@ Covergroup                                             Metric       Goal       B
         covered/total bins:                                 1         34          -                      
         missing/total bins:                                33         34          -                      
         % Hit:                                          2.94%        100          -                      
-        bin len_all[0]                                     46          1          -    Covered              
+        bin len_all[0]                                     37          1          -    Covered              
         bin len_all[1]                                      0          1          -    ZERO                 
         bin len_all[2]                                      0          1          -    ZERO                 
         bin len_all[3]                                      0          1          -    ZERO                 
@@ -2493,10 +2494,10 @@ Covergroup                                             Metric       Goal       B
         bin len_all[31]                                     0          1          -    ZERO                 
         bin len_4                                           0          1          -    ZERO                 
         bin len_max                                         0          1          -    ZERO                 
-    Coverpoint cp_bd_cfg                               40.00%        100          -    Uncovered            
-        covered/total bins:                                 8         20          -                      
-        missing/total bins:                                12         20          -                      
-        % Hit:                                         40.00%        100          -                      
+    Coverpoint cp_bd_cfg                               35.00%        100          -    Uncovered            
+        covered/total bins:                                 7         20          -                      
+        missing/total bins:                                13         20          -                      
+        % Hit:                                         35.00%        100          -                      
         bin bd_config[16]                                   0          1          -    ZERO                 
         bin bd_config[17]                                   0          1          -    ZERO                 
         bin bd_config[18]                                   0          1          -    ZERO                 
@@ -2505,38 +2506,38 @@ Covergroup                                             Metric       Goal       B
         bin bd_config[21]                                   0          1          -    ZERO                 
         bin bd_config[22]                                   0          1          -    ZERO                 
         bin bd_config[23]                                   0          1          -    ZERO                 
-        bin bd_config[24]                                   4          1          -    Covered              
+        bin bd_config[24]                                   0          1          -    ZERO                 
         bin bd_config[25]                                   0          1          -    ZERO                 
         bin bd_config[26]                                   0          1          -    ZERO                 
-        bin bd_config[27]                                  12          1          -    Covered              
-        bin bd_config[28]                                   0          1          -    ZERO                 
-        bin bd_config[29]                                  15          1          -    Covered              
-        bin bd_config[30]                                   0          1          -    ZERO                 
-        bin bd_config[31]                                  15          1          -    Covered              
-        bin bd_pad[0]                                      21          1          -    Covered              
-        bin bd_pad[1]                                      27          1          -    Covered              
-        bin bd_crc[0]                                       6          1          -    Covered              
-        bin bd_crc[1]                                      42          1          -    Covered              
+        bin bd_config[27]                                   7          1          -    Covered              
+        bin bd_config[28]                                  15          1          -    Covered              
+        bin bd_config[29]                                   0          1          -    ZERO                 
+        bin bd_config[30]                                  15          1          -    Covered              
+        bin bd_config[31]                                   0          1          -    ZERO                 
+        bin bd_pad[0]                                      17          1          -    Covered              
+        bin bd_pad[1]                                      22          1          -    Covered              
+        bin bd_crc[0]                                      32          1          -    Covered              
+        bin bd_crc[1]                                       7          1          -    Covered              
         default bin others                                  0                     -    ZERO                 
-    Coverpoint cp_txpnt                                 7.81%        100          -    Uncovered            
-        covered/total bins:                                 5         64          -                      
-        missing/total bins:                                59         64          -                      
-        % Hit:                                          7.81%        100          -                      
+    Coverpoint cp_txpnt                                 6.25%        100          -    Uncovered            
+        covered/total bins:                                 4         64          -                      
+        missing/total bins:                                60         64          -                      
+        % Hit:                                          6.25%        100          -                      
         illegal_bin txpnt_not_div4_mod1                     0                     -    ZERO                 
         illegal_bin txpnt_not_div4_mod2                     0                     -    ZERO                 
         illegal_bin txpnt_not_div4_mod3                     0                     -    ZERO                 
-        bin txpnt_all[0]                                    2          1          -    Covered              
-        bin txpnt_all[1]                                    2          1          -    Covered              
+        bin txpnt_all[0]                                    0          1          -    ZERO                 
+        bin txpnt_all[1]                                    0          1          -    ZERO                 
         bin txpnt_all[2]                                    0          1          -    ZERO                 
         bin txpnt_all[3]                                    0          1          -    ZERO                 
-        bin txpnt_all[4]                                    0          1          -    ZERO                 
+        bin txpnt_all[4]                                    2          1          -    Covered              
         bin txpnt_all[5]                                    0          1          -    ZERO                 
         bin txpnt_all[6]                                    0          1          -    ZERO                 
         bin txpnt_all[7]                                    0          1          -    ZERO                 
-        bin txpnt_all[8]                                    0          1          -    ZERO                 
-        bin txpnt_all[9]                                    0          1          -    ZERO                 
+        bin txpnt_all[8]                                    2          1          -    Covered              
+        bin txpnt_all[9]                                    2          1          -    Covered              
         bin txpnt_all[10]                                   0          1          -    ZERO                 
-        bin txpnt_all[11]                                   2          1          -    Covered              
+        bin txpnt_all[11]                                   0          1          -    ZERO                 
         bin txpnt_all[12]                                   0          1          -    ZERO                 
         bin txpnt_all[13]                                   0          1          -    ZERO                 
         bin txpnt_all[14]                                   0          1          -    ZERO                 
@@ -2555,7 +2556,7 @@ Covergroup                                             Metric       Goal       B
         bin txpnt_all[27]                                   0          1          -    ZERO                 
         bin txpnt_all[28]                                   0          1          -    ZERO                 
         bin txpnt_all[29]                                   0          1          -    ZERO                 
-        bin txpnt_all[30]                                   2          1          -    Covered              
+        bin txpnt_all[30]                                   0          1          -    ZERO                 
         bin txpnt_all[31]                                   0          1          -    ZERO                 
         bin txpnt_all[32]                                   0          1          -    ZERO                 
         bin txpnt_all[33]                                   0          1          -    ZERO                 
@@ -2576,7 +2577,7 @@ Covergroup                                             Metric       Goal       B
         bin txpnt_all[48]                                   0          1          -    ZERO                 
         bin txpnt_all[49]                                   0          1          -    ZERO                 
         bin txpnt_all[50]                                   0          1          -    ZERO                 
-        bin txpnt_all[51]                                   0          1          -    ZERO                 
+        bin txpnt_all[51]                                   2          1          -    Covered              
         bin txpnt_all[52]                                   0          1          -    ZERO                 
         bin txpnt_all[53]                                   0          1          -    ZERO                 
         bin txpnt_all[54]                                   0          1          -    ZERO                 
@@ -2588,7 +2589,7 @@ Covergroup                                             Metric       Goal       B
         bin txpnt_all[60]                                   0          1          -    ZERO                 
         bin txpnt_all[61]                                   0          1          -    ZERO                 
         bin txpnt_all[62]                                   0          1          -    ZERO                 
-        bin txpnt_all[63]                                   4          1          -    Covered              
+        bin txpnt_all[63]                                   0          1          -    ZERO                 
     Coverpoint cp_minfl_g_maxfl                         0.00%        100          -    ZERO                 
         covered/total bins:                                 0          1          -                      
         missing/total bins:                                 1          1          -                      
@@ -2609,29 +2610,29 @@ Covergroup                                             Metric       Goal       B
         missing/total bins:                                 2          4          -                      
         % Hit:                                         50.00%        100          -                      
         Auto, Default and User Defined Bins:
-            bin <reg_pad[1],bd_pad[1]>                      1          1          -    Covered              
-            bin <reg_pad[1],bd_pad[0]>                      3          1          -    Covered              
-            bin <reg_pad[0],*>                              0          1          2    ZERO                 
+            bin <reg_pad[0],bd_pad[1]>                      1          1          -    Covered              
+            bin <reg_pad[0],bd_pad[0]>                      3          1          -    Covered              
+            bin <reg_pad[1],*>                              0          1          2    ZERO                 
         Illegal and Ignore Bins:
             ignore_bin ign_pad                              4                     -    Occurred             
-    Cross cp_cross_crc                                 50.00%        100          -    Uncovered            
-        covered/total bins:                                 2          4          -                      
-        missing/total bins:                                 2          4          -                      
-        % Hit:                                         50.00%        100          -                      
+    Cross cp_cross_crc                                 25.00%        100          -    Uncovered            
+        covered/total bins:                                 1          4          -                      
+        missing/total bins:                                 3          4          -                      
+        % Hit:                                         25.00%        100          -                      
         Auto, Default and User Defined Bins:
-            bin <reg_crc[1],bd_crc[1]>                      2          1          -    Covered              
-            bin <reg_crc[1],bd_crc[0]>                      2          1          -    Covered              
+            bin <reg_crc[1],bd_crc[0]>                      4          1          -    Covered              
             bin <reg_crc[0],*>                              0          1          2    ZERO                 
+            bin <*,bd_crc[1]>                               0          1          2    ZERO                 
         Illegal and Ignore Bins:
             ignore_bin ign_crc                              4                     -    Occurred             
-    Cross cp_cross_d_crc                               50.00%        100          -    Uncovered            
-        covered/total bins:                                 2          4          -                      
-        missing/total bins:                                 2          4          -                      
-        % Hit:                                         50.00%        100          -                      
+    Cross cp_cross_d_crc                               25.00%        100          -    Uncovered            
+        covered/total bins:                                 1          4          -                      
+        missing/total bins:                                 3          4          -                      
+        % Hit:                                         25.00%        100          -                      
         Auto, Default and User Defined Bins:
-            bin <reg_d_crc[0],bd_crc[1]>                    2          1          -    Covered              
-            bin <reg_d_crc[0],bd_crc[0]>                    2          1          -    Covered              
+            bin <reg_d_crc[0],bd_crc[0]>                    4          1          -    Covered              
             bin <reg_d_crc[1],*>                            0          1          2    ZERO                 
+            bin <*,bd_crc[1]>                               0          1          2    ZERO                 
         Illegal and Ignore Bins:
             ignore_bin ign_d_crc                            4                     -    Occurred             
     Cross cp_cross_len_g_maxfl_hugen                    0.00%        100          -    ZERO                 
@@ -2671,12 +2672,13 @@ Covergroup                                             Metric       Goal       B
             ignore_bin ign_minfl_max                        0                     -    ZERO                 
             ignore_bin ign_min_f_pad                        0                     -    ZERO                 
     Cross cp_cross_ctrl                                 0.00%        100          -    ZERO                 
-        covered/total bins:                                 0          4          -                      
-        missing/total bins:                                 4          4          -                      
+        covered/total bins:                                 0          3          -                      
+        missing/total bins:                                 3          3          -                      
         % Hit:                                          0.00%        100          -                      
         Auto, Default and User Defined Bins:
             bin <*,*>                                       0          1          4    ZERO                 
         Illegal and Ignore Bins:
+            ignore_bin ign_ctrl_00                          0                     -    ZERO                 
             ignore_bin ign_ctrl                             0                     -    ZERO                 
     Cross cp_cross_ctrl_timer                           0.00%        100          -    ZERO                 
         covered/total bins:                                 0         34          -                      
@@ -2702,16 +2704,16 @@ Covergroup                                             Metric       Goal       B
             bin <*,*,*>                                     0          1          8    ZERO                 
         Illegal and Ignore Bins:
             ignore_bin ign_0                                0                     -    ZERO                 
- TYPE /eth_cov_pkg/eth_cov_tx/m_rd_cfg_cov             60.33%        100          -    Uncovered            
-    covered/total bins:                                    13         33          -                      
-    missing/total bins:                                    20         33          -                      
-    % Hit:                                             39.39%        100          -                      
-    Coverpoint cp_int_source                           75.00%        100          -    Uncovered            
-        covered/total bins:                                 3          4          -                      
-        missing/total bins:                                 1          4          -                      
-        % Hit:                                         75.00%        100          -                      
-        bin no_int                                          6          1          -    Covered              
-        bin txb                                             4          1          -    Covered              
+ TYPE /eth_cov_pkg/eth_cov_tx/m_rd_cfg_cov             55.33%        100          -    Uncovered            
+    covered/total bins:                                    12         33          -                      
+    missing/total bins:                                    21         33          -                      
+    % Hit:                                             36.36%        100          -                      
+    Coverpoint cp_int_source                           50.00%        100          -    Uncovered            
+        covered/total bins:                                 2          4          -                      
+        missing/total bins:                                 2          4          -                      
+        % Hit:                                         50.00%        100          -                      
+        bin no_int                                          0          1          -    ZERO                 
+        bin txb                                             8          1          -    Covered              
         bin txe                                             4          1          -    Covered              
         bin txc                                             0          1          -    ZERO                 
         default bin others                                  0                     -    ZERO                 
@@ -2719,8 +2721,8 @@ Covergroup                                             Metric       Goal       B
         covered/total bins:                                 2          2          -                      
         missing/total bins:                                 0          2          -                      
         % Hit:                                        100.00%        100          -                      
-        bin inta_1                                         13          1          -    Covered              
-        bin inta_0                                          2          1          -    Covered              
+        bin inta_1                                          6          1          -    Covered              
+        bin inta_0                                          5          1          -    Covered              
     Coverpoint cp_bd_stat                              60.00%        100          -    Uncovered            
         covered/total bins:                                 6         10          -                      
         missing/total bins:                                 4         10          -                      
@@ -2760,35 +2762,35 @@ Covergroup                                             Metric       Goal       B
         % Hit:                                         66.66%        100          -                      
         Auto, Default and User Defined Bins:
             bin <txe,inta_1>                                4          1          -    Covered              
-            bin <txb,inta_1>                                2          1          -    Covered              
+            bin <txb,inta_1>                                4          1          -    Covered              
             bin <txc,*>                                     0          1          1    ZERO                 
         Illegal and Ignore Bins:
             ignore_bin ign_cross_inta_txe                   0                     -    ZERO                 
             ignore_bin ign_cross_inta_txc                   0                     -    ZERO                 
-            ignore_bin ign_cross_inta_txb                   2                     -    Occurred             
-            ignore_bin ign_cross_no_int                     6                     -    Occurred             
- TYPE /eth_cov_pkg/eth_cov_tx/m_wb_m_cov                9.63%        100          -    Uncovered            
-    covered/total bins:                                    13        136          -                      
-    missing/total bins:                                   123        136          -                      
-    % Hit:                                              9.55%        100          -                      
-    Coverpoint cp_mem_addr                              7.14%        100          -    Uncovered            
-        covered/total bins:                                 5         70          -                      
-        missing/total bins:                                65         70          -                      
-        % Hit:                                          7.14%        100          -                      
+            ignore_bin ign_cross_inta_txb                   4                     -    Occurred             
+            ignore_bin ign_cross_no_int                     0                     -    ZERO                 
+ TYPE /eth_cov_pkg/eth_cov_tx/m_wb_m_cov                7.40%        100          -    Uncovered            
+    covered/total bins:                                    10        136          -                      
+    missing/total bins:                                   126        136          -                      
+    % Hit:                                              7.35%        100          -                      
+    Coverpoint cp_mem_addr                              5.71%        100          -    Uncovered            
+        covered/total bins:                                 4         70          -                      
+        missing/total bins:                                66         70          -                      
+        % Hit:                                          5.71%        100          -                      
         bin addr_min                                        0          1          -    ZERO                 
         bin addr_max                                        0          1          -    ZERO                 
-        bin addr_range[0]                                6824          1          -    Covered              
-        bin addr_range[1]                                6764          1          -    Covered              
+        bin addr_range[0]                                   0          1          -    ZERO                 
+        bin addr_range[1]                                   0          1          -    ZERO                 
         bin addr_range[2]                                   0          1          -    ZERO                 
         bin addr_range[3]                                   0          1          -    ZERO                 
-        bin addr_range[4]                                   0          1          -    ZERO                 
+        bin addr_range[4]                                6716          1          -    Covered              
         bin addr_range[5]                                   0          1          -    ZERO                 
         bin addr_range[6]                                   0          1          -    ZERO                 
         bin addr_range[7]                                   0          1          -    ZERO                 
-        bin addr_range[8]                                   0          1          -    ZERO                 
-        bin addr_range[9]                                   0          1          -    ZERO                 
+        bin addr_range[8]                                7020          1          -    Covered              
+        bin addr_range[9]                                6856          1          -    Covered              
         bin addr_range[10]                                  0          1          -    ZERO                 
-        bin addr_range[11]                               6704          1          -    Covered              
+        bin addr_range[11]                                  0          1          -    ZERO                 
         bin addr_range[12]                                  0          1          -    ZERO                 
         bin addr_range[13]                                  0          1          -    ZERO                 
         bin addr_range[14]                                  0          1          -    ZERO                 
@@ -2807,7 +2809,7 @@ Covergroup                                             Metric       Goal       B
         bin addr_range[27]                                  0          1          -    ZERO                 
         bin addr_range[28]                                  0          1          -    ZERO                 
         bin addr_range[29]                                  0          1          -    ZERO                 
-        bin addr_range[30]                               6804          1          -    Covered              
+        bin addr_range[30]                                  0          1          -    ZERO                 
         bin addr_range[31]                                  0          1          -    ZERO                 
         bin addr_range[32]                                  0          1          -    ZERO                 
         bin addr_range[33]                                  0          1          -    ZERO                 
@@ -2828,7 +2830,7 @@ Covergroup                                             Metric       Goal       B
         bin addr_range[48]                                  0          1          -    ZERO                 
         bin addr_range[49]                                  0          1          -    ZERO                 
         bin addr_range[50]                                  0          1          -    ZERO                 
-        bin addr_range[51]                                  0          1          -    ZERO                 
+        bin addr_range[51]                               6548          1          -    Covered              
         bin addr_range[52]                                  0          1          -    ZERO                 
         bin addr_range[53]                                  0          1          -    ZERO                 
         bin addr_range[54]                                  0          1          -    ZERO                 
@@ -2840,22 +2842,22 @@ Covergroup                                             Metric       Goal       B
         bin addr_range[60]                                  0          1          -    ZERO                 
         bin addr_range[61]                                  0          1          -    ZERO                 
         bin addr_range[62]                                  0          1          -    ZERO                 
-        bin addr_range[63]                              13429          1          -    Covered              
+        bin addr_range[63]                                  0          1          -    ZERO                 
         bin aligned                                         0          1          -    ZERO                 
         bin non_aligned[1]                                  0          1          -    ZERO                 
         bin non_aligned[2]                                  0          1          -    ZERO                 
         bin non_aligned[3]                                  0          1          -    ZERO                 
-    Coverpoint cp_mem_data                             12.12%        100          -    Uncovered            
-        covered/total bins:                                 8         66          -                      
-        missing/total bins:                                58         66          -                      
-        % Hit:                                         12.12%        100          -                      
-        bin data_min                                    40403          1          -    Covered              
+    Coverpoint cp_mem_data                              9.09%        100          -    Uncovered            
+        covered/total bins:                                 6         66          -                      
+        missing/total bins:                                60         66          -                      
+        % Hit:                                          9.09%        100          -                      
+        bin data_min                                    27062          1          -    Covered              
         bin data_max                                        0          1          -    ZERO                 
-        bin data_all[0]                                 40403          1          -    Covered              
-        bin data_all[1]                                    19          1          -    Covered              
+        bin data_all[0]                                 27062          1          -    Covered              
+        bin data_all[1]                                     0          1          -    ZERO                 
         bin data_all[2]                                     0          1          -    ZERO                 
         bin data_all[3]                                     0          1          -    ZERO                 
-        bin data_all[4]                                    21          1          -    Covered              
+        bin data_all[4]                                    18          1          -    Covered              
         bin data_all[5]                                     0          1          -    ZERO                 
         bin data_all[6]                                     0          1          -    ZERO                 
         bin data_all[7]                                     0          1          -    ZERO                 
@@ -2868,7 +2870,7 @@ Covergroup                                             Metric       Goal       B
         bin data_all[14]                                    0          1          -    ZERO                 
         bin data_all[15]                                    0          1          -    ZERO                 
         bin data_all[16]                                    0          1          -    ZERO                 
-        bin data_all[17]                                   20          1          -    Covered              
+        bin data_all[17]                                    0          1          -    ZERO                 
         bin data_all[18]                                    0          1          -    ZERO                 
         bin data_all[19]                                    0          1          -    ZERO                 
         bin data_all[20]                                    0          1          -    ZERO                 
@@ -2895,11 +2897,11 @@ Covergroup                                             Metric       Goal       B
         bin data_all[41]                                    0          1          -    ZERO                 
         bin data_all[42]                                    0          1          -    ZERO                 
         bin data_all[43]                                    0          1          -    ZERO                 
-        bin data_all[44]                                   21          1          -    Covered              
+        bin data_all[44]                                   20          1          -    Covered              
         bin data_all[45]                                    0          1          -    ZERO                 
         bin data_all[46]                                    0          1          -    ZERO                 
         bin data_all[47]                                    0          1          -    ZERO                 
-        bin data_all[48]                                   21          1          -    Covered              
+        bin data_all[48]                                   20          1          -    Covered              
         bin data_all[49]                                    0          1          -    ZERO                 
         bin data_all[50]                                    0          1          -    ZERO                 
         bin data_all[51]                                    0          1          -    ZERO                 
@@ -2923,54 +2925,54 @@ Covergroup                                             Metric       Goal       B
         covered/total bins:                                 2          2          -                      
         missing/total bins:                                 0          2          -                      
         % Hit:                                        100.00%        100          -                      
-        bin tx_active                                    1085          1          -    Covered              
-        bin tx_idle                                      4002          1          -    Covered              
+        bin tx_active                                     706          1          -    Covered              
+        bin tx_idle                                      2704          1          -    Covered              
     Coverpoint cp_tx_data                              93.75%        100          -    Uncovered            
         covered/total bins:                                15         16          -                      
         missing/total bins:                                 1         16          -                      
         % Hit:                                         93.75%        100          -                      
-        bin data_min                                     4100          1          -    Covered              
-        bin data_max                                       39          1          -    Covered              
-        bin data_all[0]                                    81          1          -    Covered              
-        bin data_all[1]                                    42          1          -    Covered              
-        bin data_all[2]                                    41          1          -    Covered              
-        bin data_all[3]                                    79          1          -    Covered              
-        bin data_all[4]                                   171          1          -    Covered              
-        bin data_all[5]                                    98          1          -    Covered              
-        bin data_all[6]                                    19          1          -    Covered              
-        bin data_all[7]                                    98          1          -    Covered              
-        bin data_all[8]                                   137          1          -    Covered              
+        bin data_min                                     2765          1          -    Covered              
+        bin data_max                                       20          1          -    Covered              
+        bin data_all[0]                                    75          1          -    Covered              
+        bin data_all[1]                                    36          1          -    Covered              
+        bin data_all[2]                                    38          1          -    Covered              
+        bin data_all[3]                                    59          1          -    Covered              
+        bin data_all[4]                                   134          1          -    Covered              
+        bin data_all[5]                                    60          1          -    Covered              
+        bin data_all[6]                                     2          1          -    Covered              
+        bin data_all[7]                                    78          1          -    Covered              
+        bin data_all[8]                                    55          1          -    Covered              
         bin data_all[9]                                     0          1          -    ZERO                 
-        bin data_all[10]                                   58          1          -    Covered              
+        bin data_all[10]                                   20          1          -    Covered              
         bin data_all[11]                                   21          1          -    Covered              
-        bin data_all[12]                                   82          1          -    Covered              
+        bin data_all[12]                                   26          1          -    Covered              
         bin data_all[13]                                   21          1          -    Covered              
     Coverpoint cp_tx_error                            100.00%        100          -    Covered              
         covered/total bins:                                 2          2          -                      
         missing/total bins:                                 0          2          -                      
         % Hit:                                        100.00%        100          -                      
-        bin no_error                                     5082          1          -    Covered              
-        bin error                                           5          1          -    Covered              
+        bin no_error                                     3408          1          -    Covered              
+        bin error                                           2          1          -    Covered              
     Coverpoint cp_collision                            50.00%        100          -    Uncovered            
         covered/total bins:                                 1          2          -                      
         missing/total bins:                                 1          2          -                      
         % Hit:                                         50.00%        100          -                      
-        bin no_collision                                 5087          1          -    Covered              
+        bin no_collision                                 3410          1          -    Covered              
         bin collision                                       0          1          -    ZERO                 
     Coverpoint cp_carrier                             100.00%        100          -    Covered              
         covered/total bins:                                 2          2          -                      
         missing/total bins:                                 0          2          -                      
         % Hit:                                        100.00%        100          -                      
-        bin idle_medium                                  3996          1          -    Covered              
-        bin busy_medium                                  1091          1          -    Covered              
+        bin idle_medium                                  2700          1          -    Covered              
+        bin busy_medium                                   710          1          -    Covered              
     Cross cross_tx_error                              100.00%        100          -    Covered              
         covered/total bins:                                 3          3          -                      
         missing/total bins:                                 0          3          -                      
         % Hit:                                        100.00%        100          -                      
         Auto, Default and User Defined Bins:
-            bin <tx_active,error>                           5          1          -    Covered              
-            bin <tx_idle,no_error>                       4002          1          -    Covered              
-            bin <tx_active,no_error>                     1080          1          -    Covered              
+            bin <tx_active,error>                           2          1          -    Covered              
+            bin <tx_idle,no_error>                       2704          1          -    Covered              
+            bin <tx_active,no_error>                      704          1          -    Covered              
         Illegal and Ignore Bins:
             illegal_bin ill_err                             0                     -    ZERO                 
     Cross cross_tx_collision                           50.00%        100          -    Uncovered            
@@ -2978,39 +2980,39 @@ Covergroup                                             Metric       Goal       B
         missing/total bins:                                 2          4          -                      
         % Hit:                                         50.00%        100          -                      
         Auto, Default and User Defined Bins:
-            bin <tx_idle,no_collision>                   4002          1          -    Covered              
-            bin <tx_active,no_collision>                 1085          1          -    Covered              
+            bin <tx_idle,no_collision>                   2704          1          -    Covered              
+            bin <tx_active,no_collision>                  706          1          -    Covered              
             bin <*,collision>                               0          1          2    ZERO                 
     Cross cross_tx_carrier                             75.00%        100          -    Uncovered            
         covered/total bins:                                 3          4          -                      
         missing/total bins:                                 1          4          -                      
         % Hit:                                         75.00%        100          -                      
         Auto, Default and User Defined Bins:
-            bin <tx_idle,busy_medium>                       6          1          -    Covered              
-            bin <tx_active,busy_medium>                  1085          1          -    Covered              
-            bin <tx_idle,idle_medium>                    3996          1          -    Covered              
+            bin <tx_idle,busy_medium>                       4          1          -    Covered              
+            bin <tx_active,busy_medium>                   706          1          -    Covered              
+            bin <tx_idle,idle_medium>                    2700          1          -    Covered              
             bin <tx_active,idle_medium>                     0          1          1    ZERO                 
     Cross cross_tx_data_enable                         94.11%        100          -    Uncovered            
         covered/total bins:                                16         17          -                      
         missing/total bins:                                 1         17          -                      
         % Hit:                                         94.11%        100          -                      
         Auto, Default and User Defined Bins:
-            bin <tx_idle,data_min>                       4002          1          -    Covered              
+            bin <tx_idle,data_min>                       2704          1          -    Covered              
             bin <tx_active,data_all[13]>                   21          1          -    Covered              
-            bin <tx_active,data_all[12]>                   82          1          -    Covered              
+            bin <tx_active,data_all[12]>                   26          1          -    Covered              
             bin <tx_active,data_all[11]>                   21          1          -    Covered              
-            bin <tx_active,data_all[10]>                   58          1          -    Covered              
-            bin <tx_active,data_all[8]>                   137          1          -    Covered              
-            bin <tx_active,data_all[7]>                    98          1          -    Covered              
-            bin <tx_active,data_all[3]>                    79          1          -    Covered              
-            bin <tx_active,data_all[5]>                    98          1          -    Covered              
-            bin <tx_active,data_all[1]>                    42          1          -    Covered              
-            bin <tx_active,data_all[6]>                    19          1          -    Covered              
-            bin <tx_active,data_all[2]>                    41          1          -    Covered              
-            bin <tx_active,data_all[4]>                   171          1          -    Covered              
-            bin <tx_active,data_all[0]>                    81          1          -    Covered              
-            bin <tx_active,data_max>                       39          1          -    Covered              
-            bin <tx_active,data_min>                       98          1          -    Covered              
+            bin <tx_active,data_all[10]>                   20          1          -    Covered              
+            bin <tx_active,data_all[8]>                    55          1          -    Covered              
+            bin <tx_active,data_all[7]>                    78          1          -    Covered              
+            bin <tx_active,data_all[3]>                    59          1          -    Covered              
+            bin <tx_active,data_all[5]>                    60          1          -    Covered              
+            bin <tx_active,data_all[1]>                    36          1          -    Covered              
+            bin <tx_active,data_all[6]>                     2          1          -    Covered              
+            bin <tx_active,data_all[2]>                    38          1          -    Covered              
+            bin <tx_active,data_all[4]>                   134          1          -    Covered              
+            bin <tx_active,data_all[0]>                    75          1          -    Covered              
+            bin <tx_active,data_max>                       20          1          -    Covered              
+            bin <tx_active,data_min>                       61          1          -    Covered              
             bin <*,data_all[9]>                             0          1          1    ZERO                 
         Illegal and Ignore Bins:
             illegal_bin ill_data                            0                     -    ZERO                 
@@ -3661,7 +3663,7 @@ Covergroup                                             Metric       Goal       B
 
  [2] - Does not contribute coverage as the item is empty
 
-TOTAL COVERGROUP COVERAGE: 23.68%  COVERGROUP TYPES: 7
+TOTAL COVERGROUP COVERAGE: 22.39%  COVERGROUP TYPES: 7
 
 DIRECTIVE COVERAGE:
 --------------------------------------------------------------------------------------------
@@ -3669,39 +3671,39 @@ Name                                     Design Design   Lang File(Line)      Hi
                                          Unit   UnitType                                     
 --------------------------------------------------------------------------------------------
 /eth_tb/m_wb_s_if/c_stb_cyc              wb_s_if Verilog  SVA  repo/tb/interfaces/wb_s_if.sv(108)
-                                                                               174 Covered   
+                                                                               135 Covered   
 /eth_tb/m_wb_s_if/c_ack_stb_cyc          wb_s_if Verilog  SVA  repo/tb/interfaces/wb_s_if.sv(116)
-                                                                                62 Covered   
+                                                                                50 Covered   
 /eth_tb/m_wb_s_if/c_err_stb_cyc          wb_s_if Verilog  SVA  repo/tb/interfaces/wb_s_if.sv(124)
                                                                                  0 ZERO      
 /eth_tb/m_wb_s_if/c_ack_err_cyc          wb_s_if Verilog  SVA  repo/tb/interfaces/wb_s_if.sv(132)
-                                                                              40697 Covered   
+                                                                              27280 Covered   
 /eth_tb/m_wb_s_if/c_ack_err_sel          wb_s_if Verilog  SVA  repo/tb/interfaces/wb_s_if.sv(140)
                                                                                  0 ZERO      
 /eth_tb/m_wb_s_if/c_addr_ack             wb_s_if Verilog  SVA  repo/tb/interfaces/wb_s_if.sv(148)
-                                                                                32 Covered   
+                                                                                26 Covered   
 /eth_tb/m_wb_s_if/c_we_ack               wb_s_if Verilog  SVA  repo/tb/interfaces/wb_s_if.sv(156)
-                                                                                32 Covered   
+                                                                                26 Covered   
 /eth_tb/m_wb_s_if/c_sel_ack              wb_s_if Verilog  SVA  repo/tb/interfaces/wb_s_if.sv(164)
-                                                                                32 Covered   
+                                                                                26 Covered   
 /eth_tb/m_wb_s_if/c_wdata_ack            wb_s_if Verilog  SVA  repo/tb/interfaces/wb_s_if.sv(172)
-                                                                                24 Covered   
+                                                                                20 Covered   
 /eth_tb/m_wb_m_if/c_stb_cyc              wb_m_if Verilog  SVA  repo/tb/interfaces/wb_m_if.sv(112)
-                                                                              39707 Covered   
+                                                                              26010 Covered   
 /eth_tb/m_wb_m_if/c_ack_stb_cyc          wb_m_if Verilog  SVA  repo/tb/interfaces/wb_m_if.sv(120)
-                                                                               122 Covered   
+                                                                                78 Covered   
 /eth_tb/m_wb_m_if/c_err_stb_cyc          wb_m_if Verilog  SVA  repo/tb/interfaces/wb_m_if.sv(128)
                                                                                  0 ZERO      
 /eth_tb/m_wb_m_if/c_ack_err_cyc          wb_m_if Verilog  SVA  repo/tb/interfaces/wb_m_if.sv(136)
-                                                                              40697 Covered   
+                                                                              27280 Covered   
 /eth_tb/m_wb_m_if/c_ack_err_sel          wb_m_if Verilog  SVA  repo/tb/interfaces/wb_m_if.sv(144)
                                                                                  0 ZERO      
 /eth_tb/m_wb_m_if/c_we_ack               wb_m_if Verilog  SVA  repo/tb/interfaces/wb_m_if.sv(152)
-                                                                              39707 Covered   
+                                                                              26010 Covered   
 /eth_tb/m_mii_tx_if/c_en_data            mii_tx_if Verilog  SVA  repo/tb/interfaces/mii_tx_if.sv(100)
-                                                                               914 Covered   
+                                                                               622 Covered   
 /eth_tb/m_mii_tx_if/c_en_err             mii_tx_if Verilog  SVA  repo/tb/interfaces/mii_tx_if.sv(108)
-                                                                                 5 Covered   
+                                                                                 2 Covered   
 
 TOTAL DIRECTIVE COVERAGE: 76.47%  COVERS: 17
 
@@ -3733,7 +3735,7 @@ Name                 File(Line)                   Failure      Pass
                                                         0          1
 /eth_tb/m_wb_s_if/a_ack_stb_cyc
                      repo/tb/interfaces/wb_s_if.sv(114)
-                                                        1          1
+                                                        0          1
 /eth_tb/m_wb_s_if/a_err_stb_cyc
                      repo/tb/interfaces/wb_s_if.sv(122)
                                                         0          0
@@ -3819,5 +3821,5 @@ Name                 File(Line)                   Failure      Pass
                      repo/tb/sequences/wb_m_seq/wb_m_seq_wait.sv(43)
                                                         0          1
 
-Total Coverage By Instance (filtered view): 61.16%
+Total Coverage By Instance (filtered view): 61.65%
 

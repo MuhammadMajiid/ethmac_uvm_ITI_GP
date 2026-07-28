@@ -29,7 +29,7 @@ import mdio_seq_item_pkg::*;
 
 // include coverage files
 `include "eth_cov_tx.sv"
-//`include "eth_cov_rx.sv"
+`include "eth_cov_mdio.sv"
 
 endpackage
 

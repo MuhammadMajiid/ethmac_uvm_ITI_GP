@@ -36,13 +36,13 @@ class eth_env_mdio extends eth_env_base;
     super.build_phase(phase);
 
     // Distribute MDIO config down to its agent
-    uvm_config_db #(eth_mdio_config_obj) ::set(this, "m_mdio_agent", "config", m_config.m_mdio_config);
+    uvm_config_db #(mdio_config_obj) ::set(this, "m_mdio_agent", "config", m_config.m_mdio_config);
 
     // build MDIO agent
     m_mdio_agent = mdio_agent::type_id::create("m_mdio_agent", this);
 
     // build MDIO scoreboard
-    uvm_config_db #(eth_mdio_config_obj) ::set(this, "m_mdio_sb", "config", m_config.m_mdio_config);
+    uvm_config_db #(mdio_config_obj) ::set(this, "m_mdio_sb", "config", m_config.m_mdio_config);
     m_mdio_sb = eth_mdio_scoreboard::type_id::create("m_mdio_sb", this);
 
     // build MDIO coverage

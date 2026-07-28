@@ -71,8 +71,9 @@ class mii_tx_driver_collision extends mii_tx_driver_base;
     endtask
 
 
-    virtual task drive_items(mii_tx_seq_item_base m_seq_item);
-
+    task drive_items(mii_tx_seq_item_base m_seq_item);
+        `uvm_info(get_name(), "COLLISION DRIVER", UVM_MEDIUM)
+        
     if (m_seq_item.MColl) begin
 
         // Wait  30  MII clocks for normal collision  or 150 MII clocks for late collision 
@@ -89,9 +90,6 @@ class mii_tx_driver_collision extends mii_tx_driver_base;
             vif.cb_mii_tx.MColl <= 1'b0;
         end
     end
-
-   
-
 
     endtask
 
