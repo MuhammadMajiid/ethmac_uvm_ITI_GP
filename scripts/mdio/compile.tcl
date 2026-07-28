@@ -12,13 +12,13 @@ vlog -work work \
     tb/seq_items/mii_rx/mii_rx_seq_item_pkg.sv \
     tb/seq_items/mdio/mdio_seq_item_pkg.sv \
     tb/ral/eth_ral_pkg.sv \
-    tb/config/eth_config_pkg.sv \
     tb/agents/reset/reset_agent_pkg.sv \
     tb/agents/wb_m/wb_m_agent_pkg.sv \
     tb/agents/wb_s/wb_s_agent_pkg.sv \
     tb/agents/mii_tx/mii_tx_agent_pkg.sv \
     tb/agents/mii_rx/mii_rx_agent_pkg.sv \
     tb/agents/mdio/mdio_agent_pkg.sv \
+    tb/config/eth_config_pkg.sv \
     tb/sequences/reset_seq/reset_seq_pkg.sv \
     tb/sequences/wb_m_seq/wb_m_seq_pkg.sv \
     tb/sequences/wb_s_seq/wb_s_seq_pkg.sv \
