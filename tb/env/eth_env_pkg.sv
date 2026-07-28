@@ -28,7 +28,7 @@ import wb_s_seq_item_pkg::*;
 import mii_tx_seq_item_pkg::*;
 import mii_rx_seq_item_pkg::*;
 import reset_seq_item_pkg::*;
-
+import mdio_seq_item_pkg::*;
 
 
 // import agent packages
