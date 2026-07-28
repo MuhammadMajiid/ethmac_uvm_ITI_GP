@@ -15,7 +15,7 @@
 package eth_config_pkg;
     import uvm_pkg::*;
     import eth_glob_pkg::*;
-    import mdio_agent_pkg::*;
+    //import mdio_agent_pkg::*;
     `include "uvm_macros.svh"
 
     // import RAL package

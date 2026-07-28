@@ -269,7 +269,7 @@ task eth_mdio_scoreboard::comp_write(input mdio_seq_item_base item);
     // Compare preamble
     if(!m_cfg_reg_s.mii_no_pre) begin
       temp=m_exp_wr_pkt[idx +: ETH_CTRL_PREAMBLE_LEN];
-      if(temp!=item.preamble) begin
+      if({>>{temp}}!=item.preamble) begin
         `uvm_error(get_type_name(),
           $sformatf("Preamble mismatch  Field Offset: %0d\n Expected: %0p\n Actual: %0p", idx,temp,item.preamble))
           err =1;
@@ -278,7 +278,7 @@ task eth_mdio_scoreboard::comp_write(input mdio_seq_item_base item);
     end
     // Compare start of frame
     temp=m_exp_wr_pkt[idx +: ETH_CTRL_ST_LEN];
-    if(temp!=item.st) begin
+    if({>>{temp}}!=item.st) begin
         `uvm_error(get_type_name(),
         $sformatf("Start of frame mismatch  Field Offset: %0d\n Expected: %0p\n Actual: %0p", idx,temp,item.st))
         err =1;
@@ -295,7 +295,7 @@ task eth_mdio_scoreboard::comp_write(input mdio_seq_item_base item);
     // Compare phy address
     idx+=ETH_CTRL_OPCODE_LEN;
     temp=m_exp_wr_pkt[idx +: ETH_CTRL_ADDR_LEN];
-    if(temp!= item.phy_addr) begin
+    if({>>{temp}}!= item.phy_addr) begin
         `uvm_error(get_type_name(),
         $sformatf("Phy address mismatch  Field Offset: %0d\n Expected: %0p\n Actual: %0p", idx,temp,item.phy_addr))
         err =1;
@@ -303,7 +303,7 @@ task eth_mdio_scoreboard::comp_write(input mdio_seq_item_base item);
     // Compare register address
     idx+=ETH_CTRL_ADDR_LEN;
     temp=m_exp_wr_pkt[idx +: ETH_CTRL_ADDR_LEN];
-    if(temp!= item.reg_addr) begin
+    if({>>{temp}}!= item.reg_addr) begin
         `uvm_error(get_type_name(),
         $sformatf("Register address mismatch  Field Offset: %0d\n Expected: %0p\n Actual: %0p", idx,temp,item.reg_addr))
         err =1;
@@ -311,7 +311,7 @@ task eth_mdio_scoreboard::comp_write(input mdio_seq_item_base item);
     // Compare turnaround
     idx+=ETH_CTRL_ADDR_LEN;
     temp=m_exp_wr_pkt[idx +: ETH_CTRL_TA_LEN]; // Changed to wr_pkt
-    if(temp!= item.turn_around) begin // Changed m_mdio_seq_item to item
+    if({>>{temp}}!= item.turn_around) begin // Changed m_mdio_seq_item to item
         `uvm_error(get_type_name(),
         $sformatf("Turnaround mismatch  Field Offset: %0d\n Expected: %0p\n Actual: %0p", idx,temp,item.turn_around))
         err =1;
@@ -319,7 +319,7 @@ task eth_mdio_scoreboard::comp_write(input mdio_seq_item_base item);
     // Compare data
     idx+=ETH_CTRL_TA_LEN;
     temp=m_exp_wr_pkt[idx +: ETH_CTRL_DATA_LEN]; // Changed to wr_pkt
-    if(temp!= item.data) begin // Changed m_mdio_seq_item to item
+    if({>>{temp}}!= item.data) begin // Changed m_mdio_seq_item to item
         `uvm_error(get_type_name(),
         $sformatf("Data mismatch  Field Offset: %0d\n Expected: %0p\n Actual: %0p", idx,temp,item.data))
         err =1;
@@ -338,7 +338,7 @@ task eth_mdio_scoreboard::comp_read();
     // Compare preamble
     if(!m_cfg_reg_s.mii_no_pre) begin
       temp=m_exp_rd_pkt[idx +: ETH_CTRL_PREAMBLE_LEN];
-      if(temp!=m_mdio_seq_item.preamble) begin
+      if({>>{temp}}!=m_mdio_seq_item.preamble) begin
           `uvm_error(get_type_name(),
           $sformatf("Preamble mismatch  Field Offset: %0d\n Expected: %0p\n Actual: %0p", idx,temp,m_mdio_seq_item.preamble))
           err =1;
@@ -347,7 +347,7 @@ task eth_mdio_scoreboard::comp_read();
     end
     // Compare start of frame
     temp=m_exp_rd_pkt[idx +: ETH_CTRL_ST_LEN];
-    if(temp!=m_mdio_seq_item.st) begin
+    if({>>{temp}}!=m_mdio_seq_item.st) begin
         `uvm_error(get_type_name(),
         $sformatf("Start of frame mismatch  Field Offset: %0d\n Expected: %0p\n Actual: %0p", idx,temp,m_mdio_seq_item.st))
         err =1;
@@ -363,7 +363,7 @@ task eth_mdio_scoreboard::comp_read();
     // Compare phy address
     idx+=ETH_CTRL_OPCODE_LEN;
     temp=m_exp_rd_pkt[idx +: ETH_CTRL_ADDR_LEN];
-    if(temp!= m_mdio_seq_item.phy_addr) begin
+    if({>>{temp}}!= m_mdio_seq_item.phy_addr) begin
         `uvm_error(get_type_name(),
         $sformatf("Phy address mismatch  Field Offset: %0d\n Expected: %0p\n Actual: %0p", idx,temp,m_mdio_seq_item.phy_addr))
         err =1;
@@ -371,7 +371,7 @@ task eth_mdio_scoreboard::comp_read();
     // Compare register address
     idx+=ETH_CTRL_ADDR_LEN;
     temp=m_exp_rd_pkt[idx +: ETH_CTRL_ADDR_LEN];
-    if(temp!= m_mdio_seq_item.reg_addr) begin
+    if({>>{temp}}!= m_mdio_seq_item.reg_addr) begin
         `uvm_error(get_type_name(),
         $sformatf("Register address mismatch  Field Offset: %0d\n Expected: %0p\n Actual: %0p", idx,temp,m_mdio_seq_item.reg_addr))
         err =1;
@@ -379,7 +379,7 @@ task eth_mdio_scoreboard::comp_read();
     // Compare turnaround
     idx+=ETH_CTRL_ADDR_LEN;
     temp=m_exp_rd_pkt[idx +: ETH_CTRL_TA_LEN];
-    if(temp!= m_mdio_seq_item.turn_around) begin
+    if({>>{temp}}!= m_mdio_seq_item.turn_around) begin
         `uvm_error(get_type_name(),
         $sformatf("Turnaround mismatch  Field Offset: %0d\n Expected: %0p\n Actual: %0p", idx,temp,m_mdio_seq_item.turn_around))
         err =1;
@@ -387,7 +387,7 @@ task eth_mdio_scoreboard::comp_read();
     // Compare data
     idx+=ETH_CTRL_TA_LEN;
     temp=m_exp_rd_pkt[idx +: ETH_CTRL_DATA_LEN];
-    if(temp!= m_mdio_seq_item.data) begin
+    if({>>{temp}}!= m_mdio_seq_item.data) begin
         `uvm_error(get_type_name(),
         $sformatf("Data mismatch  Field Offset: %0d\n Expected: %0p\n Actual: %0p", idx,temp,m_mdio_seq_item.data))
         err =1;
