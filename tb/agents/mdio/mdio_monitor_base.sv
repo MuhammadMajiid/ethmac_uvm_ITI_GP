@@ -20,6 +20,7 @@ class mdio_monitor_base extends uvm_monitor;
   virtual mdio_if vif;
 
   mdio_seq_item_base m_mdio_seq_item;
+  bit [1:0] op_bits;
 
   function new(string name, uvm_component parent);
     super.new(name, parent);
@@ -36,7 +37,6 @@ class mdio_monitor_base extends uvm_monitor;
   endfunction
 
   task run_phase(uvm_phase phase);
-    bit [1:0] op_bits;
 
     forever begin
       m_mdio_seq_item = mdio_seq_item_base::type_id::create("m_mdio_seq_item");

@@ -22,7 +22,7 @@ package mdio_agent_pkg;
   import eth_glob_pkg::*;
 
   // import config package
-  import eth_config_pkg::*;
+  // import eth_config_pkg::*;
   
   // The transaction item must be compiled first because everything else uses it.
   `include "../../seq_items/mdio/mdio_seq_item_base.sv"

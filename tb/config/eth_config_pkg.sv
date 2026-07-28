@@ -15,18 +15,19 @@
 package eth_config_pkg;
     import uvm_pkg::*;
     import eth_glob_pkg::*;
+    import mdio_agent_pkg::*;
     `include "uvm_macros.svh"
 
     // import RAL package
     import eth_ral_pkg::*;
 
     // Config abject files
-    `include "eth_tx_scoreboard_config_obj.sv"
     `include "eth_mdio_config_obj.sv"
+    `include "eth_tx_scoreboard_config_obj.sv"
     `include "mii_tx_config_obj.sv"
     `include "mii_rx_config_obj.sv"
     `include "wb_m_config_obj.sv"
-    `include "wb_s_config_obj.sv"	
+    `include "wb_s_config_obj.sv"
 	`include "reset_config_obj.sv"
     `include "eth_env_config_obj.sv"
 

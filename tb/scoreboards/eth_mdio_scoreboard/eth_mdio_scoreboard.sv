@@ -12,9 +12,10 @@
 `ifndef ETH_MDIO_SCOREBOARD_SV
 `define ETH_MDIO_SCOREBOARD_SV
 
+import mdio_seq_item_pkg::*;
 
 typedef struct {
-    mdio_seq_item_base::op_code_e   op_code;
+    op_code_e   op_code;
     bit                             mii_no_pre;
     bit [ETH_CTRL_CLK_DIV_LEN-1:0]  clk_div;
     bit                             w_ctrl_data;
@@ -88,7 +89,7 @@ endclass
 
 //  IMPLEMENTATION
 
-function eth_mdio_scoreboard::new(string name = "eth_mdio_scoreboard", uvm_component parent = null);
+function eth_mdio_scoreboard::new(string name, uvm_component parent);
   super.new(name, parent);
 endfunction
 
@@ -183,6 +184,7 @@ task eth_mdio_scoreboard::read_cfg_regs();
 endtask
 
 task eth_mdio_scoreboard::read_stat_regs();
+  uvm_status_e status;
   m_regmodel.MIIRX_DATA.mirror(status, UVM_CHECK, UVM_BACKDOOR);
   m_cfg_reg_s.rd_data = m_regmodel.MIIRX_DATA.PRSD.get_mirrored_value();
 
@@ -423,7 +425,7 @@ task eth_mdio_scoreboard::comp_clk_period();
 
       // check if the division value is 0
       if(m_cfg_reg_s.clk_div==0) begin
-          `uvm_error(get_type_name(),"Clock frequency divider = 0",UVM_LOW)
+          `uvm_error(get_type_name(),"Clock frequency divider = 0")
           return;
       end
 

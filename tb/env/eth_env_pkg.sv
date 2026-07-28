@@ -48,6 +48,7 @@ import mdio_seq_pkg::mdio_seq_phy_responder;
 // import scoerboard packages
 import eth_tx_scoreboard_pkg::*;
 import eth_rx_scoreboard_pkg::*;
+import eth_mdio_scoreboard_pkg::*;
 
 // import coverage
 import eth_cov_pkg::*;
@@ -59,8 +60,8 @@ import eth_cov_pkg::*;
 // eth_cov_pkg.sv) were not available to mirror exactly. Once shared, move
 // these two `includes into the matching package for consistency with the
 // TX/RX scoreboard and coverage wiring.
-`include "eth_mdio_scoreboard.sv"
-`include "eth_cov_mdio.sv"
+// `include "eth_mdio_scoreboard.sv"
+// `include "eth_cov_mdio.sv"
 
 // include env files
 `include "eth_env_base.sv"
