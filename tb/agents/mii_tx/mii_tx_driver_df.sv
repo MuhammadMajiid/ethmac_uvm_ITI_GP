@@ -28,11 +28,12 @@ class mii_tx_driver_df extends mii_tx_driver_base;
             m_seq_item.MCrS=vif.MTxEN | prev_txen;
             prev_txen=vif.MTxEN;
             drive_items(m_seq_item);
+            seq_item_port.item_done();
         end
     endtask 
 
     task drive_items(mii_tx_seq_item_base m_seq_item);
-
+    @(vif.cb_mii_tx);
     if (vif.MTxEN) begin
 
         // Wait  30  MII clocks 
@@ -46,7 +47,7 @@ class mii_tx_driver_df extends mii_tx_driver_base;
             vif.cb_mii_tx.MColl <= 1'b1;
         end
     end
-
+    vif.cb_mii_tx.MColl <= 1'b0;
     endtask
 
 endclass : mii_tx_driver_df

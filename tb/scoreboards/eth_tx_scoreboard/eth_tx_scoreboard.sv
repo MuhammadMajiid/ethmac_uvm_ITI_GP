@@ -797,7 +797,7 @@ function void eth_tx_scoreboard::pred_check_huge();
 
     // This is special condition when minfl > maxfl and padding occurs
     if(m_tx_bd_cfg_s.len<= m_tx_bd_cfg_s.maxfl && m_tx_bd_cfg_s.len<m_tx_bd_cfg_s.minfl && 
-       m_tx_bd_cfg_s.maxfl+crc_len<m_tx_bd_cfg_s.minfl)
+       m_tx_bd_cfg_s.maxfl+crc_len<m_tx_bd_cfg_s.minfl && m_tx_bd_cfg_s.eff_pad)
     return;   
     
     // if packet length is smaller than maximum packet size, send packet
@@ -1286,12 +1286,14 @@ task eth_tx_scoreboard::pred_defer();
                 m_sem_tx_seq_item.get(1);
                 if(!m_mii_tx_seq_item.MColl) begin
                     m_sem_tx_seq_item.put(1);
+                    #1;
                     break;
                 end    
                 m_sem_tx_seq_item.put(1);
                 #ETH_PHY_TX_CLK_PERIOD_NS;
             end     
         end
+        /*
         // Carrier sense conditions
         if (m_mii_tx_seq_item.MCrS && (m_tx_expected_s.exp_df||1))                         //3,4                                                
         begin
@@ -1307,11 +1309,17 @@ task eth_tx_scoreboard::pred_defer();
                 m_sem_tx_seq_item.put(1);
                 #ETH_PHY_TX_CLK_PERIOD_NS;
             end     
+        end*/
+        // Put key in semaphore
+        else begin
+        m_sem_tx_seq_item.put(1);
+        #1; 
         end
+
         // check if counter reaches excessive deferral limit
         if(i==ETH_EXCESS_DEFER_LIMIT)
-            m_tx_pending_s.flag_abort=1;
-        #1; 
+            m_tx_expected_s.exp_df=1;
+        
     end    
 endtask
 
