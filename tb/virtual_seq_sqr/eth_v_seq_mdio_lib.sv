@@ -13,7 +13,8 @@ class v_seq_tc_miim_clkdiv extends eth_v_seq_base;
     function new(string name = "v_seq_tc_miim_clkdiv"); super.new(name); endfunction
 
     task body();
-        wb_s_write_seq host_write = wb_s_write_seq::type_id::create("host_write");
+        wb_s_seq_base host_write;
+        host_write = wb_s_seq_base::type_id::create("host_write");
         // Loop through even values 2 to 254 (0x02 to 0xFE)
         for (int i = 2; i <= 254; i += 2) begin
             `uvm_do_on_with(host_write, p_sequencer.m_wb_s_sqr, {
@@ -33,7 +34,8 @@ class v_seq_tc_miim_rw_preamble extends eth_v_seq_base;
     function new(string name = "v_seq_tc_miim_rw_preamble"); super.new(name); endfunction
 
     task body();
-        wb_s_write_seq host_write = wb_s_write_seq::type_id::create("host_write");
+        wb_s_seq_base host_write;
+        host_write = wb_s_seq_base::type_id::create("host_write");
 
         // Sequence 1: Preamble ENABLED (MIINOPRE = 0)
         `uvm_do_on_with(host_write, p_sequencer.m_wb_s_sqr, { m_addr == 'h20; m_wdata == 32'h00000000; })
@@ -56,7 +58,8 @@ class v_seq_tc_miim_rst_phy extends eth_v_seq_base;
     function new(string name = "v_seq_tc_miim_rst_phy"); super.new(name); endfunction
 
     task body();
-        wb_s_write_seq host_write = wb_s_write_seq::type_id::create("host_write");
+        wb_s_seq_base host_write;
+        host_write = wb_s_seq_base::type_id::create("host_write");
 
         `uvm_do_on_with(host_write, p_sequencer.m_wb_s_sqr, { m_addr == 'h28; m_wdata == 32'h00000000; }) // RGAD=0
         `uvm_do_on_with(host_write, p_sequencer.m_wb_s_sqr, { m_addr == 'h2C; m_wdata == 32'h00008000; }) // Soft Reset (Bit 15=1)
@@ -72,8 +75,11 @@ class v_seq_tc_miim_scan extends eth_v_seq_base;
     function new(string name = "v_seq_tc_miim_scan"); super.new(name); endfunction
 
     task body();
-        wb_s_write_seq host_write = wb_s_write_seq::type_id::create("host_write");
-        wb_s_read_seq  host_read  = wb_s_read_seq::type_id::create("host_read");
+        wb_s_seq_base host_write;
+        wb_s_seq_base host_read;
+
+        host_write = wb_s_seq_base::type_id::create("host_write");
+        host_read = wb_s_seq_base::type_id::create("host_read");
 
         // Target PHY Status Reg (RGAD=1) to verify Linkfail mirroring during scan
         `uvm_do_on_with(host_write, p_sequencer.m_wb_s_sqr, { m_addr == 'h28; m_wdata == 32'h00000101; }) // FIAD=1, RGAD=1
@@ -94,7 +100,8 @@ class v_seq_tc_miim_priority extends eth_v_seq_base;
     function new(string name = "v_seq_tc_miim_priority"); super.new(name); endfunction
 
     task body();
-        wb_s_write_seq host_write = wb_s_write_seq::type_id::create("host_write");
+        wb_s_seq_base host_write;
+        host_write = wb_s_seq_base::type_id::create("host_write");
         // Assert WRITE(2), READ(1), and SCAN(0) simultaneously: 3'b111
         `uvm_do_on_with(host_write, p_sequencer.m_wb_s_sqr, { m_addr == 'h24; m_wdata == 32'h00000007; })
     endtask
@@ -108,7 +115,8 @@ class v_seq_tc_miim_walking extends eth_v_seq_base;
     function new(string name = "v_seq_tc_miim_walking"); super.new(name); endfunction
 
     task body();
-        wb_s_write_seq host_write = wb_s_write_seq::type_id::create("host_write");
+        wb_s_seq_base host_write;
+        host_write = wb_s_seq_base::type_id::create("host_write");
 
         // 13: Walking-1 FIAD[4:0]
         for (int i = 0; i < 5; i++) begin

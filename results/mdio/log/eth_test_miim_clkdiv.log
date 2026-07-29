@@ -1,0 +1,159 @@
+# vsim -c -voptargs="+acc" work.eth_tb -coverage -classdebug -sv_seed random -uvmcontrol=all "+uvm_set_verbosity=uvm_test_top.m_env.*,_ALL_,UVM_MEDIUM,time,0" "+seq_num=8" "+coll_num=0" "+UVM_TESTNAME=eth_test_miim_clkdiv" -onfinish stop -do "
+#     view wave
+#     add wave -r /eth_tb/dut/*
+#     run -all
+#     coverage save $CODE_UCDB -codeAll -instance eth_tb.dut
+#     coverage save $FUNC_UCDB -cvg -directive -assert
+#     transcript file ""
+#   " 
+# Start time: 07:21:50 on Jul 29,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# ** Warning: (vopt-13408) Code coverage will be disabled for some DUs/packages/classes and source files.
+# ** Warning: tb/top/eth_tb.sv(72): (vopt-2685) [TFMPC] - Too few port connections for 'dut'.  Expected 35, found 31.
+# ** Warning: tb/top/eth_tb.sv(72): (vopt-2718) [TFMPC] - Missing connection for port 'mrxerr_pad_i'.
+# ** Warning: tb/top/eth_tb.sv(72): (vopt-2718) [TFMPC] - Missing connection for port 'mrxdv_pad_i'.
+# ** Warning: tb/top/eth_tb.sv(72): (vopt-2718) [TFMPC] - Missing connection for port 'mrxd_pad_i'.
+# ** Warning: tb/top/eth_tb.sv(72): (vopt-2718) [TFMPC] - Missing connection for port 'mrx_clk_pad_i'.
+# ** Warning: tb/global/mem_model.sv(94): (vopt-2250) Function "print" has no return value assignment.
+# ** Warning: tb/sequences/wb_m_seq/wb_m_seq_wr_rd.sv(36): (vopt-2240) Treating stand-alone use of function 'write' as an implicit VOID cast.
+# ** Warning: tb/sequences/wb_m_seq/wb_m_seq_wr_rd.sv(43): (vopt-2240) Treating stand-alone use of function 'read' as an implicit VOID cast.
+# ** Warning: tb/sequences/wb_m_seq/wb_m_seq_wait.sv(36): (vopt-2240) Treating stand-alone use of function 'write' as an implicit VOID cast.
+# ** Warning: tb/sequences/wb_m_seq/wb_m_seq_wait.sv(62): (vopt-2240) Treating stand-alone use of function 'read' as an implicit VOID cast.
+# ** Warning: tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(241): (vopt-2240) Treating stand-alone use of function 'write' as an implicit VOID cast.
+# ** Warning: tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(246): (vopt-2240) Treating stand-alone use of function 'write' as an implicit VOID cast.
+# ** Warning: tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1630): (vopt-2240) Treating stand-alone use of function 'predict' as an implicit VOID cast.
+# ** Warning: tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1645): (vopt-2240) Treating stand-alone use of function 'predict' as an implicit VOID cast.
+# ** Warning: tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1655): (vopt-2240) Treating stand-alone use of function 'predict' as an implicit VOID cast.
+# ** Warning: tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(641): (vopt-2240) Treating stand-alone use of function 'pop_front' as an implicit VOID cast.
+# ** Warning: tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(814): (vopt-2240) Treating stand-alone use of function 'pop_back' as an implicit VOID cast.
+# ** Warning: tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1721): (vopt-2240) Treating stand-alone use of function 'predict' as an implicit VOID cast.
+# ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=0, Warnings=19.
+# //  Questa Sim-64
+# //  Version 2021.2_1 linux_x86_64 May 15 2021
+# //
+# //  Copyright 1991-2021 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  QuestaSim and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading sv_std.std
+# Loading work.wb_m_if(fast)
+# Loading work.wb_s_if(fast)
+# Loading work.mii_tx_if(fast)
+# Loading work.reset_if(fast)
+# Loading mtiUvm.uvm_pkg(fast)
+# Loading work.eth_glob_pkg(fast)
+# Loading work.mdio_seq_item_pkg(fast)
+# Loading work.mii_rx_seq_item_pkg(fast)
+# Loading work.mii_tx_seq_item_pkg(fast)
+# Loading work.wb_m_seq_item_pkg(fast)
+# Loading work.wb_s_seq_item_pkg(fast)
+# Loading work.eth_ral_pkg(fast)
+# Loading work.eth_cov_pkg(fast)
+# Loading work.mdio_if(fast)
+# Loading work.mii_rx_if(fast)
+# Loading work.eth_config_pkg(fast)
+# Loading work.eth_mdio_scoreboard_pkg(fast)
+# Loading work.eth_rx_scoreboard_pkg(fast)
+# Loading work.eth_tx_scoreboard_pkg(fast)
+# Loading work.mdio_agent_pkg(fast)
+# Loading work.mdio_seq_pkg(fast)
+# Loading work.reset_seq_item_pkg(fast)
+# Loading work.reset_seq_pkg(fast)
+# Loading work.mii_tx_agent_pkg(fast)
+# Loading work.mii_tx_seq_pkg(fast)
+# Loading work.wb_s_seq_pkg(fast)
+# Loading work.wb_m_agent_pkg(fast)
+# Loading work.wb_m_seq_pkg(fast)
+# Loading work.reset_agent_pkg(fast)
+# Loading work.mii_rx_agent_pkg(fast)
+# Loading work.wb_s_agent_pkg(fast)
+# Loading work.eth_v_seq_sqr_pkg(fast)
+# Loading work.eth_env_pkg(fast)
+# Loading work.eth_test_tx_pkg(fast)
+# Loading work.eth_test_reg_pkg(fast)
+# Loading mtiUvm.questa_uvm_pkg(fast)
+# Loading work.eth_tb(fast)
+# Loading work.reset_if(fast__2)
+# Loading work.wb_s_if_sv_unit(fast)
+# Loading work.wb_s_if(fast__2)
+# Loading work.wb_m_if_sv_unit(fast)
+# Loading work.wb_m_if(fast__2)
+# Loading work.mii_tx_if_sv_unit(fast)
+# Loading work.mii_tx_if(fast__2)
+# Loading work.mii_rx_if(fast__2)
+# Loading work.mdio_if(fast__2)
+# Loading work.eth_top(fast)
+# Loading work.eth_miim(fast)
+# Loading work.eth_clockgen(fast)
+# Loading work.eth_shiftreg(fast)
+# Loading work.eth_outputcontrol(fast)
+# Loading work.eth_registers(fast)
+# Loading work.eth_register(fast)
+# Loading work.eth_register(fast__1)
+# Loading work.eth_register(fast__2)
+# Loading work.eth_register(fast__3)
+# Loading work.eth_register(fast__4)
+# Loading work.eth_register(fast__5)
+# Loading work.eth_register(fast__6)
+# Loading work.eth_register(fast__7)
+# Loading work.eth_register(fast__8)
+# Loading work.eth_register(fast__9)
+# Loading work.eth_register(fast__10)
+# Loading work.eth_register(fast__11)
+# Loading work.eth_register(fast__12)
+# Loading work.eth_register(fast__13)
+# Loading work.eth_register(fast__14)
+# Loading work.eth_maccontrol(fast)
+# Loading work.eth_receivecontrol(fast)
+# Loading work.eth_transmitcontrol(fast)
+# Loading work.eth_txethmac(fast)
+# Loading work.eth_txcounters(fast)
+# Loading work.eth_txstatem(fast)
+# Loading work.eth_crc(fast)
+# Loading work.eth_random(fast)
+# Loading work.eth_rxethmac(fast)
+# Loading work.eth_rxstatem(fast)
+# Loading work.eth_rxcounters(fast)
+# Loading work.eth_rxaddrcheck(fast)
+# Loading work.eth_crc(fast__1)
+# Loading work.eth_wishbone(fast)
+# Loading work.eth_spram_256x32(fast)
+# Loading work.eth_fifo(fast)
+# Loading work.eth_macstatus(fast)
+# ** Error: (vsim-3043) Unresolved reference to 'm_addr'.
+#    Time: 0 ps  Iteration: 0  Region: /eth_v_seq_sqr_pkg::v_seq_tc_miim_clkdiv File: tb/virtual_seq_sqr/eth_v_seq_mdio_lib.sv Line: 20
+# ** Error: (vsim-3043) Unresolved reference to 'm_wdata'.
+#    Time: 0 ps  Iteration: 0  Region: /eth_v_seq_sqr_pkg::v_seq_tc_miim_clkdiv File: tb/virtual_seq_sqr/eth_v_seq_mdio_lib.sv Line: 20
+# ** Error: (vsim-3043) Unresolved reference to 'm_addr'.
+#    Time: 0 ps  Iteration: 0  Region: /eth_v_seq_sqr_pkg::v_seq_tc_miim_rw_preamble File: tb/virtual_seq_sqr/eth_v_seq_mdio_lib.sv Line: 41
+# ** Error: (vsim-3043) Unresolved reference to 'm_wdata'.
+#    Time: 0 ps  Iteration: 0  Region: /eth_v_seq_sqr_pkg::v_seq_tc_miim_rw_preamble File: tb/virtual_seq_sqr/eth_v_seq_mdio_lib.sv Line: 41
+# ** Error: (vsim-3043) Unresolved reference to 'm_addr'.
+#    Time: 0 ps  Iteration: 0  Region: /eth_v_seq_sqr_pkg::v_seq_tc_miim_rst_phy File: tb/virtual_seq_sqr/eth_v_seq_mdio_lib.sv Line: 64
+# ** Error: (vsim-3043) Unresolved reference to 'm_wdata'.
+#    Time: 0 ps  Iteration: 0  Region: /eth_v_seq_sqr_pkg::v_seq_tc_miim_rst_phy File: tb/virtual_seq_sqr/eth_v_seq_mdio_lib.sv Line: 64
+# ** Error: (vsim-3043) Unresolved reference to 'm_addr'.
+#    Time: 0 ps  Iteration: 0  Region: /eth_v_seq_sqr_pkg::v_seq_tc_miim_scan File: tb/virtual_seq_sqr/eth_v_seq_mdio_lib.sv Line: 85
+# ** Error: (vsim-3043) Unresolved reference to 'm_wdata'.
+#    Time: 0 ps  Iteration: 0  Region: /eth_v_seq_sqr_pkg::v_seq_tc_miim_scan File: tb/virtual_seq_sqr/eth_v_seq_mdio_lib.sv Line: 85
+# ** Error: (vsim-3043) Unresolved reference to 'm_addr'.
+#    Time: 0 ps  Iteration: 0  Region: /eth_v_seq_sqr_pkg::v_seq_tc_miim_scan File: tb/virtual_seq_sqr/eth_v_seq_mdio_lib.sv Line: 91
+# ** Error: (vsim-3043) Unresolved reference to 'm_addr'.
+#    Time: 0 ps  Iteration: 0  Region: /eth_v_seq_sqr_pkg::v_seq_tc_miim_priority File: tb/virtual_seq_sqr/eth_v_seq_mdio_lib.sv Line: 106
+# ** Error: (vsim-3043) Unresolved reference to 'm_wdata'.
+#    Time: 0 ps  Iteration: 0  Region: /eth_v_seq_sqr_pkg::v_seq_tc_miim_priority File: tb/virtual_seq_sqr/eth_v_seq_mdio_lib.sv Line: 106
+# ** Error: (vsim-3043) Unresolved reference to 'm_addr'.
+#    Time: 0 ps  Iteration: 0  Region: /eth_v_seq_sqr_pkg::v_seq_tc_miim_walking File: tb/virtual_seq_sqr/eth_v_seq_mdio_lib.sv Line: 123
+# ** Error: (vsim-3043) Unresolved reference to 'm_wdata'.
+#    Time: 0 ps  Iteration: 0  Region: /eth_v_seq_sqr_pkg::v_seq_tc_miim_walking File: tb/virtual_seq_sqr/eth_v_seq_mdio_lib.sv Line: 123
+# Loading /home/muhammad/eda_tools/altera/questasim/questasim/uvm-1.1d/linux_x86_64/uvm_dpi.so
+# Error loading design
+# End time: 07:21:55 on Jul 29,2026, Elapsed time: 0:00:05
+# Errors: 13, Warnings: 19
