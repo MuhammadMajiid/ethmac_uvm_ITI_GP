@@ -31,7 +31,7 @@ class wb_s_seq_tx_maxfl extends wb_s_basic_tx_seq;
     tx_bd_num==1;
     rand_tx_bd_idx inside {0,1};
     minfl inside {64,68};
-    maxfl dist { ['h0000:'h0004] :/ 20 ,['h0005:'h003F] :/ 20, 'h0040 :/ 20, ['h00041:'hFFFE] :/20 ,'hFFFF :/ 20, 'h05EE :/20 };
+    maxfl dist { ['h0000:'h0004] :/ 25 ,['h0005:'h003F] :/ 25, 'h0040 :/ 5, ['h00041:'hFFFE] :/25 ,'hFFFF :/ 20, 'h05EE :/20 };
     foreach (pkt_len[i]){
         pkt_len[i] <= 'd128;
         pkt_len[i]>4;
@@ -40,6 +40,8 @@ class wb_s_seq_tx_maxfl extends wb_s_basic_tx_seq;
         else if(moder_hugen)
             pkt_len[i]<maxfl;   
     }
+    solve moder_hugen before pkt_len;
+    solve rand_tx_bd_idx before pkt_len;    
     })   
     else begin
     `uvm_fatal(get_name(), "Failed randomization")
