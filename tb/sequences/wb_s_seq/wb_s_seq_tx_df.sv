@@ -48,7 +48,7 @@ class wb_s_seq_tx_df extends wb_s_basic_tx_seq;
     //-----------------------------------------------------
     // Configure registers
     //-----------------------------------------------------
-    configure_tx_registers(.tx_bd_num(m_item.tx_bd_num),.fulld(m_item.moder_fd),.txen(1));
+    configure_tx_registers(.tx_bd_num(m_item.tx_bd_num),.fulld(m_item.moder_fd),.nobckof(1),.txen(1));
 
 
     `uvm_info(get_type_name(),

@@ -16,7 +16,7 @@ class eth_tx_scoreboard extends uvm_scoreboard;
     // =========================================================================
     // Parameters for semaphore keys
     // =========================================================================
-    parameter SEM_TX_SEQ_ITEM_NO_KEYS = 3;
+    parameter SEM_TX_SEQ_ITEM_NO_KEYS = 4;
     parameter SEM_WB_M_SEQ_ITEM_NO_KEYS = 1;
     int no_ev;
     // =========================================================================
@@ -496,6 +496,7 @@ task eth_tx_scoreboard::predictor();
         pred_track_txen();
         pred_track_rd();
         pred_track_underrun(); 
+        pred_defer();
              begin
                 wait(m_ev_txen.triggered);
 			
@@ -549,14 +550,14 @@ task eth_tx_scoreboard::comparator();
        begin
             @(!m_tx_pending_s.flag_rd);
             @(m_ev_start_comp);
-            if(m_tx_pending_s.collision_seen) begin
+            if(m_tx_pending_s.collision_seen ) begin
                 m_tx_expected_s.exp_ur=0;
                 `uvm_info(get_name(),$sformatf("Retry = %0d", m_tx_pending_s.retry_cnt), UVM_MEDIUM)
             end
         end
         begin
             @(m_ev_start_comp);
-            if(m_tx_pending_s.collision_seen) begin
+            if(m_tx_pending_s.collision_seen && !m_tx_expected_s.exp_df) begin
                 m_tx_pending_s ='{default:'0,actual_pkt: {},flag_rd: m_tx_pending_s.flag_rd,
                 jam_cnt: m_tx_pending_s.jam_cnt,retry_cnt: m_tx_pending_s.retry_cnt};
                 `uvm_info(get_name(),$sformatf("Retry = %0d", m_tx_pending_s.retry_cnt), UVM_MEDIUM) 
@@ -1279,6 +1280,7 @@ task eth_tx_scoreboard::pred_defer();
         if (m_tx_bd_cfg_s.nobackoff && m_mii_tx_seq_item.MColl // 1
             || m_tx_expected_s.exp_rl)                         // 2                                                
         begin
+            `uvm_info(get_name(), "ENTERED DF LOOP", UVM_MEDIUM)
             m_sem_tx_seq_item.put(1);
             #1;
             // Start counter
@@ -1317,8 +1319,11 @@ task eth_tx_scoreboard::pred_defer();
         end
 
         // check if counter reaches excessive deferral limit
-        if(i==ETH_EXCESS_DEFER_LIMIT)
+        if(i==ETH_EXCESS_DEFER_LIMIT) begin
+           `uvm_info(get_name(), "DEFERRAL", UVM_MEDIUM)
             m_tx_expected_s.exp_df=1;
+            ->m_ev_end_pkt;
+        end
         
     end    
 endtask
@@ -1361,7 +1366,7 @@ task eth_tx_scoreboard::comp_pack_pkt();
         //--------------------------------------------
         if (!m_tx_bd_cfg_s.full_duplex && m_mii_tx_seq_item.MColl) begin
             m_tx_pending_s.collision_seen=1;
-            `uvm_info(get_name(), "COLLISION SEEN", UVM_MEDIUM)
+            `uvm_info(get_name(), "COLLISION SEEN", UVM_DEBUG)
         end 
        //--------------------------------------------
         // First nibble (LSB)
@@ -1392,7 +1397,7 @@ task eth_tx_scoreboard::comp_pack_pkt();
         //--------------------------------------------
         if (!m_tx_bd_cfg_s.full_duplex && m_mii_tx_seq_item.MColl) begin
             m_tx_pending_s.collision_seen=1;
-            `uvm_info(get_name(), "COLLISION SEEN", UVM_MEDIUM)
+            `uvm_info(get_name(), "COLLISION SEEN", UVM_DEBUG)
         end
         //--------------------------------------------
         // Expect second nibble
