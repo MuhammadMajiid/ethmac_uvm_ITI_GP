@@ -1,21 +1,11 @@
-# ** Error: Acs sdne.
-# 
-#        Unable to replace existing ini file (D:/C/ITI/GP/Ethernet_MAC.mpf).  File can not be renamed.
-# ** Error: Acs sdne.
-# 
-#        Unable to replace existing ini file (D:/C/ITI/GP/Ethernet_MAC.mpf).  File can not be renamed.
-# ** Error: Acs sdne.
-# 
-#        Unable to replace existing ini file (D:/C/ITI/GP/Ethernet_MAC.mpf).  File can not be renamed.
-# End time: 12:28:01 on Jul 29,2026, Elapsed time: 0:02:01
-# Errors: 3, Warnings: 7
+# 0
 # vsim -c -voptargs="+acc" work.eth_tb -coverage -sv_seed random "+uvm_set_verbosity=uvm_test_top.m_env.*,_ALL_,UVM_MEDIUM,time,0" "+seq_num=1" "+coll_num=0" "+UVM_TESTNAME=eth_test_tx_df" -onfinish stop -do "
 #     run -all; 
 #     coverage save $CODE_UCDB -codeAll -instance eth_tb.dut
 #     coverage save $FUNC_UCDB -cvg -directive -assert
 #     transcript file ""
 #     " 
-# Start time: 12:28:01 on Jul 29,2026
+# Start time: 21:14:57 on Jul 29,2026
 # ** Note: (vsim-8009) Loading existing optimized design _opt1
 # Loading sv_std.std
 # Loading work.wb_m_if(fast)
@@ -103,7 +93,7 @@
 # Loading work.eth_fifo(fast)
 # Loading work.eth_macstatus(fast)
 # Loading D:/B/qsim_2021_1/uvm-1.1d\win64\uvm_dpi.dll
-# Sv_Seed = 1161359741
+# Sv_Seed = 1403527925
 # 
 #     run -all
 # ----------------------------------------------------------------
@@ -430,8 +420,18 @@
 # UVM_INFO repo/tb/agents/wb_m/wb_m_monitor_base.sv(101) @ 22500: uvm_test_top.m_env.m_wb_m_agent.m_monitor [wb_m_monitor_base] Begin monitoring after reset deassertion
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(58) @ 22500: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [mii_tx_monitor_base] Begin monitoring after reset deassertion
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_driver_base.sv(56) @ 60000: uvm_test_top.m_env.m_mii_tx_agent.m_driver [DRIVER] Reset deasserted — starting stimulus
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(285) @ 92500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[0] - LEN=92, PTR=0xb6479110, IRQ=0, WR=1, PAD=1, CRC=1
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(163) @ 92500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG] Configuring TX registers
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(227) @ 222500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG] MODER: FULLD=0, TXEN=1, BDNUM=1, NOPRE=0, CRCEN=1, DCRC=0, PAD=1, HUGEN=0, NOBCKOF=1, EXDF=0, IPGT=18, TXB_M=0, TXC_M=0, TXE_M=0, MAXFL=1536, MINFL=64, MAXRET=15, COLLVALID=63
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_seq_tx_df.sv(54) @ 222500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [wb_s_seq_tx_df] DF TX configuration completed
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(897) @ 222500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TXEN asserted
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1335) @ 222500: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Entered pack packet
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(546) @ 222500: uvm_test_top.m_env.m_tx_sb [m_tx_sb] pending rd = 0
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1252) @ 222500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[0] LEN=92 RD=1 IRQ=0 WR=1 EFF PAD=1 EFF CRC=1 PTR=0xb6479110
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(548) @ 222500: uvm_test_top.m_env.m_tx_sb [m_tx_sb] pending rd = 1
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1346) @ 940000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
 # Break key hit
-# Break in Function uvm_pkg/uvm_sequence_item::get_root_sequence at D:/B/qsim_2021_1/win64/../verilog_src/uvm-1.1d/src/seq/uvm_sequence_item.svh line 293
+# Break in Function uvm_pkg/uvm_reg::get_mirrored_value at D:/B/qsim_2021_1/win64/../verilog_src/uvm-1.1d/src/reg/uvm_reg.svh line 2010
 #  
 #     coverage save $CODE_UCDB -codeAll -instance eth_tb.dut
 #     coverage save $FUNC_UCDB -cvg -directive -assert

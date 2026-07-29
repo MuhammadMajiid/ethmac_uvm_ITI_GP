@@ -351,6 +351,7 @@ function void get_bd_split(output int n_tx_bd, output int n_rx_bd);
     tx_count = TX_BD_NUM.TX_BD_NUM.get();
     return 32'h400 + ((tx_count + bd_index) * 8);
   endfunction
+
 // -------------------------------------------------------------------------
 // Check if MIIM module is busy (poll MIISTATUS.BUSY)
 // Returns 1 if busy, 0 if ready

@@ -26,6 +26,7 @@ package wb_s_seq_pkg;
 
     // Sequences
     `include "wb_s_seq_base.sv"
+    `include "wb_s_seq_mdio.sv"
     `include "wb_s_basic_tx_seq.sv"
     `include "wb_s_seq_tx_no_pre.sv"
     `include "wb_s_seq_tx_hugen.sv"
