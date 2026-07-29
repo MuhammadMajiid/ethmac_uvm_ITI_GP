@@ -50,7 +50,7 @@ package wb_s_seq_pkg;
 	`include "eth_bd_mem_walk_seq.sv"
 	`include "eth_bd_mem_alternating_seq.sv"
 	`include "eth_bd_wr_seq.sv"
-
+    `include "wb_s_seq_mdio.sv"
 
     
    
