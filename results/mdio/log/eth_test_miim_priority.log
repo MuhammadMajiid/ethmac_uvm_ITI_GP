@@ -1,0 +1,322 @@
+# End time: 04:16:13 on Jul 30,2026, Elapsed time: 0:00:05
+# Errors: 0, Warnings: 0
+# vsim -c -voptargs="+acc" work.eth_tb -coverage -classdebug -sv_seed random -uvmcontrol=all "+uvm_set_verbosity=uvm_test_top.m_env.*,_ALL_,UVM_MEDIUM,time,0" "+seq_num=10" "+coll_num=0" "+UVM_TESTNAME=eth_test_miim_priority" -onfinish stop -do "
+#     view wave
+#     add wave -r /eth_tb/dut/*
+#     run -all
+#     coverage save $CODE_UCDB -codeAll -instance eth_tb.dut
+#     coverage save $FUNC_UCDB -cvg -directive -assert
+#     transcript file ""
+#   " 
+# Start time: 04:16:13 on Jul 30,2026
+# ** Note: (vsim-8009) Loading existing optimized design _opt
+# Loading sv_std.std
+# Loading work.wb_s_if(fast)
+# Loading work.wb_m_if(fast)
+# Loading work.reset_if(fast)
+# Loading work.mdio_if(fast)
+# Loading mtiUvm.uvm_pkg(fast)
+# Loading work.eth_glob_pkg(fast)
+# Loading work.mdio_seq_item_pkg(fast)
+# Loading work.mii_rx_seq_item_pkg(fast)
+# Loading work.mii_tx_seq_item_pkg(fast)
+# Loading work.wb_m_seq_item_pkg(fast)
+# Loading work.wb_s_seq_item_pkg(fast)
+# Loading work.eth_ral_pkg(fast)
+# Loading work.eth_cov_pkg(fast)
+# Loading work.mii_tx_if(fast)
+# Loading work.mii_rx_if(fast)
+# Loading work.eth_config_pkg(fast)
+# Loading work.eth_mdio_scoreboard_pkg(fast)
+# Loading work.eth_rx_scoreboard_pkg(fast)
+# Loading work.eth_tx_scoreboard_pkg(fast)
+# Loading work.wb_s_seq_pkg(fast)
+# Loading work.mdio_agent_pkg(fast)
+# Loading work.mdio_seq_pkg(fast)
+# Loading work.reset_seq_item_pkg(fast)
+# Loading work.reset_seq_pkg(fast)
+# Loading work.mii_tx_agent_pkg(fast)
+# Loading work.mii_tx_seq_pkg(fast)
+# Loading work.wb_m_agent_pkg(fast)
+# Loading work.wb_m_seq_pkg(fast)
+# Loading work.reset_agent_pkg(fast)
+# Loading work.mii_rx_agent_pkg(fast)
+# Loading work.wb_s_agent_pkg(fast)
+# Loading work.eth_v_seq_sqr_pkg(fast)
+# Loading work.eth_env_pkg(fast)
+# Loading work.eth_test_mdio_pkg(fast)
+# Loading work.eth_test_tx_pkg(fast)
+# Loading work.eth_test_reg_pkg(fast)
+# Loading mtiUvm.questa_uvm_pkg(fast)
+# Loading work.eth_tb(fast)
+# Loading work.reset_if(fast__2)
+# Loading work.wb_s_if_sv_unit(fast)
+# Loading work.wb_s_if(fast__2)
+# Loading work.wb_m_if_sv_unit(fast)
+# Loading work.wb_m_if(fast__2)
+# Loading work.mii_tx_if_sv_unit(fast)
+# Loading work.mii_tx_if(fast__2)
+# Loading work.mii_rx_if(fast__2)
+# Loading work.mdio_if(fast__2)
+# Loading work.eth_top(fast)
+# Loading work.eth_miim(fast)
+# Loading work.eth_clockgen(fast)
+# Loading work.eth_shiftreg(fast)
+# Loading work.eth_outputcontrol(fast)
+# Loading work.eth_registers(fast)
+# Loading work.eth_register(fast)
+# Loading work.eth_register(fast__1)
+# Loading work.eth_register(fast__2)
+# Loading work.eth_register(fast__3)
+# Loading work.eth_register(fast__4)
+# Loading work.eth_register(fast__5)
+# Loading work.eth_register(fast__6)
+# Loading work.eth_register(fast__7)
+# Loading work.eth_register(fast__8)
+# Loading work.eth_register(fast__9)
+# Loading work.eth_register(fast__10)
+# Loading work.eth_register(fast__11)
+# Loading work.eth_register(fast__12)
+# Loading work.eth_register(fast__13)
+# Loading work.eth_register(fast__14)
+# Loading work.eth_maccontrol(fast)
+# Loading work.eth_receivecontrol(fast)
+# Loading work.eth_transmitcontrol(fast)
+# Loading work.eth_txethmac(fast)
+# Loading work.eth_txcounters(fast)
+# Loading work.eth_txstatem(fast)
+# Loading work.eth_crc(fast)
+# Loading work.eth_random(fast)
+# Loading work.eth_rxethmac(fast)
+# Loading work.eth_rxstatem(fast)
+# Loading work.eth_rxcounters(fast)
+# Loading work.eth_rxaddrcheck(fast)
+# Loading work.eth_crc(fast__1)
+# Loading work.eth_wishbone(fast)
+# Loading work.eth_spram_256x32(fast)
+# Loading work.eth_fifo(fast)
+# Loading work.eth_macstatus(fast)
+# Loading /home/muhammad/eda_tools/altera/questasim/questasim/uvm-1.1d/linux_x86_64/uvm_dpi.so
+# Sv_Seed = 2515727410
+# 
+#     view wave
+#     add wave -r /eth_tb/dut/*
+#     run -all
+#     coverage save $CODE_UCDB -codeAll -instance eth_tb.dut
+#     coverage save $FUNC_UCDB -cvg -directive -assert
+#     transcript file ""
+#   
+# ----------------------------------------------------------------
+# UVM-1.1d
+# (C) 2007-2013 Mentor Graphics Corporation
+# (C) 2007-2013 Cadence Design Systems, Inc.
+# (C) 2006-2013 Synopsys, Inc.
+# (C) 2011-2013 Cypress Semiconductor Corp.
+# ----------------------------------------------------------------
+# 
+#   ***********       IMPORTANT RELEASE NOTES         ************
+# 
+#   You are using a version of the UVM library that has been compiled
+#   with `UVM_NO_DEPRECATED undefined.
+#   See http://www.eda.org/svdb/view.php?id=3313 for more details.
+# 
+#   You are using a version of the UVM library that has been compiled
+#   with `UVM_OBJECT_MUST_HAVE_CONSTRUCTOR undefined.
+#   See http://www.eda.org/svdb/view.php?id=3770 for more details.
+# 
+#       (Specify +UVM_NO_RELNOTES to turn off this notice)
+# 
+# UVM_INFO verilog_src/questa_uvm_pkg-1.2/src/questa_uvm_pkg.sv(277) @ 0: reporter [Questa UVM] QUESTA_UVM-1.2.3
+# UVM_INFO verilog_src/questa_uvm_pkg-1.2/src/questa_uvm_pkg.sv(278) @ 0: reporter [Questa UVM]  questa_uvm::init(all)
+# UVM_INFO @ 0: reporter [RNTST] Running test eth_test_miim_priority...
+# UVM_INFO @ 0: reporter [UVMTOP] UVM testbench topology:
+# ---------------------------------------------------------------------------------
+# Name                          Type                                    Size  Value
+# ---------------------------------------------------------------------------------
+# uvm_test_top                  eth_test_miim_priority                  -     @500 
+#   m_env                       eth_env_mdio                            -     @519 
+#     m_cov_mdio                eth_cov_mdio                            -     @845 
+#       wb_s_a_export           uvm_analysis_export                     -     @903 
+#         recording_detail      integral                                32    'd1  
+#       wb_s_fifo               uvm_tlm_analysis_fifo #(T)              -     @856 
+#         analysis_export       uvm_analysis_imp                        -     @895 
+#           recording_detail    integral                                32    'd1  
+#         get_ap                uvm_analysis_port                       -     @887 
+#           recording_detail    integral                                32    'd1  
+#         get_peek_export       uvm_get_peek_imp                        -     @871 
+#           recording_detail    integral                                32    'd1  
+#         put_ap                uvm_analysis_port                       -     @879 
+#           recording_detail    integral                                32    'd1  
+#         put_export            uvm_put_imp                             -     @863 
+#           recording_detail    integral                                32    'd1  
+#         recording_detail      integral                                32    'd1  
+#       recording_detail        integral                                32    'd1  
+#     m_mdio_agent              mdio_agent                              -     @830 
+#       a_port                  uvm_analysis_port                       -     @1056
+#         recording_detail      integral                                32    'd1  
+#       m_driver                mdio_driver_base                        -     @1026
+#         rsp_port              uvm_analysis_port                       -     @1041
+#           recording_detail    integral                                32    'd1  
+#         seq_item_port         uvm_seq_item_pull_port                  -     @1033
+#           recording_detail    integral                                32    'd1  
+#         recording_detail      integral                                32    'd1  
+#       m_monitor               mdio_monitor_base                       -     @1049
+#         a_port                uvm_analysis_port                       -     @1066
+#           recording_detail    integral                                32    'd1  
+#         recording_detail      integral                                32    'd1  
+#       m_sequencer             mdio_sequencer_base                     -     @917 
+#         rsp_export            uvm_analysis_export                     -     @924 
+#           recording_detail    integral                                32    'd1  
+#         seq_item_export       uvm_seq_item_pull_imp                   -     @1018
+#           recording_detail    integral                                32    'd1  
+#         recording_detail      integral                                32    'd1  
+#         arbitration_queue     array                                   0     -    
+#         lock_queue            array                                   0     -    
+#         num_last_reqs         integral                                32    'd1  
+#         num_last_rsps         integral                                32    'd1  
+#       recording_detail        integral                                32    'd1  
+#     m_mdio_sb                 eth_mdio_scoreboard                     -     @838 
+#       a_export                uvm_analysis_export                     -     @1126
+#         recording_detail      integral                                32    'd1  
+#       a_fifo                  uvm_tlm_analysis_fifo #(T)              -     @1079
+#         analysis_export       uvm_analysis_imp                        -     @1118
+#           recording_detail    integral                                32    'd1  
+#         get_ap                uvm_analysis_port                       -     @1110
+#           recording_detail    integral                                32    'd1  
+#         get_peek_export       uvm_get_peek_imp                        -     @1094
+#           recording_detail    integral                                32    'd1  
+#         put_ap                uvm_analysis_port                       -     @1102
+#           recording_detail    integral                                32    'd1  
+#         put_export            uvm_put_imp                             -     @1086
+#           recording_detail    integral                                32    'd1  
+#         recording_detail      integral                                32    'd1  
+#       recording_detail        integral                                32    'd1  
+#     m_predictor               uvm_reg_predictor #(uvm_sequence_item)  -     @803 
+#       bus_in                  uvm_analysis_imp                        -     @810 
+#         recording_detail      integral                                32    'd1  
+#       reg_ap                  uvm_analysis_port                       -     @818 
+#         recording_detail      integral                                32    'd1  
+#       recording_detail        integral                                32    'd1  
+#     m_reset_agent             reset_agent                             -     @662 
+#       m_driver                reset_driver                            -     @1137
+#         rsp_port              uvm_analysis_port                       -     @1152
+#           recording_detail    integral                                32    'd1  
+#         seq_item_port         uvm_seq_item_pull_port                  -     @1144
+#           recording_detail    integral                                32    'd1  
+#         recording_detail      integral                                32    'd1  
+#       m_sequencer             reset_sequencer                         -     @1160
+#         rsp_export            uvm_analysis_export                     -     @1167
+#           recording_detail    integral                                32    'd1  
+#         seq_item_export       uvm_seq_item_pull_imp                   -     @1261
+#           recording_detail    integral                                32    'd1  
+#         recording_detail      integral                                32    'd1  
+#         arbitration_queue     array                                   0     -    
+#         lock_queue            array                                   0     -    
+#         num_last_reqs         integral                                32    'd1  
+#         num_last_rsps         integral                                32    'd1  
+#       recording_detail        integral                                32    'd1  
+#     m_v_sqr                   eth_v_sequencer                         -     @539 
+#       rsp_export              uvm_analysis_export                     -     @546 
+#         recording_detail      integral                                32    'd1  
+#       seq_item_export         uvm_seq_item_pull_imp                   -     @640 
+#         recording_detail      integral                                32    'd1  
+#       recording_detail        integral                                32    'd1  
+#       arbitration_queue       array                                   0     -    
+#       lock_queue              array                                   0     -    
+#       num_last_reqs           integral                                32    'd1  
+#       num_last_rsps           integral                                32    'd1  
+#     m_wb_m_agent              wb_m_agent                              -     @655 
+#       a_port                  uvm_analysis_port                       -     @1420
+#         recording_detail      integral                                32    'd1  
+#       m_driver                wb_m_driver_base                        -     @1390
+#         rsp_port              uvm_analysis_port                       -     @1405
+#           recording_detail    integral                                32    'd1  
+#         seq_item_port         uvm_seq_item_pull_port                  -     @1397
+#           recording_detail    integral                                32    'd1  
+#         recording_detail      integral                                32    'd1  
+#       m_monitor               wb_m_monitor_base                       -     @1413
+#         request_a_port        uvm_analysis_port                       -     @1436
+#           recording_detail    integral                                32    'd1  
+#         transaction_a_port    uvm_analysis_port                       -     @1428
+#           recording_detail    integral                                32    'd1  
+#         recording_detail      integral                                32    'd1  
+#       m_sequencer             wb_m_sequencer_base                     -     @1281
+#         request_export        uvm_analysis_export                     -     @1496
+#           recording_detail    integral                                32    'd1  
+#         request_fifo          uvm_tlm_analysis_fifo #(T)              -     @1449
+#           analysis_export     uvm_analysis_imp                        -     @1488
+#             recording_detail  integral                                32    'd1  
+#           get_ap              uvm_analysis_port                       -     @1480
+#             recording_detail  integral                                32    'd1  
+#           get_peek_export     uvm_get_peek_imp                        -     @1464
+#             recording_detail  integral                                32    'd1  
+#           put_ap              uvm_analysis_port                       -     @1472
+#             recording_detail  integral                                32    'd1  
+#           put_export          uvm_put_imp                             -     @1456
+#             recording_detail  integral                                32    'd1  
+#           recording_detail    integral                                32    'd1  
+#         rsp_export            uvm_analysis_export                     -     @1288
+#           recording_detail    integral                                32    'd1  
+#         seq_item_export       uvm_seq_item_pull_imp                   -     @1382
+#           recording_detail    integral                                32    'd1  
+#         recording_detail      integral                                32    'd1  
+#         arbitration_queue     array                                   0     -    
+#         lock_queue            array                                   0     -    
+#         num_last_reqs         integral                                32    'd1  
+#         num_last_rsps         integral                                32    'd1  
+#       recording_detail        integral                                32    'd1  
+#     m_wb_s_agent              wb_s_agent                              -     @648 
+#       a_port                  uvm_analysis_port                       -     @1649
+#         recording_detail      integral                                32    'd1  
+#       m_driver                wb_s_driver_base                        -     @1619
+#         rsp_port              uvm_analysis_port                       -     @1634
+#           recording_detail    integral                                32    'd1  
+#         seq_item_port         uvm_seq_item_pull_port                  -     @1626
+#           recording_detail    integral                                32    'd1  
+#         recording_detail      integral                                32    'd1  
+#       m_monitor               wb_s_monitor_base                       -     @1642
+#         a_port                uvm_analysis_port                       -     @1659
+#           recording_detail    integral                                32    'd1  
+#         bd_status_ap          uvm_analysis_port                       -     @1667
+#           recording_detail    integral                                32    'd1  
+#         recording_detail      integral                                32    'd1  
+#       m_sequencer             wb_s_sequencer_base                     -     @1510
+#         rsp_export            uvm_analysis_export                     -     @1517
+#           recording_detail    integral                                32    'd1  
+#         seq_item_export       uvm_seq_item_pull_imp                   -     @1611
+#           recording_detail    integral                                32    'd1  
+#         recording_detail      integral                                32    'd1  
+#         arbitration_queue     array                                   0     -    
+#         lock_queue            array                                   0     -    
+#         num_last_reqs         integral                                32    'd1  
+#         num_last_rsps         integral                                32    'd1  
+#       recording_detail        integral                                32    'd1  
+#     recording_detail          integral                                32    'd1  
+#   recording_detail            integral                                32    'd1  
+# ---------------------------------------------------------------------------------
+# 
+# **************************************************************************
+# * Questa UVM Transaction Recording Turned ON.                            *
+# * recording_detail has been set.                                         *
+# *  To turn off, set 'recording_detail' to off:                           *
+# * uvm_config_db#(int)            ::set(null, "", "recording_detail", 0); *
+# * uvm_config_db#(uvm_bitstream_t)::set(null, "", "recording_detail", 0); *
+# **************************************************************************
+# UVM_FATAL tb/sequences/wb_s_seq/wb_s_seq_mdio.sv(52) @ 0: reporter@@cfg [MIIM_CONFIG] Only one of WCTRLDATA, RSTAT, and SCANSTAT may be set
+# 
+# --- UVM Report Summary ---
+# 
+# ** Report counts by severity
+# UVM_INFO :    4
+# UVM_WARNING :    0
+# UVM_ERROR :    0
+# UVM_FATAL :    1
+# ** Report counts by id
+# [MIIM_CONFIG]     1
+# [Questa UVM]     2
+# [RNTST]     1
+# [UVMTOP]     1
+# ** Note: $finish    : /home/muhammad/eda_tools/altera/questasim/questasim/linux_x86_64/../verilog_src/uvm-1.1d/src/base/uvm_report_object.svh(292)
+#    Time: 0 ps  Iteration: 52  Region: /uvm_pkg::uvm_sequence_base::start
+# Break in Function uvm_pkg/uvm_report_object::die at /home/muhammad/eda_tools/altera/questasim/questasim/linux_x86_64/../verilog_src/uvm-1.1d/src/base/uvm_report_object.svh line 292
+# Stopped at /home/muhammad/eda_tools/altera/questasim/questasim/linux_x86_64/../verilog_src/uvm-1.1d/src/base/uvm_report_object.svh line 292

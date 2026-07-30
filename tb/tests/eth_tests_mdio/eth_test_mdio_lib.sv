@@ -92,22 +92,22 @@ class eth_test_miim_walking extends eth_test_mdio_base;
     endtask
 endclass
 
-// // Test 6: Write to read-only PHY registers (TC9)
-// class eth_test_miim_write_readonly_regs extends eth_test_mdio_base;
-//     `uvm_component_utils(eth_test_miim_write_readonly_regs)
-//     function new(string name = "eth_test_miim_write_readonly_regs", uvm_component parent = null);
-//      super.new(name, parent);
-//     endfunction
+// Test 6: Write to read-only PHY registers (TC9)
+class eth_test_miim_write_readonly_regs extends eth_test_mdio_base;
+    `uvm_component_utils(eth_test_miim_write_readonly_regs)
+    function new(string name = "eth_test_miim_write_readonly_regs", uvm_component parent = null);
+     super.new(name, parent);
+    endfunction
 
-//     task run_phase(uvm_phase phase);
-//         v_seq_tc_miim_write_readonly_regs v_seq;
-//         v_seq = v_seq_tc_miim_write_readonly_regs::type_id::create("v_seq");
-//         phase.raise_objection(this);
-//         v_seq.start(m_env.m_v_sqr);
-//         #1000ns;
-//         phase.drop_objection(this);
-//     endtask
-// endclass
+    task run_phase(uvm_phase phase);
+        v_seq_tc_miim_write_readonly_regs v_seq;
+        v_seq = v_seq_tc_miim_write_readonly_regs::type_id::create("v_seq");
+        phase.raise_objection(this);
+        v_seq.start(m_env.m_v_sqr);
+        #1000ns;
+        phase.drop_objection(this);
+    endtask
+endclass
 
 // Test 7: WRITE/READ/SCAN command priority resolution (TC10)
 class eth_test_miim_priority extends eth_test_mdio_base;
@@ -126,38 +126,38 @@ class eth_test_miim_priority extends eth_test_mdio_base;
     endtask
 endclass
 
-// // Test 8: Access to a non-responding / reserved PHY address (TC11)
-// class eth_test_miim_wrong_phy_addr extends eth_test_mdio_base;
-//     `uvm_component_utils(eth_test_miim_wrong_phy_addr)
-//     function new(string name = "eth_test_miim_wrong_phy_addr", uvm_component parent = null);
-//      super.new(name, parent);
-//     endfunction
+// Test 8: Access to a non-responding / reserved PHY address (TC11)
+class eth_test_miim_wrong_phy_addr extends eth_test_mdio_base;
+    `uvm_component_utils(eth_test_miim_wrong_phy_addr)
+    function new(string name = "eth_test_miim_wrong_phy_addr", uvm_component parent = null);
+     super.new(name, parent);
+    endfunction
 
-//     task run_phase(uvm_phase phase);
-//         v_seq_tc_miim_wrong_phy_addr v_seq;
-//         v_seq = v_seq_tc_miim_wrong_phy_addr::type_id::create("v_seq");
-//         phase.raise_objection(this);
-//         v_seq.start(m_env.m_v_sqr);
-//         #500ns;
-//         phase.drop_objection(this);
-//     endtask
-// endclass
+    task run_phase(uvm_phase phase);
+        v_seq_tc_miim_wrong_phy_addr v_seq;
+        v_seq = v_seq_tc_miim_wrong_phy_addr::type_id::create("v_seq");
+        phase.raise_objection(this);
+        v_seq.start(m_env.m_v_sqr);
+        #500ns;
+        phase.drop_objection(this);
+    endtask
+endclass
 
-// // Test 9: Sliding stop of an in-progress scan (TC12)
-// class eth_test_miim_scan_intr extends eth_test_mdio_base;
-//     `uvm_component_utils(eth_test_miim_scan_intr)
-//     function new(string name = "eth_test_miim_scan_intr", uvm_component parent = null);
-//      super.new(name, parent);
-//     endfunction
+// Test 9: Sliding stop of an in-progress scan (TC12)
+class eth_test_miim_scan_intr extends eth_test_mdio_base;
+    `uvm_component_utils(eth_test_miim_scan_intr)
+    function new(string name = "eth_test_miim_scan_intr", uvm_component parent = null);
+     super.new(name, parent);
+    endfunction
 
-//     task run_phase(uvm_phase phase);
-//         v_seq_tc_miim_scan_intr v_seq;
-//         v_seq = v_seq_tc_miim_scan_intr::type_id::create("v_seq");
-//         phase.raise_objection(this);
-//         v_seq.start(m_env.m_v_sqr);
-//         #500ns;
-//         phase.drop_objection(this);
-//     endtask
-// endclass
+    task run_phase(uvm_phase phase);
+        v_seq_tc_miim_scan_intr v_seq;
+        v_seq = v_seq_tc_miim_scan_intr::type_id::create("v_seq");
+        phase.raise_objection(this);
+        v_seq.start(m_env.m_v_sqr);
+        #500ns;
+        phase.drop_objection(this);
+    endtask
+endclass
 
 `endif

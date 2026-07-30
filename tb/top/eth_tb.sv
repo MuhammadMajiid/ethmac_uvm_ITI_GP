@@ -6,6 +6,7 @@ module eth_tb;
   import eth_glob_pkg::*;
   import eth_test_reg_pkg::*;
   import eth_test_tx_pkg::*;
+  import eth_test_mdio_pkg::*;
 
   //--------------------------------------------------------------------------
   // Clock / Reset
@@ -124,6 +125,7 @@ module eth_tb;
     uvm_config_db#(virtual wb_s_if)::set(null,"*","wb_s_vif", m_wb_s_if);
     uvm_config_db#(virtual mii_tx_if)::set(null,"*","mii_tx_vif",m_mii_tx_if);
 	uvm_config_db#(virtual reset_if)::set(null,"*","reset_if",m_reset_if);
+    uvm_config_db#(virtual mdio_if)::set(null,"*","mdio_vif",m_mdio_if);
 
     
     run_test();

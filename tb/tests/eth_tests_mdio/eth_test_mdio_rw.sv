@@ -1,3 +1,16 @@
+//==============================================================================
+// File       : eth_test_mdio_rw.sv
+// Description: Standalone read/write smoke test for the MIIM interface.
+//
+// FIX: this called a class named `eth_v_seq_mdio_rw`, which does not exist
+// anywhere in the repository. The virtual sequence that actually covers
+// write + read, with and without preamble (TC2/TC3/TC5/TC6), is
+// `v_seq_tc_miim_rw_preamble` in eth_v_seq_mdio_lib.sv -- retargeted onto
+// that instead of inventing a second, redundant sequence. This test class
+// is otherwise a near-duplicate of `eth_test_miim_rw_preamble` in
+// eth_test_mdio_lib.sv; consider deleting one of the two once you confirm
+// you don't need both entry points.
+//==============================================================================
 `ifndef ETH_TEST_MDIO_RW_SV
 `define ETH_TEST_MDIO_RW_SV
 
@@ -9,15 +22,14 @@ class eth_test_mdio_rw extends eth_test_mdio_base;
     endfunction
 
     task run_phase(uvm_phase phase);
-        eth_v_seq_mdio_rw v_seq;
+        v_seq_tc_miim_rw_preamble v_seq;
         phase.raise_objection(this);
 
-        v_seq = eth_v_seq_mdio_rw::type_id::create("v_seq");
-        // Start the virtual sequence on the virtual sequencer
+        v_seq = v_seq_tc_miim_rw_preamble::type_id::create("v_seq");
         v_seq.start(m_env.m_v_sqr);
 
         #1000ns;
         phase.drop_objection(this);
     endtask
 endclass
-`endif
+`endif // ETH_TEST_MDIO_RW_SV

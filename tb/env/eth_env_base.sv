@@ -37,6 +37,16 @@ class eth_env_base extends uvm_env;
     if (!uvm_config_db #(eth_env_config_obj)::get(this, "", "config", m_config))
       `uvm_error(get_type_name(), "eth_env_config not found in config_db")
 
+    // wb_s_agent, wb_m_agent, and reset_agent all expect their vif
+    // pre-populated on the config object rather than fetching it
+    // themselves -- pull each one out of config_db before distributing.
+    if (!uvm_config_db#(virtual wb_s_if)::get(this, "", "wb_s_vif", m_config.m_wb_s_config.vif))
+        `uvm_fatal(get_type_name(), "virtual wb_s_if not found in uvm_config_db under key \"wb_s_vif\" -- check eth_tb.sv")
+    if (!uvm_config_db#(virtual wb_m_if)::get(this, "", "wb_m_vif", m_config.m_wb_m_config.vif))
+        `uvm_fatal(get_type_name(), "virtual wb_m_if not found in uvm_config_db under key \"wb_m_vif\" -- check eth_tb.sv")
+    if (!uvm_config_db#(virtual reset_if)::get(this, "", "reset_if", m_config.m_rst_config.vif))
+        `uvm_fatal(get_type_name(), "virtual reset_if not found in uvm_config_db under key \"reset_if\" -- check eth_tb.sv")
+
     // Distribute agent-specific configs down to each agent
     uvm_config_db #(wb_s_config_obj)::set(this, "m_wb_s_agent", "config", m_config.m_wb_s_config);
     uvm_config_db #(wb_m_config_obj)::set(this, "m_wb_m_agent", "config", m_config.m_wb_m_config);

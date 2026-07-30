@@ -23,7 +23,7 @@
 # vmap work work 
 # Modifying modelsim.ini
 # QuestaSim-64 vlog 2021.2_1 Compiler 2021.05 May 15 2021
-# Start time: 07:21:49 on Jul 29,2026
+# Start time: 04:15:39 on Jul 30,2026
 # vlog tb/global/eth_glob_pkg.sv tb/interfaces/mdio_if.sv tb/interfaces/mii_rx_if.sv tb/interfaces/mii_tx_if.sv tb/interfaces/reset_if.sv tb/interfaces/wb_m_if.sv tb/interfaces/wb_s_if.sv tb/config/eth_config_pkg.sv tb/seq_items/reset/reset_seq_item_pkg.sv tb/seq_items/mii_tx/mii_tx_seq_item_pkg.sv tb/seq_items/wb_m/wb_m_seq_item_pkg.sv tb/seq_items/wb_s/wb_s_seq_item_pkg.sv tb/seq_items/mii_rx/mii_rx_seq_item_pkg.sv tb/seq_items/mdio/mdio_seq_item_pkg.sv tb/ral/eth_ral_pkg.sv tb/agents/reset/reset_agent_pkg.sv tb/agents/wb_m/wb_m_agent_pkg.sv tb/agents/wb_s/wb_s_agent_pkg.sv tb/agents/mii_tx/mii_tx_agent_pkg.sv tb/agents/mii_rx/mii_rx_agent_pkg.sv tb/agents/mdio/mdio_agent_pkg.sv tb/sequences/reset_seq/reset_seq_pkg.sv tb/sequences/wb_m_seq/wb_m_seq_pkg.sv tb/sequences/wb_s_seq/wb_s_seq_pkg.sv tb/sequences/mii_tx_seq/mii_tx_seq_pkg.sv tb/sequences/mdio_seq/mdio_seq_pkg.sv tb/virtual_seq_sqr/eth_v_seq_sqr_pkg.sv tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard_pkg.sv tb/scoreboards/eth_rx_scoreboard/eth_rx_scoreboard_pkg.sv tb/scoreboards/eth_mdio_scoreboard/eth_mdio_scoreboard_pkg.sv tb/coverage/eth_cov_pkg.sv tb/env/eth_env_pkg.sv tb/tests/eth_tests_tx/eth_test_tx_pkg.sv tb/tests/eth_tests_reg/eth_test_reg_pkg.sv tb/tests/eth_tests_mdio/eth_test_mdio_pkg.sv rtl/eth_clockgen.v rtl/eth_cop.v rtl/eth_crc.v rtl/eth_defines.v rtl/eth_fifo.v rtl/eth_maccontrol.v rtl/eth_macstatus.v rtl/eth_miim.v rtl/eth_outputcontrol.v rtl/eth_random.v rtl/eth_receivecontrol.v rtl/eth_register.v rtl/eth_registers.v rtl/eth_rxaddrcheck.v rtl/eth_rxcounters.v rtl/eth_rxethmac.v rtl/eth_rxstatem.v rtl/eth_shiftreg.v rtl/eth_spram_256x32.v rtl/eth_top.v rtl/eth_transmitcontrol.v rtl/eth_txcounters.v rtl/eth_txethmac.v rtl/eth_txstatem.v rtl/eth_wishbone.v rtl/timescale.v tb/top/eth_tb.sv "+cover" -covercells 
 # -- Compiling package eth_glob_pkg
 # ** Note: (vlog-2286) tb/global/eth_glob_pkg.sv(17): Using implicit +incdir+/home/muhammad/eda_tools/altera/questasim/questasim/uvm-1.1d/../verilog_src/uvm-1.1d/src from import uvm_pkg
@@ -74,22 +74,22 @@
 # -- Importing package mii_tx_agent_pkg
 # -- Compiling package mdio_seq_pkg
 # -- Importing package mdio_agent_pkg
+# -- Importing package wb_s_seq_pkg
 # -- Compiling package eth_v_seq_sqr_pkg
 # -- Importing package wb_s_agent_pkg
 # -- Importing package mii_rx_agent_pkg
 # -- Importing package reset_agent_pkg
 # -- Importing package wb_m_seq_pkg
-# -- Importing package wb_s_seq_pkg
 # -- Importing package mii_tx_seq_pkg
 # -- Importing package reset_seq_pkg
 # -- Importing package mdio_seq_pkg
 # -- Compiling package eth_tx_scoreboard_pkg
-# ** Warning: tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1630): (vlog-2240) Treating stand-alone use of function 'predict' as an implicit VOID cast.
-# ** Warning: tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1645): (vlog-2240) Treating stand-alone use of function 'predict' as an implicit VOID cast.
-# ** Warning: tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1655): (vlog-2240) Treating stand-alone use of function 'predict' as an implicit VOID cast.
-# ** Warning: tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(641): (vlog-2240) Treating stand-alone use of function 'pop_front' as an implicit VOID cast.
-# ** Warning: tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(814): (vlog-2240) Treating stand-alone use of function 'pop_back' as an implicit VOID cast.
-# ** Warning: tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1721): (vlog-2240) Treating stand-alone use of function 'predict' as an implicit VOID cast.
+# ** Warning: tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1643): (vlog-2240) Treating stand-alone use of function 'predict' as an implicit VOID cast.
+# ** Warning: tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1658): (vlog-2240) Treating stand-alone use of function 'predict' as an implicit VOID cast.
+# ** Warning: tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1668): (vlog-2240) Treating stand-alone use of function 'predict' as an implicit VOID cast.
+# ** Warning: tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(642): (vlog-2240) Treating stand-alone use of function 'pop_front' as an implicit VOID cast.
+# ** Warning: tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(815): (vlog-2240) Treating stand-alone use of function 'pop_back' as an implicit VOID cast.
+# ** Warning: tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1734): (vlog-2240) Treating stand-alone use of function 'predict' as an implicit VOID cast.
 # -- Compiling package eth_rx_scoreboard_pkg
 # -- Compiling package eth_mdio_scoreboard_pkg
 # -- Compiling package eth_cov_pkg
@@ -130,11 +130,12 @@
 # -- Compiling module eth_tb
 # -- Importing package eth_test_reg_pkg
 # -- Importing package eth_test_tx_pkg
+# -- Importing package eth_test_mdio_pkg
 # 
 # Top level modules:
 # 	eth_cop
 # 	eth_tb
-# End time: 07:21:50 on Jul 29,2026, Elapsed time: 0:00:01
+# End time: 04:15:40 on Jul 30,2026, Elapsed time: 0:00:01
 # Errors: 0, Warnings: 12
 # results/mdio/log
 # results/mdio/coverage

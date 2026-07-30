@@ -15,7 +15,15 @@ class wb_s_seq_mdio extends wb_s_seq_base;
         super.new(name);
     endfunction
 
+    // NOTE: this task is called as a plain helper method on a freshly
+    // `type_id::create()`d object -- it is never `.start()`ed on a
+    // sequencer. That means any `regmodel` field inherited from
+    // wb_s_seq_base (which only gets populated inside body(), i.e. only
+    // once a sequence actually runs) would still be null here. regmodel is
+    // therefore passed in explicitly by the caller (typically
+    // p_sequencer.regmodel from a virtual sequence) instead.
     extern task configure_miim_registers(
+        eth_reg_block regmodel,
         bit [7:0]  clkdiv    = 8'h64,
         bit        miinopre  = 1'b0,
         bit [4:0]  fiad      = 5'h0,
@@ -29,6 +37,7 @@ class wb_s_seq_mdio extends wb_s_seq_base;
 endclass : wb_s_seq_mdio
 
 task wb_s_seq_mdio::configure_miim_registers(
+    eth_reg_block regmodel,
     bit [7:0]  clkdiv    = 8'h64,
     bit        miinopre  = 1'b0,
     bit [4:0]  fiad      = 5'h0,
@@ -38,6 +47,7 @@ task wb_s_seq_mdio::configure_miim_registers(
     bit        rstat     = 1'b0,
     bit        scanstat  = 1'b0
 );
+    uvm_status_e status; // was missing -- update() calls below need it
     if (!$onehot0({wctrldata, rstat, scanstat}))
         `uvm_fatal("MIIM_CONFIG",
                    "Only one of WCTRLDATA, RSTAT, and SCANSTAT may be set")

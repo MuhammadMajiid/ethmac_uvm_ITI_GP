@@ -1,4 +1,3 @@
-
 `ifndef ETH_TEST_MDIO_PKG_SV
 `define ETH_TEST_MDIO_PKG_SV
 
@@ -31,7 +30,7 @@ package eth_test_mdio_pkg;
 
   `include "eth_test_mdio_base.sv"
   `include "eth_test_mdio_lib.sv"
-  // `include "eth_test_mdio_rw.sv"
+  `include "eth_test_mdio_rw.sv"
 
 endpackage
 

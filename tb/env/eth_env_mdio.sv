@@ -35,6 +35,13 @@ class eth_env_mdio extends eth_env_base;
   function void build_phase(uvm_phase phase);
     super.build_phase(phase);
 
+    // mdio_agent.sv expects the vif to already be sitting on
+    // m_config.vif -- unlike the other agents, it does NOT fetch
+    // `virtual mdio_if` from config_db itself. eth_tb.sv sets it under
+    // key "mdio_vif"; pull it in here before distributing the config down.
+    if (!uvm_config_db#(virtual mdio_if)::get(this, "", "mdio_vif", m_config.m_mdio_config.vif))
+        `uvm_fatal(get_type_name(), "virtual mdio_if not found in uvm_config_db under key \"mdio_vif\" -- check eth_tb.sv")
+
     // Distribute MDIO config down to its agent
     uvm_config_db #(mdio_config_obj) ::set(this, "m_mdio_agent", "config", m_config.m_mdio_config);
 
