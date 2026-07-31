@@ -1,5 +1,5 @@
-# End time: 04:25:05 on Jul 30,2026, Elapsed time: 0:00:05
-# Errors: 0, Warnings: 0
+# End time: 06:03:34 on Jul 31,2026, Elapsed time: 0:00:06
+# Errors: 1, Warnings: 0
 # vsim -c -voptargs="+acc" work.eth_tb -coverage -classdebug -sv_seed random -uvmcontrol=all "+uvm_set_verbosity=uvm_test_top.m_env.*,_ALL_,UVM_MEDIUM,time,0" "+seq_num=10" "+coll_num=0" "+UVM_TESTNAME=eth_test_miim_scan_intr" -onfinish stop -do "
 #     view wave
 #     add wave -r /eth_tb/dut/*
@@ -8,7 +8,7 @@
 #     coverage save $FUNC_UCDB -cvg -directive -assert
 #     transcript file ""
 #   " 
-# Start time: 04:25:05 on Jul 30,2026
+# Start time: 06:03:34 on Jul 31,2026
 # ** Note: (vsim-8009) Loading existing optimized design _opt
 # Loading sv_std.std
 # Loading work.wb_s_if(fast)
@@ -97,7 +97,7 @@
 # Loading work.eth_fifo(fast)
 # Loading work.eth_macstatus(fast)
 # Loading /home/muhammad/eda_tools/altera/questasim/questasim/uvm-1.1d/linux_x86_64/uvm_dpi.so
-# Sv_Seed = 3627196115
+# Sv_Seed = 2770676535
 # 
 #     view wave
 #     add wave -r /eth_tb/dut/*
@@ -302,209 +302,45 @@
 # * uvm_config_db#(int)            ::set(null, "", "recording_detail", 0); *
 # * uvm_config_db#(uvm_bitstream_t)::set(null, "", "recording_detail", 0); *
 # **************************************************************************
-# UVM_INFO tb/sequences/wb_s_seq/wb_s_seq_mdio.sv(55) @ 0: reporter@@cfg [MIIM_CONFIG] Configuring MIIM registers
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 2500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_m_if.sv(135) @ 2500: reporter [A_WB_M] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 7500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_m_if.sv(151) @ 7500: reporter [A_WB_M] a_we_ack
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 12500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 17500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 22500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 27500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 32500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(171) @ 37500: reporter [A_WB_S] a_wdata_ack
-# UVM_ERROR tb/interfaces/wb_s_if.sv(147) @ 37500: reporter [A_WB_S] a_addr_ack
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 37500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 42500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_INFO tb/sequences/wb_s_seq/wb_s_seq_mdio.sv(74) @ 47500: reporter@@cfg [MIIM_CONFIG] CLKDIV=100, MIINOPRE=0, FIAD=1, RGAD=1, CTRLDATA=0x0000, WCTRLDATA=0, RSTAT=0, SCANSTAT=1
-# UVM_INFO tb/sequences/wb_s_seq/wb_s_seq_mdio.sv(55) @ 47500: reporter@@cfg [MIIM_CONFIG] Configuring MIIM registers
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 47500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 52500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(171) @ 57500: reporter [A_WB_S] a_wdata_ack
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 57500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 62500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_INFO tb/sequences/wb_s_seq/wb_s_seq_mdio.sv(74) @ 67500: reporter@@cfg [MIIM_CONFIG] CLKDIV=100, MIINOPRE=0, FIAD=1, RGAD=1, CTRLDATA=0x0000, WCTRLDATA=0, RSTAT=0, SCANSTAT=0
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 67500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 72500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 77500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 82500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 87500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 92500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 97500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 102500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 107500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 112500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 117500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 122500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 127500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 132500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 137500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 142500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 147500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 152500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 157500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 162500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 167500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 172500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 177500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 182500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 187500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 192500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 197500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 202500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 207500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 212500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 217500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 222500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 227500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 232500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 237500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 242500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 247500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 252500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 257500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 262500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 267500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(155) @ 272500: reporter [A_WB_S] a_we_ack
-# UVM_ERROR tb/interfaces/wb_s_if.sv(155) @ 272500: reporter [A_WB_S] a_we_ack
-# UVM_ERROR tb/interfaces/wb_s_if.sv(155) @ 272500: reporter [A_WB_S] a_we_ack
-# UVM_ERROR tb/interfaces/wb_s_if.sv(147) @ 272500: reporter [A_WB_S] a_addr_ack
-# UVM_ERROR tb/interfaces/wb_s_if.sv(147) @ 272500: reporter [A_WB_S] a_addr_ack
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 272500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 277500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=x DATA=0000000X ADDR=0000000f
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 277500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 282500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 287500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 292500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 297500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 302500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=x DATA=0000000X ADDR=0000000f
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 302500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 307500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_INFO tb/virtual_seq_sqr/eth_v_seq_mdio_lib.sv(245) @ 312500: uvm_test_top.m_env.m_v_sqr@@v_seq [v_seq_tc_miim_scan_intr] MIISTATUS after sliding scan stop = 0x0
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 312500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 317500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 322500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 327500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 332500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 337500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 342500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 347500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 352500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 357500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 362500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 367500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 372500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 377500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 382500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 387500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 392500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 397500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 402500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 407500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 412500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 417500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 422500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 427500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 432500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 437500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 442500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 447500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 452500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 457500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 462500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 467500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 472500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 477500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 482500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 487500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 492500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 497500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 502500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 507500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 512500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 517500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 522500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 527500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 532500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 537500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 542500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 547500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 552500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 557500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 562500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 567500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 572500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 577500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 582500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 587500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 592500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 597500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 602500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 607500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 612500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 617500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 622500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 627500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 632500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 637500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 642500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 647500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 652500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 657500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 662500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 667500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 672500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 677500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 682500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 687500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 692500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 697500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 702500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 707500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 712500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 717500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 722500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 727500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 732500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 737500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 742500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 747500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 752500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 757500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 762500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 767500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 772500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 777500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 782500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 787500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 792500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 797500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 802500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_ERROR tb/interfaces/wb_s_if.sv(131) @ 807500: reporter [A_WB_S] a_ack_err_cyc
-# UVM_INFO verilog_src/uvm-1.1d/src/base/uvm_objection.svh(1267) @ 812500: reporter [TEST_DONE] 'run' phase is ready to proceed to the 'extract' phase
-# UVM_INFO tb/agents/wb_m/wb_m_driver_base.sv(108) @ 812500: uvm_test_top.m_env.m_wb_m_agent.m_driver [wb_m_driver_base] Drived 0 active transactions
-# UVM_INFO tb/agents/wb_m/wb_m_monitor_base.sv(130) @ 812500: uvm_test_top.m_env.m_wb_m_agent.m_monitor [wb_m_monitor_base] Monitored 0 TRANSACTIONS
+# UVM_WARNING tb/interfaces/wb_m_if.sv(93) @ 2500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING tb/interfaces/wb_m_if.sv(93) @ 7500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING tb/interfaces/wb_m_if.sv(93) @ 12500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING tb/interfaces/wb_m_if.sv(93) @ 17500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_INFO tb/sequences/wb_s_seq/wb_s_seq_mdio.sv(55) @ 22500: reporter@@cfg [MIIM_CONFIG] Configuring MIIM registers
+# UVM_INFO tb/agents/wb_m/wb_m_monitor_base.sv(101) @ 22500: uvm_test_top.m_env.m_wb_m_agent.m_monitor [wb_m_monitor_base] Begin monitoring after reset deassertion
+# UVM_INFO tb/sequences/wb_s_seq/wb_s_seq_mdio.sv(74) @ 62500: reporter@@cfg [MIIM_CONFIG] CLKDIV=100, MIINOPRE=0, FIAD=1, RGAD=1, CTRLDATA=0x0000, WCTRLDATA=0, RSTAT=0, SCANSTAT=1
+# UVM_INFO tb/sequences/wb_s_seq/wb_s_seq_mdio.sv(55) @ 62500: reporter@@cfg [MIIM_CONFIG] Configuring MIIM registers
+# UVM_WARNING tb/interfaces/wb_s_if.sv(115) @ 67500: reporter [A_WB_S] a_ack_stb_cyc
+# UVM_INFO tb/sequences/wb_s_seq/wb_s_seq_mdio.sv(74) @ 82500: reporter@@cfg [MIIM_CONFIG] CLKDIV=100, MIINOPRE=0, FIAD=1, RGAD=1, CTRLDATA=0x0000, WCTRLDATA=0, RSTAT=0, SCANSTAT=0
+# UVM_WARNING tb/interfaces/wb_s_if.sv(115) @ 87500: reporter [A_WB_S] a_ack_stb_cyc
+# UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 292500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000006 ADDR=0000000f
+# UVM_ERROR tb/virtual_seq_sqr/eth_v_seq_mdio_lib.sv(242) @ 302500: uvm_test_top.m_env.m_v_sqr@@v_seq [v_seq_tc_miim_scan_intr] BUSY still asserted after a sliding scan stop
+# UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 317500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000006 ADDR=0000000f
+# UVM_INFO tb/virtual_seq_sqr/eth_v_seq_mdio_lib.sv(245) @ 327500: uvm_test_top.m_env.m_v_sqr@@v_seq [v_seq_tc_miim_scan_intr] MIISTATUS after sliding scan stop = 0x6
+# UVM_INFO verilog_src/uvm-1.1d/src/base/uvm_objection.svh(1267) @ 827500: reporter [TEST_DONE] 'run' phase is ready to proceed to the 'extract' phase
+# UVM_INFO tb/agents/wb_m/wb_m_driver_base.sv(108) @ 827500: uvm_test_top.m_env.m_wb_m_agent.m_driver [wb_m_driver_base] Drived 0 active transactions
+# UVM_INFO tb/agents/wb_m/wb_m_monitor_base.sv(130) @ 827500: uvm_test_top.m_env.m_wb_m_agent.m_monitor [wb_m_monitor_base] Monitored 161 TRANSACTIONS
 # 
 # --- UVM Report Summary ---
 # 
 # ** Report counts by severity
-# UVM_INFO :   14
-# UVM_WARNING :    0
-# UVM_ERROR :  172
+# UVM_INFO :   15
+# UVM_WARNING :    6
+# UVM_ERROR :    1
 # UVM_FATAL :    0
 # ** Report counts by id
-# [A_WB_M]     2
-# [A_WB_S]   170
+# [A_WB_M]     4
+# [A_WB_S]     2
 # [MIIM_CONFIG]     4
 # [Questa UVM]     2
 # [RNTST]     1
 # [TEST_DONE]     1
 # [UVMTOP]     1
-# [v_seq_tc_miim_scan_intr]     1
+# [v_seq_tc_miim_scan_intr]     2
 # [wb_m_driver_base]     1
-# [wb_m_monitor_base]     1
+# [wb_m_monitor_base]     2
 # [wb_s_driver_base]     2
 # ** Note: $finish    : /home/muhammad/eda_tools/altera/questasim/questasim/linux_x86_64/../verilog_src/uvm-1.1d/src/base/uvm_root.svh(430)
-#    Time: 812500 ps  Iteration: 54  Instance: /eth_tb
+#    Time: 827500 ps  Iteration: 54  Instance: /eth_tb
 # Break in Task uvm_pkg/uvm_root::run_test at /home/muhammad/eda_tools/altera/questasim/questasim/linux_x86_64/../verilog_src/uvm-1.1d/src/base/uvm_root.svh line 430
 # Stopped at /home/muhammad/eda_tools/altera/questasim/questasim/linux_x86_64/../verilog_src/uvm-1.1d/src/base/uvm_root.svh line 430

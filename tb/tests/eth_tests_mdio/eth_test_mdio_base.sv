@@ -30,5 +30,24 @@ class eth_test_mdio_base extends uvm_test;
         uvm_top.print_topology();
     endfunction
 
+    //------------------------------------------------------------
+    // apply_reset
+    //------------------------------------------------------------
+    // Drives the DUT hardware reset through the reset agent before any
+    // MDIO/MIIM traffic starts. Every derived MDIO test must call this
+    // as the first thing in its run_phase, right after raise_objection()
+    // and before starting its virtual sequence.
+    //
+    // Without this, wb_rst_i sits at its uninitialized value for the
+    // whole test and the DUT's wishbone slave logic never leaves reset --
+    // this was the root cause of the 781 errors / 11-13% coverage runs.
+    //------------------------------------------------------------
+    task apply_reset();
+        reset_seq m_reset_seq;
+        m_reset_seq = reset_seq::type_id::create("m_reset_seq");
+        m_reset_seq.m_regmodel = m_env.m_v_sqr.regmodel;
+        m_reset_seq.start(m_env.m_v_sqr.m_reset_sqr);
+    endtask
+
 endclass
 `endif

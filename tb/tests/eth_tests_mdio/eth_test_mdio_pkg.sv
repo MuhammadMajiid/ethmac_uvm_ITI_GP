@@ -30,7 +30,6 @@ package eth_test_mdio_pkg;
 
   `include "eth_test_mdio_base.sv"
   `include "eth_test_mdio_lib.sv"
-  `include "eth_test_mdio_rw.sv"
 
 endpackage
 
