@@ -23,9 +23,8 @@ package mdio_seq_pkg;
     // Global package (op_code_e, ETH_CTRL_* parameters)
     import eth_glob_pkg::*;
 
-    // Transaction item + sequencer package
-    import mdio_agent_pkg::mdio_seq_item_base;
-    import mdio_agent_pkg::mdio_sequencer_base;
+    // Transaction item package used by the MDIO sequence classes.
+    import mdio_seq_item_pkg::*;
 
     // wb_s_seq_mdio.sv extends wb_s_seq_base and drives regmodel updates
     // through the wb_s bus, so both need to be visible here. wb_s_seq_pkg

@@ -27,6 +27,13 @@ package mdio_agent_pkg;
   // The transaction item must be compiled first because everything else uses it.
   import mdio_seq_item_pkg::*;
 
+  // The MDIO driver uses the PHY responder sequence type directly, so make
+  // the sequence package visible from this agent package as well.
+  import mdio_seq_pkg::*;
+
+  // The MDIO driver/monitor/sequencer base classes use the transaction item
+  // directly and do not need the sequence package imported here.
+
   // The components that use the transaction item
   `include "mdio_sequencer_base.sv"
   `include "mdio_driver_base.sv"

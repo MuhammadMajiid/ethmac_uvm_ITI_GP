@@ -10108,7 +10108,7 @@ Statement Coverage for instance /dut/maccontrol1/transmitcontrol1 --
     254                                              end
     255                                              
     256                                                           
-    257             1                          5     assign ResetByteCnt = TxReset | (~TxCtrlStartFrm & (TxDoneIn | TxAbortIn));
+    257             1                          6     assign ResetByteCnt = TxReset | (~TxCtrlStartFrm & (TxDoneIn | TxAbortIn));
     258             1                          4     assign IncrementByteCnt = CtrlMux & (TxCtrlStartFrm & ~TxCtrlStartFrm_q & ~TxUsedDataIn | TxUsedDataIn & ~ControlEnd);
     259             1                          4     assign IncrementByteCntBy2 = CtrlMux & TxCtrlStartFrm & (~TxCtrlStartFrm_q) & TxUsedDataIn;     // When TxUsedDataIn and CtrlMux are set at the same time
     260                                              
@@ -18272,9 +18272,9 @@ Branch totals: 1 hit of 2 branches = 50.00%
 Branch totals: 1 hit of 2 branches = 50.00%
 
 ------------------------------------IF Branch------------------------------------
-    277                                        4     Count coming in to IF
+    277                                        5     Count coming in to IF
     277             1                          2     	assign #1 q = rst ? {32{1'b0}} : {mem3[raddr], mem2[raddr], mem1[raddr], mem0[raddr]};
-    277             2                          2     	assign #1 q = rst ? {32{1'b0}} : {mem3[raddr], mem2[raddr], mem1[raddr], mem0[raddr]};
+    277             2                          3     	assign #1 q = rst ? {32{1'b0}} : {mem3[raddr], mem2[raddr], mem1[raddr], mem0[raddr]};
 Branch totals: 2 hits of 2 branches = 100.00%
 
 ------------------------------------IF Branch------------------------------------
@@ -18605,7 +18605,7 @@ Statement Coverage for instance /dut/wishbone/bd_ram --
     274                                              	  if (ce) // && !we)
     275             1                          4     		raddr <=  addr; // read address needs to be registered to read clock
     276                                              
-    277             1                          5     	assign #1 q = rst ? {32{1'b0}} : {mem3[raddr], mem2[raddr], mem1[raddr], mem0[raddr]};
+    277             1                          6     	assign #1 q = rst ? {32{1'b0}} : {mem3[raddr], mem2[raddr], mem1[raddr], mem0[raddr]};
     278                                              
     279                                              	// write operation
     280             1                          2     	always@(posedge clk)

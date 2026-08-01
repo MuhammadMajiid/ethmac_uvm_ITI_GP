@@ -124,12 +124,12 @@ class v_seq_tc_miim_scan extends eth_v_seq_base;
         p_sequencer.regmodel.MIISTATUS.read(status, rdata);
         `uvm_info(get_type_name(), $sformatf("MIISTATUS after 1st scan window = 0x%0h", rdata), UVM_MEDIUM)
 
-        p_sequencer.m_mdio_phy_rsp.phy_data[2] = 1'b0; // link status = down
+        p_sequencer.m_mdio_phy_rsp.set_link_status(5'h1, 1'b0); // link status = down
         #500ns;
         p_sequencer.regmodel.MIISTATUS.read(status, rdata);
         `uvm_info(get_type_name(), $sformatf("MIISTATUS with link down = 0x%0h", rdata), UVM_MEDIUM)
 
-        p_sequencer.m_mdio_phy_rsp.phy_data[2] = 1'b1; // link status = back up
+        p_sequencer.m_mdio_phy_rsp.set_link_status(5'h1, 1'b1); // link status = back up
         #500ns;
 
         cfg.configure_miim_registers(p_sequencer.regmodel, .fiad(5'h1), .rgad(5'h1));
@@ -247,6 +247,52 @@ class v_seq_tc_miim_scan_intr extends eth_v_seq_base;
 endclass
 
 // -----------------------------------------------------------------------------
+// Dedicated coverage-cross sequence: directly target the scan/read + reg-address bins.
+// -----------------------------------------------------------------------------
+class v_seq_tc_miim_cov_cross extends eth_v_seq_base;
+    `uvm_object_utils(v_seq_tc_miim_cov_cross)
+    function new(string name = "v_seq_tc_miim_cov_cross"); super.new(name); endfunction
+
+    task body();
+        wb_s_seq_mdio cfg = wb_s_seq_mdio::type_id::create("cfg");
+
+        // Explicitly hit the max-divider bin as well.
+        cfg.configure_miim_registers(p_sequencer.regmodel,
+            .clkdiv(8'hFF), .miinopre(1'b0), .fiad(5'h1), .rgad(5'h0), .ctrl_data(16'h0000));
+        #200ns;
+
+        // scan_op + ctrl_reg
+        cfg.configure_miim_registers(p_sequencer.regmodel,
+            .fiad(5'h1), .rgad(5'h0), .scanstat(1'b1));
+        #200ns;
+
+        // scan_op + id1_reg
+        cfg.configure_miim_registers(p_sequencer.regmodel,
+            .fiad(5'h1), .rgad(5'h2), .scanstat(1'b1));
+        #200ns;
+        cfg.configure_miim_registers(p_sequencer.regmodel,
+            .fiad(5'h1), .rgad(5'h2), .scanstat(1'b1));
+        #200ns;
+
+        // scan_op + others
+        cfg.configure_miim_registers(p_sequencer.regmodel,
+            .fiad(5'h1), .rgad(5'h3), .scanstat(1'b1));
+        #200ns;
+        cfg.configure_miim_registers(p_sequencer.regmodel,
+            .fiad(5'h1), .rgad(5'h3), .scanstat(1'b1));
+        #200ns;
+
+        // read_op + others
+        cfg.configure_miim_registers(p_sequencer.regmodel,
+            .fiad(5'h1), .rgad(5'h3), .rstat(1'b1));
+        #200ns;
+        cfg.configure_miim_registers(p_sequencer.regmodel,
+            .fiad(5'h1), .rgad(5'h3), .rstat(1'b1));
+        #200ns;
+    endtask
+endclass
+
+// -----------------------------------------------------------------------------
 // TC 13, 14, 15: tc_miim_walk_phy_addr / tc_miim_walk_reg_addr / tc_miim_walk_data
 // -----------------------------------------------------------------------------
 class v_seq_tc_miim_walking extends eth_v_seq_base;
@@ -274,6 +320,29 @@ class v_seq_tc_miim_walking extends eth_v_seq_base;
                     .miinopre(pre[0]), .fiad(5'h1), .rgad(5'h1), .ctrl_data(16'h1 << i), .wctrldata(1'b1));
                 p_sequencer.regmodel.wait_miim_done();
             end
+
+            // Explicitly hit the all-ones control-data coverpoint.
+            cfg.configure_miim_registers(p_sequencer.regmodel,
+                .miinopre(pre[0]), .fiad(5'h1), .rgad(5'h1), .ctrl_data(16'hFFFF), .wctrldata(1'b1));
+            p_sequencer.regmodel.wait_miim_done();
+
+            // Explicitly hit the missing cross bins in m_mdio_cfg_cov:
+            // scan_op + ctrl_reg, scan_op + id1_reg, scan_op + others, read_op + others.
+            cfg.configure_miim_registers(p_sequencer.regmodel,
+                .miinopre(pre[0]), .fiad(5'h1), .rgad(5'h0), .scanstat(1'b1));
+            p_sequencer.regmodel.wait_miim_done();
+
+            cfg.configure_miim_registers(p_sequencer.regmodel,
+                .miinopre(pre[0]), .fiad(5'h1), .rgad(5'h2), .scanstat(1'b1));
+            p_sequencer.regmodel.wait_miim_done();
+
+            cfg.configure_miim_registers(p_sequencer.regmodel,
+                .miinopre(pre[0]), .fiad(5'h1), .rgad(5'h3), .scanstat(1'b1));
+            p_sequencer.regmodel.wait_miim_done();
+
+            cfg.configure_miim_registers(p_sequencer.regmodel,
+                .miinopre(pre[0]), .fiad(5'h1), .rgad(5'h3), .rstat(1'b1));
+            p_sequencer.regmodel.wait_miim_done();
         end
     endtask
 endclass

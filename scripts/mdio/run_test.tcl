@@ -28,11 +28,9 @@ set FUNC_UCDB "${COV_PATH}/${TESTNAME}_func_cov.ucdb"
 set CODE_REP "${COV_PATH}/${TESTNAME}_code_cov.txt"
 set FUNC_REP "${COV_PATH}/${TESTNAME}_func_cov.txt"
 
-# Clear previous coverage files
-set fp [open $CODE_UCDB w]; close $fp
-set fp [open $FUNC_UCDB w]; close $fp
-set fp [open $CODE_REP w]; close $fp
-set fp [open $FUNC_REP w]; close $fp
+# Clear previous coverage files. Do not create zero-byte UCDB placeholders
+# here because Questa's vcover tools treat them as invalid/corrupted files.
+file delete -force $CODE_UCDB $FUNC_UCDB $CODE_REP $FUNC_REP
 
 transcript file $LOG_FILE
 
@@ -53,14 +51,43 @@ vsim -c -voptargs=+acc work.eth_tb -coverage -classdebug -sv_seed random -uvmcon
   -do {
     view wave
     add wave -r /eth_tb/dut/*
+    onerror {
+      puts "ERROR/FATAL encountered -- saving partial coverage before continuing"
+      coverage save $CODE_UCDB -codeAll -instance eth_tb.dut
+      coverage save $FUNC_UCDB -cvg -directive -assert
+      resume
+    }
     run -all
     coverage save $CODE_UCDB -codeAll -instance eth_tb.dut
     coverage save $FUNC_UCDB -cvg -directive -assert
     transcript file ""
-  }
+}
 
-vcover report $FUNC_UCDB -details -annotate -all -output $FUNC_REP
-vcover report $CODE_UCDB -details -annotate -all -output $CODE_REP
+if {[file exists $FUNC_UCDB] && [file size $FUNC_UCDB] > 0} {
+  catch {vcover report $FUNC_UCDB -details -annotate -all -output $FUNC_REP} err
+  if {[info exists err] && $err ne ""} {
+    puts "WARNING: functional coverage report generation failed for $TESTNAME: $err"
+  }
+} else {
+  puts "WARNING: no functional UCDB generated for $TESTNAME"
+}
+
+if {[file exists $CODE_UCDB] && [file size $CODE_UCDB] > 0} {
+  catch {vcover report $CODE_UCDB -details -annotate -all -output $CODE_REP} err
+  if {[info exists err] && $err ne ""} {
+    puts "WARNING: code coverage report generation failed for $TESTNAME: $err"
+  }
+} else {
+  puts "WARNING: no code UCDB generated for $TESTNAME"
+}
+
+# Generate HTML reports for the single test only if a real UCDB exists.
+if {[file exists $FUNC_UCDB] && [file size $FUNC_UCDB] > 0} {
+  catch {vcover report -html -output ${COV_PATH}/${TESTNAME}_html_func $FUNC_UCDB -details -testhitdata} err
+}
+if {[file exists $CODE_UCDB] && [file size $CODE_UCDB] > 0} {
+  catch {vcover report -html -output ${COV_PATH}/${TESTNAME}_html_code $CODE_UCDB -details -testhitdata} err
+}
 
 puts ""
 puts "=================================================="

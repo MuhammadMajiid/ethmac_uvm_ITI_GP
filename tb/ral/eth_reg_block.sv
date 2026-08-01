@@ -258,7 +258,8 @@ TX_BD_NUM.add_hdl_path_slice("ethreg1.TX_BD_NUM_0.DataOut",0,8);
 CTRLMODER.add_hdl_path_slice("ethreg1.CTRLMODER_0.DataOut",0,8);
 
 MIIMODER.add_hdl_path_slice("ethreg1.MIIMODER_0.DataOut",0,8);
-MIIMODER.add_hdl_path_slice("ethreg1.MIIMODER_1.DataOut",8,8);
+// MIIMODER.add_hdl_path_slice("ethreg1.MIIMODER_1.DataOut",8,8);
+MIIMODER.add_hdl_path_slice("ethreg1.MIIMODER_1.DataOut", 8, 1);
 
 MIICOMMAND.add_hdl_path_slice("ethreg1.MIICOMMAND0.DataOut",0,1);
 MIICOMMAND.add_hdl_path_slice("ethreg1.MIICOMMAND1.DataOut",1,1);
@@ -271,6 +272,8 @@ MIITX_DATA.add_hdl_path_slice("ethreg1.MIITX_DATA_0.DataOut",0,8);
 MIITX_DATA.add_hdl_path_slice("ethreg1.MIITX_DATA_1.DataOut",8,8);
 
 MIIRX_DATA.add_hdl_path_slice("ethreg1.MIIRX_DATA.DataOut",0,16);
+
+MIISTATUS.add_hdl_path_slice("ethreg1.MIISTATUSOut", 0, 3);
 
 MAC_ADDR0.add_hdl_path_slice("ethreg1.MAC_ADDR0_0.DataOut", 0,8);
 MAC_ADDR0.add_hdl_path_slice("ethreg1.MAC_ADDR0_1.DataOut", 8,8);

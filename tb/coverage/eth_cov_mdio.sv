@@ -54,7 +54,7 @@ class eth_cov_mdio extends uvm_component;
         cp_clk_div: coverpoint m_clk_div {
             bins div_min = {8'h02}; // Assuming min reasonable div
             bins div_mid = {[8'h03:8'h7E]};
-            bins div_max = {8'hFF};
+            bins div_max = {8'hFE}; // Assuming max even div
         }
 
         // Preamble Suppression (MIIMODER, map offset 0x00A)
@@ -88,6 +88,11 @@ class eth_cov_mdio extends uvm_component;
 
         // Cross Commands with Register Addresses
         cross_cmd_reg: cross cp_command, cp_reg_addr {
+            bins scan_op_ctrl_reg = binsof(cp_command.scan_op) && binsof(cp_reg_addr.ctrl_reg);
+            bins scan_op_id1_reg  = binsof(cp_command.scan_op) && binsof(cp_reg_addr.id1_reg);
+            bins scan_op_others   = binsof(cp_command.scan_op) && binsof(cp_reg_addr.others);
+            bins read_op_others   = binsof(cp_command.read_op) && binsof(cp_reg_addr.others);
+
             // E.g., Writing to a read-only status register is generally invalid/ignored
             ignore_bins write_to_status = binsof(cp_command.write_op) && binsof(cp_reg_addr.status_reg);
         }
@@ -167,6 +172,9 @@ task eth_cov_mdio::sample_wb_s_item();
     if(!(&m_wb_s_seq_item.m_sel)) return;
 
     if(m_wb_s_seq_item.m_dir == WB_WRITE) begin
+        `uvm_info("MDIO_COV", $sformatf("sample addr=0x%0h wdata=0x%0h rgad=0x%0h scan=%0d read=%0d write=%0d",
+                    m_addr, m_wdata, m_rgad, m_scanstat, m_rstat, m_wctrldata), UVM_MEDIUM)
+
         if(m_addr == 'h00D)
             m_mdio_txdata_cov.sample();
         else

@@ -205,24 +205,24 @@ Name                                     Design Design   Lang File(Line)      Hi
 =================================================================================
 
 Covergroup Coverage:
-    Covergroups                      2        na        na    14.58%
+    Covergroups                      2        na        na    17.36%
         Coverpoints/Crosses          7        na        na        na
-            Covergroup Bins         29         5        24    17.24%
+            Covergroup Bins         29         6        23    20.68%
 ----------------------------------------------------------------------------------------------------------
 Covergroup                                             Metric       Goal       Bins    Status               
                                                                                                          
 ----------------------------------------------------------------------------------------------------------
- TYPE /eth_cov_pkg/eth_cov_mdio/m_mdio_cfg_cov         29.16%        100          -    Uncovered            
-    covered/total bins:                                     5         26          -                      
-    missing/total bins:                                    21         26          -                      
-    % Hit:                                             19.23%        100          -                      
-    Coverpoint cp_clk_div                              66.66%        100          -    Uncovered            
-        covered/total bins:                                 2          3          -                      
-        missing/total bins:                                 1          3          -                      
-        % Hit:                                         66.66%        100          -                      
+ TYPE /eth_cov_pkg/eth_cov_mdio/m_mdio_cfg_cov         34.72%        100          -    Uncovered            
+    covered/total bins:                                     6         26          -                      
+    missing/total bins:                                    20         26          -                      
+    % Hit:                                             23.07%        100          -                      
+    Coverpoint cp_clk_div                             100.00%        100          -    Covered              
+        covered/total bins:                                 3          3          -                      
+        missing/total bins:                                 0          3          -                      
+        % Hit:                                        100.00%        100          -                      
         bin div_min                                         2          1          -    Covered              
         bin div_mid                                       124          1          -    Covered              
-        bin div_max                                         0          1          -    ZERO                 
+        bin div_max                                         2          1          -    Covered              
     Coverpoint cp_miinopre                             50.00%        100          -    Uncovered            
         covered/total bins:                                 1          2          -                      
         missing/total bins:                                 1          2          -                      
@@ -257,6 +257,10 @@ Covergroup                                             Metric       Goal       B
         missing/total bins:                                11         11          -                      
         % Hit:                                          0.00%        100          -                      
         Auto, Default and User Defined Bins:
+            bin scan_op_ctrl_reg                            0          1          -    ZERO                 
+            bin scan_op_id1_reg                             0          1          -    ZERO                 
+            bin scan_op_others                              0          1          -    ZERO                 
+            bin read_op_others                              0          1          -    ZERO                 
             bin <*,*>                                       0          1         12    ZERO                 
         Illegal and Ignore Bins:
             ignore_bin write_to_status                      0                     -    ZERO                 
@@ -277,17 +281,17 @@ COVERGROUP COVERAGE:
 Covergroup                                             Metric       Goal       Bins    Status               
                                                                                                          
 ----------------------------------------------------------------------------------------------------------
- TYPE /eth_cov_pkg/eth_cov_mdio/m_mdio_cfg_cov         29.16%        100          -    Uncovered            
-    covered/total bins:                                     5         26          -                      
-    missing/total bins:                                    21         26          -                      
-    % Hit:                                             19.23%        100          -                      
-    Coverpoint cp_clk_div                              66.66%        100          -    Uncovered            
-        covered/total bins:                                 2          3          -                      
-        missing/total bins:                                 1          3          -                      
-        % Hit:                                         66.66%        100          -                      
+ TYPE /eth_cov_pkg/eth_cov_mdio/m_mdio_cfg_cov         34.72%        100          -    Uncovered            
+    covered/total bins:                                     6         26          -                      
+    missing/total bins:                                    20         26          -                      
+    % Hit:                                             23.07%        100          -                      
+    Coverpoint cp_clk_div                             100.00%        100          -    Covered              
+        covered/total bins:                                 3          3          -                      
+        missing/total bins:                                 0          3          -                      
+        % Hit:                                        100.00%        100          -                      
         bin div_min                                         2          1          -    Covered              
         bin div_mid                                       124          1          -    Covered              
-        bin div_max                                         0          1          -    ZERO                 
+        bin div_max                                         2          1          -    Covered              
     Coverpoint cp_miinopre                             50.00%        100          -    Uncovered            
         covered/total bins:                                 1          2          -                      
         missing/total bins:                                 1          2          -                      
@@ -322,6 +326,10 @@ Covergroup                                             Metric       Goal       B
         missing/total bins:                                11         11          -                      
         % Hit:                                          0.00%        100          -                      
         Auto, Default and User Defined Bins:
+            bin scan_op_ctrl_reg                            0          1          -    ZERO                 
+            bin scan_op_id1_reg                             0          1          -    ZERO                 
+            bin scan_op_others                              0          1          -    ZERO                 
+            bin read_op_others                              0          1          -    ZERO                 
             bin <*,*>                                       0          1         12    ZERO                 
         Illegal and Ignore Bins:
             ignore_bin write_to_status                      0                     -    ZERO                 
@@ -337,7 +345,7 @@ Covergroup                                             Metric       Goal       B
         bin all_one                                         0          1          -    ZERO                 
         bin others                                          0          1          -    ZERO                 
 
-TOTAL COVERGROUP COVERAGE: 14.58%  COVERGROUP TYPES: 2
+TOTAL COVERGROUP COVERAGE: 17.36%  COVERGROUP TYPES: 2
 
 DIRECTIVE COVERAGE:
 --------------------------------------------------------------------------------------------
@@ -489,5 +497,5 @@ Name                 File(Line)                   Failure      Pass
                      tb/interfaces/mii_tx_if.sv(126)
                                                         0          1
 
-Total Coverage By Instance (filtered view): 44.07%
+Total Coverage By Instance (filtered view): 45.00%
 

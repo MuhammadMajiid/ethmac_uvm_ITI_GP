@@ -57,6 +57,10 @@ class eth_env_mdio extends eth_env_base;
 
     // build the always-on PHY responder sequence object (started in run_phase)
     m_mdio_phy_rsp = mdio_seq_phy_responder::type_id::create("m_mdio_phy_rsp");
+
+    // Hand the PHY register model straight to the driver so it can answer
+    // reads / apply writes with real per-register content.
+    uvm_config_db #(mdio_seq_phy_responder)::set(this, "m_mdio_agent.m_driver", "phy_model", m_mdio_phy_rsp);
   endfunction
 
   function void connect_phase(uvm_phase phase);

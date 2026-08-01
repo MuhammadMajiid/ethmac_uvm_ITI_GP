@@ -48,9 +48,17 @@ task wb_s_seq_mdio::configure_miim_registers(
     bit        scanstat  = 1'b0
 );
     uvm_status_e status; // was missing -- update() calls below need it
+    // if (!$onehot0({wctrldata, rstat, scanstat}))
+    //     `uvm_fatal("MIIM_CONFIG",
+    //                "Only one of WCTRLDATA, RSTAT, and SCANSTAT may be set")
+
+    // Downgraded from `uvm_fatal -- v_seq_tc_miim_priority (TC10) deliberately
+    // sets more than one of these bits at once, on purpose, to observe how
+    // the DUT's hardware arbitrates between simultaneous MIIM commands. A
+    // fatal here was blocking that test before it ever reached the bus write.
     if (!$onehot0({wctrldata, rstat, scanstat}))
-        `uvm_fatal("MIIM_CONFIG",
-                   "Only one of WCTRLDATA, RSTAT, and SCANSTAT may be set")
+        `uvm_warning("MIIM_CONFIG",
+                   "More than one of WCTRLDATA/RSTAT/SCANSTAT set -- intentional for priority/arbitration testing")
 
     `uvm_info("MIIM_CONFIG", "Configuring MIIM registers", UVM_MEDIUM)
 
@@ -70,6 +78,24 @@ task wb_s_seq_mdio::configure_miim_registers(
     regmodel.MIICOMMAND.RSTAT.set(rstat);
     regmodel.MIICOMMAND.SCANSTAT.set(scanstat);
     regmodel.MIICOMMAND.update(status);
+
+    regmodel.MIICOMMAND.WCTRLDATA.set(wctrldata);
+regmodel.MIICOMMAND.RSTAT.set(rstat);
+regmodel.MIICOMMAND.SCANSTAT.set(scanstat);
+regmodel.MIICOMMAND.update(status);
+
+// WCTRLDATA/RSTAT self-clear in real hardware once the operation
+// completes, but nothing else in the TB ever re-reads MIICOMMAND to tell
+// the RAL mirror that happened -- so update() silently skips the *next*
+// identical command (desired == stale mirror => "no change needed").
+// predict() corrects the mirror's bookkeeping with no bus transaction, so
+// the next call's update() detects a real change again. SCANSTAT is left
+// out on purpose: it's level-held for a continuous scan, not self-
+// clearing, and TC12's explicit all-zero "clear" call already produces a
+// genuine write that keeps its mirror accurate.
+regmodel.MIICOMMAND.WCTRLDATA.predict(1'b0);
+regmodel.MIICOMMAND.RSTAT.predict(1'b0);
+// regmodel.MIICOMMAND.SCANSTAT.predict(1'b0);
 
     `uvm_info(
         "MIIM_CONFIG",

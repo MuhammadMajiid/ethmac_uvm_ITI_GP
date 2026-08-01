@@ -79,7 +79,26 @@ class eth_test_miim_scan extends eth_test_mdio_base;
     endtask
 endclass
 
-// Test 5: Walking 1s (Address and Data buses)
+// Test 5: Dedicated MDIO coverage-cross stimulus
+class eth_test_miim_cov_cross extends eth_test_mdio_base;
+    `uvm_component_utils(eth_test_miim_cov_cross)
+
+    function new(string name = "eth_test_miim_cov_cross", uvm_component parent = null);
+     super.new(name, parent);
+    endfunction
+
+    task run_phase(uvm_phase phase);
+        v_seq_tc_miim_cov_cross v_seq;
+        v_seq = v_seq_tc_miim_cov_cross::type_id::create("v_seq");
+        phase.raise_objection(this);
+        apply_reset();
+        v_seq.start(m_env.m_v_sqr);
+        #10000ns;
+        phase.drop_objection(this);
+    endtask
+endclass
+
+// Test 6: Walking 1s (Address and Data buses)
 class eth_test_miim_walking extends eth_test_mdio_base;
     `uvm_component_utils(eth_test_miim_walking)
     function new(string name = "eth_test_miim_walking", uvm_component parent = null);

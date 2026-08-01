@@ -17,6 +17,7 @@ class mdio_driver_base extends uvm_driver #(mdio_seq_item_base);
 
   virtual mdio_if vif;
   mdio_config_obj   m_config;
+  mdio_seq_phy_responder m_phy_model;
 
   // -------------------------------------------------------------------------
   //  Constructor
@@ -64,9 +65,16 @@ function void mdio_driver_base::build_phase(uvm_phase phase);
     `uvm_fatal(get_type_name(), "mdio_config_obj not found in config_db")
 
   vif = m_config.vif;
-
   if (vif == null)
     `uvm_fatal(get_type_name(), "mdio driver virtual interface not set")
+
+  // The PHY register model (reg0/reg1 content) lives on the always-on
+  // responder sequence built by eth_env_mdio -- fetched directly here
+  // rather than through a mdio_config_obj field, to avoid adding a
+  // mdio_seq_pkg dependency to the config package.
+  if (!uvm_config_db #(mdio_seq_phy_responder)::get(this, "", "phy_model", m_phy_model))
+    `uvm_fatal(get_type_name(), "PHY register model not found in config_db -- check eth_env_mdio.sv")
+
 endfunction
 
 
@@ -84,49 +92,52 @@ task mdio_driver_base::drive_items();
   bit [1:0] op;
   bit [4:0] phy_ad, reg_ad;
   bit [1:0] shift_reg = 2'b11;
+  bit [15:0] wr_data;
 
-  // 1. Wait for Start of Frame (ST = 01)
   forever begin
     @(posedge vif.mdc);
     shift_reg = {shift_reg[0], vif.mdio_out};
     if (shift_reg == 2'b01) break;
   end
 
-  // 2. Decode Opcode
   @(posedge vif.mdc); op[1] = vif.mdio_out;
   @(posedge vif.mdc); op[0] = vif.mdio_out;
 
-  // 3. Decode Addresses (We just consume these clocks to stay synchronized)
   for(int i=4; i>=0; i--) begin @(posedge vif.mdc); phy_ad[i] = vif.mdio_out; end
   for(int i=4; i>=0; i--) begin @(posedge vif.mdc); reg_ad[i] = vif.mdio_out; end
 
-  // 4. React based on Opcode
-  if (op == 2'b10) begin // READ OPERATION requested by MAC
+  if (op == 2'b10) begin // READ
+    seq_item_port.get_next_item(req); // sync token only, see phy_responder header
 
-    // Get the status data we want to send back from the sequencer
-    seq_item_port.get_next_item(req);
-
-    // Turn Around (TA) time: MAC releases bus, PHY takes over driving a '0'
     @(negedge vif.mdc);
     vif.mdio_in <= 1'b0;
     @(posedge vif.mdc);
 
-    // Drive 16-bit Data back to the MAC
-    for(int i=15; i>=0; i--) begin
-      @(negedge vif.mdc);
-      vif.mdio_in <= req.data[i];
-      @(posedge vif.mdc);
+    begin
+      bit [15:0] rd_data = m_phy_model.get_reg(phy_ad, reg_ad);
+      for(int i=15; i>=0; i--) begin
+        @(negedge vif.mdc);
+        vif.mdio_in <= rd_data[i];
+        @(posedge vif.mdc);
+      end
     end
 
-    // Release bus and tell sequencer we are done
     @(negedge vif.mdc);
     vif.mdio_in <= 1'bz;
     seq_item_port.item_done();
 
   end else begin
-    // WRITE OPERATION: The MAC is writing to the PHY.
-    // The driver doesn't need to do anything, it just waits out the rest of the frame.
-    repeat(18) @(posedge vif.mdc);
+    // WRITE: capture the payload so reg0's RW bits actually take effect.
+    seq_item_port.get_next_item(req);
+
+    repeat(2) @(posedge vif.mdc); // consume Turn-Around bits ('1','0')
+    for(int i=15; i>=0; i--) begin
+      @(posedge vif.mdc);
+      wr_data[i] = vif.mdio_out;
+    end
+
+    m_phy_model.put_reg(phy_ad, reg_ad, wr_data);
+    seq_item_port.item_done();
   end
 endtask
 

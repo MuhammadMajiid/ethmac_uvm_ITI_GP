@@ -12,6 +12,6 @@
 
 interface reset_if(input logic clk);
 
-  logic rst;
+  logic rst = 1'b0; // Active high reset signal, initially de-asserted
 
 endinterface

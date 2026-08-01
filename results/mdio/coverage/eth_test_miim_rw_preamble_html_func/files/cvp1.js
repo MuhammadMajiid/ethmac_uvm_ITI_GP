@@ -1,0 +1,2 @@
+var g_data = {"148":["div_min","div_mid","div_max"],"149":["preamble_enabled","preamble_disabled"],"150":["write_op","read_op","scan_op"],"151":["addr_0","addr_max","others"],"152":["ctrl_reg","status_reg","id1_reg","others"],"155":["zero","all_one","others"]};
+processCoverpointsMapData(g_data);

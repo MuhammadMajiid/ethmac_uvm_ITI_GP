@@ -100,13 +100,18 @@ function void eth_mdio_scoreboard::build_phase(uvm_phase phase);
     // get config object from database
     if (!uvm_config_db #(mdio_config_obj)::get(this, "", "config", m_config))
       `uvm_error(get_type_name(), "mdio_config_obj not found in config_db")
+
+    if (m_config != null && m_config.m_regmodel != null)
+      m_regmodel = m_config.m_regmodel;
 endfunction
 
 function void eth_mdio_scoreboard::connect_phase(uvm_phase phase);
     super.connect_phase(phase);
 
-    // assign ral handle to it's corresponding in config
-    m_regmodel=m_config.m_regmodel;
+    // Re-sync the RAL handle from the shared config object; the environment
+    // may populate it during connect_phase after the scoreboard is built.
+    if (m_config != null && m_config.m_regmodel != null)
+      m_regmodel = m_config.m_regmodel;
 
     // Connect each export with it's corrosponding fifo
     a_export.connect(a_fifo.analysis_export);
@@ -131,7 +136,7 @@ task eth_mdio_scoreboard::run_phase(uvm_phase phase);
           do begin
             @(posedge m_config.vif.mdc); // Replaced #1 with clock edge
             read_stat_regs();
-          end
+        end
           while(m_cfg_reg_s.invalid);
           pred_read();
           comp_read();
@@ -139,7 +144,7 @@ task eth_mdio_scoreboard::run_phase(uvm_phase phase);
       end
       else if(m_cfg_reg_s.r_stat) begin
           do begin
-            #1;
+            @(posedge m_config.vif.mdc); // Replaced #1 with clock edge
             read_stat_regs();
           end
           while(m_cfg_reg_s.busy);
@@ -164,6 +169,17 @@ endtask
 task eth_mdio_scoreboard::read_cfg_regs();
 
   uvm_status_e status;
+
+  if (m_regmodel == null) begin
+    if (m_config != null && m_config.m_regmodel != null)
+      m_regmodel = m_config.m_regmodel;
+
+    if (m_regmodel == null) begin
+      `uvm_warning(get_type_name(), "MDIO register model unavailable; skipping scoreboard cfg read")
+      return;
+    end
+  end
+
   m_regmodel.MIIMODER.mirror(status, UVM_CHECK, UVM_BACKDOOR);
   m_cfg_reg_s.mii_no_pre = m_regmodel.MIIMODER.MIINOPRE.get_mirrored_value();
   m_cfg_reg_s.clk_div    = m_regmodel.MIIMODER.CLKDIV.get_mirrored_value();
@@ -195,6 +211,10 @@ task eth_mdio_scoreboard::read_stat_regs();
 endtask
 
 task eth_mdio_scoreboard::pred_write();
+
+m_exp_wr_pkt.delete();
+
+
   // Check if no preamble is disabled then push preamble
   if(!m_cfg_reg_s.mii_no_pre) begin
     for (int i=ETH_CTRL_PREAMBLE_LEN-1; i>=0; i--)
@@ -228,6 +248,9 @@ task eth_mdio_scoreboard::pred_write();
 endtask
 
 task eth_mdio_scoreboard::pred_read();
+
+m_exp_rd_pkt.delete();
+
   // Check if no preamble is disabled then push preamble
   if(!m_cfg_reg_s.mii_no_pre) begin
     for (int i=ETH_CTRL_PREAMBLE_LEN-1; i>=0; i--)

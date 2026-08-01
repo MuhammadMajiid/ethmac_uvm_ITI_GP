@@ -15,12 +15,12 @@ vlog  \
     tb/agents/wb_s/wb_s_agent_pkg.sv \
     tb/agents/mii_tx/mii_tx_agent_pkg.sv \
     tb/agents/mii_rx/mii_rx_agent_pkg.sv \
-    tb/agents/mdio/mdio_agent_pkg.sv \
     tb/sequences/reset_seq/reset_seq_pkg.sv \
     tb/sequences/wb_m_seq/wb_m_seq_pkg.sv \
     tb/sequences/wb_s_seq/wb_s_seq_pkg.sv \
     tb/sequences/mii_tx_seq/mii_tx_seq_pkg.sv \
     tb/sequences/mdio_seq/mdio_seq_pkg.sv \
+    tb/agents/mdio/mdio_agent_pkg.sv \
     tb/virtual_seq_sqr/eth_v_seq_sqr_pkg.sv \
     tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard_pkg.sv \
     tb/scoreboards/eth_rx_scoreboard/eth_rx_scoreboard_pkg.sv \
