@@ -75,7 +75,7 @@ class wb_s_seq_tx_underrun extends wb_s_basic_tx_seq;
         
     end
         // Clear interrupt source register
-        regmodel.INT_SOURCE.write(status,7'b111_1111, UVM_BACKDOOR);
+        regmodel.INT_SOURCE.write(status,7'b111_1111, UVM_FRONTDOOR);
     end 
 
     endtask

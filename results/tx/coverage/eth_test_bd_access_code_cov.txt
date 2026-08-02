@@ -23,8 +23,8 @@ Branch Coverage for instance /dut/miim1/clkgen
 Branch totals: 1 hit of 2 branches = 50.00%
 
 ------------------------------------IF Branch------------------------------------
-    96                                      4107     Count coming in to IF
-    96              1                          6       if(Reset)
+    96                                      4111     Count coming in to IF
+    96              1                         10       if(Reset)
     98              1                       4101       else
 Branch totals: 2 hits of 2 branches = 100.00%
 
@@ -162,10 +162,10 @@ Statement Coverage for instance /dut/miim1/clkgen --
     91                                               
     92                                               
     93                                               // Counter counts half period
-    94              1                       4107     always @ (posedge Clk or posedge Reset)
+    94              1                       4111     always @ (posedge Clk or posedge Reset)
     95                                               begin
     96                                                 if(Reset)
-    97              1                          6         Counter[7:0] <=  8'h1;
+    97              1                         10         Counter[7:0] <=  8'h1;
     98                                                 else
     99                                                   begin
     100                                                    if(CountEq0)
@@ -12508,9 +12508,9 @@ Branch Coverage for instance /dut/txethmac1/random1
     ----         ----                      -----     ------ 
   File repo/rtl/eth_random.v
 ------------------------------------IF Branch------------------------------------
-    103                                      514     Count coming in to IF
+    103                                      515     Count coming in to IF
     103             1                          2       if(Reset)
-    105             1                        512       else
+    105             1                        513       else
 Branch totals: 2 hits of 2 branches = 100.00%
 
 ------------------------------------IF Branch------------------------------------
@@ -12520,9 +12520,9 @@ Branch totals: 2 hits of 2 branches = 100.00%
 Branch totals: 1 hit of 2 branches = 50.00%
 
 ------------------------------------IF Branch------------------------------------
-    113                                      268     Count coming in to IF
+    113                                      269     Count coming in to IF
     113             1                    ***0***     assign Random [2] = (RetryCnt > 2) ? x[2] : 1'b0;
-    113             2                        268     assign Random [2] = (RetryCnt > 2) ? x[2] : 1'b0;
+    113             2                        269     assign Random [2] = (RetryCnt > 2) ? x[2] : 1'b0;
 Branch totals: 1 hit of 2 branches = 50.00%
 
 ------------------------------------IF Branch------------------------------------
@@ -12550,9 +12550,9 @@ Branch totals: 1 hit of 2 branches = 50.00%
 Branch totals: 1 hit of 2 branches = 50.00%
 
 ------------------------------------IF Branch------------------------------------
-    118                                      267     Count coming in to IF
+    118                                      268     Count coming in to IF
     118             1                    ***0***     assign Random [7] = (RetryCnt > 7) ? x[7] : 1'b0;
-    118             2                        267     assign Random [7] = (RetryCnt > 7) ? x[7] : 1'b0;
+    118             2                        268     assign Random [7] = (RetryCnt > 7) ? x[7] : 1'b0;
 Branch totals: 1 hit of 2 branches = 50.00%
 
 ------------------------------------IF Branch------------------------------------
@@ -12839,24 +12839,24 @@ Statement Coverage for instance /dut/txethmac1/random1 --
     98                                               reg  [9:0] RandomLatched;
     99                                               
     100                                              
-    101             1                        514     always @ (posedge MTxClk or posedge Reset)
+    101             1                        515     always @ (posedge MTxClk or posedge Reset)
     102                                              begin
     103                                                if(Reset)
     104             1                          2         x[9:0] <=  0;
     105                                                else
-    106             1                        512         x[9:0] <=  {x[8:0], Feedback};
+    106             1                        513         x[9:0] <=  {x[8:0], Feedback};
     107                                              end
     108                                              
-    109             1                        514     assign Feedback = ~(x[2] ^ x[9]);
+    109             1                        515     assign Feedback = ~(x[2] ^ x[9]);
     110                                              
     111                                              assign Random [0] = x[0];
     112             1                        270     assign Random [1] = (RetryCnt > 1) ? x[1] : 1'b0;
-    113             1                        269     assign Random [2] = (RetryCnt > 2) ? x[2] : 1'b0;
+    113             1                        270     assign Random [2] = (RetryCnt > 2) ? x[2] : 1'b0;
     114             1                        269     assign Random [3] = (RetryCnt > 3) ? x[3] : 1'b0;
     115             1                        269     assign Random [4] = (RetryCnt > 4) ? x[4] : 1'b0;
     116             1                        269     assign Random [5] = (RetryCnt > 5) ? x[5] : 1'b0;
     117             1                        269     assign Random [6] = (RetryCnt > 6) ? x[6] : 1'b0;
-    118             1                        268     assign Random [7] = (RetryCnt > 7) ? x[7] : 1'b0;
+    118             1                        269     assign Random [7] = (RetryCnt > 7) ? x[7] : 1'b0;
     119             1                        268     assign Random [8] = (RetryCnt > 8) ? x[8] : 1'b0;
     120             1                        268     assign Random [9] = (RetryCnt > 9) ? x[9] : 1'b0;
     121                                              
@@ -17592,9 +17592,9 @@ Branch Coverage for instance /dut/wishbone/bd_ram
 Branch totals: 2 hits of 2 branches = 100.00%
 
 ------------------------------------IF Branch------------------------------------
-    277                                      772     Count coming in to IF
+    277                                      773     Count coming in to IF
     277             1                          2     	assign #1 q = rst ? {32{1'b0}} : {mem3[raddr], mem2[raddr], mem1[raddr], mem0[raddr]};
-    277             2                        770     	assign #1 q = rst ? {32{1'b0}} : {mem3[raddr], mem2[raddr], mem1[raddr], mem0[raddr]};
+    277             2                        771     	assign #1 q = rst ? {32{1'b0}} : {mem3[raddr], mem2[raddr], mem1[raddr], mem0[raddr]};
 Branch totals: 2 hits of 2 branches = 100.00%
 
 ------------------------------------IF Branch------------------------------------
@@ -27035,7 +27035,7 @@ Statement Coverage for instance /dut --
 Toggle Coverage:
     Enabled Coverage              Bins      Hits    Misses  Coverage
     ----------------              ----      ----    ------  --------
-    Toggles                       1216       152      1064    12.50%
+    Toggles                       1214       152      1062    12.52%
 
 ================================Toggle Details================================
 
@@ -27169,7 +27169,6 @@ Toggle Coverage for instance /dut --
                                     WillTransmit_q           0           0        0.00 
                                    WillTransmit_q2           0           0        0.00 
                                 m_wb_adr_tmp[29-0]           0           0        0.00 
-                                          md_pad_i           0           0        0.00 
                                           md_pad_o           0           1       50.00 
                                         md_padoe_o           0           0        0.00 
                                          mdc_pad_o           1           1      100.00 
@@ -27255,11 +27254,11 @@ Toggle Coverage for instance /dut --
                                  temp_wb_err_o_reg           0           0        0.00 
                                           wb_clk_i           1           1      100.00 
 
-Total Node Count     =        608 
+Total Node Count     =        607 
 Toggled Node Count   =         38 
-Untoggled Node Count =        570 
+Untoggled Node Count =        569 
 
-Toggle Coverage      =      12.50% (152 of 1216 bins)
+Toggle Coverage      =      12.52% (152 of 1214 bins)
 
 
 Total Coverage By Instance (filtered view): 27.61%

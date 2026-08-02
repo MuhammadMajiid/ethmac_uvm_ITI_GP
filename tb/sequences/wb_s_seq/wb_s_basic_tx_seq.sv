@@ -226,24 +226,33 @@ task wb_s_basic_tx_seq::configure_tx_registers(
 
     `uvm_info("TX_CONFIG",
      $sformatf(
-              "MODER: FULLD=%0d, TXEN=%0d, BDNUM=%0d, NOPRE=%0d, CRCEN=%0d, DCRC=%0d, PAD=%0d, HUGEN=%0d, NOBCKOF=%0d, EXDF=%0d, IPGT=%0d, TXB_M=%0d, TXC_M=%0d, TXE_M=%0d, MAXFL=%0d, MINFL=%0d, MAXRET=%0d, COLLVALID=%0d",
+              "MODER: FULLD=%0d, TXEN=%0d, BDNUM=%0d, NOPRE=%0d, CRCEN=%0d, DCRC=%0d, PAD=%0d, HUGEN=%0d, NOBCKOF=%0d, EXDF=%0d, IPGT=%0d, IPGR1=%0d, IPGR2=%0d, TXB_M=%0d, TXC_M=%0d, TXE_M=%0d, MAXFL=%0d, MINFL=%0d, MAXRET=%0d, COLLVALID=%0d",
                fulld, txen, tx_bd_num, nopre, crcen, dcrc, pad, hugen,
-               nobckof, exdf, ipgt, txb_m, txc_m, txe_m,
+               nobckof, exdf, ipgt,ipgr1,ipgr2, txb_m, txc_m, txe_m,
                maxfl, minfl, maxret, collvalid),
                UVM_MEDIUM)    
 
 endtask 
 
 function void wb_s_basic_tx_seq::dma_mem_wr(bit [31:0] tx_ptr,bit [15:0] len,bit [31:0] data, bit rnd =0);
+            bit [31:0] tx_ptr_cop=(tx_ptr%4==0)?tx_ptr:tx_ptr-tx_ptr%4;;
             if(rnd)
             begin
-                for(int j=0; j<$ceil(len/4.0);j++) 
-                    dma_mem::write(tx_ptr+j*4,$random);
+                for(int j=0; j<$ceil(len/4.0);j++) begin
+                    dma_mem::write(tx_ptr_cop+j*4,$random);
+                    $display("mem addr = %0h",tx_ptr_cop+j*4);
+                end
+                if(tx_ptr%4!=0) begin
+                    dma_mem::write(tx_ptr_cop+$ceil(len/4.0)*4,$random);
+                    $display("mem addr = %0h",tx_ptr_cop+$ceil(len/4.0)*4);
+                end
             end
             else
             begin
                 for(int j=0; j<$ceil(len/4.0);j++) 
-                    dma_mem::write(tx_ptr+j*4,data);
+                    dma_mem::write(tx_ptr_cop+j*4,data);
+                if(tx_ptr%4!=0)
+                    dma_mem::write(tx_ptr_cop+$ceil(len/4.0)*4,data);
             end
 endfunction
 

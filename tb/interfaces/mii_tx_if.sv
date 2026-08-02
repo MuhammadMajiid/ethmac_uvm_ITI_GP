@@ -83,20 +83,20 @@ interface mii_tx_if #(parameter PHY_NIBBLE_WIDTH = 4)(
 
   // TX_RST_TXEN_DEASSERTED: MTxEN must be deasserted during reset. 
   a_rst_txen: assert property(@(posedge MTxCLK) disable iff(!rst) (rst |-> !MTxEN))
-    else `uvm_error("A_MII_TX",$sformatf("Assertion failed, MTxEN = %0d",MTxEN));
+    else `uvm_error("A_MII_TX",$sformatf("Assertion error a_rst_txen, MTxEN = %0d",MTxEN));
   // TX_RST_TXERR_DEASSERTED: MTxERR must be deasserted during reset. 
   a_rst_txerr: assert property(@(posedge MTxCLK) disable iff(!rst) (rst |-> !MTxERR))
-    else `uvm_error("A_MII_TX",$sformatf("Assertion failed, MTxERR = %0d",MTxERR));
+    else `uvm_error("A_MII_TX",$sformatf("Assertion error a_rst_txerr, MTxERR = %0d",MTxERR));
   // TX_RST_DATA_NO_X_Z_PROPAGATION To ensure data doesn’t take x or z values after reset. 
   a_rst_x_z_txdata: assert property(@(posedge MTxCLK) disable iff(!rst) (rst |-> not $isunknown(MTxD) ))
-    else `uvm_error("A_MII_TX",$sformatf("Assertion failed, MTxD = %0d",MTxD));
+    else `uvm_error("A_MII_TX",$sformatf("Assertion error a_rst_x_z_txdata, MTxD = %0d",MTxD));
  
   // TX_DATA_CHANGED_TXEN Data should only change during TXEN is asserted or rise or fall.
   property p_en_data;
     @(posedge MTxCLK)  disable iff(rst) ($changed(MTxD) |-> MTxEN || $rose(MTxEN) || $fell(MTxEN));
   endproperty
   a_en_data: assert property (p_en_data)
-    else `uvm_error("A_MII_TX", "a_en_data");
+    else `uvm_error("A_MII_TX", "Assertion error a_en_data");
   c_en_data: cover property (p_en_data);
   
   // TX_ERR_REQUIRES_TXEN MTxERR must only assert when MTxEN is also asserted. 
@@ -104,7 +104,7 @@ interface mii_tx_if #(parameter PHY_NIBBLE_WIDTH = 4)(
     @(posedge MTxCLK)  disable iff(rst) (MTxERR |-> MTxEN);
   endproperty
   a_en_err: assert property (p_en_err)
-    else `uvm_error("A_MII_TX", "a_en_err");
+    else `uvm_error("A_MII_TX", "Assertion error a_en_err");
   c_en_err: cover property (p_en_err);
 
   // TX_CLK_FREQ: Check that  MTxClk frequency is 25 MHz or 2.5 MHz with half duty cycle.
@@ -115,7 +115,7 @@ interface mii_tx_if #(parameter PHY_NIBBLE_WIDTH = 4)(
     else begin
         meas_per=$realtime-start_time;
         a_tx_freq: assert (meas_per==40 || meas_per==400)
-            else `uvm_error("A_MII_TX", $sformatf("Assertion failed, Measured period = %0f ns",meas_per));
+            else `uvm_error("A_MII_TX", $sformatf("Assertion error a_tx_freq, Measured period = %0f ns",meas_per));
         start_time=$realtime;    
     end    
   end
@@ -124,7 +124,7 @@ interface mii_tx_if #(parameter PHY_NIBBLE_WIDTH = 4)(
      if(start_time!=0) begin
         meas_duty=$realtime-start_time;
         a_tx_duty: assert (meas_duty==20 || meas_duty==200)
-            else `uvm_error("A_MII_TX", $sformatf("Assertion failed, Measured duty isn't 50%%, duty = %0f ns",meas_duty));
+            else `uvm_error("A_MII_TX", $sformatf("Assertion error a_tx_duty, Measured duty isn't 50%%, duty = %0f ns",meas_duty));
      end   
   end
  

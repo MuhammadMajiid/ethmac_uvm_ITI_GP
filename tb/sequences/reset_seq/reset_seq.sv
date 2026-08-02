@@ -25,7 +25,7 @@ class reset_seq extends uvm_sequence #(reset_seq_item);
 
     start_item(req);
 
-    req.cycles = 5;
+    req.cycles = 9;
     req.active_level = 1;
 
     finish_item(req);

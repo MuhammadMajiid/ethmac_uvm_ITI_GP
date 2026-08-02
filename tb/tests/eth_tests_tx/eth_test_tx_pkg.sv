@@ -46,7 +46,8 @@ package eth_test_tx_pkg;
   `include "eth_test_tx_cs.sv" 
   `include "eth_test_tx_len.sv" 
   `include "eth_test_tx_df.sv" 
-
+  `include "eth_test_tx_crs_coll.sv"
+  `include "eth_test_tx_ptr.sv"
 endpackage
 
 `endif // ETH_TEST_TX_PKG_SV

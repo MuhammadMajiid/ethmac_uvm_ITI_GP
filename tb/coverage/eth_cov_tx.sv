@@ -463,7 +463,7 @@ class eth_cov_tx extends uvm_component;
         
         cp_bd_retry: coverpoint m_retry_cnt iff(m_addr>=WB_BD_MEM_BASE_ADDR && m_addr<=WB_BD_MEM_OFFSET_ADDR  && m_addr%2==0) {
 
-            bins retry_all [] = {['b0001:'b1110]};
+            bins retry_all [] = {['b0000:'b1111]};
         }
         // =============================================================================
         //  Cross cover points
@@ -611,8 +611,9 @@ class eth_cov_tx extends uvm_component;
 
 
         // Collision while transmitting
-        cross_tx_collision:
-            cross cp_tx_enable, cp_collision;
+        cross_tx_collision: cross cp_tx_enable, cp_collision{
+            ignore_bins ign_coll = binsof(cp_collision.collision) &&  binsof(cp_tx_enable.tx_idle);   
+        }
 
 
         // Carrier sense versus transmission

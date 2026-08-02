@@ -93,7 +93,7 @@ class wb_s_seq_item_tx #(
     tx_pnt.size() == tx_bd_num;
     pkt_len.size() == tx_bd_num;
     foreach (tx_pnt[i]) {
-      tx_pnt[i]%4==0;
+      soft tx_pnt[i]%4==0;
       if(i!=tx_bd_num-1)
         tx_pnt[i]+pkt_len[i]<=tx_pnt[i+1];
     }

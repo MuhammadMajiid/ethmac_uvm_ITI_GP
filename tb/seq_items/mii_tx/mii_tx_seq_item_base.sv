@@ -29,7 +29,7 @@ class mii_tx_seq_item_base extends uvm_sequence_item;
     logic [3:0] MTxD;               // Transmit Data Nibble. They are synchronized to the rising edge of MTxClk.
     logic MTxEN;                    // Transmit Enable. indicates to the PHY that the data MTxD is valid and the transmission can start.
     logic MTxERR;                   // Transmit Coding Error
-
+    rand int  MCrS_time;                // Time which carrier sense is asserted after frame transmission
  
     
     function new(string name = "mii_tx_seq_item_base");
@@ -39,8 +39,9 @@ class mii_tx_seq_item_base extends uvm_sequence_item;
     constraint c_default_idle { soft MColl == 1'b0;
                                 soft MCrS  == 1'b0;}
                                 
-    //constraint c_MCoLL {MCoLL dist{};}
-    //constraint c_MCrS {MCrS dist{};}
+    constraint c_mcrs_time{
+        MCrS_time inside{ETH_MAX_IPG_VAL,ETH_EXCESS_DEFER_LIMIT+ETH_MAX_IPG_VAL};
+    }
 
     function string convert2string();
         return $sformatf("MColl=%0b, MCrS=%0b, MTxD=%0h, MTxEN=%0b, MTxERR=%0b", 

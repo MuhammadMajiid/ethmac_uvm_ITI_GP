@@ -22,8 +22,8 @@ class eth_v_seq_reg extends eth_v_seq_base;
   eth_max_value_seq       max_seq;
   eth_rw_pattern_seq      pattern_seq;
   uvm_reg_hw_reset_seq    hw_reset_seq;
-  //uvm_reg_bit_bash_seq    bit_bash_seq;
-  //eth_tx_bd_num_bit_bash_seq tx_bd_seq;
+  uvm_reg_bit_bash_seq    bit_bash_seq;
+  eth_tx_bd_num_bit_bash_seq tx_bd_seq;
 
   function new(string name="eth_v_seq_reg");
     super.new(name);
@@ -79,7 +79,7 @@ class eth_v_seq_reg extends eth_v_seq_base;
     pattern_seq.model = p_sequencer.regmodel;
     pattern_seq.start(null);
 
-   /*//----------------------------
+   ///----------------------------
     // Walk-1 / Walk-0 test
     //----------------------------
 
@@ -101,7 +101,7 @@ class eth_v_seq_reg extends eth_v_seq_base;
 
     tx_bd_seq.model = p_sequencer.regmodel;
 
-    tx_bd_seq.start(null);*/
+    tx_bd_seq.start(null);
 
     `uvm_info(get_type_name(),
               "Register Access Virtual Sequence Completed",

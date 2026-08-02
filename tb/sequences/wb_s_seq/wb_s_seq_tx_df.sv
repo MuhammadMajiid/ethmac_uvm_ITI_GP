@@ -24,12 +24,14 @@ class wb_s_seq_tx_df extends wb_s_basic_tx_seq;
     // Randomize transaction
     //-----------------------------------------------------
     assert(m_item.randomize() with {
-    tx_bd_num inside{1};
+    tx_bd_num ==2;
     moder_fd ==0;
     foreach (pkt_len[i]){
         pkt_len[i]<100;
         pkt_len[i]>4;
     }
+    ipgr1 inside {'h0000_0000,'h0000_0020,'h0000_007F};
+    ipgr2 inside {'h0000_0000,'h0000_0020,'h0000_007F};
     })   
     else begin
     `uvm_fatal(get_name(), "Failed randomization")
@@ -48,7 +50,8 @@ class wb_s_seq_tx_df extends wb_s_basic_tx_seq;
     //-----------------------------------------------------
     // Configure registers
     //-----------------------------------------------------
-    configure_tx_registers(.tx_bd_num(m_item.tx_bd_num),.fulld(m_item.moder_fd),.nobckof(1),.txen(1));
+    configure_tx_registers(.tx_bd_num(m_item.tx_bd_num),.fulld(m_item.moder_fd),.ipgr1(m_item.ipgr1),
+                           .ipgr2(m_item.ipgr2),.exdf(m_item.moder_exdf),.txen(1));
 
 
     `uvm_info(get_type_name(),
@@ -62,8 +65,8 @@ class wb_s_seq_tx_df extends wb_s_basic_tx_seq;
         // Read bd
         regmodel.eth_bd_mem.read(status,i*2,rd_data, UVM_FRONTDOOR);
         // if carrier sense is asserted clear it
-        if(rd_data[1]) begin
         `uvm_info(get_name(),$sformatf("Deferral bit = %0b",rd_data[1]),UVM_MEDIUM)
+        if(rd_data[1]) begin
         rd_data = rd_data ^ (1'b1<<1);
         // clear deferral bit
         regmodel.eth_bd_mem.write(status,i*2,rd_data, UVM_BACKDOOR);

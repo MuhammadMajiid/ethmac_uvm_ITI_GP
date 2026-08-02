@@ -64,7 +64,7 @@ package eth_glob_pkg;
     parameter ETH_PREAMBLE           = 8'h55;
     parameter ETH_SFD                = 8'hD5;
     parameter ETH_CRC_POLY           = 32'hEDB88320;
-    parameter ETH_EXCESS_DEFER_LIMIT = 16'h17b7;   
+    parameter ETH_EXCESS_DEFER_LIMIT = 16'h17b7;   // 'd6071
     parameter ETH_CTRL_PREAMBLE      = 32'hFFFF_FFFF;
     parameter ETH_CTRL_PREAMBLE_LEN  = 32;
     parameter ETH_CTRL_ADDR_LEN      = 5;
@@ -84,7 +84,7 @@ package eth_glob_pkg;
     parameter ETH_PAUSE_RESERVED_LEN = 42;
     parameter ETH_JAM_NIBBLES        = 8;
     parameter ETH_JAM_PATTERN        = 4'h9;
-    
+    parameter ETH_MAX_IPG_VAL        = 7'h7F;
     // Clocks
     parameter real ETH_PHY_TX_CLK_PERIOD_NS    = 40.0; // 25 MHz
     parameter real ETH_PHY_RX_CLK_PERIOD_NS    = 40.0; // 25MHz

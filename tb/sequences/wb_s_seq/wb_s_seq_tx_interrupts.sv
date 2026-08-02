@@ -202,6 +202,7 @@ endtask
 
     @(m_ev_end_pkt);
     #WB_CLK_PERIOD_NS;
+    // Read interrupt source register
     regmodel.INT_SOURCE.read(status, int_source, UVM_FRONTDOOR);
 
     `uvm_info(get_type_name(),
@@ -215,6 +216,8 @@ endtask
           int_source[5],
           int_source[6]),
         UVM_MEDIUM)
+    // Clear interrupt source register
+    regmodel.INT_SOURCE.write(status,7'b111_1111, UVM_FRONTDOOR);
     if(frame_type==CONTROL_FRAME)
       break;
     end
