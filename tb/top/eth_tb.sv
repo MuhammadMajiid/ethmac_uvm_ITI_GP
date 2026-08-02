@@ -6,7 +6,7 @@ module eth_tb;
   import eth_glob_pkg::*;
   import eth_test_reg_pkg::*;
   import eth_test_tx_pkg::*;
-  import eth_test_mdio_pkg::*;
+  //import eth_test_mdio_pkg::*;
 
   //--------------------------------------------------------------------------
   // Clock / Reset

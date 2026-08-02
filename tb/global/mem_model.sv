@@ -43,9 +43,6 @@ class dma_mem extends uvm_object;
       return 0;
     end
 
-      // if addr isn't divisible by 4, round to the nearest lower address divisble by 4
-      addr=(addr%4==0)?addr:addr-addr%4;
-
     dma_mem[addr] = data;
     return 1;
   endfunction

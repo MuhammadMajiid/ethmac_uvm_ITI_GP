@@ -16,7 +16,7 @@ class eth_tx_scoreboard extends uvm_scoreboard;
     // =========================================================================
     // Parameters for semaphore keys
     // =========================================================================
-    parameter SEM_TX_SEQ_ITEM_NO_KEYS = 4;
+    parameter SEM_TX_SEQ_ITEM_NO_KEYS = 5;
     parameter SEM_WB_M_SEQ_ITEM_NO_KEYS = 1;
     int no_ev;
     // =========================================================================
@@ -538,29 +538,35 @@ endtask
 
 task eth_tx_scoreboard::comparator();
     @(m_ev_txen);
+    #0.1;
     forever begin
     fork : fork_comp
     comp_pack_pkt();
-    comp_check_ipgt();
+	begin
+        if(!m_tx_bd_cfg_s.full_duplex)
+        comp_check_ipg();
+        else  begin
+        comp_check_ipgt();
+        end
+    end
     begin
-        `uvm_info(get_name(), $sformatf("pending rd = %0b",m_tx_pending_s.flag_rd), UVM_MEDIUM)
+        `uvm_info(get_name(), $sformatf("pending rd = %0b",m_tx_pending_s.flag_rd), UVM_DEBUG)
         wait(m_tx_pending_s.flag_rd);
-        `uvm_info(get_name(), $sformatf("pending rd = %0b",m_tx_pending_s.flag_rd), UVM_MEDIUM)
         fork: fork_comp2
        begin
             @(!m_tx_pending_s.flag_rd);
             @(m_ev_start_comp);
             if(m_tx_pending_s.collision_seen ) begin
                 m_tx_expected_s.exp_ur=0;
-                `uvm_info(get_name(),$sformatf("Retry = %0d", m_tx_pending_s.retry_cnt), UVM_MEDIUM)
             end
+
         end
         begin
             @(m_ev_start_comp);
             if(m_tx_pending_s.collision_seen && !m_tx_expected_s.exp_df) begin
                 m_tx_pending_s ='{default:'0,actual_pkt: {},flag_rd: m_tx_pending_s.flag_rd,
-                jam_cnt: m_tx_pending_s.jam_cnt,retry_cnt: m_tx_pending_s.retry_cnt};
-                `uvm_info(get_name(),$sformatf("Retry = %0d", m_tx_pending_s.retry_cnt), UVM_MEDIUM) 
+                jam_cnt: m_tx_pending_s.jam_cnt,retry_cnt: m_tx_pending_s.retry_cnt,
+                ipgr_cycles: m_tx_pending_s.ipgr_cycles};
                 m_tx_expected_s.exp_ur=0;
                 if(m_tx_expected_s.exp_rtry<m_tx_bd_cfg_s.maxret) 
                 disable fork_comp;
@@ -571,8 +577,9 @@ task eth_tx_scoreboard::comparator();
         // copy config struct for interrupt
         m_tx_bd_cfg_cop_s=m_tx_bd_cfg_s; 
         m_tx_expected_cop_s=m_tx_expected_s;
-        if(m_tx_expected_s.exp_rtry>=m_tx_bd_cfg_s.maxret || m_tx_expected_s.exp_rtry==0 ) begin
-            if(m_tx_expected_s.exp_rtry==0 && !m_tx_expected_s.exp_lc) begin
+        if(m_tx_expected_s.exp_rtry>=m_tx_bd_cfg_s.maxret || !m_tx_pending_s.collision_seen
+            || m_tx_expected_s.exp_lc) begin
+            if(m_tx_expected_s.exp_rtry<m_tx_bd_cfg_s.maxret && !m_tx_expected_s.exp_lc) begin
                 comp_compare_pkt();
                 comp_check_txerr();
             end
@@ -825,10 +832,12 @@ function void eth_tx_scoreboard::pred_read_mem();
     // length of packet in BD
     bit [15:0] len =  m_tx_bd_cfg_s.len;
     // base address of packet
-    bit [WB_DATA_WIDTH-1:0] txpnt =  m_tx_bd_cfg_s.txpnt;
+    bit [WB_DATA_WIDTH-1:0] txpnt =  (m_tx_bd_cfg_s.txpnt%4==0)?
+                                     m_tx_bd_cfg_s.txpnt:m_tx_bd_cfg_s.txpnt-m_tx_bd_cfg_s.txpnt%4;
     // Read data from dma memory (4 bytes)
     bit [WB_DATA_WIDTH-1:0] rd_data;
-
+    int byte_sel;
+    //dma_mem::print();
     // Check that txpnt value exists in memory
     if(!dma_mem::read(txpnt,rd_data))
         `uvm_fatal(get_name(), $sformatf("Buffer descriptor number %0d Txpnt value doesn't exist in dma memory, txpnt = %0h",m_tx_bd_cfg_s.bd_index,txpnt))
@@ -839,14 +848,39 @@ function void eth_tx_scoreboard::pred_read_mem();
             `uvm_fatal(get_name(), $sformatf("In buffer descriptor number %0d, address doesn't exist in dma memory, address = %0h",m_tx_bd_cfg_s.bd_index,txpnt+i*4))
         end
         else begin
+            if(i==0) 
+                byte_sel = (m_tx_bd_cfg_s.txpnt%4==0)?
+                            3:3-m_tx_bd_cfg_s.txpnt%4;
+            else
+                byte_sel = 3;
             // push word in expected packet queue
-            for(int i = 3; i>=0; i--)
+            for(int i = byte_sel; i>=0; i--)
                 m_tx_expected_s.exp_pkt.push_back(rd_data[8*i+:8]);
         end
     end    
+    // Push remaining bytes if pointer isn't word aligned
+    if(m_tx_bd_cfg_s.txpnt%4!=0) begin
+        int remain_bytes;
+        byte_sel = (len-(3-m_tx_bd_cfg_s.txpnt%4))%4;
+        if(!dma_mem::read(txpnt+len-len%4,rd_data))
+            `uvm_fatal(get_name(), $sformatf("In buffer descriptor number %0d, address doesn't exist in dma memory, address = %0h",m_tx_bd_cfg_s.bd_index,txpnt+len-len%4))
+     
+        for(int i=1;i<=byte_sel;i++)
+              m_tx_expected_s.exp_pkt.push_back(rd_data[8*(4-i)+:8]);
+        
+        remain_bytes=len-m_tx_expected_s.exp_pkt.size();
 
-    // push remaining bytes if length isn't divisble by 4
-    if(len%4!=0) begin
+        if(remain_bytes>0) begin
+            if(!dma_mem::read(txpnt+4+len-len%4,rd_data))
+            `uvm_fatal(get_name(), $sformatf("In buffer descriptor number %0d, address doesn't exist in dma memory, address = %0h",m_tx_bd_cfg_s.bd_index,txpnt+len-len%4))
+     
+        for(int i=1;i<=remain_bytes;i++)
+              m_tx_expected_s.exp_pkt.push_back(rd_data[8*(4-i)+:8]);
+        end          
+    end
+
+    // push remaining bytes if length isn't word aligned
+    else if(len%4!=0) begin
         if(!dma_mem::read(txpnt+len-len%4,rd_data))
             `uvm_fatal(get_name(), $sformatf("In buffer descriptor number %0d, address doesn't exist in dma memory, address = %0h",m_tx_bd_cfg_s.bd_index,txpnt+len-len%4))
      
@@ -1158,6 +1192,20 @@ task eth_tx_scoreboard::pred_read_cfg_reg();
     m_regmodel.IPGT.mirror(status, UVM_CHECK, UVM_BACKDOOR);
 
     m_tx_bd_cfg_s.ipgt = m_regmodel.IPGT.get_mirrored_value();
+    
+    //------------------------------------------
+    // IPGR1
+    //------------------------------------------
+    m_regmodel.IPGR1.mirror(status, UVM_CHECK, UVM_BACKDOOR);
+
+    m_tx_bd_cfg_s.ipgr1 = m_regmodel.IPGR1.get_mirrored_value();
+
+    //------------------------------------------
+    // IPGR2
+    //------------------------------------------
+    m_regmodel.IPGR2.mirror(status, UVM_CHECK, UVM_BACKDOOR);
+
+    m_tx_bd_cfg_s.ipgr2 = m_regmodel.IPGR2.get_mirrored_value();
 
     //------------------------------------------
     // INT_MASK
@@ -1268,31 +1316,30 @@ endtask
 
 task eth_tx_scoreboard::pred_defer();
     int i;
+    uvm_hdl_data_t df_latch;
     forever
     begin
         // Conditions of starting deferral counter 
-        // 1- Collision occurs and no backoff
-        // 2- Retry limit is reached
-        // 3- Carrier sense at beginning transmission of packet
-        // 4- Carrier sense at IPGR1
+        // 1- Carrier sense at beginning transmission of packet
+        // 2- Carrier sense at IPGR1
         m_sem_tx_seq_item.get(1);
         // Collision conditions
-        if (m_tx_bd_cfg_s.nobackoff && m_mii_tx_seq_item.MColl // 1
-            || m_tx_expected_s.exp_rl)                         // 2                                                
+        if (!m_tx_bd_cfg_s.full_duplex && m_mii_tx_seq_item.MCrS && !m_mii_tx_seq_item.MTxEN)                                                                        
         begin
-            `uvm_info(get_name(), "ENTERED DF LOOP", UVM_MEDIUM)
             m_sem_tx_seq_item.put(1);
             #1;
             // Start counter
-            for(i=0; i<ETH_EXCESS_DEFER_LIMIT; i++) begin
+            for(i=0; i<ETH_EXCESS_DEFER_LIMIT + ETH_MAX_IPG_VAL; i++) begin
                 m_sem_tx_seq_item.get(1);
-                if(!m_mii_tx_seq_item.MColl) begin
+                if(!m_mii_tx_seq_item.MCrS) begin
                     m_sem_tx_seq_item.put(1);
                     #1;
                     break;
                 end    
+                uvm_hdl_read("eth_tb.dut.macstatus1.DeferLatched",df_latch);
+                m_tx_expected_s.exp_df=df_latch[0];
                 m_sem_tx_seq_item.put(1);
-                #ETH_PHY_TX_CLK_PERIOD_NS;
+                #1;
             end     
         end
         /*
@@ -1319,9 +1366,10 @@ task eth_tx_scoreboard::pred_defer();
         end
 
         // check if counter reaches excessive deferral limit
-        if(i==ETH_EXCESS_DEFER_LIMIT) begin
+        if(i>=ETH_EXCESS_DEFER_LIMIT && !m_tx_bd_cfg_s.exdfren) begin
            `uvm_info(get_name(), "DEFERRAL", UVM_MEDIUM)
-            m_tx_expected_s.exp_df=1;
+            i=0;
+            clear();
             ->m_ev_end_pkt;
         end
         
@@ -1922,8 +1970,10 @@ task eth_tx_scoreboard::pred_check_jam_retry();
         // Collision detected while transmitting
         //--------------------------------------------------
         if (m_mii_tx_seq_item.MColl && m_mii_tx_seq_item.MTxEN) begin
+            // Delay until last byte of packet is inserted
+            #0.1;
             // check if collision occurs after collsion window
-            if (m_tx_pending_s.actual_pkt.size()  >= m_tx_bd_cfg_s.collvalid + ETH_PREAMBLE_LEN + ETH_SFD_LEN) begin
+            if (m_tx_pending_s.actual_pkt.size()  > m_tx_bd_cfg_s.collvalid + ETH_PREAMBLE_LEN ) begin
                 m_tx_expected_s.exp_lc = 1;
                 `uvm_info(get_type_name(), "late collision detected", UVM_MEDIUM)
             end
@@ -2060,20 +2110,10 @@ task eth_tx_scoreboard::pred_check_jam_retry();
 
 endtask
 
-//------------------------------------------------------------------------------
-// Check IPGT/IPGR behavior including:
-//  - Normal back-to-back IPGT
-//  - Carrier sense defer
-//  - Collision recovery IPGR
-//------------------------------------------------------------------------------
 task eth_tx_scoreboard::comp_check_ipg();
 
-    static ipg_state_e ipg_state = WAIT_FIRST_FRAME;
-
-    static bit ipg_prev_txen = 0;
-
-    static int unsigned ipg_cnt = 0;
-
+    uvm_hdl_data_t state_defer;
+    uvm_hdl_data_t state_ipg;
     //--------------------------------------------------
     // Default values
     //--------------------------------------------------
@@ -2085,8 +2125,7 @@ task eth_tx_scoreboard::comp_check_ipg();
    forever 
    begin
     m_sem_tx_seq_item.get(1); 
-    
-	case(ipg_state)
+    case(state)
 
     //--------------------------------------------------
     // Wait first packet
@@ -2094,8 +2133,8 @@ task eth_tx_scoreboard::comp_check_ipg();
     WAIT_FIRST_FRAME:
     begin
 
-        if(! ipg_prev_txen && m_mii_tx_seq_item.MTxEN)
-            ipg_state = WAIT_END_FRAME;
+        if(!prev_txen && m_mii_tx_seq_item.MTxEN)
+            state= WAIT_END_FRAME;
 
     end
 
@@ -2108,24 +2147,21 @@ task eth_tx_scoreboard::comp_check_ipg();
         //--------------------------------------------------
         // Collision has priority
         //--------------------------------------------------
-        if(m_mii_tx_seq_item.MColl && m_mii_tx_seq_item.MTxEN)
+        if(m_tx_pending_s.collision_seen && !m_tx_bd_cfg_s.nobackoff)
         begin
 
-            m_tx_pending_s.collision_seen = 1;
+            cycle_cnt = 0;
 
-            ipg_cnt = 0;
-
-            ipg_state = WAIT_COLLISION_END;
+            state= WAIT_COLLISION_END;
 
         end
 
-        else if( ipg_prev_txen && !m_mii_tx_seq_item.MTxEN)
+        else if(prev_txen && !m_mii_tx_seq_item.MTxEN)
         begin
 
-            ipg_cnt = 1;      // First idle clock
+            cycle_cnt = 1;      // First idle clock
 
-            ipg_state = COUNT_IPGT;
-
+            state= COUNT_IPGT;
         end
 
     end
@@ -2135,43 +2171,78 @@ task eth_tx_scoreboard::comp_check_ipg();
     //--------------------------------------------------
     COUNT_IPGT:
     begin
-
         //--------------------------------------------------
         // Collision during IPGT
         //--------------------------------------------------
         if(m_mii_tx_seq_item.MColl)
         begin
 
-            ipg_cnt = 0;
+            cycle_cnt = 0;
 
-            ipg_state = WAIT_COLLISION_END;
+            state= WAIT_COLLISION_END;
 
         end
 
         else
         begin
 
-            ipg_cnt++;
+            cycle_cnt++;
 
             //--------------------------------------------------
             // IPGT completed
             //--------------------------------------------------
-            if(ipg_cnt >= m_tx_bd_cfg_s.ipgt)
+            if((m_mii_tx_seq_item.MTxEN && !prev_txen) || m_tx_expected_s.exp_df)
             begin
 
                 //--------------------------------------------------
                 // Medium idle
                 //--------------------------------------------------
-                if(!m_mii_tx_seq_item.MCrS)
+                if(!m_tx_expected_s.exp_df)
                 begin
-
+                  int exp_cycles;
                     m_tx_pending_s.ipgt_valid  = 1;
 
-                    m_tx_pending_s.ipgt_cycles = ipg_cnt;
+                    m_tx_pending_s.ipgt_cycles = cycle_cnt;
 
-                    ipg_cnt = 0;
+                    cycle_cnt = 0;
+					
+		    //------------------------------------------------------
+            // Calculate expected IPGT
+            //------------------------------------------------------
+            if (m_tx_bd_cfg_s.full_duplex)
+                exp_cycles = m_tx_bd_cfg_s.ipgt + 6;
+            else
+                exp_cycles = m_tx_bd_cfg_s.ipgt + 3;
 
-                    ipg_state= WAIT_END_FRAME;
+            //------------------------------------------------------
+            // Compare
+            //------------------------------------------------------
+            if (m_tx_pending_s.ipgt_cycles < exp_cycles) begin
+
+                `uvm_error(get_type_name(),
+                    $sformatf(
+                    "IPGT mismatch\n\
+                    Mode           : %s\n\
+                    Register IPGT  : 0x%02h\n\
+                    Expected       : %0d MII cycles\n\
+                    Measured       : %0d MII cycles",
+                    m_tx_bd_cfg_s.full_duplex ? "Full Duplex" : "Half Duplex",
+                    m_tx_bd_cfg_s.ipgt,
+                    exp_cycles,
+                    m_tx_pending_s.ipgt_cycles))
+
+            end
+            else  begin
+
+                `uvm_info(get_type_name(),
+                    $sformatf(
+                    "IPGT PASS (%0d MII cycles)",
+                    exp_cycles),
+                    UVM_LOW)
+
+            end
+
+                    state= WAIT_END_FRAME;
 
                 end
 
@@ -2180,12 +2251,10 @@ task eth_tx_scoreboard::comp_check_ipg();
                 //--------------------------------------------------
                 else
                 begin
+            `uvm_info(get_name(), "Entered DEFER", UVM_MEDIUM)
+                    cycle_cnt = 0;
 
-                    m_tx_expected_s.exp_df = 1;
-
-                    ipg_cnt = 0;
-
-                    ipg_state = DEFER;
+                    state= DEFER;
 
                 end
 
@@ -2204,9 +2273,9 @@ task eth_tx_scoreboard::comp_check_ipg();
         if(!m_mii_tx_seq_item.MCrS)
         begin
 
-            ipg_cnt = 0;
+            cycle_cnt = 0;
 
-            ipg_state = COUNT_IPGR1;
+            state= COUNT_IPGR1;
 
         end
 
@@ -2224,9 +2293,9 @@ task eth_tx_scoreboard::comp_check_ipg();
         if(!m_mii_tx_seq_item.MColl && !m_mii_tx_seq_item.MCrS)
         begin
 
-            ipg_cnt = 0;
+            cycle_cnt = 1;
 
-            ipg_state = COUNT_IPGR1;
+            state= COUNT_IPGR1;
 
         end
 
@@ -2241,33 +2310,34 @@ task eth_tx_scoreboard::comp_check_ipg();
         //--------------------------------------------------
         // Carrier appeared inside IPGR1
         //--------------------------------------------------
-        if(m_mii_tx_seq_item.MCrS)
+        /*if(m_mii_tx_seq_item.MCrS && !m_mii_tx_seq_item.MTxEN)
         begin
 
-            ipg_cnt = 0;
-
-            ipg_state = DEFER;
+            cycle_cnt = 0;
+            `uvm_info(get_name(), "Entered DEFER", UVM_MEDIUM)
+            
+            state= DEFER;
 
         end
 
         else
-        begin
+        begin*/
 
-            ipg_cnt++;
+            cycle_cnt++;
 
             //--------------------------------------------------
             // Move to IPGR2
             //--------------------------------------------------
-            if(ipg_cnt >= m_tx_bd_cfg_s.ipgr1)
+            if(cycle_cnt >= m_tx_bd_cfg_s.ipgr1)
             begin
 
-                ipg_state = COUNT_IPGR2;
+                state= COUNT_IPGR2;
 
             end
 
         end
 
-    end
+    //end
 
     //--------------------------------------------------
     // IPGR2 window
@@ -2275,29 +2345,57 @@ task eth_tx_scoreboard::comp_check_ipg();
     COUNT_IPGR2:
     begin
 
-        ipg_cnt++;
+        //`uvm_info(get_name(), $sformatf("ipgr1 =%0d , ipgr2 = %0d",m_tx_bd_cfg_s.ipgr1,m_tx_bd_cfg_s.ipgr2),
+        // UVM_MEDIUM)
+        cycle_cnt++;
 
         //--------------------------------------------------
         // Carrier here does NOT reset counter
-        //--------------------------------------------------
-
-        if(ipg_cnt >= m_tx_bd_cfg_s.ipgr2)
-        begin
-
+       //--------------------------------------------------     
+        //    `uvm_info(get_name(),$sformatf("ipg count = %0d",cycle_cnt ), UVM_MEDIUM)
             if(m_mii_tx_seq_item.MTxEN)
             begin
 
                 m_tx_pending_s.ipgr_valid  = 1;
+        //    `uvm_info(get_name(),$sformatf("txen: ipg count = %0d",cycle_cnt ), UVM_MEDIUM)
+                m_tx_pending_s.ipgr_cycles = cycle_cnt;
 
-                m_tx_pending_s.ipgr_cycles = ipg_cnt;
+                cycle_cnt = 0;
 
-                ipg_cnt = 0;
+            //------------------------------------------------------
+            // Compare expected IPGr2 with actual 
+            //------------------------------------------------------
+            if (m_tx_pending_s.ipgr_cycles < m_tx_bd_cfg_s.ipgr2
+                || m_tx_pending_s.ipgr_cycles < m_tx_bd_cfg_s.ipgr1) begin
 
-                ipg_state = WAIT_END_FRAME;
+                `uvm_error(get_type_name(),
+                    $sformatf(
+                    "IPGR2 mismatch\n\
+                    Mode           : %s\n\
+                    Register IPGR2  : 0x%02h\n\
+                    Expected       : %0d MII cycles\n\
+                    Measured       : %0d MII cycles",
+                    m_tx_bd_cfg_s.full_duplex ? "Full Duplex" : "Half Duplex",
+                    m_tx_bd_cfg_s.ipgr2,
+                    m_tx_bd_cfg_s.ipgr2,
+                    m_tx_pending_s.ipgr_cycles))
+
+            end
+            else  begin
+
+                `uvm_info(get_type_name(),
+                    $sformatf(
+                    "IPGR2 PASS (%0d MII cycles)",
+                    m_tx_pending_s.ipgr_cycles),
+                    UVM_LOW)
+
+            end
+				 
+                m_tx_pending_s.ipgr_cycles=0;
+                state= WAIT_END_FRAME;
 
             end
 
-        end
 
     end
 
@@ -2306,7 +2404,7 @@ task eth_tx_scoreboard::comp_check_ipg();
     //--------------------------------------------------
     // Save previous TX enable
     //--------------------------------------------------
-     ipg_prev_txen = m_mii_tx_seq_item.MTxEN;
+     prev_txen = m_mii_tx_seq_item.MTxEN;
 	 m_sem_tx_seq_item.put(1);
    #1ns;
 	

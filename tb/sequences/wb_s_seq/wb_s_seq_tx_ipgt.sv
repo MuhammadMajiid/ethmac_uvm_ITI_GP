@@ -29,8 +29,6 @@ class wb_s_seq_tx_ipgt extends wb_s_basic_tx_seq;
     assert(m_item.randomize() with {
     tx_bd_num==4;
     ipgt inside {'h0000_0000,'h0000_0020,'h0000_007F};
-    ipgr1 inside {'h0000_0000,'h0000_0020,'h0000_007F};
-    ipgr2 inside {'h0000_0000,'h0000_0020,'h0000_007F};
     foreach (pkt_len[i]){
         pkt_len[i]<100;
         pkt_len[i]>4;

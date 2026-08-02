@@ -27,34 +27,25 @@ class wb_s_seq_tx_collision_cfg extends wb_s_basic_tx_seq;
 
     `uvm_object_utils(wb_s_seq_tx_collision_cfg)
 	
-	rand  bit [3:0] maxret_cfg;
+	randc  bit [3:0] maxret_cfg;
     rand bit [5:0] collvalid_cfg;
 	rand bit nobackoff;
 
     uvm_status_e   status;
-	uvm_reg_data_t bd_status_word;
-	  
-constraint c_maxret {
-    maxret_cfg inside {[0:15]};
-}	  
+	uvm_reg_data_t bd_status_word;  
 
-constraint c_solve {
-    solve maxret_cfg before nobackoff;
-}
+    constraint c_nobackoff {
+        if(maxret_cfg>4)
+            nobackoff==1;
+    }	 
 
-constraint c_nobackoff {
-    nobackoff dist {1:=80, 0:=20};
-    if(maxret_cfg>4)
-        nobackoff==1;
-}	 
-
-constraint c_collvalid {
-    collvalid_cfg dist {
-        6'd0  := 5,
-        6'd63 := 10,
-        [1:62] := 1
-    };
-}
+    constraint c_collvalid {
+        collvalid_cfg dist {
+            6'd0  := 5,
+            6'd63 := 10,
+            [1:62] := 1
+        };
+    }
 
     function new(string name = "wb_s_seq_tx_collision_cfg");
         super.new(name);
@@ -81,6 +72,8 @@ constraint c_collvalid {
             pkt_len[i]<100;
             pkt_len[i]>4;
         }
+        ipgr1 inside {'h0000_0000,'h0000_0020,'h0000_007F};
+        ipgr2 inside {'h0000_0000,'h0000_0020,'h0000_007F};
         })   
         tx_ptr=new[m_item.tx_bd_num];
         
@@ -120,11 +113,11 @@ constraint c_collvalid {
             .tx_bd_num (m_item.tx_bd_num),
             .txen      (1),
             .fulld     (0),
-            .minfl     (55),
-            .maxfl     (80),
             .nobckof   (nobackoff),
             .maxret    (maxret_cfg),
-			.collvalid (collvalid_cfg)
+			.collvalid (collvalid_cfg),
+            .ipgr1(m_item.ipgr1),
+            .ipgr2(m_item.ipgr2)
         );
 
         `uvm_info(get_type_name(),
@@ -134,20 +127,13 @@ constraint c_collvalid {
         //-----------------------------------------------------
         // Wait until all frames complete
         //-----------------------------------------------------
-        repeat (m_item.tx_bd_num)
+        for (int bd = 0; bd < m_item.tx_bd_num; bd++) begin
             @(m_ev_end_pkt);
-			
-
-
-for (int bd = 0; bd < m_item.tx_bd_num; bd++) begin
-
-   regmodel.eth_bd_mem.read(status, bd*2, bd_status_word);
-
-
-    `uvm_info(get_type_name(),
-        $sformatf("BD[%0d] Status = 0x%08h", bd, bd_status_word),
-        UVM_LOW)
-end	
+        regmodel.eth_bd_mem.read(status, bd*2, bd_status_word);
+            `uvm_info(get_type_name(),
+                $sformatf("BD[%0d] Status = 0x%08h", bd, bd_status_word),
+                UVM_LOW)
+        end	
 		
    
     endtask
