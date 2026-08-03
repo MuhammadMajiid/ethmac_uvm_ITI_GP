@@ -52,9 +52,11 @@ class eth_cov_mdio extends uvm_component;
     covergroup m_mdio_cfg_cov;
         // Clock Divider (MIIMODER, map offset 0x00A)
         cp_clk_div: coverpoint m_clk_div {
-            bins div_min = {8'h02}; // Assuming min reasonable div
+            bins div_min = {8'h00}; // Assuming min reasonable div
+            bins div_r_min = {8'h02}; // Assuming min reasonable div
             bins div_mid = {[8'h03:8'h7E]};
-            bins div_max = {8'hFE}; // Assuming max even div
+            bins div_r_max = {8'hFE}; // Assuming max reasonable div
+            bins div_max = {8'hFF}; // Assuming max even div
         }
 
         // Preamble Suppression (MIIMODER, map offset 0x00A)

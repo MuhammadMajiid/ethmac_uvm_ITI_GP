@@ -1,0 +1,191 @@
+# End time: 07:44:39 on Aug 03,2026, Elapsed time: 0:00:09
+# Errors: 0, Warnings: 0
+# vsim -c -voptargs="+acc" work.eth_tb -coverage -classdebug -sv_seed random -uvmcontrol=all "+uvm_set_verbosity=uvm_test_top.m_env.*,_ALL_,UVM_MEDIUM,time,0" "+seq_num=16" "+coll_num=0" "+UVM_TESTNAME=eth_test_miim_reg_bits" -onfinish stop -do "
+#     view wave
+#     add wave -r /eth_tb/dut/*
+#     onerror {
+#       puts "ERROR/FATAL encountered -- saving partial coverage before continuing"
+#       coverage save $CODE_UCDB -codeAll -instance eth_tb.dut
+#       coverage save $FUNC_UCDB -cvg -directive -assert
+#       resume
+#     }
+# 
+#     # Exclusions
+#     coverage exclude -du eth_clockgen -togglenode Counter[7]
+#     coverage exclude -du eth_clockgen -togglenode CounterPreset[7]
+#     # coverage exclude -du eth_shiftreg -togglenode Prsd[0]
+#     # coverage exclude -du eth_shiftreg -togglenode Prsd[1]
+#     # coverage exclude -du eth_shiftreg -togglenode Prsd[3]
+#     # coverage exclude -du eth_shiftreg -togglenode Prsd[4]
+#     # coverage exclude -du eth_shiftreg -togglenode Prsd[5]
+#     # coverage exclude -du eth_shiftreg -togglenode Prsd[6]
+#     # coverage exclude -du eth_shiftreg -togglenode Prsd[7]
+#     # coverage exclude -du eth_shiftreg -togglenode Prsd[8]
+#     # coverage exclude -du eth_shiftreg -togglenode Prsd[9]
+#     # coverage exclude -du eth_shiftreg -togglenode Prsd[10]
+#     # coverage exclude -du eth_shiftreg -togglenode Prsd[11]
+# 
+#     run -all
+#     coverage save $CODE_UCDB -codeAll -instance eth_tb.dut
+#     coverage save $FUNC_UCDB -cvg -directive -assert
+#     transcript file ""
+# " 
+# Start time: 07:44:39 on Aug 03,2026
+# ** Note: (vsim-8009) Loading existing optimized design _opt
+# Loading sv_std.std
+# Loading work.wb_m_if(fast)
+# Loading work.wb_s_if(fast)
+# Loading work.mii_tx_if(fast)
+# Loading work.reset_if(fast)
+# Loading work.mdio_if(fast)
+# Loading mtiUvm.uvm_pkg(fast)
+# Loading work.eth_glob_pkg(fast)
+# Loading work.mdio_seq_item_pkg(fast)
+# Loading work.mii_rx_seq_item_pkg(fast)
+# Loading work.mii_tx_seq_item_pkg(fast)
+# Loading work.wb_m_seq_item_pkg(fast)
+# Loading work.wb_s_seq_item_pkg(fast)
+# Loading work.eth_ral_pkg(fast)
+# Loading work.eth_cov_pkg(fast)
+# Loading work.mii_rx_if(fast)
+# Loading work.eth_config_pkg(fast)
+# Loading work.eth_mdio_scoreboard_pkg(fast)
+# Loading work.eth_rx_scoreboard_pkg(fast)
+# Loading work.eth_tx_scoreboard_pkg(fast)
+# Loading work.reset_seq_item_pkg(fast)
+# Loading work.reset_seq_pkg(fast)
+# Loading work.mii_tx_agent_pkg(fast)
+# Loading work.mii_tx_seq_pkg(fast)
+# Loading work.wb_m_agent_pkg(fast)
+# Loading work.wb_m_seq_pkg(fast)
+# Loading work.wb_s_seq_pkg(fast)
+# Loading work.mdio_seq_pkg(fast)
+# Loading work.mdio_agent_pkg(fast)
+# Loading work.reset_agent_pkg(fast)
+# Loading work.mii_rx_agent_pkg(fast)
+# Loading work.wb_s_agent_pkg(fast)
+# Loading work.eth_v_seq_sqr_pkg(fast)
+# Loading work.eth_env_pkg(fast)
+# Loading work.eth_test_tx_pkg(fast)
+# Loading work.eth_test_reg_pkg(fast)
+# Loading mtiUvm.questa_uvm_pkg(fast)
+# Loading work.eth_tb(fast)
+# Loading work.reset_if(fast__2)
+# Loading work.wb_s_if_sv_unit(fast)
+# Loading work.wb_s_if(fast__2)
+# Loading work.wb_m_if_sv_unit(fast)
+# Loading work.wb_m_if(fast__2)
+# Loading work.mii_tx_if_sv_unit(fast)
+# Loading work.mii_tx_if(fast__2)
+# Loading work.mii_rx_if(fast__2)
+# Loading work.mdio_if(fast__2)
+# Loading work.eth_top(fast)
+# Loading work.eth_miim(fast)
+# Loading work.eth_clockgen(fast)
+# Loading work.eth_shiftreg(fast)
+# Loading work.eth_outputcontrol(fast)
+# Loading work.eth_registers(fast)
+# Loading work.eth_register(fast)
+# Loading work.eth_register(fast__1)
+# Loading work.eth_register(fast__2)
+# Loading work.eth_register(fast__3)
+# Loading work.eth_register(fast__4)
+# Loading work.eth_register(fast__5)
+# Loading work.eth_register(fast__6)
+# Loading work.eth_register(fast__7)
+# Loading work.eth_register(fast__8)
+# Loading work.eth_register(fast__9)
+# Loading work.eth_register(fast__10)
+# Loading work.eth_register(fast__11)
+# Loading work.eth_register(fast__12)
+# Loading work.eth_register(fast__13)
+# Loading work.eth_register(fast__14)
+# Loading work.eth_maccontrol(fast)
+# Loading work.eth_receivecontrol(fast)
+# Loading work.eth_transmitcontrol(fast)
+# Loading work.eth_txethmac(fast)
+# Loading work.eth_txcounters(fast)
+# Loading work.eth_txstatem(fast)
+# Loading work.eth_crc(fast)
+# Loading work.eth_random(fast)
+# Loading work.eth_rxethmac(fast)
+# Loading work.eth_rxstatem(fast)
+# Loading work.eth_rxcounters(fast)
+# Loading work.eth_rxaddrcheck(fast)
+# Loading work.eth_crc(fast__1)
+# Loading work.eth_wishbone(fast)
+# Loading work.eth_spram_256x32(fast)
+# Loading work.eth_fifo(fast)
+# Loading work.eth_macstatus(fast)
+# Loading /home/muhammad/eda_tools/altera/questasim/questasim/uvm-1.1d/linux_x86_64/uvm_dpi.so
+# Sv_Seed = 2277972775
+# 
+#     view wave
+#     add wave -r /eth_tb/dut/*
+#     onerror {
+#       puts "ERROR/FATAL encountered -- saving partial coverage before continuing"
+#       coverage save $CODE_UCDB -codeAll -instance eth_tb.dut
+#       coverage save $FUNC_UCDB -cvg -directive -assert
+#       resume
+#     }
+# 
+#     # Exclusions
+#     coverage exclude -du eth_clockgen -togglenode Counter[7]
+#     coverage exclude -du eth_clockgen -togglenode CounterPreset[7]
+#     # coverage exclude -du eth_shiftreg -togglenode Prsd[0]
+#     # coverage exclude -du eth_shiftreg -togglenode Prsd[1]
+#     # coverage exclude -du eth_shiftreg -togglenode Prsd[3]
+#     # coverage exclude -du eth_shiftreg -togglenode Prsd[4]
+#     # coverage exclude -du eth_shiftreg -togglenode Prsd[5]
+#     # coverage exclude -du eth_shiftreg -togglenode Prsd[6]
+#     # coverage exclude -du eth_shiftreg -togglenode Prsd[7]
+#     # coverage exclude -du eth_shiftreg -togglenode Prsd[8]
+#     # coverage exclude -du eth_shiftreg -togglenode Prsd[9]
+#     # coverage exclude -du eth_shiftreg -togglenode Prsd[10]
+#     # coverage exclude -du eth_shiftreg -togglenode Prsd[11]
+# 
+#     run -all
+#     coverage save $CODE_UCDB -codeAll -instance eth_tb.dut
+#     coverage save $FUNC_UCDB -cvg -directive -assert
+#     transcript file ""
+# 
+# ----------------------------------------------------------------
+# UVM-1.1d
+# (C) 2007-2013 Mentor Graphics Corporation
+# (C) 2007-2013 Cadence Design Systems, Inc.
+# (C) 2006-2013 Synopsys, Inc.
+# (C) 2011-2013 Cypress Semiconductor Corp.
+# ----------------------------------------------------------------
+# 
+#   ***********       IMPORTANT RELEASE NOTES         ************
+# 
+#   You are using a version of the UVM library that has been compiled
+#   with `UVM_NO_DEPRECATED undefined.
+#   See http://www.eda.org/svdb/view.php?id=3313 for more details.
+# 
+#   You are using a version of the UVM library that has been compiled
+#   with `UVM_OBJECT_MUST_HAVE_CONSTRUCTOR undefined.
+#   See http://www.eda.org/svdb/view.php?id=3770 for more details.
+# 
+#       (Specify +UVM_NO_RELNOTES to turn off this notice)
+# 
+# UVM_INFO verilog_src/questa_uvm_pkg-1.2/src/questa_uvm_pkg.sv(277) @ 0: reporter [Questa UVM] QUESTA_UVM-1.2.3
+# UVM_INFO verilog_src/questa_uvm_pkg-1.2/src/questa_uvm_pkg.sv(278) @ 0: reporter [Questa UVM]  questa_uvm::init(all)
+# UVM_WARNING @ 0: reporter [BDTYP] Cannot create a component of type 'eth_test_miim_reg_bits' because it is not registered with the factory.
+# UVM_FATAL @ 0: reporter [INVTST] Requested test from command line +UVM_TESTNAME=eth_test_miim_reg_bits not found.
+# 
+# --- UVM Report Summary ---
+# 
+# ** Report counts by severity
+# UVM_INFO :    2
+# UVM_WARNING :    1
+# UVM_ERROR :    0
+# UVM_FATAL :    1
+# ** Report counts by id
+# [BDTYP]     1
+# [INVTST]     1
+# [Questa UVM]     2
+# ** Note: $finish    : /home/muhammad/eda_tools/altera/questasim/questasim/linux_x86_64/../verilog_src/uvm-1.1d/src/base/uvm_report_object.svh(292)
+#    Time: 0 ps  Iteration: 0  Instance: /eth_tb
+# Break in Function uvm_pkg/uvm_report_object::die at /home/muhammad/eda_tools/altera/questasim/questasim/linux_x86_64/../verilog_src/uvm-1.1d/src/base/uvm_report_object.svh line 292
+# Stopped at /home/muhammad/eda_tools/altera/questasim/questasim/linux_x86_64/../verilog_src/uvm-1.1d/src/base/uvm_report_object.svh line 292

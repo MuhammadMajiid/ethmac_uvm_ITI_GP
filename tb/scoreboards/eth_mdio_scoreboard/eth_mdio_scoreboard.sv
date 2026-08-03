@@ -132,16 +132,6 @@ task eth_mdio_scoreboard::run_phase(uvm_phase phase);
           pred_write();
           comp_write(m_mdio_seq_item);
       end
-      else if(m_cfg_reg_s.scan_stat) begin
-          do begin
-            @(posedge m_config.vif.mdc); // Replaced #1 with clock edge
-            read_stat_regs();
-        end
-          while(m_cfg_reg_s.invalid);
-          pred_read();
-          comp_read();
-          comp_linkfail();
-      end
       else if(m_cfg_reg_s.r_stat) begin
           do begin
             @(posedge m_config.vif.mdc); // Replaced #1 with clock edge
@@ -152,6 +142,16 @@ task eth_mdio_scoreboard::run_phase(uvm_phase phase);
           comp_read();
           comp_linkfail();
         end
+      else if(m_cfg_reg_s.scan_stat) begin
+          do begin
+            @(posedge m_config.vif.mdc); // Replaced #1 with clock edge
+            read_stat_regs();
+        end
+          while(m_cfg_reg_s.invalid);
+          pred_read();
+          comp_read();
+          comp_linkfail();
+      end
 
       comp_clk_period();
   end
@@ -378,7 +378,7 @@ task eth_mdio_scoreboard::comp_read();
     // Compare opcode
     idx+=ETH_CTRL_ST_LEN;
     temp=m_exp_rd_pkt[idx +: ETH_CTRL_OPCODE_LEN];
-    if({temp[1],temp[0]} != m_mdio_seq_item.op) begin
+    if({temp[0],temp[1]} != m_mdio_seq_item.op) begin
         `uvm_error(get_type_name(),
         $sformatf("Opcode mismatch  Field Offset: %0d\n Expected: %0p\n Actual: %0d", idx,temp,bit'(m_mdio_seq_item.op)))
         err =1;
@@ -445,6 +445,7 @@ endtask
 
 task eth_mdio_scoreboard::comp_clk_period();
     real exp_period_ns;
+    bit [7:0] temp_divider;
 
       // check if the division value is 0
       if(m_cfg_reg_s.clk_div==0) begin
@@ -452,9 +453,13 @@ task eth_mdio_scoreboard::comp_clk_period();
           return;
       end
 
-      // Calculate expected period , check if it's even or odd as the calculation differs
-      // exp_period_ns=(m_cfg_reg_s.clk_div%2==0)?(WB_CLK_PERIOD_NS*m_cfg_reg_s.clk_div):(WB_CLK_PERIOD_NS*(m_cfg_reg_s.clk_div-1));
-      exp_period_ns = 2.0 * m_cfg_reg_s.clk_div * WB_CLK_PERIOD_NS;
+      // Mirrors eth_clockgen.v: TempDivider clamps values <2 to 2, and
+      // CounterPreset = (TempDivider>>1)-1 means the counter counts a half
+      // period of (TempDivider>>1) Clk cycles, so a full Mdc period is
+      // 2*(TempDivider>>1)*Clk (i.e. Divider*Clk for even, (Divider-1)*Clk
+      // for odd -- the >>1 truncates).
+      temp_divider  = (m_cfg_reg_s.clk_div < 2) ? 8'h02 : m_cfg_reg_s.clk_div;
+      exp_period_ns = 2.0 * (temp_divider >> 1) * WB_CLK_PERIOD_NS;
       if(exp_period_ns!=m_mdio_seq_item.clk_period_ns)
       begin
           `uvm_error(get_type_name(),

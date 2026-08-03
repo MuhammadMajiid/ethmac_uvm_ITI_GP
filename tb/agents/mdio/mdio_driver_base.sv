@@ -109,6 +109,13 @@ task mdio_driver_base::drive_items();
   if (op == 2'b10) begin // READ
     seq_item_port.get_next_item(req); // sync token only, see phy_responder header
 
+    // Turn-Around: 2 bit-times (matches eth_mdio_scoreboard::pred_read()'s
+    // TA=[1,0] and the RTL's fixed BitCounter latch windows, which assume
+    // exactly 2 wasted shift-cycles before the 16 real data bits).
+    @(negedge vif.mdc);
+    vif.mdio_in <= 1'b1;
+    @(posedge vif.mdc);
+
     @(negedge vif.mdc);
     vif.mdio_in <= 1'b0;
     @(posedge vif.mdc);

@@ -66,7 +66,15 @@ class mdio_seq_phy_responder extends mdio_seq_base;
                 default: phy_regs[key] = 16'h0000;
             endcase
         end
-        return phy_regs[key];
+        get_reg = phy_regs[key];
+        // Reset/Restart AutoNeg are self-clearing on real hardware, but not
+        // instantaneously -- the bit is still readable as 1 by a status
+        // read taken right after the write. Model that by clearing it here,
+        // on the read that observes it, rather than on the write itself.
+        if (rgad == 5'h00) begin
+            phy_regs[key][15] = 1'b0;
+            phy_regs[key][9]  = 1'b0;
+        end
     endfunction
 
     function void put_reg(bit [4:0] fiad, bit [4:0] rgad, bit [15:0] wr_data);
@@ -79,11 +87,12 @@ class mdio_seq_phy_responder extends mdio_seq_base;
             // Collision Test) as written.
             phy_regs[key][14:7] = wr_data[14:7];
             phy_regs[key][6:0]  = 7'h0;   // reserved, always reads 0
-            // Bit[15] Reset and bit[9] Restart AutoNeg are self-clearing
-            // on real hardware -- modeled as "already done" by the next
-            // read rather than tracking a multi-cycle process.
-            phy_regs[key][15] = 1'b0;
-            phy_regs[key][9]  = 1'b0;
+            // Bit[15] Reset and bit[9] Restart AutoNeg: latch what was
+            // written here. get_reg() clears them on the read that
+            // observes them, so a status read taken right after this
+            // write still sees a 1 (see get_reg()).
+            phy_regs[key][15] = wr_data[15];
+            phy_regs[key][9]  = wr_data[9];
         end
         else if (rgad == 5'h01) begin
             // Reg1 is entirely RO -- a host write is a protocol-level
@@ -106,6 +115,19 @@ class mdio_seq_phy_responder extends mdio_seq_base;
     function void set_link_status(bit [4:0] fiad, bit up);
         bit [15:0] reg1 = get_reg(fiad, 5'h01);
         reg1[2] = up;
+        phy_regs[{fiad, 5'h01}] = reg1;
+    endfunction
+
+    // ------------------------------------------------------------------
+    // set_status_bits -- convenience wrapper for forcing reg1's other RO
+    // status bits (JabberDetect, AutoNegAbility, RemoteFault, AutoNeg-
+    // Complete, MFPreambleSupp, ExtendedCap), same pattern as
+    // set_link_status but for bits [6:3] and [0:1] instead of bit 2.
+    // ------------------------------------------------------------------
+    function void set_status_bits(bit [4:0] fiad, bit [6:0] status_bits);
+        bit [15:0] reg1 = get_reg(fiad, 5'h01);
+        reg1[6:3] = status_bits[6:3];
+        reg1[1:0] = status_bits[1:0];
         phy_regs[{fiad, 5'h01}] = reg1;
     endfunction
 

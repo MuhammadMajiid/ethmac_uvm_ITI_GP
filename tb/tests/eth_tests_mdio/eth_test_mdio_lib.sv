@@ -57,6 +57,7 @@ class eth_test_miim_rst_phy extends eth_test_mdio_base;
         apply_reset();
         v_seq.start(m_env.m_v_sqr);
         #500ns;
+        apply_reset();
         phase.drop_objection(this);
     endtask
 endclass
@@ -180,6 +181,23 @@ class eth_test_miim_scan_intr extends eth_test_mdio_base;
     task run_phase(uvm_phase phase);
         v_seq_tc_miim_scan_intr v_seq;
         v_seq = v_seq_tc_miim_scan_intr::type_id::create("v_seq");
+        phase.raise_objection(this);
+        apply_reset();
+        v_seq.start(m_env.m_v_sqr);
+        #500ns;
+        phase.drop_objection(this);
+    endtask
+endclass
+
+class eth_test_miim_reg_bits extends eth_test_mdio_base;
+    `uvm_component_utils(eth_test_miim_reg_bits)
+    function new(string name = "eth_test_miim_reg_bits", uvm_component parent = null);
+    super.new(name, parent);
+    endfunction
+
+    task run_phase(uvm_phase phase);
+        v_seq_tc_miim_reg_bits v_seq;
+        v_seq = v_seq_tc_miim_reg_bits::type_id::create("v_seq");
         phase.raise_objection(this);
         apply_reset();
         v_seq.start(m_env.m_v_sqr);

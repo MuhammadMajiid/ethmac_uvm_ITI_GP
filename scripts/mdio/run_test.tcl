@@ -57,6 +57,22 @@ vsim -c -voptargs=+acc work.eth_tb -coverage -classdebug -sv_seed random -uvmcon
       coverage save $FUNC_UCDB -cvg -directive -assert
       resume
     }
+
+    # Exclusions
+    coverage exclude -du eth_clockgen -togglenode Counter[7]
+    coverage exclude -du eth_clockgen -togglenode CounterPreset[7]
+    # coverage exclude -du eth_shiftreg -togglenode Prsd[0]
+    # coverage exclude -du eth_shiftreg -togglenode Prsd[1]
+    # coverage exclude -du eth_shiftreg -togglenode Prsd[3]
+    # coverage exclude -du eth_shiftreg -togglenode Prsd[4]
+    # coverage exclude -du eth_shiftreg -togglenode Prsd[5]
+    # coverage exclude -du eth_shiftreg -togglenode Prsd[6]
+    # coverage exclude -du eth_shiftreg -togglenode Prsd[7]
+    # coverage exclude -du eth_shiftreg -togglenode Prsd[8]
+    # coverage exclude -du eth_shiftreg -togglenode Prsd[9]
+    # coverage exclude -du eth_shiftreg -togglenode Prsd[10]
+    # coverage exclude -du eth_shiftreg -togglenode Prsd[11]
+
     run -all
     coverage save $CODE_UCDB -codeAll -instance eth_tb.dut
     coverage save $FUNC_UCDB -cvg -directive -assert

@@ -9,4 +9,5 @@ set TEST_NAMES [list \
     [list eth_test_miim_priority                10   0] \
     [list eth_test_miim_wrong_phy_addr          31   0] \
     [list eth_test_miim_scan_intr               10   0] \
+    [list eth_test_miim_reg_bits               16   0] \
 ]
