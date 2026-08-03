@@ -1,3 +1,7 @@
+# if [file exists "work"] {vdel -all}
+# vlib work
+# vmap work work
+
 # Default test if TESTNAME is not set externally
 if {![info exists TESTNAME]} {
     set TESTNAME "eth_test_mdio_smoke"

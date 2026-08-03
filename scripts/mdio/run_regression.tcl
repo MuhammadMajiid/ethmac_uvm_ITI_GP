@@ -41,6 +41,7 @@ puts $fp [format "%-35s %s" "TEST NAME" "STATUS"]
 puts $fp "--------------------------------------------------"
 close $fp
 
+if [file exists "work"] {vdel -all}
 vlib work
 vmap work work
 

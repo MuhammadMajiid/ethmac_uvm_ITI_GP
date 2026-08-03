@@ -34,7 +34,7 @@ Name                 File(Line)                   Failure      Pass
                                                         0         11
 /eth_tb/m_wb_s_if/a_ack_stb_cyc
                      tb/interfaces/wb_s_if.sv(114)
-                                                       64         11
+                                                       72         11
 /eth_tb/m_wb_s_if/a_err_stb_cyc
                      tb/interfaces/wb_s_if.sv(122)
                                                         0          0
@@ -66,23 +66,23 @@ Name                                     Design Design   Lang File(Line)      Hi
                                          Unit   UnitType                                     
 --------------------------------------------------------------------------------------------
 /eth_tb/m_wb_s_if/c_stb_cyc              wb_s_if Verilog  SVA  tb/interfaces/wb_s_if.sv(108)
-                                                                              1495688 Covered   
+                                                                              1123296 Covered   
 /eth_tb/m_wb_s_if/c_ack_stb_cyc          wb_s_if Verilog  SVA  tb/interfaces/wb_s_if.sv(116)
-                                                                              747812 Covered   
+                                                                              561612 Covered   
 /eth_tb/m_wb_s_if/c_err_stb_cyc          wb_s_if Verilog  SVA  tb/interfaces/wb_s_if.sv(124)
                                                                                  0 ZERO      
 /eth_tb/m_wb_s_if/c_ack_err_cyc          wb_s_if Verilog  SVA  tb/interfaces/wb_s_if.sv(132)
-                                                                              1873650 Covered   
+                                                                              1408461 Covered   
 /eth_tb/m_wb_s_if/c_ack_err_sel          wb_s_if Verilog  SVA  tb/interfaces/wb_s_if.sv(140)
                                                                                  0 ZERO      
 /eth_tb/m_wb_s_if/c_addr_ack             wb_s_if Verilog  SVA  tb/interfaces/wb_s_if.sv(148)
-                                                                              373938 Covered   
+                                                                              280842 Covered   
 /eth_tb/m_wb_s_if/c_we_ack               wb_s_if Verilog  SVA  tb/interfaces/wb_s_if.sv(156)
-                                                                              373938 Covered   
+                                                                              280842 Covered   
 /eth_tb/m_wb_s_if/c_sel_ack              wb_s_if Verilog  SVA  tb/interfaces/wb_s_if.sv(164)
-                                                                              373938 Covered   
+                                                                              280842 Covered   
 /eth_tb/m_wb_s_if/c_wdata_ack            wb_s_if Verilog  SVA  tb/interfaces/wb_s_if.sv(172)
-                                                                               259 Covered   
+                                                                               272 Covered   
 
 =================================================================================
 === Instance: /eth_tb/m_wb_m_if
@@ -147,7 +147,7 @@ Name                                     Design Design   Lang File(Line)      Hi
 /eth_tb/m_wb_m_if/c_err_stb_cyc          wb_m_if Verilog  SVA  tb/interfaces/wb_m_if.sv(128)
                                                                                  0 ZERO      
 /eth_tb/m_wb_m_if/c_ack_err_cyc          wb_m_if Verilog  SVA  tb/interfaces/wb_m_if.sv(136)
-                                                                              1873650 Covered   
+                                                                              1408461 Covered   
 /eth_tb/m_wb_m_if/c_ack_err_sel          wb_m_if Verilog  SVA  tb/interfaces/wb_m_if.sv(144)
                                                                                  0 ZERO      
 /eth_tb/m_wb_m_if/c_we_ack               wb_m_if Verilog  SVA  tb/interfaces/wb_m_if.sv(152)
@@ -220,7 +220,7 @@ Covergroup                                             Metric       Goal       B
         covered/total bins:                                 5          5          -                      
         missing/total bins:                                 0          5          -                      
         % Hit:                                        100.00%        100          -                      
-        bin div_min                                       166          1          -    Covered              
+        bin div_min                                       182          1          -    Covered              
         bin div_r_min                                       2          1          -    Covered              
         bin div_mid                                       154          1          -    Covered              
         bin div_r_max                                       2          1          -    Covered              
@@ -229,14 +229,14 @@ Covergroup                                             Metric       Goal       B
         covered/total bins:                                 2          2          -                      
         missing/total bins:                                 0          2          -                      
         % Hit:                                        100.00%        100          -                      
-        bin preamble_enabled                              446          1          -    Covered              
+        bin preamble_enabled                              462          1          -    Covered              
         bin preamble_disabled                               8          1          -    Covered              
     Coverpoint cp_command                             100.00%        100          -    Covered              
         covered/total bins:                                 3          3          -                      
         missing/total bins:                                 0          3          -                      
         % Hit:                                        100.00%        100          -                      
-        illegal_bin ill_cmd                                 2                     -    Occurred             
-        bin write_op                                       70          1          -    Covered              
+        illegal_bin ill_cmd                                 8                     -    Occurred             
+        bin write_op                                       72          1          -    Covered              
         bin read_op                                        36          1          -    Covered              
         bin scan_op                                        12          1          -    Covered              
     Coverpoint cp_phy_addr                            100.00%        100          -    Covered              
@@ -245,13 +245,13 @@ Covergroup                                             Metric       Goal       B
         % Hit:                                        100.00%        100          -                      
         bin addr_0                                        260          1          -    Covered              
         bin addr_max                                        6          1          -    Covered              
-        bin others                                        188          1          -    Covered              
+        bin others                                        204          1          -    Covered              
     Coverpoint cp_reg_addr                            100.00%        100          -    Covered              
         covered/total bins:                                 4          4          -                      
         missing/total bins:                                 0          4          -                      
         % Hit:                                        100.00%        100          -                      
-        bin ctrl_reg                                      320          1          -    Covered              
-        bin status_reg                                     88          1          -    Covered              
+        bin ctrl_reg                                      322          1          -    Covered              
+        bin status_reg                                    102          1          -    Covered              
         bin id1_reg                                        20          1          -    Covered              
         bin others                                         26          1          -    Covered              
     Cross cross_cmd_reg                               100.00%        100          -    Covered              
@@ -271,7 +271,7 @@ Covergroup                                             Metric       Goal       B
             bin <write_op,ctrl_reg>                        20          1          -    Covered              
             bin <read_op,id1_reg>                           4          1          -    Covered              
         Illegal and Ignore Bins:
-            ignore_bin write_to_status                     42                     -    Occurred             
+            ignore_bin write_to_status                     44                     -    Occurred             
  TYPE /eth_cov_pkg/eth_cov_mdio/m_mdio_txdata_cov     100.00%        100          -    Covered              
     covered/total bins:                                     3          3          -                      
     missing/total bins:                                     0          3          -                      
@@ -280,9 +280,9 @@ Covergroup                                             Metric       Goal       B
         covered/total bins:                                 3          3          -                      
         missing/total bins:                                 0          3          -                      
         % Hit:                                        100.00%        100          -                      
-        bin zero                                           14          1          -    Covered              
+        bin zero                                           20          1          -    Covered              
         bin all_one                                         2          1          -    Covered              
-        bin others                                         48          1          -    Covered              
+        bin others                                         52          1          -    Covered              
 
 COVERGROUP COVERAGE:
 ----------------------------------------------------------------------------------------------------------
@@ -297,7 +297,7 @@ Covergroup                                             Metric       Goal       B
         covered/total bins:                                 5          5          -                      
         missing/total bins:                                 0          5          -                      
         % Hit:                                        100.00%        100          -                      
-        bin div_min                                       166          1          -    Covered              
+        bin div_min                                       182          1          -    Covered              
         bin div_r_min                                       2          1          -    Covered              
         bin div_mid                                       154          1          -    Covered              
         bin div_r_max                                       2          1          -    Covered              
@@ -306,14 +306,14 @@ Covergroup                                             Metric       Goal       B
         covered/total bins:                                 2          2          -                      
         missing/total bins:                                 0          2          -                      
         % Hit:                                        100.00%        100          -                      
-        bin preamble_enabled                              446          1          -    Covered              
+        bin preamble_enabled                              462          1          -    Covered              
         bin preamble_disabled                               8          1          -    Covered              
     Coverpoint cp_command                             100.00%        100          -    Covered              
         covered/total bins:                                 3          3          -                      
         missing/total bins:                                 0          3          -                      
         % Hit:                                        100.00%        100          -                      
-        illegal_bin ill_cmd                                 2                     -    Occurred             
-        bin write_op                                       70          1          -    Covered              
+        illegal_bin ill_cmd                                 8                     -    Occurred             
+        bin write_op                                       72          1          -    Covered              
         bin read_op                                        36          1          -    Covered              
         bin scan_op                                        12          1          -    Covered              
     Coverpoint cp_phy_addr                            100.00%        100          -    Covered              
@@ -322,13 +322,13 @@ Covergroup                                             Metric       Goal       B
         % Hit:                                        100.00%        100          -                      
         bin addr_0                                        260          1          -    Covered              
         bin addr_max                                        6          1          -    Covered              
-        bin others                                        188          1          -    Covered              
+        bin others                                        204          1          -    Covered              
     Coverpoint cp_reg_addr                            100.00%        100          -    Covered              
         covered/total bins:                                 4          4          -                      
         missing/total bins:                                 0          4          -                      
         % Hit:                                        100.00%        100          -                      
-        bin ctrl_reg                                      320          1          -    Covered              
-        bin status_reg                                     88          1          -    Covered              
+        bin ctrl_reg                                      322          1          -    Covered              
+        bin status_reg                                    102          1          -    Covered              
         bin id1_reg                                        20          1          -    Covered              
         bin others                                         26          1          -    Covered              
     Cross cross_cmd_reg                               100.00%        100          -    Covered              
@@ -348,7 +348,7 @@ Covergroup                                             Metric       Goal       B
             bin <write_op,ctrl_reg>                        20          1          -    Covered              
             bin <read_op,id1_reg>                           4          1          -    Covered              
         Illegal and Ignore Bins:
-            ignore_bin write_to_status                     42                     -    Occurred             
+            ignore_bin write_to_status                     44                     -    Occurred             
  TYPE /eth_cov_pkg/eth_cov_mdio/m_mdio_txdata_cov     100.00%        100          -    Covered              
     covered/total bins:                                     3          3          -                      
     missing/total bins:                                     0          3          -                      
@@ -357,9 +357,9 @@ Covergroup                                             Metric       Goal       B
         covered/total bins:                                 3          3          -                      
         missing/total bins:                                 0          3          -                      
         % Hit:                                        100.00%        100          -                      
-        bin zero                                           14          1          -    Covered              
+        bin zero                                           20          1          -    Covered              
         bin all_one                                         2          1          -    Covered              
-        bin others                                         48          1          -    Covered              
+        bin others                                         52          1          -    Covered              
 
 TOTAL COVERGROUP COVERAGE: 100.00%  COVERGROUP TYPES: 2
 
@@ -369,23 +369,23 @@ Name                                     Design Design   Lang File(Line)      Hi
                                          Unit   UnitType                                     
 --------------------------------------------------------------------------------------------
 /eth_tb/m_wb_s_if/c_stb_cyc              wb_s_if Verilog  SVA  tb/interfaces/wb_s_if.sv(108)
-                                                                              1495688 Covered   
+                                                                              1123296 Covered   
 /eth_tb/m_wb_s_if/c_ack_stb_cyc          wb_s_if Verilog  SVA  tb/interfaces/wb_s_if.sv(116)
-                                                                              747812 Covered   
+                                                                              561612 Covered   
 /eth_tb/m_wb_s_if/c_err_stb_cyc          wb_s_if Verilog  SVA  tb/interfaces/wb_s_if.sv(124)
                                                                                  0 ZERO      
 /eth_tb/m_wb_s_if/c_ack_err_cyc          wb_s_if Verilog  SVA  tb/interfaces/wb_s_if.sv(132)
-                                                                              1873650 Covered   
+                                                                              1408461 Covered   
 /eth_tb/m_wb_s_if/c_ack_err_sel          wb_s_if Verilog  SVA  tb/interfaces/wb_s_if.sv(140)
                                                                                  0 ZERO      
 /eth_tb/m_wb_s_if/c_addr_ack             wb_s_if Verilog  SVA  tb/interfaces/wb_s_if.sv(148)
-                                                                              373938 Covered   
+                                                                              280842 Covered   
 /eth_tb/m_wb_s_if/c_we_ack               wb_s_if Verilog  SVA  tb/interfaces/wb_s_if.sv(156)
-                                                                              373938 Covered   
+                                                                              280842 Covered   
 /eth_tb/m_wb_s_if/c_sel_ack              wb_s_if Verilog  SVA  tb/interfaces/wb_s_if.sv(164)
-                                                                              373938 Covered   
+                                                                              280842 Covered   
 /eth_tb/m_wb_s_if/c_wdata_ack            wb_s_if Verilog  SVA  tb/interfaces/wb_s_if.sv(172)
-                                                                               259 Covered   
+                                                                               272 Covered   
 /eth_tb/m_wb_m_if/c_stb_cyc              wb_m_if Verilog  SVA  tb/interfaces/wb_m_if.sv(112)
                                                                                  0 ZERO      
 /eth_tb/m_wb_m_if/c_ack_stb_cyc          wb_m_if Verilog  SVA  tb/interfaces/wb_m_if.sv(120)
@@ -393,7 +393,7 @@ Name                                     Design Design   Lang File(Line)      Hi
 /eth_tb/m_wb_m_if/c_err_stb_cyc          wb_m_if Verilog  SVA  tb/interfaces/wb_m_if.sv(128)
                                                                                  0 ZERO      
 /eth_tb/m_wb_m_if/c_ack_err_cyc          wb_m_if Verilog  SVA  tb/interfaces/wb_m_if.sv(136)
-                                                                              1873650 Covered   
+                                                                              1408461 Covered   
 /eth_tb/m_wb_m_if/c_ack_err_sel          wb_m_if Verilog  SVA  tb/interfaces/wb_m_if.sv(144)
                                                                                  0 ZERO      
 /eth_tb/m_wb_m_if/c_we_ack               wb_m_if Verilog  SVA  tb/interfaces/wb_m_if.sv(152)
@@ -433,7 +433,7 @@ Name                 File(Line)                   Failure      Pass
                                                         0         11
 /eth_tb/m_wb_s_if/a_ack_stb_cyc
                      tb/interfaces/wb_s_if.sv(114)
-                                                       64         11
+                                                       72         11
 /eth_tb/m_wb_s_if/a_err_stb_cyc
                      tb/interfaces/wb_s_if.sv(122)
                                                         0          0

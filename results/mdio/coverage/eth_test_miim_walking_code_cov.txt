@@ -23,15 +23,15 @@ Branch Coverage for instance /dut/miim1/clkgen
 Branch totals: 1 hit of 2 branches = 50.00%
 
 ------------------------------------IF Branch------------------------------------
-    96                                    686336     Count coming in to IF
+    96                                    686340     Count coming in to IF
     96              1                         10       if(Reset)
-    98              1                     686326       else
+    98              1                     686330       else
 Branch totals: 2 hits of 2 branches = 100.00%
 
 ------------------------------------IF Branch------------------------------------
-    100                                   686326     Count coming in to IF
+    100                                   686330     Count coming in to IF
     100             1                      13727           if(CountEq0)
-    104             1                     672599           else
+    104             1                     672603           else
 Branch totals: 2 hits of 2 branches = 100.00%
 
 ------------------------------------IF Branch------------------------------------
@@ -162,7 +162,7 @@ Statement Coverage for instance /dut/miim1/clkgen --
     91                                               
     92                                               
     93                                               // Counter counts half period
-    94              1                     686336     always @ (posedge Clk or posedge Reset)
+    94              1                     686340     always @ (posedge Clk or posedge Reset)
     95                                               begin
     96                                                 if(Reset)
     97              1                         10         Counter[7:0] <=  8'h1;
@@ -173,7 +173,7 @@ Statement Coverage for instance /dut/miim1/clkgen --
     102             1                      13727               Counter[7:0] <=  CounterPreset[7:0];
     103                                                      end
     104                                                    else
-    105             1                     672599             Counter[7:0] <=  Counter - 8'h1;
+    105             1                     672603             Counter[7:0] <=  Counter - 8'h1;
     106                                                  end
     107                                              end
     108                                              
@@ -191,7 +191,7 @@ Statement Coverage for instance /dut/miim1/clkgen --
     120                                              end
     121                                              
     122                                              
-    123             1                     686328     assign CountEq0 = Counter == 8'h0;
+    123             1                     686332     assign CountEq0 = Counter == 8'h0;
     124             1                      41184     assign MdcEn = CountEq0 & ~Mdc;
     125             1                      41184     assign MdcEn_n = CountEq0 & Mdc;
 
@@ -231,7 +231,7 @@ Toggle Coverage      =      31.94% (23 of 72 bins)
 Branch Coverage:
     Enabled Coverage              Bins      Hits    Misses  Coverage
     ----------------              ----      ----    ------  --------
-    Branches                        16        15         1    93.75%
+    Branches                        16        12         4    75.00%
 
 ================================Branch Details================================
 
@@ -254,35 +254,35 @@ Branch totals: 2 hits of 2 branches = 100.00%
 
 ------------------------------------IF Branch------------------------------------
     117                                     6863     Count coming in to IF
-    117             1                        257               if(|ByteSelect)
-    126             1                       6606               else
+    117             1                        108               if(|ByteSelect)
+    126             1                       6755               else
 Branch totals: 2 hits of 2 branches = 100.00%
 
 ------------------------------------CASE Branch------------------------------------
-    119                                      257     Count coming in to CASE
-    120             1                        102                     4'h1 :    ShiftReg[7:0] <=  {2'b01, ~WriteOp, WriteOp, Fiad[4:1]};
-    121             1                        101                     4'h2 :    ShiftReg[7:0] <=  {Fiad[0], Rgad[4:0], 2'b10};
+    119                                      108     Count coming in to CASE
+    120             1                         27                     4'h1 :    ShiftReg[7:0] <=  {2'b01, ~WriteOp, WriteOp, Fiad[4:1]};
+    121             1                         27                     4'h2 :    ShiftReg[7:0] <=  {Fiad[0], Rgad[4:0], 2'b10};
     122             1                         27                     4'h4 :    ShiftReg[7:0] <=  CtrlData[15:8];
     123             1                         27                     4'h8 :    ShiftReg[7:0] <=  CtrlData[7:0];
 Branch totals: 4 hits of 4 branches = 100.00%
 
 ------------------------------------IF Branch------------------------------------
-    129                                     6606     Count coming in to IF
-    129             1                         74                   if(LatchByte[0])
-    135             1                       6532                   else
-Branch totals: 2 hits of 2 branches = 100.00%
-
-------------------------------------IF Branch------------------------------------
-    132                                       74     Count coming in to IF
-    132             1                    ***0***                       if(Rgad == 5'h01)
-                                              74     All False Count
+    129                                     6755     Count coming in to IF
+    129             1                    ***0***                   if(LatchByte[0])
+    135             1                       6755                   else
 Branch totals: 1 hit of 2 branches = 50.00%
 
 ------------------------------------IF Branch------------------------------------
-    137                                     6532     Count coming in to IF
-    137             1                         74                       if(LatchByte[1])
-                                            6458     All False Count
-Branch totals: 2 hits of 2 branches = 100.00%
+    132                                  ***0***     Count coming in to IF
+    132             1                    ***0***                       if(Rgad == 5'h01)
+                                         ***0***     All False Count
+Branch totals: 0 hits of 2 branches = 0.00%
+
+------------------------------------IF Branch------------------------------------
+    137                                     6755     Count coming in to IF
+    137             1                    ***0***                       if(LatchByte[1])
+                                            6755     All False Count
+Branch totals: 1 hit of 2 branches = 50.00%
 
 
 Condition Coverage:
@@ -301,18 +301,18 @@ Condition totals: 0 of 1 input term covered = 0.00%
 
    Input Term   Covered  Reason for no coverage   Hint
   -----------  --------  -----------------------  --------------
-  (Rgad == 1)         N  '_1' not hit             Hit '_1'
+  (Rgad == 1)         N  No hits                  Hit '_0' and '_1'
 
      Rows:       Hits  FEC Target            Non-masking condition(s)      
  ---------  ---------  --------------------  -------------------------     
-  Row   1:          1  (Rgad == 1)_0         -                             
+  Row   1:    ***0***  (Rgad == 1)_0         -                             
   Row   2:    ***0***  (Rgad == 1)_1         -                             
 
 
 Statement Coverage:
     Enabled Coverage              Bins      Hits    Misses  Coverage
     ----------------              ----      ----    ------  --------
-    Statements                      12        11         1    91.66%
+    Statements                      12         9         3    75.00%
 
 ================================Statement Details================================
 
@@ -363,30 +363,30 @@ Statement Coverage for instance /dut/miim1/shftrg --
     117                                                        if(|ByteSelect)
     118                                                          begin
     119                                                            case (ByteSelect[3:0])  // synopsys parallel_case full_case
-    120             1                        102                     4'h1 :    ShiftReg[7:0] <=  {2'b01, ~WriteOp, WriteOp, Fiad[4:1]};
-    121             1                        101                     4'h2 :    ShiftReg[7:0] <=  {Fiad[0], Rgad[4:0], 2'b10};
+    120             1                         27                     4'h1 :    ShiftReg[7:0] <=  {2'b01, ~WriteOp, WriteOp, Fiad[4:1]};
+    121             1                         27                     4'h2 :    ShiftReg[7:0] <=  {Fiad[0], Rgad[4:0], 2'b10};
     122             1                         27                     4'h4 :    ShiftReg[7:0] <=  CtrlData[15:8];
     123             1                         27                     4'h8 :    ShiftReg[7:0] <=  CtrlData[7:0];
     124                                                            endcase
     125                                                          end 
     126                                                        else
     127                                                          begin
-    128             1                       6606                   ShiftReg[7:0] <=  {ShiftReg[6:0], Mdi};
+    128             1                       6755                   ShiftReg[7:0] <=  {ShiftReg[6:0], Mdi};
     129                                                            if(LatchByte[0])
     130                                                              begin
-    131             1                         74                       Prsd[7:0] <=  {ShiftReg[6:0], Mdi};
+    131             1                    ***0***                       Prsd[7:0] <=  {ShiftReg[6:0], Mdi};
     132                                                                if(Rgad == 5'h01)
     133             1                    ***0***                         LinkFail <=  ~ShiftReg[1];  // this is bit [2], because it is not shifted yet
     134                                                              end
     135                                                            else
     136                                                              begin
     137                                                                if(LatchByte[1])
-    138             1                         74                         Prsd[15:8] <=  {ShiftReg[6:0], Mdi};
+    138             1                    ***0***                         Prsd[15:8] <=  {ShiftReg[6:0], Mdi};
 
 Toggle Coverage:
     Enabled Coverage              Bins      Hits    Misses  Coverage
     ----------------              ----      ----    ------  --------
-    Toggles                        126        91        35    72.22%
+    Toggles                        126        85        41    67.46%
 
 ================================Toggle Details================================
 
@@ -398,10 +398,10 @@ Toggle Coverage for instance /dut/miim1/shftrg --
                                                Clk           1           1      100.00 
                                     CtrlData[0-15]           1           1      100.00 
                                          Fiad[0-4]           1           1      100.00 
-                                    LatchByte[0-1]           1           1      100.00 
+                                    LatchByte[0-1]           0           0        0.00 
                                           LinkFail           0           0        0.00 
                                            MdcEn_n           1           1      100.00 
-                                               Mdi           1           1      100.00 
+                                               Mdi           0           0        0.00 
                                         Prsd[15-0]           0           0        0.00 
                                              Reset           1           0       50.00 
                                          Rgad[0-4]           1           1      100.00 
@@ -410,10 +410,10 @@ Toggle Coverage for instance /dut/miim1/shftrg --
                                            WriteOp           1           1      100.00 
 
 Total Node Count     =         63 
-Toggled Node Count   =         45 
-Untoggled Node Count =         18 
+Toggled Node Count   =         42 
+Untoggled Node Count =         21 
 
-Toggle Coverage      =      72.22% (91 of 126 bins)
+Toggle Coverage      =      67.46% (85 of 126 bins)
 
 =================================================================================
 === Instance: /dut/miim1/outctrl
@@ -459,7 +459,7 @@ Branch totals: 2 hits of 2 branches = 100.00%
 Expression Coverage:
     Enabled Coverage              Bins   Covered    Misses  Coverage
     ----------------              ----      ----    ------  --------
-    Expressions                     13         9         4    69.23%
+    Expressions                     13         6         7    46.15%
 
 ================================Expression Details================================
 
@@ -468,21 +468,21 @@ Expression Coverage for instance /dut/miim1/outctrl --
   File rtl/eth_outputcontrol.v
 -----------Focused Expression View (Bimodal)------------
 Line       98 Item    1  (((WriteOp & InProgress) & ((BitCounter > 31) | ((BitCounter == 0) & NoPre))) | ((~WriteOp & InProgress) & (((BitCounter > 31) & (BitCounter < 46)) | ((BitCounter == 0) & NoPre))))
-Expression totals: 3 of 6 input terms covered = 50.00%
+Expression totals: 1 of 6 input terms covered = 16.66%
 
            Input Term   Covered  Reason for no coverage                  Hint
           -----------  --------  --------------------------------------  --------------
-              WriteOp         Y
+              WriteOp         N  '_1' hit but '_0' is not hit           Hit '_0' for output ->0
            InProgress         N  '_1' hit but '_0' is not hit           Hit '_0' for output ->0
     (BitCounter > 31)         Y
     (BitCounter == 0)         N  No hits                                Hit '_0' and '_1' for different outputs
                 NoPre         N  '_0' hit but '_1' is not hit           Hit '_1' for output ->1
-    (BitCounter < 46)         Y
+    (BitCounter < 46)         N  No hits                                Hit '_0' and '_1' for different outputs
 
     Rows:   Hits(->0)   Hits(->1)  FEC Target             Non-masking condition(s)                                                                                                                                                                                                                                                                                                                                
 
 ---------  ----------  ----------  --------------------   -------------------------                                                                                                                                                                                                                                                                                                                               
- Row   1:           1           1  WriteOp_0              (~((~WriteOp & InProgress) & (((BitCounter > 31) & (BitCounter < 46)) | ((BitCounter == 0) & NoPre))) && ((BitCounter > 31) | ((BitCounter == 0) & NoPre)) && InProgress), ((((BitCounter > 31) & (BitCounter < 46)) | ((BitCounter == 0) & NoPre)) && InProgress)                                                                                      
+ Row   1:           0           0  WriteOp_0              (~((~WriteOp & InProgress) & (((BitCounter > 31) & (BitCounter < 46)) | ((BitCounter == 0) & NoPre))) && ((BitCounter > 31) | ((BitCounter == 0) & NoPre)) && InProgress), ((((BitCounter > 31) & (BitCounter < 46)) | ((BitCounter == 0) & NoPre)) && InProgress)                                                                                      
  Row   2:           0           1  WriteOp_1              (((BitCounter > 31) | ((BitCounter == 0) & NoPre)) && InProgress), (~((WriteOp & InProgress) & ((BitCounter > 31) | ((BitCounter == 0) & NoPre))) && (((BitCounter > 31) & (BitCounter < 46)) | ((BitCounter == 0) & NoPre)) && InProgress)                                                                                                             
  Row   3:           0           0  InProgress_0           (((BitCounter > 31) | ((BitCounter == 0) & NoPre)) && WriteOp), ((((BitCounter > 31) & (BitCounter < 46)) | ((BitCounter == 0) & NoPre)) && ~WriteOp)                                                                                                                                                                                                   
  Row   4:           0           1  InProgress_1           (((BitCounter > 31) | ((BitCounter == 0) & NoPre)) && WriteOp), ((((BitCounter > 31) & (BitCounter < 46)) | ((BitCounter == 0) & NoPre)) && ~WriteOp)                                                                                                                                                                                                   
@@ -492,18 +492,18 @@ Expression totals: 3 of 6 input terms covered = 50.00%
  Row   8:           0           0  (BitCounter == 0)_1    (~((~WriteOp & InProgress) & (((BitCounter > 31) & (BitCounter < 46)) | ((BitCounter == 0) & NoPre))) && (WriteOp & InProgress) && ~(BitCounter > 31) && NoPre), (~((WriteOp & InProgress) & ((BitCounter > 31) | ((BitCounter == 0) & NoPre))) && (~WriteOp & InProgress) && ~((BitCounter > 31) & (BitCounter < 46)) && NoPre)                        
  Row   9:           1           0  NoPre_0                ((WriteOp & InProgress) && ~(BitCounter > 31) && (BitCounter == 0)), (~((WriteOp & InProgress) & ((BitCounter > 31) | ((BitCounter == 0) & NoPre))) && (~WriteOp & InProgress) && ~((BitCounter > 31) & (BitCounter < 46)) && (BitCounter == 0))                                                                                                        
 Row   10:           0           0  NoPre_1                (~((~WriteOp & InProgress) & (((BitCounter > 31) & (BitCounter < 46)) | ((BitCounter == 0) & NoPre))) && (WriteOp & InProgress) && ~(BitCounter > 31) && (BitCounter == 0)), (~((WriteOp & InProgress) & ((BitCounter > 31) | ((BitCounter == 0) & NoPre))) && (~WriteOp & InProgress) && ~((BitCounter > 31) & (BitCounter < 46)) && (BitCounter == 0))
-Row   11:           1           0  (BitCounter < 46)_0    (~((WriteOp & InProgress) & ((BitCounter > 31) | ((BitCounter == 0) & NoPre))) && (~WriteOp & InProgress) && ~((BitCounter == 0) & NoPre) && (BitCounter > 31))                                                                                                                                                                                         
-Row   12:           0           1  (BitCounter < 46)_1    (~((WriteOp & InProgress) & ((BitCounter > 31) | ((BitCounter == 0) & NoPre))) && (~WriteOp & InProgress) && ~((BitCounter == 0) & NoPre) && (BitCounter > 31))                                                                                                                                                                                         
+Row   11:           0           0  (BitCounter < 46)_0    (~((WriteOp & InProgress) & ((BitCounter > 31) | ((BitCounter == 0) & NoPre))) && (~WriteOp & InProgress) && ~((BitCounter == 0) & NoPre) && (BitCounter > 31))                                                                                                                                                                                         
+Row   12:           0           0  (BitCounter < 46)_1    (~((WriteOp & InProgress) & ((BitCounter > 31) | ((BitCounter == 0) & NoPre))) && (~WriteOp & InProgress) && ~((BitCounter == 0) & NoPre) && (BitCounter > 31))                                                                                                                                                                                         
 
 ----------------Focused Expression View-----------------
 Line       115 Item    1  (SerialEn | (InProgress & (BitCounter < 32)))
-Expression totals: 3 of 3 input terms covered = 100.00%
+Expression totals: 2 of 3 input terms covered = 66.66%
 
          Input Term   Covered  Reason for no coverage   Hint
         -----------  --------  -----------------------  --------------
            SerialEn         Y
          InProgress         Y
-  (BitCounter < 32)         Y
+  (BitCounter < 32)         N  '_0' not hit             Hit '_0'
 
      Rows:       Hits  FEC Target            Non-masking condition(s)      
  ---------  ---------  --------------------  -------------------------     
@@ -511,7 +511,7 @@ Expression totals: 3 of 3 input terms covered = 100.00%
   Row   2:          1  SerialEn_1            ~(InProgress & (BitCounter < 32))
   Row   3:          1  InProgress_0          (~SerialEn && (BitCounter < 32))
   Row   4:          1  InProgress_1          (~SerialEn && (BitCounter < 32))
-  Row   5:          1  (BitCounter < 32)_0   (~SerialEn && InProgress)     
+  Row   5:    ***0***  (BitCounter < 32)_0   (~SerialEn && InProgress)     
   Row   6:          1  (BitCounter < 32)_1   (~SerialEn && InProgress)     
 
 ----------------Focused Expression View-----------------
@@ -586,7 +586,7 @@ Statement Coverage for instance /dut/miim1/outctrl --
     95                                               
     96                                               
     97                                               // Generation of the Serial Enable signal (enables the serialization of the data)
-    98              1                       6710     assign SerialEn =  WriteOp & InProgress & ( BitCounter>31 | ( ( BitCounter == 0 ) & NoPre ) )
+    98              1                       1785     assign SerialEn =  WriteOp & InProgress & ( BitCounter>31 | ( ( BitCounter == 0 ) & NoPre ) )
     99                                                               | ~WriteOp & InProgress & (( BitCounter>31 & BitCounter<46 ) | ( ( BitCounter == 0 ) & NoPre ));
     100                                              
     101                                              
@@ -668,7 +668,7 @@ Toggle Coverage      =      92.85% (39 of 42 bins)
 Branch Coverage:
     Enabled Coverage              Bins      Hits    Misses  Coverage
     ----------------              ----      ----    ------  --------
-    Branches                        45        42         3    93.33%
+    Branches                        45        41         4    91.11%
 
 ================================Branch Details================================
 
@@ -678,70 +678,70 @@ Branch Coverage for instance /dut/miim1
     ----         ----                      -----     ------ 
   File rtl/eth_miim.v
 ------------------------------------IF Branch------------------------------------
-    197                                      813     Count coming in to IF
+    197                                      219     Count coming in to IF
     197             1                          2       if(Reset)
-    202             1                        811       else
+    202             1                        217       else
 Branch totals: 2 hits of 2 branches = 100.00%
 
 ------------------------------------IF Branch------------------------------------
-    213                                      407     Count coming in to IF
+    213                                      111     Count coming in to IF
     213             1                          2       if(Reset)
-    216             1                        148       if(EndBusy & ~WCtrlDataStart_q)
-    218             1                        257       else
-Branch totals: 3 hits of 3 branches = 100.00%
+    216             1                    ***0***       if(EndBusy & ~WCtrlDataStart_q)
+    218             1                        109       else
+Branch totals: 2 hits of 3 branches = 66.66%
 
 ------------------------------------IF Branch------------------------------------
-    227                                    20813     Count coming in to IF
+    227                                    20816     Count coming in to IF
     227             1                          2       if(Reset)
-    241             1                      20811       else
+    241             1                      20814       else
 Branch totals: 2 hits of 2 branches = 100.00%
 
 ------------------------------------IF Branch------------------------------------
-    253                                    20811     Count coming in to IF
+    253                                    20814     Count coming in to IF
     253             1                       6864           if(MdcEn)
-                                           13947     All False Count
+                                           13950     All False Count
 Branch totals: 2 hits of 2 branches = 100.00%
 
 ------------------------------------IF Branch------------------------------------
-    262                                      394     Count coming in to IF
+    262                                      246     Count coming in to IF
     262             1                          2       if(Reset)
-    268             1                        392       else
+    268             1                        244       else
 Branch totals: 2 hits of 2 branches = 100.00%
 
 ------------------------------------IF Branch------------------------------------
-    270                                      392     Count coming in to IF
-    270             1                        128           if(EndBusy)
-    275             1                        264           else
+    270                                      244     Count coming in to IF
+    270             1                         54           if(EndBusy)
+    275             1                        190           else
 Branch totals: 2 hits of 2 branches = 100.00%
 
 ------------------------------------IF Branch------------------------------------
-    277                                      264     Count coming in to IF
+    277                                      190     Count coming in to IF
     277             1                         27               if(WCtrlData_q2 & ~WCtrlData_q3)
-                                             237     All False Count
+                                             163     All False Count
 Branch totals: 2 hits of 2 branches = 100.00%
 
 ------------------------------------IF Branch------------------------------------
-    279                                      264     Count coming in to IF
+    279                                      190     Count coming in to IF
     279             1                    ***0***               if(RStat_q2 & ~RStat_q3)
-                                             264     All False Count
+                                             190     All False Count
 Branch totals: 1 hit of 2 branches = 50.00%
 
 ------------------------------------IF Branch------------------------------------
-    290                                      413     Count coming in to IF
+    290                                      114     Count coming in to IF
     290             1                          2       if(Reset)
-    292             1                        411       else
+    292             1                        112       else
 Branch totals: 2 hits of 2 branches = 100.00%
 
 ------------------------------------IF Branch------------------------------------
-    294                                      411     Count coming in to IF
-    294             1                        102           if(~InProgress_q2 & InProgress_q3)
-    298             1                        309           else
+    294                                      112     Count coming in to IF
+    294             1                         27           if(~InProgress_q2 & InProgress_q3)
+    298             1                         85           else
 Branch totals: 2 hits of 2 branches = 100.00%
 
 ------------------------------------IF Branch------------------------------------
-    300                                      309     Count coming in to IF
+    300                                       85     Count coming in to IF
     300             1                          2               if(ScanStat_q2  & ~SyncStatMdcEn)
-                                             307     All False Count
+                                              83     All False Count
 Branch totals: 2 hits of 2 branches = 100.00%
 
 ------------------------------------IF Branch------------------------------------
@@ -770,20 +770,20 @@ Branch totals: 2 hits of 2 branches = 100.00%
 
 ------------------------------------IF Branch------------------------------------
     373                                     6864     Count coming in to IF
-    373             1                        102               if(StartOp)
-    379             1                       6762               else
+    373             1                         27               if(StartOp)
+    379             1                       6837               else
 Branch totals: 2 hits of 2 branches = 100.00%
 
 ------------------------------------IF Branch------------------------------------
-    375                                      102     Count coming in to IF
-    375             1                        102                   if(~InProgress)
+    375                                       27     Count coming in to IF
+    375             1                         27                   if(~InProgress)
                                          ***0***     All False Count
 Branch totals: 1 hit of 2 branches = 50.00%
 
 ------------------------------------IF Branch------------------------------------
-    381                                     6762     Count coming in to IF
-    381             1                        101                   if(EndOp)
-                                            6661     All False Count
+    381                                     6837     Count coming in to IF
+    381             1                         27                   if(EndOp)
+                                            6810     All False Count
 Branch totals: 2 hits of 2 branches = 100.00%
 
 ------------------------------------IF Branch------------------------------------
@@ -800,21 +800,21 @@ Branch totals: 2 hits of 2 branches = 100.00%
 
 ------------------------------------IF Branch------------------------------------
     402                                     6864     Count coming in to IF
-    402             1                       6504               if(InProgress)
-    409             1                        360               else
+    402             1                       1728               if(InProgress)
+    409             1                       5136               else
 Branch totals: 2 hits of 2 branches = 100.00%
 
 ------------------------------------IF Branch------------------------------------
-    404                                     6504     Count coming in to IF
+    404                                     1728     Count coming in to IF
     404             1                    ***0***                   if(NoPre & ( BitCounter == 7'h0 ))
-    406             1                       6504                   else
+    406             1                       1728                   else
 Branch totals: 1 hit of 2 branches = 50.00%
 
 
 Condition Coverage:
     Enabled Coverage              Bins   Covered    Misses  Coverage
     ----------------              ----      ----    ------  --------
-    Conditions                      12         8         4    66.66%
+    Conditions                      12         5         7    41.66%
 
 ================================Condition Details================================
 
@@ -823,18 +823,18 @@ Condition Coverage for instance /dut/miim1 --
   File rtl/eth_miim.v
 ----------------Focused Condition View-------------------
 Line       216 Item    1  (EndBusy & ~WCtrlDataStart_q)
-Condition totals: 2 of 2 input terms covered = 100.00%
+Condition totals: 0 of 2 input terms covered = 0.00%
 
         Input Term   Covered  Reason for no coverage   Hint
        -----------  --------  -----------------------  --------------
-           EndBusy         Y
-  WCtrlDataStart_q         Y
+           EndBusy         N  '_1' not hit             Hit '_1'
+  WCtrlDataStart_q         N  '_0' not hit             Hit '_0'
 
      Rows:       Hits  FEC Target            Non-masking condition(s)      
  ---------  ---------  --------------------  -------------------------     
   Row   1:          1  EndBusy_0             ~WCtrlDataStart_q             
-  Row   2:          1  EndBusy_1             ~WCtrlDataStart_q             
-  Row   3:          1  WCtrlDataStart_q_0    EndBusy                       
+  Row   2:    ***0***  EndBusy_1             ~WCtrlDataStart_q             
+  Row   3:    ***0***  WCtrlDataStart_q_0    EndBusy                       
   Row   4:          1  WCtrlDataStart_q_1    EndBusy                       
 
 ----------------Focused Condition View-------------------
@@ -887,19 +887,19 @@ Condition totals: 2 of 2 input terms covered = 100.00%
 
 ----------------Focused Condition View-------------------
 Line       300 Item    1  (ScanStat_q2 & ~SyncStatMdcEn)
-Condition totals: 2 of 2 input terms covered = 100.00%
+Condition totals: 1 of 2 input terms covered = 50.00%
 
      Input Term   Covered  Reason for no coverage   Hint
     -----------  --------  -----------------------  --------------
     ScanStat_q2         Y
-  SyncStatMdcEn         Y
+  SyncStatMdcEn         N  '_1' not hit             Hit '_1'
 
      Rows:       Hits  FEC Target            Non-masking condition(s)      
  ---------  ---------  --------------------  -------------------------     
   Row   1:          1  ScanStat_q2_0         ~SyncStatMdcEn                
   Row   2:          1  ScanStat_q2_1         ~SyncStatMdcEn                
   Row   3:          1  SyncStatMdcEn_0       ScanStat_q2                   
-  Row   4:          1  SyncStatMdcEn_1       ScanStat_q2                   
+  Row   4:    ***0***  SyncStatMdcEn_1       ScanStat_q2                   
 
 ----------------Focused Condition View-------------------
 Line       404 Item    1  (NoPre & (BitCounter == 0))
@@ -921,7 +921,7 @@ Condition totals: 0 of 2 input terms covered = 0.00%
 Expression Coverage:
     Enabled Coverage              Bins   Covered    Misses  Coverage
     ----------------              ----      ----    ------  --------
-    Expressions                     41        24        17    58.53%
+    Expressions                     41        14        27    34.14%
 
 ================================Expression Details================================
 
@@ -978,35 +978,35 @@ Expression totals: 0 of 2 input terms covered = 0.00%
 
 ----------------Focused Expression View-----------------
 Line       353 Item    1  (((InProgress | InProgress_q1) ~| InProgress_q2) & SyncStatMdcEn)
-Expression totals: 3 of 4 input terms covered = 75.00%
+Expression totals: 0 of 4 input terms covered = 0.00%
 
      Input Term   Covered  Reason for no coverage   Hint
     -----------  --------  -----------------------  --------------
-     InProgress         Y
-  InProgress_q1         N  '_1' not hit             Hit '_1'
-  InProgress_q2         Y
-  SyncStatMdcEn         Y
+     InProgress         N  No hits                  Hit '_0' and '_1'
+  InProgress_q1         N  No hits                  Hit '_0' and '_1'
+  InProgress_q2         N  No hits                  Hit '_0' and '_1'
+  SyncStatMdcEn         N  '_1' not hit             Hit '_1'
 
      Rows:       Hits  FEC Target            Non-masking condition(s)      
  ---------  ---------  --------------------  -------------------------     
-  Row   1:          1  InProgress_0          (SyncStatMdcEn && ~InProgress_q2 && ~InProgress_q1)
-  Row   2:          1  InProgress_1          (SyncStatMdcEn && ~InProgress_q2 && ~InProgress_q1)
-  Row   3:          1  InProgress_q1_0       (SyncStatMdcEn && ~InProgress_q2 && ~InProgress)
+  Row   1:    ***0***  InProgress_0          (SyncStatMdcEn && ~InProgress_q2 && ~InProgress_q1)
+  Row   2:    ***0***  InProgress_1          (SyncStatMdcEn && ~InProgress_q2 && ~InProgress_q1)
+  Row   3:    ***0***  InProgress_q1_0       (SyncStatMdcEn && ~InProgress_q2 && ~InProgress)
   Row   4:    ***0***  InProgress_q1_1       (SyncStatMdcEn && ~InProgress_q2 && ~InProgress)
-  Row   5:          1  InProgress_q2_0       (SyncStatMdcEn && ~(InProgress | InProgress_q1))
-  Row   6:          1  InProgress_q2_1       (SyncStatMdcEn && ~(InProgress | InProgress_q1))
+  Row   5:    ***0***  InProgress_q2_0       (SyncStatMdcEn && ~(InProgress | InProgress_q1))
+  Row   6:    ***0***  InProgress_q2_1       (SyncStatMdcEn && ~(InProgress | InProgress_q1))
   Row   7:          1  SyncStatMdcEn_0       ((InProgress | InProgress_q1) ~| InProgress_q2)
-  Row   8:          1  SyncStatMdcEn_1       ((InProgress | InProgress_q1) ~| InProgress_q2)
+  Row   8:    ***0***  SyncStatMdcEn_1       ((InProgress | InProgress_q1) ~| InProgress_q2)
 
 ----------------Focused Expression View-----------------
 Line       354 Item    1  ((WriteDataOp | ReadStatusOp) | ScanStatusOp)
-Expression totals: 2 of 3 input terms covered = 66.66%
+Expression totals: 1 of 3 input terms covered = 33.33%
 
     Input Term   Covered  Reason for no coverage   Hint
    -----------  --------  -----------------------  --------------
    WriteDataOp         Y
   ReadStatusOp         N  '_1' not hit             Hit '_1'
-  ScanStatusOp         Y
+  ScanStatusOp         N  '_1' not hit             Hit '_1'
 
      Rows:       Hits  FEC Target            Non-masking condition(s)      
  ---------  ---------  --------------------  -------------------------     
@@ -1015,7 +1015,7 @@ Expression totals: 2 of 3 input terms covered = 66.66%
   Row   3:          1  ReadStatusOp_0        (~ScanStatusOp && ~WriteDataOp)
   Row   4:    ***0***  ReadStatusOp_1        (~ScanStatusOp && ~WriteDataOp)
   Row   5:          1  ScanStatusOp_0        ~(WriteDataOp | ReadStatusOp) 
-  Row   6:          1  ScanStatusOp_1        ~(WriteDataOp | ReadStatusOp) 
+  Row   6:    ***0***  ScanStatusOp_1        ~(WriteDataOp | ReadStatusOp) 
 
 ----------------Focused Expression View-----------------
 Line       357 Item    1  ((((((((WCtrlData | WCtrlDataStart) | RStat) | RStatStart) | SyncStatMdcEn) | EndBusy) | InProgress) | InProgress_q3) | Nvalid)
@@ -1108,85 +1108,85 @@ Expression totals: 1 of 2 input terms covered = 50.00%
 
 ----------------Focused Expression View-----------------
 Line       421 Item    1  ((InProgress & WriteOp) & (BitCounter == 48))
-Expression totals: 2 of 3 input terms covered = 66.66%
+Expression totals: 1 of 3 input terms covered = 33.33%
 
           Input Term   Covered  Reason for no coverage   Hint
          -----------  --------  -----------------------  --------------
           InProgress         N  '_0' not hit             Hit '_0'
-             WriteOp         Y
+             WriteOp         N  '_0' not hit             Hit '_0'
   (BitCounter == 48)         Y
 
      Rows:       Hits  FEC Target            Non-masking condition(s)      
  ---------  ---------  --------------------  -------------------------     
   Row   1:    ***0***  InProgress_0          ((BitCounter == 48) && WriteOp)
   Row   2:          1  InProgress_1          ((BitCounter == 48) && WriteOp)
-  Row   3:          1  WriteOp_0             ((BitCounter == 48) && InProgress)
+  Row   3:    ***0***  WriteOp_0             ((BitCounter == 48) && InProgress)
   Row   4:          1  WriteOp_1             ((BitCounter == 48) && InProgress)
   Row   5:          1  (BitCounter == 48)_0  (InProgress & WriteOp)        
   Row   6:          1  (BitCounter == 48)_1  (InProgress & WriteOp)        
 
 ----------------Focused Expression View-----------------
 Line       422 Item    1  ((InProgress & WriteOp) & (BitCounter == 56))
-Expression totals: 2 of 3 input terms covered = 66.66%
+Expression totals: 1 of 3 input terms covered = 33.33%
 
           Input Term   Covered  Reason for no coverage   Hint
          -----------  --------  -----------------------  --------------
           InProgress         N  '_0' not hit             Hit '_0'
-             WriteOp         Y
+             WriteOp         N  '_0' not hit             Hit '_0'
   (BitCounter == 56)         Y
 
      Rows:       Hits  FEC Target            Non-masking condition(s)      
  ---------  ---------  --------------------  -------------------------     
   Row   1:    ***0***  InProgress_0          ((BitCounter == 56) && WriteOp)
   Row   2:          1  InProgress_1          ((BitCounter == 56) && WriteOp)
-  Row   3:          1  WriteOp_0             ((BitCounter == 56) && InProgress)
+  Row   3:    ***0***  WriteOp_0             ((BitCounter == 56) && InProgress)
   Row   4:          1  WriteOp_1             ((BitCounter == 56) && InProgress)
   Row   5:          1  (BitCounter == 56)_0  (InProgress & WriteOp)        
   Row   6:          1  (BitCounter == 56)_1  (InProgress & WriteOp)        
 
 ----------------Focused Expression View-----------------
 Line       426 Item    1  ((~WriteOp & InProgress) & (BitCounter == 55))
-Expression totals: 2 of 3 input terms covered = 66.66%
+Expression totals: 0 of 3 input terms covered = 0.00%
 
           Input Term   Covered  Reason for no coverage   Hint
          -----------  --------  -----------------------  --------------
-             WriteOp         Y
-          InProgress         N  '_0' not hit             Hit '_0'
-  (BitCounter == 55)         Y
+             WriteOp         N  '_0' not hit             Hit '_0'
+          InProgress         N  No hits                  Hit '_0' and '_1'
+  (BitCounter == 55)         N  No hits                  Hit '_0' and '_1'
 
      Rows:       Hits  FEC Target            Non-masking condition(s)      
  ---------  ---------  --------------------  -------------------------     
-  Row   1:          1  WriteOp_0             ((BitCounter == 55) && InProgress)
+  Row   1:    ***0***  WriteOp_0             ((BitCounter == 55) && InProgress)
   Row   2:          1  WriteOp_1             ((BitCounter == 55) && InProgress)
   Row   3:    ***0***  InProgress_0          ((BitCounter == 55) && ~WriteOp)
-  Row   4:          1  InProgress_1          ((BitCounter == 55) && ~WriteOp)
-  Row   5:          1  (BitCounter == 55)_0  (~WriteOp & InProgress)       
-  Row   6:          1  (BitCounter == 55)_1  (~WriteOp & InProgress)       
+  Row   4:    ***0***  InProgress_1          ((BitCounter == 55) && ~WriteOp)
+  Row   5:    ***0***  (BitCounter == 55)_0  (~WriteOp & InProgress)       
+  Row   6:    ***0***  (BitCounter == 55)_1  (~WriteOp & InProgress)       
 
 ----------------Focused Expression View-----------------
 Line       427 Item    1  ((~WriteOp & InProgress) & (BitCounter == 63))
-Expression totals: 2 of 3 input terms covered = 66.66%
+Expression totals: 0 of 3 input terms covered = 0.00%
 
           Input Term   Covered  Reason for no coverage   Hint
          -----------  --------  -----------------------  --------------
-             WriteOp         Y
-          InProgress         N  '_0' not hit             Hit '_0'
-  (BitCounter == 63)         Y
+             WriteOp         N  '_0' not hit             Hit '_0'
+          InProgress         N  No hits                  Hit '_0' and '_1'
+  (BitCounter == 63)         N  No hits                  Hit '_0' and '_1'
 
      Rows:       Hits  FEC Target            Non-masking condition(s)      
  ---------  ---------  --------------------  -------------------------     
-  Row   1:          1  WriteOp_0             ((BitCounter == 63) && InProgress)
+  Row   1:    ***0***  WriteOp_0             ((BitCounter == 63) && InProgress)
   Row   2:          1  WriteOp_1             ((BitCounter == 63) && InProgress)
   Row   3:    ***0***  InProgress_0          ((BitCounter == 63) && ~WriteOp)
-  Row   4:          1  InProgress_1          ((BitCounter == 63) && ~WriteOp)
-  Row   5:          1  (BitCounter == 63)_0  (~WriteOp & InProgress)       
-  Row   6:          1  (BitCounter == 63)_1  (~WriteOp & InProgress)       
+  Row   4:    ***0***  InProgress_1          ((BitCounter == 63) && ~WriteOp)
+  Row   5:    ***0***  (BitCounter == 63)_0  (~WriteOp & InProgress)       
+  Row   6:    ***0***  (BitCounter == 63)_1  (~WriteOp & InProgress)       
 
 
 Statement Coverage:
     Enabled Coverage              Bins      Hits    Misses  Coverage
     ----------------              ----      ----    ------  --------
-    Statements                      87        85         2    97.70%
+    Statements                      87        84         3    96.55%
 
 ================================Statement Details================================
 
@@ -1304,7 +1304,7 @@ Statement Coverage for instance /dut/miim1 --
     192                                              
     193                                              
     194                                              // Generation of the EndBusy signal. It is used for ending the MII Management operation.
-    195             1                        813     always @ (posedge Clk or posedge Reset)
+    195             1                        219     always @ (posedge Clk or posedge Reset)
     196                                              begin
     197                                                if(Reset)
     198                                                  begin
@@ -1313,28 +1313,28 @@ Statement Coverage for instance /dut/miim1 --
     201                                                  end
     202                                                else
     203                                                  begin
-    204             1                        811           EndBusy_d <=  ~InProgress_q2 & InProgress_q3;
-    205             1                        811           EndBusy   <=  EndBusy_d;
+    204             1                        217           EndBusy_d <=  ~InProgress_q2 & InProgress_q3;
+    205             1                        217           EndBusy   <=  EndBusy_d;
     206                                                  end
     207                                              end
     208                                              
     209                                              
     210                                              // Update MII RX_DATA register
-    211             1                        407     always @ (posedge Clk or posedge Reset)
+    211             1                        111     always @ (posedge Clk or posedge Reset)
     212                                              begin
     213                                                if(Reset)
     214             1                          2         UpdateMIIRX_DATAReg <=  0;
     215                                                else
     216                                                if(EndBusy & ~WCtrlDataStart_q)
-    217             1                        148         UpdateMIIRX_DATAReg <=  1;
+    217             1                    ***0***         UpdateMIIRX_DATAReg <=  1;
     218                                                else
-    219             1                        257         UpdateMIIRX_DATAReg <=  0;    
+    219             1                        109         UpdateMIIRX_DATAReg <=  0;    
     220                                              end
     221                                              
     222                                              
     223                                              
     224                                              // Generation of the delayed signals used for positive edge triggering.
-    225             1                      20813     always @ (posedge Clk or posedge Reset)
+    225             1                      20816     always @ (posedge Clk or posedge Reset)
     226                                              begin
     227                                                if(Reset)
     228                                                  begin
@@ -1352,16 +1352,16 @@ Statement Coverage for instance /dut/miim1 --
     240                                                  end
     241                                                else
     242                                                  begin
-    243             1                      20811           WCtrlData_q1 <=  WCtrlData;
-    244             1                      20811           WCtrlData_q2 <=  WCtrlData_q1;
-    245             1                      20811           WCtrlData_q3 <=  WCtrlData_q2;
+    243             1                      20814           WCtrlData_q1 <=  WCtrlData;
+    244             1                      20814           WCtrlData_q2 <=  WCtrlData_q1;
+    245             1                      20814           WCtrlData_q3 <=  WCtrlData_q2;
     246                                              
-    247             1                      20811           RStat_q1 <=  RStat;
-    248             1                      20811           RStat_q2 <=  RStat_q1;
-    249             1                      20811           RStat_q3 <=  RStat_q2;
+    247             1                      20814           RStat_q1 <=  RStat;
+    248             1                      20814           RStat_q2 <=  RStat_q1;
+    249             1                      20814           RStat_q3 <=  RStat_q2;
     250                                              
-    251             1                      20811           ScanStat_q1  <=  ScanStat;
-    252             1                      20811           ScanStat_q2  <=  ScanStat_q1;
+    251             1                      20814           ScanStat_q1  <=  ScanStat;
+    252             1                      20814           ScanStat_q2  <=  ScanStat_q1;
     253                                                    if(MdcEn)
     254             1                       6864             SyncStatMdcEn  <=  ScanStat_q2;
     255                                                  end
@@ -1369,7 +1369,7 @@ Statement Coverage for instance /dut/miim1 --
     257                                              
     258                                              
     259                                              // Generation of the Start Commands (Write Control Data or Read Status)
-    260             1                        394     always @ (posedge Clk or posedge Reset)
+    260             1                        246     always @ (posedge Clk or posedge Reset)
     261                                              begin
     262                                                if(Reset)
     263                                                  begin
@@ -1381,8 +1381,8 @@ Statement Coverage for instance /dut/miim1 --
     269                                                  begin
     270                                                    if(EndBusy)
     271                                                      begin
-    272             1                        128               WCtrlDataStart <=  1'b0;
-    273             1                        128               RStatStart <=  1'b0;
+    272             1                         54               WCtrlDataStart <=  1'b0;
+    273             1                         54               RStatStart <=  1'b0;
     274                                                      end
     275                                                    else
     276                                                      begin
@@ -1390,14 +1390,14 @@ Statement Coverage for instance /dut/miim1 --
     278             1                         27                 WCtrlDataStart <=  1'b1;
     279                                                        if(RStat_q2 & ~RStat_q3)
     280             1                    ***0***                 RStatStart <=  1'b1;
-    281             1                        264               WCtrlDataStart_q <=  WCtrlDataStart;
+    281             1                        190               WCtrlDataStart_q <=  WCtrlDataStart;
     282                                                      end
     283                                                  end
     284                                              end 
     285                                              
     286                                              
     287                                              // Generation of the Nvalid signal (indicates when the status is invalid)
-    288             1                        413     always @ (posedge Clk or posedge Reset)
+    288             1                        114     always @ (posedge Clk or posedge Reset)
     289                                              begin
     290                                                if(Reset)
     291             1                          2         Nvalid <=  1'b0;
@@ -1405,7 +1405,7 @@ Statement Coverage for instance /dut/miim1 --
     293                                                  begin
     294                                                    if(~InProgress_q2 & InProgress_q3)
     295                                                      begin
-    296             1                        102               Nvalid <=  1'b0;
+    296             1                         27               Nvalid <=  1'b0;
     297                                                      end
     298                                                    else
     299                                                      begin
@@ -1462,11 +1462,11 @@ Statement Coverage for instance /dut/miim1 --
     350                                              // Generation of the Operation signals
     351             1                         84     assign WriteDataOp  = WCtrlDataStart_q1 & ~WCtrlDataStart_q2;    
     352             1                          2     assign ReadStatusOp = RStatStart_q1     & ~RStatStart_q2;
-    353             1                        612     assign ScanStatusOp = SyncStatMdcEn     & ~InProgress & ~InProgress_q1 & ~InProgress_q2;
-    354             1                        206     assign StartOp      = WriteDataOp | ReadStatusOp | ScanStatusOp;
+    353             1                        164     assign ScanStatusOp = SyncStatMdcEn     & ~InProgress & ~InProgress_q1 & ~InProgress_q2;
+    354             1                         56     assign StartOp      = WriteDataOp | ReadStatusOp | ScanStatusOp;
     355                                              
     356                                              // Busy
-    357             1                        648     assign Busy = WCtrlData | WCtrlDataStart | RStat | RStatStart | SyncStatMdcEn | EndBusy | InProgress | InProgress_q3 | Nvalid;
+    357             1                        274     assign Busy = WCtrlData | WCtrlDataStart | RStat | RStatStart | SyncStatMdcEn | EndBusy | InProgress | InProgress_q3 | Nvalid;
     358                                              
     359                                              
     360                                              // Generation of the InProgress signal (indicates when an operation is in progress)
@@ -1485,15 +1485,15 @@ Statement Coverage for instance /dut/miim1 --
     373                                                        if(StartOp)
     374                                                          begin
     375                                                            if(~InProgress)
-    376             1                        102                     WriteOp <=  WriteDataOp;
-    377             1                        102                   InProgress <=  1'b1;
+    376             1                         27                     WriteOp <=  WriteDataOp;
+    377             1                         27                   InProgress <=  1'b1;
     378                                                          end
     379                                                        else
     380                                                          begin
     381                                                            if(EndOp)
     382                                                              begin
-    383             1                        101                       InProgress <=  1'b0;
-    384             1                        101                       WriteOp <=  1'b0;
+    383             1                         27                       InProgress <=  1'b0;
+    384             1                         27                       WriteOp <=  1'b0;
     385                                                              end
     386                                                          end
     387                                                      end
@@ -1516,32 +1516,32 @@ Statement Coverage for instance /dut/miim1 --
     404                                                            if(NoPre & ( BitCounter == 7'h0 ))
     405             1                    ***0***                     BitCounter[6:0] <=  7'h21;
     406                                                            else
-    407             1                       6504                     BitCounter[6:0] <=  BitCounter[6:0] + 1'b1;
+    407             1                       1728                     BitCounter[6:0] <=  BitCounter[6:0] + 1'b1;
     408                                                          end
     409                                                        else
-    410             1                        360                 BitCounter[6:0] <=  7'h0;
+    410             1                       5136                 BitCounter[6:0] <=  7'h0;
     411                                                      end
     412                                                  end
     413                                              end
     414                                              
     415                                              
     416                                              // Operation ends when the Bit Counter reaches 63
-    417             1                       6607     assign EndOp = BitCounter==63;
+    417             1                       1757     assign EndOp = BitCounter==63;
     418                                              
-    419             1                       6710     assign ByteSelect[0] = InProgress & ((NoPre & (BitCounter == 7'h0)) | (~NoPre & (BitCounter == 7'h20)));
-    420             1                       6709     assign ByteSelect[1] = InProgress & (BitCounter == 7'h28);
-    421             1                       6709     assign ByteSelect[2] = InProgress & WriteOp & (BitCounter == 7'h30);
-    422             1                       6709     assign ByteSelect[3] = InProgress & WriteOp & (BitCounter == 7'h38);
+    419             1                       1785     assign ByteSelect[0] = InProgress & ((NoPre & (BitCounter == 7'h0)) | (~NoPre & (BitCounter == 7'h20)));
+    420             1                       1784     assign ByteSelect[1] = InProgress & (BitCounter == 7'h28);
+    421             1                       1784     assign ByteSelect[2] = InProgress & WriteOp & (BitCounter == 7'h30);
+    422             1                       1784     assign ByteSelect[3] = InProgress & WriteOp & (BitCounter == 7'h38);
     423                                              
     424                                              
     425                                              // Latch Byte selects which part of Read Status Data is updated from the shift register
-    426             1                       6709     assign LatchByte1_d2 = InProgress & ~WriteOp & BitCounter == 7'h37;
-    427             1                       6709     assign LatchByte0_d2 = InProgress & ~WriteOp & BitCounter == 7'h3F;
+    426             1                       1784     assign LatchByte1_d2 = InProgress & ~WriteOp & BitCounter == 7'h37;
+    427             1                       1784     assign LatchByte0_d2 = InProgress & ~WriteOp & BitCounter == 7'h3F;
 
 Toggle Coverage:
     Enabled Coverage              Bins      Hits    Misses  Coverage
     ----------------              ----      ----    ------  --------
-    Toggles                        224       151        73    67.41%
+    Toggles                        224       134        90    59.82%
 
 ================================Toggle Details================================
 
@@ -1563,20 +1563,20 @@ Toggle Coverage for instance /dut/miim1 --
                                      InProgress_q1           1           1      100.00 
                                      InProgress_q2           1           1      100.00 
                                      InProgress_q3           1           1      100.00 
-                                    LatchByte[1-0]           1           1      100.00 
-                                      LatchByte0_d           1           1      100.00 
-                                     LatchByte0_d2           1           1      100.00 
-                                      LatchByte1_d           1           1      100.00 
-                                     LatchByte1_d2           1           1      100.00 
+                                    LatchByte[1-0]           0           0        0.00 
+                                      LatchByte0_d           0           0        0.00 
+                                     LatchByte0_d2           0           0        0.00 
+                                      LatchByte1_d           0           0        0.00 
+                                     LatchByte1_d2           0           0        0.00 
                                           LinkFail           0           0        0.00 
                                                Mdc           1           1      100.00 
                                              MdcEn           1           1      100.00 
                                            MdcEn_n           1           1      100.00 
-                                               Mdi           1           1      100.00 
+                                               Mdi           0           0        0.00 
                                                Mdo           1           1      100.00 
                                              MdoEn           1           1      100.00 
                                              NoPre           0           0        0.00 
-                                            Nvalid           1           1      100.00 
+                                            Nvalid           0           1       50.00 
                                         Prsd[0-15]           0           0        0.00 
                                              RStat           0           0        0.00 
                                         RStatStart           0           0        0.00 
@@ -1588,14 +1588,14 @@ Toggle Coverage for instance /dut/miim1 --
                                       ReadStatusOp           0           0        0.00 
                                              Reset           1           0       50.00 
                                          Rgad[0-4]           1           1      100.00 
-                                          ScanStat           0           1       50.00 
-                                       ScanStat_q1           0           1       50.00 
-                                       ScanStat_q2           0           1       50.00 
-                                      ScanStatusOp           1           1      100.00 
+                                          ScanStat           1           1      100.00 
+                                       ScanStat_q1           1           1      100.00 
+                                       ScanStat_q2           1           1      100.00 
+                                      ScanStatusOp           0           0        0.00 
                                         ShiftedBit           1           1      100.00 
                                            StartOp           1           1      100.00 
-                                     SyncStatMdcEn           0           1       50.00 
-                               UpdateMIIRX_DATAReg           1           1      100.00 
+                                     SyncStatMdcEn           0           0        0.00 
+                               UpdateMIIRX_DATAReg           0           0        0.00 
                                          WCtrlData           1           1      100.00 
                                     WCtrlDataStart           1           1      100.00 
                                   WCtrlDataStart_q           1           1      100.00 
@@ -1608,10 +1608,10 @@ Toggle Coverage for instance /dut/miim1 --
                                            WriteOp           1           1      100.00 
 
 Total Node Count     =        112 
-Toggled Node Count   =         73 
-Untoggled Node Count =         39 
+Toggled Node Count   =         66 
+Untoggled Node Count =         46 
 
-Toggle Coverage      =      67.41% (151 of 224 bins)
+Toggle Coverage      =      59.82% (134 of 224 bins)
 
 =================================================================================
 === Instance: /dut/ethreg1/MODER_0
@@ -3143,10 +3143,10 @@ Branch Coverage for instance /dut/ethreg1/MIICOMMAND0
     ----         ----                      -----     ------ 
   File rtl/eth_register.v
 ------------------------------------IF Branch------------------------------------
-    96                                        71     Count coming in to IF
+    96                                        73     Count coming in to IF
     96              1                          3       if(Reset)
     99              1                    ***0***       if(SyncReset)
-    102             1                         29       if(Write)                         // write
+    102             1                         31       if(Write)                         // write
                                               39     All False Count
 Branch totals: 3 hits of 4 branches = 75.00%
 
@@ -3180,7 +3180,7 @@ Statement Coverage for instance /dut/ethreg1/MIICOMMAND0 --
     91                                               
     92                                               
     93                                               
-    94              1                         71     always @ (posedge Clk or posedge Reset)
+    94              1                         73     always @ (posedge Clk or posedge Reset)
     95                                               begin
     96                                                 if(Reset)
     97              1                          3         DataOut<= RESET_VALUE;
@@ -3189,12 +3189,12 @@ Statement Coverage for instance /dut/ethreg1/MIICOMMAND0 --
     100             1                    ***0***         DataOut<= RESET_VALUE;
     101                                                else
     102                                                if(Write)                         // write
-    103             1                         29         DataOut<= DataIn;
+    103             1                         31         DataOut<= DataIn;
 
 Toggle Coverage:
     Enabled Coverage              Bins      Hits    Misses  Coverage
     ----------------              ----      ----    ------  --------
-    Toggles                         12         8         4    66.66%
+    Toggles                         12         9         3    75.00%
 
 ================================Toggle Details================================
 
@@ -3204,16 +3204,16 @@ Toggle Coverage for instance /dut/ethreg1/MIICOMMAND0 --
                                               ---------------------------------------
                                                Clk           1           1      100.00 
                                          DataIn[0]           1           1      100.00 
-                                        DataOut[0]           0           1       50.00 
+                                        DataOut[0]           1           1      100.00 
                                              Reset           1           0       50.00 
                                          SyncReset           0           0        0.00 
                                              Write           1           1      100.00 
 
 Total Node Count     =          6 
-Toggled Node Count   =          3 
-Untoggled Node Count =          3 
+Toggled Node Count   =          4 
+Untoggled Node Count =          2 
 
-Toggle Coverage      =      66.66% (8 of 12 bins)
+Toggle Coverage      =      75.00% (9 of 12 bins)
 
 =================================================================================
 === Instance: /dut/ethreg1/MIICOMMAND1
@@ -3232,11 +3232,11 @@ Branch Coverage for instance /dut/ethreg1/MIICOMMAND1
     ----         ----                      -----     ------ 
   File rtl/eth_register.v
 ------------------------------------IF Branch------------------------------------
-    96                                        63     Count coming in to IF
+    96                                        65     Count coming in to IF
     96              1                          3       if(Reset)
     99              1                    ***0***       if(SyncReset)
-    102             1                         28       if(Write)                         // write
-                                              32     All False Count
+    102             1                         29       if(Write)                         // write
+                                              33     All False Count
 Branch totals: 3 hits of 4 branches = 75.00%
 
 
@@ -3269,7 +3269,7 @@ Statement Coverage for instance /dut/ethreg1/MIICOMMAND1 --
     91                                               
     92                                               
     93                                               
-    94              1                         63     always @ (posedge Clk or posedge Reset)
+    94              1                         65     always @ (posedge Clk or posedge Reset)
     95                                               begin
     96                                                 if(Reset)
     97              1                          3         DataOut<= RESET_VALUE;
@@ -3278,7 +3278,7 @@ Statement Coverage for instance /dut/ethreg1/MIICOMMAND1 --
     100             1                    ***0***         DataOut<= RESET_VALUE;
     101                                                else
     102                                                if(Write)                         // write
-    103             1                         28         DataOut<= DataIn;
+    103             1                         29         DataOut<= DataIn;
 
 Toggle Coverage:
     Enabled Coverage              Bins      Hits    Misses  Coverage
@@ -3321,11 +3321,11 @@ Branch Coverage for instance /dut/ethreg1/MIICOMMAND2
     ----         ----                      -----     ------ 
   File rtl/eth_register.v
 ------------------------------------IF Branch------------------------------------
-    96                                       171     Count coming in to IF
+    96                                       173     Count coming in to IF
     96              1                          3       if(Reset)
     99              1                         54       if(SyncReset)
-    102             1                         55       if(Write)                         // write
-                                              59     All False Count
+    102             1                         56       if(Write)                         // write
+                                              60     All False Count
 Branch totals: 4 hits of 4 branches = 100.00%
 
 
@@ -3358,7 +3358,7 @@ Statement Coverage for instance /dut/ethreg1/MIICOMMAND2 --
     91                                               
     92                                               
     93                                               
-    94              1                        171     always @ (posedge Clk or posedge Reset)
+    94              1                        173     always @ (posedge Clk or posedge Reset)
     95                                               begin
     96                                                 if(Reset)
     97              1                          3         DataOut<= RESET_VALUE;
@@ -3367,7 +3367,7 @@ Statement Coverage for instance /dut/ethreg1/MIICOMMAND2 --
     100             1                         54         DataOut<= RESET_VALUE;
     101                                                else
     102                                                if(Write)                         // write
-    103             1                         55         DataOut<= DataIn;
+    103             1                         56         DataOut<= DataIn;
 
 Toggle Coverage:
     Enabled Coverage              Bins      Hits    Misses  Coverage
@@ -3756,7 +3756,7 @@ Toggle Coverage      =      92.50% (37 of 40 bins)
 Branch Coverage:
     Enabled Coverage              Bins      Hits    Misses  Coverage
     ----------------              ----      ----    ------  --------
-    Branches                         4         3         1    75.00%
+    Branches                         4         2         2    50.00%
 
 ================================Branch Details================================
 
@@ -3766,18 +3766,18 @@ Branch Coverage for instance /dut/ethreg1/MIIRX_DATA
     ----         ----                      -----     ------ 
   File rtl/eth_register.v
 ------------------------------------IF Branch------------------------------------
-    96                                       151     Count coming in to IF
+    96                                         3     Count coming in to IF
     96              1                          2       if(Reset)
     99              1                    ***0***       if(SyncReset)
-    102             1                         74       if(Write)                         // write
-                                              75     All False Count
-Branch totals: 3 hits of 4 branches = 75.00%
+    102             1                    ***0***       if(Write)                         // write
+                                               1     All False Count
+Branch totals: 2 hits of 4 branches = 50.00%
 
 
 Statement Coverage:
     Enabled Coverage              Bins      Hits    Misses  Coverage
     ----------------              ----      ----    ------  --------
-    Statements                       4         3         1    75.00%
+    Statements                       4         2         2    50.00%
 
 ================================Statement Details================================
 
@@ -3803,7 +3803,7 @@ Statement Coverage for instance /dut/ethreg1/MIIRX_DATA --
     91                                               
     92                                               
     93                                               
-    94              1                        151     always @ (posedge Clk or posedge Reset)
+    94              1                          3     always @ (posedge Clk or posedge Reset)
     95                                               begin
     96                                                 if(Reset)
     97              1                          2         DataOut<= RESET_VALUE;
@@ -3812,12 +3812,12 @@ Statement Coverage for instance /dut/ethreg1/MIIRX_DATA --
     100             1                    ***0***         DataOut<= RESET_VALUE;
     101                                                else
     102                                                if(Write)                         // write
-    103             1                         74         DataOut<= DataIn;
+    103             1                    ***0***         DataOut<= DataIn;
 
 Toggle Coverage:
     Enabled Coverage              Bins      Hits    Misses  Coverage
     ----------------              ----      ----    ------  --------
-    Toggles                         72         5        67     6.94%
+    Toggles                         72         3        69     4.16%
 
 ================================Toggle Details================================
 
@@ -3830,13 +3830,13 @@ Toggle Coverage for instance /dut/ethreg1/MIIRX_DATA --
                                      DataOut[15-0]           0           0        0.00 
                                              Reset           1           0       50.00 
                                          SyncReset           0           0        0.00 
-                                             Write           1           1      100.00 
+                                             Write           0           0        0.00 
 
 Total Node Count     =         36 
-Toggled Node Count   =          2 
-Untoggled Node Count =         34 
+Toggled Node Count   =          1 
+Untoggled Node Count =         35 
 
-Toggle Coverage      =       6.94% (5 of 72 bins)
+Toggle Coverage      =       4.16% (3 of 72 bins)
 
 =================================================================================
 === Instance: /dut/ethreg1/MAC_ADDR0_0
@@ -5369,12 +5369,12 @@ Branch Coverage for instance /dut/ethreg1
   File rtl/eth_registers.v
 ------------------------------------IF Branch------------------------------------
     850                                   274600     Count coming in to IF
-    850             1                     137262       if(Read)  // read
-    878             1                     137338       else
+    850             1                     137261       if(Read)  // read
+    878             1                     137339       else
 Branch totals: 2 hits of 2 branches = 100.00%
 
 ------------------------------------CASE Branch------------------------------------
-    852                                   137262     Count coming in to CASE
+    852                                   137261     Count coming in to CASE
     853             1                    ***0***             `ETH_MODER_ADR        :  DataOut<=MODEROut;
     854             1                    ***0***             `ETH_INT_SOURCE_ADR   :  DataOut<=INT_SOURCEOut;
     855             1                    ***0***             `ETH_INT_MASK_ADR     :  DataOut<=INT_MASKOut;
@@ -5389,7 +5389,7 @@ Branch totals: 2 hits of 2 branches = 100.00%
     864             1                    ***0***             `ETH_MIIADDRESS_ADR   :  DataOut<=MIIADDRESSOut;
     865             1                    ***0***             `ETH_MIITX_DATA_ADR   :  DataOut<=MIITX_DATAOut;
     866             1                    ***0***             `ETH_MIIRX_DATA_ADR   :  DataOut<=MIIRX_DATAOut;
-    867             1                     137262             `ETH_MIISTATUS_ADR    :  DataOut<=MIISTATUSOut;
+    867             1                     137261             `ETH_MIISTATUS_ADR    :  DataOut<=MIISTATUSOut;
     868             1                    ***0***             `ETH_MAC_ADDR0_ADR    :  DataOut<=MAC_ADDR0Out;
     869             1                    ***0***             `ETH_MAC_ADDR1_ADR    :  DataOut<=MAC_ADDR1Out;
     870             1                    ***0***             `ETH_TX_BD_NUM_ADR    :  DataOut<=TX_BD_NUMOut;
@@ -6904,8 +6904,8 @@ Statement Coverage for instance /dut/ethreg1 --
     288                                              reg ResetRxCIrq_sync2;
     289                                              reg ResetRxCIrq_sync3;
     290                                              
-    291             1                     274600     wire [3:0] Write =   Cs  & {4{Rw}};
-    292             1                     274543     wire       Read  = (|Cs) &   ~Rw;
+    291             1                     274602     wire [3:0] Write =   Cs  & {4{Rw}};
+    292             1                     274545     wire       Read  = (|Cs) &   ~Rw;
     293                                              
     294             1                         88     wire MODER_Sel      = (Address == `ETH_MODER_ADR       );
     295             1                         88     wire INT_SOURCE_Sel = (Address == `ETH_INT_SOURCE_ADR  );
@@ -6951,49 +6951,49 @@ Statement Coverage for instance /dut/ethreg1 --
     335                                              wire [2:0] TXCTRL_Wr;
     336                                              wire [0:0] TX_BD_NUM_Wr;
     337                                              
-    338             1                        120     assign MODER_Wr[0]       = Write[0]  & MODER_Sel; 
-    339             1                        120     assign MODER_Wr[1]       = Write[1]  & MODER_Sel; 
-    340             1                        120     assign MODER_Wr[2]       = Write[2]  & MODER_Sel; 
-    341             1                        119     assign INT_SOURCE_Wr[0]  = Write[0]  & INT_SOURCE_Sel; 
-    342             1                        119     assign INT_MASK_Wr[0]    = Write[0]  & INT_MASK_Sel; 
-    343             1                        119     assign IPGT_Wr[0]        = Write[0]  & IPGT_Sel; 
-    344             1                        119     assign IPGR1_Wr[0]       = Write[0]  & IPGR1_Sel; 
-    345             1                        119     assign IPGR2_Wr[0]       = Write[0]  & IPGR2_Sel; 
-    346             1                        119     assign PACKETLEN_Wr[0]   = Write[0]  & PACKETLEN_Sel; 
-    347             1                        119     assign PACKETLEN_Wr[1]   = Write[1]  & PACKETLEN_Sel; 
-    348             1                        119     assign PACKETLEN_Wr[2]   = Write[2]  & PACKETLEN_Sel; 
-    349             1                        119     assign PACKETLEN_Wr[3]   = Write[3]  & PACKETLEN_Sel; 
-    350             1                        119     assign COLLCONF_Wr[0]    = Write[0]  & COLLCONF_Sel; 
+    338             1                        122     assign MODER_Wr[0]       = Write[0]  & MODER_Sel; 
+    339             1                        122     assign MODER_Wr[1]       = Write[1]  & MODER_Sel; 
+    340             1                        122     assign MODER_Wr[2]       = Write[2]  & MODER_Sel; 
+    341             1                        121     assign INT_SOURCE_Wr[0]  = Write[0]  & INT_SOURCE_Sel; 
+    342             1                        121     assign INT_MASK_Wr[0]    = Write[0]  & INT_MASK_Sel; 
+    343             1                        121     assign IPGT_Wr[0]        = Write[0]  & IPGT_Sel; 
+    344             1                        121     assign IPGR1_Wr[0]       = Write[0]  & IPGR1_Sel; 
+    345             1                        121     assign IPGR2_Wr[0]       = Write[0]  & IPGR2_Sel; 
+    346             1                        121     assign PACKETLEN_Wr[0]   = Write[0]  & PACKETLEN_Sel; 
+    347             1                        121     assign PACKETLEN_Wr[1]   = Write[1]  & PACKETLEN_Sel; 
+    348             1                        121     assign PACKETLEN_Wr[2]   = Write[2]  & PACKETLEN_Sel; 
+    349             1                        121     assign PACKETLEN_Wr[3]   = Write[3]  & PACKETLEN_Sel; 
+    350             1                        121     assign COLLCONF_Wr[0]    = Write[0]  & COLLCONF_Sel; 
     351                                              assign COLLCONF_Wr[1]    = 1'b0;  // Not used
-    352             1                        119     assign COLLCONF_Wr[2]    = Write[2]  & COLLCONF_Sel; 
+    352             1                        121     assign COLLCONF_Wr[2]    = Write[2]  & COLLCONF_Sel; 
     353                                                   
-    354             1                        119     assign CTRLMODER_Wr[0]   = Write[0]  & CTRLMODER_Sel; 
-    355             1                        119     assign MIIMODER_Wr[0]    = Write[0]  & MIIMODER_Sel; 
-    356             1                        119     assign MIIMODER_Wr[1]    = Write[1]  & MIIMODER_Sel; 
-    357             1                        175     assign MIICOMMAND_Wr[0]  = Write[0]  & MIICOMMAND_Sel; 
-    358             1                        143     assign MIIADDRESS_Wr[0]  = Write[0]  & MIIADDRESS_Sel; 
-    359             1                        143     assign MIIADDRESS_Wr[1]  = Write[1]  & MIIADDRESS_Sel; 
-    360             1                        155     assign MIITX_DATA_Wr[0]  = Write[0]  & MIITX_DATA_Sel; 
-    361             1                        155     assign MIITX_DATA_Wr[1]  = Write[1]  & MIITX_DATA_Sel; 
+    354             1                        121     assign CTRLMODER_Wr[0]   = Write[0]  & CTRLMODER_Sel; 
+    355             1                        121     assign MIIMODER_Wr[0]    = Write[0]  & MIIMODER_Sel; 
+    356             1                        121     assign MIIMODER_Wr[1]    = Write[1]  & MIIMODER_Sel; 
+    357             1                        177     assign MIICOMMAND_Wr[0]  = Write[0]  & MIICOMMAND_Sel; 
+    358             1                        145     assign MIIADDRESS_Wr[0]  = Write[0]  & MIIADDRESS_Sel; 
+    359             1                        145     assign MIIADDRESS_Wr[1]  = Write[1]  & MIIADDRESS_Sel; 
+    360             1                        157     assign MIITX_DATA_Wr[0]  = Write[0]  & MIITX_DATA_Sel; 
+    361             1                        157     assign MIITX_DATA_Wr[1]  = Write[1]  & MIITX_DATA_Sel; 
     362                                              assign MIIRX_DATA_Wr     = UpdateMIIRX_DATAReg;     
-    363             1                        119     assign MAC_ADDR0_Wr[0]   = Write[0]  & MAC_ADDR0_Sel; 
-    364             1                        119     assign MAC_ADDR0_Wr[1]   = Write[1]  & MAC_ADDR0_Sel; 
-    365             1                        119     assign MAC_ADDR0_Wr[2]   = Write[2]  & MAC_ADDR0_Sel; 
-    366             1                        119     assign MAC_ADDR0_Wr[3]   = Write[3]  & MAC_ADDR0_Sel; 
-    367             1                        119     assign MAC_ADDR1_Wr[0]   = Write[0]  & MAC_ADDR1_Sel; 
-    368             1                        119     assign MAC_ADDR1_Wr[1]   = Write[1]  & MAC_ADDR1_Sel; 
-    369             1                        119     assign HASH0_Wr[0]       = Write[0]  & HASH0_Sel; 
-    370             1                        119     assign HASH0_Wr[1]       = Write[1]  & HASH0_Sel; 
-    371             1                        119     assign HASH0_Wr[2]       = Write[2]  & HASH0_Sel; 
-    372             1                        119     assign HASH0_Wr[3]       = Write[3]  & HASH0_Sel; 
-    373             1                        119     assign HASH1_Wr[0]       = Write[0]  & HASH1_Sel; 
-    374             1                        119     assign HASH1_Wr[1]       = Write[1]  & HASH1_Sel; 
-    375             1                        119     assign HASH1_Wr[2]       = Write[2]  & HASH1_Sel; 
-    376             1                        119     assign HASH1_Wr[3]       = Write[3]  & HASH1_Sel; 
-    377             1                        119     assign TXCTRL_Wr[0]      = Write[0]  & TXCTRL_Sel; 
-    378             1                        119     assign TXCTRL_Wr[1]      = Write[1]  & TXCTRL_Sel; 
-    379             1                        119     assign TXCTRL_Wr[2]      = Write[2]  & TXCTRL_Sel; 
-    380             1                        204     assign TX_BD_NUM_Wr[0]   = Write[0]  & TX_BD_NUM_Sel & (DataIn<='h80); 
+    363             1                        121     assign MAC_ADDR0_Wr[0]   = Write[0]  & MAC_ADDR0_Sel; 
+    364             1                        121     assign MAC_ADDR0_Wr[1]   = Write[1]  & MAC_ADDR0_Sel; 
+    365             1                        121     assign MAC_ADDR0_Wr[2]   = Write[2]  & MAC_ADDR0_Sel; 
+    366             1                        121     assign MAC_ADDR0_Wr[3]   = Write[3]  & MAC_ADDR0_Sel; 
+    367             1                        121     assign MAC_ADDR1_Wr[0]   = Write[0]  & MAC_ADDR1_Sel; 
+    368             1                        121     assign MAC_ADDR1_Wr[1]   = Write[1]  & MAC_ADDR1_Sel; 
+    369             1                        121     assign HASH0_Wr[0]       = Write[0]  & HASH0_Sel; 
+    370             1                        121     assign HASH0_Wr[1]       = Write[1]  & HASH0_Sel; 
+    371             1                        121     assign HASH0_Wr[2]       = Write[2]  & HASH0_Sel; 
+    372             1                        121     assign HASH0_Wr[3]       = Write[3]  & HASH0_Sel; 
+    373             1                        121     assign HASH1_Wr[0]       = Write[0]  & HASH1_Sel; 
+    374             1                        121     assign HASH1_Wr[1]       = Write[1]  & HASH1_Sel; 
+    375             1                        121     assign HASH1_Wr[2]       = Write[2]  & HASH1_Sel; 
+    376             1                        121     assign HASH1_Wr[3]       = Write[3]  & HASH1_Sel; 
+    377             1                        121     assign TXCTRL_Wr[0]      = Write[0]  & TXCTRL_Sel; 
+    378             1                        121     assign TXCTRL_Wr[1]      = Write[1]  & TXCTRL_Sel; 
+    379             1                        121     assign TXCTRL_Wr[2]      = Write[2]  & TXCTRL_Sel; 
+    380             1                        206     assign TX_BD_NUM_Wr[0]   = Write[0]  & TX_BD_NUM_Sel & (DataIn<='h80); 
     381                                              
     382                                              
     383                                              
@@ -7480,7 +7480,7 @@ Statement Coverage for instance /dut/ethreg1 --
     864             1                    ***0***             `ETH_MIIADDRESS_ADR   :  DataOut<=MIIADDRESSOut;
     865             1                    ***0***             `ETH_MIITX_DATA_ADR   :  DataOut<=MIITX_DATAOut;
     866             1                    ***0***             `ETH_MIIRX_DATA_ADR   :  DataOut<=MIIRX_DATAOut;
-    867             1                     137262             `ETH_MIISTATUS_ADR    :  DataOut<=MIISTATUSOut;
+    867             1                     137261             `ETH_MIISTATUS_ADR    :  DataOut<=MIISTATUSOut;
     868             1                    ***0***             `ETH_MAC_ADDR0_ADR    :  DataOut<=MAC_ADDR0Out;
     869             1                    ***0***             `ETH_MAC_ADDR1_ADR    :  DataOut<=MAC_ADDR1Out;
     870             1                    ***0***             `ETH_TX_BD_NUM_ADR    :  DataOut<=TX_BD_NUMOut;
@@ -7492,7 +7492,7 @@ Statement Coverage for instance /dut/ethreg1 --
     876                                                    endcase
     877                                                  end
     878                                                else
-    879             1                     137338         DataOut<=32'h0;
+    879             1                     137339         DataOut<=32'h0;
     880                                              end
     881                                              
     882                                              
@@ -7793,7 +7793,7 @@ Statement Coverage for instance /dut/ethreg1 --
 Toggle Coverage:
     Enabled Coverage              Bins      Hits    Misses  Coverage
     ----------------              ----      ----    ------  --------
-    Toggles                       2262       209      2053     9.23%
+    Toggles                       2262       205      2057     9.06%
 
 ================================Toggle Details================================
 
@@ -7853,7 +7853,7 @@ Toggle Coverage for instance /dut/ethreg1 --
                               MIIADDRESSOut[13-31]           0           0        0.00 
                                     MIIADDRESS_Sel           1           1      100.00 
                                 MIIADDRESS_Wr[0-1]           1           1      100.00 
-                                  MIICOMMANDOut[0]           0           1       50.00 
+                                  MIICOMMANDOut[0]           1           1      100.00 
                                   MIICOMMANDOut[1]           0           0        0.00 
                                   MIICOMMANDOut[2]           1           1      100.00 
                                MIICOMMANDOut[3-31]           0           0        0.00 
@@ -7863,9 +7863,10 @@ Toggle Coverage for instance /dut/ethreg1 --
                                       MIIMODER_Sel           0           0        0.00 
                                   MIIMODER_Wr[0-1]           0           0        0.00 
                                MIIRX_DATAOut[0-31]           0           0        0.00 
-                                     MIIRX_DATA_Wr           1           1      100.00 
+                                     MIIRX_DATA_Wr           0           0        0.00 
                                    MIISTATUSOut[0]           0           0        0.00 
-                                 MIISTATUSOut[1-2]           1           1      100.00 
+                                   MIISTATUSOut[1]           1           1      100.00 
+                                   MIISTATUSOut[2]           0           1       50.00 
                                 MIISTATUSOut[3-31]           0           0        0.00 
                                MIITX_DATAOut[0-15]           1           1      100.00 
                               MIITX_DATAOut[16-31]           0           0        0.00 
@@ -7874,7 +7875,7 @@ Toggle Coverage for instance /dut/ethreg1 --
                                     MODEROut[0-31]           0           0        0.00 
                                          MODER_Sel           1           0       50.00 
                                      MODER_Wr[0-2]           0           0        0.00 
-                                       NValid_stat           1           1      100.00 
+                                       NValid_stat           0           1       50.00 
                                 PACKETLENOut[0-31]           0           0        0.00 
                                      PACKETLEN_Sel           0           0        0.00 
                                  PACKETLEN_Wr[0-3]           0           0        0.00 
@@ -7915,7 +7916,7 @@ Toggle Coverage for instance /dut/ethreg1 --
                                              TxClk           1           1      100.00 
                                       TxCtrlEndFrm           0           0        0.00 
                                            TxE_IRQ           0           0        0.00 
-                               UpdateMIIRX_DATAReg           1           1      100.00 
+                               UpdateMIIRX_DATAReg           0           0        0.00 
                                     WCtrlDataStart           1           1      100.00 
                                         Write[0-3]           1           1      100.00 
                                              int_o           0           0        0.00 
@@ -7959,7 +7960,7 @@ Toggle Coverage for instance /dut/ethreg1 --
                                         r_RecSmall           0           0        0.00 
                                             r_RxEn           0           0        0.00 
                                           r_RxFlow           0           0        0.00 
-                                        r_ScanStat           0           1       50.00 
+                                        r_ScanStat           1           1      100.00 
                                     r_TxBDNum[0-7]           0           0        0.00 
                                             r_TxEn           0           0        0.00 
                                           r_TxFlow           0           0        0.00 
@@ -7968,10 +7969,10 @@ Toggle Coverage for instance /dut/ethreg1 --
                                        r_WCtrlData           1           1      100.00 
 
 Total Node Count     =       1131 
-Toggled Node Count   =        102 
-Untoggled Node Count =       1029 
+Toggled Node Count   =        100 
+Untoggled Node Count =       1031 
 
-Toggle Coverage      =       9.23% (209 of 2262 bins)
+Toggle Coverage      =       9.06% (205 of 2262 bins)
 
 =================================================================================
 === Instance: /dut/maccontrol1/receivecontrol1
@@ -18261,9 +18262,9 @@ Branch totals: 1 hit of 2 branches = 50.00%
 Branch totals: 1 hit of 2 branches = 50.00%
 
 ------------------------------------IF Branch------------------------------------
-    288                                       87     Count coming in to IF
+    288                                       88     Count coming in to IF
     288             1                    ***0***     		if (ce && we[0])
-                                              87     All False Count
+                                              88     All False Count
 Branch totals: 1 hit of 2 branches = 50.00%
 
 
@@ -19348,21 +19349,21 @@ Branch Coverage for instance /dut/wishbone
     ----         ----                      -----     ------ 
   File rtl/eth_wishbone.v
 ------------------------------------IF Branch------------------------------------
-    582                                   686328     Count coming in to IF
+    582                                   686332     Count coming in to IF
     582             1                          2       if(Reset)
     585             1                    ***0***       if(~TxBDReady & r_TxEn & WbEn & ~WbEn_q)
     588             1                    ***0***       if(TxPointerRead & TxEn & TxEn_q)
-                                          686326     All False Count
+                                          686330     All False Count
 Branch totals: 2 hits of 4 branches = 50.00%
 
 ------------------------------------IF Branch------------------------------------
-    595                                   686329     Count coming in to IF
+    595                                   686333     Count coming in to IF
     595             1                          3       if(Reset)
-    605             1                     686326       else
+    605             1                     686330       else
 Branch totals: 2 hits of 2 branches = 100.00%
 
 ------------------------------------CASE Branch------------------------------------
-    608                                   686326     Count coming in to CASE
+    608                                   686330     Count coming in to CASE
     609             1                    ***0***             5'b100_10, 5'b100_11 :
     609             2                    ***0***     
     617             1                    ***0***             5'b100_01 :
@@ -19374,15 +19375,15 @@ Branch totals: 2 hits of 2 branches = 100.00%
     643             2                    ***0***     
     643             3                    ***0***     
     643             4                    ***0***     
-    653             1                     343163             5'b100_00 :
-    657             1                     343163             5'b000_00 :
+    653             1                     343165             5'b100_00 :
+    657             1                     343165             5'b000_00 :
                                          ***0***     All False Count
 Branch totals: 2 hits of 14 branches = 14.28%
 
 ------------------------------------IF Branch------------------------------------
-    675                                   686328     Count coming in to IF
+    675                                   686332     Count coming in to IF
     675             1                          2       if(Reset)
-    683             1                     686326       else
+    683             1                     686330       else
 Branch totals: 2 hits of 2 branches = 100.00%
 
 ------------------------------------IF Branch------------------------------------
@@ -20024,11 +20025,11 @@ Branch totals: 2 hits of 4 branches = 50.00%
 Branch totals: 1 hit of 5 branches = 20.00%
 
 ------------------------------------IF Branch------------------------------------
-    1959                                  686328     Count coming in to IF
+    1959                                  686332     Count coming in to IF
     1959            1                          2       if(Reset)
     1962            1                    ***0***       if(~RxReady & r_RxEn & WbEn & ~WbEn_q)
     1965            1                    ***0***       if(RxPointerRead & RxEn & RxEn_q)
-                                          686326     All False Count
+                                          686330     All False Count
 Branch totals: 2 hits of 4 branches = 50.00%
 
 ------------------------------------IF Branch------------------------------------
@@ -23364,9 +23365,9 @@ Statement Coverage for instance /dut/wishbone --
     554                                              
     555                                              assign m_wb_stb_o = m_wb_cyc_o;
     556                                              
-    557             1                     686327     always @ (posedge WB_CLK_I)
+    557             1                     686331     always @ (posedge WB_CLK_I)
     558                                              begin
-    559             1                     686327       WB_ACK_O <= (|BDWrite) & WbEn & WbEn_q | BDRead & WbEn & ~WbEn_q;
+    559             1                     686331       WB_ACK_O <= (|BDWrite) & WbEn & WbEn_q | BDRead & WbEn & ~WbEn_q;
     560                                              end
     561                                              
     562                                              assign WB_DAT_O = ram_do;
@@ -23383,11 +23384,11 @@ Statement Coverage for instance /dut/wishbone --
     573                                              );
     574                                              
     575                                              assign ram_ce = 1'b1;
-    576             1                     686329     assign ram_we = (BDWrite & {4{(WbEn & WbEn_q)}}) | {4{(TxStatusWrite | RxStatusWrite)}};
-    577             1                     686328     assign ram_oe = BDRead & WbEn & WbEn_q | TxEn & TxEn_q & (TxBDRead | TxPointerRead) | RxEn & RxEn_q & (RxBDRead | RxPointerRead);
+    576             1                     686333     assign ram_we = (BDWrite & {4{(WbEn & WbEn_q)}}) | {4{(TxStatusWrite | RxStatusWrite)}};
+    577             1                     686332     assign ram_oe = BDRead & WbEn & WbEn_q | TxEn & TxEn_q & (TxBDRead | TxPointerRead) | RxEn & RxEn_q & (RxBDRead | RxPointerRead);
     578                                              
     579                                              
-    580             1                     686328     always @ (posedge WB_CLK_I or posedge Reset)
+    580             1                     686332     always @ (posedge WB_CLK_I or posedge Reset)
     581                                              begin
     582                                                if(Reset)
     583             1                          2         TxEn_needed <= 1'b0;
@@ -23400,7 +23401,7 @@ Statement Coverage for instance /dut/wishbone --
     590                                              end
     591                                              
     592                                              // Enabling access to the RAM for three devices.
-    593             1                     686329     always @ (posedge WB_CLK_I or posedge Reset)
+    593             1                     686333     always @ (posedge WB_CLK_I or posedge Reset)
     594                                              begin
     595                                                if(Reset)
     596                                                  begin
@@ -23462,17 +23463,17 @@ Statement Coverage for instance /dut/wishbone --
     652                                                        end
     653                                                      5'b100_00 :
     654                                                        begin
-    655             1                     343163                 WbEn <= 1'b0;  // WbEn access stage and there is no need for other stages. WbEn needs to be switched off for a bit
+    655             1                     343165                 WbEn <= 1'b0;  // WbEn access stage and there is no need for other stages. WbEn needs to be switched off for a bit
     656                                                        end
     657                                                      5'b000_00 :
     658                                                        begin
-    659             1                     343163                 WbEn <= 1'b1;  // Idle state. We go to WbEn access stage.
-    660             1                     343163                 RxEn <= 1'b0;
-    661             1                     343163                 TxEn <= 1'b0;
-    662             1                     343163                 ram_addr <= WB_ADR_I[9:2];
-    663             1                     343163                 ram_di <= WB_DAT_I;
-    664             1                     343163                 BDWrite <= BDCs[3:0] & {4{WB_WE_I}};
-    665             1                     343163                 BDRead <= (|BDCs) & ~WB_WE_I;
+    659             1                     343165                 WbEn <= 1'b1;  // Idle state. We go to WbEn access stage.
+    660             1                     343165                 RxEn <= 1'b0;
+    661             1                     343165                 TxEn <= 1'b0;
+    662             1                     343165                 ram_addr <= WB_ADR_I[9:2];
+    663             1                     343165                 ram_di <= WB_DAT_I;
+    664             1                     343165                 BDWrite <= BDCs[3:0] & {4{WB_WE_I}};
+    665             1                     343165                 BDRead <= (|BDCs) & ~WB_WE_I;
     666                                                        end
     667                                                    endcase
     668                                                  end
@@ -23480,7 +23481,7 @@ Statement Coverage for instance /dut/wishbone --
     670                                              
     671                                              
     672                                              // Delayed stage signals
-    673             1                     686328     always @ (posedge WB_CLK_I or posedge Reset)
+    673             1                     686332     always @ (posedge WB_CLK_I or posedge Reset)
     674                                              begin
     675                                                if(Reset)
     676                                                  begin
@@ -23492,11 +23493,11 @@ Statement Coverage for instance /dut/wishbone --
     682                                                  end
     683                                                else
     684                                                  begin
-    685             1                     686326           WbEn_q <= WbEn;
-    686             1                     686326           RxEn_q <= RxEn;
-    687             1                     686326           TxEn_q <= TxEn;
-    688             1                     686326           r_TxEn_q <= r_TxEn;
-    689             1                     686326           r_RxEn_q <= r_RxEn;
+    685             1                     686330           WbEn_q <= WbEn;
+    686             1                     686330           RxEn_q <= RxEn;
+    687             1                     686330           TxEn_q <= TxEn;
+    688             1                     686330           r_TxEn_q <= r_TxEn;
+    689             1                     686330           r_RxEn_q <= r_RxEn;
     690                                                  end
     691                                              end
     692                                              
@@ -24764,7 +24765,7 @@ Statement Coverage for instance /dut/wishbone --
     1954                                             end
     1955                                             
     1956                                             
-    1957            1                     686328     always @ (posedge WB_CLK_I or posedge Reset)
+    1957            1                     686332     always @ (posedge WB_CLK_I or posedge Reset)
     1958                                             begin
     1959                                               if(Reset)
     1960            1                          2         RxEn_needed <= 1'b0;
@@ -26487,15 +26488,15 @@ Branch Coverage for instance /dut
     ----         ----                      -----     ------ 
   File rtl/eth_top.v
 ------------------------------------IF Branch------------------------------------
-    506                                   548970     Count coming in to IF
-    506             1                     274421     assign temp_wb_dat_o = ((|RegCs) & ~wb_we_i)? RegDataOut : BD_WB_DAT_O;
-    506             2                     274549     assign temp_wb_dat_o = ((|RegCs) & ~wb_we_i)? RegDataOut : BD_WB_DAT_O;
+    506                                   548971     Count coming in to IF
+    506             1                     274420     assign temp_wb_dat_o = ((|RegCs) & ~wb_we_i)? RegDataOut : BD_WB_DAT_O;
+    506             2                     274551     assign temp_wb_dat_o = ((|RegCs) & ~wb_we_i)? RegDataOut : BD_WB_DAT_O;
 Branch totals: 2 hits of 2 branches = 100.00%
 
 ------------------------------------IF Branch------------------------------------
-    533                                   686329     Count coming in to IF
+    533                                   686333     Count coming in to IF
     533             1                          3         if(wb_rst_i)
-    539             1                     686326         else
+    539             1                     686330         else
 Branch totals: 2 hits of 2 branches = 100.00%
 
 ------------------------------------IF Branch------------------------------------
@@ -27426,17 +27427,17 @@ Statement Coverage for instance /dut --
     494                                              
     495                                              //assign DWord = &wb_sel_i;
     496                                              assign ByteSelected = |wb_sel_i;
-    497             1                     274544     assign RegCs[3] = wb_stb_i & wb_cyc_i & ByteSelected & ~wb_adr_i[11] & ~wb_adr_i[10] & wb_sel_i[3];   // 0x0   - 0x3FF
-    498             1                     274544     assign RegCs[2] = wb_stb_i & wb_cyc_i & ByteSelected & ~wb_adr_i[11] & ~wb_adr_i[10] & wb_sel_i[2];   // 0x0   - 0x3FF
-    499             1                     274544     assign RegCs[1] = wb_stb_i & wb_cyc_i & ByteSelected & ~wb_adr_i[11] & ~wb_adr_i[10] & wb_sel_i[1];   // 0x0   - 0x3FF
-    500             1                     274544     assign RegCs[0] = wb_stb_i & wb_cyc_i & ByteSelected & ~wb_adr_i[11] & ~wb_adr_i[10] & wb_sel_i[0];   // 0x0   - 0x3FF
-    501             1                     274544     assign BDCs[3]  = wb_stb_i & wb_cyc_i & ByteSelected & ~wb_adr_i[11] &  wb_adr_i[10] & wb_sel_i[3];   // 0x400 - 0x7FF
-    502             1                     274544     assign BDCs[2]  = wb_stb_i & wb_cyc_i & ByteSelected & ~wb_adr_i[11] &  wb_adr_i[10] & wb_sel_i[2];   // 0x400 - 0x7FF
-    503             1                     274544     assign BDCs[1]  = wb_stb_i & wb_cyc_i & ByteSelected & ~wb_adr_i[11] &  wb_adr_i[10] & wb_sel_i[1];   // 0x400 - 0x7FF
-    504             1                     274544     assign BDCs[0]  = wb_stb_i & wb_cyc_i & ByteSelected & ~wb_adr_i[11] &  wb_adr_i[10] & wb_sel_i[0];   // 0x400 - 0x7FF
-    505             1                     274544     assign CsMiss = wb_stb_i & wb_cyc_i & ByteSelected & wb_adr_i[11];                   // 0x800 - 0xfFF
-    506             1                     548974     assign temp_wb_dat_o = ((|RegCs) & ~wb_we_i)? RegDataOut : BD_WB_DAT_O;
-    507             1                     274544     assign temp_wb_err_o = wb_stb_i & wb_cyc_i & (~ByteSelected | CsMiss);
+    497             1                     274546     assign RegCs[3] = wb_stb_i & wb_cyc_i & ByteSelected & ~wb_adr_i[11] & ~wb_adr_i[10] & wb_sel_i[3];   // 0x0   - 0x3FF
+    498             1                     274546     assign RegCs[2] = wb_stb_i & wb_cyc_i & ByteSelected & ~wb_adr_i[11] & ~wb_adr_i[10] & wb_sel_i[2];   // 0x0   - 0x3FF
+    499             1                     274546     assign RegCs[1] = wb_stb_i & wb_cyc_i & ByteSelected & ~wb_adr_i[11] & ~wb_adr_i[10] & wb_sel_i[1];   // 0x0   - 0x3FF
+    500             1                     274546     assign RegCs[0] = wb_stb_i & wb_cyc_i & ByteSelected & ~wb_adr_i[11] & ~wb_adr_i[10] & wb_sel_i[0];   // 0x0   - 0x3FF
+    501             1                     274546     assign BDCs[3]  = wb_stb_i & wb_cyc_i & ByteSelected & ~wb_adr_i[11] &  wb_adr_i[10] & wb_sel_i[3];   // 0x400 - 0x7FF
+    502             1                     274546     assign BDCs[2]  = wb_stb_i & wb_cyc_i & ByteSelected & ~wb_adr_i[11] &  wb_adr_i[10] & wb_sel_i[2];   // 0x400 - 0x7FF
+    503             1                     274546     assign BDCs[1]  = wb_stb_i & wb_cyc_i & ByteSelected & ~wb_adr_i[11] &  wb_adr_i[10] & wb_sel_i[1];   // 0x400 - 0x7FF
+    504             1                     274546     assign BDCs[0]  = wb_stb_i & wb_cyc_i & ByteSelected & ~wb_adr_i[11] &  wb_adr_i[10] & wb_sel_i[0];   // 0x400 - 0x7FF
+    505             1                     274546     assign CsMiss = wb_stb_i & wb_cyc_i & ByteSelected & wb_adr_i[11];                   // 0x800 - 0xfFF
+    506             1                     548975     assign temp_wb_dat_o = ((|RegCs) & ~wb_we_i)? RegDataOut : BD_WB_DAT_O;
+    507             1                     274546     assign temp_wb_err_o = wb_stb_i & wb_cyc_i & (~ByteSelected | CsMiss);
     508                                              
     509                                              `ifdef ETH_REGISTERED_OUTPUTS
     510                                                assign wb_ack_o = temp_wb_ack_o_reg;
@@ -27456,11 +27457,11 @@ Statement Coverage for instance /dut --
     524                                                // a slave to be, at the very minimum, readable.
     525                                                assign temp_wb_ack_o = (|RegCs) | BDAck | CsMiss;
     526                                              `else // WISHBONE
-    527             1                     274544       assign temp_wb_ack_o = (|RegCs) | BDAck;
+    527             1                     274546       assign temp_wb_ack_o = (|RegCs) | BDAck;
     528                                              `endif
     529                                              
     530                                              `ifdef ETH_REGISTERED_OUTPUTS
-    531             1                     686329       always @ (posedge wb_clk_i or posedge wb_rst_i)
+    531             1                     686333       always @ (posedge wb_clk_i or posedge wb_rst_i)
     532                                                begin
     533                                                  if(wb_rst_i)
     534                                                    begin
@@ -27470,9 +27471,9 @@ Statement Coverage for instance /dut --
     538                                                    end
     539                                                  else
     540                                                    begin
-    541             1                     686326             temp_wb_ack_o_reg <= temp_wb_ack_o & ~temp_wb_ack_o_reg;
-    542             1                     686326             temp_wb_dat_o_reg <= temp_wb_dat_o;
-    543             1                     686326             temp_wb_err_o_reg <= temp_wb_err_o & ~temp_wb_err_o_reg;
+    541             1                     686330             temp_wb_ack_o_reg <= temp_wb_ack_o & ~temp_wb_ack_o_reg;
+    542             1                     686330             temp_wb_dat_o_reg <= temp_wb_dat_o;
+    543             1                     686330             temp_wb_err_o_reg <= temp_wb_err_o & ~temp_wb_err_o_reg;
     544                                                    end
     545                                                end
     546                                              `endif
@@ -27886,7 +27887,7 @@ Statement Coverage for instance /dut --
 Toggle Coverage:
     Enabled Coverage              Bins      Hits    Misses  Coverage
     ----------------              ----      ----    ------  --------
-    Toggles                       1612       246      1366    15.26%
+    Toggles                       1612       242      1370    15.01%
 
 ================================Toggle Details================================
 
@@ -27924,7 +27925,7 @@ Toggle Coverage for instance /dut --
                                       MRxD_Lb[0-3]           0           0        0.00 
                                          MRxErr_Lb           0           0        0.00 
                                MaxCollisionOccured           0           0        0.00 
-                                       NValid_stat           1           1      100.00 
+                                       NValid_stat           0           1       50.00 
                                             PadOut           0           0        0.00 
                                     PerPacketCrcEn           0           0        0.00 
                                       PerPacketPad           0           0        0.00 
@@ -27998,7 +27999,7 @@ Toggle Coverage for instance /dut --
                                         TxUnderRun           0           0        0.00 
                                         TxUsedData           0           0        0.00 
                                       TxUsedDataIn           0           0        0.00 
-                               UpdateMIIRX_DATAReg           1           1      100.00 
+                               UpdateMIIRX_DATAReg           0           0        0.00 
                                     WCtrlDataStart           1           1      100.00 
                               WillSendControlFrame           0           0        0.00 
                         WillSendControlFrame_sync1           0           0        0.00 
@@ -28020,7 +28021,7 @@ Toggle Coverage for instance /dut --
                                          m_wb_we_o           0           0        0.00 
                                        mcoll_pad_i           0           0        0.00 
                                         mcrs_pad_i           0           0        0.00 
-                                          md_pad_i           1           1      100.00 
+                                          md_pad_i           0           0        0.00 
                                           md_pad_o           1           1      100.00 
                                         md_padoe_o           1           1      100.00 
                                          mdc_pad_o           1           1      100.00 
@@ -28064,7 +28065,7 @@ Toggle Coverage for instance /dut --
                                         r_RecSmall           0           0        0.00 
                                             r_RxEn           0           0        0.00 
                                           r_RxFlow           0           0        0.00 
-                                        r_ScanStat           0           1       50.00 
+                                        r_ScanStat           1           1      100.00 
                                     r_TxBDNum[0-7]           0           0        0.00 
                                             r_TxEn           0           0        0.00 
                                           r_TxFlow           0           0        0.00 
@@ -28099,11 +28100,11 @@ Toggle Coverage for instance /dut --
                                            wb_we_i           1           1      100.00 
 
 Total Node Count     =        806 
-Toggled Node Count   =         74 
-Untoggled Node Count =        732 
+Toggled Node Count   =         72 
+Untoggled Node Count =        734 
 
-Toggle Coverage      =      15.26% (246 of 1612 bins)
+Toggle Coverage      =      15.01% (242 of 1612 bins)
 
 
-Total Coverage By Instance (filtered view): 28.53%
+Total Coverage By Instance (filtered view): 28.02%
 

@@ -238,30 +238,31 @@ class v_seq_tc_miim_priority extends eth_v_seq_base;
 
     task body();
         wb_s_seq_mdio cfg = wb_s_seq_mdio::type_id::create("cfg");
-
-        cfg.configure_miim_registers(p_sequencer.regmodel, .fiad(5'h1), .rgad(5'h1), .ctrl_data(16'hBEEF),
-                                      .wctrldata(1'b1), .rstat(1'b1), .scanstat(1'b1));
-        p_sequencer.regmodel.wait_miim_done();
-        cfg.configure_miim_registers(p_sequencer.regmodel, .fiad(5'h1), .rgad(5'h1)); // stop scan before next combo
-        p_sequencer.regmodel.wait_miim_done();
-
         cfg.configure_miim_registers(p_sequencer.regmodel, .fiad(5'h1), .rgad(5'h1), .ctrl_data(16'hBEEF),
                                       .wctrldata(1'b1), .rstat(1'b1));
         p_sequencer.regmodel.wait_miim_done();
 
+
+        cfg.configure_miim_registers(p_sequencer.regmodel, .fiad(5'h1), .rgad(5'h1), .ctrl_data(16'hBEEF),
+                                      .wctrldata(1'b1), .rstat(1'b1), .scanstat(1'b1));
+        // #100ns;
+        cfg.configure_miim_registers(p_sequencer.regmodel, .fiad(5'h1), .rgad(5'h1)); // stop scan before next combo
+        p_sequencer.regmodel.wait_miim_done();
+
+
         cfg.configure_miim_registers(p_sequencer.regmodel, .fiad(5'h1), .rgad(5'h1), .ctrl_data(16'hBEEF),
                                       .wctrldata(1'b1), .scanstat(1'b1));
-        p_sequencer.regmodel.wait_miim_done();
+        // #100ns;
         cfg.configure_miim_registers(p_sequencer.regmodel, .fiad(5'h1), .rgad(5'h1)); // stop scan before next combo
         p_sequencer.regmodel.wait_miim_done();
-
+        
+        
         cfg.configure_miim_registers(p_sequencer.regmodel, .fiad(5'h1), .rgad(5'h1),
-                                      .rstat(1'b1), .scanstat(1'b1));
-        p_sequencer.regmodel.wait_miim_done();
+                                        .rstat(1'b1), .scanstat(1'b1));
+        // #100ns;
         cfg.configure_miim_registers(p_sequencer.regmodel, .fiad(5'h1), .rgad(5'h1)); // stop scan before next combo
         p_sequencer.regmodel.wait_miim_done();
 
-        cfg.configure_miim_registers(p_sequencer.regmodel, .fiad(5'h1), .rgad(5'h1));
     endtask
 endclass
 
@@ -297,16 +298,22 @@ class v_seq_tc_miim_scan_intr extends eth_v_seq_base;
         uvm_reg_data_t rdata;
         bit busy;
 
-        cfg.configure_miim_registers(p_sequencer.regmodel, .fiad(5'h1), .rgad(5'h1), .scanstat(1'b1));
-        cfg.configure_miim_registers(p_sequencer.regmodel, .fiad(5'h1), .rgad(5'h1)); // immediate clear
-
+        cfg.configure_miim_registers(p_sequencer.regmodel, .fiad(5'h1), .rgad(5'h1), .ctrl_data(16'hBEEF),
+                                      .wctrldata(1'b1));
         p_sequencer.regmodel.wait_miim_done();
+        
+        cfg.configure_miim_registers(p_sequencer.regmodel, .fiad(5'h1), .rgad(5'h1), .scanstat(1'b1));
+        #3500;
+        cfg.configure_miim_registers(p_sequencer.regmodel, .fiad(5'h1), .rgad(5'h1)); // immediate clear
+        p_sequencer.regmodel.wait_miim_done();
+
         p_sequencer.regmodel.is_miim_busy(busy);
         if (busy)
             `uvm_error(get_type_name(), "BUSY still asserted after a sliding scan stop")
 
         p_sequencer.regmodel.MIISTATUS.read(status, rdata);
         `uvm_info(get_type_name(), $sformatf("MIISTATUS after sliding scan stop = 0x%0h", rdata), UVM_MEDIUM)
+
     endtask
 endclass
 
@@ -394,20 +401,20 @@ class v_seq_tc_miim_walking extends eth_v_seq_base;
             // scan_op + ctrl_reg, scan_op + id1_reg, scan_op + others, read_op + others.
             cfg.configure_miim_registers(p_sequencer.regmodel,
                 .miinopre(pre[0]), .fiad(5'h1), .rgad(5'h0), .scanstat(1'b1));
-            p_sequencer.regmodel.wait_miim_done();
             cfg.configure_miim_registers(p_sequencer.regmodel, .miinopre(pre[0]), .fiad(5'h1), .rgad(5'h0)); // stop scan
+            // p_sequencer.regmodel.wait_miim_done();
             p_sequencer.regmodel.wait_miim_done();
 
             cfg.configure_miim_registers(p_sequencer.regmodel,
                 .miinopre(pre[0]), .fiad(5'h1), .rgad(5'h2), .scanstat(1'b1));
-            p_sequencer.regmodel.wait_miim_done();
             cfg.configure_miim_registers(p_sequencer.regmodel, .miinopre(pre[0]), .fiad(5'h1), .rgad(5'h2)); // stop scan
+            // p_sequencer.regmodel.wait_miim_done();
             p_sequencer.regmodel.wait_miim_done();
 
             cfg.configure_miim_registers(p_sequencer.regmodel,
                 .miinopre(pre[0]), .fiad(5'h1), .rgad(5'h3), .scanstat(1'b1));
-            p_sequencer.regmodel.wait_miim_done();
             cfg.configure_miim_registers(p_sequencer.regmodel, .miinopre(pre[0]), .fiad(5'h1), .rgad(5'h3)); // stop scan before next combo
+            // p_sequencer.regmodel.wait_miim_done();
             p_sequencer.regmodel.wait_miim_done();
 
             cfg.configure_miim_registers(p_sequencer.regmodel,

@@ -2,7 +2,6 @@ onerror { quit -f -code 1 }
 vlog  \
     tb/global/eth_glob_pkg.sv \
     tb/interfaces/*.sv \
-    tb/config/eth_config_pkg.sv \
     tb/seq_items/reset/reset_seq_item_pkg.sv \
     tb/seq_items/mii_tx/mii_tx_seq_item_pkg.sv \
     tb/seq_items/wb_m/wb_m_seq_item_pkg.sv \
@@ -10,6 +9,7 @@ vlog  \
     tb/seq_items/mii_rx/mii_rx_seq_item_pkg.sv \
     tb/seq_items/mdio/mdio_seq_item_pkg.sv \
     tb/ral/eth_ral_pkg.sv \
+    tb/config/eth_config_pkg.sv \
     tb/agents/reset/reset_agent_pkg.sv \
     tb/agents/wb_m/wb_m_agent_pkg.sv \
     tb/agents/wb_s/wb_s_agent_pkg.sv \

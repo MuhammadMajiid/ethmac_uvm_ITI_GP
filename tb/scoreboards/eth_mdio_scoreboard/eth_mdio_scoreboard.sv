@@ -123,9 +123,88 @@ task eth_mdio_scoreboard::run_phase(uvm_phase phase);
   begin
       get_seq_item();
       read_cfg_regs();
+      // if (m_cfg_reg_s.w_ctrl_data && m_cfg_reg_s.scan_stat) begin // Priority Case 111/101 -> write then scan
+      //   do 
+      //     begin
+      //       // @(posedge m_config.vif.mdc); // Replaced #1 with clock edge
+      //       #1;
+      //       read_stat_regs();
+      //     end
+      //     while(m_cfg_reg_s.busy);
+      //   pred_write();
+      //   comp_write(m_mdio_seq_item);
+      //   do 
+      //     begin
+      //       // @(posedge m_config.vif.mdc); // Replaced #1 with clock edge
+      //       #1;
+      //       read_stat_regs();
+      //     end
+      //   while(m_cfg_reg_s.invalid);
+      //   pred_read();
+      //   comp_read();
+      //   comp_linkfail();
+      // end
+      // else if (m_cfg_reg_s.r_stat && m_cfg_reg_s.scan_stat) begin // Priority Case 011 -> read then scan
+      //   do 
+      //     begin
+      //         // @(posedge m_config.vif.mdc); // Replaced #1 with clock edge
+      //         #1;
+      //         read_stat_regs();
+      //     end
+      //   while(m_cfg_reg_s.busy);
+      //   pred_read();
+      //   comp_read();
+      //   comp_linkfail();
+      //   do 
+      //   begin
+      //     // @(posedge m_config.vif.mdc); // Replaced #1 with clock edge
+      //     #1;
+      //     read_stat_regs();
+      //   end
+      //   while(m_cfg_reg_s.invalid);
+      //   pred_read();
+      //   comp_read();
+      //   comp_linkfail();
+      // end
+      // else begin // Normal Cases
+      //   if(m_cfg_reg_s.w_ctrl_data) begin
+      //       do begin
+      //         // @(posedge m_config.vif.mdc); // Replaced #1 with clock edge
+      //         #1;
+      //         read_stat_regs();
+      //       end
+      //       while(m_cfg_reg_s.busy);
+      //       pred_write();
+      //       comp_write(m_mdio_seq_item);
+      //   end
+      //   else if(m_cfg_reg_s.r_stat) begin
+      //       do begin
+      //         // @(posedge m_config.vif.mdc); // Replaced #1 with clock edge
+      //         #1;
+      //         read_stat_regs();
+      //       end
+      //       while(m_cfg_reg_s.busy);
+      //       pred_read();
+      //       comp_read();
+      //       comp_linkfail();
+      //     end
+      //   else if(m_cfg_reg_s.scan_stat) begin
+      //       do begin
+      //         // @(posedge m_config.vif.mdc); // Replaced #1 with clock edge
+      //         #1;
+      //         read_stat_regs();
+      //     end
+      //       while(m_cfg_reg_s.invalid);
+      //       pred_read();
+      //       comp_read();
+      //       comp_linkfail();
+      //   end
+      // end
+
       if(m_cfg_reg_s.w_ctrl_data) begin
           do begin
-            @(posedge m_config.vif.mdc); // Replaced #1 with clock edge
+            // @(posedge m_config.vif.mdc); // Replaced #1 with clock edge
+            #1;
             read_stat_regs();
           end
           while(m_cfg_reg_s.busy);
@@ -134,7 +213,8 @@ task eth_mdio_scoreboard::run_phase(uvm_phase phase);
       end
       else if(m_cfg_reg_s.r_stat) begin
           do begin
-            @(posedge m_config.vif.mdc); // Replaced #1 with clock edge
+            // @(posedge m_config.vif.mdc); // Replaced #1 with clock edge
+            #1;
             read_stat_regs();
           end
           while(m_cfg_reg_s.busy);
@@ -145,6 +225,7 @@ task eth_mdio_scoreboard::run_phase(uvm_phase phase);
       else if(m_cfg_reg_s.scan_stat) begin
           do begin
             @(posedge m_config.vif.mdc); // Replaced #1 with clock edge
+            // #1;
             read_stat_regs();
         end
           while(m_cfg_reg_s.invalid);
@@ -309,7 +390,7 @@ task eth_mdio_scoreboard::comp_write(input mdio_seq_item_base item);
     // Compare opcode
     idx+=ETH_CTRL_ST_LEN;
     temp=m_exp_wr_pkt[idx +: ETH_CTRL_OPCODE_LEN];
-    if({temp[0],temp[1]} != item.op) begin
+    if({>>{temp}} != item.op) begin
         `uvm_error(get_type_name(),
           $sformatf("Opcode mismatch  Field Offset: %0d\n Expected: %0p\n Actual: %0d", idx,temp,bit'(item.op)))
         err =1;

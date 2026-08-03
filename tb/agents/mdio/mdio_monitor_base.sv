@@ -104,7 +104,7 @@ task calc_freq();
     st=$time;
     @(posedge vif.mdc);
     fin=$time;
-    m_mdio_seq_item.clk_period_ns=(fin-st); // Removed /1000.0 to keep it in ns
+    m_mdio_seq_item.clk_period_ns=(fin-st)/1000.0; // Removed /1000.0 to keep it in ns
   endtask
 
 endclass

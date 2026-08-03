@@ -19,13 +19,13 @@ class mdio_seq_item_base extends uvm_sequence_item;
     `uvm_object_utils(mdio_seq_item_base)
 
     // Randomizable transaction fields
-    rand op_code_e  op;
-    rand bit [1:0]  st;
     rand bit [31:0] preamble;
+    rand bit [1:0]  st;
+    rand op_code_e  op;
     rand bit [4:0]  phy_addr;
     rand bit [4:0]  reg_addr;
-    rand bit [15:0] data;
     rand bit [1:0]  turn_around;
+    rand bit [15:0] data;
     real       clk_period_ns;
     function new(string name = "mdio_seq_item_base");
     super.new(name);
