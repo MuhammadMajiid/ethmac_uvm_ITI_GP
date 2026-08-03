@@ -1,0 +1,2 @@
+var g_data = {"146":{"pr":"/eth_cov_pkg","ty":2,"dui":13,"dun":"work.eth_cov_pkg","cvgs":[{"h":["/eth_cov_pkg/eth_cov_mdio/m_mdio_cfg_cov",1,1,147],"cov":[28,10,49.84],"opts":{"goal":"100","merge_instance":"auto(true)"}},{"h":["/eth_cov_pkg/eth_cov_mdio/m_mdio_txdata_cov",1,1,154],"cov":[3,2,66.66],"opts":{"goal":"100","merge_instance":"auto(true)"}}]}};
+processCovergroupsData(g_data);

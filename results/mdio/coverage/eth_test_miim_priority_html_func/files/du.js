@@ -1,2 +1,2 @@
-var g_data = {"data":[{"n":"work.mii_tx_if","id":3,"zf":1,"tc":0.00,"d":0.00,"a":0.00},{"n":"work.wb_m_if","id":1,"zf":1,"tc":0.00,"d":0.00,"a":0.00},{"n":"work.wb_s_if","id":2,"zf":1,"tc":0.00,"d":0.00,"a":0.00}]};
+var g_data = {"data":[{"n":"work.eth_cov_pkg","id":13,"zf":1,"tc":27.36,"g":27.36},{"n":"work.mii_tx_if","id":14,"zf":1,"tc":35.71,"d":0.00,"a":71.42},{"n":"work.wb_m_if","id":2,"zf":1,"tc":33.33,"d":16.66,"a":50.00},{"n":"work.wb_s_if","id":1,"zf":1,"tc":78.88,"d":77.77,"a":80.00}]};
 processDuData(g_data);
