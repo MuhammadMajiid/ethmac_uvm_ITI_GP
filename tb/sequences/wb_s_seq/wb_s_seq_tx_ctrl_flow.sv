@@ -31,7 +31,7 @@ class wb_s_seq_tx_ctrl_flow extends wb_s_basic_tx_seq;
             tx_flow dist{0:=5, 1:=95};
             pause_req dist{0:=5, 1:=95};
             pause_timer dist{['h0001:'hFFFE] :/ 90,'h0000 :/ 5, 'hFFFF :/ 5 };
-
+            moder_dcrc dist {0:=95, 1:=5};
             //mac_addr1 dist{ ['h0000: 'hFFFF]:/ 80};
             //mac_addr0 dist{32'hC200_0001:/ 20, ['h0000_0000: 'hFFFF_FFFF]:/ 80};
             
@@ -56,7 +56,8 @@ class wb_s_seq_tx_ctrl_flow extends wb_s_basic_tx_seq;
         end
         
         configure_tx_registers(.tx_bd_num(m_item.tx_bd_num),.mac_addr1(m_item.mac_addr1),.mac_addr0(m_item.mac_addr0),
-        .txen(1),.fulld(1),.pause_req(m_item.pause_req),.pause_timer(m_item.pause_timer),.tx_flow(m_item.tx_flow));
+        .txen(1),.fulld(1),.pause_req(m_item.pause_req),.pause_timer(m_item.pause_timer),.dcrc(m_item.moder_dcrc),
+        .tx_flow(m_item.tx_flow));
 
         `uvm_info(get_type_name(),
                     "TX Control Pause Frame configuration completed",

@@ -69,13 +69,6 @@ import eth_cov_pkg::*;
 `include "eth_env_rx.sv"
 `include "eth_env_mdio.sv"
 
-/*
-`include "eth_env_config_obj.sv"
-`include "eth_env.sv"
-`include "eth_base_test.sv"
-`include "eth_test_reg_access.sv"
-*/
-
 endpackage
 
 `endif // ETH_ENV_PKG

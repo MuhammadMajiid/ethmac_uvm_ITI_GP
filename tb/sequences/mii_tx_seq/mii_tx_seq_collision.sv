@@ -35,7 +35,9 @@ class mii_tx_seq_collision extends mii_tx_seq_base;
     req = mii_tx_seq_item_base::type_id::create("req");
 
     start_item(req);
-
+    assert(req.randomize())
+    else
+      `uvm_fatal(get_name(), "Randomization failed")
     req.MColl = 1'b1;
 	
 

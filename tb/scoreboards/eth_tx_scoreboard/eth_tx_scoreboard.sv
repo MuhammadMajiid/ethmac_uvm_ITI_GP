@@ -57,7 +57,6 @@ class eth_tx_scoreboard extends uvm_scoreboard;
     event m_ev_end_pkt;      // triggered when each packet is compared
     event m_ev_txen;        // triggered when TXEN bit in MODER register changes from 0 -> 1
     event m_ev_start_comp;  // triggered when packet ends to start comparison
-    event m_ev_end_seqs;
     // =========================================================================
     // Structs
     // ========================================================================= 
@@ -394,8 +393,7 @@ function void eth_tx_scoreboard::connect_phase(uvm_phase phase);
     
     // assign ral handle to it's corresponding in config
     m_regmodel=m_config.m_regmodel;
-    // assign end seq event handle to it's corresponding in config
-    m_ev_end_seqs=m_config.m_ev_end_seqs;
+    // assign end packet event handle to it's corresponding in config
     m_config.m_ev_end_pkt=m_ev_end_pkt;
     // Connect each export with it's corrosponding fifo
     wb_m_a_export.connect(wb_m_fifo.analysis_export);
@@ -695,8 +693,19 @@ function void eth_tx_scoreboard::pred_construct_ctrl_pkt();
         repeat(42)
             m_tx_expected_s.exp_pkt.push_back(ETH_PAD);        
             
-        // Calculate crc
+        // Check if delay crc  is enabled
+        if(m_tx_bd_cfg_s.dlycrcen) begin
+        bytes_q pkt_copy=m_tx_expected_s.exp_pkt;
+        // pop first 4 bytes from packet copy to calculate crc of remaining bytes
+        repeat(4)
+            pkt_copy.pop_front();
+        // Calculate delayed crc
+        crc=calc_crc32(pkt_copy);    
+        end  
+        else begin
+            // Calculate crc
             crc=calc_crc32(m_tx_expected_s.exp_pkt);
+        end
 
         // push crc (4 bytes)
         for(int i = 0; i<ETH_CRC_LEN; i++)
@@ -837,7 +846,6 @@ function void eth_tx_scoreboard::pred_read_mem();
     // Read data from dma memory (4 bytes)
     bit [WB_DATA_WIDTH-1:0] rd_data;
     int byte_sel;
-    //dma_mem::print();
     // Check that txpnt value exists in memory
     if(!dma_mem::read(txpnt,rd_data))
         `uvm_fatal(get_name(), $sformatf("Buffer descriptor number %0d Txpnt value doesn't exist in dma memory, txpnt = %0h",m_tx_bd_cfg_s.bd_index,txpnt))
@@ -861,15 +869,16 @@ function void eth_tx_scoreboard::pred_read_mem();
     // Push remaining bytes if pointer isn't word aligned
     if(m_tx_bd_cfg_s.txpnt%4!=0) begin
         int remain_bytes;
-        byte_sel = (len-(3-m_tx_bd_cfg_s.txpnt%4))%4;
+        remain_bytes = len - (len-len%4) + m_tx_bd_cfg_s.txpnt%4;
+        byte_sel = (remain_bytes>4)?4:remain_bytes;
+        remain_bytes = (remain_bytes>4)?remain_bytes-4:0;
+
         if(!dma_mem::read(txpnt+len-len%4,rd_data))
             `uvm_fatal(get_name(), $sformatf("In buffer descriptor number %0d, address doesn't exist in dma memory, address = %0h",m_tx_bd_cfg_s.bd_index,txpnt+len-len%4))
      
         for(int i=1;i<=byte_sel;i++)
               m_tx_expected_s.exp_pkt.push_back(rd_data[8*(4-i)+:8]);
         
-        remain_bytes=len-m_tx_expected_s.exp_pkt.size();
-
         if(remain_bytes>0) begin
             if(!dma_mem::read(txpnt+4+len-len%4,rd_data))
             `uvm_fatal(get_name(), $sformatf("In buffer descriptor number %0d, address doesn't exist in dma memory, address = %0h",m_tx_bd_cfg_s.bd_index,txpnt+len-len%4))
@@ -2119,8 +2128,6 @@ task eth_tx_scoreboard::comp_check_ipg();
     //--------------------------------------------------
    m_tx_pending_s.ipgt_valid  = 0;
    m_tx_pending_s.ipgt_cycles = 0;
-   m_tx_expected_s.exp_df = 0;
-   m_tx_pending_s.collision_seen = 0;
    
    forever 
    begin
@@ -2143,11 +2150,11 @@ task eth_tx_scoreboard::comp_check_ipg();
     //--------------------------------------------------
     WAIT_END_FRAME:
     begin
-
         //--------------------------------------------------
         // Collision has priority
         //--------------------------------------------------
-        if(m_tx_pending_s.collision_seen && !m_tx_bd_cfg_s.nobackoff)
+        if(m_tx_pending_s.collision_seen && !m_tx_bd_cfg_s.nobackoff 
+            && m_tx_expected_s.exp_rtry<(m_tx_bd_cfg_s.maxret-1) && !m_tx_expected_s.exp_lc)
         begin
 
             cycle_cnt = 0;

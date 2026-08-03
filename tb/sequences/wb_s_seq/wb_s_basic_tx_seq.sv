@@ -240,11 +240,11 @@ function void wb_s_basic_tx_seq::dma_mem_wr(bit [31:0] tx_ptr,bit [15:0] len,bit
             begin
                 for(int j=0; j<$ceil(len/4.0);j++) begin
                     dma_mem::write(tx_ptr_cop+j*4,$random);
-                    $display("mem addr = %0h",tx_ptr_cop+j*4);
+                    //$display("mem addr = %0h",tx_ptr_cop+j*4);
                 end
                 if(tx_ptr%4!=0) begin
                     dma_mem::write(tx_ptr_cop+$ceil(len/4.0)*4,$random);
-                    $display("mem addr = %0h",tx_ptr_cop+$ceil(len/4.0)*4);
+                    //$display("mem addr = %0h",tx_ptr_cop+$ceil(len/4.0)*4);
                 end
             end
             else

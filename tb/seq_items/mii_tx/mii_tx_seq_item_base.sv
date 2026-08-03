@@ -29,8 +29,8 @@ class mii_tx_seq_item_base extends uvm_sequence_item;
     logic [3:0] MTxD;               // Transmit Data Nibble. They are synchronized to the rising edge of MTxClk.
     logic MTxEN;                    // Transmit Enable. indicates to the PHY that the data MTxD is valid and the transmission can start.
     logic MTxERR;                   // Transmit Coding Error
-    rand int  MCrS_time;                // Time which carrier sense is asserted after frame transmission
- 
+    rand int  MCrS_time;            // Time which carrier sense is asserted after frame transmission
+    rand int MColl_time;            // Time which collision is asserted during frame transmission
     
     function new(string name = "mii_tx_seq_item_base");
         super.new(name);
@@ -41,6 +41,10 @@ class mii_tx_seq_item_base extends uvm_sequence_item;
                                 
     constraint c_mcrs_time{
         MCrS_time inside{ETH_MAX_IPG_VAL,ETH_EXCESS_DEFER_LIMIT+ETH_MAX_IPG_VAL};
+    }
+
+    constraint c_mcoll_time{
+        MColl_time dist {[30:40] :/80 ,[41:100] :/ 10, [101:128]:/ 10};
     }
 
     function string convert2string();

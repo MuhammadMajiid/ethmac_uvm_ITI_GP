@@ -502,11 +502,7 @@ class eth_cov_tx extends uvm_component;
 
 
             // Word aligned addresses
-            bins aligned = {2'b00};
-
-
-            // Non-word aligned addresses
-            bins non_aligned[] = {2'b01,2'b10,2'b11};
+            wildcard bins aligned = {32'b????_????_????_??00};
 
         }
 
