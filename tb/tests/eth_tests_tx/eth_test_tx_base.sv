@@ -11,8 +11,6 @@ class eth_test_tx_base extends uvm_test;
   // declare virtual sequence
   eth_v_seq_tx  m_v_seq_tx;
 
-  // declare end sequences event
-  event         m_ev_end_seqs;
 
   function new(string name, uvm_component parent);
     super.new(name, parent);
@@ -48,8 +46,6 @@ class eth_test_tx_base extends uvm_test;
     // Build environment
     m_env = eth_env_tx::type_id::create("m_env", this);
     
-    // Assign end sequence event to event in config object
-    m_config.m_tx_sb_config.m_ev_end_seqs=m_ev_end_seqs;
 endfunction
 
   function void start_of_simulation_phase(uvm_phase phase);
@@ -88,8 +84,7 @@ endfunction
       phase.raise_objection(this);
       // Start virtual sequence;      
       m_v_seq_tx.start(m_env.m_v_sqr);
-      //trigger end seqs event
-      -> m_ev_end_seqs;
+
       phase.drop_objection(this);
   endtask
 

@@ -112,7 +112,7 @@ interface wb_s_if #(
      @(posedge clk) disable iff(rst) (ack_o |-> stb_i && cyc_i);
   endproperty
   a_ack_stb_cyc: assert property (p_ack_stb_cyc)
-    else `uvm_warning("A_WB_S", "a_ack_stb_cyc");
+    else `uvm_warning("A_WB_S", "Assertion error a_ack_stb_cyc");
   c_ack_stb_cyc: cover property (p_ack_stb_cyc);
 
   // WBS_ERR_REQUIRES_STB_CYC: ERR_O may only assert when both CYC_I and STB_I are simultaneously high.  

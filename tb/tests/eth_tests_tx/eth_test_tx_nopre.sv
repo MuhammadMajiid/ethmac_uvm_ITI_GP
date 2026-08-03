@@ -33,9 +33,6 @@ class eth_test_tx_nopre extends eth_test_tx_base;
     // set mii tx agent to passive
     m_config.m_mii_tx_config.is_active=UVM_PASSIVE;
 
-    // Assign end sequence event to event in config object
-    m_config.m_tx_sb_config.m_ev_end_seqs=m_ev_end_seqs;
-
   endfunction
 
 
