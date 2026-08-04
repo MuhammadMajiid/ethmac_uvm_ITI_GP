@@ -206,4 +206,112 @@ class eth_test_miim_reg_bits extends eth_test_mdio_base;
     endtask
 endclass
 
+// Test 12: Scan interruption timing sweep (isolates the BUSY-lockup window)
+class eth_test_miim_scan_intr_sweep extends eth_test_mdio_base;
+    `uvm_component_utils(eth_test_miim_scan_intr_sweep)
+    function new(string name = "eth_test_miim_scan_intr_sweep", uvm_component parent = null);
+     super.new(name, parent);
+    endfunction
+
+    task run_phase(uvm_phase phase);
+        v_seq_tc_miim_scan_intr_sweep v_seq;
+        v_seq = v_seq_tc_miim_scan_intr_sweep::type_id::create("v_seq");
+        phase.raise_objection(this);
+        apply_reset();
+        v_seq.start(m_env.m_v_sqr);
+        #500ns;
+        phase.drop_objection(this);
+    endtask
+endclass
+
+// Test 13: Back-to-back ops with zero idle gap
+class eth_test_miim_back_to_back extends eth_test_mdio_base;
+    `uvm_component_utils(eth_test_miim_back_to_back)
+    function new(string name = "eth_test_miim_back_to_back", uvm_component parent = null);
+     super.new(name, parent);
+    endfunction
+
+    task run_phase(uvm_phase phase);
+        v_seq_tc_miim_back_to_back v_seq;
+        v_seq = v_seq_tc_miim_back_to_back::type_id::create("v_seq");
+        phase.raise_objection(this);
+        apply_reset();
+        v_seq.start(m_env.m_v_sqr);
+        #500ns;
+        phase.drop_objection(this);
+    endtask
+endclass
+
+// Test 14: Wider PHY address decode sweep
+class eth_test_miim_phy_addr_sweep extends eth_test_mdio_base;
+    `uvm_component_utils(eth_test_miim_phy_addr_sweep)
+    function new(string name = "eth_test_miim_phy_addr_sweep", uvm_component parent = null);
+     super.new(name, parent);
+    endfunction
+
+    task run_phase(uvm_phase phase);
+        v_seq_tc_miim_phy_addr_sweep v_seq;
+        v_seq = v_seq_tc_miim_phy_addr_sweep::type_id::create("v_seq");
+        phase.raise_objection(this);
+        apply_reset();
+        v_seq.start(m_env.m_v_sqr);
+        #500ns;
+        phase.drop_objection(this);
+    endtask
+endclass
+
+// Test 15: Reset while a transaction is in flight
+class eth_test_miim_reset_in_flight extends eth_test_mdio_base;
+    `uvm_component_utils(eth_test_miim_reset_in_flight)
+    function new(string name = "eth_test_miim_reset_in_flight", uvm_component parent = null);
+     super.new(name, parent);
+    endfunction
+
+    task run_phase(uvm_phase phase);
+        v_seq_tc_miim_reset_in_flight v_seq;
+        v_seq = v_seq_tc_miim_reset_in_flight::type_id::create("v_seq");
+        phase.raise_objection(this);
+        apply_reset();
+        v_seq.start(m_env.m_v_sqr);
+        #500ns;
+        phase.drop_objection(this);
+    endtask
+endclass
+
+// Test 16: Live register overwrite attempt while BUSY=1
+class eth_test_miim_overwrite_while_busy extends eth_test_mdio_base;
+    `uvm_component_utils(eth_test_miim_overwrite_while_busy)
+    function new(string name = "eth_test_miim_overwrite_while_busy", uvm_component parent = null);
+     super.new(name, parent);
+    endfunction
+
+    task run_phase(uvm_phase phase);
+        v_seq_tc_miim_overwrite_while_busy v_seq;
+        v_seq = v_seq_tc_miim_overwrite_while_busy::type_id::create("v_seq");
+        phase.raise_objection(this);
+        apply_reset();
+        v_seq.start(m_env.m_v_sqr);
+        #500ns;
+        phase.drop_objection(this);
+    endtask
+endclass
+
+// Test 17: CLKDIV boundary values with a real transaction
+class eth_test_miim_clkdiv_extremes extends eth_test_mdio_base;
+    `uvm_component_utils(eth_test_miim_clkdiv_extremes)
+    function new(string name = "eth_test_miim_clkdiv_extremes", uvm_component parent = null);
+     super.new(name, parent);
+    endfunction
+
+    task run_phase(uvm_phase phase);
+        v_seq_tc_miim_clkdiv_extremes v_seq;
+        v_seq = v_seq_tc_miim_clkdiv_extremes::type_id::create("v_seq");
+        phase.raise_objection(this);
+        apply_reset();
+        v_seq.start(m_env.m_v_sqr);
+        #500ns;
+        phase.drop_objection(this);
+    endtask
+endclass
+
 `endif
