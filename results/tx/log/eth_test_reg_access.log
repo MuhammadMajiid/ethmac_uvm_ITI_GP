@@ -1,4 +1,4 @@
-# End time: 12:47:28 on Aug 02,2026, Elapsed time: 0:00:33
+# End time: 18:28:41 on Aug 04,2026, Elapsed time: 0:00:09
 # Errors: 0, Warnings: 6
 # vsim -c work.eth_tb -coverage -sv_seed random "+uvm_set_verbosity=uvm_test_top.m_env.*,_ALL_,UVM_NONE,time,0" "+seq_num=1" "+coll_num=1" "+UVM_TESTNAME=eth_test_reg_access" -onfinish stop -do "
 #     run -all; 
@@ -6,14 +6,14 @@
 #     coverage save $FUNC_UCDB -cvg -directive -assert
 #     transcript file ""
 #     " 
-# Start time: 12:47:28 on Aug 02,2026
+# Start time: 18:28:41 on Aug 04,2026
 # ** Note: (vsim-8009) Loading existing optimized design _opt4
 # Loading sv_std.std
-# Loading work.wb_m_if(fast)
 # Loading work.wb_s_if(fast)
-# Loading work.mii_tx_if(fast)
+# Loading work.wb_m_if(fast)
 # Loading work.reset_if(fast)
 # Loading work.mdio_if(fast)
+# Loading work.mii_tx_if(fast)
 # Loading mtiUvm.uvm_pkg(fast)
 # Loading work.eth_glob_pkg(fast)
 # Loading work.mdio_seq_item_pkg(fast)
@@ -42,18 +42,23 @@
 # Loading work.wb_s_agent_pkg(fast)
 # Loading work.eth_v_seq_sqr_pkg(fast)
 # Loading work.eth_env_pkg(fast)
+# Loading work.eth_test_mdio_pkg(fast)
 # Loading work.eth_test_tx_pkg(fast)
 # Loading work.eth_test_reg_pkg(fast)
 # Loading mtiUvm.questa_uvm_pkg(fast)
 # Loading work.eth_tb(fast)
+# Loading work.reset_if(fast__2)
 # Loading work.wb_s_if_sv_unit(fast)
 # Loading work.wb_s_if(fast__2)
 # Loading work.wb_m_if_sv_unit(fast)
 # Loading work.wb_m_if(fast__2)
 # Loading work.mii_tx_if_sv_unit(fast)
 # Loading work.mii_tx_if(fast__2)
-# Loading D:/B/qsim_2021_1/uvm-1.1d\win64\uvm_dpi.dll
-# Sv_Seed = 985821117
+# Loading work.mii_rx_if(fast__2)
+# Loading work.mdio_if(fast__2)
+# Loading work.eth_top(fast)
+# Loading D:/B/questasim64_2024.1/uvm-1.1d\win64\uvm_dpi.dll
+# Sv_Seed = 1566609633
 # 
 #     run -all
 # ----------------------------------------------------------------
@@ -91,14 +96,14 @@
 #    Time: 0 ps  Iteration: 7  Region: /uvm_pkg::uvm_phase::m_run_phases
 # ** Warning: (vsim-8547) After dropping the illegal, ignore or invalid values, the values list associated with fixed-size array sub bin 'regs[19]' in Coverpoint 'cp_reg' of Covergroup instance '\/eth_cov_pkg::eth_cov_tx::m_reserved_bit_cov ' has converged to empty list. The sub bin will be taken out of coverage calculation.
 #    Time: 0 ps  Iteration: 7  Region: /uvm_pkg::uvm_phase::m_run_phases
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 2500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 7500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 12500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 17500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 22500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 27500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 32500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 37500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 2500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 7500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 12500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 17500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 22500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 27500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 32500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 37500: reporter [A_WB_M] Assertion error, data out = x
 # UVM_INFO @ 42500: reporter@@hw_reset_seq [STARTING_SEQ] 
 # 
 # Starting hw_reset_seq sequence...
@@ -114,7 +119,7 @@
 # UVM_INFO verilog_src/uvm-1.1d/src/reg/sequences/uvm_reg_hw_reset_seq.svh(113) @ 237500: reporter@@hw_reset_seq [uvm_reg_hw_reset_seq] Verifying reset value of register m_regmodel.MIIADDRESS in map "m_regmodel.reg_map"...
 # UVM_INFO verilog_src/uvm-1.1d/src/reg/sequences/uvm_reg_hw_reset_seq.svh(113) @ 262500: reporter@@hw_reset_seq [uvm_reg_hw_reset_seq] Verifying reset value of register m_regmodel.MIICOMMAND in map "m_regmodel.reg_map"...
 # UVM_INFO verilog_src/uvm-1.1d/src/reg/sequences/uvm_reg_hw_reset_seq.svh(113) @ 282500: reporter@@hw_reset_seq [uvm_reg_hw_reset_seq] Verifying reset value of register m_regmodel.MIIMODER in map "m_regmodel.reg_map"...
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 287500: reporter [A_WB_S] a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 287500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
 # UVM_INFO verilog_src/uvm-1.1d/src/reg/sequences/uvm_reg_hw_reset_seq.svh(113) @ 307500: reporter@@hw_reset_seq [uvm_reg_hw_reset_seq] Verifying reset value of register m_regmodel.CTRLMODER in map "m_regmodel.reg_map"...
 # UVM_INFO verilog_src/uvm-1.1d/src/reg/sequences/uvm_reg_hw_reset_seq.svh(113) @ 332500: reporter@@hw_reset_seq [uvm_reg_hw_reset_seq] Verifying reset value of register m_regmodel.TX_BD_NUM in map "m_regmodel.reg_map"...
 # UVM_INFO verilog_src/uvm-1.1d/src/reg/sequences/uvm_reg_hw_reset_seq.svh(113) @ 357500: reporter@@hw_reset_seq [uvm_reg_hw_reset_seq] Verifying reset value of register m_regmodel.COLLCONF in map "m_regmodel.reg_map"...
@@ -125,50 +130,50 @@
 # UVM_INFO verilog_src/uvm-1.1d/src/reg/sequences/uvm_reg_hw_reset_seq.svh(113) @ 482500: reporter@@hw_reset_seq [uvm_reg_hw_reset_seq] Verifying reset value of register m_regmodel.INT_MASK in map "m_regmodel.reg_map"...
 # UVM_INFO verilog_src/uvm-1.1d/src/reg/sequences/uvm_reg_hw_reset_seq.svh(113) @ 507500: reporter@@hw_reset_seq [uvm_reg_hw_reset_seq] Verifying reset value of register m_regmodel.INT_SOURCE in map "m_regmodel.reg_map"...
 # UVM_INFO verilog_src/uvm-1.1d/src/reg/sequences/uvm_reg_hw_reset_seq.svh(113) @ 532500: reporter@@hw_reset_seq [uvm_reg_hw_reset_seq] Verifying reset value of register m_regmodel.MODER in map "m_regmodel.reg_map"...
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 757500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 1252500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 1697500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 2192500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 2637500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 3132500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 3577500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 4072500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 4517500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 5012500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 5457500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 5952500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 6397500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 6892500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 7337500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 7832500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 8277500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 8772500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 9217500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 9712500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 10432500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 10452500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 11072500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 11567500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 12012500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 12507500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 12952500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 13447500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 13892500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 14387500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 14832500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 15327500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 15772500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 16267500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 16712500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 17207500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 17482500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 17487500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 17492500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 17497500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 17502500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 17507500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 17512500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 17517500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 757500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 1252500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 1697500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 2192500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 2637500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 3132500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 3577500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 4072500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 4517500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 5012500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 5457500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 5952500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 6397500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 6892500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 7337500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 7832500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 8277500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 8772500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 9217500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 9712500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 10432500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 10452500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 11072500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 11567500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 12012500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 12507500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 12952500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 13447500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 13892500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 14387500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 14832500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 15327500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 15772500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 16267500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 16712500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 17207500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 17482500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 17487500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 17492500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 17497500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 17502500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 17507500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 17512500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 17517500: reporter [A_WB_M] Assertion error, data out = x
 # UVM_INFO @ 17522500: reporter@@hw_reset_seq2 [STARTING_SEQ] 
 # 
 # Starting hw_reset_seq2 sequence...
@@ -184,7 +189,7 @@
 # UVM_INFO verilog_src/uvm-1.1d/src/reg/sequences/uvm_reg_hw_reset_seq.svh(113) @ 17717500: reporter@@hw_reset_seq2 [uvm_reg_hw_reset_seq] Verifying reset value of register m_regmodel.MIIADDRESS in map "m_regmodel.reg_map"...
 # UVM_INFO verilog_src/uvm-1.1d/src/reg/sequences/uvm_reg_hw_reset_seq.svh(113) @ 17742500: reporter@@hw_reset_seq2 [uvm_reg_hw_reset_seq] Verifying reset value of register m_regmodel.MIICOMMAND in map "m_regmodel.reg_map"...
 # UVM_INFO verilog_src/uvm-1.1d/src/reg/sequences/uvm_reg_hw_reset_seq.svh(113) @ 17762500: reporter@@hw_reset_seq2 [uvm_reg_hw_reset_seq] Verifying reset value of register m_regmodel.MIIMODER in map "m_regmodel.reg_map"...
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 17767500: reporter [A_WB_S] a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 17767500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
 # UVM_INFO verilog_src/uvm-1.1d/src/reg/sequences/uvm_reg_hw_reset_seq.svh(113) @ 17787500: reporter@@hw_reset_seq2 [uvm_reg_hw_reset_seq] Verifying reset value of register m_regmodel.CTRLMODER in map "m_regmodel.reg_map"...
 # UVM_INFO verilog_src/uvm-1.1d/src/reg/sequences/uvm_reg_hw_reset_seq.svh(113) @ 17812500: reporter@@hw_reset_seq2 [uvm_reg_hw_reset_seq] Verifying reset value of register m_regmodel.TX_BD_NUM in map "m_regmodel.reg_map"...
 # UVM_INFO verilog_src/uvm-1.1d/src/reg/sequences/uvm_reg_hw_reset_seq.svh(113) @ 17837500: reporter@@hw_reset_seq2 [uvm_reg_hw_reset_seq] Verifying reset value of register m_regmodel.COLLCONF in map "m_regmodel.reg_map"...
@@ -209,12 +214,12 @@
 # UVM_INFO repo/tb/sequences/wb_s_seq/eth_rw_pattern_seq.sv(115) @ 18637500: reporter@@pattern_seq [eth_rw_pattern_seq] MIITX_DATA PASSED Pattern 0x55555555
 # UVM_INFO repo/tb/sequences/wb_s_seq/eth_rw_pattern_seq.sv(115) @ 18687500: reporter@@pattern_seq [eth_rw_pattern_seq] MIIADDRESS PASSED Pattern 0xaaaaaaaa
 # UVM_INFO repo/tb/sequences/wb_s_seq/eth_rw_pattern_seq.sv(115) @ 18737500: reporter@@pattern_seq [eth_rw_pattern_seq] MIIADDRESS PASSED Pattern 0x55555555
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 18762500: reporter [A_WB_S] a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 18762500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
 # UVM_INFO repo/tb/sequences/wb_s_seq/eth_rw_pattern_seq.sv(115) @ 18777500: reporter@@pattern_seq [eth_rw_pattern_seq] MIICOMMAND PASSED Pattern 0xaaaaaaaa
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 18782500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 18802500: reporter [A_WB_S] a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 18782500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 18802500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
 # UVM_INFO repo/tb/sequences/wb_s_seq/eth_rw_pattern_seq.sv(115) @ 18817500: reporter@@pattern_seq [eth_rw_pattern_seq] MIICOMMAND PASSED Pattern 0x55555555
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 18822500: reporter [A_WB_S] a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 18822500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
 # UVM_INFO repo/tb/sequences/wb_s_seq/eth_rw_pattern_seq.sv(115) @ 18867500: reporter@@pattern_seq [eth_rw_pattern_seq] MIIMODER PASSED Pattern 0xaaaaaaaa
 # UVM_INFO repo/tb/sequences/wb_s_seq/eth_rw_pattern_seq.sv(115) @ 18917500: reporter@@pattern_seq [eth_rw_pattern_seq] MIIMODER PASSED Pattern 0x55555555
 # UVM_INFO repo/tb/sequences/wb_s_seq/eth_rw_pattern_seq.sv(115) @ 18967500: reporter@@pattern_seq [eth_rw_pattern_seq] CTRLMODER PASSED Pattern 0xaaaaaaaa
@@ -249,135 +254,135 @@
 # UVM_INFO verilog_src/uvm-1.1d/src/reg/sequences/uvm_reg_bit_bash_seq.svh(126) @ 40317500: reporter@@bit_bash_seq.reg_single_bit_bash_seq [uvm_reg_bit_bash_seq] Verifying bits in register m_regmodel.MIITX_DATA in map "m_regmodel.reg_map"...
 # UVM_INFO verilog_src/uvm-1.1d/src/reg/sequences/uvm_reg_bit_bash_seq.svh(126) @ 43517500: reporter@@bit_bash_seq.reg_single_bit_bash_seq [uvm_reg_bit_bash_seq] Verifying bits in register m_regmodel.MIIADDRESS in map "m_regmodel.reg_map"...
 # UVM_INFO verilog_src/uvm-1.1d/src/reg/sequences/uvm_reg_bit_bash_seq.svh(126) @ 46717500: reporter@@bit_bash_seq.reg_single_bit_bash_seq [uvm_reg_bit_bash_seq] Verifying bits in register m_regmodel.MIICOMMAND in map "m_regmodel.reg_map"...
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 46742500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 46762500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 46782500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 46802500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 46822500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 46842500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 46862500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 46882500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 46902500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 46922500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 46942500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 46962500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 46982500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47002500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47022500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47042500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47062500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47082500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47102500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47122500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47142500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47162500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47182500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47202500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47222500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47242500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47262500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47282500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47302500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47322500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47342500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47362500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47382500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47402500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47422500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47442500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47462500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47482500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47502500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47522500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47542500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47562500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47582500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47602500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47622500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47642500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47662500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47682500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47702500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47722500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47742500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47762500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47782500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47802500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47822500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47842500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47862500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47882500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47902500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47922500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47942500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47962500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47982500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48002500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48022500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48042500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48062500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48082500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48102500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48122500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48142500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48162500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48182500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48202500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48222500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48242500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48262500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48282500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48302500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48322500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48342500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48362500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48382500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48402500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48422500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48442500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48462500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48482500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48502500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48522500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48542500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48562500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48582500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48602500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48622500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48642500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48662500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48682500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48702500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48722500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48742500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48762500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48782500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48802500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48822500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48842500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48862500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48882500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48902500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48922500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48942500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48962500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48982500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 49002500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 49022500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 49042500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 49062500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 49082500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 49102500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 49122500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 49142500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 49162500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 49182500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 49202500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 49222500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 49242500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 49262500: reporter [A_WB_S] a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 46742500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 46762500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 46782500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 46802500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 46822500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 46842500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 46862500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 46882500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 46902500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 46922500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 46942500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 46962500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 46982500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47002500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47022500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47042500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47062500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47082500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47102500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47122500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47142500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47162500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47182500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47202500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47222500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47242500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47262500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47282500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47302500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47322500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47342500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47362500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47382500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47402500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47422500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47442500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47462500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47482500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47502500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47522500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47542500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47562500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47582500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47602500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47622500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47642500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47662500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47682500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47702500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47722500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47742500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47762500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47782500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47802500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47822500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47842500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47862500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47882500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47902500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47922500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47942500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47962500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 47982500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48002500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48022500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48042500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48062500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48082500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48102500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48122500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48142500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48162500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48182500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48202500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48222500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48242500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48262500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48282500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48302500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48322500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48342500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48362500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48382500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48402500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48422500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48442500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48462500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48482500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48502500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48522500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48542500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48562500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48582500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48602500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48622500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48642500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48662500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48682500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48702500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48722500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48742500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48762500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48782500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48802500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48822500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48842500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48862500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48882500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48902500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48922500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48942500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48962500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 48982500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 49002500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 49022500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 49042500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 49062500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 49082500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 49102500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 49122500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 49142500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 49162500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 49182500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 49202500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 49222500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 49242500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 49262500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
 # UVM_INFO verilog_src/uvm-1.1d/src/reg/sequences/uvm_reg_bit_bash_seq.svh(126) @ 49277500: reporter@@bit_bash_seq.reg_single_bit_bash_seq [uvm_reg_bit_bash_seq] Verifying bits in register m_regmodel.MIIMODER in map "m_regmodel.reg_map"...
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 49282500: reporter [A_WB_S] a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 49282500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
 # UVM_INFO verilog_src/uvm-1.1d/src/reg/sequences/uvm_reg_bit_bash_seq.svh(126) @ 52477500: reporter@@bit_bash_seq.reg_single_bit_bash_seq [uvm_reg_bit_bash_seq] Verifying bits in register m_regmodel.CTRLMODER in map "m_regmodel.reg_map"...
 # UVM_INFO verilog_src/uvm-1.1d/src/reg/sequences/uvm_reg_bit_bash_seq.svh(126) @ 55677500: reporter@@bit_bash_seq.reg_single_bit_bash_seq [uvm_reg_bit_bash_seq] Verifying bits in register m_regmodel.COLLCONF in map "m_regmodel.reg_map"...
 # UVM_INFO verilog_src/uvm-1.1d/src/reg/sequences/uvm_reg_bit_bash_seq.svh(126) @ 58877500: reporter@@bit_bash_seq.reg_single_bit_bash_seq [uvm_reg_bit_bash_seq] Verifying bits in register m_regmodel.PACKETLEN in map "m_regmodel.reg_map"...
@@ -389,18 +394,18 @@
 # UVM_INFO verilog_src/uvm-1.1d/src/reg/sequences/uvm_reg_bit_bash_seq.svh(126) @ 78077500: reporter@@bit_bash_seq.reg_single_bit_bash_seq [uvm_reg_bit_bash_seq] Verifying bits in register m_regmodel.MODER in map "m_regmodel.reg_map"...
 # ** Error: (vsim-8565) Illegal state bin was hit at value=1. The bin counter for the illegal bin '\/eth_cov_pkg::eth_cov_tx::m_reserved_bit_cov .cp_reserved.reserved_one' is 1.
 #    Time: 79217500 ps  Iteration: 4  Region: /eth_cov_pkg::eth_cov_tx::run_phase
-# UVM_ERROR repo/tb/coverage/eth_cov_tx.sv(976) @ 79217500: uvm_test_top.m_env.m_cov_tx [RESERVED_BIT_WRITE] MODER reserved bit [11] written as 1. Data=0x0000a800
+# UVM_ERROR repo/tb/coverage/eth_cov_tx.sv(972) @ 79217500: uvm_test_top.m_env.m_cov_tx [RESERVED_BIT_WRITE] MODER reserved bit [11] written as 1. Data=0x0000a800
 # UVM_ERROR verilog_src/uvm-1.1d/src/reg/sequences/uvm_reg_bit_bash_seq.svh(174) @ 79227500: reporter@@bit_bash_seq.reg_single_bit_bash_seq [uvm_reg_bit_bash_seq] Writing a 1 in bit #11 of register "m_regmodel.MODER" with initial value 'h000000000000a000 yielded 'h000000000000a800 instead of 'h000000000000a000
 # ** Error: (vsim-8565) Illegal state bin was hit at value=1. The bin counter for the illegal bin '\/eth_cov_pkg::eth_cov_tx::m_reserved_bit_cov .cp_reserved.reserved_one' is 2.
 #    Time: 79227500 ps  Iteration: 4  Region: /eth_cov_pkg::eth_cov_tx::run_phase
-# UVM_ERROR repo/tb/coverage/eth_cov_tx.sv(976) @ 79227500: uvm_test_top.m_env.m_cov_tx [RESERVED_BIT_WRITE] MODER reserved bit [11] written as 1. Data=0x0000a800
+# UVM_ERROR repo/tb/coverage/eth_cov_tx.sv(972) @ 79227500: uvm_test_top.m_env.m_cov_tx [RESERVED_BIT_WRITE] MODER reserved bit [11] written as 1. Data=0x0000a800
 # ** Error: (vsim-8565) Illegal state bin was hit at value=1. The bin counter for the illegal bin '\/eth_cov_pkg::eth_cov_tx::m_reserved_bit_cov .cp_reserved.reserved_one' is 3.
 #    Time: 79267500 ps  Iteration: 4  Region: /eth_cov_pkg::eth_cov_tx::run_phase
-# UVM_ERROR repo/tb/coverage/eth_cov_tx.sv(976) @ 79267500: uvm_test_top.m_env.m_cov_tx [RESERVED_BIT_WRITE] MODER reserved bit [11] written as 1. Data=0x0000a800
+# UVM_ERROR repo/tb/coverage/eth_cov_tx.sv(972) @ 79267500: uvm_test_top.m_env.m_cov_tx [RESERVED_BIT_WRITE] MODER reserved bit [11] written as 1. Data=0x0000a800
 # UVM_ERROR verilog_src/uvm-1.1d/src/reg/sequences/uvm_reg_bit_bash_seq.svh(174) @ 79277500: reporter@@bit_bash_seq.reg_single_bit_bash_seq [uvm_reg_bit_bash_seq] Writing a 1 in bit #11 of register "m_regmodel.MODER" with initial value 'h000000000000a000 yielded 'h000000000000a800 instead of 'h000000000000a000
 # ** Error: (vsim-8565) Illegal state bin was hit at value=1. The bin counter for the illegal bin '\/eth_cov_pkg::eth_cov_tx::m_reserved_bit_cov .cp_reserved.reserved_one' is 4.
 #    Time: 79277500 ps  Iteration: 4  Region: /eth_cov_pkg::eth_cov_tx::run_phase
-# UVM_ERROR repo/tb/coverage/eth_cov_tx.sv(976) @ 79277500: uvm_test_top.m_env.m_cov_tx [RESERVED_BIT_WRITE] MODER reserved bit [11] written as 1. Data=0x0000a800
+# UVM_ERROR repo/tb/coverage/eth_cov_tx.sv(972) @ 79277500: uvm_test_top.m_env.m_cov_tx [RESERVED_BIT_WRITE] MODER reserved bit [11] written as 1. Data=0x0000a800
 # UVM_INFO verilog_src/uvm-1.1d/src/base/uvm_objection.svh(1267) @ 82077500: reporter [TEST_DONE] 'run' phase is ready to proceed to the 'extract' phase
 # 
 # --- UVM Report Summary ---
@@ -421,10 +426,10 @@
 # [eth_rw_pattern_seq]    36
 # [uvm_reg_bit_bash_seq]    22
 # [uvm_reg_hw_reset_seq]    42
-# ** Note: $finish    : D:/B/qsim_2021_1/win64/../verilog_src/uvm-1.1d/src/base/uvm_root.svh(430)
+# ** Note: $finish    : D:/B/questasim64_2024.1/win64/../verilog_src/uvm-1.1d/src/base/uvm_root.svh(430)
 #    Time: 82077500 ps  Iteration: 68  Instance: /eth_tb
-# Break in Task uvm_pkg/uvm_root::run_test at D:/B/qsim_2021_1/win64/../verilog_src/uvm-1.1d/src/base/uvm_root.svh line 430
-# Stopped at D:/B/qsim_2021_1/win64/../verilog_src/uvm-1.1d/src/base/uvm_root.svh line 430
+# Break in Task uvm_pkg/uvm_root::run_test at D:/B/questasim64_2024.1/win64/../verilog_src/uvm-1.1d/src/base/uvm_root.svh line 430
+# Stopped at D:/B/questasim64_2024.1/win64/../verilog_src/uvm-1.1d/src/base/uvm_root.svh line 430
 #  
 #     coverage save $CODE_UCDB -codeAll -instance eth_tb.dut
 #     coverage save $FUNC_UCDB -cvg -directive -assert

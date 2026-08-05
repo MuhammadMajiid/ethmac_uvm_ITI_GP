@@ -9,7 +9,7 @@
 ////      - Igor Mohor (igorM@opencores.org)                      ////
 ////                                                              ////
 ////  All additional information is avaliable in the Readme.txt   ////
-////  file.                                                      ////
+////  file.                                                       ////
 ////                                                              ////
 //////////////////////////////////////////////////////////////////////
 ////                                                              ////
@@ -1173,6 +1173,7 @@ assign int_o = irq_txb  & INT_MASKOut[0] |
 
 // For reading interrupt status
 assign INT_SOURCEOut = {{(32-`ETH_INT_SOURCE_WIDTH_0){1'b0}}, irq_rxc, irq_txc, irq_busy, irq_rxe, irq_rxb, irq_txe, irq_txb};
+
 
 
 endmodule

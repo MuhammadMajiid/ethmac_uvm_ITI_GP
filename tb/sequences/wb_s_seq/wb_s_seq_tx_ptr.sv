@@ -24,7 +24,7 @@ class wb_s_seq_tx_ptr extends wb_s_basic_tx_seq;
     // Randomize transaction
     //-----------------------------------------------------
     assert(m_item.randomize() with {
-    tx_bd_num==10;
+    tx_bd_num==20;
     foreach (tx_pnt[i]){
         tx_pnt[i]%4!=0;
     }
