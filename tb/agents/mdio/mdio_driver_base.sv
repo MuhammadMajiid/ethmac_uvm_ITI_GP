@@ -112,11 +112,20 @@ task mdio_driver_base::drive_items();
     // Turn-Around: 2 bit-times (matches eth_mdio_scoreboard::pred_read()'s
     // TA=[1,0] and the RTL's fixed BitCounter latch windows, which assume
     // exactly 2 wasted shift-cycles before the 16 real data bits).
+    //
+    // The #1 after each negedge is deliberate: MdcEn (eth_clockgen.v) is
+    // combinational off ~Mdc, so it can assert in the same delta-cycle as
+    // Mdc's negedge. Driving mdio_in in that same delta-cycle races the
+    // RTL's own edge-triggered sample of Mdi; observed as the very first
+    // data bit after turn-around occasionally being lost (MIIRX_DATA
+    // reading a right-shifted value, e.g. 0x4000 instead of 0x8000).
     @(negedge vif.mdc);
+    #1;
     vif.mdio_in <= 1'b1;
     @(posedge vif.mdc);
 
     @(negedge vif.mdc);
+    #1;
     vif.mdio_in <= 1'b0;
     @(posedge vif.mdc);
 
@@ -124,12 +133,14 @@ task mdio_driver_base::drive_items();
       bit [15:0] rd_data = m_phy_model.get_reg(phy_ad, reg_ad);
       for(int i=15; i>=0; i--) begin
         @(negedge vif.mdc);
+        #1;
         vif.mdio_in <= rd_data[i];
         @(posedge vif.mdc);
       end
     end
 
     @(negedge vif.mdc);
+    #1;
     vif.mdio_in <= 1'bz;
     seq_item_port.item_done();
 

@@ -16,4 +16,5 @@ set TEST_NAMES [list \
     [list eth_test_miim_reset_in_flight     16   0] \
     [list eth_test_miim_overwrite_while_busy 16   0] \
     [list eth_test_miim_clkdiv_extremes     16   0] \
+    [list eth_test_miim_linkfail_toggle     16   0] \
 ]

@@ -5428,7 +5428,7 @@ Toggle Coverage      =      33.33% (4 of 12 bins)
 Branch Coverage:
     Enabled Coverage              Bins      Hits    Misses  Coverage
     ----------------              ----      ----    ------  --------
-    Branches                        86        43        43    50.00%
+    Branches                        86        44        42    51.16%
 
 ================================Branch Details================================
 
@@ -5458,8 +5458,8 @@ Branch totals: 2 hits of 2 branches = 100.00%
     863             1                    ***0***             `ETH_MIICOMMAND_ADR   :  DataOut<=MIICOMMANDOut;
     864             1                    ***0***             `ETH_MIIADDRESS_ADR   :  DataOut<=MIIADDRESSOut;
     865             1                    ***0***             `ETH_MIITX_DATA_ADR   :  DataOut<=MIITX_DATAOut;
-    866             1                    ***0***             `ETH_MIIRX_DATA_ADR   :  DataOut<=MIIRX_DATAOut;
-    867             1                       8286             `ETH_MIISTATUS_ADR    :  DataOut<=MIISTATUSOut;
+    866             1                          2             `ETH_MIIRX_DATA_ADR   :  DataOut<=MIIRX_DATAOut;
+    867             1                       8284             `ETH_MIISTATUS_ADR    :  DataOut<=MIISTATUSOut;
     868             1                    ***0***             `ETH_MAC_ADDR0_ADR    :  DataOut<=MAC_ADDR0Out;
     869             1                    ***0***             `ETH_MAC_ADDR1_ADR    :  DataOut<=MAC_ADDR1Out;
     870             1                    ***0***             `ETH_TX_BD_NUM_ADR    :  DataOut<=TX_BD_NUMOut;
@@ -5467,7 +5467,7 @@ Branch totals: 2 hits of 2 branches = 100.00%
     872             1                    ***0***             `ETH_HASH1_ADR        :  DataOut<=HASH1Out;
     873             1                    ***0***             `ETH_TX_CTRL_ADR      :  DataOut<=TXCTRLOut;
     875             1                    ***0***             default:             DataOut<=32'h0;
-Branch totals: 1 hit of 22 branches = 4.54%
+Branch totals: 2 hits of 22 branches = 9.09%
 
 ------------------------------------IF Branch------------------------------------
     948                                        5     Count coming in to IF
@@ -6843,7 +6843,7 @@ Expression totals: 0 of 14 input terms covered = 0.00%
 Statement Coverage:
     Enabled Coverage              Bins      Hits    Misses  Coverage
     ----------------              ----      ----    ------  --------
-    Statements                     165       123        42    74.54%
+    Statements                     165       124        41    75.15%
 
 ================================Statement Details================================
 
@@ -6977,27 +6977,27 @@ Statement Coverage for instance /dut/ethreg1 --
     291             1                      16581     wire [3:0] Write =   Cs  & {4{Rw}};
     292             1                      16568     wire       Read  = (|Cs) &   ~Rw;
     293                                              
-    294             1                         19     wire MODER_Sel      = (Address == `ETH_MODER_ADR       );
-    295             1                         19     wire INT_SOURCE_Sel = (Address == `ETH_INT_SOURCE_ADR  );
-    296             1                         19     wire INT_MASK_Sel   = (Address == `ETH_INT_MASK_ADR    );
-    297             1                         19     wire IPGT_Sel       = (Address == `ETH_IPGT_ADR        );
-    298             1                         19     wire IPGR1_Sel      = (Address == `ETH_IPGR1_ADR       );
-    299             1                         19     wire IPGR2_Sel      = (Address == `ETH_IPGR2_ADR       );
-    300             1                         19     wire PACKETLEN_Sel  = (Address == `ETH_PACKETLEN_ADR   );
-    301             1                         19     wire COLLCONF_Sel   = (Address == `ETH_COLLCONF_ADR    );
+    294             1                         21     wire MODER_Sel      = (Address == `ETH_MODER_ADR       );
+    295             1                         21     wire INT_SOURCE_Sel = (Address == `ETH_INT_SOURCE_ADR  );
+    296             1                         21     wire INT_MASK_Sel   = (Address == `ETH_INT_MASK_ADR    );
+    297             1                         21     wire IPGT_Sel       = (Address == `ETH_IPGT_ADR        );
+    298             1                         21     wire IPGR1_Sel      = (Address == `ETH_IPGR1_ADR       );
+    299             1                         21     wire IPGR2_Sel      = (Address == `ETH_IPGR2_ADR       );
+    300             1                         21     wire PACKETLEN_Sel  = (Address == `ETH_PACKETLEN_ADR   );
+    301             1                         21     wire COLLCONF_Sel   = (Address == `ETH_COLLCONF_ADR    );
     302                                                   
-    303             1                         19     wire CTRLMODER_Sel  = (Address == `ETH_CTRLMODER_ADR   );
-    304             1                         19     wire MIIMODER_Sel   = (Address == `ETH_MIIMODER_ADR    );
-    305             1                         19     wire MIICOMMAND_Sel = (Address == `ETH_MIICOMMAND_ADR  );
-    306             1                         19     wire MIIADDRESS_Sel = (Address == `ETH_MIIADDRESS_ADR  );
-    307             1                         19     wire MIITX_DATA_Sel = (Address == `ETH_MIITX_DATA_ADR  );
-    308             1                         19     wire MAC_ADDR0_Sel  = (Address == `ETH_MAC_ADDR0_ADR   );
-    309             1                         19     wire MAC_ADDR1_Sel  = (Address == `ETH_MAC_ADDR1_ADR   );
-    310             1                         19     wire HASH0_Sel      = (Address == `ETH_HASH0_ADR       );
-    311             1                         19     wire HASH1_Sel      = (Address == `ETH_HASH1_ADR       );
-    312             1                         19     wire TXCTRL_Sel     = (Address == `ETH_TX_CTRL_ADR     );
-    313             1                         19     wire RXCTRL_Sel     = (Address == `ETH_RX_CTRL_ADR     );
-    314             1                         19     wire TX_BD_NUM_Sel  = (Address == `ETH_TX_BD_NUM_ADR   );
+    303             1                         21     wire CTRLMODER_Sel  = (Address == `ETH_CTRLMODER_ADR   );
+    304             1                         21     wire MIIMODER_Sel   = (Address == `ETH_MIIMODER_ADR    );
+    305             1                         21     wire MIICOMMAND_Sel = (Address == `ETH_MIICOMMAND_ADR  );
+    306             1                         21     wire MIIADDRESS_Sel = (Address == `ETH_MIIADDRESS_ADR  );
+    307             1                         21     wire MIITX_DATA_Sel = (Address == `ETH_MIITX_DATA_ADR  );
+    308             1                         21     wire MAC_ADDR0_Sel  = (Address == `ETH_MAC_ADDR0_ADR   );
+    309             1                         21     wire MAC_ADDR1_Sel  = (Address == `ETH_MAC_ADDR1_ADR   );
+    310             1                         21     wire HASH0_Sel      = (Address == `ETH_HASH0_ADR       );
+    311             1                         21     wire HASH1_Sel      = (Address == `ETH_HASH1_ADR       );
+    312             1                         21     wire TXCTRL_Sel     = (Address == `ETH_TX_CTRL_ADR     );
+    313             1                         21     wire RXCTRL_Sel     = (Address == `ETH_RX_CTRL_ADR     );
+    314             1                         21     wire TX_BD_NUM_Sel  = (Address == `ETH_TX_BD_NUM_ADR   );
     315                                              
     316                                              
     317                                              wire [2:0] MODER_Wr;
@@ -7549,8 +7549,8 @@ Statement Coverage for instance /dut/ethreg1 --
     863             1                    ***0***             `ETH_MIICOMMAND_ADR   :  DataOut<=MIICOMMANDOut;
     864             1                    ***0***             `ETH_MIIADDRESS_ADR   :  DataOut<=MIIADDRESSOut;
     865             1                    ***0***             `ETH_MIITX_DATA_ADR   :  DataOut<=MIITX_DATAOut;
-    866             1                    ***0***             `ETH_MIIRX_DATA_ADR   :  DataOut<=MIIRX_DATAOut;
-    867             1                       8286             `ETH_MIISTATUS_ADR    :  DataOut<=MIISTATUSOut;
+    866             1                          2             `ETH_MIIRX_DATA_ADR   :  DataOut<=MIIRX_DATAOut;
+    867             1                       8284             `ETH_MIISTATUS_ADR    :  DataOut<=MIISTATUSOut;
     868             1                    ***0***             `ETH_MAC_ADDR0_ADR    :  DataOut<=MAC_ADDR0Out;
     869             1                    ***0***             `ETH_MAC_ADDR1_ADR    :  DataOut<=MAC_ADDR1Out;
     870             1                    ***0***             `ETH_TX_BD_NUM_ADR    :  DataOut<=TX_BD_NUMOut;
@@ -7863,7 +7863,7 @@ Statement Coverage for instance /dut/ethreg1 --
 Toggle Coverage:
     Enabled Coverage              Bins      Hits    Misses  Coverage
     ----------------              ----      ----    ------  --------
-    Toggles                       2262       101      2161     4.46%
+    Toggles                       2262       104      2158     4.59%
 
 ================================Toggle Details================================
 
@@ -7871,8 +7871,7 @@ Toggle Coverage for instance /dut/ethreg1 --
 
                                               Node      1H->0L      0L->1H  "Coverage"
                                               ---------------------------------------
-                                        Address[0]           0           1       50.00 
-                                      Address[1-2]           1           1      100.00 
+                                      Address[0-2]           1           1      100.00 
                                         Address[3]           0           1       50.00 
                                       Address[4-7]           0           0        0.00 
                                           Busy_IRQ           0           0        0.00 
@@ -7891,7 +7890,9 @@ Toggle Coverage for instance /dut/ethreg1 --
                                      DataIn[10-14]           0           0        0.00 
                                         DataIn[15]           1           1      100.00 
                                      DataIn[16-31]           0           0        0.00 
-                                     DataOut[31-2]           0           0        0.00 
+                                    DataOut[31-15]           0           0        0.00 
+                                       DataOut[14]           1           1      100.00 
+                                     DataOut[13-2]           0           0        0.00 
                                         DataOut[1]           1           1      100.00 
                                         DataOut[0]           0           0        0.00 
                                     HASH0Out[0-31]           0           0        0.00 
@@ -8055,10 +8056,10 @@ Toggle Coverage for instance /dut/ethreg1 --
                                        r_WCtrlData           1           1      100.00 
 
 Total Node Count     =       1131 
-Toggled Node Count   =         49 
-Untoggled Node Count =       1082 
+Toggled Node Count   =         51 
+Untoggled Node Count =       1080 
 
-Toggle Coverage      =       4.46% (101 of 2262 bins)
+Toggle Coverage      =       4.59% (104 of 2262 bins)
 
 =================================================================================
 === Instance: /dut/maccontrol1/receivecontrol1
@@ -18318,39 +18319,39 @@ Branch Coverage for instance /dut/wishbone/bd_ram
 Branch totals: 1 hit of 2 branches = 50.00%
 
 ------------------------------------IF Branch------------------------------------
-    274                                       38     Count coming in to IF
-    274             1                         38     	  if (ce) // && !we)
+    274                                       42     Count coming in to IF
+    274             1                         42     	  if (ce) // && !we)
                                          ***0***     All False Count
 Branch totals: 1 hit of 2 branches = 50.00%
 
 ------------------------------------IF Branch------------------------------------
-    277                                       24     Count coming in to IF
+    277                                       26     Count coming in to IF
     277             1                          4     	assign #1 q = rst ? {32{1'b0}} : {mem3[raddr], mem2[raddr], mem1[raddr], mem0[raddr]};
-    277             2                         20     	assign #1 q = rst ? {32{1'b0}} : {mem3[raddr], mem2[raddr], mem1[raddr], mem0[raddr]};
+    277             2                         22     	assign #1 q = rst ? {32{1'b0}} : {mem3[raddr], mem2[raddr], mem1[raddr], mem0[raddr]};
 Branch totals: 2 hits of 2 branches = 100.00%
 
 ------------------------------------IF Branch------------------------------------
-    282                                       19     Count coming in to IF
+    282                                       21     Count coming in to IF
     282             1                    ***0***     		if (ce && we[3])
-                                              19     All False Count
+                                              21     All False Count
 Branch totals: 1 hit of 2 branches = 50.00%
 
 ------------------------------------IF Branch------------------------------------
-    284                                       19     Count coming in to IF
+    284                                       21     Count coming in to IF
     284             1                    ***0***     		if (ce && we[2])
-                                              19     All False Count
+                                              21     All False Count
 Branch totals: 1 hit of 2 branches = 50.00%
 
 ------------------------------------IF Branch------------------------------------
-    286                                       19     Count coming in to IF
+    286                                       21     Count coming in to IF
     286             1                    ***0***     		if (ce && we[1])
-                                              19     All False Count
+                                              21     All False Count
 Branch totals: 1 hit of 2 branches = 50.00%
 
 ------------------------------------IF Branch------------------------------------
-    288                                       19     Count coming in to IF
+    288                                       21     Count coming in to IF
     288             1                    ***0***     		if (ce && we[0])
-                                              19     All False Count
+                                              21     All False Count
 Branch totals: 1 hit of 2 branches = 50.00%
 
 
@@ -18653,14 +18654,14 @@ Statement Coverage for instance /dut/wishbone/bd_ram --
     270                                              	//
     271                                              
     272                                              	// read operation
-    273             1                         38     	always@(posedge clk)
+    273             1                         42     	always@(posedge clk)
     274                                              	  if (ce) // && !we)
-    275             1                         38     		raddr <=  addr; // read address needs to be registered to read clock
+    275             1                         42     		raddr <=  addr; // read address needs to be registered to read clock
     276                                              
-    277             1                         25     	assign #1 q = rst ? {32{1'b0}} : {mem3[raddr], mem2[raddr], mem1[raddr], mem0[raddr]};
+    277             1                         27     	assign #1 q = rst ? {32{1'b0}} : {mem3[raddr], mem2[raddr], mem1[raddr], mem0[raddr]};
     278                                              
     279                                              	// write operation
-    280             1                         19     	always@(posedge clk)
+    280             1                         21     	always@(posedge clk)
     281                                                      begin
     282                                              		if (ce && we[3])
     283             1                    ***0***     		  mem3[addr] <=  di[31:24];
@@ -25459,7 +25460,7 @@ Statement Coverage for instance /dut/wishbone --
 Toggle Coverage:
     Enabled Coverage              Bins      Hits    Misses  Coverage
     ----------------              ----      ----    ------  --------
-    Toggles                       1780        48      1732     2.69%
+    Toggles                       1780        49      1731     2.75%
 
 ================================Toggle Details================================
 
@@ -25673,8 +25674,7 @@ Toggle Coverage for instance /dut/wishbone --
                           TxValidBytesLatched[1-0]           0           0        0.00 
                                  TxValidBytes[0-1]           0           0        0.00 
                                           WB_ACK_O           0           0        0.00 
-                                       WB_ADR_I[2]           0           1       50.00 
-                                     WB_ADR_I[3-4]           1           1      100.00 
+                                     WB_ADR_I[2-4]           1           1      100.00 
                                        WB_ADR_I[5]           0           1       50.00 
                                      WB_ADR_I[6-9]           0           0        0.00 
                                           WB_CLK_I           1           1      100.00 
@@ -25737,10 +25737,10 @@ Toggle Coverage for instance /dut/wishbone --
                                    txfifo_cnt[0-4]           0           0        0.00 
 
 Total Node Count     =        890 
-Toggled Node Count   =         23 
-Untoggled Node Count =        867 
+Toggled Node Count   =         24 
+Untoggled Node Count =        866 
 
-Toggle Coverage      =       2.69% (48 of 1780 bins)
+Toggle Coverage      =       2.75% (49 of 1780 bins)
 
 =================================================================================
 === Instance: /dut/macstatus1
@@ -26584,9 +26584,9 @@ Branch Coverage for instance /dut
     ----         ----                      -----     ------ 
   File rtl/eth_top.v
 ------------------------------------IF Branch------------------------------------
-    506                                    33111     Count coming in to IF
-    506             1                      16542     assign temp_wb_dat_o = ((|RegCs) & ~wb_we_i)? RegDataOut : BD_WB_DAT_O;
-    506             2                      16569     assign temp_wb_dat_o = ((|RegCs) & ~wb_we_i)? RegDataOut : BD_WB_DAT_O;
+    506                                    33109     Count coming in to IF
+    506             1                      16541     assign temp_wb_dat_o = ((|RegCs) & ~wb_we_i)? RegDataOut : BD_WB_DAT_O;
+    506             2                      16568     assign temp_wb_dat_o = ((|RegCs) & ~wb_we_i)? RegDataOut : BD_WB_DAT_O;
 Branch totals: 2 hits of 2 branches = 100.00%
 
 ------------------------------------IF Branch------------------------------------
@@ -27532,7 +27532,7 @@ Statement Coverage for instance /dut --
     503             1                      16569     assign BDCs[1]  = wb_stb_i & wb_cyc_i & ByteSelected & ~wb_adr_i[11] &  wb_adr_i[10] & wb_sel_i[1];   // 0x400 - 0x7FF
     504             1                      16569     assign BDCs[0]  = wb_stb_i & wb_cyc_i & ByteSelected & ~wb_adr_i[11] &  wb_adr_i[10] & wb_sel_i[0];   // 0x400 - 0x7FF
     505             1                      16569     assign CsMiss = wb_stb_i & wb_cyc_i & ByteSelected & wb_adr_i[11];                   // 0x800 - 0xfFF
-    506             1                      33115     assign temp_wb_dat_o = ((|RegCs) & ~wb_we_i)? RegDataOut : BD_WB_DAT_O;
+    506             1                      33113     assign temp_wb_dat_o = ((|RegCs) & ~wb_we_i)? RegDataOut : BD_WB_DAT_O;
     507             1                      16569     assign temp_wb_err_o = wb_stb_i & wb_cyc_i & (~ByteSelected | CsMiss);
     508                                              
     509                                              `ifdef ETH_REGISTERED_OUTPUTS
@@ -27983,7 +27983,7 @@ Statement Coverage for instance /dut --
 Toggle Coverage:
     Enabled Coverage              Bins      Hits    Misses  Coverage
     ----------------              ----      ----    ------  --------
-    Toggles                       1612       178      1434    11.04%
+    Toggles                       1612       184      1428    11.41%
 
 ================================Toggle Details================================
 
@@ -28039,7 +28039,9 @@ Toggle Coverage for instance /dut --
                                         RegCs[0-3]           1           1      100.00 
                                      RegDataOut[0]           0           0        0.00 
                                      RegDataOut[1]           1           1      100.00 
-                                  RegDataOut[2-31]           0           0        0.00 
+                                  RegDataOut[2-13]           0           0        0.00 
+                                    RegDataOut[14]           1           1      100.00 
+                                 RegDataOut[15-31]           0           0        0.00 
                                     ResetCollision           0           0        0.00 
                               RetryCntLatched[0-3]           0           0        0.00 
                                      RetryCnt[0-3]           0           0        0.00 
@@ -28180,15 +28182,18 @@ Toggle Coverage for instance /dut --
                                  temp_wb_ack_o_reg           1           1      100.00 
                                   temp_wb_dat_o[0]           1           0       50.00 
                                   temp_wb_dat_o[1]           1           1      100.00 
-                               temp_wb_dat_o[2-31]           1           0       50.00 
-                           temp_wb_dat_o_reg[31-2]           1           0       50.00 
+                               temp_wb_dat_o[2-13]           1           0       50.00 
+                                 temp_wb_dat_o[14]           1           1      100.00 
+                              temp_wb_dat_o[15-31]           1           0       50.00 
+                          temp_wb_dat_o_reg[31-15]           1           0       50.00 
+                             temp_wb_dat_o_reg[14]           1           1      100.00 
+                           temp_wb_dat_o_reg[13-2]           1           0       50.00 
                               temp_wb_dat_o_reg[1]           1           1      100.00 
                               temp_wb_dat_o_reg[0]           1           0       50.00 
                                      temp_wb_err_o           0           0        0.00 
                                  temp_wb_err_o_reg           0           0        0.00 
                                           wb_ack_o           1           1      100.00 
-                                       wb_adr_i[2]           0           1       50.00 
-                                     wb_adr_i[3-4]           1           1      100.00 
+                                     wb_adr_i[2-4]           1           1      100.00 
                                        wb_adr_i[5]           0           1       50.00 
                                     wb_adr_i[6-11]           0           0        0.00 
                                           wb_clk_i           1           1      100.00 
@@ -28201,7 +28206,9 @@ Toggle Coverage for instance /dut --
                                    wb_dat_i[16-31]           0           0        0.00 
                                        wb_dat_o[0]           1           0       50.00 
                                        wb_dat_o[1]           1           1      100.00 
-                                    wb_dat_o[2-31]           1           0       50.00 
+                                    wb_dat_o[2-13]           1           0       50.00 
+                                      wb_dat_o[14]           1           1      100.00 
+                                   wb_dat_o[15-31]           1           0       50.00 
                                           wb_err_o           0           0        0.00 
                                           wb_rst_i           1           1      100.00 
                                      wb_sel_i[0-3]           0           1       50.00 
@@ -28209,11 +28216,11 @@ Toggle Coverage for instance /dut --
                                            wb_we_i           1           1      100.00 
 
 Total Node Count     =        806 
-Toggled Node Count   =         39 
-Untoggled Node Count =        767 
+Toggled Node Count   =         44 
+Untoggled Node Count =        762 
 
-Toggle Coverage      =      11.04% (178 of 1612 bins)
+Toggle Coverage      =      11.41% (184 of 1612 bins)
 
 
-Total Coverage By Instance (filtered view): 28.09%
+Total Coverage By Instance (filtered view): 28.14%
 

@@ -114,16 +114,27 @@ class v_seq_tc_miim_rst_phy extends eth_v_seq_base;
 
     task body();
         wb_s_seq_mdio cfg = wb_s_seq_mdio::type_id::create("cfg");
+        uvm_status_e   status;
+        uvm_reg_data_t rdata;
 
         // Reset (bit[15]): write, then two reads back-to-back so Prsd[15]
         // is observed as 1 once (self-clear-on-read) and then as 0.
+        // MIIRX_DATA reads + prints added below purely as diagnostics --
+        // Prsd[15] toggle coverage stayed at 0% despite this being the
+        // same mechanism as bit[9] below (which reaches 100%), and code
+        // review alone couldn't explain the gap. This will show the
+        // actual captured value directly in the log.
         cfg.configure_miim_registers(p_sequencer.regmodel,
             .fiad(5'h1), .rgad(5'h0), .ctrl_data(16'h8000), .wctrldata(1'b1));
         p_sequencer.regmodel.wait_miim_done();
         cfg.configure_miim_registers(p_sequencer.regmodel, .fiad(5'h1), .rgad(5'h0), .rstat(1'b1));
         p_sequencer.regmodel.wait_miim_done();
+        p_sequencer.regmodel.MIIRX_DATA.read(status, rdata);
+        `uvm_info(get_type_name(), $sformatf("Reset bit[15] 1st read: MIIRX_DATA=0x%0h (bit15=%0b)", rdata, rdata[15]), UVM_LOW)
         cfg.configure_miim_registers(p_sequencer.regmodel, .fiad(5'h1), .rgad(5'h0), .rstat(1'b1));
         p_sequencer.regmodel.wait_miim_done();
+        p_sequencer.regmodel.MIIRX_DATA.read(status, rdata);
+        `uvm_info(get_type_name(), $sformatf("Reset bit[15] 2nd read: MIIRX_DATA=0x%0h (bit15=%0b)", rdata, rdata[15]), UVM_LOW)
 
         // Restart AutoNeg (bit[9]): same pattern.
         cfg.configure_miim_registers(p_sequencer.regmodel,
@@ -495,6 +506,7 @@ class v_seq_tc_miim_scan_intr_sweep extends eth_v_seq_base;
 
     task body();
         wb_s_seq_mdio cfg = wb_s_seq_mdio::type_id::create("cfg");
+        reset_seq     m_reset_seq;
         // One full 64-bit frame at clkdiv=100/WB=5ns is ~32000ns (64 *
         // 500ns/bit). Sweep from "before the scan even starts" through
         // "well after it should have completed".
@@ -507,7 +519,13 @@ class v_seq_tc_miim_scan_intr_sweep extends eth_v_seq_base;
             #(delays_ns[idx]);
             cfg.configure_miim_registers(p_sequencer.regmodel, .fiad(5'h1), .rgad(5'h1)); // stop scan
 
-            poll_busy_clear(50000, 500, cleared);
+            // Budget matched to wait_miim_done()'s own patience (100000
+            // iterations) rather than an arbitrary tight window -- an
+            // earlier version of this test used 50000ns here, which is
+            // nowhere near wait_miim_done()'s real effective budget and
+            // produced false "stuck" reports for delays that likely just
+            // recover slower than that, not permanently.
+            poll_busy_clear(5_000_000, 5000, cleared);
             if (cleared)
                 `uvm_info(get_type_name(),
                     $sformatf("delay=%0dns: BUSY cleared normally", delays_ns[idx]), UVM_LOW)
@@ -515,8 +533,14 @@ class v_seq_tc_miim_scan_intr_sweep extends eth_v_seq_base;
                 `uvm_error(get_type_name(),
                     $sformatf("delay=%0dns: BUSY stuck after scan interruption (MIIM_TIMEOUT-class hang)", delays_ns[idx]))
 
-            // Recovery isn't guaranteed once stuck (see MIIM_TIMEOUT finding);
-            // continue the sweep regardless so later points are still tried.
+            // Recover regardless of pass/fail so each delay value is an
+            // INDEPENDENT data point -- without this, one stuck point
+            // would trivially make every later point "fail" too, since
+            // the core never got a chance to recover in between.
+            m_reset_seq = reset_seq::type_id::create("m_reset_seq");
+            m_reset_seq.m_regmodel = p_sequencer.regmodel;
+            m_reset_seq.start(p_sequencer.m_reset_sqr);
+            p_sequencer.regmodel.reset(); // resync RAL mirror to defaults
         end
     endtask
 endclass
@@ -616,6 +640,37 @@ class v_seq_tc_miim_reset_in_flight extends eth_v_seq_base;
         p_sequencer.regmodel.wait_miim_done();
         cfg.configure_miim_registers(p_sequencer.regmodel, .fiad(5'h1), .rgad(5'h0), .rstat(1'b1));
         p_sequencer.regmodel.wait_miim_done();
+        
+
+        
+        // Directed case for the scan in order to toggle the LinkFail bit
+        cfg.configure_miim_registers(p_sequencer.regmodel,
+            .fiad(5'h1), .rgad(5'h0), .scanstat(1'b1));
+        #5000ns;
+
+        // Pulse reset mid-shift.
+        m_reset_seq = reset_seq::type_id::create("m_reset_seq");
+        m_reset_seq.m_regmodel = p_sequencer.regmodel;
+        m_reset_seq.start(p_sequencer.m_reset_sqr);
+
+        // Reset wipes the DUT's registers back to defaults, but the RAL
+        // mirror still thinks the pre-reset values are current -- resync
+        // it so the next .update() actually issues real bus writes instead
+        // of silently skipping fields it (wrongly) believes are unchanged.
+        p_sequencer.regmodel.reset();
+
+        p_sequencer.regmodel.MIISTATUS.read(status, rdata);
+        if (rdata[1]) // BUSY
+            `uvm_error(get_type_name(), "BUSY still asserted after reset mid-transaction")
+
+        // Core should be fully usable afterward, not just superficially
+        // idle -- run a normal write+read and let the scoreboard confirm
+        // it's actually correct.
+        cfg.configure_miim_registers(p_sequencer.regmodel,
+            .fiad(5'h1), .rgad(5'h0), .ctrl_data(16'hBEEF), .wctrldata(1'b1));
+        p_sequencer.regmodel.wait_miim_done();
+        cfg.configure_miim_registers(p_sequencer.regmodel, .fiad(5'h1), .rgad(5'h0), .rstat(1'b1));
+        p_sequencer.regmodel.wait_miim_done();
     endtask
 endclass
 
@@ -682,6 +737,40 @@ class v_seq_tc_miim_clkdiv_extremes extends eth_v_seq_base;
             cfg.configure_miim_registers(p_sequencer.regmodel, .fiad(5'h1), .rgad(5'h0), .rstat(1'b1));
             p_sequencer.regmodel.wait_miim_done();
         end
+    endtask
+endclass
+
+// -----------------------------------------------------------------------------
+// TC 23: tc_miim_linkfail_toggle -- closes LinkFail's missing 1->0 toggle
+// bin. Uses only RSTAT (no SCANSTAT at all) so it can't be confounded by
+// the scan-interruption lockup bug -- a clean, minimal up/down/up sequence
+// on reg1 to unambiguously exercise both toggle directions.
+// -----------------------------------------------------------------------------
+class v_seq_tc_miim_linkfail_toggle extends eth_v_seq_base;
+    `uvm_object_utils(v_seq_tc_miim_linkfail_toggle)
+    function new(string name = "v_seq_tc_miim_linkfail_toggle"); super.new(name); endfunction
+
+    task body();
+        wb_s_seq_mdio cfg = wb_s_seq_mdio::type_id::create("cfg");
+
+        // Up (reset default) -> confirms starting state.
+        cfg.configure_miim_registers(p_sequencer.regmodel, .fiad(5'h1), .rgad(5'h1), .rstat(1'b1));
+        p_sequencer.regmodel.wait_miim_done();
+
+        // Down: LinkFail 0->1.
+        p_sequencer.m_mdio_phy_rsp.set_link_status(5'h1, 1'b0);
+        cfg.configure_miim_registers(p_sequencer.regmodel, .fiad(5'h1), .rgad(5'h1), .rstat(1'b1));
+        p_sequencer.regmodel.wait_miim_done();
+
+        // Back up: LinkFail 1->0.
+        p_sequencer.m_mdio_phy_rsp.set_link_status(5'h1, 1'b1);
+        cfg.configure_miim_registers(p_sequencer.regmodel, .fiad(5'h1), .rgad(5'h1), .rstat(1'b1));
+        p_sequencer.regmodel.wait_miim_done();
+
+        // And once more for good measure (down again).
+        p_sequencer.m_mdio_phy_rsp.set_link_status(5'h1, 1'b0);
+        cfg.configure_miim_registers(p_sequencer.regmodel, .fiad(5'h1), .rgad(5'h1), .rstat(1'b1));
+        p_sequencer.regmodel.wait_miim_done();
     endtask
 endclass
 

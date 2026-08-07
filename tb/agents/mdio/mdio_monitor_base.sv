@@ -37,19 +37,40 @@ class mdio_monitor_base extends uvm_monitor;
   endfunction
 
   task run_phase(uvm_phase phase);
+    bit frame_complete;
 
     forever begin
       m_mdio_seq_item = mdio_seq_item_base::type_id::create("m_mdio_seq_item");
+      frame_complete = 0;
 
       @(posedge vif.mdio_en);
-      fork
-      pack_preamble();
-      pack_data();
-      calc_freq();
-      join;
+      fork : sample_fork
+        begin
+          pack_preamble();
+          pack_data();
+          frame_complete = 1;
+        end
+        calc_freq();
+        // Watchdog: mdio_en dropping before the block above finishes on
+        // its own means the transaction was aborted mid-flight (e.g. a
+        // DUT reset asserted while shifting). Kill the stale sampling
+        // threads instead of leaving them blocked on an Mdc edge that may
+        // never come -- otherwise they resume mid-frame on the NEXT
+        // transaction and eat its bits from the wrong position (seen as
+        // "Invalid opcode observed: 11").
+        begin
+          @(negedge vif.mdio_en);
+          disable sample_fork;
+        end
+      join_any
+      disable sample_fork;
 
-      // 7. Broadcast the fully constructed transaction to the testbench
-      a_port.write(m_mdio_seq_item);
+      if (frame_complete)
+        a_port.write(m_mdio_seq_item);
+      else
+        `uvm_info(get_type_name(),
+            "MDIO transaction aborted mid-frame (mdio_en dropped early) -- discarding partial sample",
+            UVM_LOW)
     end
   endtask
 
@@ -104,7 +125,9 @@ task calc_freq();
     st=$time;
     @(posedge vif.mdc);
     fin=$time;
-    m_mdio_seq_item.clk_period_ns=(fin-st)/1000.0; // Removed /1000.0 to keep it in ns
+    m_mdio_seq_item.clk_period_ns=(fin-st)/1000.0; // raw $time delta here resolves in ps
+                                                    // (1ns/1ps global timescale) -- /1000.0
+                                                    // converts it to ns. Do not remove.
   endtask
 
 endclass
