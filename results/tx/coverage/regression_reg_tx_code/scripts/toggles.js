@@ -23,28 +23,27 @@ var scalarUrlParams;
 var enumUrlParams;
 
 var TOGGLES = {
-    ARRAY: 't',
     EXTENDED: 'ext',
-    NAME: 0,
-    KIND: 1,
-    FILE:2,
-    LINE:3,
+    ARRAY: 't',
+        NAME: 'n',
+        KIND: 'k',
+        FILE: 'f',
+        LINE: 'l',
+        TRANS_ARRAY: 'tr',
+            TRANS_NAME: 'n',
+            TRANS_COUNT: 'c',
+            THIT: 'th',
+                THIT_FILE_NUM: 0,
+                THIT_SCOPE: 1,
+        COVERAGE: 'c',
+        EXCLUSION_COMMENT: 'ec',
     ENUM: 0,
     INT: 1,
     REG_SCALAR: 4,
     REG_SCALAR_EXT: 5,
     SCALAR: 6,
     SCALAR_EXT: 7,
-    REAL: 8,
-    KEY: 0,
-    VALUE: 1,
-    THIT: 2,
-    THIT_FILE_NUM: 0,
-    THIT_SCOPE: 1,
-    ENUM_ARRAY: 4,
-    EXCLUSION_STATE: 5,
-    EXCLUSION_COMMENT: 7,
-    ENUM_EXCLUSION_COMMENT: 6
+    REAL: 8
 };
 
 var TOGGLES_VALUES = {
@@ -184,101 +183,103 @@ function getRowData(data) {
             rowItems.zToL = 0;
         }
         if (toggle[TOGGLES.KIND] === TOGGLES.SCALAR || toggle[TOGGLES.KIND] === TOGGLES.SCALAR_EXT || toggle[TOGGLES.KIND] === TOGGLES.REG_SCALAR || toggle[TOGGLES.KIND] === TOGGLES.REG_SCALAR_EXT) { //Scalar toggle
-            var val = 4;
             ScalarExist = true;
-			//items have values not zero
-			while (typeof toggle[val] === 'object') {
-                rowItems[TOGGLES_VALUES[toggle[val][TOGGLES.KEY]]] = toggle[val][TOGGLES.VALUE];
-                if (toggle[val].length > 2) {
-                    rowItems[TOGGLES_VALUES[toggle[val][TOGGLES.KEY]] + '_thitf'] = toggle[val][TOGGLES.THIT][TOGGLES.THIT_FILE_NUM];
-                    rowItems[TOGGLES_VALUES[toggle[val][TOGGLES.KEY]] + '_thits'] = toggle[val][TOGGLES.THIT][TOGGLES.THIT_SCOPE];
-                }
-				++val;
+            //items have values not zero
+            if(TOGGLES.TRANS_ARRAY in toggle) {
+                toggle[TOGGLES.TRANS_ARRAY].forEach(function(scalarToggle) {
+                    rowItems[TOGGLES_VALUES[scalarToggle[TOGGLES.TRANS_NAME]]] = scalarToggle[TOGGLES.TRANS_COUNT];
+                    if (TOGGLES.THIT in scalarToggle) {
+                        rowItems[TOGGLES_VALUES[scalarToggle[TOGGLES.TRANS_NAME]] + '_thitf'] = scalarToggle[TOGGLES.THIT][TOGGLES.THIT_FILE_NUM];
+                        rowItems[TOGGLES_VALUES[scalarToggle[TOGGLES.TRANS_NAME]] + '_thits'] = scalarToggle[TOGGLES.THIT][TOGGLES.THIT_SCOPE];
+                    }
+                });
             }
-            rowItems.coverage = toggle[val];
+            rowItems.coverage = toggle[TOGGLES.COVERAGE];
             rowData.push(rowItems);
         } else  {  //Enum, Int
             if (toggle[TOGGLES.KIND] === TOGGLES.ENUM) { //Enum
                 EnumExist = true;
-                if (toggle[TOGGLES.ENUM_ARRAY].length != 1) {
+                if (!(TOGGLES.TRANS_ARRAY in toggle) || toggle[TOGGLES.TRANS_ARRAY].length != 1) {
                     enumRowData.push({
                         name: toggle[TOGGLES.NAME],
                         file: toggle[TOGGLES.FILE],
                         line: toggle[TOGGLES.LINE],
                         enump: 1,
                     });
-                    if (toggle[TOGGLES.ENUM_ARRAY].length != 0) {
+                    if (TOGGLES.TRANS_ARRAY in toggle) {
                         enumRowData[enumRowData.length - 1].children = [];
                         enumRowData[enumRowData.length - 1].group = true;
                         tree = true;
                     }
                 }
+                if (TOGGLES.TRANS_ARRAY in toggle) {
+                    toggle[TOGGLES.TRANS_ARRAY].forEach(function(enumToggle) {
+                        rowItems = {
+                            hits: 0
+                        };
+                        rowItems.hits =  enumToggle[TOGGLES.TRANS_COUNT];
+                        rowItems.name =  enumToggle[TOGGLES.TRANS_NAME];
+                        rowItems.c = toggle[TOGGLES.EXCLUSION_COMMENT]
+                        if (TOGGLES.THIT in enumToggle) {
+                            rowItems.thitf =  enumToggle[TOGGLES.THIT][TOGGLES.THIT_FILE_NUM];
+                            rowItems.thits =  enumToggle[TOGGLES.THIT][TOGGLES.THIT_SCOPE];
+                        }
 
-                toggle[TOGGLES.ENUM_ARRAY].forEach(function(enumToggle) {
-                    rowItems = {
-                        hits: 0
-                    };
-                    rowItems.hits =  enumToggle[TOGGLES.VALUE];
-                    rowItems.name =  enumToggle[TOGGLES.NAME];
-                    rowItems.c = toggle[TOGGLES.ENUM_EXCLUSION_COMMENT]
-                    if (enumToggle.length > 2) {
-                        rowItems.thitf =  enumToggle[TOGGLES.THIT][TOGGLES.THIT_FILE_NUM];
-                        rowItems.thits =  enumToggle[TOGGLES.THIT][TOGGLES.THIT_SCOPE];
-                    }
-
-                    if (toggle[TOGGLES.ENUM_ARRAY].length === 1) {
-                        rowItems.coverage = ((rowItems.hToL > 0 && rowItems.lToH > 0) ? 100 : (rowItems.hToL > 0 || rowItems.lToH > 0) ? 50 : 0);
-                        enumRowData.push(rowItems);
-                    } else {
-                        rowItems.coverage = (typeof rowItems.hits == 'string') ? 'Excluded' :  (rowItems.hits > 0 ) ? 'Covered' : 'Not Covered';
-                        rowItems.enum = 1;
-                        enumRowData[enumRowData.length - 1].children.push(rowItems);
-                    }
-                });
+                        if (toggle[TOGGLES.TRANS_ARRAY].length === 1) {
+                            rowItems.coverage = ((rowItems.hToL > 0 && rowItems.lToH > 0) ? 100 : (rowItems.hToL > 0 || rowItems.lToH > 0) ? 50 : 0);
+                            enumRowData.push(rowItems);
+                        } else {
+                            rowItems.coverage = (typeof rowItems.hits == 'string') ? 'Excluded' :  (rowItems.hits > 0 ) ? 'Covered' : 'Not Covered';
+                            rowItems.enum = 1;
+                            enumRowData[enumRowData.length - 1].children.push(rowItems);
+                        }
+                    });
+                }
             } else if (toggle[TOGGLES.KIND] === TOGGLES.INT || toggle[TOGGLES.KIND] === TOGGLES.REAL) {  //int or Real
                 IntExist = true;
-                if (toggle[TOGGLES.ENUM_ARRAY].length != 1) {
+                if (!(TOGGLES.TRANS_ARRAY in toggle) || toggle[TOGGLES.TRANS_ARRAY].length != 1) {
                     rowItems = {
                         name: toggle[TOGGLES.NAME],
                         coverage: 'Covered',
                         enump: 1
                     };
-                    if (!toggle[TOGGLES.ENUM_ARRAY].length) {
-                        rowItems.hits =     toggle[TOGGLES.EXCLUSION_STATE] == 'E' ?  'Excluded' : 0;
-                        rowItems.coverage = toggle[TOGGLES.EXCLUSION_STATE] == 'E' ?  'Excluded' : 'Not Covered';
+                    if (!(TOGGLES.TRANS_ARRAY in toggle)) {
+                        rowItems.hits =     toggle[TOGGLES.COVERAGE] == 'E' ?  'Excluded' : 0;
+                        rowItems.coverage = toggle[TOGGLES.COVERAGE] == 'E' ?  'Excluded' : 'Not Covered';
                     } else {
-                        rowItems.hits = toggle[TOGGLES.EXCLUSION_STATE] == 'E' ?  'E-hit' : '-';
-                        rowItems.coverage = toggle[TOGGLES.EXCLUSION_STATE] == 'E' ?  'Excluded' : 'Covered';
+                        rowItems.hits = toggle[TOGGLES.COVERAGE] == 'E' ?  'E-hit' : '-';
+                        rowItems.coverage = toggle[TOGGLES.COVERAGE] == 'E' ?  'Excluded' : 'Covered';
                     }
 
                     intRowData.push(rowItems);
-                    if (toggle[TOGGLES.ENUM_ARRAY].length != 0) {
+                    if (TOGGLES.TRANS_ARRAY in toggle) {
                         intRowData[intRowData.length - 1].children = [];
                         intRowData[intRowData.length - 1].group = true;
                         tree = true;
                     }
                 }
 
-                toggle[TOGGLES.ENUM_ARRAY].forEach(function(intToggle) {
-                    rowItems = {
-                        hits: 0
-                    };
+                if (TOGGLES.TRANS_ARRAY in toggle) {
+                    toggle[TOGGLES.TRANS_ARRAY].forEach(function(intToggle) {
+                        rowItems = {
+                            hits: 0
+                        };
 
-                    rowItems.hits =  intToggle[TOGGLES.VALUE];
-                    rowItems.name =  intToggle[TOGGLES.NAME];
-                    if (intToggle.length > 2) {
-                        rowItems.thitf =  intToggle[TOGGLES.THIT][TOGGLES.THIT_FILE_NUM];
-                        rowItems.thits =  intToggle[TOGGLES.THIT][TOGGLES.THIT_SCOPE];
-                    }
+                        rowItems.hits =  intToggle[TOGGLES.TRANS_COUNT];
+                        rowItems.name =  intToggle[TOGGLES.TRANS_NAME];
+                        if (TOGGLES.THIT in intToggle) {
+                            rowItems.thitf =  intToggle[TOGGLES.THIT][TOGGLES.THIT_FILE_NUM];
+                            rowItems.thits =  intToggle[TOGGLES.THIT][TOGGLES.THIT_SCOPE];
+                        }
 
-                    if (toggle[TOGGLES.ENUM_ARRAY].length === 1) {
-                        intRowData.push(rowItems);
-                    } else {
-                        rowItems.enum = 1;
-                        intRowData[intRowData.length - 1].children.push(rowItems);
-                    }
-                });
-
+                        if (toggle[TOGGLES.TRANS_ARRAY].length === 1) {
+                            intRowData.push(rowItems);
+                        } else {
+                            rowItems.enum = 1;
+                            intRowData[intRowData.length - 1].children.push(rowItems);
+                        }
+                    });
+                }
             }
         }
     });

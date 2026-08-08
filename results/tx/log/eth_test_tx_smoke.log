@@ -1,81 +1,82 @@
 # 1
 # 0
-# vsim -c work.eth_tb -coverage -sv_seed 1962655681 "+uvm_set_verbosity=uvm_test_top.m_env.*,_ALL_,UVM_MEDIUM,time,0" "+seq_num=1" "+coll_num=0" "+UVM_TESTNAME=eth_test_tx_smoke" -onfinish stop -do "
+# vsim -c work.eth_tb -coverage -sv_seed random "+uvm_set_verbosity=uvm_test_top.m_env.*,_ALL_,UVM_MEDIUM,time,0" "+seq_num=1" "+coll_num=0" "+UVM_TESTNAME=eth_test_tx_smoke" -onfinish stop -do "
 #     run -all; 
 #     coverage save $CODE_UCDB -codeAll -instance eth_tb.dut
 #     coverage save $FUNC_UCDB -cvg -directive -assert
 #     transcript file ""
 #     " 
-# Start time: 19:11:59 on Jul 28,2026
+# Start time: 01:42:51 on Aug 07,2026
 # ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# Support of the MGLS_LICENSE_FILE and LM_LICENSE_FILE licensing environment variables will be discontinued starting with the 2025.1 release. Please update to using the SALT_LICENSE_SERVER variable.
+# Please contact Siemens EDA Customer Support (https://support.sw.siemens.com/) for assistance.
 # ** Warning: (vopt-13408) Code coverage will be disabled for some DUs/packages/classes and source files.
-# ** Warning: repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(241): (vopt-2240) Treating stand-alone use of function 'write' as an implicit VOID cast.
-# ** Warning: repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(246): (vopt-2240) Treating stand-alone use of function 'write' as an implicit VOID cast.
-# ** Warning: repo/tb/top/eth_tb.sv(68): (vopt-2685) [TFMPC] - Too few port connections for 'dut'.  Expected 35, found 27.
-# ** Warning: repo/tb/top/eth_tb.sv(68): (vopt-2718) [TFMPC] - Missing connection for port 'md_padoe_o'.
-# ** Warning: repo/tb/top/eth_tb.sv(68): (vopt-2718) [TFMPC] - Missing connection for port 'md_pad_o'.
-# ** Warning: repo/tb/top/eth_tb.sv(68): (vopt-2718) [TFMPC] - Missing connection for port 'md_pad_i'.
-# ** Warning: repo/tb/top/eth_tb.sv(68): (vopt-2718) [TFMPC] - Missing connection for port 'mdc_pad_o'.
-# ** Warning: repo/tb/top/eth_tb.sv(68): (vopt-2718) [TFMPC] - Missing connection for port 'mrxerr_pad_i'.
-# ** Warning: repo/tb/top/eth_tb.sv(68): (vopt-2718) [TFMPC] - Missing connection for port 'mrxdv_pad_i'.
-# ** Warning: repo/tb/top/eth_tb.sv(68): (vopt-2718) [TFMPC] - Missing connection for port 'mrxd_pad_i'.
-# ** Warning: repo/tb/top/eth_tb.sv(68): (vopt-2718) [TFMPC] - Missing connection for port 'mrx_clk_pad_i'.
-# ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=0, Warnings=12.
+# ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=0, Warnings=1.
 # //  Questa Sim-64
-# //  Version 2021.1 win64 Jan 19 2021
+# //  Version 2024.1 win64 Feb  1 2024
 # //
-# //  Copyright 1991-2021 Mentor Graphics Corporation
-# //  All Rights Reserved.
+# // Unpublished work. Copyright 2024 Siemens
 # //
-# //  QuestaSim and its associated documentation contain trade
-# //  secrets and commercial or financial information that are the property of
-# //  Mentor Graphics Corporation and are privileged, confidential,
-# //  and exempt from disclosure under the Freedom of Information Act,
-# //  5 U.S.C. Section 552. Furthermore, this information
-# //  is prohibited from disclosure under the Trade Secrets Act,
-# //  18 U.S.C. Section 1905.
+# // This material contains trade secrets or otherwise confidential information
+# // owned by Siemens Industry Software Inc. or its affiliates (collectively,
+# // "SISW"), or its licensors. Access to and use of this information is strictly
+# // limited as set forth in the Customer's applicable agreements with SISW.
+# //
+# // This material may not be copied, distributed, or otherwise disclosed outside
+# // of the Customer's facilities without the express written permission of SISW,
+# // and may not be used in any way not expressly authorized by SISW.
 # //
 # Loading sv_std.std
-# Loading work.wb_m_if(fast)
 # Loading work.wb_s_if(fast)
-# Loading work.mii_tx_if(fast)
+# Loading work.wb_m_if(fast)
 # Loading work.reset_if(fast)
+# Loading work.mdio_if(fast)
+# Loading work.mii_tx_if(fast)
 # Loading mtiUvm.uvm_pkg(fast)
 # Loading work.eth_glob_pkg(fast)
+# Loading work.mdio_seq_item_pkg(fast)
 # Loading work.mii_rx_seq_item_pkg(fast)
 # Loading work.mii_tx_seq_item_pkg(fast)
 # Loading work.wb_m_seq_item_pkg(fast)
 # Loading work.wb_s_seq_item_pkg(fast)
 # Loading work.eth_ral_pkg(fast)
 # Loading work.eth_cov_pkg(fast)
-# Loading work.mdio_if(fast)
 # Loading work.mii_rx_if(fast)
 # Loading work.eth_config_pkg(fast)
+# Loading work.eth_mdio_scoreboard_pkg(fast)
 # Loading work.eth_rx_scoreboard_pkg(fast)
 # Loading work.eth_tx_scoreboard_pkg(fast)
 # Loading work.reset_seq_item_pkg(fast)
 # Loading work.reset_seq_pkg(fast)
 # Loading work.mii_tx_agent_pkg(fast)
 # Loading work.mii_tx_seq_pkg(fast)
-# Loading work.wb_s_seq_pkg(fast)
 # Loading work.wb_m_agent_pkg(fast)
 # Loading work.wb_m_seq_pkg(fast)
+# Loading work.wb_s_seq_pkg(fast)
+# Loading work.mdio_seq_pkg(fast)
+# Loading work.mdio_agent_pkg(fast)
 # Loading work.reset_agent_pkg(fast)
 # Loading work.mii_rx_agent_pkg(fast)
 # Loading work.wb_s_agent_pkg(fast)
 # Loading work.eth_v_seq_sqr_pkg(fast)
 # Loading work.eth_env_pkg(fast)
+# Loading work.eth_test_mdio_pkg(fast)
 # Loading work.eth_test_tx_pkg(fast)
 # Loading work.eth_test_reg_pkg(fast)
 # Loading mtiUvm.questa_uvm_pkg(fast)
 # Loading work.eth_tb(fast)
+# Loading work.reset_if(fast__2)
 # Loading work.wb_s_if_sv_unit(fast)
 # Loading work.wb_s_if(fast__2)
 # Loading work.wb_m_if_sv_unit(fast)
 # Loading work.wb_m_if(fast__2)
 # Loading work.mii_tx_if_sv_unit(fast)
 # Loading work.mii_tx_if(fast__2)
-# Loading D:/B/qsim_2021_1/uvm-1.1d\win64\uvm_dpi.dll
+# Loading work.mii_rx_if(fast__2)
+# Loading work.mdio_if(fast__2)
+# Loading work.eth_top(fast)
+# Loading D:/B/questasim64_2024.1/uvm-1.1d\win64\uvm_dpi.dll
+# Sv_Seed = 245493697
 # 
 #     run -all
 # ----------------------------------------------------------------
@@ -101,7 +102,7 @@
 # UVM_INFO verilog_src/questa_uvm_pkg-1.2/src/questa_uvm_pkg.sv(277) @ 0: reporter [Questa UVM] QUESTA_UVM-1.2.3
 # UVM_INFO verilog_src/questa_uvm_pkg-1.2/src/questa_uvm_pkg.sv(278) @ 0: reporter [Questa UVM]  questa_uvm::init(+struct)
 # UVM_INFO @ 0: reporter [RNTST] Running test eth_test_tx_smoke...
-# UVM_INFO repo/tb/tests/eth_tests_tx/eth_test_tx_base.sv(22) @ 0: uvm_test_top [eth_test_tx_smoke] start of build_phase
+# UVM_INFO repo/tb/tests/eth_tests_tx/eth_test_tx_base.sv(20) @ 0: uvm_test_top [eth_test_tx_smoke] start of build_phase
 # ** Warning: (vsim-8547) After dropping the illegal, ignore or invalid values, the values list associated with fixed-size array sub bin 'regs[14]' in Coverpoint 'cp_reg' of Covergroup instance '\/eth_cov_pkg::eth_cov_tx::m_rw_bit_cov ' has converged to empty list. The sub bin will be taken out of coverage calculation.
 #    Time: 0 ps  Iteration: 7  Region: /uvm_pkg::uvm_phase::m_run_phases
 # ** Warning: (vsim-8547) After dropping the illegal, ignore or invalid values, the values list associated with fixed-size array sub bin 'regs[15]' in Coverpoint 'cp_reg' of Covergroup instance '\/eth_cov_pkg::eth_cov_tx::m_rw_bit_cov ' has converged to empty list. The sub bin will be taken out of coverage calculation.
@@ -114,118 +115,118 @@
 #    Time: 0 ps  Iteration: 7  Region: /uvm_pkg::uvm_phase::m_run_phases
 # ** Warning: (vsim-8547) After dropping the illegal, ignore or invalid values, the values list associated with fixed-size array sub bin 'regs[19]' in Coverpoint 'cp_reg' of Covergroup instance '\/eth_cov_pkg::eth_cov_tx::m_reserved_bit_cov ' has converged to empty list. The sub bin will be taken out of coverage calculation.
 #    Time: 0 ps  Iteration: 7  Region: /uvm_pkg::uvm_phase::m_run_phases
-# UVM_INFO repo/tb/tests/eth_tests_tx/eth_test_tx_base.sv(64) @ 0: uvm_test_top [eth_test_tx_smoke] start of sim phase
+# UVM_INFO repo/tb/tests/eth_tests_tx/eth_test_tx_base.sv(60) @ 0: uvm_test_top [eth_test_tx_smoke] start of sim phase
 # -------------------------------------------------------------------------------
 # Name                        Type                                    Size  Value
 # -------------------------------------------------------------------------------
-# uvm_test_top                eth_test_tx_smoke                       -     @494 
-#   m_env                     eth_env_tx                              -     @516 
-#     m_cov_tx                eth_cov_tx                              -     @840 
-#       mii_tx_export         uvm_analysis_export                     -     @1004
-#       mii_tx_fifo           uvm_tlm_analysis_fifo #(T)              -     @941 
-#         analysis_export     uvm_analysis_imp                        -     @980 
-#         get_ap              uvm_analysis_port                       -     @972 
-#         get_peek_export     uvm_get_peek_imp                        -     @956 
-#         put_ap              uvm_analysis_port                       -     @964 
-#         put_export          uvm_put_imp                             -     @948 
-#       wb_m_export           uvm_analysis_export                     -     @988 
-#       wb_m_fifo             uvm_tlm_analysis_fifo #(T)              -     @847 
-#         analysis_export     uvm_analysis_imp                        -     @886 
-#         get_ap              uvm_analysis_port                       -     @878 
-#         get_peek_export     uvm_get_peek_imp                        -     @862 
-#         put_ap              uvm_analysis_port                       -     @870 
-#         put_export          uvm_put_imp                             -     @854 
-#       wb_s_export           uvm_analysis_export                     -     @996 
-#       wb_s_fifo             uvm_tlm_analysis_fifo #(T)              -     @894 
-#         analysis_export     uvm_analysis_imp                        -     @933 
-#         get_ap              uvm_analysis_port                       -     @925 
-#         get_peek_export     uvm_get_peek_imp                        -     @909 
-#         put_ap              uvm_analysis_port                       -     @917 
-#         put_export          uvm_put_imp                             -     @901 
-#     m_mii_tx_agent          mii_tx_agent                            -     @833 
-#       agent_a_port          uvm_analysis_port                       -     @1153
-#       m_driver              mii_tx_driver_hd                        -     @1014
-#         rsp_port            uvm_analysis_port                       -     @1029
-#         seq_item_port       uvm_seq_item_pull_port                  -     @1021
-#       m_monitor             mii_tx_monitor_base                     -     @1146
-#         monitor_tr_a_port   uvm_analysis_port                       -     @1161
-#       m_sequencer           mii_tx_sequencer_base                   -     @1037
-#         rsp_export          uvm_analysis_export                     -     @1044
-#         seq_item_export     uvm_seq_item_pull_imp                   -     @1138
+# uvm_test_top                eth_test_tx_smoke                       -     @501 
+#   m_env                     eth_env_tx                              -     @524 
+#     m_cov_tx                eth_cov_tx                              -     @852 
+#       mii_tx_export         uvm_analysis_export                     -     @1016
+#       mii_tx_fifo           uvm_tlm_analysis_fifo #(T)              -     @953 
+#         analysis_export     uvm_analysis_imp                        -     @992 
+#         get_ap              uvm_analysis_port                       -     @984 
+#         get_peek_export     uvm_get_peek_imp                        -     @968 
+#         put_ap              uvm_analysis_port                       -     @976 
+#         put_export          uvm_put_imp                             -     @960 
+#       wb_m_export           uvm_analysis_export                     -     @1000
+#       wb_m_fifo             uvm_tlm_analysis_fifo #(T)              -     @859 
+#         analysis_export     uvm_analysis_imp                        -     @898 
+#         get_ap              uvm_analysis_port                       -     @890 
+#         get_peek_export     uvm_get_peek_imp                        -     @874 
+#         put_ap              uvm_analysis_port                       -     @882 
+#         put_export          uvm_put_imp                             -     @866 
+#       wb_s_export           uvm_analysis_export                     -     @1008
+#       wb_s_fifo             uvm_tlm_analysis_fifo #(T)              -     @906 
+#         analysis_export     uvm_analysis_imp                        -     @945 
+#         get_ap              uvm_analysis_port                       -     @937 
+#         get_peek_export     uvm_get_peek_imp                        -     @921 
+#         put_ap              uvm_analysis_port                       -     @929 
+#         put_export          uvm_put_imp                             -     @913 
+#     m_mii_tx_agent          mii_tx_agent                            -     @845 
+#       agent_a_port          uvm_analysis_port                       -     @1165
+#       m_driver              mii_tx_driver_hd                        -     @1026
+#         rsp_port            uvm_analysis_port                       -     @1041
+#         seq_item_port       uvm_seq_item_pull_port                  -     @1033
+#       m_monitor             mii_tx_monitor_base                     -     @1158
+#         monitor_tr_a_port   uvm_analysis_port                       -     @1173
+#       m_sequencer           mii_tx_sequencer_base                   -     @1049
+#         rsp_export          uvm_analysis_export                     -     @1056
+#         seq_item_export     uvm_seq_item_pull_imp                   -     @1150
 #         arbitration_queue   array                                   0     -    
 #         lock_queue          array                                   0     -    
 #         num_last_reqs       integral                                32    'd1  
 #         num_last_rsps       integral                                32    'd1  
-#     m_predictor             uvm_reg_predictor #(uvm_sequence_item)  -     @797 
-#       bus_in                uvm_analysis_imp                        -     @804 
-#       reg_ap                uvm_analysis_port                       -     @812 
-#     m_reset_agent           reset_agent                             -     @656 
-#       m_driver              reset_driver                            -     @1176
-#         rsp_port            uvm_analysis_port                       -     @1191
-#         seq_item_port       uvm_seq_item_pull_port                  -     @1183
-#       m_sequencer           reset_sequencer                         -     @1199
-#         rsp_export          uvm_analysis_export                     -     @1206
-#         seq_item_export     uvm_seq_item_pull_imp                   -     @1300
+#     m_predictor             uvm_reg_predictor #(uvm_sequence_item)  -     @809 
+#       bus_in                uvm_analysis_imp                        -     @816 
+#       reg_ap                uvm_analysis_port                       -     @824 
+#     m_reset_agent           reset_agent                             -     @667 
+#       m_driver              reset_driver                            -     @1188
+#         rsp_port            uvm_analysis_port                       -     @1203
+#         seq_item_port       uvm_seq_item_pull_port                  -     @1195
+#       m_sequencer           reset_sequencer                         -     @1211
+#         rsp_export          uvm_analysis_export                     -     @1218
+#         seq_item_export     uvm_seq_item_pull_imp                   -     @1312
 #         arbitration_queue   array                                   0     -    
 #         lock_queue          array                                   0     -    
 #         num_last_reqs       integral                                32    'd1  
 #         num_last_rsps       integral                                32    'd1  
-#     m_tx_sb                 eth_tx_scoreboard                       -     @826 
-#       mii_tx_export         uvm_analysis_export                     -     @1415
-#       mii_tx_fifo           uvm_tlm_analysis_fifo #(T)              -     @1360
-#         analysis_export     uvm_analysis_imp                        -     @1399
-#         get_ap              uvm_analysis_port                       -     @1391
-#         get_peek_export     uvm_get_peek_imp                        -     @1375
-#         put_ap              uvm_analysis_port                       -     @1383
-#         put_export          uvm_put_imp                             -     @1367
-#       wb_m_export           uvm_analysis_export                     -     @1407
-#       wb_m_fifo             uvm_tlm_analysis_fifo #(T)              -     @1313
-#         analysis_export     uvm_analysis_imp                        -     @1352
-#         get_ap              uvm_analysis_port                       -     @1344
-#         get_peek_export     uvm_get_peek_imp                        -     @1328
-#         put_ap              uvm_analysis_port                       -     @1336
-#         put_export          uvm_put_imp                             -     @1320
-#       wb_s_imp              uvm_analysis_imp                        -     @1423
-#     m_v_sqr                 eth_v_sequencer                         -     @533 
-#       rsp_export            uvm_analysis_export                     -     @540 
-#       seq_item_export       uvm_seq_item_pull_imp                   -     @634 
+#     m_tx_sb                 eth_tx_scoreboard                       -     @838 
+#       mii_tx_export         uvm_analysis_export                     -     @1427
+#       mii_tx_fifo           uvm_tlm_analysis_fifo #(T)              -     @1372
+#         analysis_export     uvm_analysis_imp                        -     @1411
+#         get_ap              uvm_analysis_port                       -     @1403
+#         get_peek_export     uvm_get_peek_imp                        -     @1387
+#         put_ap              uvm_analysis_port                       -     @1395
+#         put_export          uvm_put_imp                             -     @1379
+#       wb_m_export           uvm_analysis_export                     -     @1419
+#       wb_m_fifo             uvm_tlm_analysis_fifo #(T)              -     @1325
+#         analysis_export     uvm_analysis_imp                        -     @1364
+#         get_ap              uvm_analysis_port                       -     @1356
+#         get_peek_export     uvm_get_peek_imp                        -     @1340
+#         put_ap              uvm_analysis_port                       -     @1348
+#         put_export          uvm_put_imp                             -     @1332
+#       wb_s_imp              uvm_analysis_imp                        -     @1435
+#     m_v_sqr                 eth_v_sequencer                         -     @544 
+#       rsp_export            uvm_analysis_export                     -     @551 
+#       seq_item_export       uvm_seq_item_pull_imp                   -     @645 
 #       arbitration_queue     array                                   0     -    
 #       lock_queue            array                                   0     -    
 #       num_last_reqs         integral                                32    'd1  
 #       num_last_rsps         integral                                32    'd1  
-#     m_wb_m_agent            wb_m_agent                              -     @649 
-#       a_port                uvm_analysis_port                       -     @1578
-#       m_driver              wb_m_driver_base                        -     @1548
-#         rsp_port            uvm_analysis_port                       -     @1563
-#         seq_item_port       uvm_seq_item_pull_port                  -     @1555
-#       m_monitor             wb_m_monitor_base                       -     @1571
-#         request_a_port      uvm_analysis_port                       -     @1594
-#         transaction_a_port  uvm_analysis_port                       -     @1586
-#       m_sequencer           wb_m_sequencer_base                     -     @1439
-#         request_export      uvm_analysis_export                     -     @1654
-#         request_fifo        uvm_tlm_analysis_fifo #(T)              -     @1607
-#           analysis_export   uvm_analysis_imp                        -     @1646
-#           get_ap            uvm_analysis_port                       -     @1638
-#           get_peek_export   uvm_get_peek_imp                        -     @1622
-#           put_ap            uvm_analysis_port                       -     @1630
-#           put_export        uvm_put_imp                             -     @1614
-#         rsp_export          uvm_analysis_export                     -     @1446
-#         seq_item_export     uvm_seq_item_pull_imp                   -     @1540
+#     m_wb_m_agent            wb_m_agent                              -     @660 
+#       a_port                uvm_analysis_port                       -     @1590
+#       m_driver              wb_m_driver_base                        -     @1560
+#         rsp_port            uvm_analysis_port                       -     @1575
+#         seq_item_port       uvm_seq_item_pull_port                  -     @1567
+#       m_monitor             wb_m_monitor_base                       -     @1583
+#         request_a_port      uvm_analysis_port                       -     @1606
+#         transaction_a_port  uvm_analysis_port                       -     @1598
+#       m_sequencer           wb_m_sequencer_base                     -     @1451
+#         request_export      uvm_analysis_export                     -     @1666
+#         request_fifo        uvm_tlm_analysis_fifo #(T)              -     @1619
+#           analysis_export   uvm_analysis_imp                        -     @1658
+#           get_ap            uvm_analysis_port                       -     @1650
+#           get_peek_export   uvm_get_peek_imp                        -     @1634
+#           put_ap            uvm_analysis_port                       -     @1642
+#           put_export        uvm_put_imp                             -     @1626
+#         rsp_export          uvm_analysis_export                     -     @1458
+#         seq_item_export     uvm_seq_item_pull_imp                   -     @1552
 #         arbitration_queue   array                                   0     -    
 #         lock_queue          array                                   0     -    
 #         num_last_reqs       integral                                32    'd1  
 #         num_last_rsps       integral                                32    'd1  
-#     m_wb_s_agent            wb_s_agent                              -     @642 
-#       a_port                uvm_analysis_port                       -     @1807
-#       m_driver              wb_s_driver_base                        -     @1777
-#         rsp_port            uvm_analysis_port                       -     @1792
-#         seq_item_port       uvm_seq_item_pull_port                  -     @1784
-#       m_monitor             wb_s_monitor_base                       -     @1800
-#         a_port              uvm_analysis_port                       -     @1817
-#         bd_status_ap        uvm_analysis_port                       -     @1825
-#       m_sequencer           wb_s_sequencer_base                     -     @1668
-#         rsp_export          uvm_analysis_export                     -     @1675
-#         seq_item_export     uvm_seq_item_pull_imp                   -     @1769
+#     m_wb_s_agent            wb_s_agent                              -     @653 
+#       a_port                uvm_analysis_port                       -     @1819
+#       m_driver              wb_s_driver_base                        -     @1789
+#         rsp_port            uvm_analysis_port                       -     @1804
+#         seq_item_port       uvm_seq_item_pull_port                  -     @1796
+#       m_monitor             wb_s_monitor_base                       -     @1812
+#         a_port              uvm_analysis_port                       -     @1829
+#         bd_status_ap        uvm_analysis_port                       -     @1837
+#       m_sequencer           wb_s_sequencer_base                     -     @1680
+#         rsp_export          uvm_analysis_export                     -     @1687
+#         seq_item_export     uvm_seq_item_pull_imp                   -     @1781
 #         arbitration_queue   array                                   0     -    
 #         lock_queue          array                                   0     -    
 #         num_last_reqs       integral                                32    'd1  
@@ -245,7 +246,7 @@
 #   mii_tx_driver_base  mii_tx_driver_hd
 #   eth_v_seq_tx        eth_v_seq_tx_active
 # 
-# All types registered with the factory: 170 total
+# All types registered with the factory: 222 total
 # (types without type names will not be printed)
 # 
 #   Type Name
@@ -257,10 +258,12 @@
 #   eth_bd_mem_walk_seq
 #   eth_bd_wr_seq
 #   eth_collconf_reg
+#   eth_cov_mdio
 #   eth_cov_tx
 #   eth_ctrlmoder_reg
 #   eth_env_base
 #   eth_env_config_obj
+#   eth_env_mdio
 #   eth_env_rx
 #   eth_env_tx
 #   eth_hash0_reg
@@ -273,6 +276,7 @@
 #   eth_mac_addr0_reg
 #   eth_mac_addr1_reg
 #   eth_max_value_seq
+#   eth_mdio_scoreboard
 #   eth_miiaddress_reg
 #   eth_miicommand_reg
 #   eth_miimoder_reg
@@ -285,6 +289,24 @@
 #   eth_rw_pattern_seq
 #   eth_rx_scoreboard
 #   eth_test_bd_access
+#   eth_test_mdio_base
+#   eth_test_miim_back_to_back
+#   eth_test_miim_clkdiv
+#   eth_test_miim_clkdiv_extremes
+#   eth_test_miim_cov_cross
+#   eth_test_miim_overwrite_while_busy
+#   eth_test_miim_phy_addr_sweep
+#   eth_test_miim_priority
+#   eth_test_miim_reg_bits
+#   eth_test_miim_reset_in_flight
+#   eth_test_miim_rst_phy
+#   eth_test_miim_rw_preamble
+#   eth_test_miim_scan
+#   eth_test_miim_scan_intr
+#   eth_test_miim_scan_intr_sweep
+#   eth_test_miim_walking
+#   eth_test_miim_write_readonly_regs
+#   eth_test_miim_wrong_phy_addr
 #   eth_test_reg_access
 #   eth_test_tx_base
 #   eth_test_tx_bd_num
@@ -292,15 +314,18 @@
 #   eth_test_tx_cs
 #   eth_test_tx_ctrl_flow
 #   eth_test_tx_dcrc
+#   eth_test_tx_df
 #   eth_test_tx_hugen
 #   eth_test_tx_interrupts
 #   eth_test_tx_ipgt
 #   eth_test_tx_len
+#   eth_test_tx_max_len
 #   eth_test_tx_maxfl
 #   eth_test_tx_minfl
 #   eth_test_tx_moder
 #   eth_test_tx_nopre
 #   eth_test_tx_pad
+#   eth_test_tx_ptr
 #   eth_test_tx_smoke
 #   eth_test_tx_underrun
 #   eth_tx_bd_num_bit_bash_seq
@@ -316,7 +341,14 @@
 #   eth_v_seq_tx_collision
 #   eth_v_sequencer
 #   eth_wb_adapter
+#   mdio_agent
 #   mdio_config_obj
+#   mdio_driver_base
+#   mdio_monitor_base
+#   mdio_seq_base
+#   mdio_seq_item_base
+#   mdio_seq_phy_responder
+#   mdio_sequencer_base
 #   mii_rx_agent
 #   mii_rx_config_obj
 #   mii_rx_driver_base
@@ -343,6 +375,23 @@
 #   reset_seq
 #   reset_seq_item
 #   reset_sequencer
+#   v_seq_tc_miim_back_to_back
+#   v_seq_tc_miim_clkdiv
+#   v_seq_tc_miim_clkdiv_extremes
+#   v_seq_tc_miim_cov_cross
+#   v_seq_tc_miim_overwrite_while_busy
+#   v_seq_tc_miim_phy_addr_sweep
+#   v_seq_tc_miim_priority
+#   v_seq_tc_miim_reg_bits
+#   v_seq_tc_miim_reset_in_flight
+#   v_seq_tc_miim_rst_phy
+#   v_seq_tc_miim_rw_preamble
+#   v_seq_tc_miim_scan
+#   v_seq_tc_miim_scan_intr
+#   v_seq_tc_miim_scan_intr_sweep
+#   v_seq_tc_miim_walking
+#   v_seq_tc_miim_write_readonly_regs
+#   v_seq_tc_miim_wrong_phy_addr
 #   wb_m_agent
 #   wb_m_config_obj
 #   wb_m_driver_base
@@ -359,6 +408,7 @@
 #   wb_s_driver_base
 #   wb_s_monitor_base
 #   wb_s_seq_base
+#   wb_s_seq_mdio
 #   wb_s_seq_tx_bd_num
 #   wb_s_seq_tx_collision_cfg
 #   wb_s_seq_tx_cs
@@ -369,11 +419,13 @@
 #   wb_s_seq_tx_interrupts
 #   wb_s_seq_tx_ipgt
 #   wb_s_seq_tx_len
+#   wb_s_seq_tx_max_len
 #   wb_s_seq_tx_maxfl
 #   wb_s_seq_tx_minfl
 #   wb_s_seq_tx_moder
 #   wb_s_seq_tx_no_pre
 #   wb_s_seq_tx_pad
+#   wb_s_seq_tx_ptr
 #   wb_s_seq_tx_underrun
 #   wb_s_sequencer_base
 # (*) Types with no associated type name will be printed as <unknown>
@@ -382,44 +434,55 @@
 # 
 # UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx_active.sv(10) @ 0: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [eth_v_seq_tx_active] Executing virtual sequence
 # UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(18) @ 0: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [eth_v_seq_tx_active] Executing virtual sequence
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 2500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 7500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 12500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 17500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(30) @ 22500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running 1 sequence
-# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 22500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 0
-# UVM_INFO repo/tb/agents/wb_m/wb_m_monitor_base.sv(101) @ 22500: uvm_test_top.m_env.m_wb_m_agent.m_monitor [wb_m_monitor_base] Begin monitoring after reset deassertion
-# UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(58) @ 22500: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [mii_tx_monitor_base] Begin monitoring after reset deassertion
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 2500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 7500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 12500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 17500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 22500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 27500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 32500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 37500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(30) @ 42500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running 1 sequence
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 42500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 0
+# UVM_INFO repo/tb/agents/wb_m/wb_m_monitor_base.sv(101) @ 42500: uvm_test_top.m_env.m_wb_m_agent.m_monitor [wb_m_monitor_base] Begin monitoring after reset deassertion
+# UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(58) @ 42500: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [mii_tx_monitor_base] Begin monitoring after reset deassertion
 # UVM_INFO repo/tb/agents/mii_tx/mii_tx_driver_base.sv(56) @ 60000: uvm_test_top.m_env.m_mii_tx_agent.m_driver [DRIVER] Reset deasserted — starting stimulus
-# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(285) @ 92500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[0] - LEN=70, PTR=0x00001000, IRQ=0, WR=1, PAD=0, CRC=0
-# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(163) @ 92500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG] Configuring TX registers
-# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(227) @ 247500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG] MODER: FULLD=1, TXEN=1, BDNUM=1, NOPRE=0, CRCEN=0, DCRC=0, PAD=0, HUGEN=0, NOBCKOF=0, EXDF=0, IPGT=18, TXB_M=0, TXC_M=0, TXE_M=0, MAXFL=71, MINFL=74, MAXRET=15, COLLVALID=63
-# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(121) @ 247500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [wb_s_basic_tx_seq] Basic TX configuration completed
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(896) @ 247500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TXEN asserted
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1322) @ 247500: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Entered pack packet
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(545) @ 247500: uvm_test_top.m_env.m_tx_sb [m_tx_sb] pending rd = 0
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1251) @ 247500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[0] LEN=70 RD=1 IRQ=0 WR=1 EFF PAD=0 EFF CRC=0 PTR=0x00001000
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(547) @ 247500: uvm_test_top.m_env.m_tx_sb [m_tx_sb] pending rd = 1
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1333) @ 940000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(977) @ 7143500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[0] completed
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(987) @ 7143500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] WRAP
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1420) @ 7180000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 78 bytes from MII
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1594) @ 7180000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison PASSED (78 bytes)
-# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(41) @ 7180000: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [eth_v_seq_tx_active] virtual sequence completed
-# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx_active.sv(19) @ 7180000: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [eth_v_seq_tx_active] virtual sequence completed
-# UVM_INFO verilog_src/uvm-1.1d/src/base/uvm_objection.svh(1267) @ 7180000: reporter [TEST_DONE] 'run' phase is ready to proceed to the 'extract' phase
-# UVM_INFO repo/tb/agents/wb_m/wb_m_driver_base.sv(108) @ 7180000: uvm_test_top.m_env.m_wb_m_agent.m_driver [wb_m_driver_base] Drived 1432 active transactions
-# UVM_INFO repo/tb/agents/wb_m/wb_m_monitor_base.sv(130) @ 7180000: uvm_test_top.m_env.m_wb_m_agent.m_monitor [wb_m_monitor_base] Monitored 1432 TRANSACTIONS
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(294) @ 112500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[0] - LEN=70, PTR=0x00001000, IRQ=0, WR=1, PAD=0, CRC=0
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(163) @ 112500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG] Configuring TX registers
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(227) @ 267500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG] MODER: FULLD=1, TXEN=1, BDNUM=1, NOPRE=0, CRCEN=0, DCRC=0, PAD=0, HUGEN=0, NOBCKOF=0, EXDF=0, IPGT=18, IPGR1=12, IPGR2=18, TXB_M=0, TXC_M=0, TXE_M=0, MAXFL=71, MINFL=74, MAXRET=15, COLLVALID=63
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(121) @ 267500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [wb_s_basic_tx_seq] Basic TX configuration completed
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(940) @ 267500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TXEN asserted
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1309) @ 267500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[0] LEN=70 RD=1 IRQ=0 WR=1 EFF PAD=0 EFF CRC=0 PTR=0x00001000
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1392) @ 267600: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Entered pack packet
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1403) @ 940000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1021) @ 7143500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[0] completed
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1031) @ 7143500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] WRAP
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1490) @ 7180000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 78 bytes from MII
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1664) @ 7180000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison PASSED (78 bytes)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1392) @ 7180100: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Entered pack packet
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 7182500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 7187500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 7192500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 7197500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 7202500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 7207500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 7212500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 7217500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(40) @ 7222500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [eth_v_seq_tx_active] virtual sequence completed
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx_active.sv(19) @ 7222500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [eth_v_seq_tx_active] virtual sequence completed
+# UVM_INFO verilog_src/uvm-1.1d/src/base/uvm_objection.svh(1267) @ 7222500: reporter [TEST_DONE] 'run' phase is ready to proceed to the 'extract' phase
+# UVM_INFO repo/tb/agents/wb_m/wb_m_driver_base.sv(108) @ 7222500: uvm_test_top.m_env.m_wb_m_agent.m_driver [wb_m_driver_base] Drived 1436 active transactions
+# UVM_INFO repo/tb/agents/wb_m/wb_m_monitor_base.sv(130) @ 7222500: uvm_test_top.m_env.m_wb_m_agent.m_monitor [wb_m_monitor_base] Monitored 1436 TRANSACTIONS
 # 
 # --- UVM Report Summary ---
 # 
 # ** Report counts by severity
-# UVM_INFO :   31
-# UVM_WARNING :    4
+# UVM_INFO :   30
+# UVM_WARNING :   16
 # UVM_ERROR :    0
 # UVM_FATAL :    0
 # ** Report counts by id
-# [A_WB_M]     4
+# [A_WB_M]    16
 # [DRIVER]     1
 # [Questa UVM]     2
 # [RNTST]     1
@@ -428,16 +491,16 @@
 # [eth_test_tx_smoke]     2
 # [eth_tx_scoreboard]     7
 # [eth_v_seq_tx_active]     4
-# [m_tx_sb]     3
+# [m_tx_sb]     2
 # [m_v_seq_tx]     2
 # [mii_tx_monitor_base]     1
 # [wb_m_driver_base]     1
 # [wb_m_monitor_base]     2
 # [wb_s_basic_tx_seq]     1
-# ** Note: $finish    : D:/B/qsim_2021_1/win64/../verilog_src/uvm-1.1d/src/base/uvm_root.svh(430)
-#    Time: 7180 ns  Iteration: 78  Instance: /eth_tb
-# Break in Task uvm_pkg/uvm_root::run_test at D:/B/qsim_2021_1/win64/../verilog_src/uvm-1.1d/src/base/uvm_root.svh line 430
-# Stopped at D:/B/qsim_2021_1/win64/../verilog_src/uvm-1.1d/src/base/uvm_root.svh line 430
+# ** Note: $finish    : D:/B/questasim64_2024.1/win64/../verilog_src/uvm-1.1d/src/base/uvm_root.svh(430)
+#    Time: 7222500 ps  Iteration: 66  Instance: /eth_tb
+# Break in Task uvm_pkg/uvm_root::run_test at D:/B/questasim64_2024.1/win64/../verilog_src/uvm-1.1d/src/base/uvm_root.svh line 430
+# Stopped at D:/B/questasim64_2024.1/win64/../verilog_src/uvm-1.1d/src/base/uvm_root.svh line 430
 #  
 #     coverage save $CODE_UCDB -codeAll -instance eth_tb.dut
 #     coverage save $FUNC_UCDB -cvg -directive -assert

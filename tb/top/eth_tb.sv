@@ -11,7 +11,7 @@ module eth_tb;
   //--------------------------------------------------------------------------
   // Clock / Reset
   //--------------------------------------------------------------------------
-  bit wb_clk,tx_clk;
+  bit wb_clk,tx_clk,rx_clk;
   
   reset_if m_reset_if(.clk(wb_clk));
 
@@ -45,7 +45,10 @@ module eth_tb;
   //--------------------------------------------------------------------------
   // MII RX Interface
   //--------------------------------------------------------------------------
-  mii_rx_if mii_rx_interface();
+  mii_rx_if #(.PHY_NIBBLE_WIDTH(ETH_NIBBLE_WIDTH)) m_mii_rx_if (
+      .MRxClk(rx_clk),
+      .rst(rst)
+   );
   //--------------------------------------------------------------------------
   // MDIO Interface
   //--------------------------------------------------------------------------
@@ -66,6 +69,13 @@ module eth_tb;
     forever #(ETH_PHY_TX_CLK_PERIOD_NS/2.0) tx_clk = ~tx_clk;
   end
 
+  //--------------------------------------------------------------------------
+  // RX Clock Generation 
+  //--------------------------------------------------------------------------
+  initial begin
+    rx_clk = 0;
+    forever #(ETH_PHY_RX_CLK_PERIOD_NS/2.0) rx_clk = ~rx_clk; 
+  end
 
   //--------------------------------------------------------------------------
   // DUT
@@ -112,7 +122,14 @@ module eth_tb;
       .mdc_pad_o  (m_mdio_if.mdc),
       .md_pad_i   (m_mdio_if.mdio_in),
       .md_pad_o   (m_mdio_if.mdio_out),
-      .md_padoe_o (m_mdio_if.mdio_en)
+      .md_padoe_o (m_mdio_if.mdio_en),
+
+
+      // MII RX (Add these lines)
+      .mrx_clk_pad_i    (rx_clk),
+      .mrxd_pad_i       (m_mii_rx_if.MRxD),
+      .mrxdv_pad_i      (m_mii_rx_if.MRxDV),
+      .mrxerr_pad_i     (m_mii_rx_if.MRxErr)      
 
   );
 

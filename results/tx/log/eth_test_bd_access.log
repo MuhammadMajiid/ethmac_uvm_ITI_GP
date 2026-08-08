@@ -1,31 +1,19 @@
+# End time: 02:47:05 on Aug 06,2026, Elapsed time: 0:00:10
+# Errors: 0, Warnings: 0
 # vsim -c work.eth_tb -coverage -sv_seed random "+uvm_set_verbosity=uvm_test_top.m_env.*,_ALL_,UVM_NONE,time,0" "+seq_num=1" "+coll_num=1" "+UVM_TESTNAME=eth_test_bd_access" -onfinish stop -do "
 #     run -all; 
 #     coverage save $CODE_UCDB -codeAll -instance eth_tb.dut
 #     coverage save $FUNC_UCDB -cvg -directive -assert
 #     transcript file ""
 #     " 
-# Start time: 12:46:55 on Aug 02,2026
+# Start time: 02:47:05 on Aug 06,2026
 # ** Note: (vsim-8009) Loading existing optimized design _opt4
-# //  Questa Sim-64
-# //  Version 2021.1 win64 Jan 19 2021
-# //
-# //  Copyright 1991-2021 Mentor Graphics Corporation
-# //  All Rights Reserved.
-# //
-# //  QuestaSim and its associated documentation contain trade
-# //  secrets and commercial or financial information that are the property of
-# //  Mentor Graphics Corporation and are privileged, confidential,
-# //  and exempt from disclosure under the Freedom of Information Act,
-# //  5 U.S.C. Section 552. Furthermore, this information
-# //  is prohibited from disclosure under the Trade Secrets Act,
-# //  18 U.S.C. Section 1905.
-# //
 # Loading sv_std.std
-# Loading work.wb_m_if(fast)
 # Loading work.wb_s_if(fast)
-# Loading work.mii_tx_if(fast)
+# Loading work.wb_m_if(fast)
 # Loading work.reset_if(fast)
 # Loading work.mdio_if(fast)
+# Loading work.mii_tx_if(fast)
 # Loading mtiUvm.uvm_pkg(fast)
 # Loading work.eth_glob_pkg(fast)
 # Loading work.mdio_seq_item_pkg(fast)
@@ -54,18 +42,23 @@
 # Loading work.wb_s_agent_pkg(fast)
 # Loading work.eth_v_seq_sqr_pkg(fast)
 # Loading work.eth_env_pkg(fast)
+# Loading work.eth_test_mdio_pkg(fast)
 # Loading work.eth_test_tx_pkg(fast)
 # Loading work.eth_test_reg_pkg(fast)
 # Loading mtiUvm.questa_uvm_pkg(fast)
 # Loading work.eth_tb(fast)
+# Loading work.reset_if(fast__2)
 # Loading work.wb_s_if_sv_unit(fast)
 # Loading work.wb_s_if(fast__2)
 # Loading work.wb_m_if_sv_unit(fast)
 # Loading work.wb_m_if(fast__2)
 # Loading work.mii_tx_if_sv_unit(fast)
 # Loading work.mii_tx_if(fast__2)
-# Loading D:/B/qsim_2021_1/uvm-1.1d\win64\uvm_dpi.dll
-# Sv_Seed = 1864504457
+# Loading work.mii_rx_if(fast__2)
+# Loading work.mdio_if(fast__2)
+# Loading work.eth_top(fast)
+# Loading D:/B/questasim64_2024.1/uvm-1.1d\win64\uvm_dpi.dll
+# Sv_Seed = 28920917
 # 
 #     run -all
 # ----------------------------------------------------------------
@@ -103,14 +96,14 @@
 #    Time: 0 ps  Iteration: 7  Region: /uvm_pkg::uvm_phase::m_run_phases
 # ** Warning: (vsim-8547) After dropping the illegal, ignore or invalid values, the values list associated with fixed-size array sub bin 'regs[19]' in Coverpoint 'cp_reg' of Covergroup instance '\/eth_cov_pkg::eth_cov_tx::m_reserved_bit_cov ' has converged to empty list. The sub bin will be taken out of coverage calculation.
 #    Time: 0 ps  Iteration: 7  Region: /uvm_pkg::uvm_phase::m_run_phases
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 2500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 7500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 12500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 17500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 22500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 27500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 32500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 37500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 2500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 7500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 12500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 17500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 22500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 27500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 32500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 37500: reporter [A_WB_M] Assertion error, data out = x
 # UVM_INFO repo/tb/sequences/wb_s_seq/eth_bd_wr_seq.sv(66) @ 10347500: reporter@@bd_wr_seq [BD_READ] Read PASS at location 0 Data=a5a50000
 # UVM_INFO repo/tb/sequences/wb_s_seq/eth_bd_wr_seq.sv(66) @ 10387500: reporter@@bd_wr_seq [BD_READ] Read PASS at location 1 Data=a5a50001
 # UVM_INFO repo/tb/sequences/wb_s_seq/eth_bd_wr_seq.sv(66) @ 10427500: reporter@@bd_wr_seq [BD_READ] Read PASS at location 2 Data=a5a50002
@@ -382,10 +375,10 @@
 # [Questa UVM]     2
 # [RNTST]     1
 # [TEST_DONE]     1
-# ** Note: $finish    : D:/B/qsim_2021_1/win64/../verilog_src/uvm-1.1d/src/base/uvm_root.svh(430)
+# ** Note: $finish    : D:/B/questasim64_2024.1/win64/../verilog_src/uvm-1.1d/src/base/uvm_root.svh(430)
 #    Time: 20547500 ps  Iteration: 68  Instance: /eth_tb
-# Break in Task uvm_pkg/uvm_root::run_test at D:/B/qsim_2021_1/win64/../verilog_src/uvm-1.1d/src/base/uvm_root.svh line 430
-# Stopped at D:/B/qsim_2021_1/win64/../verilog_src/uvm-1.1d/src/base/uvm_root.svh line 430
+# Break in Task uvm_pkg/uvm_root::run_test at D:/B/questasim64_2024.1/win64/../verilog_src/uvm-1.1d/src/base/uvm_root.svh line 430
+# Stopped at D:/B/questasim64_2024.1/win64/../verilog_src/uvm-1.1d/src/base/uvm_root.svh line 430
 #  
 #     coverage save $CODE_UCDB -codeAll -instance eth_tb.dut
 #     coverage save $FUNC_UCDB -cvg -directive -assert

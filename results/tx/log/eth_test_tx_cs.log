@@ -1,19 +1,43 @@
-# End time: 13:59:03 on Aug 02,2026, Elapsed time: 0:07:00
-# Errors: 0, Warnings: 6
-# vsim -c work.eth_tb -coverage -sv_seed random "+uvm_set_verbosity=uvm_test_top.m_env.*,_ALL_,UVM_NONE,time,0" "+seq_num=4" "+coll_num=1" "+UVM_TESTNAME=eth_test_tx_cs" -onfinish stop -do "
+# 0
+# vsim -c work.eth_tb -coverage -sv_seed random "+uvm_set_verbosity=uvm_test_top.m_env.*,_ALL_,UVM_MEDIUM,time,0" "+seq_num=4" "+coll_num=0" "+UVM_TESTNAME=eth_test_tx_cs" -onfinish stop -do "
 #     run -all; 
 #     coverage save $CODE_UCDB -codeAll -instance eth_tb.dut
 #     coverage save $FUNC_UCDB -cvg -directive -assert
 #     transcript file ""
 #     " 
-# Start time: 13:59:03 on Aug 02,2026
-# ** Note: (vsim-8009) Loading existing optimized design _opt4
+# Start time: 03:01:12 on Aug 06,2026
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# Support of the MGLS_LICENSE_FILE and LM_LICENSE_FILE licensing environment variables will be discontinued starting with the 2025.1 release. Please update to using the SALT_LICENSE_SERVER variable.
+# Please contact Siemens EDA Customer Support (https://support.sw.siemens.com/) for assistance.
+# ** Warning: (vopt-13408) Code coverage will be disabled for some DUs/packages/classes and source files.
+# ** Warning: repo/tb/sequences/wb_s_seq/wb_s_seq_mdio.sv(96): (vopt-2240) Treating stand-alone use of function 'predict' as an implicit VOID cast.
+# ** Warning: repo/tb/sequences/wb_s_seq/wb_s_seq_mdio.sv(97): (vopt-2240) Treating stand-alone use of function 'predict' as an implicit VOID cast.
+# ** Warning: repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(242): (vopt-2240) Treating stand-alone use of function 'write' as an implicit VOID cast.
+# ** Warning: repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(246): (vopt-2240) Treating stand-alone use of function 'write' as an implicit VOID cast.
+# ** Warning: repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(253): (vopt-2240) Treating stand-alone use of function 'write' as an implicit VOID cast.
+# ** Warning: repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(255): (vopt-2240) Treating stand-alone use of function 'write' as an implicit VOID cast.
+# ** Warning: repo/tb/top/eth_tb.sv(50): (vopt-2958) Implicit wire 'rst' does not have any driver.
+# ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=0, Warnings=8.
+# //  Questa Sim-64
+# //  Version 2024.1 win64 Feb  1 2024
+# //
+# // Unpublished work. Copyright 2024 Siemens
+# //
+# // This material contains trade secrets or otherwise confidential information
+# // owned by Siemens Industry Software Inc. or its affiliates (collectively,
+# // "SISW"), or its licensors. Access to and use of this information is strictly
+# // limited as set forth in the Customer's applicable agreements with SISW.
+# //
+# // This material may not be copied, distributed, or otherwise disclosed outside
+# // of the Customer's facilities without the express written permission of SISW,
+# // and may not be used in any way not expressly authorized by SISW.
+# //
 # Loading sv_std.std
-# Loading work.wb_m_if(fast)
 # Loading work.wb_s_if(fast)
-# Loading work.mii_tx_if(fast)
+# Loading work.wb_m_if(fast)
 # Loading work.reset_if(fast)
 # Loading work.mdio_if(fast)
+# Loading work.mii_tx_if(fast)
 # Loading mtiUvm.uvm_pkg(fast)
 # Loading work.eth_glob_pkg(fast)
 # Loading work.mdio_seq_item_pkg(fast)
@@ -42,18 +66,23 @@
 # Loading work.wb_s_agent_pkg(fast)
 # Loading work.eth_v_seq_sqr_pkg(fast)
 # Loading work.eth_env_pkg(fast)
+# Loading work.eth_test_mdio_pkg(fast)
 # Loading work.eth_test_tx_pkg(fast)
 # Loading work.eth_test_reg_pkg(fast)
 # Loading mtiUvm.questa_uvm_pkg(fast)
 # Loading work.eth_tb(fast)
+# Loading work.reset_if(fast__2)
 # Loading work.wb_s_if_sv_unit(fast)
 # Loading work.wb_s_if(fast__2)
 # Loading work.wb_m_if_sv_unit(fast)
 # Loading work.wb_m_if(fast__2)
 # Loading work.mii_tx_if_sv_unit(fast)
 # Loading work.mii_tx_if(fast__2)
-# Loading D:/B/qsim_2021_1/uvm-1.1d\win64\uvm_dpi.dll
-# Sv_Seed = 1122241469
+# Loading work.mii_rx_if(fast__2)
+# Loading work.mdio_if(fast__2)
+# Loading work.eth_top(fast)
+# Loading D:/B/questasim64_2024.1/uvm-1.1d\win64\uvm_dpi.dll
+# Sv_Seed = 1134135197
 # 
 #     run -all
 # ----------------------------------------------------------------
@@ -79,7 +108,7 @@
 # UVM_INFO verilog_src/questa_uvm_pkg-1.2/src/questa_uvm_pkg.sv(277) @ 0: reporter [Questa UVM] QUESTA_UVM-1.2.3
 # UVM_INFO verilog_src/questa_uvm_pkg-1.2/src/questa_uvm_pkg.sv(278) @ 0: reporter [Questa UVM]  questa_uvm::init(+struct)
 # UVM_INFO @ 0: reporter [RNTST] Running test eth_test_tx_cs...
-# UVM_INFO repo/tb/tests/eth_tests_tx/eth_test_tx_base.sv(22) @ 0: uvm_test_top [eth_test_tx_cs] start of build_phase
+# UVM_INFO repo/tb/tests/eth_tests_tx/eth_test_tx_base.sv(20) @ 0: uvm_test_top [eth_test_tx_cs] start of build_phase
 # ** Warning: (vsim-8547) After dropping the illegal, ignore or invalid values, the values list associated with fixed-size array sub bin 'regs[14]' in Coverpoint 'cp_reg' of Covergroup instance '\/eth_cov_pkg::eth_cov_tx::m_rw_bit_cov ' has converged to empty list. The sub bin will be taken out of coverage calculation.
 #    Time: 0 ps  Iteration: 7  Region: /uvm_pkg::uvm_phase::m_run_phases
 # ** Warning: (vsim-8547) After dropping the illegal, ignore or invalid values, the values list associated with fixed-size array sub bin 'regs[15]' in Coverpoint 'cp_reg' of Covergroup instance '\/eth_cov_pkg::eth_cov_tx::m_rw_bit_cov ' has converged to empty list. The sub bin will be taken out of coverage calculation.
@@ -92,7 +121,7 @@
 #    Time: 0 ps  Iteration: 7  Region: /uvm_pkg::uvm_phase::m_run_phases
 # ** Warning: (vsim-8547) After dropping the illegal, ignore or invalid values, the values list associated with fixed-size array sub bin 'regs[19]' in Coverpoint 'cp_reg' of Covergroup instance '\/eth_cov_pkg::eth_cov_tx::m_reserved_bit_cov ' has converged to empty list. The sub bin will be taken out of coverage calculation.
 #    Time: 0 ps  Iteration: 7  Region: /uvm_pkg::uvm_phase::m_run_phases
-# UVM_INFO repo/tb/tests/eth_tests_tx/eth_test_tx_base.sv(64) @ 0: uvm_test_top [eth_test_tx_cs] start of sim phase
+# UVM_INFO repo/tb/tests/eth_tests_tx/eth_test_tx_base.sv(60) @ 0: uvm_test_top [eth_test_tx_cs] start of sim phase
 # -------------------------------------------------------------------------------
 # Name                        Type                                    Size  Value
 # -------------------------------------------------------------------------------
@@ -224,7 +253,7 @@
 #   eth_v_seq_tx        eth_v_seq_tx_active
 #   mii_tx_seq_base     mii_tx_seq_cs
 # 
-# All types registered with the factory: 197 total
+# All types registered with the factory: 220 total
 # (types without type names will not be printed)
 # 
 #   Type Name
@@ -267,11 +296,28 @@
 #   eth_rw_pattern_seq
 #   eth_rx_scoreboard
 #   eth_test_bd_access
+#   eth_test_mdio_base
+#   eth_test_miim_back_to_back
+#   eth_test_miim_clkdiv
+#   eth_test_miim_clkdiv_extremes
+#   eth_test_miim_cov_cross
+#   eth_test_miim_overwrite_while_busy
+#   eth_test_miim_phy_addr_sweep
+#   eth_test_miim_priority
+#   eth_test_miim_reg_bits
+#   eth_test_miim_reset_in_flight
+#   eth_test_miim_rst_phy
+#   eth_test_miim_rw_preamble
+#   eth_test_miim_scan
+#   eth_test_miim_scan_intr
+#   eth_test_miim_scan_intr_sweep
+#   eth_test_miim_walking
+#   eth_test_miim_write_readonly_regs
+#   eth_test_miim_wrong_phy_addr
 #   eth_test_reg_access
 #   eth_test_tx_base
 #   eth_test_tx_bd_num
 #   eth_test_tx_coll
-#   eth_test_tx_crs_coll
 #   eth_test_tx_cs
 #   eth_test_tx_ctrl_flow
 #   eth_test_tx_dcrc
@@ -335,13 +381,20 @@
 #   reset_seq
 #   reset_seq_item
 #   reset_sequencer
+#   v_seq_tc_miim_back_to_back
 #   v_seq_tc_miim_clkdiv
+#   v_seq_tc_miim_clkdiv_extremes
 #   v_seq_tc_miim_cov_cross
+#   v_seq_tc_miim_overwrite_while_busy
+#   v_seq_tc_miim_phy_addr_sweep
 #   v_seq_tc_miim_priority
+#   v_seq_tc_miim_reg_bits
+#   v_seq_tc_miim_reset_in_flight
 #   v_seq_tc_miim_rst_phy
 #   v_seq_tc_miim_rw_preamble
 #   v_seq_tc_miim_scan
 #   v_seq_tc_miim_scan_intr
+#   v_seq_tc_miim_scan_intr_sweep
 #   v_seq_tc_miim_walking
 #   v_seq_tc_miim_write_readonly_regs
 #   v_seq_tc_miim_wrong_phy_addr
@@ -364,7 +417,6 @@
 #   wb_s_seq_mdio
 #   wb_s_seq_tx_bd_num
 #   wb_s_seq_tx_collision_cfg
-#   wb_s_seq_tx_crs_coll_cfg
 #   wb_s_seq_tx_cs
 #   wb_s_seq_tx_ctrl_flow
 #   wb_s_seq_tx_dcrc
@@ -385,67 +437,164 @@
 # 
 ####
 # 
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 2500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 7500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 12500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 17500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 22500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 27500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 32500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 37500: reporter [A_WB_M] Assertion failed, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx_active.sv(10) @ 0: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [eth_v_seq_tx_active] Executing virtual sequence
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(18) @ 0: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [eth_v_seq_tx_active] Executing virtual sequence
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 2500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 7500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 12500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 17500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 22500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 27500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 32500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 37500: reporter [A_WB_M] Assertion error, data out = x
 # UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(30) @ 42500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running 4 sequence
 # UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 42500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 0
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 9637500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 19352500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 19357500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 19362500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 19367500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 19372500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 19377500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 19382500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 19387500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 19392500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 1
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 27542500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 27547500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 27552500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 27557500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 27562500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 27567500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 27572500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 27577500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 27582500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 2
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 34877500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 42192500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 42197500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 42202500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 42207500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 42212500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 42217500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 42222500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 42227500: reporter [A_WB_M] Assertion failed, data out = x
-# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 42232500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 3
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 51267500: reporter [A_WB_S] a_ack_stb_cyc
-# UVM_INFO verilog_src/uvm-1.1d/src/base/uvm_objection.svh(1267) @ 57857500: reporter [TEST_DONE] 'run' phase is ready to proceed to the 'extract' phase
+# UVM_INFO repo/tb/agents/wb_m/wb_m_monitor_base.sv(101) @ 42500: uvm_test_top.m_env.m_wb_m_agent.m_monitor [wb_m_monitor_base] Begin monitoring after reset deassertion
+# UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(58) @ 42500: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [mii_tx_monitor_base] Begin monitoring after reset deassertion
+# UVM_INFO repo/tb/agents/mii_tx/mii_tx_driver_base.sv(56) @ 60000: uvm_test_top.m_env.m_mii_tx_agent.m_driver [DRIVER] Reset deasserted — starting stimulus
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(294) @ 112500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[0] - LEN=46, PTR=0xb0a62e74, IRQ=0, WR=0, PAD=1, CRC=0
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(294) @ 192500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[1] - LEN=59, PTR=0xb7e81e84, IRQ=0, WR=1, PAD=1, CRC=1
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(163) @ 192500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG] Configuring TX registers
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(227) @ 322500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG] MODER: FULLD=0, TXEN=1, BDNUM=2, NOPRE=0, CRCEN=1, DCRC=0, PAD=1, HUGEN=0, NOBCKOF=0, EXDF=0, IPGT=18, IPGR1=12, IPGR2=18, TXB_M=0, TXC_M=0, TXE_M=0, MAXFL=1536, MINFL=64, MAXRET=15, COLLVALID=63
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_seq_tx_cs.sv(54) @ 322500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [wb_s_seq_tx_cs] CS TX configuration completed
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(940) @ 322500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TXEN asserted
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1309) @ 322500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[0] LEN=46 RD=1 IRQ=0 WR=0 EFF PAD=1 EFF CRC=1 PTR=0xb0a62e74
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(760) @ 322500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Added 14 padding bytes (frame length = 60)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1392) @ 322600: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Entered pack packet
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1403) @ 940000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1021) @ 6663500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[0] completed
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1490) @ 6700000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 72 bytes from MII
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1664) @ 6700000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison PASSED (72 bytes)
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_seq_tx_cs.sv(61) @ 6700000: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [m_wb_s_seq_base] Reading carrier sense lost
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1392) @ 6700100: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Entered pack packet
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1309) @ 6701000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[1] LEN=59 RD=1 IRQ=0 WR=1 EFF PAD=1 EFF CRC=1 PTR=0xb7e81e84
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(760) @ 6701000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Added 1 padding bytes (frame length = 60)
+# UVM_INFO repo/tb/agents/wb_s/wb_s_driver_base.sv(127) @ 6737500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=002e1001 ADDR=00000100
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_seq_tx_cs.sv(66) @ 6747500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [m_wb_s_seq_base] Carrier sense lost bit = 1
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 6757500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1403) @ 7540000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(2244) @ 7540000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT PASS (21 MII cycles)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1021) @ 13263500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[1] completed
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1031) @ 13263500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] WRAP
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1490) @ 13300000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 72 bytes from MII
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1664) @ 13300000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison PASSED (72 bytes)
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_seq_tx_cs.sv(61) @ 13300000: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [m_wb_s_seq_base] Reading carrier sense lost
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1392) @ 13300100: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Entered pack packet
+# UVM_INFO repo/tb/agents/wb_s/wb_s_driver_base.sv(127) @ 13337500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=003b3801 ADDR=00000102
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_seq_tx_cs.sv(66) @ 13347500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [m_wb_s_seq_base] Carrier sense lost bit = 1
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 13352500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 13357500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 13362500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 13367500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 13372500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 13377500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 13382500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 13387500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 13392500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 1
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(294) @ 13462500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[0] - LEN=37, PTR=0x9d019e74, IRQ=0, WR=1, PAD=1, CRC=0
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(163) @ 13462500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG] Configuring TX registers
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(227) @ 13592500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG] MODER: FULLD=0, TXEN=1, BDNUM=1, NOPRE=0, CRCEN=1, DCRC=0, PAD=1, HUGEN=0, NOBCKOF=0, EXDF=0, IPGT=18, IPGR1=12, IPGR2=18, TXB_M=0, TXC_M=0, TXE_M=0, MAXFL=1536, MINFL=64, MAXRET=15, COLLVALID=63
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_seq_tx_cs.sv(54) @ 13592500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [wb_s_seq_tx_cs] CS TX configuration completed
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(940) @ 13592500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TXEN asserted
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1309) @ 13592500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[0] LEN=37 RD=1 IRQ=0 WR=1 EFF PAD=1 EFF CRC=1 PTR=0x9d019e74
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(760) @ 13592500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Added 23 padding bytes (frame length = 60)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1392) @ 13592600: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Entered pack packet
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1403) @ 14300000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1021) @ 20013500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[0] completed
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1031) @ 20013500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] WRAP
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1490) @ 20060000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 72 bytes from MII
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1664) @ 20060000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison PASSED (72 bytes)
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_seq_tx_cs.sv(61) @ 20060000: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [m_wb_s_seq_base] Reading carrier sense lost
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1392) @ 20060100: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Entered pack packet
+# UVM_INFO repo/tb/agents/wb_s/wb_s_driver_base.sv(127) @ 20087500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00253001 ADDR=00000100
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_seq_tx_cs.sv(66) @ 20097500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [m_wb_s_seq_base] Carrier sense lost bit = 1
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 20102500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 20107500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 20112500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 20117500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 20122500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 20127500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 20132500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 20137500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 20142500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 2
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(294) @ 20212500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[0] - LEN=23, PTR=0xf0ba8fc4, IRQ=0, WR=1, PAD=0, CRC=0
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(163) @ 20212500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG] Configuring TX registers
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(227) @ 20342500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG] MODER: FULLD=0, TXEN=1, BDNUM=1, NOPRE=0, CRCEN=1, DCRC=0, PAD=1, HUGEN=0, NOBCKOF=0, EXDF=0, IPGT=18, IPGR1=12, IPGR2=18, TXB_M=0, TXC_M=0, TXE_M=0, MAXFL=1536, MINFL=64, MAXRET=15, COLLVALID=63
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_seq_tx_cs.sv(54) @ 20342500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [wb_s_seq_tx_cs] CS TX configuration completed
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(940) @ 20342500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TXEN asserted
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1309) @ 20342500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[0] LEN=23 RD=1 IRQ=0 WR=1 EFF PAD=1 EFF CRC=1 PTR=0xf0ba8fc4
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(760) @ 20342500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Added 37 padding bytes (frame length = 60)
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1392) @ 20342600: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Entered pack packet
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1403) @ 21060000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1021) @ 26783500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[0] completed
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1031) @ 26783500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] WRAP
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1490) @ 26820000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 72 bytes from MII
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1664) @ 26820000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison PASSED (72 bytes)
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_seq_tx_cs.sv(61) @ 26820000: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [m_wb_s_seq_base] Reading carrier sense lost
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1392) @ 26820100: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Entered pack packet
+# UVM_INFO repo/tb/agents/wb_s/wb_s_driver_base.sv(127) @ 26857500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00172001 ADDR=00000100
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_seq_tx_cs.sv(66) @ 26867500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [m_wb_s_seq_base] Carrier sense lost bit = 1
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 26872500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 26877500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 26882500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 26887500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 26892500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 26897500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 26902500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 26907500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 26912500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 3
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(294) @ 26982500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[0] - LEN=87, PTR=0x18092c5c, IRQ=0, WR=1, PAD=0, CRC=1
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(163) @ 26982500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG] Configuring TX registers
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(227) @ 27112500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG] MODER: FULLD=0, TXEN=1, BDNUM=1, NOPRE=0, CRCEN=1, DCRC=0, PAD=1, HUGEN=0, NOBCKOF=0, EXDF=0, IPGT=18, IPGR1=12, IPGR2=18, TXB_M=0, TXC_M=0, TXE_M=0, MAXFL=1536, MINFL=64, MAXRET=15, COLLVALID=63
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_seq_tx_cs.sv(54) @ 27112500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [wb_s_seq_tx_cs] CS TX configuration completed
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(940) @ 27112500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TXEN asserted
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1309) @ 27112500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[0] LEN=87 RD=1 IRQ=0 WR=1 EFF PAD=1 EFF CRC=1 PTR=0x18092c5c
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1392) @ 27112600: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Entered pack packet
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1403) @ 27820000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1021) @ 35693500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[0] completed
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1031) @ 35693500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] WRAP
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1490) @ 35740000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 99 bytes from MII
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1664) @ 35740000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison PASSED (99 bytes)
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_seq_tx_cs.sv(61) @ 35740000: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [m_wb_s_seq_base] Reading carrier sense lost
+# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1392) @ 35740100: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Entered pack packet
+# UVM_INFO repo/tb/agents/wb_s/wb_s_driver_base.sv(127) @ 35767500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00572801 ADDR=00000100
+# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_seq_tx_cs.sv(66) @ 35777500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [m_wb_s_seq_base] Carrier sense lost bit = 1
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(41) @ 35777500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [eth_v_seq_tx_active] virtual sequence completed
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx_active.sv(19) @ 35777500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [eth_v_seq_tx_active] virtual sequence completed
+# UVM_INFO verilog_src/uvm-1.1d/src/base/uvm_objection.svh(1267) @ 35777500: reporter [TEST_DONE] 'run' phase is ready to proceed to the 'extract' phase
+# UVM_INFO repo/tb/agents/wb_m/wb_m_driver_base.sv(108) @ 35777500: uvm_test_top.m_env.m_wb_m_agent.m_driver [wb_m_driver_base] Drived 7147 active transactions
+# UVM_INFO repo/tb/agents/wb_m/wb_m_monitor_base.sv(130) @ 35777500: uvm_test_top.m_env.m_wb_m_agent.m_monitor [wb_m_monitor_base] Monitored 7147 TRANSACTIONS
 # 
 # --- UVM Report Summary ---
 # 
 # ** Report counts by severity
-# UVM_INFO :   11
-# UVM_WARNING :   35
+# UVM_INFO :   99
+# UVM_WARNING :   33
 # UVM_ERROR :    0
 # UVM_FATAL :    0
 # ** Report counts by id
 # [A_WB_M]    32
-# [A_WB_S]     3
+# [A_WB_S]     1
+# [DRIVER]     1
 # [Questa UVM]     2
 # [RNTST]     1
 # [TEST_DONE]     1
+# [TX_CONFIG]    13
 # [eth_test_tx_cs]     2
+# [eth_tx_scoreboard]    38
+# [eth_v_seq_tx_active]     4
+# [m_tx_sb]     9
 # [m_v_seq_tx]     5
-# ** Note: $finish    : D:/B/qsim_2021_1/win64/../verilog_src/uvm-1.1d/src/base/uvm_root.svh(430)
-#    Time: 57857500 ps  Iteration: 68  Instance: /eth_tb
-# Break in Task uvm_pkg/uvm_root::run_test at D:/B/qsim_2021_1/win64/../verilog_src/uvm-1.1d/src/base/uvm_root.svh line 430
-# Stopped at D:/B/qsim_2021_1/win64/../verilog_src/uvm-1.1d/src/base/uvm_root.svh line 430
+# [m_wb_s_seq_base]    10
+# [mii_tx_monitor_base]     1
+# [wb_m_driver_base]     1
+# [wb_m_monitor_base]     2
+# [wb_s_driver_base]     5
+# [wb_s_seq_tx_cs]     4
+# ** Note: $finish    : D:/B/questasim64_2024.1/win64/../verilog_src/uvm-1.1d/src/base/uvm_root.svh(430)
+#    Time: 35777500 ps  Iteration: 68  Instance: /eth_tb
+# Break in Task uvm_pkg/uvm_root::run_test at D:/B/questasim64_2024.1/win64/../verilog_src/uvm-1.1d/src/base/uvm_root.svh line 430
+# Stopped at D:/B/questasim64_2024.1/win64/../verilog_src/uvm-1.1d/src/base/uvm_root.svh line 430
 #  
 #     coverage save $CODE_UCDB -codeAll -instance eth_tb.dut
 #     coverage save $FUNC_UCDB -cvg -directive -assert
