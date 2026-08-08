@@ -332,4 +332,58 @@ class eth_test_miim_linkfail_toggle extends eth_test_mdio_base;
     endtask
 endclass
 
+// Test 19: Continuous uninterrupted scan (closes restart-adjacency bins)
+class eth_test_miim_scan_continuous extends eth_test_mdio_base;
+    `uvm_component_utils(eth_test_miim_scan_continuous)
+    function new(string name = "eth_test_miim_scan_continuous", uvm_component parent = null);
+     super.new(name, parent);
+    endfunction
+
+    task run_phase(uvm_phase phase);
+        v_seq_tc_miim_scan_continuous v_seq;
+        v_seq = v_seq_tc_miim_scan_continuous::type_id::create("v_seq");
+        phase.raise_objection(this);
+        apply_reset();
+        v_seq.start(m_env.m_v_sqr);
+        #500ns;
+        phase.drop_objection(this);
+    endtask
+endclass
+
+// Test 20: Clear command bit while an op is in flight
+class eth_test_miim_clear_cmd_while_busy extends eth_test_mdio_base;
+    `uvm_component_utils(eth_test_miim_clear_cmd_while_busy)
+    function new(string name = "eth_test_miim_clear_cmd_while_busy", uvm_component parent = null);
+     super.new(name, parent);
+    endfunction
+
+    task run_phase(uvm_phase phase);
+        v_seq_tc_miim_clear_cmd_while_busy v_seq;
+        v_seq = v_seq_tc_miim_clear_cmd_while_busy::type_id::create("v_seq");
+        phase.raise_objection(this);
+        apply_reset();
+        v_seq.start(m_env.m_v_sqr);
+        #500ns;
+        phase.drop_objection(this);
+    endtask
+endclass
+
+// Test 21: Precisely-timed BitCounter abort sweep
+class eth_test_miim_bitcounter_abort_sweep extends eth_test_mdio_base;
+    `uvm_component_utils(eth_test_miim_bitcounter_abort_sweep)
+    function new(string name = "eth_test_miim_bitcounter_abort_sweep", uvm_component parent = null);
+     super.new(name, parent);
+    endfunction
+
+    task run_phase(uvm_phase phase);
+        v_seq_tc_miim_bitcounter_abort_sweep v_seq;
+        v_seq = v_seq_tc_miim_bitcounter_abort_sweep::type_id::create("v_seq");
+        phase.raise_objection(this);
+        apply_reset();
+        v_seq.start(m_env.m_v_sqr);
+        #500ns;
+        phase.drop_objection(this);
+    endtask
+endclass
+
 `endif

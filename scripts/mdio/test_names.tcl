@@ -17,4 +17,7 @@ set TEST_NAMES [list \
     [list eth_test_miim_overwrite_while_busy 16   0] \
     [list eth_test_miim_clkdiv_extremes     16   0] \
     [list eth_test_miim_linkfail_toggle     16   0] \
+    [list eth_test_miim_scan_continuous     16   0] \
+    [list eth_test_miim_clear_cmd_while_busy 16  0] \
+    [list eth_test_miim_bitcounter_abort_sweep 16 0] \
 ]

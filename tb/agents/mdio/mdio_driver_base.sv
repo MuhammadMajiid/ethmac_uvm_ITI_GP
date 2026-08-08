@@ -151,6 +151,13 @@ task mdio_driver_base::drive_items();
     repeat(2) @(posedge vif.mdc); // consume Turn-Around bits ('1','0')
     for(int i=15; i>=0; i--) begin
       @(posedge vif.mdc);
+      #1; // eth_miim.v loads CtrlData[15:8] into ShiftReg via a case
+          // statement gated on this exact same edge (BitCounter==48) --
+          // sampling mdio_out with zero settle margin here races the
+          // RTL's own nonblocking load. Every other bit is a pure shift
+          // (no fresh load on that edge), so this only corrupts the
+          // very first data bit. This -- not the read-drive path -- is
+          // the actual cause of MIIRX_DATA reading a right-shifted value.
       wr_data[i] = vif.mdio_out;
     end
 

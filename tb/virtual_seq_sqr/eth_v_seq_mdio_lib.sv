@@ -487,7 +487,15 @@ class v_seq_tc_miim_scan_intr_sweep extends eth_v_seq_base;
     `uvm_object_utils(v_seq_tc_miim_scan_intr_sweep)
     function new(string name = "v_seq_tc_miim_scan_intr_sweep"); super.new(name); endfunction
 
-    // Bounded busy poll: returns 1 if BUSY cleared within budget_ns, else 0.
+    // Self-contained bounded poll -- deliberately does NOT call
+    // wait_miim_done() or touch report severities. wait_miim_done()'s
+    // internal loop calls uvm_fatal() on every iteration once its
+    // timeout is exceeded, not once-then-exit; that's normally invisible
+    // because the first uvm_fatal() kills the sim immediately. Demoting
+    // that fatal (an earlier version of this test did, via a report
+    // catcher) removes its only exit path and spins forever. This task's
+    // own while-condition is the sole thing that can end it -- no
+    // external severity state can keep it running past its budget.
     task automatic poll_busy_clear(int budget_ns, int poll_period_ns, output bit cleared);
         uvm_status_e status;
         uvm_reg_data_t rdata;
@@ -509,7 +517,11 @@ class v_seq_tc_miim_scan_intr_sweep extends eth_v_seq_base;
         reset_seq     m_reset_seq;
         // One full 64-bit frame at clkdiv=100/WB=5ns is ~32000ns (64 *
         // 500ns/bit). Sweep from "before the scan even starts" through
-        // "well after it should have completed".
+        // "well after it should have completed". Budget below is modest
+        // on purpose (wall-clock cost, not correctness) -- prior runs at
+        // both 50000ns and 5000000ns showed no recovery, so this is about
+        // getting a clean regression-time result, not chasing a bigger
+        // number.
         int delays_ns[] = '{0, 250, 500, 1000, 2000, 4000, 8000, 16000, 32000, 40000};
         bit cleared;
 
@@ -519,13 +531,7 @@ class v_seq_tc_miim_scan_intr_sweep extends eth_v_seq_base;
             #(delays_ns[idx]);
             cfg.configure_miim_registers(p_sequencer.regmodel, .fiad(5'h1), .rgad(5'h1)); // stop scan
 
-            // Budget matched to wait_miim_done()'s own patience (100000
-            // iterations) rather than an arbitrary tight window -- an
-            // earlier version of this test used 50000ns here, which is
-            // nowhere near wait_miim_done()'s real effective budget and
-            // produced false "stuck" reports for delays that likely just
-            // recover slower than that, not permanently.
-            poll_busy_clear(5_000_000, 5000, cleared);
+            poll_busy_clear(1_000_000, 5000, cleared);
             if (cleared)
                 `uvm_info(get_type_name(),
                     $sformatf("delay=%0dns: BUSY cleared normally", delays_ns[idx]), UVM_LOW)
@@ -534,13 +540,11 @@ class v_seq_tc_miim_scan_intr_sweep extends eth_v_seq_base;
                     $sformatf("delay=%0dns: BUSY stuck after scan interruption (MIIM_TIMEOUT-class hang)", delays_ns[idx]))
 
             // Recover regardless of pass/fail so each delay value is an
-            // INDEPENDENT data point -- without this, one stuck point
-            // would trivially make every later point "fail" too, since
-            // the core never got a chance to recover in between.
+            // INDEPENDENT data point.
             m_reset_seq = reset_seq::type_id::create("m_reset_seq");
             m_reset_seq.m_regmodel = p_sequencer.regmodel;
             m_reset_seq.start(p_sequencer.m_reset_sqr);
-            p_sequencer.regmodel.reset(); // resync RAL mirror to defaults
+            p_sequencer.regmodel.reset();
         end
     endtask
 endclass
@@ -771,6 +775,155 @@ class v_seq_tc_miim_linkfail_toggle extends eth_v_seq_base;
         p_sequencer.m_mdio_phy_rsp.set_link_status(5'h1, 1'b0);
         cfg.configure_miim_registers(p_sequencer.regmodel, .fiad(5'h1), .rgad(5'h1), .rstat(1'b1));
         p_sequencer.regmodel.wait_miim_done();
+    endtask
+endclass
+
+// -----------------------------------------------------------------------------
+// TC 24: tc_miim_scan_continuous -- lets a scan run uninterrupted through
+// several full frames (never issues a "stop" write) to close the
+// InProgress_q1_1/InProgress_q2_1/SyncStatMdcEn_1 continuous-scan-restart
+// expression bins (eth_miim.v lines 353/357). Deliberately avoids ever
+// clearing SCANSTAT, sidestepping the known interruption lockup entirely.
+// -----------------------------------------------------------------------------
+class v_seq_tc_miim_scan_continuous extends eth_v_seq_base;
+    `uvm_object_utils(v_seq_tc_miim_scan_continuous)
+    function new(string name = "v_seq_tc_miim_scan_continuous"); super.new(name); endfunction
+
+    task body();
+        wb_s_seq_mdio cfg = wb_s_seq_mdio::type_id::create("cfg");
+        // ~32000ns/frame at clkdiv=100 -- run long enough for several
+        // full scan cycles (start -> complete -> auto-restart) so the
+        // InProgress-drop-then-immediate-restart adjacency is exercised
+        // more than once.
+        cfg.configure_miim_registers(p_sequencer.regmodel,
+            .fiad(5'h1), .rgad(5'h1), .scanstat(1'b1));
+        #150000ns;
+        // Left running on purpose -- never stopped in this test.
+    endtask
+endclass
+
+// -----------------------------------------------------------------------------
+// TC 25: tc_miim_clear_cmd_while_busy -- starts a WRITE, then explicitly
+// clears WCTRLDATA on the wire mid-shift (well after the start pulse) while
+// InProgress is still 1, to close the "InProgress alone holding Busy,
+// command bit already deasserted" expression bin (eth_miim.v line 357) that
+// normal tests never hit because they leave the command bit asserted until
+// after wait_miim_done() returns. Also incidentally checks whether clearing
+// the command bit mid-flight causes the same class of lockup found with
+// SCANSTAT -- recovers via reset either way so it can't hang the regression.
+// -----------------------------------------------------------------------------
+class v_seq_tc_miim_clear_cmd_while_busy extends eth_v_seq_base;
+    `uvm_object_utils(v_seq_tc_miim_clear_cmd_while_busy)
+    function new(string name = "v_seq_tc_miim_clear_cmd_while_busy"); super.new(name); endfunction
+
+    // Self-contained bounded poll -- see tc_miim_scan_intr_sweep for why
+    // this deliberately avoids wait_miim_done()/report-catcher demotion.
+    task automatic poll_busy_clear(int budget_ns, int poll_period_ns, output bit cleared);
+        uvm_status_e status;
+        uvm_reg_data_t rdata;
+        int elapsed = 0;
+        cleared = 0;
+        while (elapsed < budget_ns) begin
+            p_sequencer.regmodel.MIISTATUS.read(status, rdata);
+            if (!rdata[1]) begin
+                cleared = 1;
+                return;
+            end
+            #(poll_period_ns);
+            elapsed += poll_period_ns;
+        end
+    endtask
+
+    task body();
+        wb_s_seq_mdio cfg = wb_s_seq_mdio::type_id::create("cfg");
+        reset_seq     m_reset_seq;
+        bit cleared;
+
+        cfg.configure_miim_registers(p_sequencer.regmodel,
+            .fiad(5'h1), .rgad(5'h0), .ctrl_data(16'hACAC), .wctrldata(1'b1));
+        #5000ns; // well past the start pulse, still mid-shift
+        cfg.configure_miim_registers(p_sequencer.regmodel, .fiad(5'h1), .rgad(5'h0)); // clear command bit, InProgress still running
+
+        poll_busy_clear(1_000_000, 5000, cleared);
+        if (cleared)
+            `uvm_info(get_type_name(), "BUSY cleared normally after mid-flight command clear", UVM_LOW)
+        else
+            `uvm_error(get_type_name(), "BUSY stuck after clearing WCTRLDATA mid-flight (same lockup class as MIIM-001?)")
+
+        m_reset_seq = reset_seq::type_id::create("m_reset_seq");
+        m_reset_seq.m_regmodel = p_sequencer.regmodel;
+        m_reset_seq.start(p_sequencer.m_reset_sqr);
+        p_sequencer.regmodel.reset();
+    endtask
+endclass
+
+// -----------------------------------------------------------------------------
+// TC 26: tc_miim_bitcounter_abort_sweep -- aborts an in-flight op at the
+// exact BitCounter values eth_miim.v line 420-427 need to see InProgress==0
+// at (40, 48, 55, 56, 63), computed from clkdiv=100's fixed 500ns/bit
+// period (BitCounter*500ns after op start, NoPre=0 so BitCounter counts
+// from the start of preamble). WRITE targets 40/48/56 (WriteOp-gated
+// terms); READ targets 40/55/63 (~WriteOp-gated terms). Resets between
+// every point since aborting mid-flight may hit the same lockup class as
+// MIIM-001 -- each point needs to be an independent, trustworthy result.
+// -----------------------------------------------------------------------------
+class v_seq_tc_miim_bitcounter_abort_sweep extends eth_v_seq_base;
+    `uvm_object_utils(v_seq_tc_miim_bitcounter_abort_sweep)
+    function new(string name = "v_seq_tc_miim_bitcounter_abort_sweep"); super.new(name); endfunction
+
+    // Self-contained bounded poll -- see tc_miim_scan_intr_sweep for why.
+    task automatic poll_busy_clear(int budget_ns, int poll_period_ns, output bit cleared);
+        uvm_status_e status;
+        uvm_reg_data_t rdata;
+        int elapsed = 0;
+        cleared = 0;
+        while (elapsed < budget_ns) begin
+            p_sequencer.regmodel.MIISTATUS.read(status, rdata);
+            if (!rdata[1]) begin
+                cleared = 1;
+                return;
+            end
+            #(poll_period_ns);
+            elapsed += poll_period_ns;
+        end
+    endtask
+
+    task run_one(bit is_write, int bitcounter_target, wb_s_seq_mdio cfg);
+        reset_seq m_reset_seq;
+        int target_ns = bitcounter_target * 500;
+        bit cleared;
+
+        if (is_write)
+            cfg.configure_miim_registers(p_sequencer.regmodel,
+                .fiad(5'h1), .rgad(5'h0), .ctrl_data(16'h5A5A), .wctrldata(1'b1));
+        else
+            cfg.configure_miim_registers(p_sequencer.regmodel,
+                .fiad(5'h1), .rgad(5'h1), .rstat(1'b1));
+
+        #(target_ns);
+        cfg.configure_miim_registers(p_sequencer.regmodel, .fiad(5'h1), .rgad(is_write ? 5'h0 : 5'h1)); // abort
+
+        poll_busy_clear(1_000_000, 5000, cleared);
+        if (cleared)
+            `uvm_info(get_type_name(),
+                $sformatf("%s abort @ BitCounter~%0d: BUSY cleared normally", is_write ? "WRITE" : "READ", bitcounter_target), UVM_LOW)
+        else
+            `uvm_error(get_type_name(),
+                $sformatf("%s abort @ BitCounter~%0d: BUSY stuck (same lockup class as MIIM-001?)", is_write ? "WRITE" : "READ", bitcounter_target))
+
+        m_reset_seq = reset_seq::type_id::create("m_reset_seq");
+        m_reset_seq.m_regmodel = p_sequencer.regmodel;
+        m_reset_seq.start(p_sequencer.m_reset_sqr);
+        p_sequencer.regmodel.reset();
+    endtask
+
+    task body();
+        wb_s_seq_mdio cfg = wb_s_seq_mdio::type_id::create("cfg");
+        int write_targets[] = '{40, 48, 56};
+        int read_targets[]  = '{40, 55, 63};
+
+        foreach (write_targets[idx]) run_one(1'b1, write_targets[idx], cfg);
+        foreach (read_targets[idx])  run_one(1'b0, read_targets[idx], cfg);
     endtask
 endclass
 
