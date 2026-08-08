@@ -1,2 +1,0 @@
-var g_data = {"65":[63,"m_wb_s_if",1],"66":[63,"m_wb_m_if",1],"67":[63,"m_mii_tx_if",1],"63":[-1,"eth_tb",1],"143":[-1,"eth_cov_pkg",1],"225":[-1,"mii_tx_seq_pkg",1],"227":[-1,"wb_m_seq_pkg",1],"228":[-1,"wb_s_seq_pkg",1]};
-processInstLinks(g_data);

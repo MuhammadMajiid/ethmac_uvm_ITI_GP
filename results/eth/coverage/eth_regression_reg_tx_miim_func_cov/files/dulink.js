@@ -1,2 +1,0 @@
-var g_data = {"13":["work.eth_cov_pkg",100.00,1],"5":["work.mii_tx_if",100.00,1],"22":["work.mii_tx_seq_pkg",100.00,1],"2":["work.wb_m_if",70.83,1],"24":["work.wb_m_seq_pkg",100.00,1],"1":["work.wb_s_if",78.88,1],"25":["work.wb_s_seq_pkg",100.00,1]};
-processDuLinks(g_data);
