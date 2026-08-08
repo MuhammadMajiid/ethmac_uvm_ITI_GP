@@ -1,4 +1,4 @@
-# End time: 02:56:36 on Aug 04,2026, Elapsed time: 0:00:22
+# End time: 07:04:47 on Aug 07,2026, Elapsed time: 0:00:18
 # Errors: 0, Warnings: 0
 # vsim -c -voptargs="+acc" work.eth_tb -coverage -classdebug -sv_seed random -uvmcontrol=all "+uvm_set_verbosity=uvm_test_top.m_env.*,_ALL_,UVM_MEDIUM,time,0" "+seq_num=1" "+coll_num=0" "+UVM_TESTNAME=eth_test_miim_cov_cross" -onfinish stop -do "
 #     view wave
@@ -13,24 +13,14 @@
 #     # Exclusions
 #     coverage exclude -du eth_clockgen -togglenode Counter[7]
 #     coverage exclude -du eth_clockgen -togglenode CounterPreset[7]
-#     # coverage exclude -du eth_shiftreg -togglenode Prsd[0]
-#     # coverage exclude -du eth_shiftreg -togglenode Prsd[1]
-#     # coverage exclude -du eth_shiftreg -togglenode Prsd[3]
-#     # coverage exclude -du eth_shiftreg -togglenode Prsd[4]
-#     # coverage exclude -du eth_shiftreg -togglenode Prsd[5]
-#     # coverage exclude -du eth_shiftreg -togglenode Prsd[6]
-#     # coverage exclude -du eth_shiftreg -togglenode Prsd[7]
-#     # coverage exclude -du eth_shiftreg -togglenode Prsd[8]
-#     # coverage exclude -du eth_shiftreg -togglenode Prsd[9]
-#     # coverage exclude -du eth_shiftreg -togglenode Prsd[10]
-#     # coverage exclude -du eth_shiftreg -togglenode Prsd[11]
+#     # coverage exclude -du eth_shiftreg -togglenode Prsd[15]
 # 
 #     run -all
 #     coverage save $CODE_UCDB -codeAll -instance eth_tb.dut
 #     coverage save $FUNC_UCDB -cvg -directive -assert
 #     transcript file ""
 # " 
-# Start time: 02:56:36 on Aug 04,2026
+# Start time: 07:04:47 on Aug 07,2026
 # ** Note: (vsim-8009) Loading existing optimized design _opt
 # Loading sv_std.std
 # Loading work.wb_s_if(fast)
@@ -119,7 +109,7 @@
 # Loading work.eth_fifo(fast)
 # Loading work.eth_macstatus(fast)
 # Loading /home/muhammad/eda_tools/altera/questasim/questasim/uvm-1.1d/linux_x86_64/uvm_dpi.so
-# Sv_Seed = 1552146531
+# Sv_Seed = 465300018
 # 
 #     view wave
 #     add wave -r /eth_tb/dut/*
@@ -133,17 +123,7 @@
 #     # Exclusions
 #     coverage exclude -du eth_clockgen -togglenode Counter[7]
 #     coverage exclude -du eth_clockgen -togglenode CounterPreset[7]
-#     # coverage exclude -du eth_shiftreg -togglenode Prsd[0]
-#     # coverage exclude -du eth_shiftreg -togglenode Prsd[1]
-#     # coverage exclude -du eth_shiftreg -togglenode Prsd[3]
-#     # coverage exclude -du eth_shiftreg -togglenode Prsd[4]
-#     # coverage exclude -du eth_shiftreg -togglenode Prsd[5]
-#     # coverage exclude -du eth_shiftreg -togglenode Prsd[6]
-#     # coverage exclude -du eth_shiftreg -togglenode Prsd[7]
-#     # coverage exclude -du eth_shiftreg -togglenode Prsd[8]
-#     # coverage exclude -du eth_shiftreg -togglenode Prsd[9]
-#     # coverage exclude -du eth_shiftreg -togglenode Prsd[10]
-#     # coverage exclude -du eth_shiftreg -togglenode Prsd[11]
+#     # coverage exclude -du eth_shiftreg -togglenode Prsd[15]
 # 
 #     run -all
 #     coverage save $CODE_UCDB -codeAll -instance eth_tb.dut
@@ -390,6 +370,7 @@
 # UVM_INFO tb/sequences/wb_s_seq/wb_s_seq_mdio.sv(100) @ 1597500: reporter@@cfg [MIIM_CONFIG] CLKDIV=100, MIINOPRE=0, FIAD=1, RGAD=3, CTRLDATA=0x0000, WCTRLDATA=0, RSTAT=1, SCANSTAT=0
 # UVM_INFO tb/coverage/eth_cov_mdio.sv(177) @ 1602500: uvm_test_top.m_env.m_cov_mdio [MDIO_COV] sample addr=0xb wdata=0x2 rgad=0x3 scan=0 read=1 write=0
 # UVM_WARNING tb/interfaces/wb_s_if.sv(115) @ 1602500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_INFO tb/agents/mdio/mdio_monitor_base.sv(71) @ 3437500: uvm_test_top.m_env.m_mdio_agent.m_monitor [mdio_monitor_base] MDIO transaction aborted mid-frame (mdio_en dropped early) -- discarding partial sample
 # UVM_INFO verilog_src/uvm-1.1d/src/base/uvm_objection.svh(1267) @ 11797500: reporter [TEST_DONE] 'run' phase is ready to proceed to the 'extract' phase
 # UVM_INFO tb/agents/wb_m/wb_m_driver_base.sv(108) @ 11797500: uvm_test_top.m_env.m_wb_m_agent.m_driver [wb_m_driver_base] Drived 0 active transactions
 # UVM_INFO tb/agents/wb_m/wb_m_monitor_base.sv(130) @ 11797500: uvm_test_top.m_env.m_wb_m_agent.m_monitor [wb_m_monitor_base] Monitored 2351 TRANSACTIONS
@@ -397,7 +378,7 @@
 # --- UVM Report Summary ---
 # 
 # ** Report counts by severity
-# UVM_INFO :   40
+# UVM_INFO :   41
 # UVM_WARNING :   11
 # UVM_ERROR :    0
 # UVM_FATAL :    0
@@ -410,6 +391,7 @@
 # [RNTST]     1
 # [TEST_DONE]     1
 # [UVMTOP]     1
+# [mdio_monitor_base]     1
 # [wb_m_driver_base]     1
 # [wb_m_monitor_base]     2
 # ** Note: $finish    : /home/muhammad/eda_tools/altera/questasim/questasim/linux_x86_64/../verilog_src/uvm-1.1d/src/base/uvm_root.svh(430)

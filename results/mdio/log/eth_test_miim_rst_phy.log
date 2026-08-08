@@ -1,4 +1,4 @@
-# End time: 02:55:57 on Aug 04,2026, Elapsed time: 0:00:14
+# End time: 07:04:12 on Aug 07,2026, Elapsed time: 0:00:12
 # Errors: 0, Warnings: 0
 # vsim -c -voptargs="+acc" work.eth_tb -coverage -classdebug -sv_seed random -uvmcontrol=all "+uvm_set_verbosity=uvm_test_top.m_env.*,_ALL_,UVM_MEDIUM,time,0" "+seq_num=5" "+coll_num=0" "+UVM_TESTNAME=eth_test_miim_rst_phy" -onfinish stop -do "
 #     view wave
@@ -13,24 +13,14 @@
 #     # Exclusions
 #     coverage exclude -du eth_clockgen -togglenode Counter[7]
 #     coverage exclude -du eth_clockgen -togglenode CounterPreset[7]
-#     # coverage exclude -du eth_shiftreg -togglenode Prsd[0]
-#     # coverage exclude -du eth_shiftreg -togglenode Prsd[1]
-#     # coverage exclude -du eth_shiftreg -togglenode Prsd[3]
-#     # coverage exclude -du eth_shiftreg -togglenode Prsd[4]
-#     # coverage exclude -du eth_shiftreg -togglenode Prsd[5]
-#     # coverage exclude -du eth_shiftreg -togglenode Prsd[6]
-#     # coverage exclude -du eth_shiftreg -togglenode Prsd[7]
-#     # coverage exclude -du eth_shiftreg -togglenode Prsd[8]
-#     # coverage exclude -du eth_shiftreg -togglenode Prsd[9]
-#     # coverage exclude -du eth_shiftreg -togglenode Prsd[10]
-#     # coverage exclude -du eth_shiftreg -togglenode Prsd[11]
+#     # coverage exclude -du eth_shiftreg -togglenode Prsd[15]
 # 
 #     run -all
 #     coverage save $CODE_UCDB -codeAll -instance eth_tb.dut
 #     coverage save $FUNC_UCDB -cvg -directive -assert
 #     transcript file ""
 # " 
-# Start time: 02:55:57 on Aug 04,2026
+# Start time: 07:04:12 on Aug 07,2026
 # ** Note: (vsim-8009) Loading existing optimized design _opt
 # Loading sv_std.std
 # Loading work.wb_s_if(fast)
@@ -119,7 +109,7 @@
 # Loading work.eth_fifo(fast)
 # Loading work.eth_macstatus(fast)
 # Loading /home/muhammad/eda_tools/altera/questasim/questasim/uvm-1.1d/linux_x86_64/uvm_dpi.so
-# Sv_Seed = 646177477
+# Sv_Seed = 815503664
 # 
 #     view wave
 #     add wave -r /eth_tb/dut/*
@@ -133,17 +123,7 @@
 #     # Exclusions
 #     coverage exclude -du eth_clockgen -togglenode Counter[7]
 #     coverage exclude -du eth_clockgen -togglenode CounterPreset[7]
-#     # coverage exclude -du eth_shiftreg -togglenode Prsd[0]
-#     # coverage exclude -du eth_shiftreg -togglenode Prsd[1]
-#     # coverage exclude -du eth_shiftreg -togglenode Prsd[3]
-#     # coverage exclude -du eth_shiftreg -togglenode Prsd[4]
-#     # coverage exclude -du eth_shiftreg -togglenode Prsd[5]
-#     # coverage exclude -du eth_shiftreg -togglenode Prsd[6]
-#     # coverage exclude -du eth_shiftreg -togglenode Prsd[7]
-#     # coverage exclude -du eth_shiftreg -togglenode Prsd[8]
-#     # coverage exclude -du eth_shiftreg -togglenode Prsd[9]
-#     # coverage exclude -du eth_shiftreg -togglenode Prsd[10]
-#     # coverage exclude -du eth_shiftreg -togglenode Prsd[11]
+#     # coverage exclude -du eth_shiftreg -togglenode Prsd[15]
 # 
 #     run -all
 #     coverage save $CODE_UCDB -codeAll -instance eth_tb.dut
@@ -482,6 +462,7 @@
 # UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 2997500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000002 ADDR=0000000f
 # UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 3022500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000002 ADDR=0000000f
 # UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 3047500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000002 ADDR=0000000f
+# UVM_INFO tb/agents/mdio/mdio_monitor_base.sv(71) @ 3052500: uvm_test_top.m_env.m_mdio_agent.m_monitor [mdio_monitor_base] MDIO transaction aborted mid-frame (mdio_en dropped early) -- discarding partial sample
 # UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 3072500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000002 ADDR=0000000f
 # UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 3097500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000002 ADDR=0000000f
 # UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 3122500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000002 ADDR=0000000f
@@ -1867,6 +1848,7 @@
 # UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 37492500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000002 ADDR=0000000f
 # UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 37517500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000002 ADDR=0000000f
 # UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 37542500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000002 ADDR=0000000f
+# UVM_INFO tb/agents/mdio/mdio_monitor_base.sv(71) @ 37552500: uvm_test_top.m_env.m_mdio_agent.m_monitor [mdio_monitor_base] MDIO transaction aborted mid-frame (mdio_en dropped early) -- discarding partial sample
 # UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 37567500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000002 ADDR=0000000f
 # UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 37592500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000002 ADDR=0000000f
 # UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 37617500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000002 ADDR=0000000f
@@ -3129,12 +3111,13 @@
 # UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 69042500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000002 ADDR=0000000f
 # UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 69067500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000002 ADDR=0000000f
 # UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 69092500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000000 ADDR=0000000f
-# UVM_INFO tb/sequences/wb_s_seq/wb_s_seq_mdio.sv(63) @ 69102500: reporter@@cfg [MIIM_CONFIG] Configuring MIIM registers
-# UVM_INFO tb/coverage/eth_cov_mdio.sv(177) @ 69117500: uvm_test_top.m_env.m_cov_mdio [MDIO_COV] sample addr=0xb wdata=0x2 rgad=0x0 scan=0 read=1 write=0
-# UVM_INFO tb/sequences/wb_s_seq/wb_s_seq_mdio.sv(100) @ 69122500: reporter@@cfg [MIIM_CONFIG] CLKDIV=100, MIINOPRE=0, FIAD=1, RGAD=0, CTRLDATA=0x0000, WCTRLDATA=0, RSTAT=1, SCANSTAT=0
-# UVM_INFO tb/coverage/eth_cov_mdio.sv(177) @ 69127500: uvm_test_top.m_env.m_cov_mdio [MDIO_COV] sample addr=0xb wdata=0x2 rgad=0x0 scan=0 read=1 write=0
-# UVM_WARNING tb/interfaces/wb_s_if.sv(115) @ 69127500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
-# UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 69137500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000002 ADDR=0000000f
+# UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 69117500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00004000 ADDR=0000000e
+# UVM_INFO tb/virtual_seq_sqr/eth_v_seq_mdio_lib.sv(133) @ 69127500: uvm_test_top.m_env.m_v_sqr@@v_seq [v_seq_tc_miim_rst_phy] Reset bit[15] 1st read: MIIRX_DATA=0x4000 (bit15=0)
+# UVM_INFO tb/sequences/wb_s_seq/wb_s_seq_mdio.sv(63) @ 69127500: reporter@@cfg [MIIM_CONFIG] Configuring MIIM registers
+# UVM_INFO tb/coverage/eth_cov_mdio.sv(177) @ 69142500: uvm_test_top.m_env.m_cov_mdio [MDIO_COV] sample addr=0xb wdata=0x2 rgad=0x0 scan=0 read=1 write=0
+# UVM_INFO tb/sequences/wb_s_seq/wb_s_seq_mdio.sv(100) @ 69147500: reporter@@cfg [MIIM_CONFIG] CLKDIV=100, MIINOPRE=0, FIAD=1, RGAD=0, CTRLDATA=0x0000, WCTRLDATA=0, RSTAT=1, SCANSTAT=0
+# UVM_INFO tb/coverage/eth_cov_mdio.sv(177) @ 69152500: uvm_test_top.m_env.m_cov_mdio [MDIO_COV] sample addr=0xb wdata=0x2 rgad=0x0 scan=0 read=1 write=0
+# UVM_WARNING tb/interfaces/wb_s_if.sv(115) @ 69152500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
 # UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 69162500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000002 ADDR=0000000f
 # UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 69187500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000002 ADDR=0000000f
 # UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 69212500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000002 ADDR=0000000f
@@ -3251,6 +3234,7 @@
 # UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 71987500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000002 ADDR=0000000f
 # UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 72012500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000002 ADDR=0000000f
 # UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 72037500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000002 ADDR=0000000f
+# UVM_INFO tb/agents/mdio/mdio_monitor_base.sv(71) @ 72052500: uvm_test_top.m_env.m_mdio_agent.m_monitor [mdio_monitor_base] MDIO transaction aborted mid-frame (mdio_en dropped early) -- discarding partial sample
 # UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 72062500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000002 ADDR=0000000f
 # UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 72087500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000002 ADDR=0000000f
 # UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 72112500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000002 ADDR=0000000f
@@ -4513,14 +4497,15 @@
 # UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 103537500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000002 ADDR=0000000f
 # UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 103562500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000002 ADDR=0000000f
 # UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 103587500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000000 ADDR=0000000f
-# UVM_INFO tb/sequences/wb_s_seq/wb_s_seq_mdio.sv(63) @ 103597500: reporter@@cfg [MIIM_CONFIG] Configuring MIIM registers
-# UVM_INFO tb/coverage/eth_cov_mdio.sv(177) @ 103612500: uvm_test_top.m_env.m_cov_mdio [MDIO_COV] sample addr=0xd wdata=0x200 rgad=0x0 scan=0 read=0 write=0
-# UVM_INFO tb/coverage/eth_cov_mdio.sv(177) @ 103622500: uvm_test_top.m_env.m_cov_mdio [MDIO_COV] sample addr=0xd wdata=0x200 rgad=0x0 scan=0 read=0 write=0
-# UVM_INFO tb/coverage/eth_cov_mdio.sv(177) @ 103637500: uvm_test_top.m_env.m_cov_mdio [MDIO_COV] sample addr=0xb wdata=0x4 rgad=0x0 scan=0 read=0 write=1
-# UVM_INFO tb/sequences/wb_s_seq/wb_s_seq_mdio.sv(100) @ 103642500: reporter@@cfg [MIIM_CONFIG] CLKDIV=100, MIINOPRE=0, FIAD=1, RGAD=0, CTRLDATA=0x0200, WCTRLDATA=1, RSTAT=0, SCANSTAT=0
-# UVM_INFO tb/coverage/eth_cov_mdio.sv(177) @ 103647500: uvm_test_top.m_env.m_cov_mdio [MDIO_COV] sample addr=0xb wdata=0x4 rgad=0x0 scan=0 read=0 write=1
-# UVM_WARNING tb/interfaces/wb_s_if.sv(115) @ 103647500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
-# UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 103657500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000002 ADDR=0000000f
+# UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 103612500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000000 ADDR=0000000e
+# UVM_INFO tb/virtual_seq_sqr/eth_v_seq_mdio_lib.sv(137) @ 103622500: uvm_test_top.m_env.m_v_sqr@@v_seq [v_seq_tc_miim_rst_phy] Reset bit[15] 2nd read: MIIRX_DATA=0x0 (bit15=0)
+# UVM_INFO tb/sequences/wb_s_seq/wb_s_seq_mdio.sv(63) @ 103622500: reporter@@cfg [MIIM_CONFIG] Configuring MIIM registers
+# UVM_INFO tb/coverage/eth_cov_mdio.sv(177) @ 103637500: uvm_test_top.m_env.m_cov_mdio [MDIO_COV] sample addr=0xd wdata=0x200 rgad=0x0 scan=0 read=0 write=0
+# UVM_INFO tb/coverage/eth_cov_mdio.sv(177) @ 103647500: uvm_test_top.m_env.m_cov_mdio [MDIO_COV] sample addr=0xd wdata=0x200 rgad=0x0 scan=0 read=0 write=0
+# UVM_INFO tb/coverage/eth_cov_mdio.sv(177) @ 103662500: uvm_test_top.m_env.m_cov_mdio [MDIO_COV] sample addr=0xb wdata=0x4 rgad=0x0 scan=0 read=0 write=1
+# UVM_INFO tb/sequences/wb_s_seq/wb_s_seq_mdio.sv(100) @ 103667500: reporter@@cfg [MIIM_CONFIG] CLKDIV=100, MIINOPRE=0, FIAD=1, RGAD=0, CTRLDATA=0x0200, WCTRLDATA=1, RSTAT=0, SCANSTAT=0
+# UVM_INFO tb/coverage/eth_cov_mdio.sv(177) @ 103672500: uvm_test_top.m_env.m_cov_mdio [MDIO_COV] sample addr=0xb wdata=0x4 rgad=0x0 scan=0 read=0 write=1
+# UVM_WARNING tb/interfaces/wb_s_if.sv(115) @ 103672500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
 # UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 103682500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000002 ADDR=0000000f
 # UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 103707500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000002 ADDR=0000000f
 # UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 103732500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000002 ADDR=0000000f
@@ -4636,6 +4621,7 @@
 # UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 106482500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000002 ADDR=0000000f
 # UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 106507500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000002 ADDR=0000000f
 # UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 106532500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000002 ADDR=0000000f
+# UVM_INFO tb/agents/mdio/mdio_monitor_base.sv(71) @ 106552500: uvm_test_top.m_env.m_mdio_agent.m_monitor [mdio_monitor_base] MDIO transaction aborted mid-frame (mdio_en dropped early) -- discarding partial sample
 # UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 106557500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000002 ADDR=0000000f
 # UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 106582500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000002 ADDR=0000000f
 # UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 106607500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000002 ADDR=0000000f
@@ -6021,6 +6007,7 @@
 # UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 140977500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000002 ADDR=0000000f
 # UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 141002500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000002 ADDR=0000000f
 # UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 141027500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000002 ADDR=0000000f
+# UVM_INFO tb/agents/mdio/mdio_monitor_base.sv(71) @ 141052500: uvm_test_top.m_env.m_mdio_agent.m_monitor [mdio_monitor_base] MDIO transaction aborted mid-frame (mdio_en dropped early) -- discarding partial sample
 # UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 141052500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000002 ADDR=0000000f
 # UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 141077500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000002 ADDR=0000000f
 # UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 141102500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000002 ADDR=0000000f
@@ -7406,6 +7393,7 @@
 # UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 175497500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000002 ADDR=0000000f
 # UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 175522500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000002 ADDR=0000000f
 # UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 175547500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000002 ADDR=0000000f
+# UVM_INFO tb/agents/mdio/mdio_monitor_base.sv(71) @ 175552500: uvm_test_top.m_env.m_mdio_agent.m_monitor [mdio_monitor_base] MDIO transaction aborted mid-frame (mdio_en dropped early) -- discarding partial sample
 # UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 175572500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000002 ADDR=0000000f
 # UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 175597500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000002 ADDR=0000000f
 # UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 175622500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000002 ADDR=0000000f
@@ -8682,7 +8670,7 @@
 # --- UVM Report Summary ---
 # 
 # ** Report counts by severity
-# UVM_INFO : 8314
+# UVM_INFO : 8322
 # UVM_WARNING :   22
 # UVM_ERROR :    0
 # UVM_FATAL :    0
@@ -8695,6 +8683,8 @@
 # [RNTST]     1
 # [TEST_DONE]     1
 # [UVMTOP]     1
+# [mdio_monitor_base]     6
+# [v_seq_tc_miim_rst_phy]     2
 # [wb_m_driver_base]     1
 # [wb_m_monitor_base]     2
 # [wb_s_driver_base]  8272

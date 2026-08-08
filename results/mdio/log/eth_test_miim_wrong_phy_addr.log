@@ -1,4 +1,4 @@
-# End time: 03:00:35 on Aug 04,2026, Elapsed time: 0:00:19
+# End time: 07:07:55 on Aug 07,2026, Elapsed time: 0:00:14
 # Errors: 4, Warnings: 0
 # vsim -c -voptargs="+acc" work.eth_tb -coverage -classdebug -sv_seed random -uvmcontrol=all "+uvm_set_verbosity=uvm_test_top.m_env.*,_ALL_,UVM_MEDIUM,time,0" "+seq_num=31" "+coll_num=0" "+UVM_TESTNAME=eth_test_miim_wrong_phy_addr" -onfinish stop -do "
 #     view wave
@@ -13,24 +13,14 @@
 #     # Exclusions
 #     coverage exclude -du eth_clockgen -togglenode Counter[7]
 #     coverage exclude -du eth_clockgen -togglenode CounterPreset[7]
-#     # coverage exclude -du eth_shiftreg -togglenode Prsd[0]
-#     # coverage exclude -du eth_shiftreg -togglenode Prsd[1]
-#     # coverage exclude -du eth_shiftreg -togglenode Prsd[3]
-#     # coverage exclude -du eth_shiftreg -togglenode Prsd[4]
-#     # coverage exclude -du eth_shiftreg -togglenode Prsd[5]
-#     # coverage exclude -du eth_shiftreg -togglenode Prsd[6]
-#     # coverage exclude -du eth_shiftreg -togglenode Prsd[7]
-#     # coverage exclude -du eth_shiftreg -togglenode Prsd[8]
-#     # coverage exclude -du eth_shiftreg -togglenode Prsd[9]
-#     # coverage exclude -du eth_shiftreg -togglenode Prsd[10]
-#     # coverage exclude -du eth_shiftreg -togglenode Prsd[11]
+#     # coverage exclude -du eth_shiftreg -togglenode Prsd[15]
 # 
 #     run -all
 #     coverage save $CODE_UCDB -codeAll -instance eth_tb.dut
 #     coverage save $FUNC_UCDB -cvg -directive -assert
 #     transcript file ""
 # " 
-# Start time: 03:00:35 on Aug 04,2026
+# Start time: 07:07:55 on Aug 07,2026
 # ** Note: (vsim-8009) Loading existing optimized design _opt
 # Loading sv_std.std
 # Loading work.wb_s_if(fast)
@@ -119,7 +109,7 @@
 # Loading work.eth_fifo(fast)
 # Loading work.eth_macstatus(fast)
 # Loading /home/muhammad/eda_tools/altera/questasim/questasim/uvm-1.1d/linux_x86_64/uvm_dpi.so
-# Sv_Seed = 2609099420
+# Sv_Seed = 2012974411
 # 
 #     view wave
 #     add wave -r /eth_tb/dut/*
@@ -133,17 +123,7 @@
 #     # Exclusions
 #     coverage exclude -du eth_clockgen -togglenode Counter[7]
 #     coverage exclude -du eth_clockgen -togglenode CounterPreset[7]
-#     # coverage exclude -du eth_shiftreg -togglenode Prsd[0]
-#     # coverage exclude -du eth_shiftreg -togglenode Prsd[1]
-#     # coverage exclude -du eth_shiftreg -togglenode Prsd[3]
-#     # coverage exclude -du eth_shiftreg -togglenode Prsd[4]
-#     # coverage exclude -du eth_shiftreg -togglenode Prsd[5]
-#     # coverage exclude -du eth_shiftreg -togglenode Prsd[6]
-#     # coverage exclude -du eth_shiftreg -togglenode Prsd[7]
-#     # coverage exclude -du eth_shiftreg -togglenode Prsd[8]
-#     # coverage exclude -du eth_shiftreg -togglenode Prsd[9]
-#     # coverage exclude -du eth_shiftreg -togglenode Prsd[10]
-#     # coverage exclude -du eth_shiftreg -togglenode Prsd[11]
+#     # coverage exclude -du eth_shiftreg -togglenode Prsd[15]
 # 
 #     run -all
 #     coverage save $CODE_UCDB -codeAll -instance eth_tb.dut
@@ -482,6 +462,7 @@
 # UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 2997500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000002 ADDR=0000000f
 # UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 3022500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000002 ADDR=0000000f
 # UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 3047500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000002 ADDR=0000000f
+# UVM_INFO tb/agents/mdio/mdio_monitor_base.sv(71) @ 3052500: uvm_test_top.m_env.m_mdio_agent.m_monitor [mdio_monitor_base] MDIO transaction aborted mid-frame (mdio_en dropped early) -- discarding partial sample
 # UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 3072500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000002 ADDR=0000000f
 # UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 3097500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000002 ADDR=0000000f
 # UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 3122500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000002 ADDR=0000000f
@@ -1867,6 +1848,7 @@
 # UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 37492500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000002 ADDR=0000000f
 # UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 37517500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000002 ADDR=0000000f
 # UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 37542500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000002 ADDR=0000000f
+# UVM_INFO tb/agents/mdio/mdio_monitor_base.sv(71) @ 37552500: uvm_test_top.m_env.m_mdio_agent.m_monitor [mdio_monitor_base] MDIO transaction aborted mid-frame (mdio_en dropped early) -- discarding partial sample
 # UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 37567500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000002 ADDR=0000000f
 # UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 37592500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000002 ADDR=0000000f
 # UVM_INFO tb/agents/wb_s/wb_s_driver_base.sv(127) @ 37617500: uvm_test_top.m_env.m_wb_s_agent.m_driver [wb_s_driver_base] ACK=1 DATA=00000002 ADDR=0000000f
@@ -3136,7 +3118,7 @@
 # --- UVM Report Summary ---
 # 
 # ** Report counts by severity
-# UVM_INFO : 2780
+# UVM_INFO : 2782
 # UVM_WARNING :   10
 # UVM_ERROR :    0
 # UVM_FATAL :    0
@@ -3149,6 +3131,7 @@
 # [RNTST]     1
 # [TEST_DONE]     1
 # [UVMTOP]     1
+# [mdio_monitor_base]     2
 # [wb_m_driver_base]     1
 # [wb_m_monitor_base]     2
 # [wb_s_driver_base]  2758

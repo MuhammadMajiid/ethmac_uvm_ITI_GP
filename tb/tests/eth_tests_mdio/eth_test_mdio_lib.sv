@@ -314,4 +314,22 @@ class eth_test_miim_clkdiv_extremes extends eth_test_mdio_base;
     endtask
 endclass
 
+// Test 18: LinkFail toggle coverage closure (RSTAT-only, avoids scan lockup)
+class eth_test_miim_linkfail_toggle extends eth_test_mdio_base;
+    `uvm_component_utils(eth_test_miim_linkfail_toggle)
+    function new(string name = "eth_test_miim_linkfail_toggle", uvm_component parent = null);
+     super.new(name, parent);
+    endfunction
+
+    task run_phase(uvm_phase phase);
+        v_seq_tc_miim_linkfail_toggle v_seq;
+        v_seq = v_seq_tc_miim_linkfail_toggle::type_id::create("v_seq");
+        phase.raise_objection(this);
+        apply_reset();
+        v_seq.start(m_env.m_v_sqr);
+        #500ns;
+        phase.drop_objection(this);
+    endtask
+endclass
+
 `endif
