@@ -1,0 +1,2 @@
+var g_data = ["","rtl/eth_top.v","rtl/eth_miim.v","rtl/eth_clockgen.v","rtl/eth_shiftreg.v","rtl/eth_outputcontrol.v","rtl/eth_registers.v","rtl/eth_register.v","rtl/eth_maccontrol.v","rtl/eth_receivecontrol.v","rtl/eth_transmitcontrol.v","rtl/eth_txethmac.v","rtl/eth_txcounters.v","rtl/eth_txstatem.v","rtl/eth_crc.v","rtl/eth_random.v","rtl/eth_rxethmac.v","rtl/eth_rxstatem.v","rtl/eth_rxcounters.v","rtl/eth_rxaddrcheck.v","rtl/eth_wishbone.v","rtl/eth_spram_256x32.v","rtl/eth_fifo.v","rtl/eth_macstatus.v","tb/top/eth_tb.sv"];
+processSrcNamesData(g_data);
