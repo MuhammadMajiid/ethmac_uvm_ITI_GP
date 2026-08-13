@@ -28,7 +28,7 @@ class eth_test_tx_len extends eth_test_tx_base;
     // set wishnbone master & slave agents to active
     m_config.m_wb_m_config.is_active=UVM_ACTIVE;
     m_config.m_wb_s_config.is_active=UVM_ACTIVE;
-	m_config.m_rst_config.is_active=UVM_ACTIVE;
+	  m_config.m_rst_config.is_active=UVM_ACTIVE;
 
     // set mii tx agent to passive
     m_config.m_mii_tx_config.is_active=UVM_PASSIVE;

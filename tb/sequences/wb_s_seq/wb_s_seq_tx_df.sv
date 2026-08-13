@@ -71,6 +71,7 @@ class wb_s_seq_tx_df extends wb_s_basic_tx_seq;
         // clear deferral bit
         regmodel.eth_bd_mem.write(status,i*2,rd_data, UVM_BACKDOOR);
     end
+    #(4*ETH_PHY_TX_CLK_PERIOD_NS);
     end 
 
     endtask
