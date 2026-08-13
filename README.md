@@ -57,7 +57,7 @@ The environment covers the following areas:
 - Receive buffer handling
 - Receive-path scoreboarding and coverage
 
-### MDIO/MIIM verification
+### MIIM verification
 
 - PHY register reads and writes
 - Clock-divider configuration
@@ -104,8 +104,8 @@ A UVM register abstraction layer models the MAC registers, while coverage collec
 |   |-- seq_items/        # Transaction definitions
 |   |-- tests/            # Register, TX, and MDIO tests
 |   |-- top/              # Testbench top and DUT integration
-|   `-- virtual_seq_sqr/  # Virtual sequencer
-|-- scripts/      # Questa compilation, test, regression, and coverage scripts
+|   `-- virtual_seq_sqr/  # Virtual sequencer & Virtual sequences
+|-- scripts/      # Scripts for running simulation and merging coverage
 |-- results/      # Simulation logs and coverage results
 |-- plan_phase/   # Verification-planning material
 `-- doc/          # Specifications, presentations, plans, and project notes
