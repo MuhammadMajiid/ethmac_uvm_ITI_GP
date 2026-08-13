@@ -1,5 +1,4 @@
-# ethmac_uvm_ITI_GP
-# Ethernet MAC UVM Verification Environment
+# Verification Ethernet MAC Layer
 
 This repository contains the RTL and SystemVerilog/UVM verification environment for an Ethernet Media Access Controller (MAC). It was developed as an Information Technology Institute (ITI) graduation project.
 
@@ -7,7 +6,7 @@ The project verifies the MAC’s register interface, transmit and receive paths,
 
 ## Project overview
 
-The design under test is a configurable 10/100 Mbps Ethernet MAC featuring:
+The design under test is a configurable 10/100 Mbps Ethernet MAC IP from Opencores featuring:
 
 - Wishbone host and DMA interfaces
 - Media Independent Interface (MII) connectivity
