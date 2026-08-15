@@ -19,42 +19,56 @@ class wb_m_seq_wr_rd extends wb_m_seq_base;
     function new(string name = "");
         super.new(name);
     endfunction
- 
- task body;
+    
+    virtual function command(wb_m_seq_item_base m_tr_item); 
+    // Default response for idle/invalid transactions
+    m_tr_item.m_data_i = '0;
+    m_tr_item.m_ack_i  = 1'b0;
+    m_tr_item.m_err_i  = 1'b0;
+
+    if ((&m_tr_item.m_sel_o) &&
+        m_tr_item.m_cyc_o    &&
+        m_tr_item.m_stb_o) begin
+
+        case (m_tr_item.m_dir)
+            WB_WRITE: begin
+                dma_mem::write(
+                    m_tr_item.m_addr_o,
+                    m_tr_item.m_data_o
+                );
+                m_tr_item.m_ack_i = 1'b1;
+            end
+
+            WB_READ: begin
+                dma_mem::read(
+                    m_tr_item.m_addr_o,
+                    m_tr_item.m_data_i
+                );
+                m_tr_item.m_ack_i = 1'b1;
+            end
+        endcase
+    end
+    endfunction
+
+    task body;
+
+        // Initial idle response
+        m_tr_item = wb_m_seq_item_base::type_id::create("m_tr_item");
+        m_tr_item.m_data_i = '0;
+        m_tr_item.m_ack_i  = 1'b0;
+        m_tr_item.m_err_i  = 1'b0;
+
         forever begin
-            // Get request item from monitor
-            p_sequencer.request_fifo.get(m_req_item);    
-            m_tr_item  = wb_m_seq_item_base::type_id::create("m_tr_item");
-            
-            // Check if sel is valid
-            if((&m_req_item.m_sel_o) && m_req_item.m_cyc_o && m_req_item.m_stb_o) begin
-            // Check if transaction is write or read
-            case (m_req_item.m_dir)
-                WB_WRITE:
-                begin
-                    // Write data to external memory model
-                    dma_mem::write(m_req_item.m_addr_o,m_req_item.m_data_o);
-                    m_tr_item.m_ack_i=1;
-                    m_tr_item.m_err_i=0;
-                end
-                WB_READ:
-                begin
-                    // Read data from external memory model
-                    dma_mem::read(m_req_item.m_addr_o,m_tr_item.m_data_i);
-                    m_tr_item.m_ack_i=1;
-                    m_tr_item.m_err_i=0;
-                end
-                endcase
-            end
-            //There's no transaction so don't assert ack signal and Error is always 0.
-            else begin
-                m_tr_item.m_ack_i=0;
-                m_tr_item.m_err_i=0;
-            end
-            // start transaction on sequencer
+            // Send the response prepared during the previous iteration
             start_item(m_tr_item);
             finish_item(m_tr_item);
+
+            // Receive the DUT request sampled and returned by the driver
+            get_response(m_tr_item);
+            // Process transaction to determine if it's read or write
+            command(m_tr_item);
         end
+
     endtask
 
 endclass : wb_m_seq_wr_rd

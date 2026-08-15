@@ -24,7 +24,6 @@ package wb_m_seq_pkg;
     import wb_m_agent_pkg::wb_m_sequencer_base;
     // Sequences
     `include "wb_m_seq_base.sv"
-    `include "wb_m_seq_smoke.sv"
     `include "wb_m_seq_wr_rd.sv"
     `include "wb_m_seq_wait.sv"
 

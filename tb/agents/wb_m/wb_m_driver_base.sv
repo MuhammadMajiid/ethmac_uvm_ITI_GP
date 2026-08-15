@@ -77,7 +77,7 @@ task wb_m_driver_base::run_phase(uvm_phase phase);
         `uvm_info(get_type_name(), $sformatf("time %0t, Item no. %0d driven successfully",$time,m_item_cnt), UVM_DEBUG)
         // Increment number of driven transactions
         m_item_cnt++;    
-        seq_item_port.item_done();
+        seq_item_port.item_done(m_item);
     end    
 
 endtask
@@ -87,17 +87,24 @@ task wb_m_driver_base::reset_items();
     vif.cb.m_ack_i<=0;
     vif.cb.m_err_i<=0;
     vif.cb.m_data_i<=0;
-    @(posedge vif.clk_i);
+    @(vif.cb);
 endtask
 
 // Task: drive_items
 task wb_m_driver_base::drive_items();
 
     // Drive pin level DUT signals
-    vif.m_ack_i<=m_item.m_ack_i;
-    vif.m_err_i<=m_item.m_err_i;
-    vif.m_data_i<=m_item.m_data_i;
-
+    vif.cb.m_ack_i<=m_item.m_ack_i;
+    vif.cb.m_err_i<=m_item.m_err_i;
+    vif.cb.m_data_i<=m_item.m_data_i;
+    @(vif.cb);
+    // Sample the next DUT request
+    m_item.m_addr_o = vif.m_addr_o;
+    m_item.m_data_o = vif.m_data_o;
+    m_item.m_sel_o  = vif.m_sel_o;
+    m_item.m_stb_o  = vif.m_stb_o;
+    m_item.m_cyc_o  = vif.m_cyc_o;
+    m_item.m_dir    = wb_dir_t'(vif.m_we_o);
     `uvm_info(get_type_name(),m_item.convert2string(), UVM_DEBUG)
 
 endtask

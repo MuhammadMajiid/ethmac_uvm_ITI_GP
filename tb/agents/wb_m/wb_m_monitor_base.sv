@@ -6,8 +6,8 @@
 //------------------------------------------------------------------------------
 // Description:
 //   Monitor for wishbone master agent. It converts pin level signals into 
-//   transactions and sends through 2 analysis ports, the first for coverage and
-//   the second for sequencer (if it's request, sequence will send stimulus).
+//   transactions and sends it to coverage collector & scoreboard through 
+//   analysis port.
 //==============================================================================
 `ifndef WB_M_MONITOR_BASE_SV
 `define WB_M_MONITOR_BASE_SV
@@ -17,10 +17,9 @@ class wb_m_monitor_base extends uvm_monitor;
     `uvm_component_utils(wb_m_monitor_base)
 
 
-    uvm_analysis_port #(wb_m_seq_item_base) transaction_a_port;     // For Scoreboard & Coverage
-    uvm_analysis_port #(wb_m_seq_item_base) request_a_port;         // For Sequencer
+    uvm_analysis_port #(wb_m_seq_item_base) a_port;     // For Scoreboard & Coverage
 
-    int m_item_cnt;                                                 // for counting no. of monitored transactions
+    int m_item_cnt;                                     // for counting no. of monitored transactions
 
     virtual wb_m_if     vif;
     
@@ -66,8 +65,7 @@ endfunction
 // Function: build_phase
 function void wb_m_monitor_base::build_phase(uvm_phase phase);
     super.build_phase(phase);
-    transaction_a_port = new("transaction_a_port", this);
-    request_a_port     = new("request_a_port", this);
+    a_port = new("a_port", this);
 endfunction    
 
 // Task : run_phase
@@ -81,13 +79,9 @@ task wb_m_monitor_base::run_phase(uvm_phase phase);
         m_item = wb_m_seq_item_base::type_id::create("m_item");
         mon_items(m_item);
 
-        // Check if it's valid transaction
-        //if(m_item.m_cyc_o && m_item.m_stb_o) begin        
+        // Check if it's valid transaction       
         // Send transaction to agent analysis port
-        transaction_a_port.write(m_item);
-        //end
-        // Send transaction to sequencer in all cases
-        request_a_port.write(m_item);
+        a_port.write(m_item);
         `uvm_info(get_type_name(), $sformatf("Item no. %0d monitored successfully",m_item_cnt), UVM_DEBUG)
         // Increment number of monitored transactions
         m_item_cnt++;

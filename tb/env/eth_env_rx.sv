@@ -55,7 +55,7 @@ class eth_env_rx extends eth_env_base;
     m_mii_rx_agent.m_monitor.a_port.connect(m_rx_sb.mii_rx_export);  
 
     // Wishbone Master Monitor to Scoreboard
-    m_wb_m_agent.m_monitor.transaction_a_port.connect(m_rx_sb.wb_master_imp);  
+    m_wb_m_agent.m_monitor.a_port.connect(m_rx_sb.wb_master_imp);  
 
     // Wishbone Slave Monitor to Scoreboard (Connects to BOTH ports for RXEN and BD status)
     m_wb_s_agent.m_monitor.a_port.connect(m_rx_sb.wb_slave_imp); 
