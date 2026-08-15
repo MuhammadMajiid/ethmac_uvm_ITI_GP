@@ -856,7 +856,7 @@ task eth_cov_tx::sample_wb_m_item();
         return;
 
     
-    // if read transaction voer status_group
+    // if read transaction sample cover group
     else if(m_wb_m_seq_item.m_dir==WB_READ)
         m_wb_m_cov.sample();
     

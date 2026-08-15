@@ -42,17 +42,8 @@ interface wb_m_if #(parameter ADDR_WIDTH = 32, DATA_WIDTH = 32,SEL_WIDTH = 4)(
 
     clocking cb @(posedge clk_i);
         
-        // Inputs arrive before 1 time step positive edge of clk_i
         // Outputs driven after 1 time step positive edge of clk_i
-        default input #1 output #1;
-
-        // DUT outputs
-        input   m_addr_o;
-        input   m_data_o;
-        input   m_sel_o;
-        input   m_we_o;
-        input   m_stb_o;
-        input   m_cyc_o;
+        default output #1;
 
         // DUT inputs
         output  m_data_i;
@@ -60,25 +51,6 @@ interface wb_m_if #(parameter ADDR_WIDTH = 32, DATA_WIDTH = 32,SEL_WIDTH = 4)(
         output  m_err_i;
     endclocking
 
-    
-    // -------------------------------------------------------------------------
-    // Modport
-    // -------------------------------------------------------------------------
-
-    modport dut (
-        input  clk_i,
-
-        output m_addr_o,
-        output m_data_o,
-        output m_sel_o,
-        output m_we_o,
-        output m_stb_o,
-        output m_cyc_o,
-
-        input  m_data_i,
-        input  m_ack_i,
-        input  m_err_i
-    );
 
 
 
