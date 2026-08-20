@@ -16,56 +16,65 @@ class wb_m_seq_wait extends wb_m_seq_base;
 
     `uvm_object_utils(wb_m_seq_wait)
 
-    int unsigned m_wait_cycles_left;
     bit          m_read_wait_active;
 
     function new(string name = "");
         super.new(name);
     endfunction
 
-    virtual function command(wb_m_seq_item_base m_tr_item);
+    // Processes the sampled DUT request and prepares a delayed read response.
+    virtual function void command(
+        wb_m_seq_item_base m_rsp_item,
+        wb_m_seq_item_base m_req_item
+    );
         // Default response for idle/invalid transactions and wait cycles
-        m_tr_item.m_data_i = '0;
-        m_tr_item.m_ack_i  = 1'b0;
-        m_tr_item.m_err_i  = 1'b0;
+        m_req_item.m_data_i = '0;
+        m_req_item.m_ack_i  = 1'b0;
+        m_req_item.m_err_i  = 1'b0;
 
-        if (m_read_wait_active) begin
-            if (m_wait_cycles_left == 0) begin
-                dma_mem::read(
-                    m_tr_item.m_addr_o,
-                    m_tr_item.m_data_i
-                );
-                m_tr_item.m_ack_i = 1'b1;
-                m_read_wait_active = 1'b0;
-            end
-            else begin
-                m_wait_cycles_left--;
-            end
-        end
-        else if ((&m_tr_item.m_sel_o) &&
-                 m_tr_item.m_cyc_o    &&
-                 m_tr_item.m_stb_o) begin
+        // Respond only to a valid full-word Wishbone transfer.
+        if ((&m_rsp_item.m_sel_o) &&
+            m_rsp_item.m_cyc_o    &&
+            m_rsp_item.m_stb_o) begin
 
-            case (m_tr_item.m_dir)
+            case (m_rsp_item.m_dir)
                 WB_WRITE: begin
+                    // Complete writes immediately.
                     dma_mem::write(
-                        m_tr_item.m_addr_o,
-                        m_tr_item.m_data_o
+                        m_rsp_item.m_addr_o,
+                        m_rsp_item.m_data_o
                     );
-                    m_tr_item.m_ack_i = 1'b1;
+                    m_req_item.m_ack_i = 1'b1;
                 end
 
                 WB_READ: begin
-                    assert (m_tr_item.randomize() with {
-                        wait_cycles inside {[250:400]};
-                        m_data_i == '0;
-                        m_err_i  == 1'b0;
-                        m_ack_i  == 1'b0;
-                    })
-                    else `uvm_fatal(get_name(), "Failed Randomization");
+                    if (m_read_wait_active) begin
+                        // Count down, then return data and acknowledge the read.
+                        if (m_req_item.wait_cycles == 0) begin
+                            dma_mem::read(
+                                m_rsp_item.m_addr_o,
+                                m_req_item.m_data_i
+                            );
+                            m_req_item.m_ack_i = 1'b1;
+                            m_read_wait_active = 1'b0;
+                        end
+                        else begin
+                            m_req_item.wait_cycles--;
+                        end
+                    end
+                    else begin
+                        // Start a new randomized read delay.
+                        assert (m_req_item.randomize() with {
+                            wait_cycles inside {[250:400]};
+                            m_data_i == '0;
+                            m_err_i  == 1'b0;
+                            m_ack_i  == 1'b0;
+                        })
+                        else `uvm_fatal(get_name(), "Failed Randomization");
 
-                    m_wait_cycles_left = m_tr_item.wait_cycles - 1;
-                    m_read_wait_active = 1'b1;
+                        m_req_item.wait_cycles--;
+                        m_read_wait_active = 1'b1;
+                    end
                 end
             endcase
         end
@@ -74,22 +83,21 @@ class wb_m_seq_wait extends wb_m_seq_base;
     task body;
 
         // Initial idle response
-        m_tr_item = wb_m_seq_item_base::type_id::create("m_tr_item");
-        m_tr_item.m_data_i = '0;
-        m_tr_item.m_ack_i  = 1'b0;
-        m_tr_item.m_err_i  = 1'b0;
-        m_wait_cycles_left = 0;
+        m_req_item = wb_m_seq_item_base::type_id::create("m_req_item");
+        m_req_item.m_data_i = '0;
+        m_req_item.m_ack_i  = 1'b0;
+        m_req_item.m_err_i  = 1'b0;
         m_read_wait_active = 1'b0;
 
         forever begin
             // Send the response prepared during the previous iteration
-            start_item(m_tr_item);
-            finish_item(m_tr_item);
+            start_item(m_req_item);
+            finish_item(m_req_item);
 
             // Receive the DUT request sampled and returned by the driver
-            get_response(m_tr_item);
+            get_response(m_rsp_item);
             // Process the request and prepare the next response
-            command(m_tr_item);
+            command(m_rsp_item, m_req_item);
         end
     endtask
 

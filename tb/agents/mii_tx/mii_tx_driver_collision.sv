@@ -77,7 +77,7 @@ class mii_tx_driver_collision extends mii_tx_driver_base;
     if (m_seq_item.MColl) begin
 
         // Wait  30  MII clocks for normal collision  or 150 MII clocks for late collision 
-        repeat (30) begin
+        repeat (m_seq_item.MColl_time) begin
             @(vif.cb_mii_tx);
             if (!vif.MTxEN)
                 break;

@@ -1,28 +1,22 @@
 //==============================================================================
 // Project  : ethmac_uvm_ITI_GP
-// File     : mii_tx_seq_collision.sv
-// Author   : Nada
-// Date     : 2026-07-21
+// File     : mii_tx_seq_collision_pad.sv
+// Author   : Wael
+// Date     : 2026-08-16
 //------------------------------------------------------------------------------
 // Description:
 // This sequence injects a collision on the MII interface during frame
-// transmission. It waits until the DUT asserts MTxEN, indicating the start
-// of transmission, then asserts the MColl signal (and MCrS if required) to
-// emulate a collision on the Ethernet medium. The sequence is intended to
-// verify the MAC's collision detection, retransmission, backoff, and error
-// handling mechanisms in half-duplex mode.
+// transmission. Exactly during transmission of pad field.
 //==============================================================================
 
-`ifndef MII_TX_SEQ_COLLISION_SV
-`define MII_TX_SEQ_COLLISION_SV
+`ifndef MII_TX_SEQ_COLLISION_PAD_SV
+`define MII_TX_SEQ_COLLISION_PAD_SV
 
-class mii_tx_seq_collision extends mii_tx_seq_base;
-  `uvm_object_utils(mii_tx_seq_collision)
-   `uvm_declare_p_sequencer(mii_tx_sequencer_base)
+class mii_tx_seq_collision_pad extends mii_tx_seq_collision;
+  `uvm_object_utils(mii_tx_seq_collision_pad)
 
-  mii_tx_seq_item_base req;
 
-  function new(string name = "mii_tx_seq_collision");
+  function new(string name = "mii_tx_seq_collision_pad");
     super.new(name);
   endfunction
 
@@ -36,7 +30,7 @@ class mii_tx_seq_collision extends mii_tx_seq_base;
 
     start_item(req);
     assert(req.randomize() with {
-    MColl_time==30;
+    MColl_time inside {140};
     MColl == 1'b1;
     })  
     else

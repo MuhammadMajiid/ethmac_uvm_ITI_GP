@@ -17,8 +17,9 @@ class wb_m_driver_base extends uvm_driver #(wb_m_seq_item_base);
 
 
     virtual wb_m_if          vif;           
-    wb_m_seq_item_base       m_item;    
-    int                      m_item_cnt;    // for counting no. of driven transactions
+    wb_m_seq_item_base       m_req_item;  // contains the slave response to master.
+    wb_m_seq_item_base       m_rsp_item;  // captures the Wishbone request made by the DUT.
+    int                      m_item_cnt;  // for counting no. of driven transactions
 
 
     extern function new (string name, uvm_component parent);
@@ -65,19 +66,25 @@ endfunction
 
 // Task: run_phase
 task wb_m_driver_base::run_phase(uvm_phase phase);
+    m_rsp_item = wb_m_seq_item_base::type_id::create("m_rsp_item");
     super.run_phase(phase);
     reset_items();
+    
     forever begin
         // Get the next item from the sequencer
-        seq_item_port.get_next_item(m_item);
+        seq_item_port.get_next_item(m_req_item);
+        
         `uvm_info(get_type_name(), $sformatf("time: %0t , Got a request item",$time), UVM_DEBUG)
-
         drive_items();
-
         `uvm_info(get_type_name(), $sformatf("time %0t, Item no. %0d driven successfully",$time,m_item_cnt), UVM_DEBUG)
+        
         // Increment number of driven transactions
         m_item_cnt++;    
-        seq_item_port.item_done(m_item);
+
+        // To acknowledge sequencer that this response of the driven request
+        m_rsp_item.set_id_info(m_req_item);
+        
+        seq_item_port.item_done(m_rsp_item);
     end    
 
 endtask
@@ -94,18 +101,18 @@ endtask
 task wb_m_driver_base::drive_items();
 
     // Drive pin level DUT signals
-    vif.cb.m_ack_i<=m_item.m_ack_i;
-    vif.cb.m_err_i<=m_item.m_err_i;
-    vif.cb.m_data_i<=m_item.m_data_i;
+    vif.cb.m_ack_i<=m_req_item.m_ack_i;
+    vif.cb.m_err_i<=m_req_item.m_err_i;
+    vif.cb.m_data_i<=m_req_item.m_data_i;
     @(vif.cb);
     // Sample the next DUT request
-    m_item.m_addr_o = vif.m_addr_o;
-    m_item.m_data_o = vif.m_data_o;
-    m_item.m_sel_o  = vif.m_sel_o;
-    m_item.m_stb_o  = vif.m_stb_o;
-    m_item.m_cyc_o  = vif.m_cyc_o;
-    m_item.m_dir    = wb_dir_t'(vif.m_we_o);
-    `uvm_info(get_type_name(),m_item.convert2string(), UVM_DEBUG)
+    m_rsp_item.m_addr_o = vif.m_addr_o;
+    m_rsp_item.m_data_o = vif.m_data_o;
+    m_rsp_item.m_sel_o  = vif.m_sel_o;
+    m_rsp_item.m_stb_o  = vif.m_stb_o;
+    m_rsp_item.m_cyc_o  = vif.m_cyc_o;
+    m_rsp_item.m_dir    = wb_dir_t'(vif.m_we_o);
+    `uvm_info(get_type_name(),m_rsp_item.convert2string(), UVM_DEBUG)
 
 endtask
 

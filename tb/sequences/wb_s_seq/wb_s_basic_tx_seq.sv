@@ -30,8 +30,8 @@ class wb_s_basic_tx_seq extends wb_s_seq_base;
     `uvm_object_utils(wb_s_basic_tx_seq)
     wb_s_seq_item_tx m_item;
 	
-	parameter int NUM_TX_BD = 1;
-    parameter int unsigned        PKT_LEN    = 70;
+	parameter int NUM_TX_BD = 2;
+    parameter int unsigned        PKT_LEN    = 86;
 	bit [31:0] tx_ptr[];
 
     //---------------------------------------------------------
@@ -109,13 +109,13 @@ class wb_s_basic_tx_seq extends wb_s_seq_base;
 
         for(int bd=0; bd<NUM_TX_BD; bd++) begin
             configure_tx_bd(.bd_index(bd),.frame_length(PKT_LEN),.frame_ptr(tx_ptr[bd]),.enable_irq(0),
-            .is_wrap(bd == NUM_TX_BD-1),.enable_pad(0),.enable_crc(0));
+            .is_wrap(bd == NUM_TX_BD-1),.enable_pad(1),.enable_crc(1));
         end
 
         //-----------------------------------------------------
         // Configure registers
         //-----------------------------------------------------
-        configure_tx_registers(.tx_bd_num(NUM_TX_BD),.txen(1),.crcen(0),.fulld(1),.pad(0),.minfl(74),.maxfl(71));
+        configure_tx_registers(.tx_bd_num(NUM_TX_BD),.txen(1),.crcen(0),.fulld(1));
 
 
         `uvm_info(get_type_name(),

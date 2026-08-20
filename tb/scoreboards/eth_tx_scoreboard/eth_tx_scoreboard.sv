@@ -50,7 +50,6 @@ class eth_tx_scoreboard extends uvm_scoreboard;
     // Semaphores
     // =========================================================================
     semaphore m_sem_tx_seq_item; // for getting mii tx transaction from fifo
-    semaphore m_sem_wb_m_seq_item; // for getting wb master transaction from fifo
     // =========================================================================
     // Events
     // =========================================================================    
@@ -111,17 +110,6 @@ class eth_tx_scoreboard extends uvm_scoreboard;
     //
     // -------------------------------------------------------------------------  
     extern task get_mii_tx_seq_item();
-    // -------------------------------------------------------------------------
-    //  task : get_wb_m_seq_item
-    // -------------------------------------------------------------------------
-    // Description:
-    //   pull the next transaction from wb_master fifo.it only gets it when it
-    //   gets all the semaphore keys to ensure that the new transaction doesn't
-    //   override the old when another process needs it.   
-    // Arguments: None
-    //
-    // ------------------------------------------------------------------------- 
-    extern task get_wb_m_seq_item();
     // =============================================================================
     //  Predictor methods
     // ============================================================================= 
@@ -410,7 +398,6 @@ task eth_tx_scoreboard::run_phase(uvm_phase phase);
     forever begin
         // Recreate semaphores
         m_sem_tx_seq_item=new(SEM_TX_SEQ_ITEM_NO_KEYS);
-        m_sem_wb_m_seq_item=new(SEM_WB_M_SEQ_ITEM_NO_KEYS);
         // Reset IPGT variables
         state = WAIT_FIRST_FRAME;
         prev_txen = 0;
@@ -572,6 +559,7 @@ task eth_tx_scoreboard::comparator();
             @(!m_tx_pending_s.flag_rd); 
         end
         join_any;
+        `uvm_info(get_name(),"BEGIN COMPARE", UVM_MEDIUM)
         // copy config struct for interrupt
         m_tx_bd_cfg_cop_s=m_tx_bd_cfg_s; 
         m_tx_expected_cop_s=m_tx_expected_s;
@@ -610,21 +598,6 @@ task eth_tx_scoreboard::get_mii_tx_seq_item();
         m_sem_tx_seq_item.put(SEM_TX_SEQ_ITEM_NO_KEYS);
     end
 endtask    
-
-
-
-task eth_tx_scoreboard::get_wb_m_seq_item();
-    forever begin
-        // Get all keys from semaphore
-        repeat(SEM_WB_M_SEQ_ITEM_NO_KEYS)
-        m_sem_wb_m_seq_item.get(1);
-        // Get transaction item from fifo
-        wb_m_fifo.get(m_wb_m_seq_item);
-        `uvm_info(get_type_name(),m_wb_m_seq_item.convert2string(),UVM_HIGH)
-        // Put all Keys in semaphore
-        m_sem_wb_m_seq_item.put(SEM_WB_M_SEQ_ITEM_NO_KEYS);
-    end
-endtask 
 
 
 
@@ -1068,8 +1041,13 @@ task eth_tx_scoreboard::pred_track_underrun();
             // check if it's read transaction
             if(m_wb_m_seq_item.m_dir==WB_READ &&  (&m_wb_m_seq_item.m_sel_o) && m_wb_m_seq_item.m_ack_i) begin
                 rd_bytes+=4;
-
+                //`uvm_info(get_name(),$sformatf("Data = %0h, WB bytes = %0d, packet len = %0d",m_wb_m_seq_item.m_data_i,rd_bytes, pkt_len), UVM_MEDIUM)
             end  
+            // Wait until end of packet if all bytes are fetched from memory
+            if ((rd_bytes+pre_bytes)>=pkt_len && pkt_len!=0) begin
+                @(m_ev_end_pkt);
+                #0.1;
+            end
         end
     end 
     begin   
@@ -1080,7 +1058,6 @@ task eth_tx_scoreboard::pred_track_underrun();
                 m_tx_expected_s.exp_ur=1;
                 //`uvm_warning(get_name(), "Underrun occurs")
             end
-            //`uvm_info(get_name(),$sformatf("TX bytes = %0d, WB bytes = %0d, packet len = %0d",m_tx_pending_s.actual_pkt.size(),rd_bytes, pkt_len), UVM_MEDIUM)
             #(ETH_PHY_TX_CLK_PERIOD_NS);    
         end     
     end    
@@ -1982,7 +1959,7 @@ task eth_tx_scoreboard::pred_check_jam_retry();
             // Delay until last byte of packet is inserted
             #0.1;
             // check if collision occurs after collsion window
-            if (m_tx_pending_s.actual_pkt.size()  > m_tx_bd_cfg_s.collvalid + ETH_PREAMBLE_LEN ) begin
+            if (m_tx_pending_s.actual_pkt.size()  > m_tx_bd_cfg_s.collvalid) begin
                 m_tx_expected_s.exp_lc = 1;
                 `uvm_info(get_type_name(), "late collision detected", UVM_MEDIUM)
             end
@@ -2002,14 +1979,32 @@ task eth_tx_scoreboard::pred_check_jam_retry();
             //--------------------------------------------------
             m_sem_tx_seq_item.put(1);
             #1ns
-
             //--------------------------------------------------
-            // Wait 3 MII outputs before checking JAM
+            // if collision detected during preamble or sfd
+            // wait until jam pattern is sent
             //--------------------------------------------------
-            repeat (3) begin
-                m_sem_tx_seq_item.get(1);
-                m_sem_tx_seq_item.put(1);
-                #1ns;
+            if(m_tx_pending_s.actual_pkt.size()<(ETH_PREAMBLE_LEN+ETH_SFD_LEN)) begin
+                //--------------------------------------------------
+                // Wait until jam signal is sent
+                //--------------------------------------------------
+                while (m_mii_tx_seq_item.MTxD != ETH_JAM_PATTERN) begin
+                    m_sem_tx_seq_item.get(1);
+                    m_sem_tx_seq_item.put(1);
+                    #1ns;
+                end
+                // jam count = 1 because of first transmitted nibble
+                m_tx_pending_s.jam_cnt = 1;
+            end
+            else begin
+                //--------------------------------------------------
+                // Wait 3 MII outputs before checking JAM
+                //--------------------------------------------------
+                repeat (3) begin
+                    m_sem_tx_seq_item.get(1);
+                    m_sem_tx_seq_item.put(1);
+                    #1ns;
+                end
+                m_tx_pending_s.jam_cnt = 0;
             end
 
             //--------------------------------------------------
@@ -2017,7 +2012,6 @@ task eth_tx_scoreboard::pred_check_jam_retry();
             // MColl is ignored here because PHY may deassert
             // it while JAM is still transmitted.
             //--------------------------------------------------
-            m_tx_pending_s.jam_cnt = 0;
 
             while (m_tx_pending_s.jam_cnt < ETH_JAM_NIBBLES) begin
                 m_sem_tx_seq_item.get(1);

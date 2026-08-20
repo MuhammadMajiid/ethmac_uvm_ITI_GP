@@ -79,9 +79,11 @@ task wb_m_monitor_base::run_phase(uvm_phase phase);
         m_item = wb_m_seq_item_base::type_id::create("m_item");
         mon_items(m_item);
 
-        // Check if it's valid transaction       
-        // Send transaction to agent analysis port
-        a_port.write(m_item);
+        // Check if it's valid transaction 
+        if(m_item.m_cyc_o && m_item.m_stb_o) begin    
+            // Send transaction to agent analysis port
+            a_port.write(m_item);
+        end
         `uvm_info(get_type_name(), $sformatf("Item no. %0d monitored successfully",m_item_cnt), UVM_DEBUG)
         // Increment number of monitored transactions
         m_item_cnt++;

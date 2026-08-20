@@ -40,6 +40,8 @@ package wb_s_seq_pkg;
     `include "wb_s_seq_tx_underrun.sv"
     `include "wb_s_seq_tx_interrupts.sv"
 	`include "wb_s_seq_tx_collision_cfg.sv"
+	`include "wb_s_seq_tx_collision_pre.sv"
+    `include "wb_s_seq_tx_collision_pad.sv"
     `include "wb_s_seq_tx_cs.sv"
     `include "wb_s_seq_tx_ctrl_flow.sv"
     `include "wb_s_seq_tx_len.sv"
