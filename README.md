@@ -148,4 +148,4 @@ Verification-planning spreadsheets contributed by project members are stored und
 
 This is an academic verification project. The repository contains generated simulation and coverage results alongside the RTL and verification source code.
 
-Known findings and coverage limitations should be reviewed in the project documentation and regression reports before interpreting the available coverage as full verification closure.
+
