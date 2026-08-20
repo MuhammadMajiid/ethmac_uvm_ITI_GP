@@ -43,6 +43,8 @@ package eth_test_tx_pkg;
   `include "eth_test_tx_interrupts.sv"
   `include "eth_test_tx_ctrl_flow.sv"
   `include "eth_test_tx_coll.sv" 
+  `include "eth_test_tx_coll_pre.sv" 
+  `include "eth_test_tx_coll_pad.sv" 
   `include "eth_test_tx_cs.sv" 
   `include "eth_test_tx_len.sv"
   `include "eth_test_tx_max_len.sv" 

@@ -43,10 +43,6 @@ class mii_tx_seq_item_base extends uvm_sequence_item;
         MCrS_time inside{ETH_MAX_IPG_VAL,ETH_EXCESS_DEFER_LIMIT+ETH_MAX_IPG_VAL};
     }
 
-    constraint c_mcoll_time{
-        MColl_time dist {[30:40] :/80 ,[41:100] :/ 10, [101:128]:/ 10};
-    }
-
     function string convert2string();
         return $sformatf("MColl=%0b, MCrS=%0b, MTxD=%0h, MTxEN=%0b, MTxERR=%0b", 
             MColl, MCrS, MTxD, MTxEN, MTxERR);
