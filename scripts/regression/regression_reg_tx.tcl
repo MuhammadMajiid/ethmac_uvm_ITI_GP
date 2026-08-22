@@ -10,7 +10,7 @@ puts ""
 do scripts/test_names.tcl
 
 # Verbosity
-set VERBOSITY "UVM_MEDIUM"
+set VERBOSITY "UVM_NONE"
 
 # Paths
 set COV_PATH    "repo/results/tx/coverage"
@@ -52,7 +52,7 @@ vmap work work
 do scripts/compile.tcl
 
 # Iterate over all test configurations
-foreach test_config $TEST_NAMES {
+foreach test_config $TEST_NAMES_1 {
     lassign $test_config TESTNAME SEQ_NUM COLL_NUM
 
     puts "========== Running $TESTNAME (SEQ_NUM=$SEQ_NUM, COLL_NUM=$COLL_NUM) =========="
