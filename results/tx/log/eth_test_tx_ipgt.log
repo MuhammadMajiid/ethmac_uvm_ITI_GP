@@ -1,13 +1,15 @@
-# End time: 19:16:15 on Aug 04,2026, Elapsed time: 0:14:13
+# End time: 04:07:46 on Aug 21,2026, Elapsed time: 0:13:36
 # Errors: 0, Warnings: 6
 # vsim -c work.eth_tb -coverage -sv_seed random "+uvm_set_verbosity=uvm_test_top.m_env.*,_ALL_,UVM_NONE,time,0" "+seq_num=15" "+coll_num=1" "+UVM_TESTNAME=eth_test_tx_ipgt" -onfinish stop -do "
+#     add wave -position insertpoint sim:/eth_tb/m_mii_tx_if/*
+#     #add wave -position insertpoint sim:/eth_tb/m_wb_m_if/*
 #     run -all; 
 #     coverage save $CODE_UCDB -codeAll -instance eth_tb.dut
 #     coverage save $FUNC_UCDB -cvg -directive -assert
 #     transcript file ""
 #     " 
-# Start time: 19:16:15 on Aug 04,2026
-# ** Note: (vsim-8009) Loading existing optimized design _opt4
+# Start time: 04:07:46 on Aug 21,2026
+# ** Note: (vsim-8009) Loading existing optimized design _opt6
 # Loading sv_std.std
 # Loading work.wb_s_if(fast)
 # Loading work.wb_m_if(fast)
@@ -58,8 +60,10 @@
 # Loading work.mdio_if(fast__2)
 # Loading work.eth_top(fast)
 # Loading D:/B/questasim64_2024.1/uvm-1.1d\win64\uvm_dpi.dll
-# Sv_Seed = 612522141
+# Sv_Seed = 529846061
 # 
+#     add wave -position insertpoint sim:/eth_tb/m_mii_tx_if/*
+#     #add wave -position insertpoint sim:/eth_tb/m_wb_m_if/*
 #     run -all
 # ----------------------------------------------------------------
 # UVM-1.1d
@@ -98,122 +102,114 @@
 # ** Warning: (vsim-8547) After dropping the illegal, ignore or invalid values, the values list associated with fixed-size array sub bin 'regs[19]' in Coverpoint 'cp_reg' of Covergroup instance '\/eth_cov_pkg::eth_cov_tx::m_reserved_bit_cov ' has converged to empty list. The sub bin will be taken out of coverage calculation.
 #    Time: 0 ps  Iteration: 7  Region: /uvm_pkg::uvm_phase::m_run_phases
 # UVM_INFO repo/tb/tests/eth_tests_tx/eth_test_tx_base.sv(60) @ 0: uvm_test_top [eth_test_tx_ipgt] start of sim phase
-# -------------------------------------------------------------------------------
-# Name                        Type                                    Size  Value
-# -------------------------------------------------------------------------------
-# uvm_test_top                eth_test_tx_ipgt                        -     @501 
-#   m_env                     eth_env_tx                              -     @524 
-#     m_cov_tx                eth_cov_tx                              -     @852 
-#       mii_tx_export         uvm_analysis_export                     -     @1016
-#       mii_tx_fifo           uvm_tlm_analysis_fifo #(T)              -     @953 
-#         analysis_export     uvm_analysis_imp                        -     @992 
-#         get_ap              uvm_analysis_port                       -     @984 
-#         get_peek_export     uvm_get_peek_imp                        -     @968 
-#         put_ap              uvm_analysis_port                       -     @976 
-#         put_export          uvm_put_imp                             -     @960 
-#       wb_m_export           uvm_analysis_export                     -     @1000
-#       wb_m_fifo             uvm_tlm_analysis_fifo #(T)              -     @859 
-#         analysis_export     uvm_analysis_imp                        -     @898 
-#         get_ap              uvm_analysis_port                       -     @890 
-#         get_peek_export     uvm_get_peek_imp                        -     @874 
-#         put_ap              uvm_analysis_port                       -     @882 
-#         put_export          uvm_put_imp                             -     @866 
-#       wb_s_export           uvm_analysis_export                     -     @1008
-#       wb_s_fifo             uvm_tlm_analysis_fifo #(T)              -     @906 
-#         analysis_export     uvm_analysis_imp                        -     @945 
-#         get_ap              uvm_analysis_port                       -     @937 
-#         get_peek_export     uvm_get_peek_imp                        -     @921 
-#         put_ap              uvm_analysis_port                       -     @929 
-#         put_export          uvm_put_imp                             -     @913 
-#     m_mii_tx_agent          mii_tx_agent                            -     @845 
-#       agent_a_port          uvm_analysis_port                       -     @1165
-#       m_driver              mii_tx_driver_hd                        -     @1026
-#         rsp_port            uvm_analysis_port                       -     @1041
-#         seq_item_port       uvm_seq_item_pull_port                  -     @1033
-#       m_monitor             mii_tx_monitor_base                     -     @1158
-#         monitor_tr_a_port   uvm_analysis_port                       -     @1173
-#       m_sequencer           mii_tx_sequencer_base                   -     @1049
-#         rsp_export          uvm_analysis_export                     -     @1056
-#         seq_item_export     uvm_seq_item_pull_imp                   -     @1150
-#         arbitration_queue   array                                   0     -    
-#         lock_queue          array                                   0     -    
-#         num_last_reqs       integral                                32    'd1  
-#         num_last_rsps       integral                                32    'd1  
-#     m_predictor             uvm_reg_predictor #(uvm_sequence_item)  -     @809 
-#       bus_in                uvm_analysis_imp                        -     @816 
-#       reg_ap                uvm_analysis_port                       -     @824 
-#     m_reset_agent           reset_agent                             -     @667 
-#       m_driver              reset_driver                            -     @1188
-#         rsp_port            uvm_analysis_port                       -     @1203
-#         seq_item_port       uvm_seq_item_pull_port                  -     @1195
-#       m_sequencer           reset_sequencer                         -     @1211
-#         rsp_export          uvm_analysis_export                     -     @1218
-#         seq_item_export     uvm_seq_item_pull_imp                   -     @1312
-#         arbitration_queue   array                                   0     -    
-#         lock_queue          array                                   0     -    
-#         num_last_reqs       integral                                32    'd1  
-#         num_last_rsps       integral                                32    'd1  
-#     m_tx_sb                 eth_tx_scoreboard                       -     @838 
-#       mii_tx_export         uvm_analysis_export                     -     @1427
-#       mii_tx_fifo           uvm_tlm_analysis_fifo #(T)              -     @1372
-#         analysis_export     uvm_analysis_imp                        -     @1411
-#         get_ap              uvm_analysis_port                       -     @1403
-#         get_peek_export     uvm_get_peek_imp                        -     @1387
-#         put_ap              uvm_analysis_port                       -     @1395
-#         put_export          uvm_put_imp                             -     @1379
-#       wb_m_export           uvm_analysis_export                     -     @1419
-#       wb_m_fifo             uvm_tlm_analysis_fifo #(T)              -     @1325
-#         analysis_export     uvm_analysis_imp                        -     @1364
-#         get_ap              uvm_analysis_port                       -     @1356
-#         get_peek_export     uvm_get_peek_imp                        -     @1340
-#         put_ap              uvm_analysis_port                       -     @1348
-#         put_export          uvm_put_imp                             -     @1332
-#       wb_s_imp              uvm_analysis_imp                        -     @1435
-#     m_v_sqr                 eth_v_sequencer                         -     @544 
-#       rsp_export            uvm_analysis_export                     -     @551 
-#       seq_item_export       uvm_seq_item_pull_imp                   -     @645 
-#       arbitration_queue     array                                   0     -    
-#       lock_queue            array                                   0     -    
-#       num_last_reqs         integral                                32    'd1  
-#       num_last_rsps         integral                                32    'd1  
-#     m_wb_m_agent            wb_m_agent                              -     @660 
-#       a_port                uvm_analysis_port                       -     @1590
-#       m_driver              wb_m_driver_base                        -     @1560
-#         rsp_port            uvm_analysis_port                       -     @1575
-#         seq_item_port       uvm_seq_item_pull_port                  -     @1567
-#       m_monitor             wb_m_monitor_base                       -     @1583
-#         request_a_port      uvm_analysis_port                       -     @1606
-#         transaction_a_port  uvm_analysis_port                       -     @1598
-#       m_sequencer           wb_m_sequencer_base                     -     @1451
-#         request_export      uvm_analysis_export                     -     @1666
-#         request_fifo        uvm_tlm_analysis_fifo #(T)              -     @1619
-#           analysis_export   uvm_analysis_imp                        -     @1658
-#           get_ap            uvm_analysis_port                       -     @1650
-#           get_peek_export   uvm_get_peek_imp                        -     @1634
-#           put_ap            uvm_analysis_port                       -     @1642
-#           put_export        uvm_put_imp                             -     @1626
-#         rsp_export          uvm_analysis_export                     -     @1458
-#         seq_item_export     uvm_seq_item_pull_imp                   -     @1552
-#         arbitration_queue   array                                   0     -    
-#         lock_queue          array                                   0     -    
-#         num_last_reqs       integral                                32    'd1  
-#         num_last_rsps       integral                                32    'd1  
-#     m_wb_s_agent            wb_s_agent                              -     @653 
-#       a_port                uvm_analysis_port                       -     @1819
-#       m_driver              wb_s_driver_base                        -     @1789
-#         rsp_port            uvm_analysis_port                       -     @1804
-#         seq_item_port       uvm_seq_item_pull_port                  -     @1796
-#       m_monitor             wb_s_monitor_base                       -     @1812
-#         a_port              uvm_analysis_port                       -     @1829
-#         bd_status_ap        uvm_analysis_port                       -     @1837
-#       m_sequencer           wb_s_sequencer_base                     -     @1680
-#         rsp_export          uvm_analysis_export                     -     @1687
-#         seq_item_export     uvm_seq_item_pull_imp                   -     @1781
-#         arbitration_queue   array                                   0     -    
-#         lock_queue          array                                   0     -    
-#         num_last_reqs       integral                                32    'd1  
-#         num_last_rsps       integral                                32    'd1  
-# -------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
+# Name                       Type                                    Size  Value
+# ------------------------------------------------------------------------------
+# uvm_test_top               eth_test_tx_ipgt                        -     @501 
+#   m_env                    eth_env_tx                              -     @524 
+#     m_cov_tx               eth_cov_tx                              -     @852 
+#       mii_tx_export        uvm_analysis_export                     -     @1016
+#       mii_tx_fifo          uvm_tlm_analysis_fifo #(T)              -     @953 
+#         analysis_export    uvm_analysis_imp                        -     @992 
+#         get_ap             uvm_analysis_port                       -     @984 
+#         get_peek_export    uvm_get_peek_imp                        -     @968 
+#         put_ap             uvm_analysis_port                       -     @976 
+#         put_export         uvm_put_imp                             -     @960 
+#       wb_m_export          uvm_analysis_export                     -     @1000
+#       wb_m_fifo            uvm_tlm_analysis_fifo #(T)              -     @859 
+#         analysis_export    uvm_analysis_imp                        -     @898 
+#         get_ap             uvm_analysis_port                       -     @890 
+#         get_peek_export    uvm_get_peek_imp                        -     @874 
+#         put_ap             uvm_analysis_port                       -     @882 
+#         put_export         uvm_put_imp                             -     @866 
+#       wb_s_export          uvm_analysis_export                     -     @1008
+#       wb_s_fifo            uvm_tlm_analysis_fifo #(T)              -     @906 
+#         analysis_export    uvm_analysis_imp                        -     @945 
+#         get_ap             uvm_analysis_port                       -     @937 
+#         get_peek_export    uvm_get_peek_imp                        -     @921 
+#         put_ap             uvm_analysis_port                       -     @929 
+#         put_export         uvm_put_imp                             -     @913 
+#     m_mii_tx_agent         mii_tx_agent                            -     @845 
+#       agent_a_port         uvm_analysis_port                       -     @1165
+#       m_driver             mii_tx_driver_hd                        -     @1026
+#         rsp_port           uvm_analysis_port                       -     @1041
+#         seq_item_port      uvm_seq_item_pull_port                  -     @1033
+#       m_monitor            mii_tx_monitor_base                     -     @1158
+#         monitor_tr_a_port  uvm_analysis_port                       -     @1173
+#       m_sequencer          mii_tx_sequencer_base                   -     @1049
+#         rsp_export         uvm_analysis_export                     -     @1056
+#         seq_item_export    uvm_seq_item_pull_imp                   -     @1150
+#         arbitration_queue  array                                   0     -    
+#         lock_queue         array                                   0     -    
+#         num_last_reqs      integral                                32    'd1  
+#         num_last_rsps      integral                                32    'd1  
+#     m_predictor            uvm_reg_predictor #(uvm_sequence_item)  -     @809 
+#       bus_in               uvm_analysis_imp                        -     @816 
+#       reg_ap               uvm_analysis_port                       -     @824 
+#     m_reset_agent          reset_agent                             -     @667 
+#       m_driver             reset_driver                            -     @1188
+#         rsp_port           uvm_analysis_port                       -     @1203
+#         seq_item_port      uvm_seq_item_pull_port                  -     @1195
+#       m_sequencer          reset_sequencer                         -     @1211
+#         rsp_export         uvm_analysis_export                     -     @1218
+#         seq_item_export    uvm_seq_item_pull_imp                   -     @1312
+#         arbitration_queue  array                                   0     -    
+#         lock_queue         array                                   0     -    
+#         num_last_reqs      integral                                32    'd1  
+#         num_last_rsps      integral                                32    'd1  
+#     m_tx_sb                eth_tx_scoreboard                       -     @838 
+#       mii_tx_export        uvm_analysis_export                     -     @1427
+#       mii_tx_fifo          uvm_tlm_analysis_fifo #(T)              -     @1372
+#         analysis_export    uvm_analysis_imp                        -     @1411
+#         get_ap             uvm_analysis_port                       -     @1403
+#         get_peek_export    uvm_get_peek_imp                        -     @1387
+#         put_ap             uvm_analysis_port                       -     @1395
+#         put_export         uvm_put_imp                             -     @1379
+#       wb_m_export          uvm_analysis_export                     -     @1419
+#       wb_m_fifo            uvm_tlm_analysis_fifo #(T)              -     @1325
+#         analysis_export    uvm_analysis_imp                        -     @1364
+#         get_ap             uvm_analysis_port                       -     @1356
+#         get_peek_export    uvm_get_peek_imp                        -     @1340
+#         put_ap             uvm_analysis_port                       -     @1348
+#         put_export         uvm_put_imp                             -     @1332
+#       wb_s_imp             uvm_analysis_imp                        -     @1435
+#     m_v_sqr                eth_v_sequencer                         -     @544 
+#       rsp_export           uvm_analysis_export                     -     @551 
+#       seq_item_export      uvm_seq_item_pull_imp                   -     @645 
+#       arbitration_queue    array                                   0     -    
+#       lock_queue           array                                   0     -    
+#       num_last_reqs        integral                                32    'd1  
+#       num_last_rsps        integral                                32    'd1  
+#     m_wb_m_agent           wb_m_agent                              -     @660 
+#       a_port               uvm_analysis_port                       -     @1590
+#       m_driver             wb_m_driver_base                        -     @1560
+#         rsp_port           uvm_analysis_port                       -     @1575
+#         seq_item_port      uvm_seq_item_pull_port                  -     @1567
+#       m_monitor            wb_m_monitor_base                       -     @1583
+#         a_port             uvm_analysis_port                       -     @1598
+#       m_sequencer          wb_m_sequencer_base                     -     @1451
+#         rsp_export         uvm_analysis_export                     -     @1458
+#         seq_item_export    uvm_seq_item_pull_imp                   -     @1552
+#         arbitration_queue  array                                   0     -    
+#         lock_queue         array                                   0     -    
+#         num_last_reqs      integral                                32    'd1  
+#         num_last_rsps      integral                                32    'd1  
+#     m_wb_s_agent           wb_s_agent                              -     @653 
+#       a_port               uvm_analysis_port                       -     @1756
+#       m_driver             wb_s_driver_base                        -     @1726
+#         rsp_port           uvm_analysis_port                       -     @1741
+#         seq_item_port      uvm_seq_item_pull_port                  -     @1733
+#       m_monitor            wb_s_monitor_base                       -     @1749
+#         a_port             uvm_analysis_port                       -     @1766
+#         bd_status_ap       uvm_analysis_port                       -     @1774
+#       m_sequencer          wb_s_sequencer_base                     -     @1617
+#         rsp_export         uvm_analysis_export                     -     @1624
+#         seq_item_export    uvm_seq_item_pull_imp                   -     @1718
+#         arbitration_queue  array                                   0     -    
+#         lock_queue         array                                   0     -    
+#         num_last_reqs      integral                                32    'd1  
+#         num_last_rsps      integral                                32    'd1  
+# ------------------------------------------------------------------------------
 # 
 #### Factory Configuration (*)
 # 
@@ -228,7 +224,7 @@
 #   mii_tx_driver_base  mii_tx_driver_hd
 #   eth_v_seq_tx        eth_v_seq_tx_active
 # 
-# All types registered with the factory: 208 total
+# All types registered with the factory: 235 total
 # (types without type names will not be printed)
 # 
 #   Type Name
@@ -272,14 +268,24 @@
 #   eth_rx_scoreboard
 #   eth_test_bd_access
 #   eth_test_mdio_base
+#   eth_test_miim_back_to_back
+#   eth_test_miim_bitcounter_abort_sweep
+#   eth_test_miim_clear_cmd_while_busy
 #   eth_test_miim_clkdiv
+#   eth_test_miim_clkdiv_extremes
 #   eth_test_miim_cov_cross
+#   eth_test_miim_linkfail_toggle
+#   eth_test_miim_overwrite_while_busy
+#   eth_test_miim_phy_addr_sweep
 #   eth_test_miim_priority
 #   eth_test_miim_reg_bits
+#   eth_test_miim_reset_in_flight
 #   eth_test_miim_rst_phy
 #   eth_test_miim_rw_preamble
 #   eth_test_miim_scan
+#   eth_test_miim_scan_continuous
 #   eth_test_miim_scan_intr
+#   eth_test_miim_scan_intr_sweep
 #   eth_test_miim_walking
 #   eth_test_miim_write_readonly_regs
 #   eth_test_miim_wrong_phy_addr
@@ -287,6 +293,8 @@
 #   eth_test_tx_base
 #   eth_test_tx_bd_num
 #   eth_test_tx_coll
+#   eth_test_tx_coll_pad
+#   eth_test_tx_coll_pre
 #   eth_test_tx_cs
 #   eth_test_tx_ctrl_flow
 #   eth_test_tx_dcrc
@@ -295,6 +303,7 @@
 #   eth_test_tx_interrupts
 #   eth_test_tx_ipgt
 #   eth_test_tx_len
+#   eth_test_tx_max_len
 #   eth_test_tx_maxfl
 #   eth_test_tx_minfl
 #   eth_test_tx_moder
@@ -340,6 +349,8 @@
 #   mii_tx_monitor_base
 #   mii_tx_seq_base
 #   mii_tx_seq_collision
+#   mii_tx_seq_collision_pad
+#   mii_tx_seq_collision_pre
 #   mii_tx_seq_cs
 #   mii_tx_seq_item_base
 #   mii_tx_sequencer_base
@@ -350,14 +361,24 @@
 #   reset_seq
 #   reset_seq_item
 #   reset_sequencer
+#   v_seq_tc_miim_back_to_back
+#   v_seq_tc_miim_bitcounter_abort_sweep
+#   v_seq_tc_miim_clear_cmd_while_busy
 #   v_seq_tc_miim_clkdiv
+#   v_seq_tc_miim_clkdiv_extremes
 #   v_seq_tc_miim_cov_cross
+#   v_seq_tc_miim_linkfail_toggle
+#   v_seq_tc_miim_overwrite_while_busy
+#   v_seq_tc_miim_phy_addr_sweep
 #   v_seq_tc_miim_priority
 #   v_seq_tc_miim_reg_bits
+#   v_seq_tc_miim_reset_in_flight
 #   v_seq_tc_miim_rst_phy
 #   v_seq_tc_miim_rw_preamble
 #   v_seq_tc_miim_scan
+#   v_seq_tc_miim_scan_continuous
 #   v_seq_tc_miim_scan_intr
+#   v_seq_tc_miim_scan_intr_sweep
 #   v_seq_tc_miim_walking
 #   v_seq_tc_miim_write_readonly_regs
 #   v_seq_tc_miim_wrong_phy_addr
@@ -367,7 +388,6 @@
 #   wb_m_monitor_base
 #   wb_m_seq_base
 #   wb_m_seq_item_base
-#   wb_m_seq_smoke
 #   wb_m_seq_wait
 #   wb_m_seq_wr_rd
 #   wb_m_sequencer_base
@@ -380,6 +400,8 @@
 #   wb_s_seq_mdio
 #   wb_s_seq_tx_bd_num
 #   wb_s_seq_tx_collision_cfg
+#   wb_s_seq_tx_collision_pad
+#   wb_s_seq_tx_collision_pre
 #   wb_s_seq_tx_cs
 #   wb_s_seq_tx_ctrl_flow
 #   wb_s_seq_tx_dcrc
@@ -388,6 +410,7 @@
 #   wb_s_seq_tx_interrupts
 #   wb_s_seq_tx_ipgt
 #   wb_s_seq_tx_len
+#   wb_s_seq_tx_max_len
 #   wb_s_seq_tx_maxfl
 #   wb_s_seq_tx_minfl
 #   wb_s_seq_tx_moder
@@ -400,26 +423,17 @@
 # 
 ####
 # 
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 2500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 7500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 12500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 17500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 22500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 27500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 32500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 37500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 2500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 7500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 12500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 17500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 22500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 27500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 32500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 37500: reporter [A_WB_M] Assertion error, data out = x
 # UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(30) @ 42500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running 15 sequence
 # UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 42500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 0
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 28182500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 28187500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 28192500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 28197500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 28202500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 28207500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 28212500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 28217500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 28222500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 1
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1914) @ 44940000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1891) @ 18100000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
 # 
 # 
 #                     Mode           : Full Duplex
@@ -432,7 +446,7 @@
 # 
 # 
 #                     Measured       : 130 MII cycles
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1914) @ 55900000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1891) @ 32020000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
 # 
 # 
 #                     Mode           : Full Duplex
@@ -445,7 +459,7 @@
 # 
 # 
 #                     Measured       : 130 MII cycles
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1914) @ 66860000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1891) @ 45860000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
 # 
 # 
 #                     Mode           : Full Duplex
@@ -458,148 +472,115 @@
 # 
 # 
 #                     Measured       : 130 MII cycles
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 73022500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 73027500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 73032500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 73037500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 73042500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 73047500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 73052500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 73057500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 73062500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 2
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1914) @ 84580000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
-# 
-# 
-#                     Mode           : Full Duplex
-# 
-# 
-#                     Register IPGT  : 0x20
-# 
-# 
-#                     Expected       : 38 MII cycles
-# 
-# 
-#                     Measured       : 35 MII cycles
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1914) @ 93660000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
-# 
-# 
-#                     Mode           : Full Duplex
-# 
-# 
-#                     Register IPGT  : 0x20
-# 
-# 
-#                     Expected       : 38 MII cycles
-# 
-# 
-#                     Measured       : 35 MII cycles
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1914) @ 100820000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
-# 
-# 
-#                     Mode           : Full Duplex
-# 
-# 
-#                     Register IPGT  : 0x20
-# 
-# 
-#                     Expected       : 38 MII cycles
-# 
-# 
-#                     Measured       : 35 MII cycles
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 109462500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 109467500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 109472500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 109477500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 109482500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 109487500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 109492500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 109497500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 109502500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 3
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 153182500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 153187500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 153192500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 153197500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 153202500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 153207500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 153212500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 153217500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 153222500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 4
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 190942500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 190947500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 190952500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 190957500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 190962500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 190967500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 190972500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 190977500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 190982500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 5
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 227062500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 227067500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 227072500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 227077500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 227082500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 227087500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 227092500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 227097500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 227102500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 6
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 273182500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 273187500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 273192500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 273197500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 273202500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 273207500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 273212500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 273217500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 273222500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 7
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1914) @ 282820000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
-# 
-# 
-#                     Mode           : Full Duplex
-# 
-# 
-#                     Register IPGT  : 0x20
-# 
-# 
-#                     Expected       : 38 MII cycles
-# 
-# 
-#                     Measured       : 35 MII cycles
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1914) @ 289980000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
-# 
-# 
-#                     Mode           : Full Duplex
-# 
-# 
-#                     Register IPGT  : 0x20
-# 
-# 
-#                     Expected       : 38 MII cycles
-# 
-# 
-#                     Measured       : 35 MII cycles
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1914) @ 297140000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
-# 
-# 
-#                     Mode           : Full Duplex
-# 
-# 
-#                     Register IPGT  : 0x20
-# 
-# 
-#                     Expected       : 38 MII cycles
-# 
-# 
-#                     Measured       : 35 MII cycles
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 302902500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 302907500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 302912500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 302917500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 302922500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 302927500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 302932500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 302937500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 302942500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 8
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1914) @ 317260000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 52822500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 52827500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 52832500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 52837500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 52842500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 52847500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 52852500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 52857500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 52862500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 1
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 86142500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 86147500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 86152500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 86157500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 86162500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 86167500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 86172500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 86177500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 86182500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 2
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 115062500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 115067500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 115072500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 115077500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 115082500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 115087500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 115092500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 115097500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 115102500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 3
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 142222500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 142227500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 142232500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 142237500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 142242500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 142247500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 142252500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 142257500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 142262500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 4
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 170902500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 170907500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 170912500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 170917500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 170922500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 170927500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 170932500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 170937500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 170942500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 5
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 197502500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 197507500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 197512500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 197517500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 197522500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 197527500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 197532500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 197537500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 197542500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 6
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 224182500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 224187500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 224192500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 224197500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 224202500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 224207500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 224212500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 224217500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 224222500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 7
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 268662500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 268667500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 268672500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 268677500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 268682500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 268687500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 268692500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 268697500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 268702500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 8
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 301022500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 301027500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 301032500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 301037500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 301042500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 301047500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 301052500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 301057500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 301062500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 9
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 329822500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 329827500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 329832500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 329837500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 329842500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 329847500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 329852500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 329857500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 329862500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 10
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 376022500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 376027500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 376032500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 376037500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 376042500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 376047500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 376052500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 376057500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 376062500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 11
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 400742500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 400747500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 400752500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 400757500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 400762500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 400767500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 400772500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 400777500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 400782500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 12
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1891) @ 417020000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
 # 
 # 
 #                     Mode           : Full Duplex
@@ -612,7 +593,7 @@
 # 
 # 
 #                     Measured       : 130 MII cycles
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1914) @ 328460000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1891) @ 430780000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
 # 
 # 
 #                     Mode           : Full Duplex
@@ -625,7 +606,7 @@
 # 
 # 
 #                     Measured       : 130 MII cycles
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1914) @ 339420000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1891) @ 442060000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
 # 
 # 
 #                     Mode           : Full Duplex
@@ -638,157 +619,51 @@
 # 
 # 
 #                     Measured       : 130 MII cycles
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 345182500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 345187500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 345192500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 345197500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 345202500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 345207500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 345212500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 345217500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 345222500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 9
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 392222500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 392227500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 392232500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 392237500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 392242500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 392247500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 392252500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 392257500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 392262500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 10
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1914) @ 400900000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
-# 
-# 
-#                     Mode           : Full Duplex
-# 
-# 
-#                     Register IPGT  : 0x20
-# 
-# 
-#                     Expected       : 38 MII cycles
-# 
-# 
-#                     Measured       : 35 MII cycles
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1914) @ 410140000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
-# 
-# 
-#                     Mode           : Full Duplex
-# 
-# 
-#                     Register IPGT  : 0x20
-# 
-# 
-#                     Expected       : 38 MII cycles
-# 
-# 
-#                     Measured       : 35 MII cycles
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1914) @ 417620000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
-# 
-# 
-#                     Mode           : Full Duplex
-# 
-# 
-#                     Register IPGT  : 0x20
-# 
-# 
-#                     Expected       : 38 MII cycles
-# 
-# 
-#                     Measured       : 35 MII cycles
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 423382500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 423387500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 423392500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 423397500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 423402500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 423407500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 423412500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 423417500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 423422500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 11
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 454582500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 454587500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 454592500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 454597500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 454602500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 454607500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 454612500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 454617500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 454622500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 12
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 487342500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 487347500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 487352500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 487357500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 487362500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 487367500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 487372500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 487377500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 487382500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 13
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1914) @ 496020000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
-# 
-# 
-#                     Mode           : Full Duplex
-# 
-# 
-#                     Register IPGT  : 0x20
-# 
-# 
-#                     Expected       : 38 MII cycles
-# 
-# 
-#                     Measured       : 35 MII cycles
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1914) @ 504220000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
-# 
-# 
-#                     Mode           : Full Duplex
-# 
-# 
-#                     Register IPGT  : 0x20
-# 
-# 
-#                     Expected       : 38 MII cycles
-# 
-# 
-#                     Measured       : 35 MII cycles
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1914) @ 513940000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
-# 
-# 
-#                     Mode           : Full Duplex
-# 
-# 
-#                     Register IPGT  : 0x20
-# 
-# 
-#                     Expected       : 38 MII cycles
-# 
-# 
-#                     Measured       : 35 MII cycles
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 519702500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 519707500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 519712500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 519717500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 519722500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 519727500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 519732500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(93) @ 519737500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 519742500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 14
-# UVM_INFO verilog_src/uvm-1.1d/src/base/uvm_objection.svh(1267) @ 549620000: reporter [TEST_DONE] 'run' phase is ready to proceed to the 'extract' phase
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 447822500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 447827500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 447832500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 447837500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 447842500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 447847500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 447852500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 447857500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 447862500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 13
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 483102500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 483107500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 483112500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 483117500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 483122500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 483127500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 483132500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 483137500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 483142500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 14
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 518262500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 518267500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 518272500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 518277500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 518282500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 518287500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 518292500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 518297500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_INFO verilog_src/uvm-1.1d/src/base/uvm_objection.svh(1267) @ 518302500: reporter [TEST_DONE] 'run' phase is ready to proceed to the 'extract' phase
 # 
 # --- UVM Report Summary ---
 # 
 # ** Report counts by severity
 # UVM_INFO :   22
-# UVM_WARNING :  120
-# UVM_ERROR :   18
+# UVM_WARNING :  128
+# UVM_ERROR :    6
 # UVM_FATAL :    0
 # ** Report counts by id
-# [A_WB_M]   120
+# [A_WB_M]   128
 # [Questa UVM]     2
 # [RNTST]     1
 # [TEST_DONE]     1
 # [eth_test_tx_ipgt]     2
-# [eth_tx_scoreboard]    18
+# [eth_tx_scoreboard]     6
 # [m_v_seq_tx]    16
 # ** Note: $finish    : D:/B/questasim64_2024.1/win64/../verilog_src/uvm-1.1d/src/base/uvm_root.svh(430)
-#    Time: 549620 ns  Iteration: 83  Instance: /eth_tb
+#    Time: 518302500 ps  Iteration: 66  Instance: /eth_tb
 # Break in Task uvm_pkg/uvm_root::run_test at D:/B/questasim64_2024.1/win64/../verilog_src/uvm-1.1d/src/base/uvm_root.svh line 430
 # Stopped at D:/B/questasim64_2024.1/win64/../verilog_src/uvm-1.1d/src/base/uvm_root.svh line 430
 #  

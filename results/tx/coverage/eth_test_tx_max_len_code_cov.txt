@@ -2760,10 +2760,10 @@ Branch Coverage for instance /dut/ethreg1/CTRLMODER_0
     ----         ----                      -----     ------ 
   File repo/rtl/eth_register.v
 ------------------------------------IF Branch------------------------------------
-    96                                        12     Count coming in to IF
+    96                                        13     Count coming in to IF
     96              1                          5       if(Reset)
     102             1                    ***0***       if(Write)                         // write
-                                               7     All False Count
+                                               8     All False Count
 Branch totals: 2 hits of 3 branches = 66.66%
 
 
@@ -2796,7 +2796,7 @@ Statement Coverage for instance /dut/ethreg1/CTRLMODER_0 --
     91                                               
     92                                               
     93                                               
-    94              1                         12     always @ (posedge Clk or posedge Reset)
+    94              1                         13     always @ (posedge Clk or posedge Reset)
     95                                               begin
     96                                                 if(Reset)
     97              1                          5         DataOut<= RESET_VALUE;
@@ -2926,10 +2926,10 @@ Branch Coverage for instance /dut/ethreg1/MIIMODER_1
     ----         ----                      -----     ------ 
   File repo/rtl/eth_register.v
 ------------------------------------IF Branch------------------------------------
-    96                                         8     Count coming in to IF
+    96                                        10     Count coming in to IF
     96              1                          5       if(Reset)
     102             1                    ***0***       if(Write)                         // write
-                                               3     All False Count
+                                               5     All False Count
 Branch totals: 2 hits of 3 branches = 66.66%
 
 
@@ -2962,7 +2962,7 @@ Statement Coverage for instance /dut/ethreg1/MIIMODER_1 --
     91                                               
     92                                               
     93                                               
-    94              1                          8     always @ (posedge Clk or posedge Reset)
+    94              1                         10     always @ (posedge Clk or posedge Reset)
     95                                               begin
     96                                                 if(Reset)
     97              1                          5         DataOut<= RESET_VALUE;
@@ -3178,11 +3178,11 @@ Branch Coverage for instance /dut/ethreg1/MIICOMMAND2
     ----         ----                      -----     ------ 
   File repo/rtl/eth_register.v
 ------------------------------------IF Branch------------------------------------
-    96                                        10     Count coming in to IF
+    96                                        12     Count coming in to IF
     96              1                          5       if(Reset)
     99              1                    ***0***       if(SyncReset)
     102             1                    ***0***       if(Write)                         // write
-                                               5     All False Count
+                                               7     All False Count
 Branch totals: 2 hits of 4 branches = 50.00%
 
 
@@ -3215,7 +3215,7 @@ Statement Coverage for instance /dut/ethreg1/MIICOMMAND2 --
     91                                               
     92                                               
     93                                               
-    94              1                         10     always @ (posedge Clk or posedge Reset)
+    94              1                         12     always @ (posedge Clk or posedge Reset)
     95                                               begin
     96                                                 if(Reset)
     97              1                          5         DataOut<= RESET_VALUE;
@@ -5232,11 +5232,11 @@ Branch totals: 2 hits of 4 branches = 50.00%
 Branch totals: 2 hits of 4 branches = 50.00%
 
 ------------------------------------IF Branch------------------------------------
-    1107                                      10     Count coming in to IF
+    1107                                      12     Count coming in to IF
     1107            1                          5       if(Reset)
     1110            1                    ***0***       if(RxB_IRQ)
     1113            1                    ***0***       if(INT_SOURCE_Wr[0] & DataIn[2])
-                                               5     All False Count
+                                               7     All False Count
 Branch totals: 2 hits of 4 branches = 50.00%
 
 ------------------------------------IF Branch------------------------------------
@@ -5256,19 +5256,19 @@ Branch totals: 2 hits of 4 branches = 50.00%
 Branch totals: 2 hits of 4 branches = 50.00%
 
 ------------------------------------IF Branch------------------------------------
-    1143                                      10     Count coming in to IF
+    1143                                       8     Count coming in to IF
     1143            1                          5       if(Reset)
     1146            1                    ***0***       if(SetTxCIrq)
     1149            1                    ***0***       if(INT_SOURCE_Wr[0] & DataIn[5])
-                                               5     All False Count
+                                               3     All False Count
 Branch totals: 2 hits of 4 branches = 50.00%
 
 ------------------------------------IF Branch------------------------------------
-    1155                                       8     Count coming in to IF
+    1155                                      10     Count coming in to IF
     1155            1                          5       if(Reset)
     1158            1                    ***0***       if(SetRxCIrq)
     1161            1                    ***0***       if(INT_SOURCE_Wr[0] & DataIn[6])
-                                               3     All False Count
+                                               5     All False Count
 Branch totals: 2 hits of 4 branches = 50.00%
 
 
@@ -7440,7 +7440,7 @@ Statement Coverage for instance /dut/ethreg1 --
     1102            1                    ***0***         irq_txe <=  1'b0;
     1103                                             end
     1104                                             
-    1105            1                         10     always @ (posedge Clk or posedge Reset)
+    1105            1                         12     always @ (posedge Clk or posedge Reset)
     1106                                             begin
     1107                                               if(Reset)
     1108            1                          5         irq_rxb <= 1'b0;
@@ -7476,7 +7476,7 @@ Statement Coverage for instance /dut/ethreg1 --
     1138            1                    ***0***         irq_busy <=  1'b0;
     1139                                             end
     1140                                             
-    1141            1                         10     always @ (posedge Clk or posedge Reset)
+    1141            1                          8     always @ (posedge Clk or posedge Reset)
     1142                                             begin
     1143                                               if(Reset)
     1144            1                          5         irq_txc <= 1'b0;
@@ -7488,7 +7488,7 @@ Statement Coverage for instance /dut/ethreg1 --
     1150            1                    ***0***         irq_txc <=  1'b0;
     1151                                             end
     1152                                             
-    1153            1                          8     always @ (posedge Clk or posedge Reset)
+    1153            1                         10     always @ (posedge Clk or posedge Reset)
     1154                                             begin
     1155                                               if(Reset)
     1156            1                          5         irq_rxc <= 1'b0;
@@ -10265,7 +10265,7 @@ Statement Coverage for instance /dut/maccontrol1 --
     234                                              
     235                                              
     236                                              // PadOut
-    237             1                          4     assign PadOut = PadIn | SendingCtrlFrm;
+    237             1                          6     assign PadOut = PadIn | SendingCtrlFrm;
     238                                              
     239                                              
     240                                              // CrcEnOut
@@ -11587,7 +11587,7 @@ Branch totals: 3 hits of 3 branches = 100.00%
 Expression Coverage:
     Enabled Coverage              Bins   Covered    Misses  Coverage
     ----------------              ----      ----    ------  --------
-    Expressions                    165       163         2    98.78%
+    Expressions                    165       162         3    98.18%
 
 ================================Expression Details================================
 
@@ -11610,7 +11610,7 @@ Expression totals: 3 of 3 input terms covered = 100.00%
  Row   1:           1           0  Enable_0              (Data_Crc[0] ^ Crc[28])            
  Row   2:           0           1  Enable_1              (Data_Crc[0] ^ Crc[28])            
  Row   3:           1           1  Data_Crc[0]_0         Enable                             
- Row   4:           0           1  Data_Crc[0]_1         Enable                             
+ Row   4:           1           0  Data_Crc[0]_1         Enable                             
  Row   5:           1           0  Crc[28]_0             Enable                             
  Row   6:           0           1  Crc[28]_1             Enable                             
 
@@ -11632,7 +11632,7 @@ Expression totals: 5 of 5 input terms covered = 100.00%
  Row   1:           1           0  Enable_0              (((Data_Crc[1] ^ Data_Crc[0]) ^ Crc[28]) ^ Crc[29])
  Row   2:           0           1  Enable_1              (((Data_Crc[1] ^ Data_Crc[0]) ^ Crc[28]) ^ Crc[29])
  Row   3:           1           1  Data_Crc[1]_0         Enable                                             
- Row   4:           0           1  Data_Crc[1]_1         Enable                                             
+ Row   4:           1           0  Data_Crc[1]_1         Enable                                             
  Row   5:           1           1  Data_Crc[0]_0         Enable                                             
  Row   6:           0           1  Data_Crc[0]_1         Enable                                             
  Row   7:           1           0  Crc[28]_0             Enable                                             
@@ -11660,11 +11660,11 @@ Expression totals: 7 of 7 input terms covered = 100.00%
  Row   1:           1           0  Enable_0              (((Data_Crc[2] ^ (Data_Crc[1] ^ Data_Crc[0])) ^ (Crc[28] ^ Crc[29])) ^ Crc[30])
  Row   2:           0           1  Enable_1              (((Data_Crc[2] ^ (Data_Crc[1] ^ Data_Crc[0])) ^ (Crc[28] ^ Crc[29])) ^ Crc[30])
  Row   3:           1           1  Data_Crc[2]_0         Enable                                                                         
- Row   4:           0           1  Data_Crc[2]_1         Enable                                                                         
+ Row   4:           1           0  Data_Crc[2]_1         Enable                                                                         
  Row   5:           1           1  Data_Crc[1]_0         Enable                                                                         
  Row   6:           0           1  Data_Crc[1]_1         Enable                                                                         
  Row   7:           1           1  Data_Crc[0]_0         Enable                                                                         
- Row   8:           0           1  Data_Crc[0]_1         Enable                                                                         
+ Row   8:           1           0  Data_Crc[0]_1         Enable                                                                         
  Row   9:           1           1  Crc[28]_0             Enable                                                                         
 Row   10:           0           1  Crc[28]_1             Enable                                                                         
 Row   11:           1           1  Crc[29]_0             Enable                                                                         
@@ -11694,7 +11694,7 @@ Expression totals: 7 of 7 input terms covered = 100.00%
  Row   3:           1           1  Data_Crc[3]_0         Enable                                                                         
  Row   4:           1           0  Data_Crc[3]_1         Enable                                                                         
  Row   5:           1           1  Data_Crc[2]_0         Enable                                                                         
- Row   6:           1           0  Data_Crc[2]_1         Enable                                                                         
+ Row   6:           0           1  Data_Crc[2]_1         Enable                                                                         
  Row   7:           1           1  Data_Crc[1]_0         Enable                                                                         
  Row   8:           1           0  Data_Crc[1]_1         Enable                                                                         
  Row   9:           1           0  Crc[29]_0             Enable                                                                         
@@ -11757,12 +11757,12 @@ Expression totals: 8 of 8 input terms covered = 100.00%
     Rows:   Hits(->0)   Hits(->1)  FEC Target            Non-masking condition(s)                                                       
 
 ---------  ----------  ----------  --------------------  -------------------------                                                      
- Row   1:           0           1  Enable_0              (((Data_Crc[3] ^ (Data_Crc[1] ^ Data_Crc[0])) ^ (Crc[28] ^ Crc[29])) ^ Crc[31])
+ Row   1:           1           0  Enable_0              (((Data_Crc[3] ^ (Data_Crc[1] ^ Data_Crc[0])) ^ (Crc[28] ^ Crc[29])) ^ Crc[31])
  Row   2:           1           1  Enable_1              (((Data_Crc[3] ^ (Data_Crc[1] ^ Data_Crc[0])) ^ (Crc[28] ^ Crc[29])) ^ Crc[31])
  Row   3:           1           1  Data_Crc[3]_0         Enable                                                                         
- Row   4:           1           0  Data_Crc[3]_1         Enable                                                                         
+ Row   4:           0           1  Data_Crc[3]_1         Enable                                                                         
  Row   5:           1           1  Data_Crc[1]_0         Enable                                                                         
- Row   6:           1           0  Data_Crc[1]_1         Enable                                                                         
+ Row   6:           0           1  Data_Crc[1]_1         Enable                                                                         
  Row   7:           1           1  Data_Crc[0]_0         Enable                                                                         
  Row   8:           0           1  Data_Crc[0]_1         Enable                                                                         
  Row   9:           0           1  Crc[28]_0             Enable                                                                         
@@ -11776,11 +11776,11 @@ Row   16:           1           0  Crc[1]_1              -
 
 -----------Focused Expression View (Bimodal)------------
 Line       102 Item    1  ((Enable & (((Data_Crc[2] ^ Data_Crc[1]) ^ Crc[29]) ^ Crc[30])) ^ Crc[2])
-Expression totals: 6 of 6 input terms covered = 100.00%
+Expression totals: 5 of 6 input terms covered = 83.33%
 
      Input Term   Covered  Reason for no coverage                  Hint
     -----------  --------  --------------------------------------  --------------
-         Enable         Y
+         Enable         N  '_1' hit but '_0' not hit              Hit '_0' for output ->0 or ->1
     Data_Crc[2]         Y
     Data_Crc[1]         Y
         Crc[29]         Y
@@ -11790,12 +11790,12 @@ Expression totals: 6 of 6 input terms covered = 100.00%
     Rows:   Hits(->0)   Hits(->1)  FEC Target            Non-masking condition(s)                           
 
 ---------  ----------  ----------  --------------------  -------------------------                          
- Row   1:           1           0  Enable_0              (((Data_Crc[2] ^ Data_Crc[1]) ^ Crc[29]) ^ Crc[30])
+ Row   1:           0           0  Enable_0              (((Data_Crc[2] ^ Data_Crc[1]) ^ Crc[29]) ^ Crc[30])
  Row   2:           1           1  Enable_1              (((Data_Crc[2] ^ Data_Crc[1]) ^ Crc[29]) ^ Crc[30])
  Row   3:           1           1  Data_Crc[2]_0         Enable                                             
- Row   4:           0           1  Data_Crc[2]_1         Enable                                             
+ Row   4:           1           0  Data_Crc[2]_1         Enable                                             
  Row   5:           1           1  Data_Crc[1]_0         Enable                                             
- Row   6:           0           1  Data_Crc[1]_1         Enable                                             
+ Row   6:           1           0  Data_Crc[1]_1         Enable                                             
  Row   7:           1           0  Crc[29]_0             Enable                                             
  Row   8:           0           1  Crc[29]_1             Enable                                             
  Row   9:           0           1  Crc[30]_0             Enable                                             
@@ -11821,14 +11821,14 @@ Expression totals: 8 of 8 input terms covered = 100.00%
     Rows:   Hits(->0)   Hits(->1)  FEC Target            Non-masking condition(s)                                                       
 
 ---------  ----------  ----------  --------------------  -------------------------                                                      
- Row   1:           0           1  Enable_0              (((Data_Crc[3] ^ (Data_Crc[2] ^ Data_Crc[0])) ^ (Crc[28] ^ Crc[30])) ^ Crc[31])
+ Row   1:           1           0  Enable_0              (((Data_Crc[3] ^ (Data_Crc[2] ^ Data_Crc[0])) ^ (Crc[28] ^ Crc[30])) ^ Crc[31])
  Row   2:           1           1  Enable_1              (((Data_Crc[3] ^ (Data_Crc[2] ^ Data_Crc[0])) ^ (Crc[28] ^ Crc[30])) ^ Crc[31])
  Row   3:           1           1  Data_Crc[3]_0         Enable                                                                         
- Row   4:           1           0  Data_Crc[3]_1         Enable                                                                         
+ Row   4:           0           1  Data_Crc[3]_1         Enable                                                                         
  Row   5:           1           1  Data_Crc[2]_0         Enable                                                                         
- Row   6:           1           0  Data_Crc[2]_1         Enable                                                                         
+ Row   6:           0           1  Data_Crc[2]_1         Enable                                                                         
  Row   7:           1           1  Data_Crc[0]_0         Enable                                                                         
- Row   8:           1           0  Data_Crc[0]_1         Enable                                                                         
+ Row   8:           0           1  Data_Crc[0]_1         Enable                                                                         
  Row   9:           0           1  Crc[28]_0             Enable                                                                         
 Row   10:           1           0  Crc[28]_1             Enable                                                                         
 Row   11:           0           1  Crc[30]_0             Enable                                                                         
@@ -11859,11 +11859,11 @@ Expression totals: 8 of 8 input terms covered = 100.00%
  Row   1:           1           0  Enable_0              (((Data_Crc[3] ^ (Data_Crc[1] ^ Data_Crc[0])) ^ (Crc[28] ^ Crc[29])) ^ Crc[31])
  Row   2:           1           1  Enable_1              (((Data_Crc[3] ^ (Data_Crc[1] ^ Data_Crc[0])) ^ (Crc[28] ^ Crc[29])) ^ Crc[31])
  Row   3:           1           1  Data_Crc[3]_0         Enable                                                                         
- Row   4:           1           0  Data_Crc[3]_1         Enable                                                                         
+ Row   4:           0           1  Data_Crc[3]_1         Enable                                                                         
  Row   5:           1           1  Data_Crc[1]_0         Enable                                                                         
- Row   6:           1           0  Data_Crc[1]_1         Enable                                                                         
+ Row   6:           0           1  Data_Crc[1]_1         Enable                                                                         
  Row   7:           1           1  Data_Crc[0]_0         Enable                                                                         
- Row   8:           1           0  Data_Crc[0]_1         Enable                                                                         
+ Row   8:           0           1  Data_Crc[0]_1         Enable                                                                         
  Row   9:           0           1  Crc[28]_0             Enable                                                                         
 Row   10:           1           0  Crc[28]_1             Enable                                                                         
 Row   11:           0           1  Crc[29]_0             Enable                                                                         
@@ -11875,11 +11875,11 @@ Row   16:           1           0  Crc[4]_1              -
 
 -----------Focused Expression View (Bimodal)------------
 Line       105 Item    1  ((Enable & (((Data_Crc[2] ^ Data_Crc[1]) ^ Crc[29]) ^ Crc[30])) ^ Crc[5])
-Expression totals: 6 of 6 input terms covered = 100.00%
+Expression totals: 5 of 6 input terms covered = 83.33%
 
      Input Term   Covered  Reason for no coverage                  Hint
     -----------  --------  --------------------------------------  --------------
-         Enable         Y
+         Enable         N  '_1' hit but '_0' not hit              Hit '_0' for output ->0 or ->1
     Data_Crc[2]         Y
     Data_Crc[1]         Y
         Crc[29]         Y
@@ -11889,10 +11889,10 @@ Expression totals: 6 of 6 input terms covered = 100.00%
     Rows:   Hits(->0)   Hits(->1)  FEC Target            Non-masking condition(s)                           
 
 ---------  ----------  ----------  --------------------  -------------------------                          
- Row   1:           0           1  Enable_0              (((Data_Crc[2] ^ Data_Crc[1]) ^ Crc[29]) ^ Crc[30])
+ Row   1:           0           0  Enable_0              (((Data_Crc[2] ^ Data_Crc[1]) ^ Crc[29]) ^ Crc[30])
  Row   2:           1           1  Enable_1              (((Data_Crc[2] ^ Data_Crc[1]) ^ Crc[29]) ^ Crc[30])
  Row   3:           1           1  Data_Crc[2]_0         Enable                                             
- Row   4:           0           1  Data_Crc[2]_1         Enable                                             
+ Row   4:           1           0  Data_Crc[2]_1         Enable                                             
  Row   5:           1           1  Data_Crc[1]_0         Enable                                             
  Row   6:           0           1  Data_Crc[1]_1         Enable                                             
  Row   7:           1           1  Crc[29]_0             Enable                                             
@@ -11920,14 +11920,14 @@ Expression totals: 8 of 8 input terms covered = 100.00%
     Rows:   Hits(->0)   Hits(->1)  FEC Target            Non-masking condition(s)                                                       
 
 ---------  ----------  ----------  --------------------  -------------------------                                                      
- Row   1:           1           0  Enable_0              (((Data_Crc[3] ^ (Data_Crc[2] ^ Data_Crc[0])) ^ (Crc[28] ^ Crc[30])) ^ Crc[31])
+ Row   1:           0           1  Enable_0              (((Data_Crc[3] ^ (Data_Crc[2] ^ Data_Crc[0])) ^ (Crc[28] ^ Crc[30])) ^ Crc[31])
  Row   2:           1           1  Enable_1              (((Data_Crc[3] ^ (Data_Crc[2] ^ Data_Crc[0])) ^ (Crc[28] ^ Crc[30])) ^ Crc[31])
  Row   3:           1           1  Data_Crc[3]_0         Enable                                                                         
- Row   4:           1           0  Data_Crc[3]_1         Enable                                                                         
+ Row   4:           0           1  Data_Crc[3]_1         Enable                                                                         
  Row   5:           1           1  Data_Crc[2]_0         Enable                                                                         
  Row   6:           1           0  Data_Crc[2]_1         Enable                                                                         
  Row   7:           1           1  Data_Crc[0]_0         Enable                                                                         
- Row   8:           1           0  Data_Crc[0]_1         Enable                                                                         
+ Row   8:           0           1  Data_Crc[0]_1         Enable                                                                         
  Row   9:           0           1  Crc[28]_0             Enable                                                                         
 Row   10:           1           0  Crc[28]_1             Enable                                                                         
 Row   11:           0           1  Crc[30]_0             Enable                                                                         
@@ -11955,12 +11955,12 @@ Expression totals: 8 of 8 input terms covered = 100.00%
     Rows:   Hits(->0)   Hits(->1)  FEC Target            Non-masking condition(s)                                                       
 
 ---------  ----------  ----------  --------------------  -------------------------                                                      
- Row   1:           0           1  Enable_0              (((Data_Crc[3] ^ (Data_Crc[1] ^ Data_Crc[0])) ^ (Crc[28] ^ Crc[29])) ^ Crc[31])
+ Row   1:           1           0  Enable_0              (((Data_Crc[3] ^ (Data_Crc[1] ^ Data_Crc[0])) ^ (Crc[28] ^ Crc[29])) ^ Crc[31])
  Row   2:           1           1  Enable_1              (((Data_Crc[3] ^ (Data_Crc[1] ^ Data_Crc[0])) ^ (Crc[28] ^ Crc[29])) ^ Crc[31])
  Row   3:           1           1  Data_Crc[3]_0         Enable                                                                         
- Row   4:           1           0  Data_Crc[3]_1         Enable                                                                         
+ Row   4:           0           1  Data_Crc[3]_1         Enable                                                                         
  Row   5:           1           1  Data_Crc[1]_0         Enable                                                                         
- Row   6:           1           0  Data_Crc[1]_1         Enable                                                                         
+ Row   6:           0           1  Data_Crc[1]_1         Enable                                                                         
  Row   7:           1           1  Data_Crc[0]_0         Enable                                                                         
  Row   8:           0           1  Data_Crc[0]_1         Enable                                                                         
  Row   9:           0           1  Crc[28]_0             Enable                                                                         
@@ -11990,10 +11990,10 @@ Expression totals: 8 of 8 input terms covered = 100.00%
     Rows:   Hits(->0)   Hits(->1)  FEC Target            Non-masking condition(s)                                                       
 
 ---------  ----------  ----------  --------------------  -------------------------                                                      
- Row   1:           0           1  Enable_0              (((Data_Crc[2] ^ (Data_Crc[1] ^ Data_Crc[0])) ^ (Crc[28] ^ Crc[29])) ^ Crc[30])
+ Row   1:           1           0  Enable_0              (((Data_Crc[2] ^ (Data_Crc[1] ^ Data_Crc[0])) ^ (Crc[28] ^ Crc[29])) ^ Crc[30])
  Row   2:           1           1  Enable_1              (((Data_Crc[2] ^ (Data_Crc[1] ^ Data_Crc[0])) ^ (Crc[28] ^ Crc[29])) ^ Crc[30])
  Row   3:           1           1  Data_Crc[2]_0         Enable                                                                         
- Row   4:           1           0  Data_Crc[2]_1         Enable                                                                         
+ Row   4:           0           1  Data_Crc[2]_1         Enable                                                                         
  Row   5:           1           1  Data_Crc[1]_0         Enable                                                                         
  Row   6:           1           0  Data_Crc[1]_1         Enable                                                                         
  Row   7:           1           1  Data_Crc[0]_0         Enable                                                                         
@@ -12025,7 +12025,7 @@ Expression totals: 8 of 8 input terms covered = 100.00%
     Rows:   Hits(->0)   Hits(->1)  FEC Target            Non-masking condition(s)                                                       
 
 ---------  ----------  ----------  --------------------  -------------------------                                                      
- Row   1:           0           1  Enable_0              (((Data_Crc[3] ^ (Data_Crc[2] ^ Data_Crc[1])) ^ (Crc[29] ^ Crc[30])) ^ Crc[31])
+ Row   1:           1           0  Enable_0              (((Data_Crc[3] ^ (Data_Crc[2] ^ Data_Crc[1])) ^ (Crc[29] ^ Crc[30])) ^ Crc[31])
  Row   2:           1           1  Enable_1              (((Data_Crc[3] ^ (Data_Crc[2] ^ Data_Crc[1])) ^ (Crc[29] ^ Crc[30])) ^ Crc[31])
  Row   3:           1           1  Data_Crc[3]_0         Enable                                                                         
  Row   4:           0           1  Data_Crc[3]_1         Enable                                                                         
@@ -12058,10 +12058,10 @@ Expression totals: 6 of 6 input terms covered = 100.00%
     Rows:   Hits(->0)   Hits(->1)  FEC Target            Non-masking condition(s)                           
 
 ---------  ----------  ----------  --------------------  -------------------------                          
- Row   1:           1           0  Enable_0              (((Data_Crc[3] ^ Data_Crc[2]) ^ Crc[30]) ^ Crc[31])
+ Row   1:           0           1  Enable_0              (((Data_Crc[3] ^ Data_Crc[2]) ^ Crc[30]) ^ Crc[31])
  Row   2:           1           1  Enable_1              (((Data_Crc[3] ^ Data_Crc[2]) ^ Crc[30]) ^ Crc[31])
  Row   3:           1           1  Data_Crc[3]_0         Enable                                             
- Row   4:           0           1  Data_Crc[3]_1         Enable                                             
+ Row   4:           1           0  Data_Crc[3]_1         Enable                                             
  Row   5:           1           1  Data_Crc[2]_0         Enable                                             
  Row   6:           0           1  Data_Crc[2]_1         Enable                                             
  Row   7:           0           1  Crc[30]_0             Enable                                             
@@ -12085,7 +12085,7 @@ Expression totals: 4 of 4 input terms covered = 100.00%
     Rows:   Hits(->0)   Hits(->1)  FEC Target            Non-masking condition(s)           
 
 ---------  ----------  ----------  --------------------  -------------------------          
- Row   1:           0           1  Enable_0              (Data_Crc[3] ^ Crc[31])            
+ Row   1:           1           0  Enable_0              (Data_Crc[3] ^ Crc[31])            
  Row   2:           1           1  Enable_1              (Data_Crc[3] ^ Crc[31])            
  Row   3:           1           1  Data_Crc[3]_0         Enable                             
  Row   4:           0           1  Data_Crc[3]_1         Enable                             
@@ -12142,11 +12142,11 @@ Expression totals: 4 of 4 input terms covered = 100.00%
 
 -----------Focused Expression View (Bimodal)------------
 Line       114 Item    1  ((Enable & (Data_Crc[2] ^ Crc[30])) ^ Crc[14])
-Expression totals: 3 of 4 input terms covered = 75.00%
+Expression totals: 4 of 4 input terms covered = 100.00%
 
      Input Term   Covered  Reason for no coverage                  Hint
     -----------  --------  --------------------------------------  --------------
-         Enable         N  '_1' hit but '_0' not hit              Hit '_0' for output ->0 or ->1
+         Enable         Y
     Data_Crc[2]         Y
         Crc[30]         Y
         Crc[14]         Y
@@ -12154,10 +12154,10 @@ Expression totals: 3 of 4 input terms covered = 75.00%
     Rows:   Hits(->0)   Hits(->1)  FEC Target            Non-masking condition(s)           
 
 ---------  ----------  ----------  --------------------  -------------------------          
- Row   1:           0           0  Enable_0              (Data_Crc[2] ^ Crc[30])            
+ Row   1:           1           0  Enable_0              (Data_Crc[2] ^ Crc[30])            
  Row   2:           1           1  Enable_1              (Data_Crc[2] ^ Crc[30])            
  Row   3:           1           1  Data_Crc[2]_0         Enable                             
- Row   4:           0           1  Data_Crc[2]_1         Enable                             
+ Row   4:           1           0  Data_Crc[2]_1         Enable                             
  Row   5:           0           1  Crc[30]_0             Enable                             
  Row   6:           1           1  Crc[30]_1             Enable                             
  Row   7:           0           1  Crc[14]_0             -                                  
@@ -12177,10 +12177,10 @@ Expression totals: 4 of 4 input terms covered = 100.00%
     Rows:   Hits(->0)   Hits(->1)  FEC Target            Non-masking condition(s)           
 
 ---------  ----------  ----------  --------------------  -------------------------          
- Row   1:           1           0  Enable_0              (Data_Crc[3] ^ Crc[31])            
+ Row   1:           0           1  Enable_0              (Data_Crc[3] ^ Crc[31])            
  Row   2:           1           1  Enable_1              (Data_Crc[3] ^ Crc[31])            
  Row   3:           1           1  Data_Crc[3]_0         Enable                             
- Row   4:           0           1  Data_Crc[3]_1         Enable                             
+ Row   4:           1           0  Data_Crc[3]_1         Enable                             
  Row   5:           0           1  Crc[31]_0             Enable                             
  Row   6:           1           1  Crc[31]_1             Enable                             
  Row   7:           0           1  Crc[15]_0             -                                  
@@ -12200,7 +12200,7 @@ Expression totals: 4 of 4 input terms covered = 100.00%
     Rows:   Hits(->0)   Hits(->1)  FEC Target            Non-masking condition(s)           
 
 ---------  ----------  ----------  --------------------  -------------------------          
- Row   1:           0           1  Enable_0              (Data_Crc[0] ^ Crc[28])            
+ Row   1:           1           0  Enable_0              (Data_Crc[0] ^ Crc[28])            
  Row   2:           1           1  Enable_1              (Data_Crc[0] ^ Crc[28])            
  Row   3:           1           1  Data_Crc[0]_0         Enable                             
  Row   4:           0           1  Data_Crc[0]_1         Enable                             
@@ -12230,7 +12230,7 @@ Expression totals: 6 of 6 input terms covered = 100.00%
  Row   3:           1           1  Data_Crc[1]_0         Enable                                             
  Row   4:           1           0  Data_Crc[1]_1         Enable                                             
  Row   5:           1           1  Data_Crc[0]_0         Enable                                             
- Row   6:           0           1  Data_Crc[0]_1         Enable                                             
+ Row   6:           1           0  Data_Crc[0]_1         Enable                                             
  Row   7:           1           0  Crc[29]_0             Enable                                             
  Row   8:           0           1  Crc[29]_1             Enable                                             
  Row   9:           1           0  Crc[28]_0             Enable                                             
@@ -12240,11 +12240,11 @@ Row   12:           0           1  Crc[19]_1             -
 
 -----------Focused Expression View (Bimodal)------------
 Line       120 Item    1  ((Enable & (((Data_Crc[2] ^ Data_Crc[1]) ^ Crc[30]) ^ Crc[29])) ^ Crc[20])
-Expression totals: 6 of 6 input terms covered = 100.00%
+Expression totals: 5 of 6 input terms covered = 83.33%
 
      Input Term   Covered  Reason for no coverage                  Hint
     -----------  --------  --------------------------------------  --------------
-         Enable         Y
+         Enable         N  '_1' hit but '_0' not hit              Hit '_0' for output ->0 or ->1
     Data_Crc[2]         Y
     Data_Crc[1]         Y
         Crc[30]         Y
@@ -12254,7 +12254,7 @@ Expression totals: 6 of 6 input terms covered = 100.00%
     Rows:   Hits(->0)   Hits(->1)  FEC Target            Non-masking condition(s)                           
 
 ---------  ----------  ----------  --------------------  -------------------------                          
- Row   1:           0           1  Enable_0              (((Data_Crc[2] ^ Data_Crc[1]) ^ Crc[30]) ^ Crc[29])
+ Row   1:           0           0  Enable_0              (((Data_Crc[2] ^ Data_Crc[1]) ^ Crc[30]) ^ Crc[29])
  Row   2:           1           1  Enable_1              (((Data_Crc[2] ^ Data_Crc[1]) ^ Crc[30]) ^ Crc[29])
  Row   3:           1           1  Data_Crc[2]_0         Enable                                             
  Row   4:           0           1  Data_Crc[2]_1         Enable                                             
@@ -12286,9 +12286,9 @@ Expression totals: 6 of 6 input terms covered = 100.00%
  Row   1:           0           1  Enable_0              (((Data_Crc[3] ^ Data_Crc[2]) ^ Crc[31]) ^ Crc[30])
  Row   2:           1           1  Enable_1              (((Data_Crc[3] ^ Data_Crc[2]) ^ Crc[31]) ^ Crc[30])
  Row   3:           1           1  Data_Crc[3]_0         Enable                                             
- Row   4:           0           1  Data_Crc[3]_1         Enable                                             
+ Row   4:           1           0  Data_Crc[3]_1         Enable                                             
  Row   5:           1           1  Data_Crc[2]_0         Enable                                             
- Row   6:           0           1  Data_Crc[2]_1         Enable                                             
+ Row   6:           1           0  Data_Crc[2]_1         Enable                                             
  Row   7:           0           1  Crc[31]_0             Enable                                             
  Row   8:           1           1  Crc[31]_1             Enable                                             
  Row   9:           0           1  Crc[30]_0             Enable                                             
@@ -12339,7 +12339,7 @@ Expression totals: 4 of 4 input terms covered = 100.00%
     Rows:   Hits(->0)   Hits(->1)  FEC Target            Non-masking condition(s)           
 
 ---------  ----------  ----------  --------------------  -------------------------          
- Row   1:           0           1  Enable_0              (Data_Crc[1] ^ Crc[29])            
+ Row   1:           1           0  Enable_0              (Data_Crc[1] ^ Crc[29])            
  Row   2:           1           1  Enable_1              (Data_Crc[1] ^ Crc[29])            
  Row   3:           1           1  Data_Crc[1]_0         Enable                             
  Row   4:           0           1  Data_Crc[1]_1         Enable                             
@@ -12350,11 +12350,11 @@ Expression totals: 4 of 4 input terms covered = 100.00%
 
 -----------Focused Expression View (Bimodal)------------
 Line       124 Item    1  ((Enable & (Data_Crc[2] ^ Crc[30])) ^ Crc[24])
-Expression totals: 3 of 4 input terms covered = 75.00%
+Expression totals: 4 of 4 input terms covered = 100.00%
 
      Input Term   Covered  Reason for no coverage                  Hint
     -----------  --------  --------------------------------------  --------------
-         Enable         N  '_1' hit but '_0' not hit              Hit '_0' for output ->0 or ->1
+         Enable         Y
     Data_Crc[2]         Y
         Crc[30]         Y
         Crc[24]         Y
@@ -12362,7 +12362,7 @@ Expression totals: 3 of 4 input terms covered = 75.00%
     Rows:   Hits(->0)   Hits(->1)  FEC Target            Non-masking condition(s)           
 
 ---------  ----------  ----------  --------------------  -------------------------          
- Row   1:           0           0  Enable_0              (Data_Crc[2] ^ Crc[30])            
+ Row   1:           0           1  Enable_0              (Data_Crc[2] ^ Crc[30])            
  Row   2:           1           1  Enable_1              (Data_Crc[2] ^ Crc[30])            
  Row   3:           1           1  Data_Crc[2]_0         Enable                             
  Row   4:           0           1  Data_Crc[2]_1         Enable                             
@@ -12437,36 +12437,36 @@ Statement Coverage for instance /dut/txethmac1/txcrc --
     93                                               wire [31:0] CrcNext;
     94                                               
     95                                               
-    96              1                     131076     assign CrcNext[0] = Enable & (Data[0] ^ Crc[28]); 
-    97              1                     163640     assign CrcNext[1] = Enable & (Data[1] ^ Data[0] ^ Crc[28] ^ Crc[29]); 
-    98              1                     229298     assign CrcNext[2] = Enable & (Data[2] ^ Data[1] ^ Data[0] ^ Crc[28] ^ Crc[29] ^ Crc[30]); 
-    99              1                     229440     assign CrcNext[3] = Enable & (Data[3] ^ Data[2] ^ Data[1] ^ Crc[29] ^ Crc[30] ^ Crc[31]); 
-    100             1                     237583     assign CrcNext[4] = (Enable & (Data[3] ^ Data[2] ^ Data[0] ^ Crc[28] ^ Crc[30] ^ Crc[31])) ^ Crc[0]; 
-    101             1                     221168     assign CrcNext[5] = (Enable & (Data[3] ^ Data[1] ^ Data[0] ^ Crc[28] ^ Crc[29] ^ Crc[31])) ^ Crc[1]; 
-    102             1                     212889     assign CrcNext[6] = (Enable & (Data[2] ^ Data[1] ^ Crc[29] ^ Crc[30])) ^ Crc[ 2]; 
-    103             1                     237528     assign CrcNext[7] = (Enable & (Data[3] ^ Data[2] ^ Data[0] ^ Crc[28] ^ Crc[30] ^ Crc[31])) ^ Crc[3]; 
-    104             1                     220998     assign CrcNext[8] = (Enable & (Data[3] ^ Data[1] ^ Data[0] ^ Crc[28] ^ Crc[29] ^ Crc[31])) ^ Crc[4]; 
-    105             1                     213008     assign CrcNext[9] = (Enable & (Data[2] ^ Data[1] ^ Crc[29] ^ Crc[30])) ^ Crc[5]; 
-    106             1                     237593     assign CrcNext[10] = (Enable & (Data[3] ^ Data[2] ^ Data[0] ^ Crc[28] ^ Crc[30] ^ Crc[31])) ^ Crc[6]; 
-    107             1                     221208     assign CrcNext[11] = (Enable & (Data[3] ^ Data[1] ^ Data[0] ^ Crc[28] ^ Crc[29] ^ Crc[31])) ^ Crc[7]; 
-    108             1                     237673     assign CrcNext[12] = (Enable & (Data[2] ^ Data[1] ^ Data[0] ^ Crc[28] ^ Crc[29] ^ Crc[30])) ^ Crc[8]; 
-    109             1                     237667     assign CrcNext[13] = (Enable & (Data[3] ^ Data[2] ^ Data[1] ^ Crc[29] ^ Crc[30] ^ Crc[31])) ^ Crc[9]; 
-    110             1                     213229     assign CrcNext[14] = (Enable & (Data[3] ^ Data[2] ^ Crc[30] ^ Crc[31])) ^ Crc[10]; 
-    111             1                     163905     assign CrcNext[15] = (Enable & (Data[3] ^ Crc[31])) ^ Crc[11]; 
-    112             1                     163948     assign CrcNext[16] = (Enable & (Data[0] ^ Crc[28])) ^ Crc[12]; 
-    113             1                     131060     assign CrcNext[17] = (Enable & (Data[1] ^ Crc[29])) ^ Crc[13]; 
-    114             1                     164120     assign CrcNext[18] = (Enable & (Data[2] ^ Crc[30])) ^ Crc[14]; 
-    115             1                     163799     assign CrcNext[19] = (Enable & (Data[3] ^ Crc[31])) ^ Crc[15]; 
+    96              1                      98344     assign CrcNext[0] = Enable & (Data[0] ^ Crc[28]); 
+    97              1                     180290     assign CrcNext[1] = Enable & (Data[1] ^ Data[0] ^ Crc[28] ^ Crc[29]); 
+    98              1                     229386     assign CrcNext[2] = Enable & (Data[2] ^ Data[1] ^ Data[0] ^ Crc[28] ^ Crc[29] ^ Crc[30]); 
+    99              1                     229455     assign CrcNext[3] = Enable & (Data[3] ^ Data[2] ^ Data[1] ^ Crc[29] ^ Crc[30] ^ Crc[31]); 
+    100             1                     254021     assign CrcNext[4] = (Enable & (Data[3] ^ Data[2] ^ Data[0] ^ Crc[28] ^ Crc[30] ^ Crc[31])) ^ Crc[0]; 
+    101             1                     237550     assign CrcNext[5] = (Enable & (Data[3] ^ Data[1] ^ Data[0] ^ Crc[28] ^ Crc[29] ^ Crc[31])) ^ Crc[1]; 
+    102             1                     213027     assign CrcNext[6] = (Enable & (Data[2] ^ Data[1] ^ Crc[29] ^ Crc[30])) ^ Crc[ 2]; 
+    103             1                     254067     assign CrcNext[7] = (Enable & (Data[3] ^ Data[2] ^ Data[0] ^ Crc[28] ^ Crc[30] ^ Crc[31])) ^ Crc[3]; 
+    104             1                     237574     assign CrcNext[8] = (Enable & (Data[3] ^ Data[1] ^ Data[0] ^ Crc[28] ^ Crc[29] ^ Crc[31])) ^ Crc[4]; 
+    105             1                     213259     assign CrcNext[9] = (Enable & (Data[2] ^ Data[1] ^ Crc[29] ^ Crc[30])) ^ Crc[5]; 
+    106             1                     254165     assign CrcNext[10] = (Enable & (Data[3] ^ Data[2] ^ Data[0] ^ Crc[28] ^ Crc[30] ^ Crc[31])) ^ Crc[6]; 
+    107             1                     237622     assign CrcNext[11] = (Enable & (Data[3] ^ Data[1] ^ Data[0] ^ Crc[28] ^ Crc[29] ^ Crc[31])) ^ Crc[7]; 
+    108             1                     237635     assign CrcNext[12] = (Enable & (Data[2] ^ Data[1] ^ Data[0] ^ Crc[28] ^ Crc[29] ^ Crc[30])) ^ Crc[8]; 
+    109             1                     237620     assign CrcNext[13] = (Enable & (Data[3] ^ Data[2] ^ Data[1] ^ Crc[29] ^ Crc[30] ^ Crc[31])) ^ Crc[9]; 
+    110             1                     229318     assign CrcNext[14] = (Enable & (Data[3] ^ Data[2] ^ Crc[30] ^ Crc[31])) ^ Crc[10]; 
+    111             1                     196649     assign CrcNext[15] = (Enable & (Data[3] ^ Crc[31])) ^ Crc[11]; 
+    112             1                     131160     assign CrcNext[16] = (Enable & (Data[0] ^ Crc[28])) ^ Crc[12]; 
+    113             1                     163666     assign CrcNext[17] = (Enable & (Data[1] ^ Crc[29])) ^ Crc[13]; 
+    114             1                     164137     assign CrcNext[18] = (Enable & (Data[2] ^ Crc[30])) ^ Crc[14]; 
+    115             1                     196584     assign CrcNext[19] = (Enable & (Data[3] ^ Crc[31])) ^ Crc[15]; 
     116                                              assign CrcNext[20] = Crc[16]; 
     117                                              assign CrcNext[21] = Crc[17]; 
-    118             1                     163722     assign CrcNext[22] = (Enable & (Data[0] ^ Crc[28])) ^ Crc[18]; 
-    119             1                     180237     assign CrcNext[23] = (Enable & (Data[1] ^ Data[0] ^ Crc[29] ^ Crc[28])) ^ Crc[19]; 
-    120             1                     212980     assign CrcNext[24] = (Enable & (Data[2] ^ Data[1] ^ Crc[30] ^ Crc[29])) ^ Crc[20]; 
-    121             1                     213239     assign CrcNext[25] = (Enable & (Data[3] ^ Data[2] ^ Crc[31] ^ Crc[30])) ^ Crc[21]; 
-    122             1                     212816     assign CrcNext[26] = (Enable & (Data[3] ^ Data[0] ^ Crc[31] ^ Crc[28])) ^ Crc[22]; 
-    123             1                     131160     assign CrcNext[27] = (Enable & (Data[1] ^ Crc[29])) ^ Crc[23]; 
-    124             1                     164212     assign CrcNext[28] = (Enable & (Data[2] ^ Crc[30])) ^ Crc[24]; 
-    125             1                     164043     assign CrcNext[29] = (Enable & (Data[3] ^ Crc[31])) ^ Crc[25]; 
+    118             1                     131077     assign CrcNext[22] = (Enable & (Data[0] ^ Crc[28])) ^ Crc[18]; 
+    119             1                     196594     assign CrcNext[23] = (Enable & (Data[1] ^ Data[0] ^ Crc[29] ^ Crc[28])) ^ Crc[19]; 
+    120             1                     213213     assign CrcNext[24] = (Enable & (Data[2] ^ Data[1] ^ Crc[30] ^ Crc[29])) ^ Crc[20]; 
+    121             1                     229312     assign CrcNext[25] = (Enable & (Data[3] ^ Data[2] ^ Crc[31] ^ Crc[30])) ^ Crc[21]; 
+    122             1                     229490     assign CrcNext[26] = (Enable & (Data[3] ^ Data[0] ^ Crc[31] ^ Crc[28])) ^ Crc[22]; 
+    123             1                     163624     assign CrcNext[27] = (Enable & (Data[1] ^ Crc[29])) ^ Crc[23]; 
+    124             1                     164106     assign CrcNext[28] = (Enable & (Data[2] ^ Crc[30])) ^ Crc[24]; 
+    125             1                     196831     assign CrcNext[29] = (Enable & (Data[3] ^ Crc[31])) ^ Crc[25]; 
     126                                              assign CrcNext[30] = Crc[26]; 
     127                                              assign CrcNext[31] = Crc[27]; 
     128                                              
@@ -13049,9 +13049,9 @@ Branch totals: 2 hits of 2 branches = 100.00%
 Branch totals: 2 hits of 2 branches = 100.00%
 
 ------------------------------------IF Branch------------------------------------
-    389                                   114696     Count coming in to IF
+    389                                   131079     Count coming in to IF
     389             1                          4       if(Reset)
-    391             1                     114692       else
+    391             1                     131075       else
 Branch totals: 2 hits of 2 branches = 100.00%
 
 ------------------------------------IF Branch------------------------------------
@@ -13073,39 +13073,39 @@ Branch totals: 2 hits of 2 branches = 100.00%
 Branch totals: 2 hits of 2 branches = 100.00%
 
 ------------------------------------IF Branch------------------------------------
-    469                                   131073     Count coming in to IF
+    469                                   131074     Count coming in to IF
     469             1                      65535     assign Data_Crc[0] = StateData[0]? TxData[3] : StateData[1]? TxData[7] : 1'b0;
-    469             2                      65538     assign Data_Crc[0] = StateData[0]? TxData[3] : StateData[1]? TxData[7] : 1'b0;
+    469             2                      65539     assign Data_Crc[0] = StateData[0]? TxData[3] : StateData[1]? TxData[7] : 1'b0;
 Branch totals: 2 hits of 2 branches = 100.00%
 
 ------------------------------------IF Branch------------------------------------
-    469                                    65538     Count coming in to IF
+    469                                    65539     Count coming in to IF
     469             3                      65535     assign Data_Crc[0] = StateData[0]? TxData[3] : StateData[1]? TxData[7] : 1'b0;
-    469             4                          3     assign Data_Crc[0] = StateData[0]? TxData[3] : StateData[1]? TxData[7] : 1'b0;
+    469             4                          4     assign Data_Crc[0] = StateData[0]? TxData[3] : StateData[1]? TxData[7] : 1'b0;
 Branch totals: 2 hits of 2 branches = 100.00%
 
 ------------------------------------IF Branch------------------------------------
-    470                                   131073     Count coming in to IF
+    470                                   131074     Count coming in to IF
     470             1                      65535     assign Data_Crc[1] = StateData[0]? TxData[2] : StateData[1]? TxData[6] : 1'b0;
-    470             2                      65538     assign Data_Crc[1] = StateData[0]? TxData[2] : StateData[1]? TxData[6] : 1'b0;
+    470             2                      65539     assign Data_Crc[1] = StateData[0]? TxData[2] : StateData[1]? TxData[6] : 1'b0;
 Branch totals: 2 hits of 2 branches = 100.00%
 
 ------------------------------------IF Branch------------------------------------
-    470                                    65538     Count coming in to IF
+    470                                    65539     Count coming in to IF
     470             3                      65535     assign Data_Crc[1] = StateData[0]? TxData[2] : StateData[1]? TxData[6] : 1'b0;
-    470             4                          3     assign Data_Crc[1] = StateData[0]? TxData[2] : StateData[1]? TxData[6] : 1'b0;
+    470             4                          4     assign Data_Crc[1] = StateData[0]? TxData[2] : StateData[1]? TxData[6] : 1'b0;
 Branch totals: 2 hits of 2 branches = 100.00%
 
 ------------------------------------IF Branch------------------------------------
-    471                                   131074     Count coming in to IF
+    471                                   131073     Count coming in to IF
     471             1                      65535     assign Data_Crc[2] = StateData[0]? TxData[1] : StateData[1]? TxData[5] : 1'b0;
-    471             2                      65539     assign Data_Crc[2] = StateData[0]? TxData[1] : StateData[1]? TxData[5] : 1'b0;
+    471             2                      65538     assign Data_Crc[2] = StateData[0]? TxData[1] : StateData[1]? TxData[5] : 1'b0;
 Branch totals: 2 hits of 2 branches = 100.00%
 
 ------------------------------------IF Branch------------------------------------
-    471                                    65539     Count coming in to IF
+    471                                    65538     Count coming in to IF
     471             3                      65535     assign Data_Crc[2] = StateData[0]? TxData[1] : StateData[1]? TxData[5] : 1'b0;
-    471             4                          4     assign Data_Crc[2] = StateData[0]? TxData[1] : StateData[1]? TxData[5] : 1'b0;
+    471             4                          3     assign Data_Crc[2] = StateData[0]? TxData[1] : StateData[1]? TxData[5] : 1'b0;
 Branch totals: 2 hits of 2 branches = 100.00%
 
 ------------------------------------IF Branch------------------------------------
@@ -13670,7 +13670,7 @@ Expression totals: 4 of 4 input terms covered = 100.00%
 
 ---------  ----------  ----------  --------------------  -------------------------          
  Row   1:           1           0  StateData[0]_0        -                                  
- Row   2:           1           1  StateData[0]_1        -                                  
+ Row   2:           0           1  StateData[0]_1        -                                  
  Row   3:           1           0  TxDataOut[3]_0        StateData[0]                       
  Row   4:           0           1  TxDataOut[3]_1        StateData[0]                       
  Row   5:           1           0  StateData[1]_0        ~StateData[0]                      
@@ -13692,8 +13692,8 @@ Expression totals: 4 of 4 input terms covered = 100.00%
     Rows:   Hits(->0)   Hits(->1)  FEC Target            Non-masking condition(s)           
 
 ---------  ----------  ----------  --------------------  -------------------------          
- Row   1:           1           0  StateData[0]_0        -                                  
- Row   2:           0           1  StateData[0]_1        -                                  
+ Row   1:           1           1  StateData[0]_0        -                                  
+ Row   2:           1           0  StateData[0]_1        -                                  
  Row   3:           1           0  TxDataOut[2]_0        StateData[0]                       
  Row   4:           0           1  TxDataOut[2]_1        StateData[0]                       
  Row   5:           1           0  StateData[1]_0        ~StateData[0]                      
@@ -13715,8 +13715,8 @@ Expression totals: 4 of 4 input terms covered = 100.00%
     Rows:   Hits(->0)   Hits(->1)  FEC Target            Non-masking condition(s)           
 
 ---------  ----------  ----------  --------------------  -------------------------          
- Row   1:           1           0  StateData[0]_0        -                                  
- Row   2:           0           1  StateData[0]_1        -                                  
+ Row   1:           1           1  StateData[0]_0        -                                  
+ Row   2:           1           0  StateData[0]_1        -                                  
  Row   3:           1           0  TxDataOut[1]_0        StateData[0]                       
  Row   4:           0           1  TxDataOut[1]_1        StateData[0]                       
  Row   5:           1           0  StateData[1]_0        ~StateData[0]                      
@@ -13738,8 +13738,8 @@ Expression totals: 4 of 4 input terms covered = 100.00%
     Rows:   Hits(->0)   Hits(->1)  FEC Target            Non-masking condition(s)           
 
 ---------  ----------  ----------  --------------------  -------------------------          
- Row   1:           1           0  StateData[0]_0        -                                  
- Row   2:           0           1  StateData[0]_1        -                                  
+ Row   1:           1           1  StateData[0]_0        -                                  
+ Row   2:           1           0  StateData[0]_1        -                                  
  Row   3:           1           0  TxDataOut[0]_0        StateData[0]                       
  Row   4:           0           1  TxDataOut[0]_1        StateData[0]                       
  Row   5:           1           0  StateData[1]_0        ~StateData[0]                      
@@ -14069,12 +14069,12 @@ Statement Coverage for instance /dut/txethmac1 --
     384                                              
     385                                              
     386                                              // Transmit nibble
-    387             1                     114696     always @ (posedge MTxClk or posedge Reset)
+    387             1                     131079     always @ (posedge MTxClk or posedge Reset)
     388                                              begin
     389                                                if(Reset)
     390             1                          4         MTxD[3:0] <=  4'h0;
     391                                                else
-    392             1                     114692         MTxD[3:0] <=  MTxD_d[3:0];
+    392             1                     131075         MTxD[3:0] <=  MTxD_d[3:0];
     393                                              end
     394                                              
     395                                              
@@ -14151,9 +14151,9 @@ Statement Coverage for instance /dut/txethmac1 --
     466                                              
     467                                              assign Enable_Crc = ~StateFCS;
     468                                              
-    469             1                     131074     assign Data_Crc[0] = StateData[0]? TxData[3] : StateData[1]? TxData[7] : 1'b0;
-    470             1                     131074     assign Data_Crc[1] = StateData[0]? TxData[2] : StateData[1]? TxData[6] : 1'b0;
-    471             1                     131075     assign Data_Crc[2] = StateData[0]? TxData[1] : StateData[1]? TxData[5] : 1'b0;
+    469             1                     131075     assign Data_Crc[0] = StateData[0]? TxData[3] : StateData[1]? TxData[7] : 1'b0;
+    470             1                     131075     assign Data_Crc[1] = StateData[0]? TxData[2] : StateData[1]? TxData[6] : 1'b0;
+    471             1                     131074     assign Data_Crc[2] = StateData[0]? TxData[1] : StateData[1]? TxData[5] : 1'b0;
     472             1                     131075     assign Data_Crc[3] = StateData[0]? TxData[0] : StateData[1]? TxData[4] : 1'b0;
     473                                              
     474             1                          7     assign Initialize_Crc = StateIdle | StatePreamble | (|DlyCrcCnt);
@@ -17876,7 +17876,7 @@ Statement Coverage for instance /dut/wishbone/bd_ram --
 Toggle Coverage:
     Enabled Coverage              Bins      Hits    Misses  Coverage
     ----------------              ----      ----    ------  --------
-    Toggles                         80        52        28    65.00%
+    Toggles                         80        58        22    72.50%
 
 ================================Toggle Details================================
 
@@ -17884,26 +17884,24 @@ Toggle Coverage for instance /dut/wishbone/bd_ram --
 
                                               Node      1H->0L      0L->1H  "Coverage"
                                               ---------------------------------------
-                                            q[0-2]           0           0        0.00 
-                                              q[3]           1           1      100.00 
-                                              q[4]           0           0        0.00 
-                                              q[5]           1           1      100.00 
-                                            q[6-8]           0           0        0.00 
-                                              q[9]           1           1      100.00 
+                                            q[0-1]           0           0        0.00 
+                                            q[2-3]           1           1      100.00 
+                                            q[4-5]           0           0        0.00 
+                                              q[6]           1           1      100.00 
+                                              q[7]           0           0        0.00 
+                                            q[8-9]           1           1      100.00 
                                              q[10]           0           0        0.00 
-                                             q[11]           1           1      100.00 
-                                             q[12]           0           0        0.00 
-                                             q[13]           1           1      100.00 
+                                          q[11-13]           1           1      100.00 
                                              q[14]           0           0        0.00 
                                           q[15-31]           1           1      100.00 
                                         raddr[0-3]           1           1      100.00 
                                         raddr[4-7]           0           0        0.00 
 
 Total Node Count     =         40 
-Toggled Node Count   =         26 
-Untoggled Node Count =         14 
+Toggled Node Count   =         29 
+Untoggled Node Count =         11 
 
-Toggle Coverage      =      65.00% (52 of 80 bins)
+Toggle Coverage      =      72.50% (58 of 80 bins)
 
 =================================================================================
 === Instance: /dut/wishbone/tx_fifo
@@ -24627,7 +24625,7 @@ Statement Coverage for instance /dut/wishbone --
 Toggle Coverage:
     Enabled Coverage              Bins      Hits    Misses  Coverage
     ----------------              ----      ----    ------  --------
-    Toggles                       1350       541       809    40.07%
+    Toggles                       1350       557       793    41.25%
 
 ================================Toggle Details================================
 
@@ -24750,9 +24748,7 @@ Toggle Coverage for instance /dut/wishbone --
                                       TxAbort_wb_q           1           1      100.00 
                                   TxBDAddress[1-7]           0           0        0.00 
                                   TxBDDataIn[0-10]           0           0        0.00 
-                                    TxBDDataIn[11]           1           1      100.00 
-                                    TxBDDataIn[12]           0           0        0.00 
-                                    TxBDDataIn[13]           1           1      100.00 
+                                 TxBDDataIn[11-13]           1           1      100.00 
                                  TxBDDataIn[14-15]           0           0        0.00 
                                  TxBDDataIn[16-31]           1           1      100.00 
                                           TxBDRead           1           1      100.00 
@@ -24764,24 +24760,19 @@ Toggle Coverage for instance /dut/wishbone --
                                       TxBufferFull           1           1      100.00 
                                     TxByteCnt[0-1]           1           1      100.00 
                                        TxData[0-7]           1           1      100.00 
-                                  TxDataLatched[0]           1           1      100.00 
-                                TxDataLatched[1-2]           0           0        0.00 
-                                  TxDataLatched[3]           1           1      100.00 
-                                  TxDataLatched[4]           0           0        0.00 
-                                  TxDataLatched[5]           1           1      100.00 
-                                  TxDataLatched[6]           0           0        0.00 
-                                TxDataLatched[7-9]           1           1      100.00 
-                                 TxDataLatched[10]           0           0        0.00 
-                              TxDataLatched[11-12]           1           1      100.00 
-                              TxDataLatched[13-14]           0           0        0.00 
-                                 TxDataLatched[15]           1           1      100.00 
-                              TxDataLatched[16-18]           0           0        0.00 
-                              TxDataLatched[19-20]           1           1      100.00 
-                              TxDataLatched[21-23]           0           0        0.00 
-                              TxDataLatched[24-26]           1           1      100.00 
-                              TxDataLatched[27-29]           0           0        0.00 
-                                 TxDataLatched[30]           1           1      100.00 
-                                 TxDataLatched[31]           0           0        0.00 
+                                TxDataLatched[0-2]           1           1      100.00 
+                                  TxDataLatched[3]           0           0        0.00 
+                                TxDataLatched[4-7]           1           1      100.00 
+                                TxDataLatched[8-9]           0           0        0.00 
+                                 TxDataLatched[10]           1           1      100.00 
+                              TxDataLatched[11-12]           0           0        0.00 
+                              TxDataLatched[13-14]           1           1      100.00 
+                              TxDataLatched[15-19]           0           0        0.00 
+                              TxDataLatched[20-21]           1           1      100.00 
+                              TxDataLatched[22-26]           0           0        0.00 
+                              TxDataLatched[27-28]           1           1      100.00 
+                                 TxDataLatched[29]           0           0        0.00 
+                              TxDataLatched[30-31]           1           1      100.00 
                                    TxData_wb[0-31]           0           0        0.00 
                                       TxDonePacket           0           0        0.00 
                                TxDonePacketBlocked           0           0        0.00 
@@ -24805,12 +24796,11 @@ Toggle Coverage for instance /dut/wishbone --
                                  TxPointerLSB[0-1]           0           0        0.00 
                              TxPointerLSB_rst[0-1]           0           0        0.00 
                                 TxPointerMSB[2-18]           1           1      100.00 
-                               TxPointerMSB[19-20]           0           0        0.00 
-                                  TxPointerMSB[21]           1           1      100.00 
-                               TxPointerMSB[22-26]           0           0        0.00 
-                                  TxPointerMSB[27]           1           1      100.00 
-                                  TxPointerMSB[28]           0           0        0.00 
-                               TxPointerMSB[29-31]           1           1      100.00 
+                                  TxPointerMSB[19]           0           0        0.00 
+                               TxPointerMSB[20-26]           1           1      100.00 
+                               TxPointerMSB[27-28]           0           0        0.00 
+                                  TxPointerMSB[29]           1           1      100.00 
+                               TxPointerMSB[30-31]           0           0        0.00 
                                      TxPointerRead           1           1      100.00 
                                      TxRetryPacket           0           0        0.00 
                               TxRetryPacketBlocked           0           0        0.00 
@@ -24826,9 +24816,7 @@ Toggle Coverage for instance /dut/wishbone --
                                  TxStartFrm_syncb1           1           1      100.00 
                                  TxStartFrm_syncb2           1           1      100.00 
                                      TxStartFrm_wb           1           1      100.00 
-                                      TxStatus[11]           1           1      100.00 
-                                      TxStatus[12]           0           0        0.00 
-                                      TxStatus[13]           1           1      100.00 
+                                   TxStatus[11-13]           1           1      100.00 
                                       TxStatus[14]           0           0        0.00 
                             TxStatusInLatched[0-8]           0           0        0.00 
                                      TxStatusWrite           1           1      100.00 
@@ -24853,12 +24841,11 @@ Toggle Coverage for instance /dut/wishbone --
                    enough_data_in_rxfifo_for_burst           0           0        0.00 
              enough_data_in_rxfifo_for_burst_plus1           0           0        0.00 
                                   m_wb_adr_o[0-16]           1           1      100.00 
-                                 m_wb_adr_o[17-18]           0           0        0.00 
-                                    m_wb_adr_o[19]           1           1      100.00 
-                                 m_wb_adr_o[20-24]           0           0        0.00 
-                                    m_wb_adr_o[25]           1           1      100.00 
-                                    m_wb_adr_o[26]           0           0        0.00 
-                                 m_wb_adr_o[27-29]           1           1      100.00 
+                                    m_wb_adr_o[17]           0           0        0.00 
+                                 m_wb_adr_o[18-24]           1           1      100.00 
+                                 m_wb_adr_o[25-26]           0           0        0.00 
+                                    m_wb_adr_o[27]           1           1      100.00 
+                                 m_wb_adr_o[28-29]           0           0        0.00 
                                         m_wb_cyc_o           1           1      100.00 
                                    m_wb_sel_o[0-3]           1           1      100.00 
                                          m_wb_we_o           0           0        0.00 
@@ -24867,25 +24854,26 @@ Toggle Coverage for instance /dut/wishbone --
                                      ram_addr[0-3]           1           1      100.00 
                                      ram_addr[4-7]           0           0        0.00 
                                       ram_di[0-31]           1           1      100.00 
-                                       ram_do[0-2]           1           0       50.00 
-                                         ram_do[3]           1           1      100.00 
-                                         ram_do[4]           1           0       50.00 
-                                         ram_do[5]           1           1      100.00 
-                                       ram_do[6-8]           1           0       50.00 
-                                         ram_do[9]           1           1      100.00 
+                                       ram_do[0-1]           1           0       50.00 
+                                       ram_do[2-3]           1           1      100.00 
+                                       ram_do[4-5]           1           0       50.00 
+                                         ram_do[6]           1           1      100.00 
+                                         ram_do[7]           1           0       50.00 
+                                       ram_do[8-9]           1           1      100.00 
                                         ram_do[10]           1           0       50.00 
-                                        ram_do[11]           1           1      100.00 
-                                        ram_do[12]           1           0       50.00 
-                                        ram_do[13]           1           1      100.00 
+                                        ram_do[11]           0           1       50.00 
+                                        ram_do[12]           1           1      100.00 
+                                        ram_do[13]           0           1       50.00 
                                         ram_do[14]           1           0       50.00 
                                         ram_do[15]           1           1      100.00 
-                                     ram_do[16-17]           0           1       50.00 
-                                     ram_do[18-20]           1           1      100.00 
-                                        ram_do[21]           0           1       50.00 
-                                     ram_do[22-26]           1           1      100.00 
-                                        ram_do[27]           0           1       50.00 
-                                        ram_do[28]           1           1      100.00 
-                                     ram_do[29-31]           0           1       50.00 
+                                        ram_do[16]           0           1       50.00 
+                                        ram_do[17]           1           1      100.00 
+                                        ram_do[18]           0           1       50.00 
+                                        ram_do[19]           1           1      100.00 
+                                     ram_do[20-26]           0           1       50.00 
+                                     ram_do[27-28]           1           1      100.00 
+                                        ram_do[29]           0           1       50.00 
+                                     ram_do[30-31]           1           1      100.00 
                                             ram_oe           1           1      100.00 
                                        ram_we[0-3]           1           1      100.00 
                                           rx_burst           0           0        0.00 
@@ -24898,10 +24886,10 @@ Toggle Coverage for instance /dut/wishbone --
                                    txfifo_cnt[0-4]           1           1      100.00 
 
 Total Node Count     =        675 
-Toggled Node Count   =        262 
-Untoggled Node Count =        413 
+Toggled Node Count   =        269 
+Untoggled Node Count =        406 
 
-Toggle Coverage      =      40.07% (541 of 1350 bins)
+Toggle Coverage      =      41.25% (557 of 1350 bins)
 
 =================================================================================
 === Instance: /dut/macstatus1
@@ -25731,9 +25719,9 @@ Branch totals: 1 hit of 2 branches = 50.00%
 Branch totals: 1 hit of 2 branches = 50.00%
 
 ------------------------------------IF Branch------------------------------------
-    655                                   114692     Count coming in to IF
+    655                                   131075     Count coming in to IF
     655             1                    ***0***     assign MRxD_Lb[3:0] = r_LoopBck? mtxd_pad_o[3:0] : mrxd_pad_i[3:0];
-    655             2                     114692     assign MRxD_Lb[3:0] = r_LoopBck? mtxd_pad_o[3:0] : mrxd_pad_i[3:0];
+    655             2                     131075     assign MRxD_Lb[3:0] = r_LoopBck? mtxd_pad_o[3:0] : mrxd_pad_i[3:0];
 Branch totals: 1 hit of 2 branches = 50.00%
 
 ------------------------------------IF Branch------------------------------------
@@ -26772,7 +26760,7 @@ Statement Coverage for instance /dut --
     652             1                          6     assign MRxErr_Lb = r_LoopBck? mtxerr_pad_o : mrxerr_pad_i & RxEnSync;
     653                                              
     654                                              // Muxed MII Receive Data
-    655             1                     114694     assign MRxD_Lb[3:0] = r_LoopBck? mtxd_pad_o[3:0] : mrxd_pad_i[3:0];
+    655             1                     131077     assign MRxD_Lb[3:0] = r_LoopBck? mtxd_pad_o[3:0] : mrxd_pad_i[3:0];
     656                                              
     657                                              
     658                                              
@@ -27074,7 +27062,7 @@ Statement Coverage for instance /dut --
 Toggle Coverage:
     Enabled Coverage              Bins      Hits    Misses  Coverage
     ----------------              ----      ----    ------  --------
-    Toggles                       1612       572      1040    35.48%
+    Toggles                       1612       590      1022    36.60%
 
 ================================Toggle Details================================
 
@@ -27085,25 +27073,26 @@ Toggle Coverage for instance /dut --
                                        AddressMiss           0           0        0.00 
                                              BDAck           1           1      100.00 
                                          BDCs[0-3]           1           1      100.00 
-                                  BD_WB_DAT_O[0-2]           1           0       50.00 
-                                    BD_WB_DAT_O[3]           1           1      100.00 
-                                    BD_WB_DAT_O[4]           1           0       50.00 
-                                    BD_WB_DAT_O[5]           1           1      100.00 
-                                  BD_WB_DAT_O[6-8]           1           0       50.00 
-                                    BD_WB_DAT_O[9]           1           1      100.00 
+                                  BD_WB_DAT_O[0-1]           1           0       50.00 
+                                  BD_WB_DAT_O[2-3]           1           1      100.00 
+                                  BD_WB_DAT_O[4-5]           1           0       50.00 
+                                    BD_WB_DAT_O[6]           1           1      100.00 
+                                    BD_WB_DAT_O[7]           1           0       50.00 
+                                  BD_WB_DAT_O[8-9]           1           1      100.00 
                                    BD_WB_DAT_O[10]           1           0       50.00 
-                                   BD_WB_DAT_O[11]           1           1      100.00 
-                                   BD_WB_DAT_O[12]           1           0       50.00 
-                                   BD_WB_DAT_O[13]           1           1      100.00 
+                                   BD_WB_DAT_O[11]           0           1       50.00 
+                                   BD_WB_DAT_O[12]           1           1      100.00 
+                                   BD_WB_DAT_O[13]           0           1       50.00 
                                    BD_WB_DAT_O[14]           1           0       50.00 
                                    BD_WB_DAT_O[15]           1           1      100.00 
-                                BD_WB_DAT_O[16-17]           0           1       50.00 
-                                BD_WB_DAT_O[18-20]           1           1      100.00 
-                                   BD_WB_DAT_O[21]           0           1       50.00 
-                                BD_WB_DAT_O[22-26]           1           1      100.00 
-                                   BD_WB_DAT_O[27]           0           1       50.00 
-                                   BD_WB_DAT_O[28]           1           1      100.00 
-                                BD_WB_DAT_O[29-31]           0           1       50.00 
+                                   BD_WB_DAT_O[16]           0           1       50.00 
+                                   BD_WB_DAT_O[17]           1           1      100.00 
+                                   BD_WB_DAT_O[18]           0           1       50.00 
+                                   BD_WB_DAT_O[19]           1           1      100.00 
+                                BD_WB_DAT_O[20-26]           0           1       50.00 
+                                BD_WB_DAT_O[27-28]           1           1      100.00 
+                                   BD_WB_DAT_O[29]           0           1       50.00 
+                                BD_WB_DAT_O[30-31]           1           1      100.00 
                                           Busy_IRQ           0           0        0.00 
                                          Busy_stat           0           0        0.00 
                                       ByteSelected           0           1       50.00 
@@ -27133,7 +27122,7 @@ Toggle Coverage for instance /dut --
                                        NValid_stat           0           0        0.00 
                                             PadOut           0           0        0.00 
                                     PerPacketCrcEn           1           1      100.00 
-                                      PerPacketPad           0           0        0.00 
+                                      PerPacketPad           1           1      100.00 
                                         Prsd[0-15]           0           0        0.00 
                                         RStatStart           0           0        0.00 
                                         ReceiveEnd           0           0        0.00 
@@ -27215,38 +27204,31 @@ Toggle Coverage for instance /dut --
                                         m_wb_ack_i           1           1      100.00 
                                    m_wb_adr_o[0-1]           0           0        0.00 
                                   m_wb_adr_o[2-18]           1           1      100.00 
-                                 m_wb_adr_o[19-20]           0           0        0.00 
-                                    m_wb_adr_o[21]           1           1      100.00 
-                                 m_wb_adr_o[22-26]           0           0        0.00 
-                                    m_wb_adr_o[27]           1           1      100.00 
-                                    m_wb_adr_o[28]           0           0        0.00 
-                                 m_wb_adr_o[29-31]           1           1      100.00 
+                                    m_wb_adr_o[19]           0           0        0.00 
+                                 m_wb_adr_o[20-26]           1           1      100.00 
+                                 m_wb_adr_o[27-28]           0           0        0.00 
+                                    m_wb_adr_o[29]           1           1      100.00 
+                                 m_wb_adr_o[30-31]           0           0        0.00 
                                 m_wb_adr_tmp[0-16]           1           1      100.00 
-                               m_wb_adr_tmp[17-18]           0           0        0.00 
-                                  m_wb_adr_tmp[19]           1           1      100.00 
-                               m_wb_adr_tmp[20-24]           0           0        0.00 
-                                  m_wb_adr_tmp[25]           1           1      100.00 
-                                  m_wb_adr_tmp[26]           0           0        0.00 
-                               m_wb_adr_tmp[27-29]           1           1      100.00 
+                                  m_wb_adr_tmp[17]           0           0        0.00 
+                               m_wb_adr_tmp[18-24]           1           1      100.00 
+                               m_wb_adr_tmp[25-26]           0           0        0.00 
+                                  m_wb_adr_tmp[27]           1           1      100.00 
+                               m_wb_adr_tmp[28-29]           0           0        0.00 
                                         m_wb_cyc_o           1           1      100.00 
-                                     m_wb_dat_i[0]           1           1      100.00 
-                                   m_wb_dat_i[1-2]           0           0        0.00 
-                                     m_wb_dat_i[3]           1           1      100.00 
-                                     m_wb_dat_i[4]           0           0        0.00 
-                                     m_wb_dat_i[5]           1           1      100.00 
-                                     m_wb_dat_i[6]           0           0        0.00 
-                                   m_wb_dat_i[7-9]           1           1      100.00 
-                                    m_wb_dat_i[10]           0           0        0.00 
-                                 m_wb_dat_i[11-12]           1           1      100.00 
-                                 m_wb_dat_i[13-14]           0           0        0.00 
-                                    m_wb_dat_i[15]           1           1      100.00 
-                                 m_wb_dat_i[16-18]           0           0        0.00 
-                                 m_wb_dat_i[19-20]           1           1      100.00 
-                                 m_wb_dat_i[21-23]           0           0        0.00 
-                                 m_wb_dat_i[24-26]           1           1      100.00 
-                                 m_wb_dat_i[27-29]           0           0        0.00 
-                                    m_wb_dat_i[30]           1           1      100.00 
-                                    m_wb_dat_i[31]           0           0        0.00 
+                                   m_wb_dat_i[0-2]           1           1      100.00 
+                                     m_wb_dat_i[3]           0           0        0.00 
+                                   m_wb_dat_i[4-7]           1           1      100.00 
+                                   m_wb_dat_i[8-9]           0           0        0.00 
+                                    m_wb_dat_i[10]           1           1      100.00 
+                                 m_wb_dat_i[11-12]           0           0        0.00 
+                                 m_wb_dat_i[13-14]           1           1      100.00 
+                                 m_wb_dat_i[15-19]           0           0        0.00 
+                                 m_wb_dat_i[20-21]           1           1      100.00 
+                                 m_wb_dat_i[22-26]           0           0        0.00 
+                                 m_wb_dat_i[27-28]           1           1      100.00 
+                                    m_wb_dat_i[29]           0           0        0.00 
+                                 m_wb_dat_i[30-31]           1           1      100.00 
                                   m_wb_dat_o[0-31]           0           0        0.00 
                                         m_wb_err_i           0           0        0.00 
                                    m_wb_sel_o[0-3]           1           1      100.00 
@@ -27312,35 +27294,34 @@ Toggle Coverage for instance /dut --
                                        r_WCtrlData           0           0        0.00 
                                      temp_wb_ack_o           1           1      100.00 
                                  temp_wb_ack_o_reg           1           1      100.00 
-                                temp_wb_dat_o[0-2]           1           0       50.00 
-                                  temp_wb_dat_o[3]           1           1      100.00 
-                                  temp_wb_dat_o[4]           1           0       50.00 
-                                  temp_wb_dat_o[5]           1           1      100.00 
-                                temp_wb_dat_o[6-8]           1           0       50.00 
-                                  temp_wb_dat_o[9]           1           1      100.00 
+                                temp_wb_dat_o[0-1]           1           0       50.00 
+                                temp_wb_dat_o[2-3]           1           1      100.00 
+                                temp_wb_dat_o[4-5]           1           0       50.00 
+                                  temp_wb_dat_o[6]           1           1      100.00 
+                                  temp_wb_dat_o[7]           1           0       50.00 
+                                temp_wb_dat_o[8-9]           1           1      100.00 
                                  temp_wb_dat_o[10]           1           0       50.00 
-                                 temp_wb_dat_o[11]           1           1      100.00 
-                                 temp_wb_dat_o[12]           1           0       50.00 
-                                 temp_wb_dat_o[13]           1           1      100.00 
+                                 temp_wb_dat_o[11]           0           1       50.00 
+                                 temp_wb_dat_o[12]           1           1      100.00 
+                                 temp_wb_dat_o[13]           0           1       50.00 
                                  temp_wb_dat_o[14]           1           0       50.00 
                                  temp_wb_dat_o[15]           1           1      100.00 
-                              temp_wb_dat_o[16-17]           0           1       50.00 
-                              temp_wb_dat_o[18-20]           1           1      100.00 
-                                 temp_wb_dat_o[21]           0           1       50.00 
-                              temp_wb_dat_o[22-26]           1           1      100.00 
-                                 temp_wb_dat_o[27]           0           1       50.00 
-                                 temp_wb_dat_o[28]           1           1      100.00 
-                              temp_wb_dat_o[29-31]           0           1       50.00 
-                            temp_wb_dat_o_reg[0-2]           1           0       50.00 
-                              temp_wb_dat_o_reg[3]           1           1      100.00 
-                              temp_wb_dat_o_reg[4]           1           0       50.00 
-                              temp_wb_dat_o_reg[5]           1           1      100.00 
-                            temp_wb_dat_o_reg[6-8]           1           0       50.00 
-                              temp_wb_dat_o_reg[9]           1           1      100.00 
+                                 temp_wb_dat_o[16]           0           1       50.00 
+                                 temp_wb_dat_o[17]           1           1      100.00 
+                                 temp_wb_dat_o[18]           0           1       50.00 
+                                 temp_wb_dat_o[19]           1           1      100.00 
+                              temp_wb_dat_o[20-26]           0           1       50.00 
+                              temp_wb_dat_o[27-28]           1           1      100.00 
+                                 temp_wb_dat_o[29]           0           1       50.00 
+                              temp_wb_dat_o[30-31]           1           1      100.00 
+                            temp_wb_dat_o_reg[0-1]           1           0       50.00 
+                            temp_wb_dat_o_reg[2-3]           1           1      100.00 
+                            temp_wb_dat_o_reg[4-5]           1           0       50.00 
+                              temp_wb_dat_o_reg[6]           1           1      100.00 
+                              temp_wb_dat_o_reg[7]           1           0       50.00 
+                            temp_wb_dat_o_reg[8-9]           1           1      100.00 
                              temp_wb_dat_o_reg[10]           1           0       50.00 
-                             temp_wb_dat_o_reg[11]           1           1      100.00 
-                             temp_wb_dat_o_reg[12]           1           0       50.00 
-                             temp_wb_dat_o_reg[13]           1           1      100.00 
+                          temp_wb_dat_o_reg[11-13]           1           1      100.00 
                              temp_wb_dat_o_reg[14]           1           0       50.00 
                           temp_wb_dat_o_reg[15-31]           1           1      100.00 
                                      temp_wb_err_o           0           0        0.00 
@@ -27353,16 +27334,14 @@ Toggle Coverage for instance /dut --
                                           wb_clk_i           1           1      100.00 
                                           wb_cyc_i           1           1      100.00 
                                     wb_dat_i[0-31]           1           1      100.00 
-                                     wb_dat_o[0-2]           1           0       50.00 
-                                       wb_dat_o[3]           1           1      100.00 
-                                       wb_dat_o[4]           1           0       50.00 
-                                       wb_dat_o[5]           1           1      100.00 
-                                     wb_dat_o[6-8]           1           0       50.00 
-                                       wb_dat_o[9]           1           1      100.00 
+                                     wb_dat_o[0-1]           1           0       50.00 
+                                     wb_dat_o[2-3]           1           1      100.00 
+                                     wb_dat_o[4-5]           1           0       50.00 
+                                       wb_dat_o[6]           1           1      100.00 
+                                       wb_dat_o[7]           1           0       50.00 
+                                     wb_dat_o[8-9]           1           1      100.00 
                                       wb_dat_o[10]           1           0       50.00 
-                                      wb_dat_o[11]           1           1      100.00 
-                                      wb_dat_o[12]           1           0       50.00 
-                                      wb_dat_o[13]           1           1      100.00 
+                                   wb_dat_o[11-13]           1           1      100.00 
                                       wb_dat_o[14]           1           0       50.00 
                                    wb_dat_o[15-31]           1           1      100.00 
                                           wb_err_o           0           0        0.00 
@@ -27372,11 +27351,11 @@ Toggle Coverage for instance /dut --
                                            wb_we_i           0           1       50.00 
 
 Total Node Count     =        806 
-Toggled Node Count   =        256 
-Untoggled Node Count =        550 
+Toggled Node Count   =        266 
+Untoggled Node Count =        540 
 
-Toggle Coverage      =      35.48% (572 of 1612 bins)
+Toggle Coverage      =      36.60% (590 of 1612 bins)
 
 
-Total Coverage By Instance (filtered view): 45.36%
+Total Coverage By Instance (filtered view): 45.45%
 
