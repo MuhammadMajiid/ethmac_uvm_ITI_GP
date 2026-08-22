@@ -24,7 +24,7 @@ The design under test is a configurable 10/100 Mbps Ethernet MAC IP from Opencor
 ![Ethernet MAC block diagram](doc/Block_Diagram.png)
 The DUT connects to the Wishbone host/DMA interfaces, MII transmit/receive interfaces, and MDIO/MIIM PHY-management interface. The UVM environment verifies each interface through dedicated agents, sequences, scoreboards, and coverage.
 
-## UVM architecture
+## Verification environment
 
 ![Ethernet MAC UVM Environment](doc/UVM_environment.png)
 The verification environment uses UVM components, constrained-random stimulus, scoreboards, a register abstraction layer, functional coverage, RTL code coverage, and automated regressions.
