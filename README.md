@@ -130,13 +130,6 @@ Depending on the selected flow, these artifacts include:
 - Text and HTML coverage reports
 - Merged regression coverage databases
 
-The MDIO flow includes documented coverage exclusions in:
-
-```text
-scripts/mdio/coverage_exclusions.tcl
-```
-
-Each exclusion includes its rationale so that structurally unreachable behavior, known RTL limitations, and untested functionality remain distinguishable.
 
 ## Documentation
 
