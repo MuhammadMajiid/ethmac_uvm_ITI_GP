@@ -3,7 +3,7 @@
 
 This repository contains the RTL and SystemVerilog/UVM verification environment for an Ethernet Media Access Controller (MAC). It was developed as an Information Technology Institute (ITI) graduation project.
 
-The project verifies the MAC’s register interface, transmit and receive paths, buffer descriptors, interrupts, and MII Management PHY-management interface.
+The project verifies the MAC’s register interface, transmit and receive paths, buffer descriptors, interrupts, and MII Management PHY interface (Referred to as MDIO or MIIM).
 
 ## Project overview
 
@@ -18,12 +18,12 @@ The design under test is a configurable 10/100 Mbps Ethernet MAC featuring:
 - Flow-control support
 - Collision and carrier-sense handling
 - Interrupt generation
-- MDIO/MIIM PHY management
+- MII management
 
 ## Design overview
 
 ![Ethernet MAC block diagram](doc/Block_Diagram.png)
-The DUT connects to the Wishbone host/DMA interfaces, MII transmit/receive interfaces, and MDIO/MIIM PHY-management interface. The UVM environment verifies each interface through dedicated agents, sequences, scoreboards, and coverage.
+The DUT connects to the Wishbone host/DMA interfaces, MII transmit/receive interfaces, and MIIM PHY interface. The UVM environment verifies each interface through dedicated agents, sequences, scoreboards, and coverage.
 
 ## Verification environment
 
@@ -76,7 +76,7 @@ The environment covers the following areas:
 - Receive buffer handling
 - Receive-path scoreboarding and coverage
 
-### MDIO/MIIM verification
+### MDIO verification
 
 - PHY register reads and writes
 - Clock-divider configuration
@@ -142,16 +142,10 @@ Each exclusion includes its rationale so that structurally unreachable behavior,
 
 The `doc/` directory contains supporting project material, including:
 
+- IEEE 802.3 Ethernet Standard 
 - Ethernet MAC IP specifications
-- Project presentation
 - Verification references
-- Test-plan resources
-- RTL bug tracking
+- RTL bug tracking spreadcheet
+- Project presentation
 
 Verification-planning spreadsheets contributed by project members are stored under `plan_phase/`.
-
-## Project status
-
-This is an academic verification project. The repository contains generated simulation and coverage results alongside the RTL and verification source code.
-
-Known findings and coverage limitations should be reviewed in the project documentation and regression reports before interpreting the available coverage as full verification closure.
