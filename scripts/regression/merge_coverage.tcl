@@ -82,4 +82,8 @@ puts "Merged functional coverage database: $MERGED_FUNC_UCDB"
 puts "Merging [llength $CODE_UCDBS] code coverage databases..."
 vcover merge -out $MERGED_CODE_UCDB {*}$CODE_UCDBS
 puts "Merged code coverage database: $MERGED_CODE_UCDB"
+
+set COV_PATH "D:/C/ITI/GP/repo/results/eth/coverage"
+vcover report -html -output ${COV_PATH}/eth_regression_reg_tx_miim_code_cov ${MERGED_CODE_UCDB} -details -testhitdata
+vcover report -html -output ${COV_PATH}/eth_regression_reg_tx_miim_func_cov ${MERGED_FUNC_UCDB} -details -testhitdata
 exit

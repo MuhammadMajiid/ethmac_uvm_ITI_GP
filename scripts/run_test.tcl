@@ -1,0 +1,62 @@
+# Default test if TESTNAME is not set externally
+if {![info exists TESTNAME]} {
+    set TESTNAME "eth_test_tx_smoke"
+    puts "WARNING: TESTNAME not set, defaulting to $TESTNAME"
+}
+
+puts ""
+puts "=================================================="
+puts " Compiling and Running TEST = $TESTNAME"
+puts "=================================================="
+
+
+# Log file and ucdb variables
+set LOG_FILE "${LOG_PATH}/${TESTNAME}.log"
+set CODE_UCDB "${COV_PATH}/${TESTNAME}_code_cov.ucdb"
+set FUNC_UCDB "${COV_PATH}/${TESTNAME}_func_cov.ucdb"
+set CODE_REP "${COV_PATH}/${TESTNAME}_code_cov.txt"
+set FUNC_REP "${COV_PATH}/${TESTNAME}_func_cov.txt"
+
+# Clear previous coverage files
+set fp [open $CODE_UCDB w]
+close $fp
+set fp [open $FUNC_UCDB w]
+close $fp
+set fp [open $CODE_REP w]
+close $fp
+set fp [open $FUNC_REP w]
+close $fp
+
+transcript file $LOG_FILE
+
+if {![info exists SEQ_NUM]} {
+  set SEQ_NUM 1
+}
+
+if {![info exists COLL_NUM]} {
+    set COLL_NUM 0
+}
+
+
+vsim -c work.eth_tb -coverage -sv_seed random \
+  +uvm_set_verbosity=uvm_test_top.m_env.*,_ALL_,$VERBOSITY,time,0  \
+  +seq_num=$SEQ_NUM \
+  +coll_num=$COLL_NUM \
+  +UVM_TESTNAME=$TESTNAME -onfinish stop \
+  -do {
+    #add wave -position insertpoint sim:/eth_tb/m_mii_tx_if/*
+    #add wave -position insertpoint sim:/eth_tb/m_wb_m_if/*
+    run -all; 
+    coverage save $CODE_UCDB -codeAll -instance eth_tb.dut
+    coverage save $FUNC_UCDB -cvg -directive -assert
+    transcript file ""
+    }
+
+
+vcover report $FUNC_UCDB -details -annotate -all -output  $FUNC_REP
+vcover report $CODE_UCDB -details -annotate -all -output  $CODE_REP
+
+puts ""
+puts "=================================================="
+puts " Finishing TEST = $TESTNAME"
+puts "=================================================="
