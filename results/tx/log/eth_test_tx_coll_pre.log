@@ -1,27 +1,15 @@
-# End time: 20:32:45 on Aug 17,2026, Elapsed time: 0:27:41
-# Errors: 0, Warnings: 16
-# vsim -c work.eth_tb -coverage -sv_seed random "+uvm_set_verbosity=uvm_test_top.m_env.*,_ALL_,UVM_MEDIUM,time,0" "+seq_num=1" "+coll_num=4" "+UVM_TESTNAME=eth_test_tx_coll_pre" -onfinish stop -do "
+# End time: 03:39:29 on Aug 21,2026, Elapsed time: 0:13:19
+# Errors: 0, Warnings: 6
+# vsim -c work.eth_tb -coverage -sv_seed random "+uvm_set_verbosity=uvm_test_top.m_env.*,_ALL_,UVM_NONE,time,0" "+seq_num=1" "+coll_num=4" "+UVM_TESTNAME=eth_test_tx_coll_pre" -onfinish stop -do "
 #     add wave -position insertpoint sim:/eth_tb/m_mii_tx_if/*
+#     #add wave -position insertpoint sim:/eth_tb/m_wb_m_if/*
 #     run -all; 
 #     coverage save $CODE_UCDB -codeAll -instance eth_tb.dut
 #     coverage save $FUNC_UCDB -cvg -directive -assert
 #     transcript file ""
 #     " 
-# Start time: 20:32:45 on Aug 17,2026
-# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
-# Support of the MGLS_LICENSE_FILE and LM_LICENSE_FILE licensing environment variables will be discontinued starting with the 2025.1 release. Please update to using the SALT_LICENSE_SERVER variable.
-# Please contact Siemens EDA Customer Support (https://support.sw.siemens.com/) for assistance.
-# ** Warning: (vopt-13408) Code coverage will be disabled for some DUs/packages/classes and source files.
-# ** Warning: repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1701): (vopt-2240) Treating stand-alone use of function 'predict' as an implicit VOID cast.
-# ** Warning: repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1716): (vopt-2240) Treating stand-alone use of function 'predict' as an implicit VOID cast.
-# ** Warning: repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1726): (vopt-2240) Treating stand-alone use of function 'predict' as an implicit VOID cast.
-# ** Warning: repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1349): (vopt-2240) Treating stand-alone use of function 'uvm_hdl_read' as an implicit VOID cast.
-# ** Warning: repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(648): (vopt-2240) Treating stand-alone use of function 'pop_front' as an implicit VOID cast.
-# ** Warning: repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(832): (vopt-2240) Treating stand-alone use of function 'pop_back' as an implicit VOID cast.
-# ** Warning: repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(702): (vopt-2240) Treating stand-alone use of function 'pop_front' as an implicit VOID cast.
-# ** Warning: repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1792): (vopt-2240) Treating stand-alone use of function 'predict' as an implicit VOID cast.
-# ** Warning: repo/tb/top/eth_tb.sv(50): (vopt-2958) Implicit wire 'rst' does not have any driver.
-# ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=0, Warnings=10.
+# Start time: 03:39:30 on Aug 21,2026
+# ** Note: (vsim-8009) Loading existing optimized design _opt6
 # Loading sv_std.std
 # Loading work.wb_s_if(fast)
 # Loading work.wb_m_if(fast)
@@ -72,9 +60,10 @@
 # Loading work.mdio_if(fast__2)
 # Loading work.eth_top(fast)
 # Loading D:/B/questasim64_2024.1/uvm-1.1d\win64\uvm_dpi.dll
-# Sv_Seed = 1338571677
+# Sv_Seed = 1058268213
 # 
 #     add wave -position insertpoint sim:/eth_tb/m_mii_tx_if/*
+#     #add wave -position insertpoint sim:/eth_tb/m_wb_m_if/*
 #     run -all
 # ----------------------------------------------------------------
 # UVM-1.1d
@@ -236,7 +225,7 @@
 #   eth_v_seq_tx          eth_v_seq_tx_collision
 #   mii_tx_seq_collision  mii_tx_seq_collision_pre
 # 
-# All types registered with the factory: 232 total
+# All types registered with the factory: 235 total
 # (types without type names will not be printed)
 # 
 #   Type Name
@@ -305,6 +294,7 @@
 #   eth_test_tx_base
 #   eth_test_tx_bd_num
 #   eth_test_tx_coll
+#   eth_test_tx_coll_pad
 #   eth_test_tx_coll_pre
 #   eth_test_tx_cs
 #   eth_test_tx_ctrl_flow
@@ -360,6 +350,7 @@
 #   mii_tx_monitor_base
 #   mii_tx_seq_base
 #   mii_tx_seq_collision
+#   mii_tx_seq_collision_pad
 #   mii_tx_seq_collision_pre
 #   mii_tx_seq_cs
 #   mii_tx_seq_item_base
@@ -410,6 +401,7 @@
 #   wb_s_seq_mdio
 #   wb_s_seq_tx_bd_num
 #   wb_s_seq_tx_collision_cfg
+#   wb_s_seq_tx_collision_pad
 #   wb_s_seq_tx_collision_pre
 #   wb_s_seq_tx_cs
 #   wb_s_seq_tx_ctrl_flow
@@ -432,8 +424,6 @@
 # 
 ####
 # 
-# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx_collision.sv(19) @ 0: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [eth_v_seq_tx_collision] Executing collision virtual sequence
-# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(18) @ 0: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [eth_v_seq_tx_collision] Executing virtual sequence
 # UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 2500: reporter [A_WB_M] Assertion error, data out = x
 # UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 7500: reporter [A_WB_M] Assertion error, data out = x
 # UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 12500: reporter [A_WB_M] Assertion error, data out = x
@@ -444,55 +434,6 @@
 # UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 37500: reporter [A_WB_M] Assertion error, data out = x
 # UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(30) @ 42500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running 1 sequence
 # UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 42500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 0
-# UVM_INFO repo/tb/agents/wb_m/wb_m_monitor_base.sv(95) @ 42500: uvm_test_top.m_env.m_wb_m_agent.m_monitor [wb_m_monitor_base] Begin monitoring after reset deassertion
-# UVM_INFO repo/tb/agents/mii_tx/mii_tx_monitor_base.sv(58) @ 42500: uvm_test_top.m_env.m_mii_tx_agent.m_monitor [mii_tx_monitor_base] Begin monitoring after reset deassertion
-# UVM_INFO repo/tb/agents/mii_tx/mii_tx_driver_base.sv(56) @ 60000: uvm_test_top.m_env.m_mii_tx_agent.m_driver [DRIVER] Reset deasserted — starting stimulus
-# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(294) @ 112500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG]  Configuring TX BD[0] - LEN=78, PTR=0x18324a18, IRQ=0, WR=1, PAD=1, CRC=1
-# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(163) @ 112500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG] Configuring TX registers
-# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_basic_tx_seq.sv(227) @ 267500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [TX_CONFIG] MODER: FULLD=0, TXEN=1, BDNUM=1, NOPRE=0, CRCEN=1, DCRC=0, PAD=1, HUGEN=0, NOBCKOF=0, EXDF=0, IPGT=18, IPGR1=12, IPGR2=18, TXB_M=0, TXC_M=0, TXE_M=0, MAXFL=1536, MINFL=64, MAXRET=5, COLLVALID=63
-# UVM_INFO repo/tb/sequences/wb_s_seq/wb_s_seq_tx_collision_pre.sv(64) @ 267500: uvm_test_top.m_env.m_wb_s_agent.m_sequencer@@m_wb_s_seq_base [wb_s_seq_tx_collision_pre] Collision preamble TX configuration completed
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(941) @ 267500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TXEN asserted
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1310) @ 267500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[0] LEN=78 RD=1 IRQ=0 WR=1 EFF PAD=1 EFF CRC=1 PTR=0x18324a18
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1393) @ 267600: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Entered pack packet
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1404) @ 940000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
-# UVM_INFO repo/tb/agents/mii_tx/mii_tx_driver_collision.sv(75) @ 940000: uvm_test_top.m_env.m_mii_tx_agent.m_driver [m_driver] COLLISION DRIVER
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1995) @ 1540100: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 1
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(2064) @ 1981000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision_pre.sv(47) @ 2020000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision_pre] Asserting collision_pre while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1491) @ 2020000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 13 bytes from MII
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1393) @ 2020100: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Entered pack packet
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1404) @ 13100000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(2411) @ 13100000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGR2 PASS (277 MII cycles)
-# UVM_INFO repo/tb/agents/mii_tx/mii_tx_driver_collision.sv(75) @ 13100000: uvm_test_top.m_env.m_mii_tx_agent.m_driver [m_driver] COLLISION DRIVER
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1995) @ 13500100: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 2
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(2064) @ 14021000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision_pre.sv(47) @ 14060000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision_pre] Asserting collision_pre while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1491) @ 14060000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 12 bytes from MII
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1393) @ 14060100: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Entered pack packet
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1404) @ 15060000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(2411) @ 15060000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGR2 PASS (25 MII cycles)
-# UVM_INFO repo/tb/agents/mii_tx/mii_tx_driver_collision.sv(75) @ 15060000: uvm_test_top.m_env.m_mii_tx_agent.m_driver [m_driver] COLLISION DRIVER
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1995) @ 15660100: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 3
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(2064) @ 16101000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision_pre.sv(47) @ 16140000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision_pre] Asserting collision_pre while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1491) @ 16140000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 13 bytes from MII
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1393) @ 16140100: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Entered pack packet
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1404) @ 22100000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(2411) @ 22100000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGR2 PASS (149 MII cycles)
-# UVM_INFO repo/tb/agents/mii_tx/mii_tx_driver_collision.sv(75) @ 22100000: uvm_test_top.m_env.m_mii_tx_agent.m_driver [m_driver] COLLISION DRIVER
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1995) @ 22500100: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Collision detected. Retry attempt = 4
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(2064) @ 23021000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Correct JAM sequence detected (8 nibbles)
-# UVM_INFO repo/tb/sequences/mii_tx_seq/mii_tx_seq_collision_pre.sv(47) @ 23060000: uvm_test_top.m_env.m_mii_tx_agent.m_sequencer@@m_mii_tx_seq_collision [mii_tx_seq_collision_pre] Asserting collision_pre while MTxEN is high
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1491) @ 23060000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 12 bytes from MII
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1393) @ 23060100: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Entered pack packet
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1404) @ 24060000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Comp_pack: MTXEN asserted
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(2411) @ 24060000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGR2 PASS (25 MII cycles)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1022) @ 31223500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] TX BD[0] completed
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1032) @ 31223500: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] WRAP
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1491) @ 31260000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Captured 90 bytes from MII
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(575) @ 31260000: uvm_test_top.m_env.m_tx_sb [m_tx_sb] BEGIN COMPARE
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1665) @ 31260000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison PASSED (90 bytes)
-# UVM_INFO repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1393) @ 31260100: uvm_test_top.m_env.m_tx_sb [m_tx_sb] Entered pack packet
 # UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 31262500: reporter [A_WB_M] Assertion error, data out = x
 # UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 31267500: reporter [A_WB_M] Assertion error, data out = x
 # UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 31272500: reporter [A_WB_M] Assertion error, data out = x
@@ -501,40 +442,26 @@
 # UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 31287500: reporter [A_WB_M] Assertion error, data out = x
 # UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 31292500: reporter [A_WB_M] Assertion error, data out = x
 # UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 31297500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(40) @ 31302500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [eth_v_seq_tx_collision] virtual sequence completed
-# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx_collision.sv(36) @ 31302500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [eth_v_seq_tx_collision] Collision virtual sequence completed
 # UVM_INFO verilog_src/uvm-1.1d/src/base/uvm_objection.svh(1267) @ 31302500: reporter [TEST_DONE] 'run' phase is ready to proceed to the 'extract' phase
-# UVM_INFO repo/tb/agents/wb_m/wb_m_driver_base.sv(115) @ 31302500: uvm_test_top.m_env.m_wb_m_agent.m_driver [wb_m_driver_base] Drived 6252 active transactions
-# UVM_INFO repo/tb/agents/wb_m/wb_m_monitor_base.sv(124) @ 31302500: uvm_test_top.m_env.m_wb_m_agent.m_monitor [wb_m_monitor_base] Monitored 6252 TRANSACTIONS
 # 
 # --- UVM Report Summary ---
 # 
 # ** Report counts by severity
-# UVM_INFO :   63
+# UVM_INFO :    8
 # UVM_WARNING :   16
 # UVM_ERROR :    0
 # UVM_FATAL :    0
 # ** Report counts by id
 # [A_WB_M]    16
-# [DRIVER]     1
 # [Questa UVM]     2
 # [RNTST]     1
 # [TEST_DONE]     1
-# [TX_CONFIG]     3
 # [eth_test_tx_coll_pre]     2
-# [eth_tx_scoreboard]    27
-# [eth_v_seq_tx_collision]     4
-# [m_driver]     4
-# [m_tx_sb]     7
 # [m_v_seq_tx]     2
-# [mii_tx_monitor_base]     1
-# [mii_tx_seq_collision_pre]     4
-# [wb_m_driver_base]     1
-# [wb_m_monitor_base]     2
-# [wb_s_seq_tx_collision_pre]     1
 # ** Note: $finish    : D:/B/questasim64_2024.1/win64/../verilog_src/uvm-1.1d/src/base/uvm_root.svh(430)
 #    Time: 31302500 ps  Iteration: 66  Instance: /eth_tb
 # Break in Task uvm_pkg/uvm_root::run_test at D:/B/questasim64_2024.1/win64/../verilog_src/uvm-1.1d/src/base/uvm_root.svh line 430
+# Stopped at D:/B/questasim64_2024.1/win64/../verilog_src/uvm-1.1d/src/base/uvm_root.svh line 430
 #  
 #     coverage save $CODE_UCDB -codeAll -instance eth_tb.dut
 #     coverage save $FUNC_UCDB -cvg -directive -assert

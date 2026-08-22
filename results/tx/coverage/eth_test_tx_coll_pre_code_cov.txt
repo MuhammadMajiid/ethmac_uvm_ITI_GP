@@ -1757,10 +1757,10 @@ Branch Coverage for instance /dut/ethreg1/MODER_2
     ----         ----                      -----     ------ 
   File repo/rtl/eth_register.v
 ------------------------------------IF Branch------------------------------------
-    96                                         9     Count coming in to IF
+    96                                        11     Count coming in to IF
     96              1                          5       if(Reset)
     102             1                          1       if(Write)                         // write
-                                               3     All False Count
+                                               5     All False Count
 Branch totals: 3 hits of 3 branches = 100.00%
 
 
@@ -1793,7 +1793,7 @@ Statement Coverage for instance /dut/ethreg1/MODER_2 --
     91                                               
     92                                               
     93                                               
-    94              1                          9     always @ (posedge Clk or posedge Reset)
+    94              1                         11     always @ (posedge Clk or posedge Reset)
     95                                               begin
     96                                                 if(Reset)
     97              1                          5         DataOut<= RESET_VALUE;
@@ -2759,10 +2759,10 @@ Branch Coverage for instance /dut/ethreg1/CTRLMODER_0
     ----         ----                      -----     ------ 
   File repo/rtl/eth_register.v
 ------------------------------------IF Branch------------------------------------
-    96                                        12     Count coming in to IF
+    96                                        13     Count coming in to IF
     96              1                          5       if(Reset)
     102             1                    ***0***       if(Write)                         // write
-                                               7     All False Count
+                                               8     All False Count
 Branch totals: 2 hits of 3 branches = 66.66%
 
 
@@ -2795,7 +2795,7 @@ Statement Coverage for instance /dut/ethreg1/CTRLMODER_0 --
     91                                               
     92                                               
     93                                               
-    94              1                         12     always @ (posedge Clk or posedge Reset)
+    94              1                         13     always @ (posedge Clk or posedge Reset)
     95                                               begin
     96                                                 if(Reset)
     97              1                          5         DataOut<= RESET_VALUE;
@@ -3177,11 +3177,11 @@ Branch Coverage for instance /dut/ethreg1/MIICOMMAND2
     ----         ----                      -----     ------ 
   File repo/rtl/eth_register.v
 ------------------------------------IF Branch------------------------------------
-    96                                        10     Count coming in to IF
+    96                                        12     Count coming in to IF
     96              1                          5       if(Reset)
     99              1                    ***0***       if(SyncReset)
     102             1                    ***0***       if(Write)                         // write
-                                               5     All False Count
+                                               7     All False Count
 Branch totals: 2 hits of 4 branches = 50.00%
 
 
@@ -3214,7 +3214,7 @@ Statement Coverage for instance /dut/ethreg1/MIICOMMAND2 --
     91                                               
     92                                               
     93                                               
-    94              1                         10     always @ (posedge Clk or posedge Reset)
+    94              1                         12     always @ (posedge Clk or posedge Reset)
     95                                               begin
     96                                                 if(Reset)
     97              1                          5         DataOut<= RESET_VALUE;
@@ -5005,11 +5005,11 @@ Branch Coverage for instance /dut/ethreg1/TXCTRL_2
     ----         ----                      -----     ------ 
   File repo/rtl/eth_register.v
 ------------------------------------IF Branch------------------------------------
-    96                                         8     Count coming in to IF
+    96                                        10     Count coming in to IF
     96              1                          5       if(Reset)
     99              1                    ***0***       if(SyncReset)
     102             1                    ***0***       if(Write)                         // write
-                                               3     All False Count
+                                               5     All False Count
 Branch totals: 2 hits of 4 branches = 50.00%
 
 
@@ -5042,7 +5042,7 @@ Statement Coverage for instance /dut/ethreg1/TXCTRL_2 --
     91                                               
     92                                               
     93                                               
-    94              1                          8     always @ (posedge Clk or posedge Reset)
+    94              1                         10     always @ (posedge Clk or posedge Reset)
     95                                               begin
     96                                                 if(Reset)
     97              1                          5         DataOut<= RESET_VALUE;
@@ -5231,11 +5231,11 @@ Branch totals: 2 hits of 4 branches = 50.00%
 Branch totals: 2 hits of 4 branches = 50.00%
 
 ------------------------------------IF Branch------------------------------------
-    1107                                      10     Count coming in to IF
+    1107                                      12     Count coming in to IF
     1107            1                          5       if(Reset)
     1110            1                    ***0***       if(RxB_IRQ)
     1113            1                    ***0***       if(INT_SOURCE_Wr[0] & DataIn[2])
-                                               5     All False Count
+                                               7     All False Count
 Branch totals: 2 hits of 4 branches = 50.00%
 
 ------------------------------------IF Branch------------------------------------
@@ -5255,11 +5255,11 @@ Branch totals: 2 hits of 4 branches = 50.00%
 Branch totals: 2 hits of 4 branches = 50.00%
 
 ------------------------------------IF Branch------------------------------------
-    1143                                       8     Count coming in to IF
+    1143                                      10     Count coming in to IF
     1143            1                          5       if(Reset)
     1146            1                    ***0***       if(SetTxCIrq)
     1149            1                    ***0***       if(INT_SOURCE_Wr[0] & DataIn[5])
-                                               3     All False Count
+                                               5     All False Count
 Branch totals: 2 hits of 4 branches = 50.00%
 
 ------------------------------------IF Branch------------------------------------
@@ -7439,7 +7439,7 @@ Statement Coverage for instance /dut/ethreg1 --
     1102            1                    ***0***         irq_txe <=  1'b0;
     1103                                             end
     1104                                             
-    1105            1                         10     always @ (posedge Clk or posedge Reset)
+    1105            1                         12     always @ (posedge Clk or posedge Reset)
     1106                                             begin
     1107                                               if(Reset)
     1108            1                          5         irq_rxb <= 1'b0;
@@ -7475,7 +7475,7 @@ Statement Coverage for instance /dut/ethreg1 --
     1138            1                    ***0***         irq_busy <=  1'b0;
     1139                                             end
     1140                                             
-    1141            1                          8     always @ (posedge Clk or posedge Reset)
+    1141            1                         10     always @ (posedge Clk or posedge Reset)
     1142                                             begin
     1143                                               if(Reset)
     1144            1                          5         irq_txc <= 1'b0;
@@ -7760,8 +7760,8 @@ Branch totals: 2 hits of 2 branches = 100.00%
 ------------------------------------IF Branch------------------------------------
     379                                       18     Count coming in to IF
     379             1                          4       if(TxReset)
-    382             1                          3       if((TxDoneIn | TxAbortIn | ~TxUsedDataOutDetected) & ~TxStartFrmOut)
-                                              11     All False Count
+    382             1                          5       if((TxDoneIn | TxAbortIn | ~TxUsedDataOutDetected) & ~TxStartFrmOut)
+                                               9     All False Count
 Branch totals: 3 hits of 3 branches = 100.00%
 
 ------------------------------------IF Branch------------------------------------
@@ -8980,7 +8980,7 @@ Statement Coverage for instance /dut/maccontrol1/receivecontrol1 --
     380             1                          4         Pause <=  1'b0;
     381                                                else
     382                                                if((TxDoneIn | TxAbortIn | ~TxUsedDataOutDetected) & ~TxStartFrmOut)
-    383             1                          3         Pause <=  RxFlow & ~PauseTimerEq0_sync2;
+    383             1                          5         Pause <=  RxFlow & ~PauseTimerEq0_sync2;
     384                                              end
     385                                              
     386                                              
@@ -11436,7 +11436,7 @@ Statement Coverage for instance /dut/txethmac1/txstatem1 --
     180                                              
     181             1                        272     assign StartJam = (Collision | UnderRun) & ((StatePreamble & NibCntEq15) | (|StateData[1:0]) | StatePAD | StateFCS);
     182                                              
-    183             1                        209     assign StartBackoff = StateJam & ~RandomEq0 & ColWindow & ~RetryMax & NibCntEq7 & ~NoBckof;
+    183             1                        206     assign StartBackoff = StateJam & ~RandomEq0 & ColWindow & ~RetryMax & NibCntEq7 & ~NoBckof;
     184                                              
     185             1                        825     assign StartDefer = StateIPG & ~Rule1 & CarrierSense & NibCnt[6:0] <= IPGR1 & NibCnt[6:0] != IPGR2
     186                                                                | StateIdle & CarrierSense 
@@ -12439,36 +12439,36 @@ Statement Coverage for instance /dut/txethmac1/txcrc --
     93                                               wire [31:0] CrcNext;
     94                                               
     95                                               
-    96              1                        446     assign CrcNext[0] = Enable & (Data[0] ^ Crc[28]); 
-    97              1                        669     assign CrcNext[1] = Enable & (Data[1] ^ Data[0] ^ Crc[28] ^ Crc[29]); 
-    98              1                        755     assign CrcNext[2] = Enable & (Data[2] ^ Data[1] ^ Data[0] ^ Crc[28] ^ Crc[29] ^ Crc[30]); 
-    99              1                        765     assign CrcNext[3] = Enable & (Data[3] ^ Data[2] ^ Data[1] ^ Crc[29] ^ Crc[30] ^ Crc[31]); 
-    100             1                        796     assign CrcNext[4] = (Enable & (Data[3] ^ Data[2] ^ Data[0] ^ Crc[28] ^ Crc[30] ^ Crc[31])) ^ Crc[0]; 
-    101             1                        814     assign CrcNext[5] = (Enable & (Data[3] ^ Data[1] ^ Data[0] ^ Crc[28] ^ Crc[29] ^ Crc[31])) ^ Crc[1]; 
-    102             1                        715     assign CrcNext[6] = (Enable & (Data[2] ^ Data[1] ^ Crc[29] ^ Crc[30])) ^ Crc[ 2]; 
-    103             1                        801     assign CrcNext[7] = (Enable & (Data[3] ^ Data[2] ^ Data[0] ^ Crc[28] ^ Crc[30] ^ Crc[31])) ^ Crc[3]; 
-    104             1                        810     assign CrcNext[8] = (Enable & (Data[3] ^ Data[1] ^ Data[0] ^ Crc[28] ^ Crc[29] ^ Crc[31])) ^ Crc[4]; 
-    105             1                        736     assign CrcNext[9] = (Enable & (Data[2] ^ Data[1] ^ Crc[29] ^ Crc[30])) ^ Crc[5]; 
-    106             1                        801     assign CrcNext[10] = (Enable & (Data[3] ^ Data[2] ^ Data[0] ^ Crc[28] ^ Crc[30] ^ Crc[31])) ^ Crc[6]; 
-    107             1                        815     assign CrcNext[11] = (Enable & (Data[3] ^ Data[1] ^ Data[0] ^ Crc[28] ^ Crc[29] ^ Crc[31])) ^ Crc[7]; 
-    108             1                        795     assign CrcNext[12] = (Enable & (Data[2] ^ Data[1] ^ Data[0] ^ Crc[28] ^ Crc[29] ^ Crc[30])) ^ Crc[8]; 
-    109             1                        814     assign CrcNext[13] = (Enable & (Data[3] ^ Data[2] ^ Data[1] ^ Crc[29] ^ Crc[30] ^ Crc[31])) ^ Crc[9]; 
-    110             1                        736     assign CrcNext[14] = (Enable & (Data[3] ^ Data[2] ^ Crc[30] ^ Crc[31])) ^ Crc[10]; 
-    111             1                        610     assign CrcNext[15] = (Enable & (Data[3] ^ Crc[31])) ^ Crc[11]; 
-    112             1                        597     assign CrcNext[16] = (Enable & (Data[0] ^ Crc[28])) ^ Crc[12]; 
-    113             1                        601     assign CrcNext[17] = (Enable & (Data[1] ^ Crc[29])) ^ Crc[13]; 
-    114             1                        577     assign CrcNext[18] = (Enable & (Data[2] ^ Crc[30])) ^ Crc[14]; 
-    115             1                        604     assign CrcNext[19] = (Enable & (Data[3] ^ Crc[31])) ^ Crc[15]; 
+    96              1                        442     assign CrcNext[0] = Enable & (Data[0] ^ Crc[28]); 
+    97              1                        657     assign CrcNext[1] = Enable & (Data[1] ^ Data[0] ^ Crc[28] ^ Crc[29]); 
+    98              1                        751     assign CrcNext[2] = Enable & (Data[2] ^ Data[1] ^ Data[0] ^ Crc[28] ^ Crc[29] ^ Crc[30]); 
+    99              1                        762     assign CrcNext[3] = Enable & (Data[3] ^ Data[2] ^ Data[1] ^ Crc[29] ^ Crc[30] ^ Crc[31]); 
+    100             1                        792     assign CrcNext[4] = (Enable & (Data[3] ^ Data[2] ^ Data[0] ^ Crc[28] ^ Crc[30] ^ Crc[31])) ^ Crc[0]; 
+    101             1                        803     assign CrcNext[5] = (Enable & (Data[3] ^ Data[1] ^ Data[0] ^ Crc[28] ^ Crc[29] ^ Crc[31])) ^ Crc[1]; 
+    102             1                        710     assign CrcNext[6] = (Enable & (Data[2] ^ Data[1] ^ Crc[29] ^ Crc[30])) ^ Crc[ 2]; 
+    103             1                        798     assign CrcNext[7] = (Enable & (Data[3] ^ Data[2] ^ Data[0] ^ Crc[28] ^ Crc[30] ^ Crc[31])) ^ Crc[3]; 
+    104             1                        809     assign CrcNext[8] = (Enable & (Data[3] ^ Data[1] ^ Data[0] ^ Crc[28] ^ Crc[29] ^ Crc[31])) ^ Crc[4]; 
+    105             1                        735     assign CrcNext[9] = (Enable & (Data[2] ^ Data[1] ^ Crc[29] ^ Crc[30])) ^ Crc[5]; 
+    106             1                        792     assign CrcNext[10] = (Enable & (Data[3] ^ Data[2] ^ Data[0] ^ Crc[28] ^ Crc[30] ^ Crc[31])) ^ Crc[6]; 
+    107             1                        810     assign CrcNext[11] = (Enable & (Data[3] ^ Data[1] ^ Data[0] ^ Crc[28] ^ Crc[29] ^ Crc[31])) ^ Crc[7]; 
+    108             1                        806     assign CrcNext[12] = (Enable & (Data[2] ^ Data[1] ^ Data[0] ^ Crc[28] ^ Crc[29] ^ Crc[30])) ^ Crc[8]; 
+    109             1                        811     assign CrcNext[13] = (Enable & (Data[3] ^ Data[2] ^ Data[1] ^ Crc[29] ^ Crc[30] ^ Crc[31])) ^ Crc[9]; 
+    110             1                        734     assign CrcNext[14] = (Enable & (Data[3] ^ Data[2] ^ Crc[30] ^ Crc[31])) ^ Crc[10]; 
+    111             1                        607     assign CrcNext[15] = (Enable & (Data[3] ^ Crc[31])) ^ Crc[11]; 
+    112             1                        609     assign CrcNext[16] = (Enable & (Data[0] ^ Crc[28])) ^ Crc[12]; 
+    113             1                        598     assign CrcNext[17] = (Enable & (Data[1] ^ Crc[29])) ^ Crc[13]; 
+    114             1                        587     assign CrcNext[18] = (Enable & (Data[2] ^ Crc[30])) ^ Crc[14]; 
+    115             1                        616     assign CrcNext[19] = (Enable & (Data[3] ^ Crc[31])) ^ Crc[15]; 
     116                                              assign CrcNext[20] = Crc[16]; 
     117                                              assign CrcNext[21] = Crc[17]; 
-    118             1                        604     assign CrcNext[22] = (Enable & (Data[0] ^ Crc[28])) ^ Crc[18]; 
-    119             1                        748     assign CrcNext[23] = (Enable & (Data[1] ^ Data[0] ^ Crc[29] ^ Crc[28])) ^ Crc[19]; 
-    120             1                        733     assign CrcNext[24] = (Enable & (Data[2] ^ Data[1] ^ Crc[30] ^ Crc[29])) ^ Crc[20]; 
-    121             1                        714     assign CrcNext[25] = (Enable & (Data[3] ^ Data[2] ^ Crc[31] ^ Crc[30])) ^ Crc[21]; 
-    122             1                        745     assign CrcNext[26] = (Enable & (Data[3] ^ Data[0] ^ Crc[31] ^ Crc[28])) ^ Crc[22]; 
-    123             1                        616     assign CrcNext[27] = (Enable & (Data[1] ^ Crc[29])) ^ Crc[23]; 
-    124             1                        589     assign CrcNext[28] = (Enable & (Data[2] ^ Crc[30])) ^ Crc[24]; 
-    125             1                        616     assign CrcNext[29] = (Enable & (Data[3] ^ Crc[31])) ^ Crc[25]; 
+    118             1                        605     assign CrcNext[22] = (Enable & (Data[0] ^ Crc[28])) ^ Crc[18]; 
+    119             1                        750     assign CrcNext[23] = (Enable & (Data[1] ^ Data[0] ^ Crc[29] ^ Crc[28])) ^ Crc[19]; 
+    120             1                        724     assign CrcNext[24] = (Enable & (Data[2] ^ Data[1] ^ Crc[30] ^ Crc[29])) ^ Crc[20]; 
+    121             1                        716     assign CrcNext[25] = (Enable & (Data[3] ^ Data[2] ^ Crc[31] ^ Crc[30])) ^ Crc[21]; 
+    122             1                        735     assign CrcNext[26] = (Enable & (Data[3] ^ Data[0] ^ Crc[31] ^ Crc[28])) ^ Crc[22]; 
+    123             1                        610     assign CrcNext[27] = (Enable & (Data[1] ^ Crc[29])) ^ Crc[23]; 
+    124             1                        583     assign CrcNext[28] = (Enable & (Data[2] ^ Crc[30])) ^ Crc[24]; 
+    125             1                        612     assign CrcNext[29] = (Enable & (Data[3] ^ Crc[31])) ^ Crc[25]; 
     126                                              assign CrcNext[30] = Crc[26]; 
     127                                              assign CrcNext[31] = Crc[27]; 
     128                                              
@@ -12529,14 +12529,14 @@ Branch Coverage for instance /dut/txethmac1/random1
 Branch totals: 2 hits of 2 branches = 100.00%
 
 ------------------------------------IF Branch------------------------------------
-    112                                      410     Count coming in to IF
-    112             1                        216     assign Random [1] = (RetryCnt > 1) ? x[1] : 1'b0;
+    112                                      409     Count coming in to IF
+    112             1                        215     assign Random [1] = (RetryCnt > 1) ? x[1] : 1'b0;
     112             2                        194     assign Random [1] = (RetryCnt > 1) ? x[1] : 1'b0;
 Branch totals: 2 hits of 2 branches = 100.00%
 
 ------------------------------------IF Branch------------------------------------
-    113                                      411     Count coming in to IF
-    113             1                        128     assign Random [2] = (RetryCnt > 2) ? x[2] : 1'b0;
+    113                                      413     Count coming in to IF
+    113             1                        130     assign Random [2] = (RetryCnt > 2) ? x[2] : 1'b0;
     113             2                        283     assign Random [2] = (RetryCnt > 2) ? x[2] : 1'b0;
 Branch totals: 2 hits of 2 branches = 100.00%
 
@@ -12547,15 +12547,15 @@ Branch totals: 2 hits of 2 branches = 100.00%
 Branch totals: 2 hits of 2 branches = 100.00%
 
 ------------------------------------IF Branch------------------------------------
-    115                                      408     Count coming in to IF
+    115                                      409     Count coming in to IF
     115             1                    ***0***     assign Random [4] = (RetryCnt > 4) ? x[4] : 1'b0;
-    115             2                        408     assign Random [4] = (RetryCnt > 4) ? x[4] : 1'b0;
+    115             2                        409     assign Random [4] = (RetryCnt > 4) ? x[4] : 1'b0;
 Branch totals: 1 hit of 2 branches = 50.00%
 
 ------------------------------------IF Branch------------------------------------
-    116                                      406     Count coming in to IF
+    116                                      405     Count coming in to IF
     116             1                    ***0***     assign Random [5] = (RetryCnt > 5) ? x[5] : 1'b0;
-    116             2                        406     assign Random [5] = (RetryCnt > 5) ? x[5] : 1'b0;
+    116             2                        405     assign Random [5] = (RetryCnt > 5) ? x[5] : 1'b0;
 Branch totals: 1 hit of 2 branches = 50.00%
 
 ------------------------------------IF Branch------------------------------------
@@ -12565,9 +12565,9 @@ Branch totals: 1 hit of 2 branches = 50.00%
 Branch totals: 1 hit of 2 branches = 50.00%
 
 ------------------------------------IF Branch------------------------------------
-    118                                      406     Count coming in to IF
+    118                                      407     Count coming in to IF
     118             1                    ***0***     assign Random [7] = (RetryCnt > 7) ? x[7] : 1'b0;
-    118             2                        406     assign Random [7] = (RetryCnt > 7) ? x[7] : 1'b0;
+    118             2                        407     assign Random [7] = (RetryCnt > 7) ? x[7] : 1'b0;
 Branch totals: 1 hit of 2 branches = 50.00%
 
 ------------------------------------IF Branch------------------------------------
@@ -12577,21 +12577,21 @@ Branch totals: 1 hit of 2 branches = 50.00%
 Branch totals: 1 hit of 2 branches = 50.00%
 
 ------------------------------------IF Branch------------------------------------
-    120                                      405     Count coming in to IF
+    120                                      404     Count coming in to IF
     120             1                    ***0***     assign Random [9] = (RetryCnt > 9) ? x[9] : 1'b0;
-    120             2                        405     assign Random [9] = (RetryCnt > 9) ? x[9] : 1'b0;
+    120             2                        404     assign Random [9] = (RetryCnt > 9) ? x[9] : 1'b0;
 Branch totals: 1 hit of 2 branches = 50.00%
 
 ------------------------------------IF Branch------------------------------------
-    125                                      572     Count coming in to IF
+    125                                      569     Count coming in to IF
     125             1                          4       if(Reset)
-    127             1                        568       else
+    127             1                        565       else
 Branch totals: 2 hits of 2 branches = 100.00%
 
 ------------------------------------IF Branch------------------------------------
-    129                                      568     Count coming in to IF
-    129             1                         20           if(StateJam & StateJam_q)
-                                             548     All False Count
+    129                                      565     Count coming in to IF
+    129             1                         19           if(StateJam & StateJam_q)
+                                             546     All False Count
 Branch totals: 2 hits of 2 branches = 100.00%
 
 
@@ -12865,25 +12865,25 @@ Statement Coverage for instance /dut/txethmac1/random1 --
     109             1                        610     assign Feedback = ~(x[2] ^ x[9]);
     110                                              
     111                                              assign Random [0] = x[0];
-    112             1                        411     assign Random [1] = (RetryCnt > 1) ? x[1] : 1'b0;
-    113             1                        412     assign Random [2] = (RetryCnt > 2) ? x[2] : 1'b0;
+    112             1                        410     assign Random [1] = (RetryCnt > 1) ? x[1] : 1'b0;
+    113             1                        414     assign Random [2] = (RetryCnt > 2) ? x[2] : 1'b0;
     114             1                        412     assign Random [3] = (RetryCnt > 3) ? x[3] : 1'b0;
-    115             1                        409     assign Random [4] = (RetryCnt > 4) ? x[4] : 1'b0;
-    116             1                        407     assign Random [5] = (RetryCnt > 5) ? x[5] : 1'b0;
+    115             1                        410     assign Random [4] = (RetryCnt > 4) ? x[4] : 1'b0;
+    116             1                        406     assign Random [5] = (RetryCnt > 5) ? x[5] : 1'b0;
     117             1                        408     assign Random [6] = (RetryCnt > 6) ? x[6] : 1'b0;
-    118             1                        407     assign Random [7] = (RetryCnt > 7) ? x[7] : 1'b0;
+    118             1                        408     assign Random [7] = (RetryCnt > 7) ? x[7] : 1'b0;
     119             1                        406     assign Random [8] = (RetryCnt > 8) ? x[8] : 1'b0;
-    120             1                        406     assign Random [9] = (RetryCnt > 9) ? x[9] : 1'b0;
+    120             1                        405     assign Random [9] = (RetryCnt > 9) ? x[9] : 1'b0;
     121                                              
     122                                              
-    123             1                        572     always @ (posedge MTxClk or posedge Reset)
+    123             1                        569     always @ (posedge MTxClk or posedge Reset)
     124                                              begin
     125                                                if(Reset)
     126             1                          4         RandomLatched <=  10'h000;
     127                                                else
     128                                                  begin
     129                                                    if(StateJam & StateJam_q)
-    130             1                         20             RandomLatched <=  Random;
+    130             1                         19             RandomLatched <=  Random;
     131                                                  end
     132                                              end
     133                                              
@@ -13017,16 +13017,16 @@ Branch totals: 2 hits of 2 branches = 100.00%
 Branch totals: 2 hits of 3 branches = 66.66%
 
 ------------------------------------IF Branch------------------------------------
-    333                                      200     Count coming in to IF
+    333                                      197     Count coming in to IF
     333             1                          4       if(Reset)
-    335             1                        196       else
+    335             1                        193       else
 Branch totals: 2 hits of 2 branches = 100.00%
 
 ------------------------------------IF Branch------------------------------------
-    337                                      196     Count coming in to IF
+    337                                      193     Count coming in to IF
     337             1                          1           if(ExcessiveDeferOccured | UnderRun | TooBig | StartTxDone | TxUnderRun 
     341             1                          4           if(StateJam & NibCntEq7 & ColWindow & (RandomEq0 | NoBckof) | StateBackOff & RandomEqByteCnt)
-                                             191     All False Count
+                                             188     All False Count
 Branch totals: 3 hits of 3 branches = 100.00%
 
 ------------------------------------IF Branch------------------------------------
@@ -14016,7 +14016,7 @@ Statement Coverage for instance /dut/txethmac1 --
     328                                              
     329                                              
     330                                              // Retry counter
-    331             1                        200     always @ (posedge MTxClk or posedge Reset)
+    331             1                        197     always @ (posedge MTxClk or posedge Reset)
     332                                              begin
     333                                                if(Reset)
     334             1                          4         RetryCnt[3:0] <=  4'h0;
@@ -17882,7 +17882,7 @@ Statement Coverage for instance /dut/wishbone/bd_ram --
 Toggle Coverage:
     Enabled Coverage              Bins      Hits    Misses  Coverage
     ----------------              ----      ----    ------  --------
-    Toggles                         80        42        38    52.50%
+    Toggles                         80        54        26    67.50%
 
 ================================Toggle Details================================
 
@@ -17890,27 +17890,26 @@ Toggle Coverage for instance /dut/wishbone/bd_ram --
 
                                               Node      1H->0L      0L->1H  "Coverage"
                                               ---------------------------------------
-                                            q[0-2]           0           0        0.00 
-                                            q[3-4]           1           1      100.00 
-                                              q[5]           0           0        0.00 
-                                              q[6]           1           1      100.00 
-                                            q[7-8]           0           0        0.00 
-                                              q[9]           1           1      100.00 
-                                             q[10]           0           0        0.00 
-                                          q[11-15]           1           1      100.00 
-                                             q[16]           0           0        0.00 
-                                          q[17-22]           1           1      100.00 
-                                          q[23-26]           0           0        0.00 
-                                          q[27-28]           1           1      100.00 
-                                          q[29-31]           0           0        0.00 
+                                            q[0-1]           0           0        0.00 
+                                            q[2-7]           1           1      100.00 
+                                            q[8-9]           0           0        0.00 
+                                          q[10-20]           1           1      100.00 
+                                             q[21]           0           0        0.00 
+                                          q[22-24]           1           1      100.00 
+                                             q[25]           0           0        0.00 
+                                             q[26]           1           1      100.00 
+                                             q[27]           0           0        0.00 
+                                             q[28]           1           1      100.00 
+                                          q[29-30]           0           0        0.00 
+                                             q[31]           1           1      100.00 
                                         raddr[0-3]           1           1      100.00 
                                         raddr[4-7]           0           0        0.00 
 
 Total Node Count     =         40 
-Toggled Node Count   =         21 
-Untoggled Node Count =         19 
+Toggled Node Count   =         27 
+Untoggled Node Count =         13 
 
-Toggle Coverage      =      52.50% (42 of 80 bins)
+Toggle Coverage      =      67.50% (54 of 80 bins)
 
 =================================================================================
 === Instance: /dut/wishbone/tx_fifo
@@ -24634,7 +24633,7 @@ Statement Coverage for instance /dut/wishbone --
 Toggle Coverage:
     Enabled Coverage              Bins      Hits    Misses  Coverage
     ----------------              ----      ----    ------  --------
-    Toggles                       1350       539       811    39.92%
+    Toggles                       1350       580       770    42.96%
 
 ================================Toggle Details================================
 
@@ -24804,20 +24803,23 @@ Toggle Coverage for instance /dut/wishbone --
                                        TxLengthLt4           1           1      100.00 
                                  TxPointerLSB[0-1]           0           0        0.00 
                              TxPointerLSB_rst[0-1]           0           0        0.00 
-                                 TxPointerMSB[2-6]           1           1      100.00 
-                                 TxPointerMSB[7-8]           0           0        0.00 
-                                   TxPointerMSB[9]           1           1      100.00 
-                                  TxPointerMSB[10]           0           0        0.00 
-                                  TxPointerMSB[11]           1           1      100.00 
-                               TxPointerMSB[12-13]           0           0        0.00 
+                                 TxPointerMSB[2-8]           1           1      100.00 
+                                   TxPointerMSB[9]           0           0        0.00 
+                               TxPointerMSB[10-12]           1           1      100.00 
+                                  TxPointerMSB[13]           0           0        0.00 
                                   TxPointerMSB[14]           1           1      100.00 
-                               TxPointerMSB[15-16]           0           0        0.00 
-                                  TxPointerMSB[17]           1           1      100.00 
-                               TxPointerMSB[18-19]           0           0        0.00 
-                               TxPointerMSB[20-21]           1           1      100.00 
-                               TxPointerMSB[22-26]           0           0        0.00 
-                               TxPointerMSB[27-28]           1           1      100.00 
-                               TxPointerMSB[29-31]           0           0        0.00 
+                                  TxPointerMSB[15]           0           0        0.00 
+                                  TxPointerMSB[16]           1           1      100.00 
+                                  TxPointerMSB[17]           0           0        0.00 
+                               TxPointerMSB[18-20]           1           1      100.00 
+                                  TxPointerMSB[21]           0           0        0.00 
+                               TxPointerMSB[22-24]           1           1      100.00 
+                                  TxPointerMSB[25]           0           0        0.00 
+                                  TxPointerMSB[26]           1           1      100.00 
+                                  TxPointerMSB[27]           0           0        0.00 
+                                  TxPointerMSB[28]           1           1      100.00 
+                               TxPointerMSB[29-30]           0           0        0.00 
+                                  TxPointerMSB[31]           1           1      100.00 
                                      TxPointerRead           1           1      100.00 
                                      TxRetryPacket           1           1      100.00 
                               TxRetryPacketBlocked           1           1      100.00 
@@ -24862,20 +24864,23 @@ Toggle Coverage for instance /dut/wishbone --
                                        cyc_cleared           1           1      100.00 
                    enough_data_in_rxfifo_for_burst           0           0        0.00 
              enough_data_in_rxfifo_for_burst_plus1           0           0        0.00 
-                                   m_wb_adr_o[0-4]           1           1      100.00 
-                                   m_wb_adr_o[5-6]           0           0        0.00 
-                                     m_wb_adr_o[7]           1           1      100.00 
-                                     m_wb_adr_o[8]           0           0        0.00 
-                                     m_wb_adr_o[9]           1           1      100.00 
-                                 m_wb_adr_o[10-11]           0           0        0.00 
+                                   m_wb_adr_o[0-6]           1           1      100.00 
+                                     m_wb_adr_o[7]           0           0        0.00 
+                                  m_wb_adr_o[8-10]           1           1      100.00 
+                                    m_wb_adr_o[11]           0           0        0.00 
                                     m_wb_adr_o[12]           1           1      100.00 
-                                 m_wb_adr_o[13-14]           0           0        0.00 
-                                    m_wb_adr_o[15]           1           1      100.00 
-                                 m_wb_adr_o[16-17]           0           0        0.00 
-                                 m_wb_adr_o[18-19]           1           1      100.00 
-                                 m_wb_adr_o[20-24]           0           0        0.00 
-                                 m_wb_adr_o[25-26]           1           1      100.00 
-                                 m_wb_adr_o[27-29]           0           0        0.00 
+                                    m_wb_adr_o[13]           0           0        0.00 
+                                    m_wb_adr_o[14]           1           1      100.00 
+                                    m_wb_adr_o[15]           0           0        0.00 
+                                 m_wb_adr_o[16-18]           1           1      100.00 
+                                    m_wb_adr_o[19]           0           0        0.00 
+                                 m_wb_adr_o[20-22]           1           1      100.00 
+                                    m_wb_adr_o[23]           0           0        0.00 
+                                    m_wb_adr_o[24]           1           1      100.00 
+                                    m_wb_adr_o[25]           0           0        0.00 
+                                    m_wb_adr_o[26]           1           1      100.00 
+                                 m_wb_adr_o[27-28]           0           0        0.00 
+                                    m_wb_adr_o[29]           1           1      100.00 
                                         m_wb_cyc_o           1           1      100.00 
                                    m_wb_sel_o[0-3]           1           1      100.00 
                                          m_wb_we_o           0           0        0.00 
@@ -24883,29 +24888,34 @@ Toggle Coverage for instance /dut/wishbone --
                                           r_TxEn_q           1           1      100.00 
                                      ram_addr[0-3]           1           1      100.00 
                                      ram_addr[4-7]           0           0        0.00 
-                                       ram_di[0-6]           1           1      100.00 
-                                       ram_di[7-8]           0           0        0.00 
-                                         ram_di[9]           1           1      100.00 
-                                        ram_di[10]           0           0        0.00 
-                                     ram_di[11-22]           1           1      100.00 
-                                     ram_di[23-26]           0           0        0.00 
-                                     ram_di[27-28]           1           1      100.00 
-                                     ram_di[29-31]           0           0        0.00 
-                                       ram_do[0-2]           1           0       50.00 
-                                       ram_do[3-4]           1           1      100.00 
-                                         ram_do[5]           1           0       50.00 
-                                         ram_do[6]           1           1      100.00 
-                                       ram_do[7-8]           1           0       50.00 
-                                         ram_do[9]           1           1      100.00 
-                                        ram_do[10]           1           0       50.00 
-                                        ram_do[11]           0           1       50.00 
-                                     ram_do[12-15]           1           1      100.00 
-                                        ram_do[16]           1           0       50.00 
-                                        ram_do[17]           0           1       50.00 
-                                     ram_do[18-22]           1           1      100.00 
-                                     ram_do[23-26]           1           0       50.00 
-                                     ram_do[27-28]           1           1      100.00 
-                                     ram_do[29-31]           1           0       50.00 
+                                       ram_di[0-7]           1           1      100.00 
+                                       ram_di[8-9]           0           0        0.00 
+                                     ram_di[10-20]           1           1      100.00 
+                                        ram_di[21]           0           0        0.00 
+                                     ram_di[22-24]           1           1      100.00 
+                                        ram_di[25]           0           0        0.00 
+                                        ram_di[26]           1           1      100.00 
+                                        ram_di[27]           0           0        0.00 
+                                        ram_di[28]           1           1      100.00 
+                                     ram_di[29-30]           0           0        0.00 
+                                        ram_di[31]           1           1      100.00 
+                                       ram_do[0-1]           1           0       50.00 
+                                       ram_do[2-7]           1           1      100.00 
+                                       ram_do[8-9]           1           0       50.00 
+                                        ram_do[10]           1           1      100.00 
+                                     ram_do[11-12]           0           1       50.00 
+                                     ram_do[13-17]           1           1      100.00 
+                                     ram_do[18-19]           0           1       50.00 
+                                        ram_do[20]           1           1      100.00 
+                                        ram_do[21]           1           0       50.00 
+                                        ram_do[22]           0           1       50.00 
+                                     ram_do[23-24]           1           1      100.00 
+                                        ram_do[25]           1           0       50.00 
+                                        ram_do[26]           1           1      100.00 
+                                        ram_do[27]           1           0       50.00 
+                                        ram_do[28]           1           1      100.00 
+                                     ram_do[29-30]           1           0       50.00 
+                                        ram_do[31]           1           1      100.00 
                                             ram_oe           1           1      100.00 
                                        ram_we[0-3]           1           1      100.00 
                                           rx_burst           0           0        0.00 
@@ -24918,10 +24928,10 @@ Toggle Coverage for instance /dut/wishbone --
                                    txfifo_cnt[0-4]           1           1      100.00 
 
 Total Node Count     =        675 
-Toggled Node Count   =        261 
-Untoggled Node Count =        414 
+Toggled Node Count   =        283 
+Untoggled Node Count =        392 
 
-Toggle Coverage      =      39.92% (539 of 1350 bins)
+Toggle Coverage      =      42.96% (580 of 1350 bins)
 
 =================================================================================
 === Instance: /dut/macstatus1
@@ -27096,7 +27106,7 @@ Statement Coverage for instance /dut --
 Toggle Coverage:
     Enabled Coverage              Bins      Hits    Misses  Coverage
     ----------------              ----      ----    ------  --------
-    Toggles                       1612       540      1072    33.49%
+    Toggles                       1612       596      1016    36.97%
 
 ================================Toggle Details================================
 
@@ -27107,21 +27117,23 @@ Toggle Coverage for instance /dut --
                                        AddressMiss           0           0        0.00 
                                              BDAck           1           1      100.00 
                                          BDCs[0-3]           1           1      100.00 
-                                  BD_WB_DAT_O[0-2]           1           0       50.00 
-                                  BD_WB_DAT_O[3-4]           1           1      100.00 
-                                    BD_WB_DAT_O[5]           1           0       50.00 
-                                    BD_WB_DAT_O[6]           1           1      100.00 
-                                  BD_WB_DAT_O[7-8]           1           0       50.00 
-                                    BD_WB_DAT_O[9]           1           1      100.00 
-                                   BD_WB_DAT_O[10]           1           0       50.00 
-                                   BD_WB_DAT_O[11]           0           1       50.00 
-                                BD_WB_DAT_O[12-15]           1           1      100.00 
-                                   BD_WB_DAT_O[16]           1           0       50.00 
-                                   BD_WB_DAT_O[17]           0           1       50.00 
-                                BD_WB_DAT_O[18-22]           1           1      100.00 
-                                BD_WB_DAT_O[23-26]           1           0       50.00 
-                                BD_WB_DAT_O[27-28]           1           1      100.00 
-                                BD_WB_DAT_O[29-31]           1           0       50.00 
+                                  BD_WB_DAT_O[0-1]           1           0       50.00 
+                                  BD_WB_DAT_O[2-7]           1           1      100.00 
+                                  BD_WB_DAT_O[8-9]           1           0       50.00 
+                                   BD_WB_DAT_O[10]           1           1      100.00 
+                                BD_WB_DAT_O[11-12]           0           1       50.00 
+                                BD_WB_DAT_O[13-17]           1           1      100.00 
+                                BD_WB_DAT_O[18-19]           0           1       50.00 
+                                   BD_WB_DAT_O[20]           1           1      100.00 
+                                   BD_WB_DAT_O[21]           1           0       50.00 
+                                   BD_WB_DAT_O[22]           0           1       50.00 
+                                BD_WB_DAT_O[23-24]           1           1      100.00 
+                                   BD_WB_DAT_O[25]           1           0       50.00 
+                                   BD_WB_DAT_O[26]           1           1      100.00 
+                                   BD_WB_DAT_O[27]           1           0       50.00 
+                                   BD_WB_DAT_O[28]           1           1      100.00 
+                                BD_WB_DAT_O[29-30]           1           0       50.00 
+                                   BD_WB_DAT_O[31]           1           1      100.00 
                                           Busy_IRQ           0           0        0.00 
                                          Busy_stat           0           0        0.00 
                                       ByteSelected           0           1       50.00 
@@ -27235,34 +27247,40 @@ Toggle Coverage for instance /dut --
                                              int_o           0           0        0.00 
                                         m_wb_ack_i           1           1      100.00 
                                    m_wb_adr_o[0-1]           0           0        0.00 
-                                   m_wb_adr_o[2-6]           1           1      100.00 
-                                   m_wb_adr_o[7-8]           0           0        0.00 
-                                     m_wb_adr_o[9]           1           1      100.00 
-                                    m_wb_adr_o[10]           0           0        0.00 
-                                    m_wb_adr_o[11]           1           1      100.00 
-                                 m_wb_adr_o[12-13]           0           0        0.00 
+                                   m_wb_adr_o[2-8]           1           1      100.00 
+                                     m_wb_adr_o[9]           0           0        0.00 
+                                 m_wb_adr_o[10-12]           1           1      100.00 
+                                    m_wb_adr_o[13]           0           0        0.00 
                                     m_wb_adr_o[14]           1           1      100.00 
-                                 m_wb_adr_o[15-16]           0           0        0.00 
-                                    m_wb_adr_o[17]           1           1      100.00 
-                                 m_wb_adr_o[18-19]           0           0        0.00 
-                                 m_wb_adr_o[20-21]           1           1      100.00 
-                                 m_wb_adr_o[22-26]           0           0        0.00 
-                                 m_wb_adr_o[27-28]           1           1      100.00 
-                                 m_wb_adr_o[29-31]           0           0        0.00 
-                                 m_wb_adr_tmp[0-4]           1           1      100.00 
-                                 m_wb_adr_tmp[5-6]           0           0        0.00 
-                                   m_wb_adr_tmp[7]           1           1      100.00 
-                                   m_wb_adr_tmp[8]           0           0        0.00 
-                                   m_wb_adr_tmp[9]           1           1      100.00 
-                               m_wb_adr_tmp[10-11]           0           0        0.00 
+                                    m_wb_adr_o[15]           0           0        0.00 
+                                    m_wb_adr_o[16]           1           1      100.00 
+                                    m_wb_adr_o[17]           0           0        0.00 
+                                 m_wb_adr_o[18-20]           1           1      100.00 
+                                    m_wb_adr_o[21]           0           0        0.00 
+                                 m_wb_adr_o[22-24]           1           1      100.00 
+                                    m_wb_adr_o[25]           0           0        0.00 
+                                    m_wb_adr_o[26]           1           1      100.00 
+                                    m_wb_adr_o[27]           0           0        0.00 
+                                    m_wb_adr_o[28]           1           1      100.00 
+                                 m_wb_adr_o[29-30]           0           0        0.00 
+                                    m_wb_adr_o[31]           1           1      100.00 
+                                 m_wb_adr_tmp[0-6]           1           1      100.00 
+                                   m_wb_adr_tmp[7]           0           0        0.00 
+                                m_wb_adr_tmp[8-10]           1           1      100.00 
+                                  m_wb_adr_tmp[11]           0           0        0.00 
                                   m_wb_adr_tmp[12]           1           1      100.00 
-                               m_wb_adr_tmp[13-14]           0           0        0.00 
-                                  m_wb_adr_tmp[15]           1           1      100.00 
-                               m_wb_adr_tmp[16-17]           0           0        0.00 
-                               m_wb_adr_tmp[18-19]           1           1      100.00 
-                               m_wb_adr_tmp[20-24]           0           0        0.00 
-                               m_wb_adr_tmp[25-26]           1           1      100.00 
-                               m_wb_adr_tmp[27-29]           0           0        0.00 
+                                  m_wb_adr_tmp[13]           0           0        0.00 
+                                  m_wb_adr_tmp[14]           1           1      100.00 
+                                  m_wb_adr_tmp[15]           0           0        0.00 
+                               m_wb_adr_tmp[16-18]           1           1      100.00 
+                                  m_wb_adr_tmp[19]           0           0        0.00 
+                               m_wb_adr_tmp[20-22]           1           1      100.00 
+                                  m_wb_adr_tmp[23]           0           0        0.00 
+                                  m_wb_adr_tmp[24]           1           1      100.00 
+                                  m_wb_adr_tmp[25]           0           0        0.00 
+                                  m_wb_adr_tmp[26]           1           1      100.00 
+                               m_wb_adr_tmp[27-28]           0           0        0.00 
+                                  m_wb_adr_tmp[29]           1           1      100.00 
                                         m_wb_cyc_o           1           1      100.00 
                                   m_wb_dat_i[0-31]           1           1      100.00 
                                   m_wb_dat_o[0-31]           0           0        0.00 
@@ -27331,34 +27349,35 @@ Toggle Coverage for instance /dut --
                                        r_WCtrlData           0           0        0.00 
                                      temp_wb_ack_o           1           1      100.00 
                                  temp_wb_ack_o_reg           1           1      100.00 
-                                temp_wb_dat_o[0-2]           1           0       50.00 
-                                temp_wb_dat_o[3-4]           1           1      100.00 
-                                  temp_wb_dat_o[5]           1           0       50.00 
-                                  temp_wb_dat_o[6]           1           1      100.00 
-                                temp_wb_dat_o[7-8]           1           0       50.00 
-                                  temp_wb_dat_o[9]           1           1      100.00 
-                                 temp_wb_dat_o[10]           1           0       50.00 
-                                 temp_wb_dat_o[11]           0           1       50.00 
-                              temp_wb_dat_o[12-15]           1           1      100.00 
-                                 temp_wb_dat_o[16]           1           0       50.00 
-                                 temp_wb_dat_o[17]           0           1       50.00 
-                              temp_wb_dat_o[18-22]           1           1      100.00 
-                              temp_wb_dat_o[23-26]           1           0       50.00 
-                              temp_wb_dat_o[27-28]           1           1      100.00 
-                              temp_wb_dat_o[29-31]           1           0       50.00 
-                            temp_wb_dat_o_reg[0-2]           1           0       50.00 
-                            temp_wb_dat_o_reg[3-4]           1           1      100.00 
-                              temp_wb_dat_o_reg[5]           1           0       50.00 
-                              temp_wb_dat_o_reg[6]           1           1      100.00 
-                            temp_wb_dat_o_reg[7-8]           1           0       50.00 
-                              temp_wb_dat_o_reg[9]           1           1      100.00 
-                             temp_wb_dat_o_reg[10]           1           0       50.00 
-                          temp_wb_dat_o_reg[11-15]           1           1      100.00 
-                             temp_wb_dat_o_reg[16]           1           0       50.00 
-                          temp_wb_dat_o_reg[17-22]           1           1      100.00 
-                          temp_wb_dat_o_reg[23-26]           1           0       50.00 
-                          temp_wb_dat_o_reg[27-28]           1           1      100.00 
-                          temp_wb_dat_o_reg[29-31]           1           0       50.00 
+                                temp_wb_dat_o[0-1]           1           0       50.00 
+                                temp_wb_dat_o[2-7]           1           1      100.00 
+                                temp_wb_dat_o[8-9]           1           0       50.00 
+                                 temp_wb_dat_o[10]           1           1      100.00 
+                              temp_wb_dat_o[11-12]           0           1       50.00 
+                              temp_wb_dat_o[13-17]           1           1      100.00 
+                              temp_wb_dat_o[18-19]           0           1       50.00 
+                                 temp_wb_dat_o[20]           1           1      100.00 
+                                 temp_wb_dat_o[21]           1           0       50.00 
+                                 temp_wb_dat_o[22]           0           1       50.00 
+                              temp_wb_dat_o[23-24]           1           1      100.00 
+                                 temp_wb_dat_o[25]           1           0       50.00 
+                                 temp_wb_dat_o[26]           1           1      100.00 
+                                 temp_wb_dat_o[27]           1           0       50.00 
+                                 temp_wb_dat_o[28]           1           1      100.00 
+                              temp_wb_dat_o[29-30]           1           0       50.00 
+                                 temp_wb_dat_o[31]           1           1      100.00 
+                            temp_wb_dat_o_reg[0-1]           1           0       50.00 
+                            temp_wb_dat_o_reg[2-7]           1           1      100.00 
+                            temp_wb_dat_o_reg[8-9]           1           0       50.00 
+                          temp_wb_dat_o_reg[10-20]           1           1      100.00 
+                             temp_wb_dat_o_reg[21]           1           0       50.00 
+                          temp_wb_dat_o_reg[22-24]           1           1      100.00 
+                             temp_wb_dat_o_reg[25]           1           0       50.00 
+                             temp_wb_dat_o_reg[26]           1           1      100.00 
+                             temp_wb_dat_o_reg[27]           1           0       50.00 
+                             temp_wb_dat_o_reg[28]           1           1      100.00 
+                          temp_wb_dat_o_reg[29-30]           1           0       50.00 
+                             temp_wb_dat_o_reg[31]           1           1      100.00 
                                      temp_wb_err_o           0           0        0.00 
                                  temp_wb_err_o_reg           0           0        0.00 
                                           wb_ack_o           1           1      100.00 
@@ -27369,26 +27388,30 @@ Toggle Coverage for instance /dut --
                                           wb_clk_i           1           1      100.00 
                                           wb_cyc_i           1           1      100.00 
                                      wb_dat_i[0-5]           1           1      100.00 
-                                     wb_dat_i[6-8]           0           0        0.00 
-                                       wb_dat_i[9]           1           1      100.00 
-                                      wb_dat_i[10]           0           0        0.00 
-                                   wb_dat_i[11-22]           1           1      100.00 
-                                   wb_dat_i[23-26]           0           0        0.00 
-                                   wb_dat_i[27-28]           1           1      100.00 
-                                   wb_dat_i[29-31]           0           0        0.00 
-                                     wb_dat_o[0-2]           1           0       50.00 
-                                     wb_dat_o[3-4]           1           1      100.00 
-                                       wb_dat_o[5]           1           0       50.00 
-                                       wb_dat_o[6]           1           1      100.00 
-                                     wb_dat_o[7-8]           1           0       50.00 
-                                       wb_dat_o[9]           1           1      100.00 
-                                      wb_dat_o[10]           1           0       50.00 
-                                   wb_dat_o[11-15]           1           1      100.00 
-                                      wb_dat_o[16]           1           0       50.00 
-                                   wb_dat_o[17-22]           1           1      100.00 
-                                   wb_dat_o[23-26]           1           0       50.00 
-                                   wb_dat_o[27-28]           1           1      100.00 
-                                   wb_dat_o[29-31]           1           0       50.00 
+                                       wb_dat_i[6]           0           0        0.00 
+                                       wb_dat_i[7]           1           1      100.00 
+                                     wb_dat_i[8-9]           0           0        0.00 
+                                   wb_dat_i[10-20]           1           1      100.00 
+                                      wb_dat_i[21]           0           0        0.00 
+                                   wb_dat_i[22-24]           1           1      100.00 
+                                      wb_dat_i[25]           0           0        0.00 
+                                      wb_dat_i[26]           1           1      100.00 
+                                      wb_dat_i[27]           0           0        0.00 
+                                      wb_dat_i[28]           1           1      100.00 
+                                   wb_dat_i[29-30]           0           0        0.00 
+                                      wb_dat_i[31]           1           1      100.00 
+                                     wb_dat_o[0-1]           1           0       50.00 
+                                     wb_dat_o[2-7]           1           1      100.00 
+                                     wb_dat_o[8-9]           1           0       50.00 
+                                   wb_dat_o[10-20]           1           1      100.00 
+                                      wb_dat_o[21]           1           0       50.00 
+                                   wb_dat_o[22-24]           1           1      100.00 
+                                      wb_dat_o[25]           1           0       50.00 
+                                      wb_dat_o[26]           1           1      100.00 
+                                      wb_dat_o[27]           1           0       50.00 
+                                      wb_dat_o[28]           1           1      100.00 
+                                   wb_dat_o[29-30]           1           0       50.00 
+                                      wb_dat_o[31]           1           1      100.00 
                                           wb_err_o           0           0        0.00 
                                           wb_rst_i           1           1      100.00 
                                      wb_sel_i[0-3]           0           1       50.00 
@@ -27396,11 +27419,11 @@ Toggle Coverage for instance /dut --
                                            wb_we_i           0           1       50.00 
 
 Total Node Count     =        806 
-Toggled Node Count   =        235 
-Untoggled Node Count =        571 
+Toggled Node Count   =        272 
+Untoggled Node Count =        534 
 
-Toggle Coverage      =      33.49% (540 of 1612 bins)
+Toggle Coverage      =      36.97% (596 of 1612 bins)
 
 
-Total Coverage By Instance (filtered view): 47.06%
+Total Coverage By Instance (filtered view): 47.37%
 
