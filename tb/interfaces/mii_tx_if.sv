@@ -82,14 +82,14 @@ interface mii_tx_if #(parameter PHY_NIBBLE_WIDTH = 4)(
   //--------------------------------------------------------------------------
 
   // TX_RST_TXEN_DEASSERTED: MTxEN must be deasserted during reset. 
-  a_rst_txen: assert property(@(posedge MTxCLK) disable iff(!rst) (rst |-> !MTxEN))
-    else `uvm_error("A_MII_TX",$sformatf("Assertion error a_rst_txen, MTxEN = %0d",MTxEN));
+  a_rst_txen: assert property(@(posedge MTxCLK) disable iff(!rst) (rst |-> MTxEN===0))
+    else `uvm_error("A_MII_TX",$sformatf("Assertion error a_rst_txen, MTxEN = %b",MTxEN));
   // TX_RST_TXERR_DEASSERTED: MTxERR must be deasserted during reset. 
-  a_rst_txerr: assert property(@(posedge MTxCLK) disable iff(!rst) (rst |-> !MTxERR))
-    else `uvm_error("A_MII_TX",$sformatf("Assertion error a_rst_txerr, MTxERR = %0d",MTxERR));
+  a_rst_txerr: assert property(@(posedge MTxCLK) disable iff(!rst) (rst |-> MTxERR===0))
+    else `uvm_error("A_MII_TX",$sformatf("Assertion error a_rst_txerr, MTxERR = %b",MTxERR));
   // TX_RST_DATA_NO_X_Z_PROPAGATION To ensure data doesn’t take x or z values after reset. 
   a_rst_x_z_txdata: assert property(@(posedge MTxCLK) disable iff(!rst) (rst |-> not $isunknown(MTxD) ))
-    else `uvm_error("A_MII_TX",$sformatf("Assertion error a_rst_x_z_txdata, MTxD = %0d",MTxD));
+    else `uvm_error("A_MII_TX",$sformatf("Assertion error a_rst_x_z_txdata, MTxD = %b",MTxD));
  
   // TX_DATA_CHANGED_TXEN Data should only change during TXEN is asserted or rise or fall.
   property p_en_data;
