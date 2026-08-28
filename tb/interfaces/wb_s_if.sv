@@ -83,21 +83,21 @@ interface wb_s_if #(
   //--------------------------------------------------------------------------
 
   // WBS_RESET_NO_X_Z_PROPAGATION: Ensures no x z propagation for all ports
-  a_rst_x_z_rdata: assert property(@(posedge clk) disable iff(!rst) (rst |-> |rdata_o!==1'bz && |rdata_o!==1'bx))
-    else `uvm_error("A_WB_S",$sformatf("Assertion error a_rst_x_z_rdata, read data = %0d",rdata_o));
-  a_rst_x_z_ack: assert property(@(posedge clk) disable iff(!rst)   (rst |-> ack_o!==1'bz && ack_o!==1'bx))
-    else `uvm_error("A_WB_S",$sformatf("Assertion error a_rst_x_z_ack, ack = %0d",ack_o));
-  a_rst_x_z_err: assert property(@(posedge clk) disable iff(!rst)   (rst |-> err_o!==1'bz && err_o!==1'bx))
-    else `uvm_error("A_WB_S",$sformatf("Assertion error a_rst_x_z_err, err = %0d",err_o));
-  a_rst_x_z_inta: assert property(@(posedge clk) disable iff(!rst)   (rst |-> inta_o!==1'bz && inta_o!==1'bx))
-    else `uvm_error("A_WB_S",$sformatf("Assertion error a_rst_x_z_inta, inta = %0d",inta_o));
+  a_rst_x_z_rdata: assert property(@(posedge clk) disable iff(!rst) (rst |-> !$isunknown(rdata_o)))
+    else `uvm_error("A_WB_S",$sformatf("Assertion error a_rst_x_z_rdata, read data = %b",rdata_o));
+  a_rst_x_z_ack: assert property(@(posedge clk) disable iff(!rst)   (rst |-> !$isunknown(ack_o)))
+    else `uvm_error("A_WB_S",$sformatf("Assertion error a_rst_x_z_ack, ack = %b",ack_o));
+  a_rst_x_z_err: assert property(@(posedge clk) disable iff(!rst)   (rst |-> !$isunknown(err_o)))
+    else `uvm_error("A_WB_S",$sformatf("Assertion error a_rst_x_z_err, err = %b",err_o));
+  a_rst_x_z_inta: assert property(@(posedge clk) disable iff(!rst)   (rst |-> !$isunknown(inta_o)))
+    else `uvm_error("A_WB_S",$sformatf("Assertion error a_rst_x_z_inta, inta = %b",inta_o));
   
   // WBS_RST_ACK_DEASSERTED : Ensures ack is 0 during rst
-  a_rst_ack: assert property(@(posedge clk) disable iff(!rst)   (rst |-> ack_o==1'b0 ))
-    else `uvm_error("A_WB_S",$sformatf("Assertion error a_rst_ack, ack = %0d",ack_o));
+  a_rst_ack: assert property(@(posedge clk) disable iff(!rst)   (rst |-> ack_o===1'b0 ))
+    else `uvm_error("A_WB_S",$sformatf("Assertion error a_rst_ack, ack = %b",ack_o));
   // WBS_ACK_ACK_DEASSERTED : Ensures ack is 0 during rst
-  a_rst_err: assert property(@(posedge clk) disable iff(!rst)   (rst |-> err_o==1'b0))
-    else `uvm_error("A_WB_S",$sformatf("Assertion error a_rst_err, err = %0d",err_o));
+  a_rst_err: assert property(@(posedge clk) disable iff(!rst)   (rst |-> err_o===1'b0))
+    else `uvm_error("A_WB_S",$sformatf("Assertion error a_rst_err, err = %b",err_o));
 
   // WBS_STB_REQUIRES_CYC: STB_I must never be asserted without CYC_I also being asserted in the same cycle.   
   property p_stb_cyc;

@@ -60,19 +60,19 @@ interface wb_m_if #(parameter ADDR_WIDTH = 32, DATA_WIDTH = 32,SEL_WIDTH = 4)(
 
   // WBM_RESET_NO_X_Z_PROPAGATION: Ensures no x z propagation for all ports
   a_rst_x_z_addr: assert property(@(posedge clk_i) disable iff(!rst_i) (rst_i |-> not $isunknown(m_addr_o) ))
-    else `uvm_error("A_WB_M",$sformatf("Assertion error a_rst_x_z_addr, address = %0d",m_addr_o));
+    else `uvm_error("A_WB_M",$sformatf("Assertion error a_rst_x_z_addr, address = %b",m_addr_o));
   a_rst_x_z_data_o: assert property(@(posedge clk_i) disable iff(!rst_i) (rst_i |-> not $isunknown(m_data_o) ))
-    else `uvm_warning("A_WB_M",$sformatf("Assertion error, data out = %0d",m_data_o));
+    else `uvm_warning("A_WB_M",$sformatf("Assertion error a_rst_x_z_data_o, data out = %b",m_data_o));
   a_rst_x_z_we: assert property(@(posedge clk_i) disable iff(!rst_i)   (rst_i |->  not $isunknown(m_we_o) ))
-    else `uvm_error("A_WB_M",$sformatf("Assertion error a_rst_x_z_we, write enable = %0d",m_we_o));
+    else `uvm_error("A_WB_M",$sformatf("Assertion error a_rst_x_z_we, write enable = %b",m_we_o));
   a_rst_x_z_sel: assert property(@(posedge clk_i) disable iff(!rst_i)   (rst_i |->  not $isunknown(m_sel_o) ))
-    else `uvm_error("A_WB_M",$sformatf("Assertion error a_rst_x_z_sel, select = %0d",m_sel_o));
+    else `uvm_error("A_WB_M",$sformatf("Assertion error a_rst_x_z_sel, select = %b",m_sel_o));
   // WBM_RST_STB_DEASSERTED: M_STB_O must be deasserted during reset. MAC is initialized.  
-  a_rst_stb: assert property(@(posedge clk_i) disable iff(!rst_i)   (rst_i |-> m_stb_o==1'b0 ))
-    else `uvm_error("A_WB_M",$sformatf("Assertion error a_rst_stb, stb = %0d",m_stb_o));
+  a_rst_stb: assert property(@(posedge clk_i) disable iff(!rst_i)   (rst_i |-> m_stb_o===1'b0 ))
+    else `uvm_error("A_WB_M",$sformatf("Assertion error a_rst_stb, stb = %b",m_stb_o));
   // WBM_RST_CYC_DEASSERTED: M_CYC_O must be deasserted during reset. 
-  a_rst_cyc: assert property(@(posedge clk_i) disable iff(!rst_i)   (rst_i |-> m_cyc_o==1'b0))
-    else `uvm_error("A_WB_M",$sformatf("Assertion error a_rst_cyc, cyc = %0d",m_cyc_o));
+  a_rst_cyc: assert property(@(posedge clk_i) disable iff(!rst_i)   (rst_i |-> m_cyc_o===1'b0))
+    else `uvm_error("A_WB_M",$sformatf("Assertion error a_rst_cyc, cyc = %b",m_cyc_o));
 
 
   // WBM_STB_REQUIRES_CYC: M_STB_O must never assert without M_CYC_O also being asserted. 
