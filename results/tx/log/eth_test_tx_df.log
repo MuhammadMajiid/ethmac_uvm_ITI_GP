@@ -1,15 +1,15 @@
-# End time: 03:39:45 on Aug 21,2026, Elapsed time: 0:00:15
+# End time: 16:14:02 on Sep 20,2026, Elapsed time: 0:00:25
 # Errors: 0, Warnings: 6
 # vsim -c work.eth_tb -coverage -sv_seed random "+uvm_set_verbosity=uvm_test_top.m_env.*,_ALL_,UVM_NONE,time,0" "+seq_num=15" "+coll_num=1" "+UVM_TESTNAME=eth_test_tx_df" -onfinish stop -do "
-#     add wave -position insertpoint sim:/eth_tb/m_mii_tx_if/*
+#     #add wave -position insertpoint sim:/eth_tb/m_mii_tx_if/*
 #     #add wave -position insertpoint sim:/eth_tb/m_wb_m_if/*
 #     run -all; 
 #     coverage save $CODE_UCDB -codeAll -instance eth_tb.dut
 #     coverage save $FUNC_UCDB -cvg -directive -assert
 #     transcript file ""
 #     " 
-# Start time: 03:39:45 on Aug 21,2026
-# ** Note: (vsim-8009) Loading existing optimized design _opt6
+# Start time: 16:14:02 on Sep 20,2026
+# ** Note: (vsim-8009) Loading existing optimized design _opt
 # Loading sv_std.std
 # Loading work.wb_s_if(fast)
 # Loading work.wb_m_if(fast)
@@ -60,9 +60,9 @@
 # Loading work.mdio_if(fast__2)
 # Loading work.eth_top(fast)
 # Loading D:/B/questasim64_2024.1/uvm-1.1d\win64\uvm_dpi.dll
-# Sv_Seed = 533955461
+# Sv_Seed = 2084285001
 # 
-#     add wave -position insertpoint sim:/eth_tb/m_mii_tx_if/*
+#     #add wave -position insertpoint sim:/eth_tb/m_mii_tx_if/*
 #     #add wave -position insertpoint sim:/eth_tb/m_wb_m_if/*
 #     run -all
 # ----------------------------------------------------------------
@@ -423,181 +423,181 @@
 # 
 ####
 # 
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 2500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 7500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 12500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 17500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 22500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 27500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 32500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 37500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 2500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 7500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 12500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 17500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 22500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 27500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 32500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 37500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 # UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(30) @ 42500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running 15 sequence
 # UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 42500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 0
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 12637500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 28837500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 28992500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 28997500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 29002500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 29007500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 29012500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 29017500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 29022500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 29027500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 29032500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 1
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 40987500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 300027500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 300182500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 300187500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 300192500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 300197500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 300202500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 300207500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 300212500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 300217500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 300222500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 2
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 313477500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 330477500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 330632500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 330637500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 330642500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 330647500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 330652500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 330657500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 330662500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 330667500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 330672500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 3
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 341747500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 357947500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 358102500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 358107500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 358112500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 358117500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 358122500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 358127500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 358132500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 358137500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 358142500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 4
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 365837500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 378237500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 378392500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 378397500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 378402500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 378407500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 378412500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 378417500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 378422500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 378427500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 378432500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 5
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 384827500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 396107500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 396262500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 396267500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 396272500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 396277500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 396282500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 396287500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 396292500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 396297500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 396302500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 6
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 403597500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 651557500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 651712500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 651717500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 651722500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 651727500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 651732500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 651737500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 651742500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 651747500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 651752500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 7
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 662827500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 910787500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 910942500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 910947500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 910952500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 910957500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 910962500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 910967500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 910972500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 910977500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 910982500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 8
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 917717500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 1172077500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1172232500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1172237500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1172242500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1172247500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1172252500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1172257500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1172262500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1172267500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 1172272500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 9
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 1183347500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 1442867500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1443022500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1443027500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1443032500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1443037500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1443042500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1443047500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1443052500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1443057500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 1443062500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 10
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 1450357500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 1462997500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1463152500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1463157500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1463162500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1463167500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1463172500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1463177500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1463182500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1463187500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 1463192500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 11
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 1471187500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 1486547500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1486702500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1486707500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1486712500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1486717500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1486722500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1486727500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1486732500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1486737500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 1486742500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 12
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 1497837500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 1745797500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1745952500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1745957500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1745962500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1745967500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1745972500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1745977500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1745982500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1745987500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 1745992500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 13
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 1752467500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 2000427500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 2000582500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 2000587500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 2000592500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 2000597500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 2000602500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 2000607500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 2000612500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 2000617500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 2000622500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 14
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 2012837500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 2029037500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 2029192500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 2029197500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 2029202500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 2029207500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 2029212500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 2029217500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 2029222500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 2029227500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_INFO verilog_src/uvm-1.1d/src/base/uvm_objection.svh(1267) @ 2029232500: reporter [TEST_DONE] 'run' phase is ready to proceed to the 'extract' phase
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 9157500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 263117500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 263272500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 263277500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 263282500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 263287500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 263292500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 263297500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 263302500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 263307500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 263312500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 1
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 272427500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 520387500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 520542500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 520547500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 520552500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 520557500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 520562500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 520567500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 520572500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 520577500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 520582500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 2
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 533837500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 781797500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 781952500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 781957500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 781962500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 781967500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 781972500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 781977500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 781982500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 781987500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 781992500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 3
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 793067500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 810547500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 810702500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 810707500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 810712500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 810717500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 810722500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 810727500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 810732500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 810737500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 810742500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 4
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 817157500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 830037500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 830192500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 830197500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 830202500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 830207500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 830212500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 830217500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 830222500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 830227500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 830232500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 5
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 837507500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 849907500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 850062500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 850067500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 850072500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 850077500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 850082500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 850087500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 850092500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 850097500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 850102500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 6
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 857397500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 1105357500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1105512500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1105517500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1105522500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1105527500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1105532500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1105537500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1105542500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1105547500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 1105552500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 7
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 1112827500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 1127387500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1127542500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1127547500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1127552500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1127557500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1127562500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1127567500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1127572500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1127577500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 1127582500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 8
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 1134037500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 1389837500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1389992500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1389997500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1390002500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1390007500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1390012500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1390017500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1390022500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1390027500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 1390032500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 9
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 1401107500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 1649067500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1649222500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1649227500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1649232500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1649237500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1649242500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1649247500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1649252500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1649257500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 1649262500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 10
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 1656557500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 1904517500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1904672500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1904677500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1904682500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1904687500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1904692500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1904697500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1904702500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 1904707500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 1904712500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 11
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 1911107500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 2159067500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 2159222500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 2159227500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 2159232500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 2159237500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 2159242500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 2159247500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 2159252500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 2159257500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 2159262500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 12
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 2167197500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 2415157500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 2415312500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 2415317500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 2415322500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 2415327500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 2415332500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 2415337500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 2415342500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 2415347500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 2415352500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 13
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 2424147500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 2679387500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 2679542500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 2679547500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 2679552500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 2679557500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 2679562500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 2679567500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 2679572500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 2679577500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 2679582500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 14
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 2686877500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_s_if.sv(115) @ 2699277500: reporter [A_WB_S] Assertion error a_ack_stb_cyc
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 2699432500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 2699437500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 2699442500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 2699447500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 2699452500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 2699457500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 2699462500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 2699467500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_INFO verilog_src/uvm-1.1d/src/base/uvm_objection.svh(1267) @ 2699472500: reporter [TEST_DONE] 'run' phase is ready to proceed to the 'extract' phase
 # 
 # --- UVM Report Summary ---
 # 
@@ -615,7 +615,7 @@
 # [eth_test_tx_df]     2
 # [m_v_seq_tx]    16
 # ** Note: $finish    : D:/B/questasim64_2024.1/win64/../verilog_src/uvm-1.1d/src/base/uvm_root.svh(430)
-#    Time: 2029232500 ps  Iteration: 66  Instance: /eth_tb
+#    Time: 2699472500 ps  Iteration: 66  Instance: /eth_tb
 # Break in Task uvm_pkg/uvm_root::run_test at D:/B/questasim64_2024.1/win64/../verilog_src/uvm-1.1d/src/base/uvm_root.svh line 430
 # Stopped at D:/B/questasim64_2024.1/win64/../verilog_src/uvm-1.1d/src/base/uvm_root.svh line 430
 #  

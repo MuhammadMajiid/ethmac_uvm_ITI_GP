@@ -1,15 +1,15 @@
-# End time: 03:25:14 on Aug 21,2026, Elapsed time: 0:00:07
+# End time: 15:59:49 on Sep 20,2026, Elapsed time: 0:00:08
 # Errors: 4, Warnings: 6
 # vsim -c work.eth_tb -coverage -sv_seed random "+uvm_set_verbosity=uvm_test_top.m_env.*,_ALL_,UVM_NONE,time,0" "+seq_num=1" "+coll_num=1" "+UVM_TESTNAME=eth_test_tx_ptr" -onfinish stop -do "
-#     add wave -position insertpoint sim:/eth_tb/m_mii_tx_if/*
+#     #add wave -position insertpoint sim:/eth_tb/m_mii_tx_if/*
 #     #add wave -position insertpoint sim:/eth_tb/m_wb_m_if/*
 #     run -all; 
 #     coverage save $CODE_UCDB -codeAll -instance eth_tb.dut
 #     coverage save $FUNC_UCDB -cvg -directive -assert
 #     transcript file ""
 #     " 
-# Start time: 03:25:14 on Aug 21,2026
-# ** Note: (vsim-8009) Loading existing optimized design _opt6
+# Start time: 15:59:49 on Sep 20,2026
+# ** Note: (vsim-8009) Loading existing optimized design _opt
 # Loading sv_std.std
 # Loading work.wb_s_if(fast)
 # Loading work.wb_m_if(fast)
@@ -60,9 +60,9 @@
 # Loading work.mdio_if(fast__2)
 # Loading work.eth_top(fast)
 # Loading D:/B/questasim64_2024.1/uvm-1.1d\win64\uvm_dpi.dll
-# Sv_Seed = 11753785
+# Sv_Seed = 1817916845
 # 
-#     add wave -position insertpoint sim:/eth_tb/m_mii_tx_if/*
+#     #add wave -position insertpoint sim:/eth_tb/m_mii_tx_if/*
 #     #add wave -position insertpoint sim:/eth_tb/m_wb_m_if/*
 #     run -all
 # ----------------------------------------------------------------
@@ -411,14 +411,14 @@
 # 
 ####
 # 
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 2500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 7500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 12500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 17500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 22500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 27500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 32500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 37500: reporter [A_WB_M] Assertion error, data out = x
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 2500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 7500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 12500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 17500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 22500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 27500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 32500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 37500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 # UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(30) @ 42500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running 1 sequence
 # UVM_INFO repo/tb/virtual_seq_sqr/eth_v_seq_tx.sv(34) @ 42500: uvm_test_top.m_env.m_v_sqr@@m_v_seq_tx [m_v_seq_tx] Running sequence number 0
 # UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1891) @ 8700000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
@@ -434,24 +434,23 @@
 # 
 # 
 #                     Measured       : 21 MII cycles
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1891) @ 15300000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
-# 
-# 
-#                     Mode           : Full Duplex
-# 
-# 
-#                     Register IPGT  : 0x12
-# 
-# 
-#                     Expected       : 24 MII cycles
-# 
-# 
-#                     Measured       : 21 MII cycles
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1792) @ 21060000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Destination Address mismatch Byte Index: 8 Field Offset: 0
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1792) @ 15580000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Destination Address mismatch Byte Index: 8 Field Offset: 0
 #  Expected: 0x12
-#  Actual: 0x42
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1646) @ 21060000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison FAILED
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1891) @ 21900000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
+#  Actual: 0x02
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1792) @ 15580000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] CRC mismatch Byte Index: 82 Field Offset: 0
+#  Expected: 0x66
+#  Actual: 0xde
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1792) @ 15580000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] CRC mismatch Byte Index: 83 Field Offset: 1
+#  Expected: 0x45
+#  Actual: 0x62
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1792) @ 15580000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] CRC mismatch Byte Index: 84 Field Offset: 2
+#  Expected: 0x53
+#  Actual: 0x25
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1792) @ 15580000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] CRC mismatch Byte Index: 85 Field Offset: 3
+#  Expected: 0xd8
+#  Actual: 0x77
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1646) @ 15580000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison FAILED
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1891) @ 16420000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
 # 
 # 
 #                     Mode           : Full Duplex
@@ -464,7 +463,7 @@
 # 
 # 
 #                     Measured       : 21 MII cycles
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1891) @ 28500000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1891) @ 26060000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
 # 
 # 
 #                     Mode           : Full Duplex
@@ -477,7 +476,7 @@
 # 
 # 
 #                     Measured       : 21 MII cycles
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1891) @ 37820000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1891) @ 35140000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
 # 
 # 
 #                     Mode           : Full Duplex
@@ -490,130 +489,23 @@
 # 
 # 
 #                     Measured       : 21 MII cycles
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1891) @ 44420000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
-# 
-# 
-#                     Mode           : Full Duplex
-# 
-# 
-#                     Register IPGT  : 0x12
-# 
-# 
-#                     Expected       : 24 MII cycles
-# 
-# 
-#                     Measured       : 21 MII cycles
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1792) @ 52100000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Destination Address mismatch Byte Index: 8 Field Offset: 0
-#  Expected: 0x49
-#  Actual: 0xe9
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1792) @ 52100000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] CRC mismatch Byte Index: 92 Field Offset: 0
-#  Expected: 0x24
-#  Actual: 0x74
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1792) @ 52100000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] CRC mismatch Byte Index: 93 Field Offset: 1
-#  Expected: 0xc0
-#  Actual: 0x12
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1792) @ 52100000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] CRC mismatch Byte Index: 94 Field Offset: 2
-#  Expected: 0x6e
-#  Actual: 0xfa
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1792) @ 52100000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] CRC mismatch Byte Index: 95 Field Offset: 3
-#  Expected: 0xc2
-#  Actual: 0x5a
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1646) @ 52100000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison FAILED
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1891) @ 52940000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
-# 
-# 
-#                     Mode           : Full Duplex
-# 
-# 
-#                     Register IPGT  : 0x12
-# 
-# 
-#                     Expected       : 24 MII cycles
-# 
-# 
-#                     Measured       : 21 MII cycles
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1891) @ 61860000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
-# 
-# 
-#                     Mode           : Full Duplex
-# 
-# 
-#                     Register IPGT  : 0x12
-# 
-# 
-#                     Expected       : 24 MII cycles
-# 
-# 
-#                     Measured       : 21 MII cycles
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1891) @ 70460000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
-# 
-# 
-#                     Mode           : Full Duplex
-# 
-# 
-#                     Register IPGT  : 0x12
-# 
-# 
-#                     Expected       : 24 MII cycles
-# 
-# 
-#                     Measured       : 21 MII cycles
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1891) @ 77060000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
-# 
-# 
-#                     Mode           : Full Duplex
-# 
-# 
-#                     Register IPGT  : 0x12
-# 
-# 
-#                     Expected       : 24 MII cycles
-# 
-# 
-#                     Measured       : 21 MII cycles
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1891) @ 83740000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
-# 
-# 
-#                     Mode           : Full Duplex
-# 
-# 
-#                     Register IPGT  : 0x12
-# 
-# 
-#                     Expected       : 24 MII cycles
-# 
-# 
-#                     Measured       : 21 MII cycles
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1891) @ 90340000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
-# 
-# 
-#                     Mode           : Full Duplex
-# 
-# 
-#                     Register IPGT  : 0x12
-# 
-# 
-#                     Expected       : 24 MII cycles
-# 
-# 
-#                     Measured       : 21 MII cycles
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1792) @ 98180000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Destination Address mismatch Byte Index: 8 Field Offset: 0
-#  Expected: 0x7d
-#  Actual: 0x6d
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1792) @ 98180000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] CRC mismatch Byte Index: 94 Field Offset: 0
-#  Expected: 0x2f
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1792) @ 43140000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Destination Address mismatch Byte Index: 8 Field Offset: 0
+#  Expected: 0xb7
+#  Actual: 0xc7
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1792) @ 43140000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] CRC mismatch Byte Index: 96 Field Offset: 0
+#  Expected: 0x43
+#  Actual: 0xa7
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1792) @ 43140000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] CRC mismatch Byte Index: 97 Field Offset: 1
+#  Expected: 0x7a
 #  Actual: 0x83
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1792) @ 98180000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] CRC mismatch Byte Index: 95 Field Offset: 1
-#  Expected: 0xc4
-#  Actual: 0xc9
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1792) @ 98180000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] CRC mismatch Byte Index: 96 Field Offset: 2
-#  Expected: 0x58
-#  Actual: 0x57
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1792) @ 98180000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] CRC mismatch Byte Index: 97 Field Offset: 3
-#  Expected: 0xfb
-#  Actual: 0xe6
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1646) @ 98180000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison FAILED
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1891) @ 99020000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1792) @ 43140000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] CRC mismatch Byte Index: 98 Field Offset: 2
+#  Expected: 0x79
+#  Actual: 0x02
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1792) @ 43140000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] CRC mismatch Byte Index: 99 Field Offset: 3
+#  Expected: 0x07
+#  Actual: 0xa8
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1646) @ 43140000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison FAILED
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1891) @ 43980000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
 # 
 # 
 #                     Mode           : Full Duplex
@@ -626,7 +518,7 @@
 # 
 # 
 #                     Measured       : 21 MII cycles
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1891) @ 105620000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1891) @ 52580000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
 # 
 # 
 #                     Mode           : Full Duplex
@@ -639,7 +531,11 @@
 # 
 # 
 #                     Measured       : 21 MII cycles
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1891) @ 114060000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1792) @ 58340000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Destination Address mismatch Byte Index: 8 Field Offset: 0
+#  Expected: 0x65
+#  Actual: 0xd5
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1646) @ 58340000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison FAILED
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1891) @ 59180000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
 # 
 # 
 #                     Mode           : Full Duplex
@@ -652,11 +548,11 @@
 # 
 # 
 #                     Measured       : 21 MII cycles
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1792) @ 119820000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Destination Address mismatch Byte Index: 8 Field Offset: 0
-#  Expected: 0x32
-#  Actual: 0xd2
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1646) @ 119820000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison FAILED
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1891) @ 120660000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1792) @ 64940000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Destination Address mismatch Byte Index: 8 Field Offset: 0
+#  Expected: 0x2a
+#  Actual: 0x5a
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1646) @ 64940000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison FAILED
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1891) @ 65780000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
 # 
 # 
 #                     Mode           : Full Duplex
@@ -669,7 +565,7 @@
 # 
 # 
 #                     Measured       : 21 MII cycles
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1891) @ 127260000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1891) @ 72460000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
 # 
 # 
 #                     Mode           : Full Duplex
@@ -682,11 +578,7 @@
 # 
 # 
 #                     Measured       : 21 MII cycles
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1792) @ 133020000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Destination Address mismatch Byte Index: 8 Field Offset: 0
-#  Expected: 0x88
-#  Actual: 0xd8
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1646) @ 133020000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison FAILED
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1891) @ 133860000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1891) @ 79060000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
 # 
 # 
 #                     Mode           : Full Duplex
@@ -699,7 +591,14 @@
 # 
 # 
 #                     Measured       : 21 MII cycles
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1891) @ 141020000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1792) @ 84820000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Destination Address mismatch Byte Index: 8 Field Offset: 0
+#  Expected: 0xba
+#  Actual: 0x2a
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1792) @ 84820000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] CRC mismatch Byte Index: 68 Field Offset: 3
+#  Expected: 0x93
+#  Actual: 0x70
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1646) @ 84820000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison FAILED
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1891) @ 85660000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
 # 
 # 
 #                     Mode           : Full Duplex
@@ -712,26 +611,138 @@
 # 
 # 
 #                     Measured       : 21 MII cycles
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1792) @ 146780000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Destination Address mismatch Byte Index: 8 Field Offset: 0
-#  Expected: 0x81
-#  Actual: 0x61
-# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1646) @ 146780000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison FAILED
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 146782500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 146787500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 146792500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 146797500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 146802500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 146807500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 146812500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 146817500: reporter [A_WB_M] Assertion error, data out = x
-# UVM_INFO verilog_src/uvm-1.1d/src/base/uvm_objection.svh(1267) @ 146822500: reporter [TEST_DONE] 'run' phase is ready to proceed to the 'extract' phase
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1891) @ 93620000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
+# 
+# 
+#                     Mode           : Full Duplex
+# 
+# 
+#                     Register IPGT  : 0x12
+# 
+# 
+#                     Expected       : 24 MII cycles
+# 
+# 
+#                     Measured       : 21 MII cycles
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1891) @ 100220000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
+# 
+# 
+#                     Mode           : Full Duplex
+# 
+# 
+#                     Register IPGT  : 0x12
+# 
+# 
+#                     Expected       : 24 MII cycles
+# 
+# 
+#                     Measured       : 21 MII cycles
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1891) @ 106820000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
+# 
+# 
+#                     Mode           : Full Duplex
+# 
+# 
+#                     Register IPGT  : 0x12
+# 
+# 
+#                     Expected       : 24 MII cycles
+# 
+# 
+#                     Measured       : 21 MII cycles
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1891) @ 113420000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
+# 
+# 
+#                     Mode           : Full Duplex
+# 
+# 
+#                     Register IPGT  : 0x12
+# 
+# 
+#                     Expected       : 24 MII cycles
+# 
+# 
+#                     Measured       : 21 MII cycles
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1792) @ 119180000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Destination Address mismatch Byte Index: 8 Field Offset: 0
+#  Expected: 0xef
+#  Actual: 0x6f
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1646) @ 119180000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison FAILED
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1891) @ 120020000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
+# 
+# 
+#                     Mode           : Full Duplex
+# 
+# 
+#                     Register IPGT  : 0x12
+# 
+# 
+#                     Expected       : 24 MII cycles
+# 
+# 
+#                     Measured       : 21 MII cycles
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1891) @ 128620000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
+# 
+# 
+#                     Mode           : Full Duplex
+# 
+# 
+#                     Register IPGT  : 0x12
+# 
+# 
+#                     Expected       : 24 MII cycles
+# 
+# 
+#                     Measured       : 21 MII cycles
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1792) @ 134380000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Destination Address mismatch Byte Index: 8 Field Offset: 0
+#  Expected: 0xa1
+#  Actual: 0x11
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1646) @ 134380000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison FAILED
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1891) @ 135220000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
+# 
+# 
+#                     Mode           : Full Duplex
+# 
+# 
+#                     Register IPGT  : 0x12
+# 
+# 
+#                     Expected       : 24 MII cycles
+# 
+# 
+#                     Measured       : 21 MII cycles
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1792) @ 140980000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Destination Address mismatch Byte Index: 8 Field Offset: 0
+#  Expected: 0xb1
+#  Actual: 0x21
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1646) @ 140980000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] Packet comparison FAILED
+# UVM_ERROR repo/tb/scoreboards/eth_tx_scoreboard/eth_tx_scoreboard.sv(1891) @ 141820000: uvm_test_top.m_env.m_tx_sb [eth_tx_scoreboard] IPGT mismatch
+# 
+# 
+#                     Mode           : Full Duplex
+# 
+# 
+#                     Register IPGT  : 0x12
+# 
+# 
+#                     Expected       : 24 MII cycles
+# 
+# 
+#                     Measured       : 21 MII cycles
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 149022500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 149027500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 149032500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 149037500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 149042500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 149047500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 149052500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_WARNING repo/tb/interfaces/wb_m_if.sv(65) @ 149057500: reporter [A_WB_M] Assertion error a_rst_x_z_data_o, data out = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# UVM_INFO verilog_src/uvm-1.1d/src/base/uvm_objection.svh(1267) @ 149062500: reporter [TEST_DONE] 'run' phase is ready to proceed to the 'extract' phase
 # 
 # --- UVM Report Summary ---
 # 
 # ** Report counts by severity
 # UVM_INFO :    8
 # UVM_WARNING :   16
-# UVM_ERROR :   39
+# UVM_ERROR :   44
 # UVM_FATAL :    0
 # ** Report counts by id
 # [A_WB_M]    16
@@ -739,10 +750,10 @@
 # [RNTST]     1
 # [TEST_DONE]     1
 # [eth_test_tx_ptr]     2
-# [eth_tx_scoreboard]    39
+# [eth_tx_scoreboard]    44
 # [m_v_seq_tx]     2
 # ** Note: $finish    : D:/B/questasim64_2024.1/win64/../verilog_src/uvm-1.1d/src/base/uvm_root.svh(430)
-#    Time: 146822500 ps  Iteration: 66  Instance: /eth_tb
+#    Time: 149062500 ps  Iteration: 66  Instance: /eth_tb
 # Break in Task uvm_pkg/uvm_root::run_test at D:/B/questasim64_2024.1/win64/../verilog_src/uvm-1.1d/src/base/uvm_root.svh line 430
 # Stopped at D:/B/questasim64_2024.1/win64/../verilog_src/uvm-1.1d/src/base/uvm_root.svh line 430
 #  

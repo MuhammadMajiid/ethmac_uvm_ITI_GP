@@ -110,9 +110,6 @@ constraint c_rand_bd_index{
   rand_tx_bd_idx inside{[0:tx_bd_num]};
 }
 
-constraint c_solve_order {
-    solve tx_bd_num before tx_pnt, pkt_len, bd_crc, bd_pad,rand_tx_bd_idx;
-}
   //--------------------------------------------------------------------------
   // Constructor
   //--------------------------------------------------------------------------
