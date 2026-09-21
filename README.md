@@ -1,4 +1,4 @@
-# Verification Ethernet MAC Layer
+# Verification of Ethernet MAC Layer
 
 This repository contains the RTL and SystemVerilog/UVM verification environment for an Ethernet Media Access Controller (MAC). It was developed as an Information Technology Institute (ITI) graduation project.
 
